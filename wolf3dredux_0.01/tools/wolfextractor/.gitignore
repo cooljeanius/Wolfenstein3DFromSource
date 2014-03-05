@@ -1,3 +1,5 @@
 *.userprefs
 *.layout
 Debug/*
+string/test_com_string
+*.o
