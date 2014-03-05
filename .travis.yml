@@ -1,7 +1,7 @@
 language: C
 
 install:
-  - "sudo apt-get install libvorbis-dbg libvorbis-dev libvorbis0a libvorbisenc2 libvorbisfile3 libxxf86dga-dev libxxf86dga1 libxxf86dga1-dbg x11proto-xf86dga-dev"
+  - "sudo apt-get install libvorbis-dbg libvorbis-dev libvorbis0a libvorbisenc2 libvorbisfile3 libxxf86dga-dev libxxf86dga1 libxxf86dga1-dbg x11proto-xf86dga-dev libosmesa6 libosmesa6-dev libopenvg1-mesa libopenvg1-mesa-dbg libopenvg1-mesa-dev mesa-common-dev libxxf86vm-dev libxxf86vm1 libxxf86vm1-dbg"
 
 # try to build
 script: cd wolf3dredux_0.01 && ./configure && make && make check
