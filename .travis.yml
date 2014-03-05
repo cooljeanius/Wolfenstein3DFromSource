@@ -1,0 +1,8 @@
+language: C
+
+# try to build
+script: cd wolf3dredux_0.01 && ./configure && make && make check
+
+compiler:
+  - clang
+  - gcc
