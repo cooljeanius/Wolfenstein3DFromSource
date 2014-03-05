@@ -1,5 +1,8 @@
 language: C
 
+install:
+  - "sudo apt-get install libvorbis-dbg libvorbis-dev libvorbis0a libvorbisenc2 libvorbisfile3 libxxf86dga-dev libxxf86dga1 libxxf86dga1-dbg x11proto-xf86dga-dev"
+
 # try to build
 script: cd wolf3dredux_0.01 && ./configure && make && make check
 
