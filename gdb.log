@@ -1,0 +1,1159 @@
+#  /Developer/usr/bin/gdb t=0.001013 Tepoch=1394028672.950813
+<- (gdb) 
+-> 13900-gdb-version
+#  PBXGDB_MIGDBVersionCommand t=0.663244 Tepoch=1394028673.613043
+-> 13901-gdb-set auto-raise-load-levels 1
+#  PBXGDB_MISetAutoRaiseSymbols t=0.663875 Tepoch=1394028673.613674
+-> 13902-gdb-set env COMMAND_MODE unix2003
+#  PBXGDB_MISetEnvCommand t=0.664094 Tepoch=1394028673.613893
+-> 13903-gdb-set env PATH /Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin
+#  PBXGDB_MISetEnvCommand t=0.664353 Tepoch=1394028673.614152
+-> 13904-gdb-set env TMPDIR /var/folders/Vs/VsGkDxJXHq41Y+34HmvuNk+++Tg/-Tmp-/
+#  PBXGDB_MISetEnvCommand t=0.664570 Tepoch=1394028673.614369
+-> 13905-gdb-set env SSH_ASKPASS /Developer/Library/PrivateFrameworks/DevToolsInterface.framework/Resources/Xcode SSHPassKey
+#  PBXGDB_MISetEnvCommand t=0.664791 Tepoch=1394028673.614590
+-> 13906-gdb-set env LOGNAME ericgallager
+#  PBXGDB_MISetEnvCommand t=0.665094 Tepoch=1394028673.614893
+-> 13907-gdb-set env HOME /Users/ericgallager
+#  PBXGDB_MISetEnvCommand t=0.665269 Tepoch=1394028673.615068
+-> 13908-gdb-set env DYLD_NEW_LOCAL_SHARED_REGIONS YES
+#  PBXGDB_MISetEnvCommand t=0.665448 Tepoch=1394028673.615247
+-> 13909-gdb-set env Apple_PubSub_Socket_Render /tmp/launch-uRvYgH/Render
+#  PBXGDB_MISetEnvCommand t=0.665644 Tepoch=1394028673.615443
+-> 13910-gdb-set env USERBREAK 1
+#  PBXGDB_MISetEnvCommand t=0.665868 Tepoch=1394028673.615683
+-> 13911-gdb-set env DBUS_LAUNCHD_SESSION_BUS_SOCKET /tmp/launch-IJZsis/unix_domain_listener
+#  PBXGDB_MISetEnvCommand t=0.666056 Tepoch=1394028673.615855
+-> 13912-gdb-set env DISPLAY /tmp/launch-vAA5tp/org.macosforge.xquartz:0
+#  PBXGDB_MISetEnvCommand t=0.684401 Tepoch=1394028673.634201
+-> 13913-gdb-set env USER ericgallager
+#  PBXGDB_MISetEnvCommand t=0.684780 Tepoch=1394028673.634579
+-> 13914-gdb-set env SSH_AUTH_SOCK /tmp/launch-ag8XGq/Listeners
+#  PBXGDB_MISetEnvCommand t=0.684949 Tepoch=1394028673.634749
+-> 13915-gdb-set env NSUnbufferedIO YES
+#  PBXGDB_MISetEnvCommand t=0.685149 Tepoch=1394028673.634948
+-> 13916-gdb-set env DYLD_NO_FIX_PREBINDING YES
+#  PBXGDB_MISetEnvCommand t=0.685325 Tepoch=1394028673.635124
+-> 13917-gdb-set env DYLD_LIBRARY_PATH /Users/ericgallager/Documents/Wolfenstein3DFromSource/build/Debug
+#  PBXGDB_MISetEnvCommand t=0.685511 Tepoch=1394028673.635310
+-> 13918-gdb-set env SHELL /bin/bash
+#  PBXGDB_MISetEnvCommand t=0.685763 Tepoch=1394028673.635562
+-> 13919-gdb-set env __CF_USER_TEXT_ENCODING 0x1FB:0:0
+#  PBXGDB_MISetEnvCommand t=0.685927 Tepoch=1394028673.635726
+-> 13920-gdb-set env DYLD_FRAMEWORK_PATH /Users/ericgallager/Documents/Wolfenstein3DFromSource/build/Debug
+#  PBXGDB_MISetEnvCommand t=0.686115 Tepoch=1394028673.635914
+#  Enqueue seq in Command Q: <PBXGDB_SetupSharedLibrarySequence: 0x2052fac00> t=0.686547 Tepoch=1394028673.636346
+#  Executing Sequence: <PBXGDB_SetupSharedLibrarySequence: 0x2052fac00> t=0.686593 Tepoch=1394028673.636392
+-> 13922-gdb-set inferior-auto-start-cfm off
+#  PBXGDB_MISetLoadCFMInfoCommand t=0.686689 Tepoch=1394028673.636488
+-> 13921-gdb-set sharedLibrary load-rules dyld ".*AppKit.*" all dyld ".*libobjc.*" all dyld ".*CarbonDataFormatters.*" all dyld ".*libauto.*" all dyld ".*PBGDBIntrospectionSupport.*" all dyld ".*CFDataFormatters.*" all dyld ".*CoreFoundation.*" extern dyld ".*libSystem.*" all dyld ".*/usr/lib/dyld.*" all dyld ".*Foundation.*" all dyld "/System/Library/Frameworks\\\\|/System/Library/PrivateFrameworks\\\\|/usr/lib" extern dyld ".*" extern exec ".*" extern 
+#  PBXGDB_MISetSharedLibraryLoadSymbolsCommand t=0.687112 Tepoch=1394028673.636911
+-> 13923tty /dev/ttys004
+#  PBXGDB_MISetTTYCommand t=0.687975 Tepoch=1394028673.637774
+#  Enqueue seq in Command Q: <PBXGDB_GenericMICommandSequence: 0x206e4b6e0> t=0.688161 Tepoch=1394028673.637961
+#  Enqueue seq in Command Q: <PBXGDB_FixAndContinueIsSupportedSequence: 0x2030d8500> t=0.688205 Tepoch=1394028673.638004
+#  Enqueue seq in Command Q: <PBXGDB_NewBreakpointSequence: 0x20350bce0> t=0.699980 Tepoch=1394028673.649779
+#  Enqueue seq in Command Q: <PBXGDB_NewBreakpointSequence: 0x2034db460> t=0.700072 Tepoch=1394028673.649871
+#  Enqueue seq in Command Q: <PBXGDB_NewBreakpointSequence: 0x203491ee0> t=0.700171 Tepoch=1394028673.649970
+#  Enqueue seq in Command Q: <PBXGDB_NewBreakpointSequence: 0x20345e460> t=0.700238 Tepoch=1394028673.650037
+#  Enqueue seq in Command Q: <PBXGDB_NewBreakpointSequence: 0x203416460> t=0.700317 Tepoch=1394028673.650116
+#  Enqueue seq in Command Q: <PBXGDB_NewBreakpointSequence: 0x2033d02c0> t=0.700376 Tepoch=1394028673.650175
+#  Enqueue seq in Command Q: <PBXGDB_NewBreakpointSequence: 0x20338e200> t=0.700442 Tepoch=1394028673.650241
+#  Enqueue seq in Command Q: <PBXGDB_NewBreakpointSequence: 0x2033633c0> t=0.700502 Tepoch=1394028673.650301
+#  Enqueue seq in Command Q: <PBXGDB_NewBreakpointSequence: 0x20334a460> t=0.700559 Tepoch=1394028673.650358
+#  Enqueue seq in Command Q: <PBXGDB_NewBreakpointSequence: 0x2033159e0> t=0.700617 Tepoch=1394028673.650417
+#  Enqueue seq in Command Q: <PBXGDB_NewBreakpointSequence: 0x2032e9900> t=0.700675 Tepoch=1394028673.650474
+#  Enqueue seq in Command Q: <PBXGDB_NewBreakpointSequence: 0x2032a8100> t=0.700740 Tepoch=1394028673.650539
+#  Enqueue seq in Command Q: <PBXGDB_NewBreakpointSequence: 0x203281680> t=0.700805 Tepoch=1394028673.650604
+#  Enqueue seq in Command Q: <PBXGDB_NewBreakpointSequence: 0x203246a00> t=0.700861 Tepoch=1394028673.650660
+#  Enqueue seq in Command Q: <PBXGDB_NewBreakpointSequence: 0x20320b180> t=0.700918 Tepoch=1394028673.650717
+#  Enqueue seq in Command Q: <PBXGDB_NewBreakpointSequence: 0x2031bbe40> t=0.700975 Tepoch=1394028673.650774
+#  Enqueue seq in Command Q: <PBXGDB_NewBreakpointSequence: 0x2031789a0> t=0.701038 Tepoch=1394028673.650837
+#  Enqueue seq in Command Q: <PBXGDB_NewBreakpointSequence: 0x203138540> t=0.701100 Tepoch=1394028673.650899
+#  Enqueue seq in Command Q: <PBXGDB_NewBreakpointSequence: 0x2030f3820> t=0.701165 Tepoch=1394028673.650964
+#  Enqueue seq in Command Q: <PBXGDB_NewBreakpointSequence: 0x20305b980> t=0.701239 Tepoch=1394028673.651038
+#  Enqueue seq in Command Q: <PBXGDB_NewBreakpointSequence: 0x202ffb780> t=0.701300 Tepoch=1394028673.651099
+#  Enqueue seq in Command Q: <PBXGDB_NewBreakpointSequence: 0x202f9f8a0> t=0.701358 Tepoch=1394028673.651157
+#  Enqueue seq in Command Q: <PBXGDB_NewBreakpointSequence: 0x202f66a60> t=0.701423 Tepoch=1394028673.651222
+#  Enqueue seq in Command Q: <PBXGDB_NewBreakpointSequence: 0x202f3e880> t=0.701485 Tepoch=1394028673.651284
+#  Enqueue seq in Command Q: <PBXGDB_NewBreakpointSequence: 0x202f14700> t=0.701543 Tepoch=1394028673.651342
+#  Enqueue seq in Command Q: <PBXGDB_NewBreakpointSequence: 0x202ee3b20> t=0.701600 Tepoch=1394028673.651399
+#  Enqueue seq in Command Q: <PBXGDB_NewBreakpointSequence: 0x202e82ce0> t=0.701662 Tepoch=1394028673.651461
+#  Enqueue seq in Command Q: <PBXGDB_NewBreakpointSequence: 0x202e2b4e0> t=0.701726 Tepoch=1394028673.651525
+#  Enqueue seq in Command Q: <PBXGDB_NewBreakpointSequence: 0x202da2700> t=0.701787 Tepoch=1394028673.651587
+#  Enqueue seq in Command Q: <PBXGDB_NewBreakpointSequence: 0x202d57500> t=0.701846 Tepoch=1394028673.651645
+#  Enqueue seq in Command Q: <PBXGDB_NewBreakpointSequence: 0x202d313e0> t=0.701907 Tepoch=1394028673.651706
+#  Enqueue seq in Command Q: <PBXGDB_NewBreakpointSequence: 0x2026c7080> t=0.701967 Tepoch=1394028673.651766
+#  Enqueue seq in Command Q: <PBXGDB_NewBreakpointSequence: 0x2023fd040> t=0.702045 Tepoch=1394028673.651844
+#  Enqueue seq in Command Q: <PBXGDB_NewBreakpointSequence: 0x20236cb00> t=0.702106 Tepoch=1394028673.651905
+#  Enqueue seq in Command Q: <PBXGDB_NewBreakpointSequence: 0x202173280> t=0.702165 Tepoch=1394028673.651964
+#  Enqueue seq in Command Q: <PBXGDB_NewBreakpointSequence: 0x202155be0> t=0.702227 Tepoch=1394028673.652026
+#  Enqueue seq in Command Q: <PBXGDB_NewBreakpointSequence: 0x202147540> t=0.702290 Tepoch=1394028673.652089
+#  Enqueue seq in Command Q: <PBXGDB_NewBreakpointSequence: 0x20210bae0> t=0.702351 Tepoch=1394028673.652150
+#  Enqueue seq in Command Q: <PBXGDB_NewBreakpointSequence: 0x201cf0ba0> t=0.702415 Tepoch=1394028673.652214
+#  Enqueue seq in Command Q: <PBXGDB_NewBreakpointSequence: 0x201cdde20> t=0.702477 Tepoch=1394028673.652276
+#  Enqueue seq in Command Q: <PBXGDB_NewBreakpointSequence: 0x201cd0960> t=0.702558 Tepoch=1394028673.652357
+#  Enqueue seq in Command Q: <PBXGDB_NewBreakpointSequence: 0x201cc0600> t=0.702617 Tepoch=1394028673.652416
+#  Enqueue seq in Command Q: <PBXGDB_NewBreakpointSequence: 0x201cad3c0> t=0.702679 Tepoch=1394028673.652478
+#  Enqueue seq in Command Q: <PBXGDB_NewBreakpointSequence: 0x201c9e380> t=0.702738 Tepoch=1394028673.652537
+#  Enqueue seq in Command Q: <PBXGDB_NewBreakpointSequence: 0x201c8d220> t=0.702797 Tepoch=1394028673.652596
+#  Enqueue seq in Command Q: <PBXGDB_NewBreakpointSequence: 0x201c4a780> t=0.702857 Tepoch=1394028673.652656
+#  Enqueue seq in Command Q: <PBXGDB_NewBreakpointSequence: 0x201c3f8a0> t=0.702915 Tepoch=1394028673.652714
+#  Enqueue seq in Command Q: <PBXGDB_NewBreakpointSequence: 0x201c2cf80> t=0.702974 Tepoch=1394028673.652773
+#  Enqueue seq in Command Q: <PBXGDB_NewBreakpointSequence: 0x201c17aa0> t=0.703032 Tepoch=1394028673.652831
+#  Enqueue seq in Command Q: <PBXGDB_NewBreakpointSequence: 0x2019f8620> t=0.703144 Tepoch=1394028673.652943
+#  Enqueue seq in Command Q: <PBXGDB_NewBreakpointSequence: 0x2019dc8e0> t=0.703209 Tepoch=1394028673.653009
+#  Enqueue seq in Command Q: <PBXGDB_NewBreakpointSequence: 0x2019c9a00> t=0.703273 Tepoch=1394028673.653072
+#  Enqueue seq in Command Q: <PBXGDB_NewBreakpointSequence: 0x2019b4160> t=0.703366 Tepoch=1394028673.653165
+#  Enqueue seq in Command Q: <PBXGDB_NewBreakpointSequence: 0x2019a0ae0> t=0.703424 Tepoch=1394028673.653223
+#  Enqueue seq in Command Q: <PBXGDB_NewBreakpointSequence: 0x20197cdc0> t=0.703481 Tepoch=1394028673.653280
+#  Enqueue seq in Command Q: <PBXGDB_NewBreakpointSequence: 0x201937260> t=0.703541 Tepoch=1394028673.653340
+#  Enqueue seq in Command Q: <PBXGDB_NewBreakpointSequence: 0x20192be00> t=0.703602 Tepoch=1394028673.653401
+#  Enqueue seq in Command Q: <PBXGDB_NewBreakpointSequence: 0x20189d300> t=0.703914 Tepoch=1394028673.653713
+<- ~"GNU gdb 6.3.50-20050815 (Apple version gdb-1515) (Sat Jan 15 08:33:48 UTC 2011)\n"
+<- ~"Copyright 2004 Free Software Foundation, Inc.\n"
+<- ~"GDB is free software, covered by the GNU General Public License, and you are\nwelcome to change it and/or distribute copies of it under certain conditions.\nType \"show copying\" to see the conditions.\nThere is absolutely no warranty for GDB.  Type \"show warranty\" for details.\n"
+<- ~"This GDB was configured as \"x86_64-apple-darwin\"."
+<- 13900^done,version="6.3.50-20050815 (Apple version gdb-1515)",rc_version="1515",target="x86_64-apple-darwin",build-date="Sat Jan 15 08:33:48 UTC 2011",time={wallclock="0.00028",user="0.00026",system="0.00002",start="1394028673.613312",end="1394028673.613591"}
+#  processing result t=0.705574 Tepoch=1394028673.655373
+<- (gdb) 
+<- 13901^done,time={wallclock="0.00003",user="0.00003",system="0.00000",start="1394028673.613799",end="1394028673.613831"}
+#  processing result t=0.705706 Tepoch=1394028673.655505
+<- (gdb) 
+<- 13902^done,time={wallclock="0.00004",user="0.00003",system="0.00001",start="1394028673.614058",end="1394028673.614095"}
+#  processing result t=0.705816 Tepoch=1394028673.655615
+<- (gdb) 
+<- 13903^done,time={wallclock="0.00001",user="0.00001",system="0.00000",start="1394028673.614302",end="1394028673.614312"}
+#  processing result t=0.705920 Tepoch=1394028673.655719
+<- (gdb) 
+<- 13904^done,time={wallclock="0.00001",user="0.00001",system="0.00000",start="1394028673.614525",end="1394028673.614535"}
+#  processing result t=0.706036 Tepoch=1394028673.655835
+<- (gdb) 
+<- 13905^done,time={wallclock="0.00001",user="0.00001",system="0.00000",start="1394028673.614826",end="1394028673.614838"}
+#  processing result t=0.706186 Tepoch=1394028673.655985
+<- (gdb) 
+<- 13906^done,time={wallclock="0.00001",user="0.00001",system="0.00000",start="1394028673.615006",end="1394028673.615017"}
+#  processing result t=0.706291 Tepoch=1394028673.656090
+<- (gdb) 
+<- 13907^done,time={wallclock="0.00001",user="0.00001",system="0.00000",start="1394028673.615184",end="1394028673.615194"}
+#  processing result t=0.706431 Tepoch=1394028673.656230
+<- (gdb) 
+<- 13908^done,time={wallclock="0.00001",user="0.00001",system="0.00000",start="1394028673.615375",end="1394028673.615387"}
+#  processing result t=0.706574 Tepoch=1394028673.656373
+<- (gdb) 
+<- 13909^done,time={wallclock="0.00001",user="0.00001",system="0.00000",start="1394028673.615600",end="1394028673.615612"}
+#  processing result t=0.706722 Tepoch=1394028673.656521
+<- (gdb) 
+<- 13910^done,time={wallclock="0.00001",user="0.00001",system="0.00000",start="1394028673.615787",end="1394028673.615797"}
+#  processing result t=0.706873 Tepoch=1394028673.656672
+<- (gdb) 
+<- 13911^done,time={wallclock="0.00001",user="0.00001",system="0.00000",start="1394028673.616026",end="1394028673.616039"}
+#  processing result t=0.707014 Tepoch=1394028673.656813
+<- (gdb) 
+<- 13912^done,time={wallclock="0.00006",user="0.00005",system="0.00001",start="1394028673.634442",end="1394028673.634500"}
+#  processing result t=0.707155 Tepoch=1394028673.656955
+<- (gdb) 
+<- 13913^done,time={wallclock="0.00001",user="0.00001",system="0.00000",start="1394028673.634687",end="1394028673.634697"}
+#  processing result t=0.707309 Tepoch=1394028673.657108
+<- (gdb) 
+<- 13914^done,time={wallclock="0.00001",user="0.00001",system="0.00000",start="1394028673.634886",end="1394028673.634898"}
+#  processing result t=0.707418 Tepoch=1394028673.657217
+<- (gdb) 
+<- 13915^done,time={wallclock="0.00001",user="0.00001",system="0.00000",start="1394028673.635060",end="1394028673.635071"}
+#  processing result t=0.707553 Tepoch=1394028673.657352
+<- (gdb) 
+<- 13916^done,time={wallclock="0.00001",user="0.00001",system="0.00000",start="1394028673.635241",end="1394028673.635253"}
+#  processing result t=0.707692 Tepoch=1394028673.657492
+<- (gdb) 
+<- 13917^done,time={wallclock="0.00001",user="0.00001",system="0.00000",start="1394028673.635498",end="1394028673.635509"}
+#  processing result t=0.707833 Tepoch=1394028673.657632
+<- (gdb) 
+<- 13918^done,time={wallclock="0.00001",user="0.00001",system="0.00000",start="1394028673.635665",end="1394028673.635676"}
+#  processing result t=0.707972 Tepoch=1394028673.657771
+<- (gdb) 
+<- 13919^done,time={wallclock="0.00001",user="0.00001",system="0.00000",start="1394028673.635851",end="1394028673.635861"}
+#  processing result t=0.708138 Tepoch=1394028673.657938
+<- (gdb) 
+<- 13920^done,time={wallclock="0.00001",user="0.00001",system="0.00000",start="1394028673.636095",end="1394028673.636106"}
+#  processing result t=0.708289 Tepoch=1394028673.658088
+<- (gdb) 
+<- 13922^done,time={wallclock="0.00002",user="0.00001",system="0.00001",start="1394028673.636614",end="1394028673.636637"}
+#  processing result t=0.708424 Tepoch=1394028673.658223
+<- (gdb) 
+<- 13921^done,time={wallclock="0.00006",user="0.00004",system="0.00002",start="1394028673.637513",end="1394028673.637568"}
+#  processing result t=0.708529 Tepoch=1394028673.658328
+-> 13925sharedlibrary apply-load-rules all
+#  PBXGDB_MISharedLibraryApplyLoadRulesCommand t=0.708588 Tepoch=1394028673.658387
+<- (gdb) 
+<- &"tty /dev/ttys004\n"
+<- 13923^done
+#  processing result t=0.708698 Tepoch=1394028673.658497
+<- (gdb) 
+<- &"sharedlibrary apply-load-rules all\n"
+<- 13925^done
+#  processing result t=0.837333 Tepoch=1394028673.787132
+#  didFinish Sequence: <PBXGDB_SetupSharedLibrarySequence: 0x2052fac00> t=0.837824 Tepoch=1394028673.787623
+#  Executing Sequence: <PBXGDB_GenericMICommandSequence: 0x206e4b6e0> t=0.838114 Tepoch=1394028673.787913
+-> 13924-file-exec-and-symbols "/Users/ericgallager/Documents/Wolfenstein3DFromSource/build/Debug/WolfExtractor"
+#  PBXGDB_MILoadExecutableCommand t=0.846796 Tepoch=1394028673.796595
+<- (gdb) 
+<- 13924^done,time={wallclock="0.45503",user="0.06377",system="0.05498",start="1394028673.797091",end="1394028674.252118"}
+#  processing result t=1.304866 Tepoch=1394028674.254665
+#  didFinish Sequence: <PBXGDB_GenericMICommandSequence: 0x206e4b6e0> t=1.306765 Tepoch=1394028674.256564
+#  Executing Sequence: <PBXGDB_FixAndContinueIsSupportedSequence: 0x2030d8500> t=1.306838 Tepoch=1394028674.256637
+-> 13926-mi-verify-command file-fix-file-is-grooved
+#  PBXGDB_MIVerifyCommandCommand t=1.306941 Tepoch=1394028674.256740
+<- (gdb) 
+<- 13926^done,name="file-fix-file-is-grooved",defined="true",implemented="true",time={wallclock="0.00004",user="0.00003",system="0.00001",start="1394028674.256938",end="1394028674.256977"}
+#  processing result t=1.329789 Tepoch=1394028674.279589
+-> 13927-file-fix-file-is-grooved
+#  PBXGDB_MIFixAndContinueSupportedCommand t=1.329873 Tepoch=1394028674.279672
+<- (gdb) 
+<- 13927^done,supported="0",details="Groove is gone.",time={wallclock="0.00004",user="0.00003",system="0.00001",start="1394028674.279833",end="1394028674.279874"}
+#  processing result t=1.330632 Tepoch=1394028674.280431
+#  didFinish Sequence: <PBXGDB_FixAndContinueIsSupportedSequence: 0x2030d8500> t=1.330687 Tepoch=1394028674.280486
+#  Executing Sequence: <PBXGDB_NewBreakpointSequence: 0x20350bce0> t=1.330729 Tepoch=1394028674.280528
+#  Passed verification of state before break create command t=1.330809 Tepoch=1394028674.280608
+-> 13928-break-insert -f "\"unix_vid_sys.c\":231"
+#  PBXGDB_MICreateFileBreakpointCommand t=1.330854 Tepoch=1394028674.280653
+<- (gdb) 
+<- 13928^done,bkpt={number="1",type="breakpoint",disp="keep",enabled="y",addr="<PENDING>",pending="\"unix_vid_sys.c\":231",times="0"},time={wallclock="0.00014",user="0.00011",system="0.00003",start="1394028674.280813",end="1394028674.280955"}
+#  processing result t=1.334504 Tepoch=1394028674.284303
+#  didFinish Sequence: <PBXGDB_NewBreakpointSequence: 0x20350bce0> t=1.334596 Tepoch=1394028674.284395
+#  Executing Sequence: <PBXGDB_NewBreakpointSequence: 0x2034db460> t=1.334636 Tepoch=1394028674.284435
+#  Passed verification of state before break create command t=1.334712 Tepoch=1394028674.284511
+-> 13929-break-insert -f "\"unix_vid_sys.c\":228"
+#  PBXGDB_MICreateFileBreakpointCommand t=1.334757 Tepoch=1394028674.284556
+<- (gdb) 
+<- 13929^done,bkpt={number="2",type="breakpoint",disp="keep",enabled="y",addr="<PENDING>",pending="\"unix_vid_sys.c\":228",times="0"},time={wallclock="0.00011",user="0.00009",system="0.00001",start="1394028674.284747",end="1394028674.284853"}
+#  processing result t=1.335416 Tepoch=1394028674.285215
+#  didFinish Sequence: <PBXGDB_NewBreakpointSequence: 0x2034db460> t=1.335478 Tepoch=1394028674.285277
+#  Executing Sequence: <PBXGDB_NewBreakpointSequence: 0x203491ee0> t=1.335518 Tepoch=1394028674.285317
+#  Passed verification of state before break create command t=1.335578 Tepoch=1394028674.285377
+-> 13930-break-insert -f "\"unix_vid_sys.c\":219"
+#  PBXGDB_MICreateFileBreakpointCommand t=1.335625 Tepoch=1394028674.285424
+<- (gdb) 
+<- 13930^done,bkpt={number="3",type="breakpoint",disp="keep",enabled="y",addr="<PENDING>",pending="\"unix_vid_sys.c\":219",times="0"},time={wallclock="0.00008",user="0.00007",system="0.00001",start="1394028674.285569",end="1394028674.285648"}
+#  processing result t=1.338437 Tepoch=1394028674.288236
+#  didFinish Sequence: <PBXGDB_NewBreakpointSequence: 0x203491ee0> t=1.338539 Tepoch=1394028674.288338
+#  Executing Sequence: <PBXGDB_NewBreakpointSequence: 0x20345e460> t=1.338576 Tepoch=1394028674.288375
+#  Passed verification of state before break create command t=1.338659 Tepoch=1394028674.288458
+-> 13931-break-insert -f "\"unix_vid_sys.c\":215"
+#  PBXGDB_MICreateFileBreakpointCommand t=1.338704 Tepoch=1394028674.288503
+<- (gdb) 
+<- 13931^done,bkpt={number="4",type="breakpoint",disp="keep",enabled="y",addr="<PENDING>",pending="\"unix_vid_sys.c\":215",times="0"},time={wallclock="0.00012",user="0.00010",system="0.00001",start="1394028674.288701",end="1394028674.288820"}
+#  processing result t=1.340085 Tepoch=1394028674.289884
+#  didFinish Sequence: <PBXGDB_NewBreakpointSequence: 0x20345e460> t=1.340176 Tepoch=1394028674.289975
+#  Executing Sequence: <PBXGDB_NewBreakpointSequence: 0x203416460> t=1.340213 Tepoch=1394028674.290012
+#  Passed verification of state before break create command t=1.340312 Tepoch=1394028674.290111
+-> 13932-break-insert -f "\"common.c\":754"
+#  PBXGDB_MICreateFileBreakpointCommand t=1.340358 Tepoch=1394028674.290157
+<- (gdb) 
+<- 13932^done,bkpt={number="5",type="breakpoint",disp="keep",enabled="y",addr="<PENDING>",pending="\"common.c\":754",times="0"},time={wallclock="0.00012",user="0.00009",system="0.00003",start="1394028674.290331",end="1394028674.290448"}
+#  processing result t=1.341944 Tepoch=1394028674.291743
+#  didFinish Sequence: <PBXGDB_NewBreakpointSequence: 0x203416460> t=1.342037 Tepoch=1394028674.291837
+#  Executing Sequence: <PBXGDB_NewBreakpointSequence: 0x2033d02c0> t=1.342074 Tepoch=1394028674.291873
+#  Passed verification of state before break create command t=1.342150 Tepoch=1394028674.291949
+-> 13933-break-insert -f "\"common.c\":758"
+#  PBXGDB_MICreateFileBreakpointCommand t=1.342196 Tepoch=1394028674.291995
+<- (gdb) 
+<- 13933^done,bkpt={number="6",type="breakpoint",disp="keep",enabled="y",addr="<PENDING>",pending="\"common.c\":758",times="0"},time={wallclock="0.00010",user="0.00009",system="0.00001",start="1394028674.292523",end="1394028674.292627"}
+#  processing result t=1.343172 Tepoch=1394028674.292971
+#  didFinish Sequence: <PBXGDB_NewBreakpointSequence: 0x2033d02c0> t=1.343242 Tepoch=1394028674.293041
+#  Executing Sequence: <PBXGDB_NewBreakpointSequence: 0x20338e200> t=1.343278 Tepoch=1394028674.293077
+#  Passed verification of state before break create command t=1.343650 Tepoch=1394028674.293449
+-> 13934-break-insert -f "\"common.c\":756"
+#  PBXGDB_MICreateFileBreakpointCommand t=1.343705 Tepoch=1394028674.293504
+<- (gdb) 
+<- 13934^done,bkpt={number="7",type="breakpoint",disp="keep",enabled="y",addr="<PENDING>",pending="\"common.c\":756",times="0"},time={wallclock="0.00009",user="0.00008",system="0.00001",start="1394028674.293676",end="1394028674.293768"}
+#  processing result t=1.344688 Tepoch=1394028674.294488
+#  didFinish Sequence: <PBXGDB_NewBreakpointSequence: 0x20338e200> t=1.344767 Tepoch=1394028674.294566
+#  Executing Sequence: <PBXGDB_NewBreakpointSequence: 0x2033633c0> t=1.344805 Tepoch=1394028674.294604
+#  Passed verification of state before break create command t=1.344923 Tepoch=1394028674.294722
+-> 13935-break-insert -f "\"client_main.c\":263"
+#  PBXGDB_MICreateFileBreakpointCommand t=1.344969 Tepoch=1394028674.294768
+<- (gdb) 
+<- 13935^done,bkpt={number="8",type="breakpoint",disp="keep",enabled="y",addr="<PENDING>",pending="\"client_main.c\":263",times="0"},time={wallclock="0.00095",user="0.00010",system="0.00003",start="1394028674.294975",end="1394028674.295928"}
+#  processing result t=1.346741 Tepoch=1394028674.296540
+#  didFinish Sequence: <PBXGDB_NewBreakpointSequence: 0x2033633c0> t=1.346829 Tepoch=1394028674.296628
+#  Executing Sequence: <PBXGDB_NewBreakpointSequence: 0x20334a460> t=1.346865 Tepoch=1394028674.296664
+#  Passed verification of state before break create command t=1.346941 Tepoch=1394028674.296740
+-> 13936-break-insert -f "\"client_main.c\":261"
+#  PBXGDB_MICreateFileBreakpointCommand t=1.346985 Tepoch=1394028674.296784
+<- (gdb) 
+<- 13936^done,bkpt={number="9",type="breakpoint",disp="keep",enabled="y",addr="<PENDING>",pending="\"client_main.c\":261",times="0"},time={wallclock="0.00010",user="0.00009",system="0.00001",start="1394028674.297044",end="1394028674.297142"}
+#  processing result t=1.347966 Tepoch=1394028674.297765
+#  didFinish Sequence: <PBXGDB_NewBreakpointSequence: 0x20334a460> t=1.348038 Tepoch=1394028674.297837
+#  Executing Sequence: <PBXGDB_NewBreakpointSequence: 0x2033159e0> t=1.348234 Tepoch=1394028674.298033
+#  Passed verification of state before break create command t=1.348305 Tepoch=1394028674.298104
+-> 13937-break-insert -f "\"unix_vid_sys.c\":278"
+#  PBXGDB_MICreateFileBreakpointCommand t=1.348350 Tepoch=1394028674.298149
+<- (gdb) 
+<- 13937^done,bkpt={number="10",type="breakpoint",disp="keep",enabled="y",addr="<PENDING>",pending="\"unix_vid_sys.c\":278",times="0"},time={wallclock="0.00010",user="0.00009",system="0.00001",start="1394028674.298317",end="1394028674.298415"}
+#  processing result t=1.349453 Tepoch=1394028674.299252
+#  didFinish Sequence: <PBXGDB_NewBreakpointSequence: 0x2033159e0> t=1.349533 Tepoch=1394028674.299332
+#  Executing Sequence: <PBXGDB_NewBreakpointSequence: 0x2032e9900> t=1.349571 Tepoch=1394028674.299370
+#  Passed verification of state before break create command t=1.349677 Tepoch=1394028674.299476
+-> 13938-break-insert -f "\"unix_vid_sys.c\":182"
+#  PBXGDB_MICreateFileBreakpointCommand t=1.349724 Tepoch=1394028674.299523
+<- (gdb) 
+<- 13938^done,bkpt={number="11",type="breakpoint",disp="keep",enabled="y",addr="<PENDING>",pending="\"unix_vid_sys.c\":182",times="0"},time={wallclock="0.00010",user="0.00009",system="0.00001",start="1394028674.299814",end="1394028674.299914"}
+#  processing result t=1.350716 Tepoch=1394028674.300515
+#  didFinish Sequence: <PBXGDB_NewBreakpointSequence: 0x2032e9900> t=1.350800 Tepoch=1394028674.300599
+#  Executing Sequence: <PBXGDB_NewBreakpointSequence: 0x2032a8100> t=1.350837 Tepoch=1394028674.300636
+#  Passed verification of state before break create command t=1.350907 Tepoch=1394028674.300706
+-> 13939-break-insert -f "\"unix_vid_sys.c\":180"
+#  PBXGDB_MICreateFileBreakpointCommand t=1.350951 Tepoch=1394028674.300750
+<- (gdb) 
+<- 13939^done,bkpt={number="12",type="breakpoint",disp="keep",enabled="y",addr="<PENDING>",pending="\"unix_vid_sys.c\":180",times="0"},time={wallclock="0.00011",user="0.00009",system="0.00002",start="1394028674.301140",end="1394028674.301252"}
+#  processing result t=1.351794 Tepoch=1394028674.301593
+#  didFinish Sequence: <PBXGDB_NewBreakpointSequence: 0x2032a8100> t=1.352027 Tepoch=1394028674.301826
+#  Executing Sequence: <PBXGDB_NewBreakpointSequence: 0x203281680> t=1.352065 Tepoch=1394028674.301864
+#  Passed verification of state before break create command t=1.352139 Tepoch=1394028674.301938
+-> 13940-break-insert -f "\"common.c\":701"
+#  PBXGDB_MICreateFileBreakpointCommand t=1.352183 Tepoch=1394028674.301982
+<- (gdb) 
+<- 13940^done,bkpt={number="13",type="breakpoint",disp="keep",enabled="y",addr="<PENDING>",pending="\"common.c\":701",times="0"},time={wallclock="0.00008",user="0.00007",system="0.00001",start="1394028674.302131",end="1394028674.302215"}
+#  processing result t=1.352760 Tepoch=1394028674.302559
+#  didFinish Sequence: <PBXGDB_NewBreakpointSequence: 0x203281680> t=1.352822 Tepoch=1394028674.302621
+#  Executing Sequence: <PBXGDB_NewBreakpointSequence: 0x203246a00> t=1.352858 Tepoch=1394028674.302657
+#  Passed verification of state before break create command t=1.352914 Tepoch=1394028674.302713
+-> 13941-break-insert -f "\"common.c\":702"
+#  PBXGDB_MICreateFileBreakpointCommand t=1.352957 Tepoch=1394028674.302756
+<- (gdb) 
+<- 13941^done,bkpt={number="14",type="breakpoint",disp="keep",enabled="y",addr="<PENDING>",pending="\"common.c\":702",times="0"},time={wallclock="0.00007",user="0.00007",system="0.00001",start="1394028674.302890",end="1394028674.302964"}
+#  processing result t=1.353533 Tepoch=1394028674.303332
+#  didFinish Sequence: <PBXGDB_NewBreakpointSequence: 0x203246a00> t=1.353754 Tepoch=1394028674.303553
+#  Executing Sequence: <PBXGDB_NewBreakpointSequence: 0x20320b180> t=1.353795 Tepoch=1394028674.303594
+#  Passed verification of state before break create command t=1.353860 Tepoch=1394028674.303660
+-> 13942-break-insert -f "\"common.c\":704"
+#  PBXGDB_MICreateFileBreakpointCommand t=1.353904 Tepoch=1394028674.303703
+<- (gdb) 
+<- 13942^done,bkpt={number="15",type="breakpoint",disp="keep",enabled="y",addr="<PENDING>",pending="\"common.c\":704",times="0"},time={wallclock="0.00009",user="0.00007",system="0.00001",start="1394028674.303849",end="1394028674.303934"}
+#  processing result t=1.354430 Tepoch=1394028674.304229
+#  didFinish Sequence: <PBXGDB_NewBreakpointSequence: 0x20320b180> t=1.354492 Tepoch=1394028674.304291
+#  Executing Sequence: <PBXGDB_NewBreakpointSequence: 0x2031bbe40> t=1.354527 Tepoch=1394028674.304326
+#  Passed verification of state before break create command t=1.354585 Tepoch=1394028674.304384
+-> 13943-break-insert -f "\"common.c\":713"
+#  PBXGDB_MICreateFileBreakpointCommand t=1.354630 Tepoch=1394028674.304429
+<- (gdb) 
+<- 13943^done,bkpt={number="16",type="breakpoint",disp="keep",enabled="y",addr="<PENDING>",pending="\"common.c\":713",times="0"},time={wallclock="0.00007",user="0.00006",system="0.00001",start="1394028674.304558",end="1394028674.304629"}
+#  processing result t=1.355425 Tepoch=1394028674.305224
+#  didFinish Sequence: <PBXGDB_NewBreakpointSequence: 0x2031bbe40> t=1.355498 Tepoch=1394028674.305297
+#  Executing Sequence: <PBXGDB_NewBreakpointSequence: 0x2031789a0> t=1.355534 Tepoch=1394028674.305333
+#  Passed verification of state before break create command t=1.355605 Tepoch=1394028674.305404
+-> 13944-break-insert -f "\"console.c\":413"
+#  PBXGDB_MICreateFileBreakpointCommand t=1.355653 Tepoch=1394028674.305452
+<- (gdb) 
+<- 13944^done,bkpt={number="17",type="breakpoint",disp="keep",enabled="y",addr="<PENDING>",pending="\"console.c\":413",times="0"},time={wallclock="0.00010",user="0.00008",system="0.00002",start="1394028674.305609",end="1394028674.305705"}
+#  processing result t=1.356367 Tepoch=1394028674.306166
+#  didFinish Sequence: <PBXGDB_NewBreakpointSequence: 0x2031789a0> t=1.356434 Tepoch=1394028674.306233
+#  Executing Sequence: <PBXGDB_NewBreakpointSequence: 0x203138540> t=1.356470 Tepoch=1394028674.306269
+#  Passed verification of state before break create command t=1.356584 Tepoch=1394028674.306383
+-> 13945-break-insert -f "\"opengl_main.c\":434"
+#  PBXGDB_MICreateFileBreakpointCommand t=1.356630 Tepoch=1394028674.306429
+<- (gdb) 
+<- 13945^done,bkpt={number="18",type="breakpoint",disp="keep",enabled="y",addr="<PENDING>",pending="\"opengl_main.c\":434",times="0"},time={wallclock="0.00009",user="0.00008",system="0.00001",start="1394028674.306582",end="1394028674.306668"}
+#  processing result t=1.357566 Tepoch=1394028674.307366
+#  didFinish Sequence: <PBXGDB_NewBreakpointSequence: 0x203138540> t=1.357643 Tepoch=1394028674.307442
+#  Executing Sequence: <PBXGDB_NewBreakpointSequence: 0x2030f3820> t=1.357682 Tepoch=1394028674.307481
+#  Passed verification of state before break create command t=1.357752 Tepoch=1394028674.307551
+-> 13946-break-insert -f "\"strnlen1.c\":31"
+#  PBXGDB_MICreateFileBreakpointCommand t=1.357798 Tepoch=1394028674.307597
+<- (gdb) 
+<- 13946^done,bkpt={number="19",type="breakpoint",disp="keep",enabled="y",addr="<PENDING>",pending="\"strnlen1.c\":31",times="0"},time={wallclock="0.00009",user="0.00008",system="0.00001",start="1394028674.307946",end="1394028674.308039"}
+#  processing result t=1.358571 Tepoch=1394028674.308370
+#  didFinish Sequence: <PBXGDB_NewBreakpointSequence: 0x2030f3820> t=1.358637 Tepoch=1394028674.308436
+#  Executing Sequence: <PBXGDB_NewBreakpointSequence: 0x20305b980> t=1.358675 Tepoch=1394028674.308474
+#  Passed verification of state before break create command t=1.358736 Tepoch=1394028674.308535
+-> 13947-break-insert -f "\"opengl_binding.c\":558"
+#  PBXGDB_MICreateFileBreakpointCommand t=1.358779 Tepoch=1394028674.308578
+<- (gdb) 
+<- 13947^done,bkpt={number="20",type="breakpoint",disp="keep",enabled="y",addr="<PENDING>",pending="\"opengl_binding.c\":558",times="0"},time={wallclock="0.00008",user="0.00007",system="0.00001",start="1394028674.308729",end="1394028674.308813"}
+#  processing result t=1.359894 Tepoch=1394028674.309693
+#  didFinish Sequence: <PBXGDB_NewBreakpointSequence: 0x20305b980> t=1.359971 Tepoch=1394028674.309770
+#  Executing Sequence: <PBXGDB_NewBreakpointSequence: 0x202ffb780> t=1.360009 Tepoch=1394028674.309808
+#  Passed verification of state before break create command t=1.360080 Tepoch=1394028674.309879
+-> 13948-break-insert -f "\"opengl_binding.c\":574"
+#  PBXGDB_MICreateFileBreakpointCommand t=1.360125 Tepoch=1394028674.309924
+<- (gdb) 
+<- 13948^done,bkpt={number="21",type="breakpoint",disp="keep",enabled="y",addr="<PENDING>",pending="\"opengl_binding.c\":574",times="0"},time={wallclock="0.00010",user="0.00009",system="0.00001",start="1394028674.310101",end="1394028674.310204"}
+#  processing result t=1.360994 Tepoch=1394028674.310793
+#  didFinish Sequence: <PBXGDB_NewBreakpointSequence: 0x202ffb780> t=1.361065 Tepoch=1394028674.310864
+#  Executing Sequence: <PBXGDB_NewBreakpointSequence: 0x202f9f8a0> t=1.361295 Tepoch=1394028674.311094
+#  Passed verification of state before break create command t=1.361364 Tepoch=1394028674.311163
+-> 13949-break-insert -f "\"system.c\":55"
+#  PBXGDB_MICreateFileBreakpointCommand t=1.361446 Tepoch=1394028674.311246
+<- (gdb) 
+<- 13949^done,bkpt={number="22",type="breakpoint",disp="keep",enabled="y",addr="<PENDING>",pending="\"system.c\":55",times="0"},time={wallclock="0.00010",user="0.00009",system="0.00001",start="1394028674.311413",end="1394028674.311511"}
+#  processing result t=1.363122 Tepoch=1394028674.312921
+#  didFinish Sequence: <PBXGDB_NewBreakpointSequence: 0x202f9f8a0> t=1.363205 Tepoch=1394028674.313004
+#  Executing Sequence: <PBXGDB_NewBreakpointSequence: 0x202f66a60> t=1.363244 Tepoch=1394028674.313043
+#  Passed verification of state before break create command t=1.363551 Tepoch=1394028674.313350
+-> 13950-break-insert -f "\"system.c\":58"
+#  PBXGDB_MICreateFileBreakpointCommand t=1.363606 Tepoch=1394028674.313405
+<- (gdb) 
+<- 13950^done,bkpt={number="23",type="breakpoint",disp="keep",enabled="y",addr="<PENDING>",pending="\"system.c\":58",times="0"},time={wallclock="0.00010",user="0.00009",system="0.00001",start="1394028674.313589",end="1394028674.313693"}
+#  processing result t=1.364702 Tepoch=1394028674.314501
+#  didFinish Sequence: <PBXGDB_NewBreakpointSequence: 0x202f66a60> t=1.364782 Tepoch=1394028674.314581
+#  Executing Sequence: <PBXGDB_NewBreakpointSequence: 0x202f3e880> t=1.364818 Tepoch=1394028674.314617
+#  Passed verification of state before break create command t=1.364891 Tepoch=1394028674.314690
+-> 13951-break-insert -f "\"files.c\":553"
+#  PBXGDB_MICreateFileBreakpointCommand t=1.365291 Tepoch=1394028674.315090
+<- (gdb) 
+<- 13951^done,bkpt={number="24",type="breakpoint",disp="keep",enabled="y",addr="<PENDING>",pending="\"files.c\":553",times="0"},time={wallclock="0.00011",user="0.00009",system="0.00001",start="1394028674.315425",end="1394028674.315531"}
+#  processing result t=1.366109 Tepoch=1394028674.315908
+#  didFinish Sequence: <PBXGDB_NewBreakpointSequence: 0x202f3e880> t=1.366183 Tepoch=1394028674.315982
+#  Executing Sequence: <PBXGDB_NewBreakpointSequence: 0x202f14700> t=1.366221 Tepoch=1394028674.316020
+#  Passed verification of state before break create command t=1.366284 Tepoch=1394028674.316083
+-> 13952-break-insert -f "\"cmd.c\":1122"
+#  PBXGDB_MICreateFileBreakpointCommand t=1.366329 Tepoch=1394028674.316128
+<- (gdb) 
+<- 13952^done,bkpt={number="25",type="breakpoint",disp="keep",enabled="y",addr="<PENDING>",pending="\"cmd.c\":1122",times="0"},time={wallclock="0.00010",user="0.00008",system="0.00002",start="1394028674.316457",end="1394028674.316557"}
+#  processing result t=1.367093 Tepoch=1394028674.316892
+#  didFinish Sequence: <PBXGDB_NewBreakpointSequence: 0x202f14700> t=1.367163 Tepoch=1394028674.316962
+#  Executing Sequence: <PBXGDB_NewBreakpointSequence: 0x202ee3b20> t=1.367197 Tepoch=1394028674.316997
+#  Passed verification of state before break create command t=1.367260 Tepoch=1394028674.317059
+-> 13953-break-insert -f "\"cmd.c\":113"
+#  PBXGDB_MICreateFileBreakpointCommand t=1.367305 Tepoch=1394028674.317104
+<- (gdb) 
+<- 13953^done,bkpt={number="26",type="breakpoint",disp="keep",enabled="y",addr="<PENDING>",pending="\"cmd.c\":113",times="0"},time={wallclock="0.00010",user="0.00009",system="0.00001",start="1394028674.317668",end="1394028674.317764"}
+#  processing result t=1.368593 Tepoch=1394028674.318392
+#  didFinish Sequence: <PBXGDB_NewBreakpointSequence: 0x202ee3b20> t=1.368668 Tepoch=1394028674.318467
+#  Executing Sequence: <PBXGDB_NewBreakpointSequence: 0x202e82ce0> t=1.368707 Tepoch=1394028674.318506
+#  Passed verification of state before break create command t=1.368776 Tepoch=1394028674.318575
+-> 13954-break-insert -f "\"common.c\":399"
+#  PBXGDB_MICreateFileBreakpointCommand t=1.368823 Tepoch=1394028674.318622
+<- (gdb) 
+<- 13954^done,bkpt={number="27",type="breakpoint",disp="keep",enabled="y",addr="<PENDING>",pending="\"common.c\":399",times="0"},time={wallclock="0.00009",user="0.00008",system="0.00001",start="1394028674.318772",end="1394028674.318860"}
+#  processing result t=1.369862 Tepoch=1394028674.319661
+#  didFinish Sequence: <PBXGDB_NewBreakpointSequence: 0x202e82ce0> t=1.369945 Tepoch=1394028674.319744
+#  Executing Sequence: <PBXGDB_NewBreakpointSequence: 0x202e2b4e0> t=1.370020 Tepoch=1394028674.319819
+#  Passed verification of state before break create command t=1.370094 Tepoch=1394028674.319893
+-> 13955-break-insert -f "\"client_main.c\":274"
+#  PBXGDB_MICreateFileBreakpointCommand t=1.370137 Tepoch=1394028674.319936
+<- (gdb) 
+<- 13955^done,bkpt={number="28",type="breakpoint",disp="keep",enabled="y",addr="<PENDING>",pending="\"client_main.c\":274",times="0"},time={wallclock="0.00010",user="0.00009",system="0.00001",start="1394028674.320113",end="1394028674.320215"}
+#  processing result t=1.371039 Tepoch=1394028674.320838
+#  didFinish Sequence: <PBXGDB_NewBreakpointSequence: 0x202e2b4e0> t=1.371112 Tepoch=1394028674.320911
+#  Executing Sequence: <PBXGDB_NewBreakpointSequence: 0x202da2700> t=1.371150 Tepoch=1394028674.320949
+#  Passed verification of state before break create command t=1.371215 Tepoch=1394028674.321014
+-> 13956-break-insert -f "\"client_main.c\":276"
+#  PBXGDB_MICreateFileBreakpointCommand t=1.371263 Tepoch=1394028674.321062
+<- (gdb) 
+<- 13956^done,bkpt={number="29",type="breakpoint",disp="keep",enabled="y",addr="<PENDING>",pending="\"client_main.c\":276",times="0"},time={wallclock="0.00009",user="0.00008",system="0.00001",start="1394028674.321220",end="1394028674.321312"}
+#  processing result t=1.372013 Tepoch=1394028674.321812
+#  didFinish Sequence: <PBXGDB_NewBreakpointSequence: 0x202da2700> t=1.372083 Tepoch=1394028674.321882
+#  Executing Sequence: <PBXGDB_NewBreakpointSequence: 0x202d57500> t=1.372119 Tepoch=1394028674.321918
+#  Passed verification of state before break create command t=1.372182 Tepoch=1394028674.321981
+-> 13957-break-insert -f "\"client_main.c\":278"
+#  PBXGDB_MICreateFileBreakpointCommand t=1.372226 Tepoch=1394028674.322026
+<- (gdb) 
+<- 13957^done,bkpt={number="30",type="breakpoint",disp="keep",enabled="y",addr="<PENDING>",pending="\"client_main.c\":278",times="0"},time={wallclock="0.00009",user="0.00008",system="0.00001",start="1394028674.322177",end="1394028674.322268"}
+#  processing result t=1.373321 Tepoch=1394028674.323120
+#  didFinish Sequence: <PBXGDB_NewBreakpointSequence: 0x202d57500> t=1.373406 Tepoch=1394028674.323205
+#  Executing Sequence: <PBXGDB_NewBreakpointSequence: 0x202d313e0> t=1.373446 Tepoch=1394028674.323245
+#  Passed verification of state before break create command t=1.373518 Tepoch=1394028674.323317
+-> 13958-break-insert -f "\"client_main.c\":279"
+#  PBXGDB_MICreateFileBreakpointCommand t=1.373566 Tepoch=1394028674.323365
+<- (gdb) 
+<- 13958^done,bkpt={number="31",type="breakpoint",disp="keep",enabled="y",addr="<PENDING>",pending="\"client_main.c\":279",times="0"},time={wallclock="0.00011",user="0.00009",system="0.00001",start="1394028674.323751",end="1394028674.323856"}
+#  processing result t=1.374600 Tepoch=1394028674.324399
+#  didFinish Sequence: <PBXGDB_NewBreakpointSequence: 0x202d313e0> t=1.374682 Tepoch=1394028674.324481
+#  Executing Sequence: <PBXGDB_NewBreakpointSequence: 0x2026c7080> t=1.374720 Tepoch=1394028674.324519
+#  Passed verification of state before break create command t=1.374857 Tepoch=1394028674.324656
+-> 13959-break-insert -f "\"wolf_player.c\":644"
+#  PBXGDB_MICreateFileBreakpointCommand t=1.374905 Tepoch=1394028674.324704
+<- (gdb) 
+<- 13959^done,bkpt={number="32",type="breakpoint",disp="keep",enabled="y",addr="<PENDING>",pending="\"wolf_player.c\":644",times="0"},time={wallclock="0.00011",user="0.00009",system="0.00002",start="1394028674.324874",end="1394028674.324980"}
+#  processing result t=1.375656 Tepoch=1394028674.325455
+#  didFinish Sequence: <PBXGDB_NewBreakpointSequence: 0x2026c7080> t=1.375733 Tepoch=1394028674.325532
+#  Executing Sequence: <PBXGDB_NewBreakpointSequence: 0x2023fd040> t=1.375768 Tepoch=1394028674.325567
+#  Passed verification of state before break create command t=1.375841 Tepoch=1394028674.325640
+-> 13960-break-insert -f "\"wolf_player.c\":645"
+#  PBXGDB_MICreateFileBreakpointCommand t=1.375885 Tepoch=1394028674.325684
+<- (gdb) 
+<- 13960^done,bkpt={number="33",type="breakpoint",disp="keep",enabled="y",addr="<PENDING>",pending="\"wolf_player.c\":645",times="0"},time={wallclock="0.00009",user="0.00008",system="0.00001",start="1394028674.325867",end="1394028674.325960"}
+#  processing result t=1.376705 Tepoch=1394028674.326505
+#  didFinish Sequence: <PBXGDB_NewBreakpointSequence: 0x2023fd040> t=1.376812 Tepoch=1394028674.326611
+#  Executing Sequence: <PBXGDB_NewBreakpointSequence: 0x20236cb00> t=1.376849 Tepoch=1394028674.326648
+#  Passed verification of state before break create command t=1.376949 Tepoch=1394028674.326748
+-> 13961-break-insert -f "\"client_main.c\":188"
+#  PBXGDB_MICreateFileBreakpointCommand t=1.376994 Tepoch=1394028674.326793
+<- (gdb) 
+<- 13961^done,bkpt={number="34",type="breakpoint",disp="keep",enabled="y",addr="<PENDING>",pending="\"client_main.c\":188",times="0"},time={wallclock="0.00009",user="0.00008",system="0.00001",start="1394028674.326950",end="1394028674.327043"}
+#  processing result t=1.377593 Tepoch=1394028674.327392
+#  didFinish Sequence: <PBXGDB_NewBreakpointSequence: 0x20236cb00> t=1.377701 Tepoch=1394028674.327500
+#  Executing Sequence: <PBXGDB_NewBreakpointSequence: 0x202173280> t=1.377741 Tepoch=1394028674.327540
+#  Passed verification of state before break create command t=1.377803 Tepoch=1394028674.327602
+-> 13962-break-insert -f "\"client_main.c\":271"
+#  PBXGDB_MICreateFileBreakpointCommand t=1.377851 Tepoch=1394028674.327650
+<- (gdb) 
+<- 13962^done,bkpt={number="35",type="breakpoint",disp="keep",enabled="y",addr="<PENDING>",pending="\"client_main.c\":271",times="0"},time={wallclock="0.00010",user="0.00008",system="0.00002",start="1394028674.327803",end="1394028674.327898"}
+#  processing result t=1.378500 Tepoch=1394028674.328300
+#  didFinish Sequence: <PBXGDB_NewBreakpointSequence: 0x202173280> t=1.378567 Tepoch=1394028674.328367
+#  Executing Sequence: <PBXGDB_NewBreakpointSequence: 0x202155be0> t=1.378603 Tepoch=1394028674.328402
+#  Passed verification of state before break create command t=1.378664 Tepoch=1394028674.328463
+-> 13963-break-insert -f "\"client_main.c\":270"
+#  PBXGDB_MICreateFileBreakpointCommand t=1.378711 Tepoch=1394028674.328510
+<- (gdb) 
+<- 13963^done,bkpt={number="36",type="breakpoint",disp="keep",enabled="y",addr="<PENDING>",pending="\"client_main.c\":270",times="0"},time={wallclock="0.00011",user="0.00010",system="0.00001",start="1394028674.329606",end="1394028674.329720"}
+#  processing result t=1.380473 Tepoch=1394028674.330272
+#  didFinish Sequence: <PBXGDB_NewBreakpointSequence: 0x202155be0> t=1.380601 Tepoch=1394028674.330400
+#  Executing Sequence: <PBXGDB_NewBreakpointSequence: 0x202147540> t=1.380639 Tepoch=1394028674.330438
+#  Passed verification of state before break create command t=1.380712 Tepoch=1394028674.330511
+-> 13964-break-insert -f "\"wolf_client_main.c\":253"
+#  PBXGDB_MICreateFileBreakpointCommand t=1.380758 Tepoch=1394028674.330557
+<- (gdb) 
+<- 13964^done,bkpt={number="37",type="breakpoint",disp="keep",enabled="y",addr="<PENDING>",pending="\"wolf_client_main.c\":253",times="0"},time={wallclock="0.00042",user="0.00011",system="0.00003",start="1394028674.330732",end="1394028674.331151"}
+#  processing result t=1.382077 Tepoch=1394028674.331876
+#  didFinish Sequence: <PBXGDB_NewBreakpointSequence: 0x202147540> t=1.382153 Tepoch=1394028674.331952
+#  Executing Sequence: <PBXGDB_NewBreakpointSequence: 0x20210bae0> t=1.382192 Tepoch=1394028674.331991
+#  Passed verification of state before break create command t=1.382264 Tepoch=1394028674.332064
+-> 13965-break-insert -f "\"wolf_client_main.c\":257"
+#  PBXGDB_MICreateFileBreakpointCommand t=1.382311 Tepoch=1394028674.332110
+<- (gdb) 
+<- 13965^done,bkpt={number="38",type="breakpoint",disp="keep",enabled="y",addr="<PENDING>",pending="\"wolf_client_main.c\":257",times="0"},time={wallclock="0.00011",user="0.00010",system="0.00001",start="1394028674.332511",end="1394028674.332617"}
+#  processing result t=1.383151 Tepoch=1394028674.332950
+#  didFinish Sequence: <PBXGDB_NewBreakpointSequence: 0x20210bae0> t=1.383220 Tepoch=1394028674.333019
+#  Executing Sequence: <PBXGDB_NewBreakpointSequence: 0x201cf0ba0> t=1.383294 Tepoch=1394028674.333093
+#  Passed verification of state before break create command t=1.383368 Tepoch=1394028674.333167
+-> 13966-break-insert -f -s "WolfExtractor" "\"main.c\":365"
+#  PBXGDB_MICreateFileBreakpointCommand t=1.383622 Tepoch=1394028674.333421
+<- (gdb) 
+<- =shlib-state-modified,shlib-info=[num="1",name="WolfExtractor",kind="-",dyld-addr="-",reason="exec",requested-state="Y",state="Y",path="/Users/ericgallager/Documents/Wolfenstein3DFromSource/build/Debug/WolfExtractor",description="/Users/ericgallager/Documents/Wolfenstein3DFromSource/build/Debug/WolfExtractor",loaded_addr="",slide="0x0",prefix="",dsym-objpath="/Users/ericgallager/Documents/Wolfenstein3DFromSource/build/Debug/WolfExtractor.dSYM/Contents/Resources/DWARF/WolfExtractor"]
+<- 13966^done,bkpt={number="39",type="breakpoint",disp="keep",enabled="y",addr="0x00000001000133da",func="main",file="/Users/ericgallager/Documents/Wolfenstein3DFromSource/wolf3dredux_0.01/tools/wolfextractor/main.c",line="365",shlib="/Users/ericgallager/Documents/Wolfenstein3DFromSource/build/Debug/WolfExtractor",times="0"},time={wallclock="0.00333",user="0.00240",system="0.00093",start="1394028674.333613",end="1394028674.336940"}
+#  processing result t=1.389479 Tepoch=1394028674.339278
+#  didFinish Sequence: <PBXGDB_NewBreakpointSequence: 0x201cf0ba0> t=1.390021 Tepoch=1394028674.339820
+#  Executing Sequence: <PBXGDB_NewBreakpointSequence: 0x201cdde20> t=1.390063 Tepoch=1394028674.339863
+#  Passed verification of state before break create command t=1.390144 Tepoch=1394028674.339943
+-> 13967-break-insert -f -s "WolfExtractor" "\"main.c\":259"
+#  PBXGDB_MICreateFileBreakpointCommand t=1.390188 Tepoch=1394028674.339987
+<- (gdb) 
+#  Enqueue seq in Command Q: <PBXGDB_SetEnabledBreakpointSequence: 0x2092aa280> t=1.408918 Tepoch=1394028674.358717
+<- 13967^done,bkpt={number="40",type="breakpoint",disp="keep",enabled="y",addr="0x0000000100012d32",func="main",file="/Users/ericgallager/Documents/Wolfenstein3DFromSource/wolf3dredux_0.01/tools/wolfextractor/main.c",line="259",shlib="/Users/ericgallager/Documents/Wolfenstein3DFromSource/build/Debug/WolfExtractor",times="0"},time={wallclock="0.00042",user="0.00040",system="0.00002",start="1394028674.340178",end="1394028674.340599"}
+#  processing result t=1.484703 Tepoch=1394028674.434502
+#  didFinish Sequence: <PBXGDB_NewBreakpointSequence: 0x201cdde20> t=1.485597 Tepoch=1394028674.435397
+#  Executing Sequence: <PBXGDB_NewBreakpointSequence: 0x201cd0960> t=1.485668 Tepoch=1394028674.435467
+#  Passed verification of state before break create command t=1.485771 Tepoch=1394028674.435570
+-> 13968-break-insert -f -s "WolfExtractor" "\"unix_file.c\":96"
+#  PBXGDB_MICreateFileBreakpointCommand t=1.485824 Tepoch=1394028674.435623
+<- (gdb) 
+#  Enqueue seq in Command Q: <PBXGDB_SetEnabledBreakpointSequence: 0x200baedc0> t=1.510924 Tepoch=1394028674.460723
+<- 13968^done,bkpt={number="41",type="breakpoint",disp="keep",enabled="y",addr="0x000000010001c1fc",func="FS_ChangeCurrentDirectory",file="/Users/ericgallager/Documents/Wolfenstein3DFromSource/wolf3dredux_0.01/tools/wolfextractor/filesys/unix/unix_file.c",line="96",shlib="/Users/ericgallager/Documents/Wolfenstein3DFromSource/build/Debug/WolfExtractor",times="0"},time={wallclock="0.00065",user="0.00056",system="0.00010",start="1394028674.444559",end="1394028674.445213"}
+#  processing result t=1.540764 Tepoch=1394028674.490564
+#  didFinish Sequence: <PBXGDB_NewBreakpointSequence: 0x201cd0960> t=1.541741 Tepoch=1394028674.491540
+#  Executing Sequence: <PBXGDB_NewBreakpointSequence: 0x201cc0600> t=1.541806 Tepoch=1394028674.491606
+#  Passed verification of state before break create command t=1.541899 Tepoch=1394028674.491698
+-> 13969-break-insert -f -s "WolfExtractor" "\"main.c\":281"
+#  PBXGDB_MICreateFileBreakpointCommand t=1.542028 Tepoch=1394028674.491827
+<- (gdb) 
+#  Enqueue seq in Command Q: <PBXGDB_SetEnabledBreakpointSequence: 0x206e9ab20> t=1.559062 Tepoch=1394028674.508861
+<- 13969^done,bkpt={number="42",type="breakpoint",disp="keep",enabled="y",addr="0x0000000100012e50",func="main",file="/Users/ericgallager/Documents/Wolfenstein3DFromSource/wolf3dredux_0.01/tools/wolfextractor/main.c",line="281",shlib="/Users/ericgallager/Documents/Wolfenstein3DFromSource/build/Debug/WolfExtractor",times="0"},time={wallclock="0.00046",user="0.00042",system="0.00004",start="1394028674.492035",end="1394028674.492493"}
+#  processing result t=1.566850 Tepoch=1394028674.516649
+#  didFinish Sequence: <PBXGDB_NewBreakpointSequence: 0x201cc0600> t=1.567624 Tepoch=1394028674.517424
+#  Executing Sequence: <PBXGDB_NewBreakpointSequence: 0x201cad3c0> t=1.567682 Tepoch=1394028674.517481
+#  Passed verification of state before break create command t=1.567773 Tepoch=1394028674.517572
+-> 13970-break-insert -f -s "WolfExtractor" "\"main.c\":301"
+#  PBXGDB_MICreateFileBreakpointCommand t=1.567825 Tepoch=1394028674.517624
+<- (gdb) 
+#  Enqueue seq in Command Q: <PBXGDB_SetEnabledBreakpointSequence: 0x2072cf980> t=1.578167 Tepoch=1394028674.527966
+<- 13970^done,bkpt={number="43",type="breakpoint",disp="keep",enabled="y",addr="0x0000000100012fcb",func="main",file="/Users/ericgallager/Documents/Wolfenstein3DFromSource/wolf3dredux_0.01/tools/wolfextractor/main.c",line="301",shlib="/Users/ericgallager/Documents/Wolfenstein3DFromSource/build/Debug/WolfExtractor",times="0"},time={wallclock="0.00046",user="0.00042",system="0.00004",start="1394028674.523045",end="1394028674.523501"}
+#  processing result t=1.631674 Tepoch=1394028674.581473
+#  didFinish Sequence: <PBXGDB_NewBreakpointSequence: 0x201cad3c0> t=1.632227 Tepoch=1394028674.582026
+#  Executing Sequence: <PBXGDB_NewBreakpointSequence: 0x201c9e380> t=1.632277 Tepoch=1394028674.582076
+#  Passed verification of state before break create command t=1.632364 Tepoch=1394028674.582163
+-> 13971-break-insert -f -s "WolfExtractor" "\"main.c\":320"
+#  PBXGDB_MICreateFileBreakpointCommand t=1.632412 Tepoch=1394028674.582211
+<- (gdb) 
+#  Enqueue seq in Command Q: <PBXGDB_SetEnabledBreakpointSequence: 0x20a73d260> t=1.641281 Tepoch=1394028674.591080
+<- 13971^done,bkpt={number="44",type="breakpoint",disp="keep",enabled="y",addr="0x0000000100013146",func="main",file="/Users/ericgallager/Documents/Wolfenstein3DFromSource/wolf3dredux_0.01/tools/wolfextractor/main.c",line="320",shlib="/Users/ericgallager/Documents/Wolfenstein3DFromSource/build/Debug/WolfExtractor",times="0"},time={wallclock="0.00044",user="0.00042",system="0.00002",start="1394028674.594026",end="1394028674.594464"}
+#  processing result t=1.647750 Tepoch=1394028674.597549
+#  didFinish Sequence: <PBXGDB_NewBreakpointSequence: 0x201c9e380> t=1.648171 Tepoch=1394028674.597970
+#  Executing Sequence: <PBXGDB_NewBreakpointSequence: 0x201c8d220> t=1.648214 Tepoch=1394028674.598013
+#  Passed verification of state before break create command t=1.648287 Tepoch=1394028674.598086
+-> 13972-break-insert -f -s "WolfExtractor" "\"main.c\":341"
+#  PBXGDB_MICreateFileBreakpointCommand t=1.648333 Tepoch=1394028674.598132
+<- (gdb) 
+#  Enqueue seq in Command Q: <PBXGDB_SetEnabledBreakpointSequence: 0x207445640> t=1.657444 Tepoch=1394028674.607243
+<- 13972^done,bkpt={number="45",type="breakpoint",disp="keep",enabled="y",addr="0x00000001000132bc",func="main",file="/Users/ericgallager/Documents/Wolfenstein3DFromSource/wolf3dredux_0.01/tools/wolfextractor/main.c",line="341",shlib="/Users/ericgallager/Documents/Wolfenstein3DFromSource/build/Debug/WolfExtractor",times="0"},time={wallclock="0.00044",user="0.00041",system="0.00003",start="1394028674.603087",end="1394028674.603527"}
+#  processing result t=1.672584 Tepoch=1394028674.622383
+#  didFinish Sequence: <PBXGDB_NewBreakpointSequence: 0x201c8d220> t=1.673067 Tepoch=1394028674.622866
+#  Executing Sequence: <PBXGDB_NewBreakpointSequence: 0x201c4a780> t=1.673116 Tepoch=1394028674.622915
+#  Passed verification of state before break create command t=1.673204 Tepoch=1394028674.623003
+-> 13973-break-insert -f -s "WolfExtractor" "\"wolf_gfx.c\":1580"
+#  PBXGDB_MICreateFileBreakpointCommand t=1.673255 Tepoch=1394028674.623054
+<- (gdb) 
+#  Enqueue seq in Command Q: <PBXGDB_SetEnabledBreakpointSequence: 0x2058a0f00> t=1.705862 Tepoch=1394028674.655662
+<- 13973^done,bkpt={number="46",type="breakpoint",disp="keep",enabled="y",addr="0x00000001000052a1",func="LumpExtractor",file="/Users/ericgallager/Documents/Wolfenstein3DFromSource/wolf3dredux_0.01/tools/wolfextractor/wolf/wolf_gfx.c",line="1580",shlib="/Users/ericgallager/Documents/Wolfenstein3DFromSource/build/Debug/WolfExtractor",times="0"},time={wallclock="0.00108",user="0.00088",system="0.00018",start="1394028674.625788",end="1394028674.626868"}
+#  processing result t=1.713204 Tepoch=1394028674.663003
+#  didFinish Sequence: <PBXGDB_NewBreakpointSequence: 0x201c4a780> t=1.713627 Tepoch=1394028674.663426
+#  Executing Sequence: <PBXGDB_NewBreakpointSequence: 0x201c3f8a0> t=1.713669 Tepoch=1394028674.663468
+#  Passed verification of state before break create command t=1.713743 Tepoch=1394028674.663542
+-> 13974-break-insert -f -s "WolfExtractor" "\"wolf_gfx.c\":1587"
+#  PBXGDB_MICreateFileBreakpointCommand t=1.713792 Tepoch=1394028674.663591
+<- (gdb) 
+#  Enqueue seq in Command Q: <PBXGDB_SetEnabledBreakpointSequence: 0x206f45a80> t=1.721410 Tepoch=1394028674.671210
+<- 13974^done,bkpt={number="47",type="breakpoint",disp="keep",enabled="y",addr="0x00000001000052cc",func="LumpExtractor",file="/Users/ericgallager/Documents/Wolfenstein3DFromSource/wolf3dredux_0.01/tools/wolfextractor/wolf/wolf_gfx.c",line="1587",shlib="/Users/ericgallager/Documents/Wolfenstein3DFromSource/build/Debug/WolfExtractor",times="0"},time={wallclock="0.00034",user="0.00033",system="0.00001",start="1394028674.663837",end="1394028674.664179"}
+#  processing result t=1.735436 Tepoch=1394028674.685235
+#  didFinish Sequence: <PBXGDB_NewBreakpointSequence: 0x201c3f8a0> t=1.735932 Tepoch=1394028674.685732
+#  Executing Sequence: <PBXGDB_NewBreakpointSequence: 0x201c2cf80> t=1.735975 Tepoch=1394028674.685774
+#  Passed verification of state before break create command t=1.736055 Tepoch=1394028674.685854
+-> 13975-break-insert -f -s "WolfExtractor" "\"wolf_gfx.c\":1450"
+#  PBXGDB_MICreateFileBreakpointCommand t=1.736105 Tepoch=1394028674.685904
+<- (gdb) 
+#  Enqueue seq in Command Q: <PBXGDB_SetEnabledBreakpointSequence: 0x203a6af60> t=1.744453 Tepoch=1394028674.694253
+<- 13975^done,bkpt={number="48",type="breakpoint",disp="keep",enabled="y",addr="0x0000000100005aa5",func="Fontline",file="/Users/ericgallager/Documents/Wolfenstein3DFromSource/wolf3dredux_0.01/tools/wolfextractor/wolf/wolf_gfx.c",line="1450",shlib="/Users/ericgallager/Documents/Wolfenstein3DFromSource/build/Debug/WolfExtractor",times="0"},time={wallclock="0.00046",user="0.00044",system="0.00002",start="1394028674.686103",end="1394028674.686565"}
+#  processing result t=1.749548 Tepoch=1394028674.699347
+#  didFinish Sequence: <PBXGDB_NewBreakpointSequence: 0x201c2cf80> t=1.750011 Tepoch=1394028674.699810
+#  Executing Sequence: <PBXGDB_NewBreakpointSequence: 0x201c17aa0> t=1.750061 Tepoch=1394028674.699860
+#  Passed verification of state before break create command t=1.750144 Tepoch=1394028674.699943
+-> 13976-break-insert -f -s "WolfExtractor" "\"wolf_gfx.c\":1435"
+#  PBXGDB_MICreateFileBreakpointCommand t=1.750191 Tepoch=1394028674.699990
+<- (gdb) 
+#  Enqueue seq in Command Q: <PBXGDB_SetEnabledBreakpointSequence: 0x20bb36e20> t=1.778884 Tepoch=1394028674.728683
+<- 13976^done,bkpt={number="49",type="breakpoint",disp="keep",enabled="y",addr="0x00000001000059f2",func="Fontline",file="/Users/ericgallager/Documents/Wolfenstein3DFromSource/wolf3dredux_0.01/tools/wolfextractor/wolf/wolf_gfx.c",line="1435",shlib="/Users/ericgallager/Documents/Wolfenstein3DFromSource/build/Debug/WolfExtractor",times="0"},time={wallclock="0.00047",user="0.00043",system="0.00004",start="1394028674.700194",end="1394028674.700665"}
+#  processing result t=1.791255 Tepoch=1394028674.741054
+#  didFinish Sequence: <PBXGDB_NewBreakpointSequence: 0x201c17aa0> t=1.791681 Tepoch=1394028674.741480
+#  Executing Sequence: <PBXGDB_NewBreakpointSequence: 0x2019f8620> t=1.791722 Tepoch=1394028674.741521
+#  Passed verification of state before break create command t=1.791797 Tepoch=1394028674.741596
+-> 13977-break-insert -f -s "WolfExtractor" "\"memory.c\":61"
+#  PBXGDB_MICreateFileBreakpointCommand t=1.791879 Tepoch=1394028674.741678
+<- (gdb) 
+#  Enqueue seq in Command Q: <PBXGDB_SetEnabledBreakpointSequence: 0x208bbb4e0> t=1.799237 Tepoch=1394028674.749037
+<- 13977^done,bkpt={number="50",type="breakpoint",disp="keep",enabled="y",addr="0x000000010000f8fc",func="Memory_malloc",file="/Users/ericgallager/Documents/Wolfenstein3DFromSource/wolf3dredux_0.01/tools/wolfextractor/memory/memory.c",line="61",shlib="/Users/ericgallager/Documents/Wolfenstein3DFromSource/build/Debug/WolfExtractor",times="0"},time={wallclock="0.00044",user="0.00039",system="0.00005",start="1394028674.741883",end="1394028674.742325"}
+#  processing result t=1.805813 Tepoch=1394028674.755612
+#  didFinish Sequence: <PBXGDB_NewBreakpointSequence: 0x2019f8620> t=1.806237 Tepoch=1394028674.756036
+#  Executing Sequence: <PBXGDB_NewBreakpointSequence: 0x2019dc8e0> t=1.806279 Tepoch=1394028674.756078
+#  Passed verification of state before break create command t=1.806352 Tepoch=1394028674.756151
+-> 13978-break-insert -f -s "WolfExtractor" "\"memory.c\":96"
+#  PBXGDB_MICreateFileBreakpointCommand t=1.806398 Tepoch=1394028674.756197
+<- (gdb) 
+#  Enqueue seq in Command Q: <PBXGDB_SetEnabledBreakpointSequence: 0x2056c51a0> t=1.816014 Tepoch=1394028674.765813
+<- 13978^done,bkpt={number="51",type="breakpoint",disp="keep",enabled="y",addr="0x000000010000f970",func="Memory_calloc",file="/Users/ericgallager/Documents/Wolfenstein3DFromSource/wolf3dredux_0.01/tools/wolfextractor/memory/memory.c",line="96",shlib="/Users/ericgallager/Documents/Wolfenstein3DFromSource/build/Debug/WolfExtractor",times="0"},time={wallclock="0.00030",user="0.00029",system="0.00001",start="1394028674.756382",end="1394028674.756682"}
+#  processing result t=1.829752 Tepoch=1394028674.779551
+#  didFinish Sequence: <PBXGDB_NewBreakpointSequence: 0x2019dc8e0> t=1.830235 Tepoch=1394028674.780034
+#  Executing Sequence: <PBXGDB_NewBreakpointSequence: 0x2019c9a00> t=1.830286 Tepoch=1394028674.780085
+#  Passed verification of state before break create command t=1.830513 Tepoch=1394028674.780312
+-> 13979-break-insert -f -s "WolfExtractor" "\"memory.c\":132"
+#  PBXGDB_MICreateFileBreakpointCommand t=1.830562 Tepoch=1394028674.780361
+<- (gdb) 
+#  Enqueue seq in Command Q: <PBXGDB_SetEnabledBreakpointSequence: 0x20b4e3920> t=1.861257 Tepoch=1394028674.811056
+<- 13979^done,bkpt={number="52",type="breakpoint",disp="keep",enabled="y",addr="0x000000010000f9f0",func="Memory_realloc",file="/Users/ericgallager/Documents/Wolfenstein3DFromSource/wolf3dredux_0.01/tools/wolfextractor/memory/memory.c",line="132",shlib="/Users/ericgallager/Documents/Wolfenstein3DFromSource/build/Debug/WolfExtractor",times="0"},time={wallclock="0.00033",user="0.00030",system="0.00002",start="1394028674.780553",end="1394028674.780880"}
+#  processing result t=1.865757 Tepoch=1394028674.815556
+#  didFinish Sequence: <PBXGDB_NewBreakpointSequence: 0x2019c9a00> t=1.866115 Tepoch=1394028674.815914
+#  Executing Sequence: <PBXGDB_NewBreakpointSequence: 0x2019b4160> t=1.866156 Tepoch=1394028674.815955
+#  Passed verification of state before break create command t=1.866223 Tepoch=1394028674.816022
+-> 13980-break-insert -f -s "WolfExtractor" "\"memory.c\":168"
+#  PBXGDB_MICreateFileBreakpointCommand t=1.866268 Tepoch=1394028674.816067
+<- (gdb) 
+#  Enqueue seq in Command Q: <PBXGDB_SetEnabledBreakpointSequence: 0x2060947a0> t=1.873699 Tepoch=1394028674.823498
+<- 13980^done,bkpt={number="53",type="breakpoint",disp="keep",enabled="y",addr="0x000000010000fa88",func="Memory_free",file="/Users/ericgallager/Documents/Wolfenstein3DFromSource/wolf3dredux_0.01/tools/wolfextractor/memory/memory.c",line="168",shlib="/Users/ericgallager/Documents/Wolfenstein3DFromSource/build/Debug/WolfExtractor",times="0"},time={wallclock="0.00030",user="0.00029",system="0.00002",start="1394028674.816275",end="1394028674.816576"}
+#  processing result t=1.886287 Tepoch=1394028674.836087
+#  didFinish Sequence: <PBXGDB_NewBreakpointSequence: 0x2019b4160> t=1.886748 Tepoch=1394028674.836547
+#  Executing Sequence: <PBXGDB_NewBreakpointSequence: 0x2019a0ae0> t=1.886827 Tepoch=1394028674.836626
+#  Passed verification of state before break create command t=1.886908 Tepoch=1394028674.836707
+-> 13981-break-insert -f -s "WolfExtractor" "\"wolf_gfx.c\":419"
+#  PBXGDB_MICreateFileBreakpointCommand t=1.886954 Tepoch=1394028674.836753
+<- (gdb) 
+#  Enqueue seq in Command Q: <PBXGDB_SetEnabledBreakpointSequence: 0x203629200> t=1.895220 Tepoch=1394028674.845019
+<- 13981^done,bkpt={number="54",type="breakpoint",disp="keep",enabled="y",addr="0x000000010000a44e",func="CAL_ExpandGrChunk",file="/Users/ericgallager/Documents/Wolfenstein3DFromSource/wolf3dredux_0.01/tools/wolfextractor/wolf/wolf_gfx.c",line="419",shlib="/Users/ericgallager/Documents/Wolfenstein3DFromSource/build/Debug/WolfExtractor",times="0"},time={wallclock="0.00039",user="0.00035",system="0.00004",start="1394028674.836945",end="1394028674.837336"}
+#  processing result t=1.900144 Tepoch=1394028674.849943
+#  didFinish Sequence: <PBXGDB_NewBreakpointSequence: 0x2019a0ae0> t=1.902414 Tepoch=1394028674.852213
+#  Executing Sequence: <PBXGDB_NewBreakpointSequence: 0x20197cdc0> t=1.902495 Tepoch=1394028674.852295
+#  Passed verification of state before break create command t=1.902618 Tepoch=1394028674.852417
+-> 13982-break-insert -f -s "WolfExtractor" "\"wolf_gfx.c\":479"
+#  PBXGDB_MICreateFileBreakpointCommand t=1.902672 Tepoch=1394028674.852471
+<- (gdb) 
+#  Enqueue seq in Command Q: <PBXGDB_SetEnabledBreakpointSequence: 0x204de68a0> t=1.931804 Tepoch=1394028674.881603
+<- 13982^done,bkpt={number="55",type="breakpoint",disp="keep",enabled="y",addr="0x000000010000595d",func="CA_CacheGrChunk",file="/Users/ericgallager/Documents/Wolfenstein3DFromSource/wolf3dredux_0.01/tools/wolfextractor/wolf/wolf_gfx.c",line="479",shlib="/Users/ericgallager/Documents/Wolfenstein3DFromSource/build/Debug/WolfExtractor",times="0"},time={wallclock="0.00042",user="0.00038",system="0.00003",start="1394028674.852704",end="1394028674.853121"}
+#  processing result t=1.945131 Tepoch=1394028674.894930
+#  didFinish Sequence: <PBXGDB_NewBreakpointSequence: 0x20197cdc0> t=1.945565 Tepoch=1394028674.895364
+#  Executing Sequence: <PBXGDB_NewBreakpointSequence: 0x201937260> t=1.945605 Tepoch=1394028674.895404
+#  Passed verification of state before break create command t=1.945679 Tepoch=1394028674.895478
+-> 13983-break-insert -f -s "WolfExtractor" "\"wolf_gfx.c\":1606"
+#  PBXGDB_MICreateFileBreakpointCommand t=1.945725 Tepoch=1394028674.895524
+<- (gdb) 
+#  Enqueue seq in Command Q: <PBXGDB_SetEnabledBreakpointSequence: 0x209995aa0> t=1.954665 Tepoch=1394028674.904464
+<- 13983^done,bkpt={number="56",type="breakpoint",disp="keep",enabled="y",addr="0x0000000100005321",func="LumpExtractor",file="/Users/ericgallager/Documents/Wolfenstein3DFromSource/wolf3dredux_0.01/tools/wolfextractor/wolf/wolf_gfx.c",line="1606",shlib="/Users/ericgallager/Documents/Wolfenstein3DFromSource/build/Debug/WolfExtractor",times="0"},time={wallclock="0.00035",user="0.00033",system="0.00002",start="1394028674.895738",end="1394028674.896089"}
+#  processing result t=1.960548 Tepoch=1394028674.910347
+#  didFinish Sequence: <PBXGDB_NewBreakpointSequence: 0x201937260> t=1.961028 Tepoch=1394028674.910827
+#  Executing Sequence: <PBXGDB_NewBreakpointSequence: 0x20192be00> t=1.961076 Tepoch=1394028674.910875
+#  Passed verification of state before break create command t=1.961158 Tepoch=1394028674.910957
+-> 13984-break-insert -f -s "WolfExtractor" "\"wolf_gfx.c\":1607"
+#  PBXGDB_MICreateFileBreakpointCommand t=1.961207 Tepoch=1394028674.911006
+<- (gdb) 
+#  Enqueue seq in Command Q: <PBXGDB_SetEnabledBreakpointSequence: 0x206955780> t=1.969666 Tepoch=1394028674.919466
+<- 13984^done,bkpt={number="57",type="breakpoint",disp="keep",enabled="y",addr="0x000000010000532e",func="LumpExtractor",file="/Users/ericgallager/Documents/Wolfenstein3DFromSource/wolf3dredux_0.01/tools/wolfextractor/wolf/wolf_gfx.c",line="1607",shlib="/Users/ericgallager/Documents/Wolfenstein3DFromSource/build/Debug/WolfExtractor",times="0"},time={wallclock="0.00037",user="0.00034",system="0.00003",start="1394028674.911211",end="1394028674.911581"}
+#  processing result t=1.983684 Tepoch=1394028674.933483
+#  didFinish Sequence: <PBXGDB_NewBreakpointSequence: 0x20192be00> t=1.985535 Tepoch=1394028674.935334
+#  Executing Sequence: <PBXGDB_NewBreakpointSequence: 0x20189d300> t=1.985626 Tepoch=1394028674.935425
+-> 13985-break-insert -f -s "libSystem.B.dylib" -- "malloc_error_break"
+#  PBXGDB_MICreateSymbolicBreakpointCommand t=1.985789 Tepoch=1394028674.935588
+<- (gdb) 
+#  Enqueue seq in Command Q: <PBXGDB_SetEnabledBreakpointSequence: 0x200669260> t=1.995947 Tepoch=1394028674.945746
+<- 13985^done,bkpt={number="58",type="breakpoint",disp="keep",enabled="y",addr="0x00624dd2f19b7499",at="<malloc_error_break+4>",shlib="/usr/lib/libSystem.B.dylib",times="0"},time={wallclock="0.00085",user="0.00071",system="0.00014",start="1394028674.935820",end="1394028674.936673"}
+#  processing result t=2.001726 Tepoch=1394028674.951525
+-> 13986-exec-arguments 
+#  PBXGDB_MISetArgumentsCommand t=2.002696 Tepoch=1394028674.952495
+#  Enqueue seq in Command Q: <PBXGDB_RegisterDataValueSetupSequence: 0x205275820> t=2.002832 Tepoch=1394028674.952631
+#  Enqueue seq in State Changing Q: <PBXGDB_RunControlSequence: 0x2005cd520> t=2.002876 Tepoch=1394028674.952675
+#  didFinish Sequence: <PBXGDB_NewBreakpointSequence: 0x20189d300> t=2.002913 Tepoch=1394028674.952712
+#  Executing Sequence: <PBXGDB_SetEnabledBreakpointSequence: 0x2092aa280> t=2.002949 Tepoch=1394028674.952748
+-> 13987-break-enable 39
+#  PBXGDB_MIEnableBreakpointCommand t=2.003007 Tepoch=1394028674.952806
+<- (gdb) 
+#  Enqueue seq in Command Q: <PBXGDB_SetEnabledBreakpointSequence: 0x2031577e0> t=2.012768 Tepoch=1394028674.962567
+<- 13986^done,time={wallclock="0.00006",user="0.00005",system="0.00001",start="1394028674.957017",end="1394028674.957077"}
+#  processing result t=2.027494 Tepoch=1394028674.977293
+<- (gdb) 
+<- 13987^done,pending="0",time={wallclock="0.00004",user="0.00003",system="0.00001",start="1394028674.957148",end="1394028674.957190"}
+#  processing result t=2.027627 Tepoch=1394028674.977426
+#  didFinish Sequence: <PBXGDB_SetEnabledBreakpointSequence: 0x2092aa280> t=2.027756 Tepoch=1394028674.977556
+#  Executing Sequence: <PBXGDB_SetEnabledBreakpointSequence: 0x200baedc0> t=2.027795 Tepoch=1394028674.977594
+-> 13988-break-enable 40
+#  PBXGDB_MIEnableBreakpointCommand t=2.027855 Tepoch=1394028674.977654
+<- (gdb) 
+<- 13988^done,pending="0",time={wallclock="0.00006",user="0.00005",system="0.00001",start="1394028674.978977",end="1394028674.979034"}
+#  processing result t=2.029734 Tepoch=1394028674.979533
+#  didFinish Sequence: <PBXGDB_SetEnabledBreakpointSequence: 0x200baedc0> t=2.029887 Tepoch=1394028674.979686
+#  Executing Sequence: <PBXGDB_SetEnabledBreakpointSequence: 0x206e9ab20> t=2.029927 Tepoch=1394028674.979726
+-> 13989-break-enable 41
+#  PBXGDB_MIEnableBreakpointCommand t=2.030106 Tepoch=1394028674.979906
+<- (gdb) 
+<- 13989^done,pending="0",time={wallclock="0.00005",user="0.00004",system="0.00001",start="1394028674.980444",end="1394028674.980489"}
+#  processing result t=2.031014 Tepoch=1394028674.980813
+#  didFinish Sequence: <PBXGDB_SetEnabledBreakpointSequence: 0x206e9ab20> t=2.031158 Tepoch=1394028674.980957
+#  Executing Sequence: <PBXGDB_SetEnabledBreakpointSequence: 0x2072cf980> t=2.031198 Tepoch=1394028674.980997
+-> 13990-break-enable 42
+#  PBXGDB_MIEnableBreakpointCommand t=2.031268 Tepoch=1394028674.981067
+<- (gdb) 
+<- 13990^done,pending="0",time={wallclock="0.00003",user="0.00003",system="0.00000",start="1394028674.981191",end="1394028674.981222"}
+#  processing result t=2.031825 Tepoch=1394028674.981624
+#  didFinish Sequence: <PBXGDB_SetEnabledBreakpointSequence: 0x2072cf980> t=2.031964 Tepoch=1394028674.981763
+#  Executing Sequence: <PBXGDB_SetEnabledBreakpointSequence: 0x20a73d260> t=2.032006 Tepoch=1394028674.981805
+-> 13991-break-enable 43
+#  PBXGDB_MIEnableBreakpointCommand t=2.032065 Tepoch=1394028674.981864
+<- (gdb) 
+<- 13991^done,pending="0",time={wallclock="0.00003",user="0.00003",system="0.00000",start="1394028674.982007",end="1394028674.982038"}
+#  processing result t=2.032936 Tepoch=1394028674.982735
+#  didFinish Sequence: <PBXGDB_SetEnabledBreakpointSequence: 0x20a73d260> t=2.033120 Tepoch=1394028674.982919
+#  Executing Sequence: <PBXGDB_SetEnabledBreakpointSequence: 0x207445640> t=2.033159 Tepoch=1394028674.982958
+-> 13992-break-enable 44
+#  PBXGDB_MIEnableBreakpointCommand t=2.034692 Tepoch=1394028674.984492
+<- (gdb) 
+<- 13992^done,pending="0",time={wallclock="0.00006",user="0.00006",system="0.00001",start="1394028674.984704",end="1394028674.984769"}
+#  processing result t=2.035647 Tepoch=1394028674.985446
+#  didFinish Sequence: <PBXGDB_SetEnabledBreakpointSequence: 0x207445640> t=2.035812 Tepoch=1394028674.985611
+#  Executing Sequence: <PBXGDB_SetEnabledBreakpointSequence: 0x2058a0f00> t=2.035852 Tepoch=1394028674.985651
+-> 13993-break-enable 45
+#  PBXGDB_MIEnableBreakpointCommand t=2.035913 Tepoch=1394028674.985712
+<- (gdb) 
+<- 13993^done,pending="0",time={wallclock="0.00005",user="0.00004",system="0.00001",start="1394028674.985858",end="1394028674.985903"}
+#  processing result t=2.036518 Tepoch=1394028674.986317
+#  didFinish Sequence: <PBXGDB_SetEnabledBreakpointSequence: 0x2058a0f00> t=2.036643 Tepoch=1394028674.986442
+#  Executing Sequence: <PBXGDB_SetEnabledBreakpointSequence: 0x206f45a80> t=2.036685 Tepoch=1394028674.986484
+-> 13994-break-enable 46
+#  PBXGDB_MIEnableBreakpointCommand t=2.036743 Tepoch=1394028674.986542
+<- (gdb) 
+<- 13994^done,pending="0",time={wallclock="0.00006",user="0.00005",system="0.00001",start="1394028674.986994",end="1394028674.987052"}
+#  processing result t=2.038409 Tepoch=1394028674.988208
+#  didFinish Sequence: <PBXGDB_SetEnabledBreakpointSequence: 0x206f45a80> t=2.038561 Tepoch=1394028674.988360
+#  Executing Sequence: <PBXGDB_SetEnabledBreakpointSequence: 0x203a6af60> t=2.038600 Tepoch=1394028674.988399
+-> 13995-break-enable 47
+#  PBXGDB_MIEnableBreakpointCommand t=2.038661 Tepoch=1394028674.988460
+<- (gdb) 
+<- 13995^done,pending="0",time={wallclock="0.00006",user="0.00005",system="0.00001",start="1394028674.993557",end="1394028674.993613"}
+#  processing result t=2.326632 Tepoch=1394028675.276431
+#  didFinish Sequence: <PBXGDB_SetEnabledBreakpointSequence: 0x203a6af60> t=2.326837 Tepoch=1394028675.276636
+#  Executing Sequence: <PBXGDB_SetEnabledBreakpointSequence: 0x20bb36e20> t=2.326878 Tepoch=1394028675.276677
+-> 13996-break-enable 48
+#  PBXGDB_MIEnableBreakpointCommand t=2.326938 Tepoch=1394028675.276737
+<- (gdb) 
+<- 13996^done,pending="0",time={wallclock="0.00005",user="0.00005",system="0.00001",start="1394028675.279255",end="1394028675.279308"}
+#  processing result t=2.364177 Tepoch=1394028675.313976
+#  didFinish Sequence: <PBXGDB_SetEnabledBreakpointSequence: 0x20bb36e20> t=2.364315 Tepoch=1394028675.314114
+#  Executing Sequence: <PBXGDB_SetEnabledBreakpointSequence: 0x208bbb4e0> t=2.364354 Tepoch=1394028675.314153
+-> 13997-break-enable 49
+#  PBXGDB_MIEnableBreakpointCommand t=2.364412 Tepoch=1394028675.314212
+<- (gdb) 
+<- 13997^done,pending="0",time={wallclock="0.00006",user="0.00005",system="0.00001",start="1394028675.315572",end="1394028675.315629"}
+#  processing result t=2.366991 Tepoch=1394028675.316791
+#  didFinish Sequence: <PBXGDB_SetEnabledBreakpointSequence: 0x208bbb4e0> t=2.367135 Tepoch=1394028675.316934
+#  Executing Sequence: <PBXGDB_SetEnabledBreakpointSequence: 0x2056c51a0> t=2.367176 Tepoch=1394028675.316975
+-> 13998-break-enable 50
+#  PBXGDB_MIEnableBreakpointCommand t=2.367243 Tepoch=1394028675.317042
+<- (gdb) 
+<- 13998^done,pending="0",time={wallclock="0.00007",user="0.00006",system="0.00001",start="1394028675.317574",end="1394028675.317645"}
+#  processing result t=2.368111 Tepoch=1394028675.317910
+#  didFinish Sequence: <PBXGDB_SetEnabledBreakpointSequence: 0x2056c51a0> t=2.368247 Tepoch=1394028675.318046
+#  Executing Sequence: <PBXGDB_SetEnabledBreakpointSequence: 0x20b4e3920> t=2.368283 Tepoch=1394028675.318082
+-> 13999-break-enable 51
+#  PBXGDB_MIEnableBreakpointCommand t=2.368338 Tepoch=1394028675.318137
+<- (gdb) 
+<- 13999^done,pending="0",time={wallclock="0.00003",user="0.00003",system="0.00000",start="1394028675.318481",end="1394028675.318514"}
+#  processing result t=2.368974 Tepoch=1394028675.318773
+#  didFinish Sequence: <PBXGDB_SetEnabledBreakpointSequence: 0x20b4e3920> t=2.369047 Tepoch=1394028675.318846
+#  Executing Sequence: <PBXGDB_SetEnabledBreakpointSequence: 0x2060947a0> t=2.369084 Tepoch=1394028675.318884
+-> 14000-break-enable 52
+#  PBXGDB_MIEnableBreakpointCommand t=2.369139 Tepoch=1394028675.318938
+<- (gdb) 
+<- 14000^done,pending="0",time={wallclock="0.00003",user="0.00003",system="0.00000",start="1394028675.319257",end="1394028675.319289"}
+#  processing result t=2.369742 Tepoch=1394028675.319541
+#  didFinish Sequence: <PBXGDB_SetEnabledBreakpointSequence: 0x2060947a0> t=2.369803 Tepoch=1394028675.319602
+#  Executing Sequence: <PBXGDB_SetEnabledBreakpointSequence: 0x203629200> t=2.369840 Tepoch=1394028675.319639
+-> 14001-break-enable 53
+#  PBXGDB_MIEnableBreakpointCommand t=2.369895 Tepoch=1394028675.319694
+<- (gdb) 
+<- 14001^done,pending="0",time={wallclock="0.00003",user="0.00002",system="0.00000",start="1394028675.319959",end="1394028675.319987"}
+#  processing result t=2.370434 Tepoch=1394028675.320233
+#  didFinish Sequence: <PBXGDB_SetEnabledBreakpointSequence: 0x203629200> t=2.370559 Tepoch=1394028675.320358
+#  Executing Sequence: <PBXGDB_SetEnabledBreakpointSequence: 0x204de68a0> t=2.370594 Tepoch=1394028675.320393
+-> 14002-break-enable 54
+#  PBXGDB_MIEnableBreakpointCommand t=2.370650 Tepoch=1394028675.320449
+<- (gdb) 
+<- 14002^done,pending="0",time={wallclock="0.00003",user="0.00003",system="0.00000",start="1394028675.320716",end="1394028675.320744"}
+#  processing result t=2.371190 Tepoch=1394028675.320989
+#  didFinish Sequence: <PBXGDB_SetEnabledBreakpointSequence: 0x204de68a0> t=2.371258 Tepoch=1394028675.321057
+#  Executing Sequence: <PBXGDB_SetEnabledBreakpointSequence: 0x209995aa0> t=2.371291 Tepoch=1394028675.321090
+-> 14003-break-enable 55
+#  PBXGDB_MIEnableBreakpointCommand t=2.371345 Tepoch=1394028675.321144
+<- (gdb) 
+<- 14003^done,pending="0",time={wallclock="0.00003",user="0.00002",system="0.00000",start="1394028675.321393",end="1394028675.321419"}
+#  processing result t=2.371859 Tepoch=1394028675.321659
+#  didFinish Sequence: <PBXGDB_SetEnabledBreakpointSequence: 0x209995aa0> t=2.371939 Tepoch=1394028675.321738
+#  Executing Sequence: <PBXGDB_SetEnabledBreakpointSequence: 0x206955780> t=2.371971 Tepoch=1394028675.321771
+-> 14004-break-enable 56
+#  PBXGDB_MIEnableBreakpointCommand t=2.372023 Tepoch=1394028675.321822
+<- (gdb) 
+<- 14004^done,pending="0",time={wallclock="0.00003",user="0.00002",system="0.00000",start="1394028675.322065",end="1394028675.322090"}
+#  processing result t=2.372527 Tepoch=1394028675.322326
+#  didFinish Sequence: <PBXGDB_SetEnabledBreakpointSequence: 0x206955780> t=2.372599 Tepoch=1394028675.322398
+#  Executing Sequence: <PBXGDB_SetEnabledBreakpointSequence: 0x200669260> t=2.372634 Tepoch=1394028675.322433
+-> 14005-break-enable 57
+#  PBXGDB_MIEnableBreakpointCommand t=2.372683 Tepoch=1394028675.322482
+<- (gdb) 
+<- 14005^done,pending="0",time={wallclock="0.00002",user="0.00002",system="0.00000",start="1394028675.322717",end="1394028675.322739"}
+#  processing result t=2.373178 Tepoch=1394028675.322977
+#  didFinish Sequence: <PBXGDB_SetEnabledBreakpointSequence: 0x200669260> t=2.373317 Tepoch=1394028675.323116
+#  Executing Sequence: <PBXGDB_RegisterDataValueSetupSequence: 0x205275820> t=2.373353 Tepoch=1394028675.323152
+-> 14006-data-list-register-names
+#  PBXGDB_MIGetRegisterNames t=2.373399 Tepoch=1394028675.323199
+<- (gdb) 
+<- 14006^done,register-names=["rax","rbx","rcx","rdx","rsi","rdi","rbp","rsp","r8","r9","r10","r11","r12","r13","r14","r15","rip","eflags","cs","ss","ds","es","fs","gs","st0","st1","st2","st3","st4","st5","st6","st7","fctrl","fstat","ftag","fiseg","fioff","foseg","fooff","fop","xmm0","xmm1","xmm2","xmm3","xmm4","xmm5","xmm6","xmm7","xmm8","xmm9","xmm10","xmm11","xmm12","xmm13","xmm14","xmm15","mxcsr"],time={wallclock="0.00019",user="0.00019",system="0.00000",start="1394028675.323725",end="1394028675.323918"}
+#  processing result t=2.374599 Tepoch=1394028675.324399
+#  didFinish Sequence: <PBXGDB_RegisterDataValueSetupSequence: 0x205275820> t=2.378122 Tepoch=1394028675.327921
+#  Executing Sequence: <PBXGDB_SetEnabledBreakpointSequence: 0x2031577e0> t=2.378204 Tepoch=1394028675.328003
+-> 14007-break-enable 58
+#  PBXGDB_MIEnableBreakpointCommand t=2.378269 Tepoch=1394028675.328069
+<- (gdb) 
+<- 14007^done,pending="0",time={wallclock="0.00006",user="0.00005",system="0.00001",start="1394028675.328507",end="1394028675.328564"}
+#  processing result t=2.379067 Tepoch=1394028675.328866
+#  didFinish Sequence: <PBXGDB_SetEnabledBreakpointSequence: 0x2031577e0> t=2.379217 Tepoch=1394028675.329017
+#  Executing Sequence: <PBXGDB_RunControlSequence: 0x2005cd520> t=2.379257 Tepoch=1394028675.329056
+<- (gdb) 
+-> 14008-exec-run
+#  PBXGDB_MIRunExecutableCommand t=2.380306 Tepoch=1394028675.330105
+<- ~"[Switching to process 40477]\n"
+<- =shlibs-updated
+<- 14008^running
+#  processing result t=2.427645 Tepoch=1394028675.377444
+-> 14009-pid-info
+#  PBXGDB_MIGetPIDCommand t=2.433759 Tepoch=1394028675.383558
+<- (gdb) 
+<- =shlibs-added,shlib-info=[num="2",name="libmathCommon.A.dylib",kind="-",dyld-addr="0x7fff882fd000",reason="dyld",requested-state="E",state="E",path="/usr/lib/system/libmathCommon.A.dylib",description="/usr/lib/system/libmathCommon.A.dylib",loaded_addr="0x7fff882fd000",slide="0x7fff882fd000",prefix=""],time={now="1394028675.397213"}
+<- =shlibs-added,shlib-info=[num="3",name="libvorbis.0.dylib",kind="-",dyld-addr="0x1000c0000",reason="dyld",requested-state="E",state="E",path="/opt/local/lib/libvorbis.0.dylib",description="/opt/local/lib/libvorbis.0.dylib",loaded_addr="0x1000c0000",slide="0x1000c0000",prefix=""],time={now="1394028675.397366"}
+<- =shlibs-added,shlib-info=[num="4",name="libvorbisenc.2.dylib",kind="-",dyld-addr="0x1000f1000",reason="dyld",requested-state="E",state="E",path="/opt/local/lib/libvorbisenc.2.dylib",description="/opt/local/lib/libvorbisenc.2.dylib",loaded_addr="0x1000f1000",slide="0x1000f1000",prefix=""],time={now="1394028675.397490"}
+<- =shlibs-added,shlib-info=[num="5",name="libvorbisfile.3.dylib",kind="-",dyld-addr="0x1003de000",reason="dyld",requested-state="E",state="E",path="/opt/local/lib/libvorbisfile.3.dylib",description="/opt/local/lib/libvorbisfile.3.dylib",loaded_addr="0x1003de000",slide="0x1003de000",prefix=""],time={now="1394028675.397613"}
+<- =shlibs-added,shlib-info=[num="6",name="libogg.0.dylib",kind="-",dyld-addr="0x1003e8000",reason="dyld",requested-state="E",state="E",path="/opt/local/lib/libogg.0.dylib",description="/opt/local/lib/libogg.0.dylib",loaded_addr="0x1003e8000",slide="0x1003e8000",prefix=""],time={now="1394028675.397724"}
+<- =shlibs-added,shlib-info=[num="7",name="libSystem.B.dylib",kind="-",dyld-addr="0x7fff851f8000",reason="dyld",requested-state="Y",state="Y",path="/usr/lib/libSystem.B.dylib",description="/usr/lib/libSystem.B.dylib",loaded_addr="0x7fff851f8000",slide="0x7fff851f8000",prefix="",commpage-objpath="/usr/lib/libSystem.B.dylib[LC_SEGMENT.__DATA.__commpage]"],time={now="1394028675.397873"}
+<- =shlibs-added,shlib-info=[num="8",name="libz.1.2.8.dylib",kind="-",dyld-addr="0x1003ef000",reason="dyld",requested-state="E",state="E",path="/opt/local/lib/libz.1.2.8.dylib",description="/opt/local/lib/libz.1.2.8.dylib",loaded_addr="0x1003ef000",slide="0x1003ef000",prefix=""],time={now="1394028675.398000"}
+<- =shlibs-added,shlib-info=[num="9",name="WolfExtractor",kind="-",dyld-addr="0x100000000",reason="exec",requested-state="Y",state="Y",path="/Users/ericgallager/Documents/Wolfenstein3DFromSource/build/Debug/WolfExtractor",description="/Users/ericgallager/Documents/Wolfenstein3DFromSource/build/Debug/WolfExtractor",loaded_addr="",slide="0x0",prefix="",dsym-objpath="/Users/ericgallager/Documents/Wolfenstein3DFromSource/build/Debug/WolfExtractor.dSYM/Contents/Resources/DWARF/WolfExtractor"],time={now="1394028675.398242"}
+<- 14009^done,process-id="40477",time={wallclock="0.00002",user="0.00001",system="0.00000",start="1394028675.400537",end="1394028675.400553"}
+#  processing result t=2.462255 Tepoch=1394028675.412055
+#  didFinish Sequence: <PBXGDB_RunControlSequence: 0x2005cd520> t=2.488061 Tepoch=1394028675.437861
+<- (gdb) 
+<- 14008*stopped,time={wallclock="0.07538",user="0.01086",system="0.01041",start="1394028675.330251",end="1394028675.405629"},reason="breakpoint-hit",commands="no",times="1",bkptno="40",thread-id="1"
+#  processing result t=2.490069 Tepoch=1394028675.439868
+#  Enqueue seq in Command Q: <PBXGDB_ThreadListSequence: 0x20bb58100> t=2.494596 Tepoch=1394028675.444395
+#  Executing Sequence: <PBXGDB_ThreadListSequence: 0x20bb58100> t=2.494664 Tepoch=1394028675.444463
+-> 14010-mi-verify-command target-load-solib
+#  PBXGDB_MIVerifyCommandCommand t=2.494728 Tepoch=1394028675.444527
+<- (gdb) 
+<- 14010^done,name="target-load-solib",defined="true",implemented="true",time={wallclock="0.00009",user="0.00003",system="0.00001",start="1394028675.444836",end="1394028675.444926"}
+#  processing result t=2.500503 Tepoch=1394028675.450302
+-> 14011-target-load-solib "/Developer/Applications/Xcode.app/Contents/PlugIns/GDBMIDebugging.xcplugin/Contents/Resources/PBGDBIntrospectionSupport.A.dylib" RTLD_NOW|RTLD_GLOBAL
+#  PBXGDB_MISafeLoadIntrospectionLibraryCommand t=2.500637 Tepoch=1394028675.450436
+<- (gdb) 
+<- =shlibs-added,shlib-info=[num="10",name="PBGDBIntrospectionSupport.A.dylib",kind="-",dyld-addr="0x100437000",reason="dyld",requested-state="Y",state="Y",path="/Developer/Applications/Xcode.app/Contents/PlugIns/GDBMIDebugging.xcplugin/Contents/Resources/PBGDBIntrospectionSupport.A.dylib",description="/Developer/Applications/Xcode.app/Contents/PlugIns/GDBMIDebugging.xcplugin/Contents/Resources/PBGDBIntrospectionSupport.A.dylib",loaded_addr="0x100437000",slide="0x100437000",prefix="",dsym-objpath="/Developer/Applications/Xcode.app/Contents/PlugIns/GDBMIDebugging.xcplugin/Contents/Resources/PBGDBIntrospectionSupport.A.dylib.dSYM/Contents/Resources/DWARF/PBGDBIntrospectionSupport.A.dylib"],time={now="1394028675.464656"}
+<- 14011^done,handle="0x0000000100500210",token="0-solib",time={wallclock="0.01828",user="0.00812",system="0.00954",start="1394028675.450770",end="1394028675.469047"}
+#  processing result t=2.519591 Tepoch=1394028675.469390
+-> 14012-data-evaluate-expression -u "(int)Xcode_dataFormattersSupportUnicharXcode_CF()"
+#  PBXGDB_MIEvaluateExpressionCommand t=2.519663 Tepoch=1394028675.469462
+<- (gdb) 
+<- 14012^done,value="1",time={wallclock="0.00190",user="0.00130",system="0.00058",start="1394028675.469688",end="1394028675.471592"}
+#  processing result t=2.522119 Tepoch=1394028675.471918
+-> 14013-thread-list-ids
+#  PBXGDB_MIThreadListCommand t=2.522191 Tepoch=1394028675.471991
+<- (gdb) 
+<- 14013^done,thread-ids={thread-id="1"},number-of-threads="1",threads=[thread={thread-id="1",state="WAITING",mach-port-number="0xa0f",pthread-id="0x7fff708eacc0",unique-id="0x21a77a",workqueue="com.apple.main-thread",workqueue_addr="0x7fff708dc8a0"}],time={wallclock="0.00042",user="0.00017",system="0.00025",start="1394028675.472116",end="1394028675.472539"}
+#  processing result t=2.523053 Tepoch=1394028675.472852
+#  Enqueue seq in Command Q: <PBXGDB_UpdateStackSequence: 0x20b8d2f80> t=2.523335 Tepoch=1394028675.473134
+#  didFinish Sequence: <PBXGDB_ThreadListSequence: 0x20bb58100> t=2.526580 Tepoch=1394028675.476379
+#  Executing Sequence: <PBXGDB_UpdateStackSequence: 0x20b8d2f80> t=2.526640 Tepoch=1394028675.476439
+-> 14014-mi-verify-command stack-list-frames-lite
+#  PBXGDB_MIVerifyCommandCommand t=2.526701 Tepoch=1394028675.476500
+<- (gdb) 
+<- 14014^done,name="stack-list-frames-lite",defined="true",implemented="true",time={wallclock="0.00004",user="0.00003",system="0.00001",start="1394028675.476734",end="1394028675.476773"}
+#  processing result t=2.533356 Tepoch=1394028675.483155
+-> 0-thread-select 1
+-> 14015-stack-list-frames-lite -limit 500
+#  PBXGDB_MILiteStackFramesCommand t=2.533474 Tepoch=1394028675.483273
+<- (gdb) 
+<- 0^done,new-thread-id="1",thread-name="com.apple.main-thread",frame={func="main",optimized="0",args=[{name="argc",value="1"},{name="argv",value="0x7fff5fbff640"}],file="/Users/ericgallager/Documents/Wolfenstein3DFromSource/wolf3dredux_0.01/tools/wolfextractor/main.c",fullname="/Users/ericgallager/Documents/Wolfenstein3DFromSource/wolf3dredux_0.01/tools/wolfextractor/main.c",line="259",dir="/Users/ericgallager/Documents/Wolfenstein3DFromSource",shlibname="/Users/ericgallager/Documents/Wolfenstein3DFromSource/build/Debug/WolfExtractor"},line="259",file="/Users/ericgallager/Documents/Wolfenstein3DFromSource/wolf3dredux_0.01/tools/wolfextractor/main.c",time={wallclock="0.00079",user="0.00047",system="0.00032",start="1394028675.483361",end="1394028675.484151"}
+#  processing result t=2.534772 Tepoch=1394028675.484571
+<- (gdb) 
+<- 14015^done,frames=[0={pc="0x0000000100012d32",fp="0x00007fff5fbff630",shlibname="/Users/ericgallager/Documents/Wolfenstein3DFromSource/build/Debug/WolfExtractor"}],valid="1",count="1",time={wallclock="0.00018",user="0.00014",system="0.00004",start="1394028675.484236",end="1394028675.484417"}
+#  processing result t=2.535159 Tepoch=1394028675.484958
+-> 14016-stack-list-frames 0 0
+#  PBXGDB_MIStackFramesCommand t=2.535258 Tepoch=1394028675.485057
+<- (gdb) 
+<- 14016^done,stack=[frame={level="0",addr="0x0000000100012d32",fp="0x00007fff5fbff630",func="main",optimized="0",file="/Users/ericgallager/Documents/Wolfenstein3DFromSource/wolf3dredux_0.01/tools/wolfextractor/main.c",fullname="/Users/ericgallager/Documents/Wolfenstein3DFromSource/wolf3dredux_0.01/tools/wolfextractor/main.c",line="259",dir="/Users/ericgallager/Documents/Wolfenstein3DFromSource",shlibname="/Users/ericgallager/Documents/Wolfenstein3DFromSource/build/Debug/WolfExtractor"}],time={wallclock="0.00025",user="0.00024",system="0.00001",start="1394028675.485192",end="1394028675.485446"}
+#  processing result t=2.535947 Tepoch=1394028675.485747
+#  Enqueue seq in Command Q: <PBXGDB_UpdateDataValueSequence: 0x203413180> t=2.536109 Tepoch=1394028675.485908
+#  Enqueue seq in Command Q: <PBXGDB_GetFrameSymbolsDataValueSequence: 0x203364760> t=2.536186 Tepoch=1394028675.485985
+#  didFinish Sequence: <PBXGDB_UpdateStackSequence: 0x20b8d2f80> t=2.618756 Tepoch=1394028675.568556
+#  Executing Sequence: <PBXGDB_UpdateDataValueSequence: 0x203413180> t=2.618831 Tepoch=1394028675.568630
+#  didFinish Sequence: <PBXGDB_UpdateDataValueSequence: 0x203413180> t=2.619116 Tepoch=1394028675.568915
+#  Executing Sequence: <PBXGDB_GetFrameSymbolsDataValueSequence: 0x203364760> t=2.619158 Tepoch=1394028675.568957
+-> 0-stack-select-frame 0
+-> 14018-stack-list-arguments 2 0 0
+#  PBXGDB_MIFrameArgVarObjsCommand t=2.619277 Tepoch=1394028675.569076
+<- (gdb) 
+<- 0^done,time={wallclock="0.00005",user="0.00005",system="0.00001",start="1394028675.570985",end="1394028675.571038"}
+#  processing result t=2.663860 Tepoch=1394028675.613660
+<- (gdb) 
+<- 14018^done,stack-args=[frame={level="0",args=[varobj={exp="argc",value="1",name="var1",numchild="0",type="int",typecode="INT",dynamic_type="",resolved_type="int",in_scope="true",block_start_addr="0x0000000100012b80",block_end_addr="0x0000000100013428"},varobj={exp="argv",value="0x7fff5fbff640",name="var2",numchild="1",type="char **",typecode="PTR",dynamic_type="",resolved_type="char **",in_scope="true",block_start_addr="0x0000000100012b80",block_end_addr="0x0000000100013428"}]}],time={wallclock="0.00038",user="0.00029",system="0.00010",start="1394028675.571125",end="1394028675.571509"}
+#  processing result t=2.664169 Tepoch=1394028675.613968
+-> 0-stack-select-frame 0
+-> 14019-stack-list-locals 2 1
+#  PBXGDB_MIFrameAllLocalVarObjsCommand t=2.666009 Tepoch=1394028675.615808
+<- (gdb) 
+<- 0^done,time={wallclock="0.00005",user="0.00005",system="0.00001",start="1394028675.616813",end="1394028675.616865"}
+#  processing result t=2.674930 Tepoch=1394028675.624729
+<- (gdb) 
+<- 14019^done,locals=[varobj={exp="Wolf_Ext",value="0",name="var3",numchild="0",type="W16",typecode="INT",dynamic_type="",resolved_type="unsigned short",in_scope="true",block_start_addr="0x0000000100012bf1",block_end_addr="0x0000000100013428"},varobj={exp="retval",value="0",name="var4",numchild="0",type="W32",typecode="INT",dynamic_type="",resolved_type="long unsigned int",in_scope="true",block_start_addr="0x0000000100012bf1",block_end_addr="0x0000000100013428"},varobj={exp="currentdir",value="[1024]",name="var5",numchild="1024",type="char [1024]",typecode="ARRAY",dynamic_type="",resolved_type="char [1024]",in_scope="true",block_start_addr="0x0000000100012bf1",block_end_addr="0x0000000100013428"},varobj={exp="test",value="150",name="var6",numchild="0",type="int",typecode="INT",dynamic_type="",resolved_type="int",in_scope="true",block_start_addr="0x0000000100012bf1",block_end_addr="0x0000000100013428"}],time={wallclock="0.00061",user="0.00049",system="0.00013",start="1394028675.616955",end="1394028675.617567"}
+#  processing result t=2.675403 Tepoch=1394028675.625202
+#  Enqueue seq in Command Q: <PBXGDB_GetPathExpressionSequence: 0x201c50320> t=2.675662 Tepoch=1394028675.625461
+#  Enqueue seq in Command Q: <PBXGDB_ArrayDataValueSequence: 0x201890520> t=2.675710 Tepoch=1394028675.625509
+-> 14020-mi-verify-command file-list-statics
+#  PBXGDB_MIVerifyCommandCommand t=2.675862 Tepoch=1394028675.625661
+<- (gdb) 
+<- 14020^done,name="file-list-statics",defined="true",implemented="true",time={wallclock="0.00003",user="0.00003",system="0.00001",start="1394028675.626278",end="1394028675.626311"}
+#  processing result t=2.680442 Tepoch=1394028675.630241
+-> 14021-file-list-statics -file "*CURRENT FRAME*" -shlib "" --no-values -filter "^_OBJC" -constants 0
+#  PBXGDB_MIFileListStaticsCommand t=2.680539 Tepoch=1394028675.630338
+<- (gdb) 
+<- 14021^done,statics=[],time={wallclock="0.00004",user="0.00003",system="0.00001",start="1394028675.631618",end="1394028675.631656"}
+#  processing result t=2.682140 Tepoch=1394028675.631940
+#  Enqueue seq in Command Q: <PBXGDB_UpdateDataValueSequence: 0x20359d280> t=2.689201 Tepoch=1394028675.639000
+#  didFinish Sequence: <PBXGDB_GetFrameSymbolsDataValueSequence: 0x203364760> t=2.689269 Tepoch=1394028675.639068
+#  Executing Sequence: <PBXGDB_GetPathExpressionSequence: 0x201c50320> t=2.689312 Tepoch=1394028675.639111
+-> 14022-var-info-path-expression "var5"
+#  PBXGDB_MIGetPathExpressionOfVarObjCommand t=2.689379 Tepoch=1394028675.639178
+<- (gdb) 
+<- 14022^done,path_expr="currentdir",time={wallclock="0.00003",user="0.00002",system="0.00001",start="1394028675.640271",end="1394028675.640299"}
+#  processing result t=2.712705 Tepoch=1394028675.662504
+#  didFinish Sequence: <PBXGDB_GetPathExpressionSequence: 0x201c50320> t=2.712892 Tepoch=1394028675.662691
+#  Executing Sequence: <PBXGDB_ArrayDataValueSequence: 0x201890520> t=2.712953 Tepoch=1394028675.662753
+-> 14023-var-create - * "1024"
+#  PBXGDB_MICreateVarObjCommand t=2.713029 Tepoch=1394028675.662829
+<- (gdb) 
+<- 14023^done,name="var7",numchild="0",type="int",typecode="INT",dynamic_type="",resolved_type="int",in_scope="true",block_start_addr="no block",block_end_addr="no block",time={wallclock="0.00016",user="0.00014",system="0.00001",start="1394028675.663011",end="1394028675.663176"}
+#  processing result t=2.715411 Tepoch=1394028675.665210
+-> 14024-var-evaluate-expression "var7"
+#  PBXGDB_MIGetValueVarObjCommand t=2.715573 Tepoch=1394028675.665372
+<- (gdb) 
+<- 14024^done,value="1024",time={wallclock="0.00006",user="0.00005",system="0.00001",start="1394028675.665640",end="1394028675.665696"}
+#  processing result t=2.720037 Tepoch=1394028675.669837
+-> 14025-var-create - * "currentdir[0]"
+#  PBXGDB_MICreateVarObjCommand t=2.720138 Tepoch=1394028675.669938
+-> 14026-var-create - * "currentdir[1]"
+#  PBXGDB_MICreateVarObjCommand t=2.720222 Tepoch=1394028675.670022
+-> 14027-var-create - * "currentdir[2]"
+#  PBXGDB_MICreateVarObjCommand t=2.720291 Tepoch=1394028675.670090
+-> 14028-var-create - * "currentdir[3]"
+#  PBXGDB_MICreateVarObjCommand t=2.720356 Tepoch=1394028675.670155
+-> 14029-var-create - * "currentdir[4]"
+#  PBXGDB_MICreateVarObjCommand t=2.720422 Tepoch=1394028675.670221
+-> 14030-var-create - * "currentdir[5]"
+#  PBXGDB_MICreateVarObjCommand t=2.720485 Tepoch=1394028675.670284
+-> 14031-var-create - * "currentdir[6]"
+#  PBXGDB_MICreateVarObjCommand t=2.720550 Tepoch=1394028675.670350
+-> 14032-var-create - * "currentdir[7]"
+#  PBXGDB_MICreateVarObjCommand t=2.720669 Tepoch=1394028675.670468
+-> 14033-var-create - * "currentdir[8]"
+#  PBXGDB_MICreateVarObjCommand t=2.720735 Tepoch=1394028675.670535
+-> 14034-var-create - * "currentdir[9]"
+#  PBXGDB_MICreateVarObjCommand t=2.720800 Tepoch=1394028675.670600
+<- (gdb) 
+<- 14025^done,name="var8",numchild="0",type="char",typecode="INT",dynamic_type="",resolved_type="char",in_scope="true",block_start_addr="0x0000000100012bf1",block_end_addr="0x0000000100013428",time={wallclock="0.00024",user="0.00019",system="0.00005",start="1394028675.670117",end="1394028675.670359"}
+#  processing result t=2.721365 Tepoch=1394028675.671165
+-> 14035-var-evaluate-expression "var8"
+#  PBXGDB_MIGetValueVarObjCommand t=2.721523 Tepoch=1394028675.671322
+<- (gdb) 
+<- 14026^done,name="var9",numchild="0",type="char",typecode="INT",dynamic_type="",resolved_type="char",in_scope="true",block_start_addr="0x0000000100012bf1",block_end_addr="0x0000000100013428",time={wallclock="0.00015",user="0.00012",system="0.00003",start="1394028675.670480",end="1394028675.670625"}
+#  processing result t=2.721690 Tepoch=1394028675.671490
+-> 14036-var-evaluate-expression "var9"
+#  PBXGDB_MIGetValueVarObjCommand t=2.721829 Tepoch=1394028675.671628
+<- (gdb) 
+<- 14027^done,name="var10",numchild="0",type="char",typecode="INT",dynamic_type="",resolved_type="char",in_scope="true",block_start_addr="0x0000000100012bf1",block_end_addr="0x0000000100013428",time={wallclock="0.00014",user="0.00011",system="0.00002",start="1394028675.670702",end="1394028675.670838"}
+#  processing result t=2.721993 Tepoch=1394028675.671792
+-> 14037-var-evaluate-expression "var10"
+#  PBXGDB_MIGetValueVarObjCommand t=2.722105 Tepoch=1394028675.671905
+<- (gdb) 
+<- 14028^done,name="var11",numchild="0",type="char",typecode="INT",dynamic_type="",resolved_type="char",in_scope="true",block_start_addr="0x0000000100012bf1",block_end_addr="0x0000000100013428",time={wallclock="0.00020",user="0.00011",system="0.00009",start="1394028675.670911",end="1394028675.671111"}
+#  processing result t=2.722884 Tepoch=1394028675.672683
+-> 14038-var-evaluate-expression "var11"
+#  PBXGDB_MIGetValueVarObjCommand t=2.723023 Tepoch=1394028675.672823
+<- (gdb) 
+<- 14029^done,name="var12",numchild="0",type="char",typecode="INT",dynamic_type="",resolved_type="char",in_scope="true",block_start_addr="0x0000000100012bf1",block_end_addr="0x0000000100013428",time={wallclock="0.00013",user="0.00011",system="0.00002",start="1394028675.671184",end="1394028675.671317"}
+#  processing result t=2.723195 Tepoch=1394028675.672994
+-> 14039-var-evaluate-expression "var12"
+#  PBXGDB_MIGetValueVarObjCommand t=2.723319 Tepoch=1394028675.673119
+<- (gdb) 
+<- 14030^done,name="var13",numchild="0",type="char",typecode="INT",dynamic_type="",resolved_type="char",in_scope="true",block_start_addr="0x0000000100012bf1",block_end_addr="0x0000000100013428",time={wallclock="0.00014",user="0.00011",system="0.00003",start="1394028675.671389",end="1394028675.671525"}
+#  processing result t=2.723628 Tepoch=1394028675.673428
+-> 14040-var-evaluate-expression "var13"
+#  PBXGDB_MIGetValueVarObjCommand t=2.723749 Tepoch=1394028675.673549
+<- (gdb) 
+<- 14031^done,name="var14",numchild="0",type="char",typecode="INT",dynamic_type="",resolved_type="char",in_scope="true",block_start_addr="0x0000000100012bf1",block_end_addr="0x0000000100013428",time={wallclock="0.00014",user="0.00011",system="0.00003",start="1394028675.671601",end="1394028675.671739"}
+#  processing result t=2.723915 Tepoch=1394028675.673714
+-> 14041-var-evaluate-expression "var14"
+#  PBXGDB_MIGetValueVarObjCommand t=2.724029 Tepoch=1394028675.673829
+<- (gdb) 
+<- 14032^done,name="var15",numchild="0",type="char",typecode="INT",dynamic_type="",resolved_type="char",in_scope="true",block_start_addr="0x0000000100012bf1",block_end_addr="0x0000000100013428",time={wallclock="0.00014",user="0.00011",system="0.00002",start="1394028675.671810",end="1394028675.671945"}
+#  processing result t=2.724201 Tepoch=1394028675.674001
+-> 14042-var-evaluate-expression "var15"
+#  PBXGDB_MIGetValueVarObjCommand t=2.724339 Tepoch=1394028675.674139
+<- (gdb) 
+<- 14033^done,name="var16",numchild="0",type="char",typecode="INT",dynamic_type="",resolved_type="char",in_scope="true",block_start_addr="0x0000000100012bf1",block_end_addr="0x0000000100013428",time={wallclock="0.00014",user="0.00012",system="0.00003",start="1394028675.672034",end="1394028675.672178"}
+#  processing result t=2.724497 Tepoch=1394028675.674297
+-> 14043-var-evaluate-expression "var16"
+#  PBXGDB_MIGetValueVarObjCommand t=2.724609 Tepoch=1394028675.674408
+<- (gdb) 
+<- 14034^done,name="var17",numchild="0",type="char",typecode="INT",dynamic_type="",resolved_type="char",in_scope="true",block_start_addr="0x0000000100012bf1",block_end_addr="0x0000000100013428",time={wallclock="0.00016",user="0.00012",system="0.00003",start="1394028675.672278",end="1394028675.672434"}
+#  processing result t=2.725384 Tepoch=1394028675.675184
+-> 14044-var-evaluate-expression "var17"
+#  PBXGDB_MIGetValueVarObjCommand t=2.725513 Tepoch=1394028675.675313
+<- (gdb) 
+<- 14035^done,value="47 '/'",time={wallclock="0.00003",user="0.00003",system="0.00000",start="1394028675.672508",end="1394028675.672540"}
+#  processing result t=2.725637 Tepoch=1394028675.675437
+<- (gdb) 
+<- 14036^done,value="85 'U'",time={wallclock="0.00003",user="0.00002",system="0.00000",start="1394028675.672609",end="1394028675.672636"}
+#  processing result t=2.725740 Tepoch=1394028675.675540
+<- (gdb) 
+<- 14037^done,value="115 's'",time={wallclock="0.00003",user="0.00003",system="0.00000",start="1394028675.672706",end="1394028675.672734"}
+#  processing result t=2.725867 Tepoch=1394028675.675667
+<- (gdb) 
+<- 14038^done,value="101 'e'",time={wallclock="0.00003",user="0.00003",system="0.00000",start="1394028675.672958",end="1394028675.672987"}
+#  processing result t=2.725989 Tepoch=1394028675.675789
+<- (gdb) 
+<- 14039^done,value="114 'r'",time={wallclock="0.00003",user="0.00003",system="0.00000",start="1394028675.673260",end="1394028675.673290"}
+#  processing result t=2.726113 Tepoch=1394028675.675912
+<- (gdb) 
+<- 14040^done,value="115 's'",time={wallclock="0.00003",user="0.00003",system="0.00000",start="1394028675.673680",end="1394028675.673713"}
+#  processing result t=2.726232 Tepoch=1394028675.676031
+<- (gdb) 
+<- 14041^done,value="47 '/'",time={wallclock="0.00003",user="0.00003",system="0.00000",start="1394028675.673963",end="1394028675.673992"}
+#  processing result t=2.726353 Tepoch=1394028675.676153
+<- (gdb) 
+<- 14042^done,value="101 'e'",time={wallclock="0.00003",user="0.00003",system="0.00000",start="1394028675.674260",end="1394028675.674288"}
+#  processing result t=2.726478 Tepoch=1394028675.676278
+<- (gdb) 
+<- 14043^done,value="114 'r'",time={wallclock="0.00003",user="0.00003",system="0.00000",start="1394028675.674590",end="1394028675.674620"}
+#  processing result t=2.726747 Tepoch=1394028675.676547
+<- (gdb) 
+<- 14044^done,value="105 'i'",time={wallclock="0.00003",user="0.00003",system="0.00000",start="1394028675.675436",end="1394028675.675470"}
+#  processing result t=2.727087 Tepoch=1394028675.676887
+#  didFinish Sequence: <PBXGDB_ArrayDataValueSequence: 0x201890520> t=2.727263 Tepoch=1394028675.677062
+#  Executing Sequence: <PBXGDB_UpdateDataValueSequence: 0x20359d280> t=2.727307 Tepoch=1394028675.677107
+-> 0-stack-select-frame 0
+-> 14045-var-update  "var1"  "var2"  "var3"  "var4"  "var5"  "var6" 
+#  PBXGDB_MIUpdateVarObjListCommand t=2.727492 Tepoch=1394028675.677292
+<- (gdb) 
+<- 0^done,time={wallclock="0.00007",user="0.00006",system="0.00001",start="1394028675.677493",end="1394028675.677562"}
+#  processing result t=2.728182 Tepoch=1394028675.677981
+<- (gdb) 
+<- 14045^done,changelist=[],time={wallclock="0.00072",user="0.00039",system="0.00034",start="1394028675.677684",end="1394028675.678406"}
+#  processing result t=2.728823 Tepoch=1394028675.678622
+#  Enqueue seq in Command Q: <PBXGDB_UpdateArrayDataValueSequence: 0x209457ca0> t=2.728944 Tepoch=1394028675.678744
+#  didFinish Sequence: <PBXGDB_UpdateDataValueSequence: 0x20359d280> t=2.729445 Tepoch=1394028675.679245
+#  Executing Sequence: <PBXGDB_UpdateArrayDataValueSequence: 0x209457ca0> t=2.729535 Tepoch=1394028675.679335
+-> 14046-var-update  "var7" 
+#  PBXGDB_MIUpdateVarObjListCommand t=2.729595 Tepoch=1394028675.679395
+<- (gdb) 
+<- 14046^done,changelist=[],time={wallclock="0.00005",user="0.00004",system="0.00001",start="1394028675.679525",end="1394028675.679577"}
+#  processing result t=2.730001 Tepoch=1394028675.679800
+-> 14047-var-evaluate-expression "var7"
+#  PBXGDB_MIGetValueVarObjCommand t=2.730065 Tepoch=1394028675.679864
+<- (gdb) 
+<- 14047^done,value="1024",time={wallclock="0.00004",user="0.00003",system="0.00001",start="1394028675.679990",end="1394028675.680033"}
+#  processing result t=2.730441 Tepoch=1394028675.680240
+-> 14048-var-update  "var8"  "var9"  "var10"  "var11"  "var12"  "var13"  "var14"  "var15"  "var16"  "var17" 
+#  PBXGDB_MIUpdateVarObjListCommand t=2.730517 Tepoch=1394028675.680317
+-> 14049-var-evaluate-expression "var8"
+#  PBXGDB_MIGetValueVarObjCommand t=2.730582 Tepoch=1394028675.680381
+-> 14050-var-evaluate-expression "var9"
+#  PBXGDB_MIGetValueVarObjCommand t=2.730640 Tepoch=1394028675.680440
+-> 14051-var-evaluate-expression "var10"
+#  PBXGDB_MIGetValueVarObjCommand t=2.730693 Tepoch=1394028675.680493
+-> 14052-var-evaluate-expression "var11"
+#  PBXGDB_MIGetValueVarObjCommand t=2.730748 Tepoch=1394028675.680547
+-> 14053-var-evaluate-expression "var12"
+#  PBXGDB_MIGetValueVarObjCommand t=2.730800 Tepoch=1394028675.680600
+-> 14054-var-evaluate-expression "var13"
+#  PBXGDB_MIGetValueVarObjCommand t=2.730854 Tepoch=1394028675.680654
+-> 14055-var-evaluate-expression "var14"
+#  PBXGDB_MIGetValueVarObjCommand t=2.730907 Tepoch=1394028675.680706
+-> 14056-var-evaluate-expression "var15"
+#  PBXGDB_MIGetValueVarObjCommand t=2.730962 Tepoch=1394028675.680762
+-> 14057-var-evaluate-expression "var16"
+#  PBXGDB_MIGetValueVarObjCommand t=2.731014 Tepoch=1394028675.680814
+-> 14058-var-evaluate-expression "var17"
+#  PBXGDB_MIGetValueVarObjCommand t=2.731067 Tepoch=1394028675.680867
+<- (gdb) 
+<- 14048^done,changelist=[],time={wallclock="0.00112",user="0.00060",system="0.00052",start="1394028675.680541",end="1394028675.681660"}
+#  processing result t=2.732097 Tepoch=1394028675.681897
+<- (gdb) 
+<- 14049^done,value="47 '/'",time={wallclock="0.00003",user="0.00003",system="0.00000",start="1394028675.681741",end="1394028675.681771"}
+#  processing result t=2.732436 Tepoch=1394028675.682236
+<- (gdb) 
+<- 14050^done,value="85 'U'",time={wallclock="0.00003",user="0.00002",system="0.00000",start="1394028675.681841",end="1394028675.681869"}
+#  processing result t=2.732595 Tepoch=1394028675.682395
+<- (gdb) 
+<- 14051^done,value="115 's'",time={wallclock="0.00003",user="0.00002",system="0.00000",start="1394028675.681939",end="1394028675.681967"}
+#  processing result t=2.732723 Tepoch=1394028675.682522
+<- (gdb) 
+<- 14052^done,value="101 'e'",time={wallclock="0.00003",user="0.00003",system="0.00000",start="1394028675.682036",end="1394028675.682064"}
+#  processing result t=2.736407 Tepoch=1394028675.686207
+<- (gdb) 
+<- 14053^done,value="114 'r'",time={wallclock="0.00003",user="0.00003",system="0.00000",start="1394028675.682135",end="1394028675.682163"}
+#  processing result t=2.736575 Tepoch=1394028675.686374
+<- (gdb) 
+<- 14054^done,value="115 's'",time={wallclock="0.00003",user="0.00003",system="0.00000",start="1394028675.682233",end="1394028675.682260"}
+#  processing result t=2.736695 Tepoch=1394028675.686494
+<- (gdb) 
+<- 14055^done,value="47 '/'",time={wallclock="0.00003",user="0.00002",system="0.00000",start="1394028675.682330",end="1394028675.682357"}
+#  processing result t=2.736820 Tepoch=1394028675.686619
+<- (gdb) 
+<- 14056^done,value="101 'e'",time={wallclock="0.00003",user="0.00002",system="0.00000",start="1394028675.682430",end="1394028675.682458"}
+#  processing result t=2.736942 Tepoch=1394028675.686741
+<- (gdb) 
+<- 14057^done,value="114 'r'",time={wallclock="0.00003",user="0.00002",system="0.00000",start="1394028675.682527",end="1394028675.682555"}
+#  processing result t=2.737064 Tepoch=1394028675.686864
+<- (gdb) 
+<- 14058^done,value="105 'i'",time={wallclock="0.00003",user="0.00003",system="0.00000",start="1394028675.682624",end="1394028675.682651"}
+#  processing result t=2.737216 Tepoch=1394028675.687015
+#  didFinish Sequence: <PBXGDB_UpdateArrayDataValueSequence: 0x209457ca0> t=2.737360 Tepoch=1394028675.687160
+<- (gdb) 

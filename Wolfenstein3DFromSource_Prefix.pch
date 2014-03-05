@@ -1,0 +1,15 @@
+/*
+ * Prefix header for all source files of the 'Wolfenstein3DFromSource' target in the 'Wolfenstein3DFromSource' project
+ */
+
+#ifdef __OBJC__
+    #import <Cocoa/Cocoa.h>
+#else
+	#include <stdio.h>
+#endif /* __OBJC__ */
+
+#ifndef dummy_wolf_t
+typedef int dummy_wolf_t;
+#endif /* !dummy_wolf_t */
+
+/* EOF */

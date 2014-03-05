@@ -1,0 +1,371 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="wolf3dredux" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug Win32">
+				<Option output="./Debug/wolf3dredux" prefix_auto="1" extension_auto="1" />
+				<Option object_output="Debug" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-DWIN32" />
+					<Add option="-D_DEBUG" />
+					<Add option="-D_WINDOWS" />
+					<Add option="-W" />
+					<Add option="-g" />
+					<Add option="-O0" />
+				</Compiler>
+				<Linker>
+					<Add library="winmm" />
+					<Add library="vorbis" />
+					<Add library="ogg" />
+					<Add library="vorbisfile" />
+				</Linker>
+			</Target>
+			<Target title="Release Win32">
+				<Option output="./Release/wolf3dredux" prefix_auto="1" extension_auto="1" />
+				<Option object_output="Release" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-DWIN32" />
+					<Add option="-DNDEBUG" />
+					<Add option="-D_WINDOWS" />
+					<Add option="-W" />
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add library="winmm" />
+					<Add library="vorbis" />
+					<Add library="ogg" />
+					<Add library="vorbisfile" />
+				</Linker>
+			</Target>
+		</Build>
+		<Unit filename="client/client.h" />
+		<Unit filename="client/client_input.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="client/client_main.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="client/client_screen.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="client/console.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="client/console.h" />
+		<Unit filename="client/keys.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="client/keys.h" />
+		<Unit filename="client/menu_conf.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="client/menu_conf.h" />
+		<Unit filename="common/arch.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="common/arch.h" />
+		<Unit filename="common/cmd.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="common/cmd.h" />
+		<Unit filename="common/common.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="common/common.h" />
+		<Unit filename="common/common_utils.h" />
+		<Unit filename="common/cvar.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="common/cvar.h" />
+		<Unit filename="common/num_type.h" />
+		<Unit filename="common/share.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="common/ttree.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="common/ttree.h" />
+		<Unit filename="device/cpu/processor.h" />
+		<Unit filename="device/filesys/fileio.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="device/filesys/filelink.h" />
+		<Unit filename="device/filesys/files.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="device/filesys/filestring.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="device/filesys/filesystem.h" />
+		<Unit filename="device/filesys/win32/win_file.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="device/filesys/zippak.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="device/filesys/zippak.h" />
+		<Unit filename="device/input/in_view.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="device/input/input.h" />
+		<Unit filename="device/input/win32/win_joystick.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="device/input/win32/win_keys.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="device/input/win32/win_mouse.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="device/system/system.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="device/system/system.h" />
+		<Unit filename="device/system/win32/win_system.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="device/timer/timer.h" />
+		<Unit filename="device/timer/win32/win_timer.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="font/font_manager.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="font/font_manager.h" />
+		<Unit filename="game/app_def.h" />
+		<Unit filename="game/wolf3d/client/wolf_client_main.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="game/wolf3d/client/wolf_sv_ccmds.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="game/wolf3d/common/wolf_common.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="game/wolf3d/entities/wolf_act_stat.h" />
+		<Unit filename="game/wolf3d/entities/wolf_actor_ai.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="game/wolf3d/entities/wolf_actor_ai.h" />
+		<Unit filename="game/wolf3d/entities/wolf_actors.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="game/wolf3d/entities/wolf_actors.h" />
+		<Unit filename="game/wolf3d/entities/wolf_ai_com.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="game/wolf3d/entities/wolf_ai_com.h" />
+		<Unit filename="game/wolf3d/entities/wolf_bj.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="game/wolf3d/entities/wolf_bj.h" />
+		<Unit filename="game/wolf3d/entities/wolf_player.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="game/wolf3d/entities/wolf_player.h" />
+		<Unit filename="game/wolf3d/entities/wolf_powerups.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="game/wolf3d/entities/wolf_powerups.h" />
+		<Unit filename="game/wolf3d/entities/wolf_sprites.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="game/wolf3d/entities/wolf_sprites.h" />
+		<Unit filename="game/wolf3d/entities/wolf_weapon.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="game/wolf3d/level/wolf_areas.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="game/wolf3d/level/wolf_doors.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="game/wolf3d/level/wolf_level.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="game/wolf3d/level/wolf_level.h" />
+		<Unit filename="game/wolf3d/level/wolf_pushwalls.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="game/wolf3d/math/wolf_math.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="game/wolf3d/math/wolf_math.h" />
+		<Unit filename="game/wolf3d/menu/wolf_mcredits.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="game/wolf3d/menu/wolf_menu.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="game/wolf3d/menu/wolf_menu.h" />
+		<Unit filename="game/wolf3d/menu/wolf_mintermission.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="game/wolf3d/menu/wolf_mintro.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="game/wolf3d/menu/wolf_mnewgame.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="game/wolf3d/menu/wolf_moptions.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="game/wolf3d/menu/wolf_mquit.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="game/wolf3d/menu/wolf_msound.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="game/wolf3d/menu/wolf_mvideo.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="game/wolf3d/script/episode.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="game/wolf3d/script/episode.h" />
+		<Unit filename="game/wolf3d/video/opengl/wolf_opengl.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="game/wolf3d/video/wolf_raycast.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="game/wolf3d/video/wolf_raycast.h" />
+		<Unit filename="game/wolf3d/video/wolf_renderer.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="game/wolf3d/video/wolf_renderer.h" />
+		<Unit filename="game/wolf3d/wolf_local.h" />
+		<Unit filename="game/wolf3d/wolf_main.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="loaders/tga.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="loaders/tga.h" />
+		<Unit filename="loaders/wav.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="loaders/wav.h" />
+		<Unit filename="math/angle.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="math/angle.h" />
+		<Unit filename="math/math.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="math/matrix.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="math/matrix.h" />
+		<Unit filename="math/mymath.h" />
+		<Unit filename="math/random_number.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="math/random_number.h" />
+		<Unit filename="math/vector.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="math/vector.h" />
+		<Unit filename="memory/memory.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="memory/memory.h" />
+		<Unit filename="memory/zmem.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="memory/zmem.h" />
+		<Unit filename="script/script.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="script/script.h" />
+		<Unit filename="sound/openal/openal_binding.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="sound/openal/openal_binding.h" />
+		<Unit filename="sound/openal/openal_main.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="sound/sound.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="sound/sound.h" />
+		<Unit filename="sound/sound_local.h" />
+		<Unit filename="sound/sound_sfx_id.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="sound/sound_stream.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="string/com_string.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="string/com_string.h" />
+		<Unit filename="video/opengl/myopengl.h" />
+		<Unit filename="video/opengl/myopengl_extension.h" />
+		<Unit filename="video/opengl/opengl_binding.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="video/opengl/opengl_binding.h" />
+		<Unit filename="video/opengl/opengl_draw.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="video/opengl/opengl_extension.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="video/opengl/opengl_local.h" />
+		<Unit filename="video/opengl/opengl_main.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="video/opengl/opengl_texture.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="video/opengl/win32/openglw_imp.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="video/renderer.h" />
+		<Unit filename="video/texture_manager.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="video/texture_manager.h" />
+		<Unit filename="video/video.h" />
+		<Unit filename="win32/vid_sys.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="win32/win_def.h" />
+		<Unit filename="win32/win_main.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="zlib/adler32.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="zlib/crc32.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="zlib/inffast.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="zlib/inflate.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="zlib/inftrees.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="zlib/zutil.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="zlib/zutil.h" />
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="wolfextractor" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Release Win32">
+				<Option output="./Release/wolfextractor" prefix_auto="1" extension_auto="1" />
+				<Option object_output="Release" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-DWIN32" />
+					<Add option="-DNDEBUG" />
+					<Add option="-D_CONSOLE" />
+					<Add option="-W" />
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add library="vorbisenc" />
+					<Add library="vorbis" />
+					<Add library="ogg" />
+				</Linker>
+			</Target>
+			<Target title="Debug Win32">
+				<Option output="./Debug/wolfextractor" prefix_auto="1" extension_auto="1" />
+				<Option object_output="Debug" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-DWIN32" />
+					<Add option="-D_DEBUG" />
+					<Add option="-D_CONSOLE" />
+					<Add option="-W" />
+					<Add option="-g" />
+					<Add option="-O0" />
+				</Compiler>
+				<Linker>
+					<Add library="vorbisenc" />
+					<Add library="vorbis" />
+					<Add library="ogg" />
+				</Linker>
+			</Target>
+		</Build>
+		<Unit filename="../../common/arch.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../common/arch.h" />
+		<Unit filename="../../common/common_utils.h" />
+		<Unit filename="../../zlib/adler32.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../zlib/compress.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../zlib/crc32.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../zlib/deflate.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../zlib/trees.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../zlib/zutil.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="adlib/adlib.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="adlib/adlib.h" />
+		<Unit filename="adlib/fmopl.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="adlib/fmopl.h" />
+		<Unit filename="filesys/file.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="filesys/file.h" />
+		<Unit filename="filesys/win32/win_file.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="hq2x.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="hq2x.h" />
+		<Unit filename="loaders/tga.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="loaders/tga.h" />
+		<Unit filename="loaders/wav.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="loaders/wav.h" />
+		<Unit filename="mac/mac.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="mac/mac.h" />
+		<Unit filename="main.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="memory/memory.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="memory/memory.h" />
+		<Unit filename="pak.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="string/com_string.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="string/com_string.h" />
+		<Unit filename="vorbisenc_inter.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="wolf/wl6_name.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="wolf/wolf_aud.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="wolf/wolf_def.h" />
+		<Unit filename="wolf/wolf_gfx.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="wolf/wolf_map.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="wolf/wolf_pal.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="wolf/wolf_pm.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="zip/zip.h" />
+		<Unit filename="zip/zipfile.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+			<lib_finder disable_auto="1" />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

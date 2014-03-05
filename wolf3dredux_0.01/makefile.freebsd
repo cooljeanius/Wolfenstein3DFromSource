@@ -1,0 +1,480 @@
+#
+# Project: Wolfenstein 3-D Redux
+#
+# Program: wolf3dredux
+#
+
+COMPILER = gcc
+CFLAGS = -Wall -c -idirafter /usr/X11R6/include/ -idirafter /usr/local/include
+LDFLAGS = -s
+ODIR = Release
+                                                                                
+EXEBASE = wolf3dredux
+EXE = $(ODIR)/$(EXEBASE)
+all: $(EXE)
+
+
+XLDFLAGS = -L/usr/X11R6/lib -lX11 -lXext -lXxf86dga -lXxf86vm
+VORBISFLAGS = -L/usr/local/lib  -lvorbis -lvorbisfile -logg
+
+clean:
+	rm -f $(ODIR)/*.o $(EXE)
+
+
+PROGRAM_FILES = $(ODIR)/client_input.o $(ODIR)/client_main.o $(ODIR)/client_screen.o $(ODIR)/console.o $(ODIR)/keys.o $(ODIR)/menu_conf.o $(ODIR)/arch.o $(ODIR)/cmd.o $(ODIR)/common.o $(ODIR)/cvar.o $(ODIR)/share.o $(ODIR)/ttree.o $(ODIR)/cpuid.o $(ODIR)/fileio.o $(ODIR)/files.o $(ODIR)/filestring.o $(ODIR)/zippak.o $(ODIR)/unix_file.o $(ODIR)/glob.o $(ODIR)/in_view.o $(ODIR)/unix_keys.o $(ODIR)/unix_mouse.o $(ODIR)/unix_joystick.o $(ODIR)/system.o $(ODIR)/unix_system.o $(ODIR)/unix_timer.o $(ODIR)/font_manager.o $(ODIR)/tga.o $(ODIR)/wav.o $(ODIR)/angle.o $(ODIR)/math.o $(ODIR)/matrix.o $(ODIR)/random_number.o $(ODIR)/vector.o $(ODIR)/memory.o $(ODIR)/zmem.o $(ODIR)/script.o $(ODIR)/sound.o $(ODIR)/sound_sfx_id.o $(ODIR)/sound_stream.o $(ODIR)/openal_binding.o $(ODIR)/openal_main.o $(ODIR)/com_string.o $(ODIR)/unix_main.o $(ODIR)/unix_vid_sys.o $(ODIR)/texture_manager.o $(ODIR)/opengl_binding.o $(ODIR)/opengl_draw.o $(ODIR)/opengl_extension.o $(ODIR)/opengl_main.o $(ODIR)/opengl_texture.o $(ODIR)/openglw_imp.o $(ODIR)/adler32.o $(ODIR)/crc32.o $(ODIR)/inffast.o $(ODIR)/inflate.o $(ODIR)/inftrees.o $(ODIR)/zutil.o $(ODIR)/wolf_powerups.o $(ODIR)/wolf_sprites.o $(ODIR)/wolf_bj.o $(ODIR)/wolf_main.o $(ODIR)/wolf_client_main.o $(ODIR)/wolf_sv_ccmds.o $(ODIR)/wolf_common.o $(ODIR)/wolf_actor_ai.o $(ODIR)/wolf_actors.o $(ODIR)/wolf_ai_com.o $(ODIR)/wolf_player.o $(ODIR)/wolf_weapon.o $(ODIR)/wolf_areas.o $(ODIR)/wolf_doors.o $(ODIR)/wolf_level.o $(ODIR)/wolf_pushwalls.o $(ODIR)/wolf_math.o $(ODIR)/wolf_mcredits.o $(ODIR)/wolf_menu.o $(ODIR)/wolf_mintermission.o $(ODIR)/wolf_mintro.o $(ODIR)/wolf_mnewgame.o $(ODIR)/wolf_moptions.o $(ODIR)/wolf_mquit.o $(ODIR)/wolf_msound.o $(ODIR)/wolf_mvideo.o $(ODIR)/episode.o $(ODIR)/wolf_raycast.o $(ODIR)/wolf_renderer.o $(ODIR)/wolf_opengl.o
+
+
+
+$(EXE): $(PROGRAM_FILES) 
+	${COMPILER} -o $(EXE) $(PROGRAM_FILES) $(LDFLAGS) $(XLDFLAGS) $(VORBISFLAGS) -lm -lc
+
+
+
+#==========================================================================
+
+#
+#	Client/ 
+#
+$(ODIR)/client_input.o : client/client_input.c 
+	${COMPILER} $(CFLAGS) -E $? | tr -d '\015' > /tmp/temp.i 
+	${COMPILER} $(CFLAGS) -o $@ /tmp/temp.i
+
+$(ODIR)/client_main.o : client/client_main.c 
+	${COMPILER} $(CFLAGS) -E $? | tr -d '\015' > /tmp/temp.i 
+	${COMPILER} $(CFLAGS) -o $@ /tmp/temp.i
+
+$(ODIR)/client_screen.o : client/client_screen.c 
+	${COMPILER} $(CFLAGS) -E $? | tr -d '\015' > /tmp/temp.i 
+	${COMPILER} $(CFLAGS) -o $@ /tmp/temp.i
+
+$(ODIR)/console.o : client/console.c 
+	${COMPILER} $(CFLAGS) -E $? | tr -d '\015' > /tmp/temp.i 
+	${COMPILER} $(CFLAGS) -o $@ /tmp/temp.i
+
+$(ODIR)/keys.o : client/keys.c 
+	${COMPILER} $(CFLAGS) -E $? | tr -d '\015' > /tmp/temp.i 
+	${COMPILER} $(CFLAGS) -o $@ /tmp/temp.i
+
+$(ODIR)/menu_conf.o : client/menu_conf.c 
+	${COMPILER} $(CFLAGS) -E $? | tr -d '\015' > /tmp/temp.i 
+	${COMPILER} $(CFLAGS) -o $@ /tmp/temp.i
+
+#
+#	Common/ 
+#
+$(ODIR)/arch.o : common/arch.c 
+	${COMPILER} $(CFLAGS) -E $? | tr -d '\015' > /tmp/temp.i 
+	${COMPILER} $(CFLAGS) -o $@ /tmp/temp.i
+
+$(ODIR)/cmd.o : common/cmd.c 
+	${COMPILER} $(CFLAGS) -E $? | tr -d '\015' > /tmp/temp.i 
+	${COMPILER} $(CFLAGS) -o $@ /tmp/temp.i
+
+$(ODIR)/common.o : common/common.c 
+	${COMPILER} $(CFLAGS) -E $? | tr -d '\015' > /tmp/temp.i 
+	${COMPILER} $(CFLAGS) -o $@ /tmp/temp.i
+
+$(ODIR)/cvar.o : common/cvar.c 
+	${COMPILER} $(CFLAGS) -E $? | tr -d '\015' > /tmp/temp.i 
+	${COMPILER} $(CFLAGS) -o $@ /tmp/temp.i
+
+$(ODIR)/share.o : common/share.c 
+	${COMPILER} $(CFLAGS) -E $? | tr -d '\015' > /tmp/temp.i 
+	${COMPILER} $(CFLAGS) -o $@ /tmp/temp.i
+
+$(ODIR)/ttree.o : common/ttree.c 
+	${COMPILER} $(CFLAGS) -E $? | tr -d '\015' > /tmp/temp.i 
+	${COMPILER} $(CFLAGS) -o $@ /tmp/temp.i
+
+#
+#	Device/CPU/ 
+#
+$(ODIR)/cpuid.o : device/cpu/cpuid.c 
+	${COMPILER} $(CFLAGS) -E $? | tr -d '\015' > /tmp/temp.i 
+	${COMPILER} $(CFLAGS) -o $@ /tmp/temp.i
+
+#
+#	Device/filesys/ 
+#
+$(ODIR)/fileio.o : device/filesys/fileio.c 
+	${COMPILER} $(CFLAGS) -E $? | tr -d '\015' > /tmp/temp.i 
+	${COMPILER} $(CFLAGS) -o $@ /tmp/temp.i
+
+$(ODIR)/files.o : device/filesys/files.c 
+	${COMPILER} $(CFLAGS) -E $? | tr -d '\015' > /tmp/temp.i 
+	${COMPILER} $(CFLAGS) -o $@ /tmp/temp.i
+
+$(ODIR)/filestring.o : device/filesys/filestring.c 
+	${COMPILER} $(CFLAGS) -E $? | tr -d '\015' > /tmp/temp.i 
+	${COMPILER} $(CFLAGS) -o $@ /tmp/temp.i
+
+$(ODIR)/zippak.o : device/filesys/zippak.c 
+	${COMPILER} $(CFLAGS) -E $? | tr -d '\015' > /tmp/temp.i 
+	${COMPILER} $(CFLAGS) -o $@ /tmp/temp.i
+
+$(ODIR)/unix_file.o : device/filesys/unix/unix_file.c 
+	${COMPILER} $(CFLAGS) -E $? | tr -d '\015' > /tmp/temp.i 
+	${COMPILER} $(CFLAGS) -o $@ /tmp/temp.i
+
+$(ODIR)/glob.o : device/filesys/unix/glob.c
+	${COMPILER} $(CFLAGS) -E $? | tr -d '\015' > /tmp/temp.i 
+	${COMPILER} $(CFLAGS) -o $@ /tmp/temp.i
+
+
+#
+#	Device/input/
+#
+$(ODIR)/in_view.o : device/input/in_view.c 
+	${COMPILER} $(CFLAGS) -E $? | tr -d '\015' > /tmp/temp.i 
+	${COMPILER} $(CFLAGS) -o $@ /tmp/temp.i
+
+$(ODIR)/unix_keys.o : device/input/unix/unix_keys.c 
+	${COMPILER} $(CFLAGS) -E $? | tr -d '\015' > /tmp/temp.i 
+	${COMPILER} $(CFLAGS) -o $@ /tmp/temp.i
+
+$(ODIR)/unix_mouse.o : device/input/unix/unix_mouse.c 
+	${COMPILER} $(CFLAGS) -E $? | tr -d '\015' > /tmp/temp.i 
+	${COMPILER} $(CFLAGS) -o $@ /tmp/temp.i
+	
+$(ODIR)/unix_joystick.o : device/input/unix/unix_joystick.c 
+	${COMPILER} $(CFLAGS) -E $? | tr -d '\015' > /tmp/temp.i 
+	${COMPILER} $(CFLAGS) -o $@ /tmp/temp.i	
+
+#
+#	Device/system/
+#
+$(ODIR)/system.o : device/system/system.c 
+	${COMPILER} $(CFLAGS) -E $? | tr -d '\015' > /tmp/temp.i 
+	${COMPILER} $(CFLAGS) -o $@ /tmp/temp.i
+
+$(ODIR)/unix_system.o : device/system/unix/unix_system.c 
+	${COMPILER} $(CFLAGS) -E $? | tr -d '\015' > /tmp/temp.i 
+	${COMPILER} $(CFLAGS) -o $@ /tmp/temp.i
+
+#
+#	Device/timer/
+#
+$(ODIR)/unix_timer.o : device/timer/unix/unix_timer.c 
+	${COMPILER} $(CFLAGS) -E $? | tr -d '\015' > /tmp/temp.i 
+	${COMPILER} $(CFLAGS) -o $@ /tmp/temp.i
+
+#
+#	font/
+#
+$(ODIR)/font_manager.o : font/font_manager.c 
+	${COMPILER} $(CFLAGS) -E $? | tr -d '\015' > /tmp/temp.i 
+	${COMPILER} $(CFLAGS) -o $@ /tmp/temp.i
+
+#
+#	loaders/
+#
+$(ODIR)/tga.o : loaders/tga.c 
+	${COMPILER} $(CFLAGS) -E $? | tr -d '\015' > /tmp/temp.i 
+	${COMPILER} $(CFLAGS) -o $@ /tmp/temp.i
+
+$(ODIR)/wav.o : loaders/wav.c 
+	${COMPILER} $(CFLAGS) -E $? | tr -d '\015' > /tmp/temp.i 
+	${COMPILER} $(CFLAGS) -o $@ /tmp/temp.i
+
+#
+#	math/
+#
+$(ODIR)/angle.o : math/angle.c 
+	${COMPILER} $(CFLAGS) -E $? | tr -d '\015' > /tmp/temp.i 
+	${COMPILER} $(CFLAGS) -o $@ /tmp/temp.i
+
+$(ODIR)/math.o : math/math.c 
+	${COMPILER} $(CFLAGS) -E $? | tr -d '\015' > /tmp/temp.i 
+	${COMPILER} $(CFLAGS) -o $@ /tmp/temp.i
+
+$(ODIR)/matrix.o : math/matrix.c 
+	${COMPILER} $(CFLAGS) -E $? | tr -d '\015' > /tmp/temp.i 
+	${COMPILER} $(CFLAGS) -o $@ /tmp/temp.i
+
+$(ODIR)/random_number.o : math/random_number.c 
+	${COMPILER} $(CFLAGS) -E $? | tr -d '\015' > /tmp/temp.i 
+	${COMPILER} $(CFLAGS) -o $@ /tmp/temp.i
+
+$(ODIR)/vector.o : math/vector.c 
+	${COMPILER} $(CFLAGS) -E $? | tr -d '\015' > /tmp/temp.i 
+	${COMPILER} $(CFLAGS) -o $@ /tmp/temp.i
+
+
+#
+#	memory/
+#
+$(ODIR)/memory.o : memory/memory.c 
+	${COMPILER} $(CFLAGS) -E $? | tr -d '\015' > /tmp/temp.i 
+	${COMPILER} $(CFLAGS) -o $@ /tmp/temp.i
+
+$(ODIR)/zmem.o : memory/zmem.c 
+	${COMPILER} $(CFLAGS) -E $? | tr -d '\015' > /tmp/temp.i 
+	${COMPILER} $(CFLAGS) -o $@ /tmp/temp.i
+
+#
+#	script/
+#
+$(ODIR)/script.o : script/script.c 
+	${COMPILER} $(CFLAGS) -E $? | tr -d '\015' > /tmp/temp.i 
+	${COMPILER} $(CFLAGS) -o $@ /tmp/temp.i
+
+#
+#	sound/
+#
+$(ODIR)/sound.o : sound/sound.c 
+	${COMPILER} $(CFLAGS) -E $? | tr -d '\015' > /tmp/temp.i 
+	${COMPILER} $(CFLAGS) -o $@ /tmp/temp.i
+
+$(ODIR)/sound_sfx_id.o : sound/sound_sfx_id.c 
+	${COMPILER} $(CFLAGS) -E $? | tr -d '\015' > /tmp/temp.i 
+	${COMPILER} $(CFLAGS) -o $@ /tmp/temp.i
+
+$(ODIR)/sound_stream.o : sound/sound_stream.c 
+	${COMPILER} $(CFLAGS) -E $? | tr -d '\015' > /tmp/temp.i 
+	${COMPILER} $(CFLAGS) -o $@ /tmp/temp.i
+
+$(ODIR)/openal_binding.o : sound/openal/openal_binding.c 
+	${COMPILER} $(CFLAGS) -E $? | tr -d '\015' > /tmp/temp.i 
+	${COMPILER} $(CFLAGS) -o $@ /tmp/temp.i
+
+$(ODIR)/openal_main.o : sound/openal/openal_main.c 
+	${COMPILER} $(CFLAGS) -E $? | tr -d '\015' > /tmp/temp.i 
+	${COMPILER} $(CFLAGS) -o $@ /tmp/temp.i
+
+#
+#	string/
+#
+$(ODIR)/com_string.o : string/com_string.c 
+	${COMPILER} $(CFLAGS) -E $? | tr -d '\015' > /tmp/temp.i 
+	${COMPILER} $(CFLAGS) -o $@ /tmp/temp.i
+
+#
+#	unix/
+#
+$(ODIR)/unix_main.o : unix/unix_main.c 
+	${COMPILER} $(CFLAGS) -E $? | tr -d '\015' > /tmp/temp.i 
+	${COMPILER} $(CFLAGS) -o $@ /tmp/temp.i
+
+$(ODIR)/unix_vid_sys.o : unix/unix_vid_sys.c 
+	${COMPILER} $(CFLAGS) -E $? | tr -d '\015' > /tmp/temp.i 
+	${COMPILER} $(CFLAGS) -o $@ /tmp/temp.i
+
+#
+#	video/
+#
+$(ODIR)/texture_manager.o : video/texture_manager.c 
+	${COMPILER} $(CFLAGS) -E $? | tr -d '\015' > /tmp/temp.i 
+	${COMPILER} $(CFLAGS) -o $@ /tmp/temp.i
+
+#
+#	video/opengl/
+#
+$(ODIR)/opengl_binding.o : video/opengl/opengl_binding.c 
+	${COMPILER} $(CFLAGS) -E $? | tr -d '\015' > /tmp/temp.i 
+	${COMPILER} $(CFLAGS) -o $@ /tmp/temp.i
+
+$(ODIR)/opengl_draw.o : video/opengl/opengl_draw.c 
+	${COMPILER} $(CFLAGS) -E $? | tr -d '\015' > /tmp/temp.i 
+	${COMPILER} $(CFLAGS) -o $@ /tmp/temp.i
+
+$(ODIR)/opengl_extension.o : video/opengl/opengl_extension.c 
+	${COMPILER} $(CFLAGS) -E $? | tr -d '\015' > /tmp/temp.i 
+	${COMPILER} $(CFLAGS) -o $@ /tmp/temp.i
+
+$(ODIR)/opengl_main.o : video/opengl/opengl_main.c 
+	${COMPILER} $(CFLAGS) -E $? | tr -d '\015' > /tmp/temp.i 
+	${COMPILER} $(CFLAGS) -o $@ /tmp/temp.i
+
+$(ODIR)/opengl_texture.o : video/opengl/opengl_texture.c 
+	${COMPILER} $(CFLAGS) -E $? | tr -d '\015' > /tmp/temp.i 
+	${COMPILER} $(CFLAGS) -o $@ /tmp/temp.i
+
+
+#
+#	video/opengl/unix/
+#
+$(ODIR)/openglw_imp.o : video/opengl/unix/openglw_imp.c 
+	${COMPILER} $(CFLAGS) -E $? | tr -d '\015' > /tmp/temp.i 
+	${COMPILER} $(CFLAGS) -o $@ /tmp/temp.i
+
+#
+#	zlib/
+#
+$(ODIR)/adler32.o : zlib/adler32.c 
+	${COMPILER} $(CFLAGS) -E $? | tr -d '\015' > /tmp/temp.i 
+	${COMPILER} $(CFLAGS) -o $@ /tmp/temp.i
+
+$(ODIR)/crc32.o : zlib/crc32.c 
+	${COMPILER} $(CFLAGS) -E $? | tr -d '\015' > /tmp/temp.i 
+	${COMPILER} $(CFLAGS) -o $@ /tmp/temp.i
+
+$(ODIR)/inffast.o : zlib/inffast.c 
+	${COMPILER} $(CFLAGS) -E $? | tr -d '\015' > /tmp/temp.i 
+	${COMPILER} $(CFLAGS) -o $@ /tmp/temp.i
+
+$(ODIR)/inflate.o : zlib/inflate.c 
+	${COMPILER} $(CFLAGS) -E $? | tr -d '\015' > /tmp/temp.i 
+	${COMPILER} $(CFLAGS) -o $@ /tmp/temp.i
+
+$(ODIR)/inftrees.o : zlib/inftrees.c 
+	${COMPILER} $(CFLAGS) -E $? | tr -d '\015' > /tmp/temp.i 
+	${COMPILER} $(CFLAGS) -o $@ /tmp/temp.i
+
+$(ODIR)/zutil.o : zlib/zutil.c 
+	${COMPILER} $(CFLAGS) -E $? | tr -d '\015' > /tmp/temp.i 
+	${COMPILER} $(CFLAGS) -o $@ /tmp/temp.i
+
+##
+##	game/wolf3d/
+##
+$(ODIR)/wolf_main.o : game/wolf3d/wolf_main.c 
+	${COMPILER} $(CFLAGS) -E $? | tr -d '\015' > /tmp/temp.i 
+	${COMPILER} $(CFLAGS) -o $@ /tmp/temp.i
+
+#
+#	game/wolf3d/client/
+#
+$(ODIR)/wolf_client_main.o : game/wolf3d/client/wolf_client_main.c 
+	${COMPILER} $(CFLAGS) -E $? | tr -d '\015' > /tmp/temp.i 
+	${COMPILER} $(CFLAGS) -o $@ /tmp/temp.i
+
+$(ODIR)/wolf_sv_ccmds.o : game/wolf3d/client/wolf_sv_ccmds.c 
+	${COMPILER} $(CFLAGS) -E $? | tr -d '\015' > /tmp/temp.i 
+	${COMPILER} $(CFLAGS) -o $@ /tmp/temp.i
+
+#
+#	game/wolf3d/common/
+#
+$(ODIR)/wolf_common.o : game/wolf3d/common/wolf_common.c 
+	${COMPILER} $(CFLAGS) -E $? | tr -d '\015' > /tmp/temp.i 
+	${COMPILER} $(CFLAGS) -o $@ /tmp/temp.i
+
+#
+#	game/wolf3d/entities/
+#
+$(ODIR)/wolf_actor_ai.o : game/wolf3d/entities/wolf_actor_ai.c 
+	${COMPILER} $(CFLAGS) -E $? | tr -d '\015' > /tmp/temp.i 
+	${COMPILER} $(CFLAGS) -o $@ /tmp/temp.i
+
+$(ODIR)/wolf_actors.o : game/wolf3d/entities/wolf_actors.c 
+	${COMPILER} $(CFLAGS) -E $? | tr -d '\015' > /tmp/temp.i 
+	${COMPILER} $(CFLAGS) -o $@ /tmp/temp.i
+
+$(ODIR)/wolf_ai_com.o : game/wolf3d/entities/wolf_ai_com.c 
+	${COMPILER} $(CFLAGS) -E $? | tr -d '\015' > /tmp/temp.i 
+	${COMPILER} $(CFLAGS) -o $@ /tmp/temp.i
+
+$(ODIR)/wolf_bj.o : game/wolf3d/entities/wolf_bj.c 
+	${COMPILER} $(CFLAGS) -E $? | tr -d '\015' > /tmp/temp.i 
+	${COMPILER} $(CFLAGS) -o $@ /tmp/temp.i
+
+$(ODIR)/wolf_player.o : game/wolf3d/entities/wolf_player.c 
+	${COMPILER} $(CFLAGS) -E $? | tr -d '\015' > /tmp/temp.i 
+	${COMPILER} $(CFLAGS) -o $@ /tmp/temp.i
+
+$(ODIR)/wolf_powerups.o : game/wolf3d/entities/wolf_powerups.c 
+	${COMPILER} $(CFLAGS) -E $? | tr -d '\015' > /tmp/temp.i 
+	${COMPILER} $(CFLAGS) -o $@ /tmp/temp.i
+
+$(ODIR)/wolf_sprites.o : game/wolf3d/entities/wolf_sprites.c 
+	${COMPILER} $(CFLAGS) -E $? | tr -d '\015' > /tmp/temp.i 
+	${COMPILER} $(CFLAGS) -o $@ /tmp/temp.i
+
+$(ODIR)/wolf_weapon.o : game/wolf3d/entities/wolf_weapon.c 
+	${COMPILER} $(CFLAGS) -E $? | tr -d '\015' > /tmp/temp.i 
+	${COMPILER} $(CFLAGS) -o $@ /tmp/temp.i
+
+
+
+#
+#	game/wolf3d/level/
+#
+$(ODIR)/wolf_areas.o : game/wolf3d/level/wolf_areas.c 
+	${COMPILER} $(CFLAGS) -E $? | tr -d '\015' > /tmp/temp.i 
+	${COMPILER} $(CFLAGS) -o $@ /tmp/temp.i
+
+$(ODIR)/wolf_doors.o : game/wolf3d/level/wolf_doors.c 
+	${COMPILER} $(CFLAGS) -E $? | tr -d '\015' > /tmp/temp.i 
+	${COMPILER} $(CFLAGS) -o $@ /tmp/temp.i
+
+$(ODIR)/wolf_level.o : game/wolf3d/level/wolf_level.c 
+	${COMPILER} $(CFLAGS) -E $? | tr -d '\015' > /tmp/temp.i 
+	${COMPILER} $(CFLAGS) -o $@ /tmp/temp.i
+
+$(ODIR)/wolf_pushwalls.o : game/wolf3d/level/wolf_pushwalls.c 
+	${COMPILER} $(CFLAGS) -E $? | tr -d '\015' > /tmp/temp.i 
+	${COMPILER} $(CFLAGS) -o $@ /tmp/temp.i
+
+#
+#	game/wolf3d/math/
+#
+$(ODIR)/wolf_math.o : game/wolf3d/math/wolf_math.c 
+	${COMPILER} $(CFLAGS) -E $? | tr -d '\015' > /tmp/temp.i 
+	${COMPILER} $(CFLAGS) -o $@ /tmp/temp.i
+
+#
+#	game/wolf3d/menu/
+#
+$(ODIR)/wolf_mcredits.o : game/wolf3d/menu/wolf_mcredits.c 
+	${COMPILER} $(CFLAGS) -E $? | tr -d '\015' > /tmp/temp.i 
+	${COMPILER} $(CFLAGS) -o $@ /tmp/temp.i
+
+$(ODIR)/wolf_menu.o : game/wolf3d/menu/wolf_menu.c 
+	${COMPILER} $(CFLAGS) -E $? | tr -d '\015' > /tmp/temp.i 
+	${COMPILER} $(CFLAGS) -o $@ /tmp/temp.i
+
+$(ODIR)/wolf_mintermission.o : game/wolf3d/menu/wolf_mintermission.c 
+	${COMPILER} $(CFLAGS) -E $? | tr -d '\015' > /tmp/temp.i 
+	${COMPILER} $(CFLAGS) -o $@ /tmp/temp.i
+
+$(ODIR)/wolf_mintro.o : game/wolf3d/menu/wolf_mintro.c 
+	${COMPILER} $(CFLAGS) -E $? | tr -d '\015' > /tmp/temp.i 
+	${COMPILER} $(CFLAGS) -o $@ /tmp/temp.i
+
+$(ODIR)/wolf_mnewgame.o : game/wolf3d/menu/wolf_mnewgame.c 
+	${COMPILER} $(CFLAGS) -E $? | tr -d '\015' > /tmp/temp.i 
+	${COMPILER} $(CFLAGS) -o $@ /tmp/temp.i
+
+$(ODIR)/wolf_moptions.o : game/wolf3d/menu/wolf_moptions.c 
+	${COMPILER} $(CFLAGS) -E $? | tr -d '\015' > /tmp/temp.i 
+	${COMPILER} $(CFLAGS) -o $@ /tmp/temp.i
+
+$(ODIR)/wolf_mquit.o : game/wolf3d/menu/wolf_mquit.c 
+	${COMPILER} $(CFLAGS) -E $? | tr -d '\015' > /tmp/temp.i 
+	${COMPILER} $(CFLAGS) -o $@ /tmp/temp.i
+
+$(ODIR)/wolf_msound.o : game/wolf3d/menu/wolf_msound.c 
+	${COMPILER} $(CFLAGS) -E $? | tr -d '\015' > /tmp/temp.i 
+	${COMPILER} $(CFLAGS) -o $@ /tmp/temp.i
+
+$(ODIR)/wolf_mvideo.o : game/wolf3d/menu/wolf_mvideo.c 
+	${COMPILER} $(CFLAGS) -E $? | tr -d '\015' > /tmp/temp.i 
+	${COMPILER} $(CFLAGS) -o $@ /tmp/temp.i
+
+#
+#	game/wolf3d/script/
+#
+$(ODIR)/episode.o : game/wolf3d/script/episode.c 
+	${COMPILER} $(CFLAGS) -E $? | tr -d '\015' > /tmp/temp.i 
+	${COMPILER} $(CFLAGS) -o $@ /tmp/temp.i
+
+#
+#	game/wolf3d/video/
+#
+$(ODIR)/wolf_raycast.o : game/wolf3d/video/wolf_raycast.c 
+	${COMPILER} $(CFLAGS) -E $? | tr -d '\015' > /tmp/temp.i 
+	${COMPILER} $(CFLAGS) -o $@ /tmp/temp.i
+
+$(ODIR)/wolf_renderer.o : game/wolf3d/video/wolf_renderer.c 
+	${COMPILER} $(CFLAGS) -E $? | tr -d '\015' > /tmp/temp.i 
+	${COMPILER} $(CFLAGS) -o $@ /tmp/temp.i
+
+#
+#	game/wolf3d/video/opengl/
+#
+$(ODIR)/wolf_opengl.o : game/wolf3d/video/opengl/wolf_opengl.c 
+	${COMPILER} $(CFLAGS) -E $? | tr -d '\015' > /tmp/temp.i 
+	${COMPILER} $(CFLAGS) -o $@ /tmp/temp.i
+
+
+

@@ -1,0 +1,922 @@
+name of display: /tmp/launch-Lbo9mr/org.macosforge.xquartz:0
+display: /tmp/launch-Lbo9mr/org.macosforge.xquartz:0  screen: 0
+direct rendering: Yes
+server glx vendor string: SGI
+server glx version string: 1.2
+server glx extensions:
+    GLX_ARB_multisample, GLX_EXT_import_context, GLX_EXT_visual_info, 
+    GLX_SGIS_multisample, GLX_SGIX_fbconfig
+client glx vendor string: Mesa Project and SGI
+client glx version string: 1.4
+client glx extensions:
+    GLX_ARB_get_proc_address, GLX_ARB_multisample, GLX_EXT_framebuffer_sRGB, 
+    GLX_EXT_import_context, GLX_EXT_texture_from_pixmap, GLX_EXT_visual_info, 
+    GLX_EXT_visual_rating, GLX_INTEL_swap_event, GLX_MESA_copy_sub_buffer, 
+    GLX_MESA_multithread_makecurrent, GLX_MESA_swap_control, 
+    GLX_OML_swap_method, GLX_OML_sync_control, GLX_SGIS_multisample, 
+    GLX_SGIX_fbconfig, GLX_SGIX_pbuffer, GLX_SGIX_visual_select_group, 
+    GLX_SGI_make_current_read, GLX_SGI_swap_control, GLX_SGI_video_sync
+GLX version: 1.2
+GLX extensions:
+    GLX_ARB_get_proc_address, GLX_ARB_multisample, GLX_EXT_import_context, 
+    GLX_EXT_visual_info, GLX_MESA_multithread_makecurrent, 
+    GLX_SGIS_multisample, GLX_SGIX_fbconfig
+OpenGL vendor string: NVIDIA Corporation
+OpenGL renderer string: NVIDIA GeForce 9400M OpenGL Engine
+OpenGL version string: 2.1 NVIDIA-1.6.36
+OpenGL shading language version string: 1.20
+OpenGL extensions:
+    GL_APPLE_aux_depth_stencil, GL_APPLE_client_storage, 
+    GL_APPLE_element_array, GL_APPLE_fence, GL_APPLE_float_pixels, 
+    GL_APPLE_flush_buffer_range, GL_APPLE_flush_render, 
+    GL_APPLE_object_purgeable, GL_APPLE_packed_pixels, GL_APPLE_pixel_buffer, 
+    GL_APPLE_rgb_422, GL_APPLE_specular_vector, GL_APPLE_texture_range, 
+    GL_APPLE_transform_hint, GL_APPLE_vertex_array_object, 
+    GL_APPLE_vertex_array_range, GL_APPLE_vertex_program_evaluators, 
+    GL_APPLE_ycbcr_422, GL_ARB_color_buffer_float, GL_ARB_depth_buffer_float, 
+    GL_ARB_depth_texture, GL_ARB_draw_buffers, GL_ARB_fragment_program, 
+    GL_ARB_fragment_program_shadow, GL_ARB_fragment_shader, 
+    GL_ARB_framebuffer_object, GL_ARB_half_float_pixel, 
+    GL_ARB_half_float_vertex, GL_ARB_imaging, GL_ARB_instanced_arrays, 
+    GL_ARB_multisample, GL_ARB_multitexture, GL_ARB_occlusion_query, 
+    GL_ARB_pixel_buffer_object, GL_ARB_point_parameters, GL_ARB_point_sprite, 
+    GL_ARB_shader_objects, GL_ARB_shader_texture_lod, 
+    GL_ARB_shading_language_100, GL_ARB_shadow, GL_ARB_texture_border_clamp, 
+    GL_ARB_texture_compression, GL_ARB_texture_compression_rgtc, 
+    GL_ARB_texture_cube_map, GL_ARB_texture_env_add, 
+    GL_ARB_texture_env_combine, GL_ARB_texture_env_crossbar, 
+    GL_ARB_texture_env_dot3, GL_ARB_texture_float, 
+    GL_ARB_texture_mirrored_repeat, GL_ARB_texture_non_power_of_two, 
+    GL_ARB_texture_rectangle, GL_ARB_texture_rg, GL_ARB_transpose_matrix, 
+    GL_ARB_vertex_blend, GL_ARB_vertex_buffer_object, GL_ARB_vertex_program, 
+    GL_ARB_vertex_shader, GL_ARB_window_pos, GL_ATI_separate_stencil, 
+    GL_ATI_texture_env_combine3, GL_ATI_texture_float, 
+    GL_ATI_texture_mirror_once, GL_EXT_abgr, GL_EXT_bgra, 
+    GL_EXT_bindable_uniform, GL_EXT_blend_color, 
+    GL_EXT_blend_equation_separate, GL_EXT_blend_func_separate, 
+    GL_EXT_blend_minmax, GL_EXT_blend_subtract, GL_EXT_clip_volume_hint, 
+    GL_EXT_compiled_vertex_array, GL_EXT_depth_bounds_test, 
+    GL_EXT_draw_buffers2, GL_EXT_draw_range_elements, GL_EXT_fog_coord, 
+    GL_EXT_framebuffer_blit, GL_EXT_framebuffer_multisample, 
+    GL_EXT_framebuffer_object, GL_EXT_framebuffer_sRGB, 
+    GL_EXT_geometry_shader4, GL_EXT_gpu_program_parameters, 
+    GL_EXT_gpu_shader4, GL_EXT_multi_draw_arrays, GL_EXT_packed_depth_stencil, 
+    GL_EXT_packed_float, GL_EXT_provoking_vertex, GL_EXT_rescale_normal, 
+    GL_EXT_secondary_color, GL_EXT_shadow_funcs, GL_EXT_stencil_two_side, 
+    GL_EXT_stencil_wrap, GL_EXT_texture_array, 
+    GL_EXT_texture_compression_dxt1, GL_EXT_texture_compression_s3tc, 
+    GL_EXT_texture_env_add, GL_EXT_texture_filter_anisotropic, 
+    GL_EXT_texture_integer, GL_EXT_texture_lod_bias, 
+    GL_EXT_texture_mirror_clamp, GL_EXT_texture_rectangle, 
+    GL_EXT_texture_sRGB, GL_EXT_texture_shared_exponent, 
+    GL_EXT_transform_feedback, GL_EXT_vertex_array_bgra, 
+    GL_IBM_rasterpos_clip, GL_NV_blend_square, GL_NV_conditional_render, 
+    GL_NV_depth_clamp, GL_NV_fog_distance, GL_NV_fragment_program2, 
+    GL_NV_fragment_program_option, GL_NV_light_max_exponent, 
+    GL_NV_multisample_filter_hint, GL_NV_point_sprite, 
+    GL_NV_texgen_reflection, GL_NV_vertex_program2_option, 
+    GL_NV_vertex_program3, GL_SGIS_generate_mipmap, 
+    GL_SGIS_texture_edge_clamp, GL_SGIS_texture_lod
+
+416 GLX Visuals
+Vis   Vis   Visual Trans  buff lev render DB ste  r   g   b   a      s  aux dep ste  accum buffer   MS   MS         
+ ID  Depth   Type  parent size el   type     reo sz  sz  sz  sz flt rgb buf th  ncl  r   g   b   a  num bufs caveats
+--------------------------------------------------------------------------------------------------------------------
+0x 22 24 TrueColor    1     32  0  rgba   1   0   8   8   8   8  .   .   0   16  8   8   8   8   8   0   0   None
+0x1e2 24 TrueColor    1     32  0  rgba   0   0   8   8   8   8  .   .   0    0  0   0   0   0   0   0   0   None
+0x1e3 24 TrueColor    1     32  0  rgba   0   0   8   8   8   8  .   .   0    0  0   0   0   0   0  16   1   None
+0x1e4 24 TrueColor    1     32  0  rgba   0   0   8   8   8   8  .   .   0   32  0   0   0   0   0   0   0   None
+0x1e5 24 TrueColor    1     32  0  rgba   0   0   8   8   8   8  .   .   0   32  0   0   0   0   0  16   1   None
+0x1e6 24 TrueColor    1     32  0  rgba   0   0   8   8   8   8  .   .   0    0  8   0   0   0   0   0   0   None
+0x1e7 24 TrueColor    1     32  0  rgba   0   0   8   8   8   8  .   .   0    0  8   0   0   0   0  16   1   None
+0x1e8 24 TrueColor    1     32  0  rgba   0   0   8   8   8   8  .   .   0   32  8   0   0   0   0   0   0   None
+0x1e9 24 TrueColor    1     32  0  rgba   0   0   8   8   8   8  .   .   0   32  8   0   0   0   0  16   1   None
+0x1ea 24 TrueColor    1     32  0  rgba   1   0   8   8   8   8  .   .   0    0  0   0   0   0   0   0   0   None
+0x1eb 24 TrueColor    1     32  0  rgba   1   0   8   8   8   8  .   .   0    0  0   0   0   0   0  16   1   None
+0x1ec 24 TrueColor    1     32  0  rgba   1   0   8   8   8   8  .   .   0   32  0   0   0   0   0   0   0   None
+0x1ed 24 TrueColor    1     32  0  rgba   1   0   8   8   8   8  .   .   0   32  0   0   0   0   0  16   1   None
+0x1ee 24 TrueColor    1     32  0  rgba   1   0   8   8   8   8  .   .   0    0  8   0   0   0   0   0   0   None
+0x1ef 24 TrueColor    1     32  0  rgba   1   0   8   8   8   8  .   .   0    0  8   0   0   0   0  16   1   None
+0x1f0 24 TrueColor    1     32  0  rgba   1   0   8   8   8   8  .   .   0   32  8   0   0   0   0   0   0   None
+0x1f1 24 TrueColor    1     32  0  rgba   1   0   8   8   8   8  .   .   0   32  8   0   0   0   0  16   1   None
+0x1f2 24 TrueColor    1     32  0  rgba   0   0   8   8   8   8  .   .   4    0  0   0   0   0   0   0   0   None
+0x1f3 24 TrueColor    1     32  0  rgba   0   0   8   8   8   8  .   .   4    0  0   0   0   0   0  16   1   None
+0x1f4 24 TrueColor    1     32  0  rgba   0   0   8   8   8   8  .   .   4   32  0   0   0   0   0   0   0   None
+0x1f5 24 TrueColor    1     32  0  rgba   0   0   8   8   8   8  .   .   4   32  0   0   0   0   0  16   1   None
+0x1f6 24 TrueColor    1     32  0  rgba   0   0   8   8   8   8  .   .   4    0  8   0   0   0   0   0   0   None
+0x1f7 24 TrueColor    1     32  0  rgba   0   0   8   8   8   8  .   .   4    0  8   0   0   0   0  16   1   None
+0x1f8 24 TrueColor    1     32  0  rgba   0   0   8   8   8   8  .   .   4   32  8   0   0   0   0   0   0   None
+0x1f9 24 TrueColor    1     32  0  rgba   0   0   8   8   8   8  .   .   4   32  8   0   0   0   0  16   1   None
+0x1fa 24 TrueColor    1     32  0  rgba   1   0   8   8   8   8  .   .   4    0  0   0   0   0   0   0   0   None
+0x1fb 24 TrueColor    1     32  0  rgba   1   0   8   8   8   8  .   .   4    0  0   0   0   0   0  16   1   None
+0x1fc 24 TrueColor    1     32  0  rgba   1   0   8   8   8   8  .   .   4   32  0   0   0   0   0   0   0   None
+0x1fd 24 TrueColor    1     32  0  rgba   1   0   8   8   8   8  .   .   4   32  0   0   0   0   0  16   1   None
+0x1fe 24 TrueColor    1     32  0  rgba   1   0   8   8   8   8  .   .   4    0  8   0   0   0   0   0   0   None
+0x1ff 24 TrueColor    1     32  0  rgba   1   0   8   8   8   8  .   .   4    0  8   0   0   0   0  16   1   None
+0x200 24 TrueColor    1     32  0  rgba   1   0   8   8   8   8  .   .   4   32  8   0   0   0   0   0   0   None
+0x201 24 TrueColor    1     32  0  rgba   1   0   8   8   8   8  .   .   4   32  8   0   0   0   0  16   1   None
+0x20e 24 TrueColor    1     32  0  rgba   0   0   8   8   8   8  .   .   0    0  0   8   8   8   8   0   0   None
+0x20f 24 TrueColor    1     32  0  rgba   0   0   8   8   8   8  .   .   0    0  0   8   8   8   8   8   1   None
+0x210 24 TrueColor    1     32  0  rgba   0   0   8   8   8   8  .   .   0   16  0   8   8   8   8   0   0   None
+0x211 24 TrueColor    1     32  0  rgba   0   0   8   8   8   8  .   .   0   16  0   8   8   8   8   8   1   None
+0x212 24 TrueColor    1     32  0  rgba   0   0   8   8   8   8  .   .   0   24  0   8   8   8   8   0   0   None
+0x213 24 TrueColor    1     32  0  rgba   0   0   8   8   8   8  .   .   0   24  0   8   8   8   8   8   1   None
+0x214 24 TrueColor    1     32  0  rgba   0   0   8   8   8   8  .   .   0    0  0  16  16  16  16   0   0   None
+0x215 24 TrueColor    1     32  0  rgba   0   0   8   8   8   8  .   .   0    0  0  16  16  16  16   8   1   None
+0x216 24 TrueColor    1     32  0  rgba   0   0   8   8   8   8  .   .   0   16  0  16  16  16  16   0   0   None
+0x217 24 TrueColor    1     32  0  rgba   0   0   8   8   8   8  .   .   0   16  0  16  16  16  16   8   1   None
+0x218 24 TrueColor    1     32  0  rgba   0   0   8   8   8   8  .   .   0   24  0  16  16  16  16   0   0   None
+0x219 24 TrueColor    1     32  0  rgba   0   0   8   8   8   8  .   .   0   24  0  16  16  16  16   8   1   None
+0x226 24 TrueColor    1     32  0  rgba   0   0   8   8   8   8  .   .   0    0  8   8   8   8   8   0   0   None
+0x227 24 TrueColor    1     32  0  rgba   0   0   8   8   8   8  .   .   0    0  8   8   8   8   8   8   1   None
+0x228 24 TrueColor    1     32  0  rgba   0   0   8   8   8   8  .   .   0   16  8   8   8   8   8   0   0   None
+0x229 24 TrueColor    1     32  0  rgba   0   0   8   8   8   8  .   .   0   16  8   8   8   8   8   8   1   None
+0x22a 24 TrueColor    1     32  0  rgba   0   0   8   8   8   8  .   .   0   24  8   8   8   8   8   0   0   None
+0x22b 24 TrueColor    1     32  0  rgba   0   0   8   8   8   8  .   .   0   24  8   8   8   8   8   8   1   None
+0x22c 24 TrueColor    1     32  0  rgba   0   0   8   8   8   8  .   .   0    0  8  16  16  16  16   0   0   None
+0x22d 24 TrueColor    1     32  0  rgba   0   0   8   8   8   8  .   .   0    0  8  16  16  16  16   8   1   None
+0x22e 24 TrueColor    1     32  0  rgba   0   0   8   8   8   8  .   .   0   16  8  16  16  16  16   0   0   None
+0x22f 24 TrueColor    1     32  0  rgba   0   0   8   8   8   8  .   .   0   16  8  16  16  16  16   8   1   None
+0x230 24 TrueColor    1     32  0  rgba   0   0   8   8   8   8  .   .   0   24  8  16  16  16  16   0   0   None
+0x231 24 TrueColor    1     32  0  rgba   0   0   8   8   8   8  .   .   0   24  8  16  16  16  16   8   1   None
+0x23e 24 TrueColor    1     32  0  rgba   1   0   8   8   8   8  .   .   0    0  0   8   8   8   8   0   0   None
+0x23f 24 TrueColor    1     32  0  rgba   1   0   8   8   8   8  .   .   0    0  0   8   8   8   8   8   1   None
+0x240 24 TrueColor    1     32  0  rgba   1   0   8   8   8   8  .   .   0   16  0   8   8   8   8   0   0   None
+0x241 24 TrueColor    1     32  0  rgba   1   0   8   8   8   8  .   .   0   16  0   8   8   8   8   8   1   None
+0x242 24 TrueColor    1     32  0  rgba   1   0   8   8   8   8  .   .   0   24  0   8   8   8   8   0   0   None
+0x243 24 TrueColor    1     32  0  rgba   1   0   8   8   8   8  .   .   0   24  0   8   8   8   8   8   1   None
+0x244 24 TrueColor    1     32  0  rgba   1   0   8   8   8   8  .   .   0    0  0  16  16  16  16   0   0   None
+0x245 24 TrueColor    1     32  0  rgba   1   0   8   8   8   8  .   .   0    0  0  16  16  16  16   8   1   None
+0x246 24 TrueColor    1     32  0  rgba   1   0   8   8   8   8  .   .   0   16  0  16  16  16  16   0   0   None
+0x247 24 TrueColor    1     32  0  rgba   1   0   8   8   8   8  .   .   0   16  0  16  16  16  16   8   1   None
+0x248 24 TrueColor    1     32  0  rgba   1   0   8   8   8   8  .   .   0   24  0  16  16  16  16   0   0   None
+0x249 24 TrueColor    1     32  0  rgba   1   0   8   8   8   8  .   .   0   24  0  16  16  16  16   8   1   None
+0x255 24 TrueColor    1     32  0  rgba   1   0   8   8   8   8  .   .   0    0  8   8   8   8   8   0   0   None
+0x256 24 TrueColor    1     32  0  rgba   1   0   8   8   8   8  .   .   0    0  8   8   8   8   8   8   1   None
+0x257 24 TrueColor    1     32  0  rgba   1   0   8   8   8   8  .   .   0   16  8   8   8   8   8   8   1   None
+0x258 24 TrueColor    1     32  0  rgba   1   0   8   8   8   8  .   .   0   24  8   8   8   8   8   0   0   None
+0x259 24 TrueColor    1     32  0  rgba   1   0   8   8   8   8  .   .   0   24  8   8   8   8   8   8   1   None
+0x25a 24 TrueColor    1     32  0  rgba   1   0   8   8   8   8  .   .   0    0  8  16  16  16  16   0   0   None
+0x25b 24 TrueColor    1     32  0  rgba   1   0   8   8   8   8  .   .   0    0  8  16  16  16  16   8   1   None
+0x25c 24 TrueColor    1     32  0  rgba   1   0   8   8   8   8  .   .   0   16  8  16  16  16  16   0   0   None
+0x25d 24 TrueColor    1     32  0  rgba   1   0   8   8   8   8  .   .   0   16  8  16  16  16  16   8   1   None
+0x25e 24 TrueColor    1     32  0  rgba   1   0   8   8   8   8  .   .   0   24  8  16  16  16  16   0   0   None
+0x25f 24 TrueColor    1     32  0  rgba   1   0   8   8   8   8  .   .   0   24  8  16  16  16  16   8   1   None
+0x26c 24 TrueColor    1     32  0  rgba   0   0   8   8   8   8  .   .   2    0  0   8   8   8   8   0   0   None
+0x26d 24 TrueColor    1     32  0  rgba   0   0   8   8   8   8  .   .   2    0  0   8   8   8   8   8   1   None
+0x26e 24 TrueColor    1     32  0  rgba   0   0   8   8   8   8  .   .   2   16  0   8   8   8   8   0   0   None
+0x26f 24 TrueColor    1     32  0  rgba   0   0   8   8   8   8  .   .   2   16  0   8   8   8   8   8   1   None
+0x270 24 TrueColor    1     32  0  rgba   0   0   8   8   8   8  .   .   2   24  0   8   8   8   8   0   0   None
+0x271 24 TrueColor    1     32  0  rgba   0   0   8   8   8   8  .   .   2   24  0   8   8   8   8   8   1   None
+0x272 24 TrueColor    1     32  0  rgba   0   0   8   8   8   8  .   .   2    0  0  16  16  16  16   0   0   None
+0x273 24 TrueColor    1     32  0  rgba   0   0   8   8   8   8  .   .   2    0  0  16  16  16  16   8   1   None
+0x274 24 TrueColor    1     32  0  rgba   0   0   8   8   8   8  .   .   2   16  0  16  16  16  16   0   0   None
+0x275 24 TrueColor    1     32  0  rgba   0   0   8   8   8   8  .   .   2   16  0  16  16  16  16   8   1   None
+0x276 24 TrueColor    1     32  0  rgba   0   0   8   8   8   8  .   .   2   24  0  16  16  16  16   0   0   None
+0x277 24 TrueColor    1     32  0  rgba   0   0   8   8   8   8  .   .   2   24  0  16  16  16  16   8   1   None
+0x284 24 TrueColor    1     32  0  rgba   0   0   8   8   8   8  .   .   2    0  8   8   8   8   8   0   0   None
+0x285 24 TrueColor    1     32  0  rgba   0   0   8   8   8   8  .   .   2    0  8   8   8   8   8   8   1   None
+0x286 24 TrueColor    1     32  0  rgba   0   0   8   8   8   8  .   .   2   16  8   8   8   8   8   0   0   None
+0x287 24 TrueColor    1     32  0  rgba   0   0   8   8   8   8  .   .   2   16  8   8   8   8   8   8   1   None
+0x288 24 TrueColor    1     32  0  rgba   0   0   8   8   8   8  .   .   2   24  8   8   8   8   8   0   0   None
+0x289 24 TrueColor    1     32  0  rgba   0   0   8   8   8   8  .   .   2   24  8   8   8   8   8   8   1   None
+0x28a 24 TrueColor    1     32  0  rgba   0   0   8   8   8   8  .   .   2    0  8  16  16  16  16   0   0   None
+0x28b 24 TrueColor    1     32  0  rgba   0   0   8   8   8   8  .   .   2    0  8  16  16  16  16   8   1   None
+0x28c 24 TrueColor    1     32  0  rgba   0   0   8   8   8   8  .   .   2   16  8  16  16  16  16   0   0   None
+0x28d 24 TrueColor    1     32  0  rgba   0   0   8   8   8   8  .   .   2   16  8  16  16  16  16   8   1   None
+0x28e 24 TrueColor    1     32  0  rgba   0   0   8   8   8   8  .   .   2   24  8  16  16  16  16   0   0   None
+0x28f 24 TrueColor    1     32  0  rgba   0   0   8   8   8   8  .   .   2   24  8  16  16  16  16   8   1   None
+0x29c 24 TrueColor    1     32  0  rgba   1   0   8   8   8   8  .   .   2    0  0   8   8   8   8   0   0   None
+0x29d 24 TrueColor    1     32  0  rgba   1   0   8   8   8   8  .   .   2    0  0   8   8   8   8   8   1   None
+0x29e 24 TrueColor    1     32  0  rgba   1   0   8   8   8   8  .   .   2   16  0   8   8   8   8   0   0   None
+0x29f 24 TrueColor    1     32  0  rgba   1   0   8   8   8   8  .   .   2   16  0   8   8   8   8   8   1   None
+0x2a0 24 TrueColor    1     32  0  rgba   1   0   8   8   8   8  .   .   2   24  0   8   8   8   8   0   0   None
+0x2a1 24 TrueColor    1     32  0  rgba   1   0   8   8   8   8  .   .   2   24  0   8   8   8   8   8   1   None
+0x2a2 24 TrueColor    1     32  0  rgba   1   0   8   8   8   8  .   .   2    0  0  16  16  16  16   0   0   None
+0x2a3 24 TrueColor    1     32  0  rgba   1   0   8   8   8   8  .   .   2    0  0  16  16  16  16   8   1   None
+0x2a4 24 TrueColor    1     32  0  rgba   1   0   8   8   8   8  .   .   2   16  0  16  16  16  16   0   0   None
+0x2a5 24 TrueColor    1     32  0  rgba   1   0   8   8   8   8  .   .   2   16  0  16  16  16  16   8   1   None
+0x2a6 24 TrueColor    1     32  0  rgba   1   0   8   8   8   8  .   .   2   24  0  16  16  16  16   0   0   None
+0x2a7 24 TrueColor    1     32  0  rgba   1   0   8   8   8   8  .   .   2   24  0  16  16  16  16   8   1   None
+0x2b4 24 TrueColor    1     32  0  rgba   1   0   8   8   8   8  .   .   2    0  8   8   8   8   8   0   0   None
+0x2b5 24 TrueColor    1     32  0  rgba   1   0   8   8   8   8  .   .   2    0  8   8   8   8   8   8   1   None
+0x2b6 24 TrueColor    1     32  0  rgba   1   0   8   8   8   8  .   .   2   16  8   8   8   8   8   0   0   None
+0x2b7 24 TrueColor    1     32  0  rgba   1   0   8   8   8   8  .   .   2   16  8   8   8   8   8   8   1   None
+0x2b8 24 TrueColor    1     32  0  rgba   1   0   8   8   8   8  .   .   2   24  8   8   8   8   8   0   0   None
+0x2b9 24 TrueColor    1     32  0  rgba   1   0   8   8   8   8  .   .   2   24  8   8   8   8   8   8   1   None
+0x2ba 24 TrueColor    1     32  0  rgba   1   0   8   8   8   8  .   .   2    0  8  16  16  16  16   0   0   None
+0x2bb 24 TrueColor    1     32  0  rgba   1   0   8   8   8   8  .   .   2    0  8  16  16  16  16   8   1   None
+0x2bc 24 TrueColor    1     32  0  rgba   1   0   8   8   8   8  .   .   2   16  8  16  16  16  16   0   0   None
+0x2bd 24 TrueColor    1     32  0  rgba   1   0   8   8   8   8  .   .   2   16  8  16  16  16  16   8   1   None
+0x2be 24 TrueColor    1     32  0  rgba   1   0   8   8   8   8  .   .   2   24  8  16  16  16  16   0   0   None
+0x2bf 24 TrueColor    1     32  0  rgba   1   0   8   8   8   8  .   .   2   24  8  16  16  16  16   8   1   None
+0x2cc 24 TrueColor    1     32  0  rgba   0   1   8   8   8   8  .   .   0    0  0   8   8   8   8   0   0   None
+0x2cd 24 TrueColor    1     32  0  rgba   0   1   8   8   8   8  .   .   0    0  0   8   8   8   8   8   1   None
+0x2ce 24 TrueColor    1     32  0  rgba   0   1   8   8   8   8  .   .   0   16  0   8   8   8   8   0   0   None
+0x2cf 24 TrueColor    1     32  0  rgba   0   1   8   8   8   8  .   .   0   16  0   8   8   8   8   8   1   None
+0x2d0 24 TrueColor    1     32  0  rgba   0   1   8   8   8   8  .   .   0   24  0   8   8   8   8   0   0   None
+0x2d1 24 TrueColor    1     32  0  rgba   0   1   8   8   8   8  .   .   0   24  0   8   8   8   8   8   1   None
+0x2d2 24 TrueColor    1     32  0  rgba   0   1   8   8   8   8  .   .   0    0  0  16  16  16  16   0   0   None
+0x2d3 24 TrueColor    1     32  0  rgba   0   1   8   8   8   8  .   .   0    0  0  16  16  16  16   8   1   None
+0x2d4 24 TrueColor    1     32  0  rgba   0   1   8   8   8   8  .   .   0   16  0  16  16  16  16   0   0   None
+0x2d5 24 TrueColor    1     32  0  rgba   0   1   8   8   8   8  .   .   0   16  0  16  16  16  16   8   1   None
+0x2d6 24 TrueColor    1     32  0  rgba   0   1   8   8   8   8  .   .   0   24  0  16  16  16  16   0   0   None
+0x2d7 24 TrueColor    1     32  0  rgba   0   1   8   8   8   8  .   .   0   24  0  16  16  16  16   8   1   None
+0x2e4 24 TrueColor    1     32  0  rgba   0   1   8   8   8   8  .   .   0    0  8   8   8   8   8   0   0   None
+0x2e5 24 TrueColor    1     32  0  rgba   0   1   8   8   8   8  .   .   0    0  8   8   8   8   8   8   1   None
+0x2e6 24 TrueColor    1     32  0  rgba   0   1   8   8   8   8  .   .   0   16  8   8   8   8   8   0   0   None
+0x2e7 24 TrueColor    1     32  0  rgba   0   1   8   8   8   8  .   .   0   16  8   8   8   8   8   8   1   None
+0x2e8 24 TrueColor    1     32  0  rgba   0   1   8   8   8   8  .   .   0   24  8   8   8   8   8   0   0   None
+0x2e9 24 TrueColor    1     32  0  rgba   0   1   8   8   8   8  .   .   0   24  8   8   8   8   8   8   1   None
+0x2ea 24 TrueColor    1     32  0  rgba   0   1   8   8   8   8  .   .   0    0  8  16  16  16  16   0   0   None
+0x2eb 24 TrueColor    1     32  0  rgba   0   1   8   8   8   8  .   .   0    0  8  16  16  16  16   8   1   None
+0x2ec 24 TrueColor    1     32  0  rgba   0   1   8   8   8   8  .   .   0   16  8  16  16  16  16   0   0   None
+0x2ed 24 TrueColor    1     32  0  rgba   0   1   8   8   8   8  .   .   0   16  8  16  16  16  16   8   1   None
+0x2ee 24 TrueColor    1     32  0  rgba   0   1   8   8   8   8  .   .   0   24  8  16  16  16  16   0   0   None
+0x2ef 24 TrueColor    1     32  0  rgba   0   1   8   8   8   8  .   .   0   24  8  16  16  16  16   8   1   None
+0x2fc 24 TrueColor    1     32  0  rgba   1   1   8   8   8   8  .   .   0    0  0   8   8   8   8   0   0   None
+0x2fd 24 TrueColor    1     32  0  rgba   1   1   8   8   8   8  .   .   0    0  0   8   8   8   8   8   1   None
+0x2fe 24 TrueColor    1     32  0  rgba   1   1   8   8   8   8  .   .   0   16  0   8   8   8   8   0   0   None
+0x2ff 24 TrueColor    1     32  0  rgba   1   1   8   8   8   8  .   .   0   16  0   8   8   8   8   8   1   None
+0x300 24 TrueColor    1     32  0  rgba   1   1   8   8   8   8  .   .   0   24  0   8   8   8   8   0   0   None
+0x301 24 TrueColor    1     32  0  rgba   1   1   8   8   8   8  .   .   0   24  0   8   8   8   8   8   1   None
+0x302 24 TrueColor    1     32  0  rgba   1   1   8   8   8   8  .   .   0    0  0  16  16  16  16   0   0   None
+0x303 24 TrueColor    1     32  0  rgba   1   1   8   8   8   8  .   .   0    0  0  16  16  16  16   8   1   None
+0x304 24 TrueColor    1     32  0  rgba   1   1   8   8   8   8  .   .   0   16  0  16  16  16  16   0   0   None
+0x305 24 TrueColor    1     32  0  rgba   1   1   8   8   8   8  .   .   0   16  0  16  16  16  16   8   1   None
+0x306 24 TrueColor    1     32  0  rgba   1   1   8   8   8   8  .   .   0   24  0  16  16  16  16   0   0   None
+0x307 24 TrueColor    1     32  0  rgba   1   1   8   8   8   8  .   .   0   24  0  16  16  16  16   8   1   None
+0x314 24 TrueColor    1     32  0  rgba   1   1   8   8   8   8  .   .   0    0  8   8   8   8   8   0   0   None
+0x315 24 TrueColor    1     32  0  rgba   1   1   8   8   8   8  .   .   0    0  8   8   8   8   8   8   1   None
+0x316 24 TrueColor    1     32  0  rgba   1   1   8   8   8   8  .   .   0   16  8   8   8   8   8   0   0   None
+0x317 24 TrueColor    1     32  0  rgba   1   1   8   8   8   8  .   .   0   16  8   8   8   8   8   8   1   None
+0x318 24 TrueColor    1     32  0  rgba   1   1   8   8   8   8  .   .   0   24  8   8   8   8   8   0   0   None
+0x319 24 TrueColor    1     32  0  rgba   1   1   8   8   8   8  .   .   0   24  8   8   8   8   8   8   1   None
+0x31a 24 TrueColor    1     32  0  rgba   1   1   8   8   8   8  .   .   0    0  8  16  16  16  16   0   0   None
+0x31b 24 TrueColor    1     32  0  rgba   1   1   8   8   8   8  .   .   0    0  8  16  16  16  16   8   1   None
+0x31c 24 TrueColor    1     32  0  rgba   1   1   8   8   8   8  .   .   0   16  8  16  16  16  16   0   0   None
+0x31d 24 TrueColor    1     32  0  rgba   1   1   8   8   8   8  .   .   0   16  8  16  16  16  16   8   1   None
+0x31e 24 TrueColor    1     32  0  rgba   1   1   8   8   8   8  .   .   0   24  8  16  16  16  16   0   0   None
+0x31f 24 TrueColor    1     32  0  rgba   1   1   8   8   8   8  .   .   0   24  8  16  16  16  16   8   1   None
+0x32c 24 TrueColor    1     32  0  rgba   0   1   8   8   8   8  .   .   2    0  0   8   8   8   8   0   0   None
+0x32d 24 TrueColor    1     32  0  rgba   0   1   8   8   8   8  .   .   2    0  0   8   8   8   8   8   1   None
+0x32e 24 TrueColor    1     32  0  rgba   0   1   8   8   8   8  .   .   2   16  0   8   8   8   8   0   0   None
+0x32f 24 TrueColor    1     32  0  rgba   0   1   8   8   8   8  .   .   2   16  0   8   8   8   8   8   1   None
+0x330 24 TrueColor    1     32  0  rgba   0   1   8   8   8   8  .   .   2   24  0   8   8   8   8   0   0   None
+0x331 24 TrueColor    1     32  0  rgba   0   1   8   8   8   8  .   .   2   24  0   8   8   8   8   8   1   None
+0x332 24 TrueColor    1     32  0  rgba   0   1   8   8   8   8  .   .   2    0  0  16  16  16  16   0   0   None
+0x333 24 TrueColor    1     32  0  rgba   0   1   8   8   8   8  .   .   2    0  0  16  16  16  16   8   1   None
+0x334 24 TrueColor    1     32  0  rgba   0   1   8   8   8   8  .   .   2   16  0  16  16  16  16   0   0   None
+0x335 24 TrueColor    1     32  0  rgba   0   1   8   8   8   8  .   .   2   16  0  16  16  16  16   8   1   None
+0x336 24 TrueColor    1     32  0  rgba   0   1   8   8   8   8  .   .   2   24  0  16  16  16  16   0   0   None
+0x337 24 TrueColor    1     32  0  rgba   0   1   8   8   8   8  .   .   2   24  0  16  16  16  16   8   1   None
+0x344 24 TrueColor    1     32  0  rgba   0   1   8   8   8   8  .   .   2    0  8   8   8   8   8   0   0   None
+0x345 24 TrueColor    1     32  0  rgba   0   1   8   8   8   8  .   .   2    0  8   8   8   8   8   8   1   None
+0x346 24 TrueColor    1     32  0  rgba   0   1   8   8   8   8  .   .   2   16  8   8   8   8   8   0   0   None
+0x347 24 TrueColor    1     32  0  rgba   0   1   8   8   8   8  .   .   2   16  8   8   8   8   8   8   1   None
+0x348 24 TrueColor    1     32  0  rgba   0   1   8   8   8   8  .   .   2   24  8   8   8   8   8   0   0   None
+0x349 24 TrueColor    1     32  0  rgba   0   1   8   8   8   8  .   .   2   24  8   8   8   8   8   8   1   None
+0x34a 24 TrueColor    1     32  0  rgba   0   1   8   8   8   8  .   .   2    0  8  16  16  16  16   0   0   None
+0x34b 24 TrueColor    1     32  0  rgba   0   1   8   8   8   8  .   .   2    0  8  16  16  16  16   8   1   None
+0x34c 24 TrueColor    1     32  0  rgba   0   1   8   8   8   8  .   .   2   16  8  16  16  16  16   0   0   None
+0x34d 24 TrueColor    1     32  0  rgba   0   1   8   8   8   8  .   .   2   16  8  16  16  16  16   8   1   None
+0x34e 24 TrueColor    1     32  0  rgba   0   1   8   8   8   8  .   .   2   24  8  16  16  16  16   0   0   None
+0x34f 24 TrueColor    1     32  0  rgba   0   1   8   8   8   8  .   .   2   24  8  16  16  16  16   8   1   None
+0x35c 24 TrueColor    1     32  0  rgba   1   1   8   8   8   8  .   .   2    0  0   8   8   8   8   0   0   None
+0x35d 24 TrueColor    1     32  0  rgba   1   1   8   8   8   8  .   .   2    0  0   8   8   8   8   8   1   None
+0x35e 24 TrueColor    1     32  0  rgba   1   1   8   8   8   8  .   .   2   16  0   8   8   8   8   0   0   None
+0x35f 24 TrueColor    1     32  0  rgba   1   1   8   8   8   8  .   .   2   16  0   8   8   8   8   8   1   None
+0x360 24 TrueColor    1     32  0  rgba   1   1   8   8   8   8  .   .   2   24  0   8   8   8   8   0   0   None
+0x361 24 TrueColor    1     32  0  rgba   1   1   8   8   8   8  .   .   2   24  0   8   8   8   8   8   1   None
+0x362 24 TrueColor    1     32  0  rgba   1   1   8   8   8   8  .   .   2    0  0  16  16  16  16   0   0   None
+0x363 24 TrueColor    1     32  0  rgba   1   1   8   8   8   8  .   .   2    0  0  16  16  16  16   8   1   None
+0x364 24 TrueColor    1     32  0  rgba   1   1   8   8   8   8  .   .   2   16  0  16  16  16  16   0   0   None
+0x365 24 TrueColor    1     32  0  rgba   1   1   8   8   8   8  .   .   2   16  0  16  16  16  16   8   1   None
+0x366 24 TrueColor    1     32  0  rgba   1   1   8   8   8   8  .   .   2   24  0  16  16  16  16   0   0   None
+0x367 24 TrueColor    1     32  0  rgba   1   1   8   8   8   8  .   .   2   24  0  16  16  16  16   8   1   None
+0x374 24 TrueColor    1     32  0  rgba   1   1   8   8   8   8  .   .   2    0  8   8   8   8   8   0   0   None
+0x375 24 TrueColor    1     32  0  rgba   1   1   8   8   8   8  .   .   2    0  8   8   8   8   8   8   1   None
+0x376 24 TrueColor    1     32  0  rgba   1   1   8   8   8   8  .   .   2   16  8   8   8   8   8   0   0   None
+0x377 24 TrueColor    1     32  0  rgba   1   1   8   8   8   8  .   .   2   16  8   8   8   8   8   8   1   None
+0x378 24 TrueColor    1     32  0  rgba   1   1   8   8   8   8  .   .   2   24  8   8   8   8   8   0   0   None
+0x379 24 TrueColor    1     32  0  rgba   1   1   8   8   8   8  .   .   2   24  8   8   8   8   8   8   1   None
+0x37a 24 TrueColor    1     32  0  rgba   1   1   8   8   8   8  .   .   2    0  8  16  16  16  16   0   0   None
+0x37b 24 TrueColor    1     32  0  rgba   1   1   8   8   8   8  .   .   2    0  8  16  16  16  16   8   1   None
+0x37c 24 TrueColor    1     32  0  rgba   1   1   8   8   8   8  .   .   2   16  8  16  16  16  16   0   0   None
+0x37d 24 TrueColor    1     32  0  rgba   1   1   8   8   8   8  .   .   2   16  8  16  16  16  16   8   1   None
+0x37e 24 TrueColor    1     32  0  rgba   1   1   8   8   8   8  .   .   2   24  8  16  16  16  16   0   0   None
+0x37f 24 TrueColor    1     32  0  rgba   1   1   8   8   8   8  .   .   2   24  8  16  16  16  16   8   1   None
+0x 23 15 TrueColor    1     15  0  rgba   1   0   5   5   5   0  .   .   0   16  8   8   8   8   8   0   0   None
+0x202 15 TrueColor    1     15  0  rgba   0   0   5   5   5   0  .   .   0    0  0   8   8   8   8   0   0   None
+0x203 15 TrueColor    1     15  0  rgba   0   0   5   5   5   0  .   .   0    0  0   8   8   8   8   8   1   None
+0x204 15 TrueColor    1     15  0  rgba   0   0   5   5   5   0  .   .   0   16  0   8   8   8   8   0   0   None
+0x205 15 TrueColor    1     15  0  rgba   0   0   5   5   5   0  .   .   0   16  0   8   8   8   8   8   1   None
+0x206 15 TrueColor    1     15  0  rgba   0   0   5   5   5   0  .   .   0   24  0   8   8   8   8   0   0   None
+0x207 15 TrueColor    1     15  0  rgba   0   0   5   5   5   0  .   .   0   24  0   8   8   8   8   8   1   None
+0x208 15 TrueColor    1     15  0  rgba   0   0   5   5   5   0  .   .   0    0  0  16  16  16  16   0   0   None
+0x209 15 TrueColor    1     15  0  rgba   0   0   5   5   5   0  .   .   0    0  0  16  16  16  16   8   1   None
+0x20a 15 TrueColor    1     15  0  rgba   0   0   5   5   5   0  .   .   0   16  0  16  16  16  16   0   0   None
+0x20b 15 TrueColor    1     15  0  rgba   0   0   5   5   5   0  .   .   0   16  0  16  16  16  16   8   1   None
+0x20c 15 TrueColor    1     15  0  rgba   0   0   5   5   5   0  .   .   0   24  0  16  16  16  16   0   0   None
+0x20d 15 TrueColor    1     15  0  rgba   0   0   5   5   5   0  .   .   0   24  0  16  16  16  16   8   1   None
+0x21a 15 TrueColor    1     15  0  rgba   0   0   5   5   5   0  .   .   0    0  8   8   8   8   8   0   0   None
+0x21b 15 TrueColor    1     15  0  rgba   0   0   5   5   5   0  .   .   0    0  8   8   8   8   8   8   1   None
+0x21c 15 TrueColor    1     15  0  rgba   0   0   5   5   5   0  .   .   0   16  8   8   8   8   8   0   0   None
+0x21d 15 TrueColor    1     15  0  rgba   0   0   5   5   5   0  .   .   0   16  8   8   8   8   8   8   1   None
+0x21e 15 TrueColor    1     15  0  rgba   0   0   5   5   5   0  .   .   0   24  8   8   8   8   8   0   0   None
+0x21f 15 TrueColor    1     15  0  rgba   0   0   5   5   5   0  .   .   0   24  8   8   8   8   8   8   1   None
+0x220 15 TrueColor    1     15  0  rgba   0   0   5   5   5   0  .   .   0    0  8  16  16  16  16   0   0   None
+0x221 15 TrueColor    1     15  0  rgba   0   0   5   5   5   0  .   .   0    0  8  16  16  16  16   8   1   None
+0x222 15 TrueColor    1     15  0  rgba   0   0   5   5   5   0  .   .   0   16  8  16  16  16  16   0   0   None
+0x223 15 TrueColor    1     15  0  rgba   0   0   5   5   5   0  .   .   0   16  8  16  16  16  16   8   1   None
+0x224 15 TrueColor    1     15  0  rgba   0   0   5   5   5   0  .   .   0   24  8  16  16  16  16   0   0   None
+0x225 15 TrueColor    1     15  0  rgba   0   0   5   5   5   0  .   .   0   24  8  16  16  16  16   8   1   None
+0x232 15 TrueColor    1     15  0  rgba   1   0   5   5   5   0  .   .   0    0  0   8   8   8   8   0   0   None
+0x233 15 TrueColor    1     15  0  rgba   1   0   5   5   5   0  .   .   0    0  0   8   8   8   8   8   1   None
+0x234 15 TrueColor    1     15  0  rgba   1   0   5   5   5   0  .   .   0   16  0   8   8   8   8   0   0   None
+0x235 15 TrueColor    1     15  0  rgba   1   0   5   5   5   0  .   .   0   16  0   8   8   8   8   8   1   None
+0x236 15 TrueColor    1     15  0  rgba   1   0   5   5   5   0  .   .   0   24  0   8   8   8   8   0   0   None
+0x237 15 TrueColor    1     15  0  rgba   1   0   5   5   5   0  .   .   0   24  0   8   8   8   8   8   1   None
+0x238 15 TrueColor    1     15  0  rgba   1   0   5   5   5   0  .   .   0    0  0  16  16  16  16   0   0   None
+0x239 15 TrueColor    1     15  0  rgba   1   0   5   5   5   0  .   .   0    0  0  16  16  16  16   8   1   None
+0x23a 15 TrueColor    1     15  0  rgba   1   0   5   5   5   0  .   .   0   16  0  16  16  16  16   0   0   None
+0x23b 15 TrueColor    1     15  0  rgba   1   0   5   5   5   0  .   .   0   16  0  16  16  16  16   8   1   None
+0x23c 15 TrueColor    1     15  0  rgba   1   0   5   5   5   0  .   .   0   24  0  16  16  16  16   0   0   None
+0x23d 15 TrueColor    1     15  0  rgba   1   0   5   5   5   0  .   .   0   24  0  16  16  16  16   8   1   None
+0x24a 15 TrueColor    1     15  0  rgba   1   0   5   5   5   0  .   .   0    0  8   8   8   8   8   0   0   None
+0x24b 15 TrueColor    1     15  0  rgba   1   0   5   5   5   0  .   .   0    0  8   8   8   8   8   8   1   None
+0x24c 15 TrueColor    1     15  0  rgba   1   0   5   5   5   0  .   .   0   16  8   8   8   8   8   8   1   None
+0x24d 15 TrueColor    1     15  0  rgba   1   0   5   5   5   0  .   .   0   24  8   8   8   8   8   0   0   None
+0x24e 15 TrueColor    1     15  0  rgba   1   0   5   5   5   0  .   .   0   24  8   8   8   8   8   8   1   None
+0x24f 15 TrueColor    1     15  0  rgba   1   0   5   5   5   0  .   .   0    0  8  16  16  16  16   0   0   None
+0x250 15 TrueColor    1     15  0  rgba   1   0   5   5   5   0  .   .   0    0  8  16  16  16  16   8   1   None
+0x251 15 TrueColor    1     15  0  rgba   1   0   5   5   5   0  .   .   0   16  8  16  16  16  16   0   0   None
+0x252 15 TrueColor    1     15  0  rgba   1   0   5   5   5   0  .   .   0   16  8  16  16  16  16   8   1   None
+0x253 15 TrueColor    1     15  0  rgba   1   0   5   5   5   0  .   .   0   24  8  16  16  16  16   0   0   None
+0x254 15 TrueColor    1     15  0  rgba   1   0   5   5   5   0  .   .   0   24  8  16  16  16  16   8   1   None
+0x260 15 TrueColor    1     15  0  rgba   0   0   5   5   5   0  .   .   2    0  0   8   8   8   8   0   0   None
+0x261 15 TrueColor    1     15  0  rgba   0   0   5   5   5   0  .   .   2    0  0   8   8   8   8   8   1   None
+0x262 15 TrueColor    1     15  0  rgba   0   0   5   5   5   0  .   .   2   16  0   8   8   8   8   0   0   None
+0x263 15 TrueColor    1     15  0  rgba   0   0   5   5   5   0  .   .   2   16  0   8   8   8   8   8   1   None
+0x264 15 TrueColor    1     15  0  rgba   0   0   5   5   5   0  .   .   2   24  0   8   8   8   8   0   0   None
+0x265 15 TrueColor    1     15  0  rgba   0   0   5   5   5   0  .   .   2   24  0   8   8   8   8   8   1   None
+0x266 15 TrueColor    1     15  0  rgba   0   0   5   5   5   0  .   .   2    0  0  16  16  16  16   0   0   None
+0x267 15 TrueColor    1     15  0  rgba   0   0   5   5   5   0  .   .   2    0  0  16  16  16  16   8   1   None
+0x268 15 TrueColor    1     15  0  rgba   0   0   5   5   5   0  .   .   2   16  0  16  16  16  16   0   0   None
+0x269 15 TrueColor    1     15  0  rgba   0   0   5   5   5   0  .   .   2   16  0  16  16  16  16   8   1   None
+0x26a 15 TrueColor    1     15  0  rgba   0   0   5   5   5   0  .   .   2   24  0  16  16  16  16   0   0   None
+0x26b 15 TrueColor    1     15  0  rgba   0   0   5   5   5   0  .   .   2   24  0  16  16  16  16   8   1   None
+0x278 15 TrueColor    1     15  0  rgba   0   0   5   5   5   0  .   .   2    0  8   8   8   8   8   0   0   None
+0x279 15 TrueColor    1     15  0  rgba   0   0   5   5   5   0  .   .   2    0  8   8   8   8   8   8   1   None
+0x27a 15 TrueColor    1     15  0  rgba   0   0   5   5   5   0  .   .   2   16  8   8   8   8   8   0   0   None
+0x27b 15 TrueColor    1     15  0  rgba   0   0   5   5   5   0  .   .   2   16  8   8   8   8   8   8   1   None
+0x27c 15 TrueColor    1     15  0  rgba   0   0   5   5   5   0  .   .   2   24  8   8   8   8   8   0   0   None
+0x27d 15 TrueColor    1     15  0  rgba   0   0   5   5   5   0  .   .   2   24  8   8   8   8   8   8   1   None
+0x27e 15 TrueColor    1     15  0  rgba   0   0   5   5   5   0  .   .   2    0  8  16  16  16  16   0   0   None
+0x27f 15 TrueColor    1     15  0  rgba   0   0   5   5   5   0  .   .   2    0  8  16  16  16  16   8   1   None
+0x280 15 TrueColor    1     15  0  rgba   0   0   5   5   5   0  .   .   2   16  8  16  16  16  16   0   0   None
+0x281 15 TrueColor    1     15  0  rgba   0   0   5   5   5   0  .   .   2   16  8  16  16  16  16   8   1   None
+0x282 15 TrueColor    1     15  0  rgba   0   0   5   5   5   0  .   .   2   24  8  16  16  16  16   0   0   None
+0x283 15 TrueColor    1     15  0  rgba   0   0   5   5   5   0  .   .   2   24  8  16  16  16  16   8   1   None
+0x290 15 TrueColor    1     15  0  rgba   1   0   5   5   5   0  .   .   2    0  0   8   8   8   8   0   0   None
+0x291 15 TrueColor    1     15  0  rgba   1   0   5   5   5   0  .   .   2    0  0   8   8   8   8   8   1   None
+0x292 15 TrueColor    1     15  0  rgba   1   0   5   5   5   0  .   .   2   16  0   8   8   8   8   0   0   None
+0x293 15 TrueColor    1     15  0  rgba   1   0   5   5   5   0  .   .   2   16  0   8   8   8   8   8   1   None
+0x294 15 TrueColor    1     15  0  rgba   1   0   5   5   5   0  .   .   2   24  0   8   8   8   8   0   0   None
+0x295 15 TrueColor    1     15  0  rgba   1   0   5   5   5   0  .   .   2   24  0   8   8   8   8   8   1   None
+0x296 15 TrueColor    1     15  0  rgba   1   0   5   5   5   0  .   .   2    0  0  16  16  16  16   0   0   None
+0x297 15 TrueColor    1     15  0  rgba   1   0   5   5   5   0  .   .   2    0  0  16  16  16  16   8   1   None
+0x298 15 TrueColor    1     15  0  rgba   1   0   5   5   5   0  .   .   2   16  0  16  16  16  16   0   0   None
+0x299 15 TrueColor    1     15  0  rgba   1   0   5   5   5   0  .   .   2   16  0  16  16  16  16   8   1   None
+0x29a 15 TrueColor    1     15  0  rgba   1   0   5   5   5   0  .   .   2   24  0  16  16  16  16   0   0   None
+0x29b 15 TrueColor    1     15  0  rgba   1   0   5   5   5   0  .   .   2   24  0  16  16  16  16   8   1   None
+0x2a8 15 TrueColor    1     15  0  rgba   1   0   5   5   5   0  .   .   2    0  8   8   8   8   8   0   0   None
+0x2a9 15 TrueColor    1     15  0  rgba   1   0   5   5   5   0  .   .   2    0  8   8   8   8   8   8   1   None
+0x2aa 15 TrueColor    1     15  0  rgba   1   0   5   5   5   0  .   .   2   16  8   8   8   8   8   0   0   None
+0x2ab 15 TrueColor    1     15  0  rgba   1   0   5   5   5   0  .   .   2   16  8   8   8   8   8   8   1   None
+0x2ac 15 TrueColor    1     15  0  rgba   1   0   5   5   5   0  .   .   2   24  8   8   8   8   8   0   0   None
+0x2ad 15 TrueColor    1     15  0  rgba   1   0   5   5   5   0  .   .   2   24  8   8   8   8   8   8   1   None
+0x2ae 15 TrueColor    1     15  0  rgba   1   0   5   5   5   0  .   .   2    0  8  16  16  16  16   0   0   None
+0x2af 15 TrueColor    1     15  0  rgba   1   0   5   5   5   0  .   .   2    0  8  16  16  16  16   8   1   None
+0x2b0 15 TrueColor    1     15  0  rgba   1   0   5   5   5   0  .   .   2   16  8  16  16  16  16   0   0   None
+0x2b1 15 TrueColor    1     15  0  rgba   1   0   5   5   5   0  .   .   2   16  8  16  16  16  16   8   1   None
+0x2b2 15 TrueColor    1     15  0  rgba   1   0   5   5   5   0  .   .   2   24  8  16  16  16  16   0   0   None
+0x2b3 15 TrueColor    1     15  0  rgba   1   0   5   5   5   0  .   .   2   24  8  16  16  16  16   8   1   None
+0x2c0 15 TrueColor    1     15  0  rgba   0   1   5   5   5   0  .   .   0    0  0   8   8   8   8   0   0   None
+0x2c1 15 TrueColor    1     15  0  rgba   0   1   5   5   5   0  .   .   0    0  0   8   8   8   8   8   1   None
+0x2c2 15 TrueColor    1     15  0  rgba   0   1   5   5   5   0  .   .   0   16  0   8   8   8   8   0   0   None
+0x2c3 15 TrueColor    1     15  0  rgba   0   1   5   5   5   0  .   .   0   16  0   8   8   8   8   8   1   None
+0x2c4 15 TrueColor    1     15  0  rgba   0   1   5   5   5   0  .   .   0   24  0   8   8   8   8   0   0   None
+0x2c5 15 TrueColor    1     15  0  rgba   0   1   5   5   5   0  .   .   0   24  0   8   8   8   8   8   1   None
+0x2c6 15 TrueColor    1     15  0  rgba   0   1   5   5   5   0  .   .   0    0  0  16  16  16  16   0   0   None
+0x2c7 15 TrueColor    1     15  0  rgba   0   1   5   5   5   0  .   .   0    0  0  16  16  16  16   8   1   None
+0x2c8 15 TrueColor    1     15  0  rgba   0   1   5   5   5   0  .   .   0   16  0  16  16  16  16   0   0   None
+0x2c9 15 TrueColor    1     15  0  rgba   0   1   5   5   5   0  .   .   0   16  0  16  16  16  16   8   1   None
+0x2ca 15 TrueColor    1     15  0  rgba   0   1   5   5   5   0  .   .   0   24  0  16  16  16  16   0   0   None
+0x2cb 15 TrueColor    1     15  0  rgba   0   1   5   5   5   0  .   .   0   24  0  16  16  16  16   8   1   None
+0x2d8 15 TrueColor    1     15  0  rgba   0   1   5   5   5   0  .   .   0    0  8   8   8   8   8   0   0   None
+0x2d9 15 TrueColor    1     15  0  rgba   0   1   5   5   5   0  .   .   0    0  8   8   8   8   8   8   1   None
+0x2da 15 TrueColor    1     15  0  rgba   0   1   5   5   5   0  .   .   0   16  8   8   8   8   8   0   0   None
+0x2db 15 TrueColor    1     15  0  rgba   0   1   5   5   5   0  .   .   0   16  8   8   8   8   8   8   1   None
+0x2dc 15 TrueColor    1     15  0  rgba   0   1   5   5   5   0  .   .   0   24  8   8   8   8   8   0   0   None
+0x2dd 15 TrueColor    1     15  0  rgba   0   1   5   5   5   0  .   .   0   24  8   8   8   8   8   8   1   None
+0x2de 15 TrueColor    1     15  0  rgba   0   1   5   5   5   0  .   .   0    0  8  16  16  16  16   0   0   None
+0x2df 15 TrueColor    1     15  0  rgba   0   1   5   5   5   0  .   .   0    0  8  16  16  16  16   8   1   None
+0x2e0 15 TrueColor    1     15  0  rgba   0   1   5   5   5   0  .   .   0   16  8  16  16  16  16   0   0   None
+0x2e1 15 TrueColor    1     15  0  rgba   0   1   5   5   5   0  .   .   0   16  8  16  16  16  16   8   1   None
+0x2e2 15 TrueColor    1     15  0  rgba   0   1   5   5   5   0  .   .   0   24  8  16  16  16  16   0   0   None
+0x2e3 15 TrueColor    1     15  0  rgba   0   1   5   5   5   0  .   .   0   24  8  16  16  16  16   8   1   None
+0x2f0 15 TrueColor    1     15  0  rgba   1   1   5   5   5   0  .   .   0    0  0   8   8   8   8   0   0   None
+0x2f1 15 TrueColor    1     15  0  rgba   1   1   5   5   5   0  .   .   0    0  0   8   8   8   8   8   1   None
+0x2f2 15 TrueColor    1     15  0  rgba   1   1   5   5   5   0  .   .   0   16  0   8   8   8   8   0   0   None
+0x2f3 15 TrueColor    1     15  0  rgba   1   1   5   5   5   0  .   .   0   16  0   8   8   8   8   8   1   None
+0x2f4 15 TrueColor    1     15  0  rgba   1   1   5   5   5   0  .   .   0   24  0   8   8   8   8   0   0   None
+0x2f5 15 TrueColor    1     15  0  rgba   1   1   5   5   5   0  .   .   0   24  0   8   8   8   8   8   1   None
+0x2f6 15 TrueColor    1     15  0  rgba   1   1   5   5   5   0  .   .   0    0  0  16  16  16  16   0   0   None
+0x2f7 15 TrueColor    1     15  0  rgba   1   1   5   5   5   0  .   .   0    0  0  16  16  16  16   8   1   None
+0x2f8 15 TrueColor    1     15  0  rgba   1   1   5   5   5   0  .   .   0   16  0  16  16  16  16   0   0   None
+0x2f9 15 TrueColor    1     15  0  rgba   1   1   5   5   5   0  .   .   0   16  0  16  16  16  16   8   1   None
+0x2fa 15 TrueColor    1     15  0  rgba   1   1   5   5   5   0  .   .   0   24  0  16  16  16  16   0   0   None
+0x2fb 15 TrueColor    1     15  0  rgba   1   1   5   5   5   0  .   .   0   24  0  16  16  16  16   8   1   None
+0x308 15 TrueColor    1     15  0  rgba   1   1   5   5   5   0  .   .   0    0  8   8   8   8   8   0   0   None
+0x309 15 TrueColor    1     15  0  rgba   1   1   5   5   5   0  .   .   0    0  8   8   8   8   8   8   1   None
+0x30a 15 TrueColor    1     15  0  rgba   1   1   5   5   5   0  .   .   0   16  8   8   8   8   8   0   0   None
+0x30b 15 TrueColor    1     15  0  rgba   1   1   5   5   5   0  .   .   0   16  8   8   8   8   8   8   1   None
+0x30c 15 TrueColor    1     15  0  rgba   1   1   5   5   5   0  .   .   0   24  8   8   8   8   8   0   0   None
+0x30d 15 TrueColor    1     15  0  rgba   1   1   5   5   5   0  .   .   0   24  8   8   8   8   8   8   1   None
+0x30e 15 TrueColor    1     15  0  rgba   1   1   5   5   5   0  .   .   0    0  8  16  16  16  16   0   0   None
+0x30f 15 TrueColor    1     15  0  rgba   1   1   5   5   5   0  .   .   0    0  8  16  16  16  16   8   1   None
+0x310 15 TrueColor    1     15  0  rgba   1   1   5   5   5   0  .   .   0   16  8  16  16  16  16   0   0   None
+0x311 15 TrueColor    1     15  0  rgba   1   1   5   5   5   0  .   .   0   16  8  16  16  16  16   8   1   None
+0x312 15 TrueColor    1     15  0  rgba   1   1   5   5   5   0  .   .   0   24  8  16  16  16  16   0   0   None
+0x313 15 TrueColor    1     15  0  rgba   1   1   5   5   5   0  .   .   0   24  8  16  16  16  16   8   1   None
+0x320 15 TrueColor    1     15  0  rgba   0   1   5   5   5   0  .   .   2    0  0   8   8   8   8   0   0   None
+0x321 15 TrueColor    1     15  0  rgba   0   1   5   5   5   0  .   .   2    0  0   8   8   8   8   8   1   None
+0x322 15 TrueColor    1     15  0  rgba   0   1   5   5   5   0  .   .   2   16  0   8   8   8   8   0   0   None
+0x323 15 TrueColor    1     15  0  rgba   0   1   5   5   5   0  .   .   2   16  0   8   8   8   8   8   1   None
+0x324 15 TrueColor    1     15  0  rgba   0   1   5   5   5   0  .   .   2   24  0   8   8   8   8   0   0   None
+0x325 15 TrueColor    1     15  0  rgba   0   1   5   5   5   0  .   .   2   24  0   8   8   8   8   8   1   None
+0x326 15 TrueColor    1     15  0  rgba   0   1   5   5   5   0  .   .   2    0  0  16  16  16  16   0   0   None
+0x327 15 TrueColor    1     15  0  rgba   0   1   5   5   5   0  .   .   2    0  0  16  16  16  16   8   1   None
+0x328 15 TrueColor    1     15  0  rgba   0   1   5   5   5   0  .   .   2   16  0  16  16  16  16   0   0   None
+0x329 15 TrueColor    1     15  0  rgba   0   1   5   5   5   0  .   .   2   16  0  16  16  16  16   8   1   None
+0x32a 15 TrueColor    1     15  0  rgba   0   1   5   5   5   0  .   .   2   24  0  16  16  16  16   0   0   None
+0x32b 15 TrueColor    1     15  0  rgba   0   1   5   5   5   0  .   .   2   24  0  16  16  16  16   8   1   None
+0x338 15 TrueColor    1     15  0  rgba   0   1   5   5   5   0  .   .   2    0  8   8   8   8   8   0   0   None
+0x339 15 TrueColor    1     15  0  rgba   0   1   5   5   5   0  .   .   2    0  8   8   8   8   8   8   1   None
+0x33a 15 TrueColor    1     15  0  rgba   0   1   5   5   5   0  .   .   2   16  8   8   8   8   8   0   0   None
+0x33b 15 TrueColor    1     15  0  rgba   0   1   5   5   5   0  .   .   2   16  8   8   8   8   8   8   1   None
+0x33c 15 TrueColor    1     15  0  rgba   0   1   5   5   5   0  .   .   2   24  8   8   8   8   8   0   0   None
+0x33d 15 TrueColor    1     15  0  rgba   0   1   5   5   5   0  .   .   2   24  8   8   8   8   8   8   1   None
+0x33e 15 TrueColor    1     15  0  rgba   0   1   5   5   5   0  .   .   2    0  8  16  16  16  16   0   0   None
+0x33f 15 TrueColor    1     15  0  rgba   0   1   5   5   5   0  .   .   2    0  8  16  16  16  16   8   1   None
+0x340 15 TrueColor    1     15  0  rgba   0   1   5   5   5   0  .   .   2   16  8  16  16  16  16   0   0   None
+0x341 15 TrueColor    1     15  0  rgba   0   1   5   5   5   0  .   .   2   16  8  16  16  16  16   8   1   None
+0x342 15 TrueColor    1     15  0  rgba   0   1   5   5   5   0  .   .   2   24  8  16  16  16  16   0   0   None
+0x343 15 TrueColor    1     15  0  rgba   0   1   5   5   5   0  .   .   2   24  8  16  16  16  16   8   1   None
+0x350 15 TrueColor    1     15  0  rgba   1   1   5   5   5   0  .   .   2    0  0   8   8   8   8   0   0   None
+0x351 15 TrueColor    1     15  0  rgba   1   1   5   5   5   0  .   .   2    0  0   8   8   8   8   8   1   None
+0x352 15 TrueColor    1     15  0  rgba   1   1   5   5   5   0  .   .   2   16  0   8   8   8   8   0   0   None
+0x353 15 TrueColor    1     15  0  rgba   1   1   5   5   5   0  .   .   2   16  0   8   8   8   8   8   1   None
+0x354 15 TrueColor    1     15  0  rgba   1   1   5   5   5   0  .   .   2   24  0   8   8   8   8   0   0   None
+0x355 15 TrueColor    1     15  0  rgba   1   1   5   5   5   0  .   .   2   24  0   8   8   8   8   8   1   None
+0x356 15 TrueColor    1     15  0  rgba   1   1   5   5   5   0  .   .   2    0  0  16  16  16  16   0   0   None
+0x357 15 TrueColor    1     15  0  rgba   1   1   5   5   5   0  .   .   2    0  0  16  16  16  16   8   1   None
+0x358 15 TrueColor    1     15  0  rgba   1   1   5   5   5   0  .   .   2   16  0  16  16  16  16   0   0   None
+0x359 15 TrueColor    1     15  0  rgba   1   1   5   5   5   0  .   .   2   16  0  16  16  16  16   8   1   None
+0x35a 15 TrueColor    1     15  0  rgba   1   1   5   5   5   0  .   .   2   24  0  16  16  16  16   0   0   None
+0x35b 15 TrueColor    1     15  0  rgba   1   1   5   5   5   0  .   .   2   24  0  16  16  16  16   8   1   None
+0x368 15 TrueColor    1     15  0  rgba   1   1   5   5   5   0  .   .   2    0  8   8   8   8   8   0   0   None
+0x369 15 TrueColor    1     15  0  rgba   1   1   5   5   5   0  .   .   2    0  8   8   8   8   8   8   1   None
+0x36a 15 TrueColor    1     15  0  rgba   1   1   5   5   5   0  .   .   2   16  8   8   8   8   8   0   0   None
+0x36b 15 TrueColor    1     15  0  rgba   1   1   5   5   5   0  .   .   2   16  8   8   8   8   8   8   1   None
+0x36c 15 TrueColor    1     15  0  rgba   1   1   5   5   5   0  .   .   2   24  8   8   8   8   8   0   0   None
+0x36d 15 TrueColor    1     15  0  rgba   1   1   5   5   5   0  .   .   2   24  8   8   8   8   8   8   1   None
+0x36e 15 TrueColor    1     15  0  rgba   1   1   5   5   5   0  .   .   2    0  8  16  16  16  16   0   0   None
+0x36f 15 TrueColor    1     15  0  rgba   1   1   5   5   5   0  .   .   2    0  8  16  16  16  16   8   1   None
+0x370 15 TrueColor    1     15  0  rgba   1   1   5   5   5   0  .   .   2   16  8  16  16  16  16   0   0   None
+0x371 15 TrueColor    1     15  0  rgba   1   1   5   5   5   0  .   .   2   16  8  16  16  16  16   8   1   None
+0x372 15 TrueColor    1     15  0  rgba   1   1   5   5   5   0  .   .   2   24  8  16  16  16  16   0   0   None
+0x373 15 TrueColor    1     15  0  rgba   1   1   5   5   5   0  .   .   2   24  8  16  16  16  16   8   1   None
+
+416 GLXFBConfigs:
+Vis   Vis   Visual Trans  buff lev render DB ste  r   g   b   a      s  aux dep ste  accum buffer   MS   MS         
+ ID  Depth   Type  parent size el   type     reo sz  sz  sz  sz flt rgb buf th  ncl  r   g   b   a  num bufs caveats
+--------------------------------------------------------------------------------------------------------------------
+0x 42 24 TrueColor    1     32  0  rgba   0   0   8   8   8   8  .   .   0    0  0   0   0   0   0   0   0   Slow
+0x 43 24 TrueColor    1     32  0  rgba   0   0   8   8   8   8  .   .   0    0  0   0   0   0   0  16   1   Slow
+0x 44 24 TrueColor    1     32  0  rgba   0   0   8   8   8   8  .   .   0   32  0   0   0   0   0   0   0   Slow
+0x 45 24 TrueColor    1     32  0  rgba   0   0   8   8   8   8  .   .   0   32  0   0   0   0   0  16   1   Slow
+0x 46 24 TrueColor    1     32  0  rgba   0   0   8   8   8   8  .   .   0    0  8   0   0   0   0   0   0   Slow
+0x 47 24 TrueColor    1     32  0  rgba   0   0   8   8   8   8  .   .   0    0  8   0   0   0   0  16   1   Slow
+0x 48 24 TrueColor    1     32  0  rgba   0   0   8   8   8   8  .   .   0   32  8   0   0   0   0   0   0   Slow
+0x 49 24 TrueColor    1     32  0  rgba   0   0   8   8   8   8  .   .   0   32  8   0   0   0   0  16   1   Slow
+0x 4a 24 TrueColor    1     32  0  rgba   1   0   8   8   8   8  .   .   0    0  0   0   0   0   0   0   0   Slow
+0x 4b 24 TrueColor    1     32  0  rgba   1   0   8   8   8   8  .   .   0    0  0   0   0   0   0  16   1   Slow
+0x 4c 24 TrueColor    1     32  0  rgba   1   0   8   8   8   8  .   .   0   32  0   0   0   0   0   0   0   Slow
+0x 4d 24 TrueColor    1     32  0  rgba   1   0   8   8   8   8  .   .   0   32  0   0   0   0   0  16   1   Slow
+0x 4e 24 TrueColor    1     32  0  rgba   1   0   8   8   8   8  .   .   0    0  8   0   0   0   0   0   0   Slow
+0x 4f 24 TrueColor    1     32  0  rgba   1   0   8   8   8   8  .   .   0    0  8   0   0   0   0  16   1   Slow
+0x 50 24 TrueColor    1     32  0  rgba   1   0   8   8   8   8  .   .   0   32  8   0   0   0   0   0   0   Slow
+0x 51 24 TrueColor    1     32  0  rgba   1   0   8   8   8   8  .   .   0   32  8   0   0   0   0  16   1   Slow
+0x 52 24 TrueColor    1     32  0  rgba   0   0   8   8   8   8  .   .   4    0  0   0   0   0   0   0   0   Slow
+0x 53 24 TrueColor    1     32  0  rgba   0   0   8   8   8   8  .   .   4    0  0   0   0   0   0  16   1   Slow
+0x 54 24 TrueColor    1     32  0  rgba   0   0   8   8   8   8  .   .   4   32  0   0   0   0   0   0   0   Slow
+0x 55 24 TrueColor    1     32  0  rgba   0   0   8   8   8   8  .   .   4   32  0   0   0   0   0  16   1   Slow
+0x 56 24 TrueColor    1     32  0  rgba   0   0   8   8   8   8  .   .   4    0  8   0   0   0   0   0   0   Slow
+0x 57 24 TrueColor    1     32  0  rgba   0   0   8   8   8   8  .   .   4    0  8   0   0   0   0  16   1   Slow
+0x 58 24 TrueColor    1     32  0  rgba   0   0   8   8   8   8  .   .   4   32  8   0   0   0   0   0   0   Slow
+0x 59 24 TrueColor    1     32  0  rgba   0   0   8   8   8   8  .   .   4   32  8   0   0   0   0  16   1   Slow
+0x 5a 24 TrueColor    1     32  0  rgba   1   0   8   8   8   8  .   .   4    0  0   0   0   0   0   0   0   Slow
+0x 5b 24 TrueColor    1     32  0  rgba   1   0   8   8   8   8  .   .   4    0  0   0   0   0   0  16   1   Slow
+0x 5c 24 TrueColor    1     32  0  rgba   1   0   8   8   8   8  .   .   4   32  0   0   0   0   0   0   0   Slow
+0x 5d 24 TrueColor    1     32  0  rgba   1   0   8   8   8   8  .   .   4   32  0   0   0   0   0  16   1   Slow
+0x 5e 24 TrueColor    1     32  0  rgba   1   0   8   8   8   8  .   .   4    0  8   0   0   0   0   0   0   Slow
+0x 5f 24 TrueColor    1     32  0  rgba   1   0   8   8   8   8  .   .   4    0  8   0   0   0   0  16   1   Slow
+0x 60 24 TrueColor    1     32  0  rgba   1   0   8   8   8   8  .   .   4   32  8   0   0   0   0   0   0   Slow
+0x 61 24 TrueColor    1     32  0  rgba   1   0   8   8   8   8  .   .   4   32  8   0   0   0   0  16   1   Slow
+0x 62 15 TrueColor    1     15  0  rgba   0   0   5   5   5   0  .   .   0    0  0   8   8   8   8   0   0   None
+0x 63 15 TrueColor    1     15  0  rgba   0   0   5   5   5   0  .   .   0    0  0   8   8   8   8   8   1   None
+0x 64 15 TrueColor    1     15  0  rgba   0   0   5   5   5   0  .   .   0   16  0   8   8   8   8   0   0   None
+0x 65 15 TrueColor    1     15  0  rgba   0   0   5   5   5   0  .   .   0   16  0   8   8   8   8   8   1   None
+0x 66 15 TrueColor    1     15  0  rgba   0   0   5   5   5   0  .   .   0   24  0   8   8   8   8   0   0   None
+0x 67 15 TrueColor    1     15  0  rgba   0   0   5   5   5   0  .   .   0   24  0   8   8   8   8   8   1   None
+0x 68 15 TrueColor    1     15  0  rgba   0   0   5   5   5   0  .   .   0    0  0  16  16  16  16   0   0   None
+0x 69 15 TrueColor    1     15  0  rgba   0   0   5   5   5   0  .   .   0    0  0  16  16  16  16   8   1   None
+0x 6a 15 TrueColor    1     15  0  rgba   0   0   5   5   5   0  .   .   0   16  0  16  16  16  16   0   0   None
+0x 6b 15 TrueColor    1     15  0  rgba   0   0   5   5   5   0  .   .   0   16  0  16  16  16  16   8   1   None
+0x 6c 15 TrueColor    1     15  0  rgba   0   0   5   5   5   0  .   .   0   24  0  16  16  16  16   0   0   None
+0x 6d 15 TrueColor    1     15  0  rgba   0   0   5   5   5   0  .   .   0   24  0  16  16  16  16   8   1   None
+0x 6e 24 TrueColor    1     32  0  rgba   0   0   8   8   8   8  .   .   0    0  0   8   8   8   8   0   0   None
+0x 6f 24 TrueColor    1     32  0  rgba   0   0   8   8   8   8  .   .   0    0  0   8   8   8   8   8   1   None
+0x 70 24 TrueColor    1     32  0  rgba   0   0   8   8   8   8  .   .   0   16  0   8   8   8   8   0   0   None
+0x 71 24 TrueColor    1     32  0  rgba   0   0   8   8   8   8  .   .   0   16  0   8   8   8   8   8   1   None
+0x 72 24 TrueColor    1     32  0  rgba   0   0   8   8   8   8  .   .   0   24  0   8   8   8   8   0   0   None
+0x 73 24 TrueColor    1     32  0  rgba   0   0   8   8   8   8  .   .   0   24  0   8   8   8   8   8   1   None
+0x 74 24 TrueColor    1     32  0  rgba   0   0   8   8   8   8  .   .   0    0  0  16  16  16  16   0   0   None
+0x 75 24 TrueColor    1     32  0  rgba   0   0   8   8   8   8  .   .   0    0  0  16  16  16  16   8   1   None
+0x 76 24 TrueColor    1     32  0  rgba   0   0   8   8   8   8  .   .   0   16  0  16  16  16  16   0   0   None
+0x 77 24 TrueColor    1     32  0  rgba   0   0   8   8   8   8  .   .   0   16  0  16  16  16  16   8   1   None
+0x 78 24 TrueColor    1     32  0  rgba   0   0   8   8   8   8  .   .   0   24  0  16  16  16  16   0   0   None
+0x 79 24 TrueColor    1     32  0  rgba   0   0   8   8   8   8  .   .   0   24  0  16  16  16  16   8   1   None
+0x 7a 15 TrueColor    1     15  0  rgba   0   0   5   5   5   0  .   .   0    0  8   8   8   8   8   0   0   None
+0x 7b 15 TrueColor    1     15  0  rgba   0   0   5   5   5   0  .   .   0    0  8   8   8   8   8   8   1   None
+0x 7c 15 TrueColor    1     15  0  rgba   0   0   5   5   5   0  .   .   0   16  8   8   8   8   8   0   0   None
+0x 7d 15 TrueColor    1     15  0  rgba   0   0   5   5   5   0  .   .   0   16  8   8   8   8   8   8   1   None
+0x 7e 15 TrueColor    1     15  0  rgba   0   0   5   5   5   0  .   .   0   24  8   8   8   8   8   0   0   None
+0x 7f 15 TrueColor    1     15  0  rgba   0   0   5   5   5   0  .   .   0   24  8   8   8   8   8   8   1   None
+0x 80 15 TrueColor    1     15  0  rgba   0   0   5   5   5   0  .   .   0    0  8  16  16  16  16   0   0   None
+0x 81 15 TrueColor    1     15  0  rgba   0   0   5   5   5   0  .   .   0    0  8  16  16  16  16   8   1   None
+0x 82 15 TrueColor    1     15  0  rgba   0   0   5   5   5   0  .   .   0   16  8  16  16  16  16   0   0   None
+0x 83 15 TrueColor    1     15  0  rgba   0   0   5   5   5   0  .   .   0   16  8  16  16  16  16   8   1   None
+0x 84 15 TrueColor    1     15  0  rgba   0   0   5   5   5   0  .   .   0   24  8  16  16  16  16   0   0   None
+0x 85 15 TrueColor    1     15  0  rgba   0   0   5   5   5   0  .   .   0   24  8  16  16  16  16   8   1   None
+0x 86 24 TrueColor    1     32  0  rgba   0   0   8   8   8   8  .   .   0    0  8   8   8   8   8   0   0   None
+0x 87 24 TrueColor    1     32  0  rgba   0   0   8   8   8   8  .   .   0    0  8   8   8   8   8   8   1   None
+0x 88 24 TrueColor    1     32  0  rgba   0   0   8   8   8   8  .   .   0   16  8   8   8   8   8   0   0   None
+0x 89 24 TrueColor    1     32  0  rgba   0   0   8   8   8   8  .   .   0   16  8   8   8   8   8   8   1   None
+0x 8a 24 TrueColor    1     32  0  rgba   0   0   8   8   8   8  .   .   0   24  8   8   8   8   8   0   0   None
+0x 8b 24 TrueColor    1     32  0  rgba   0   0   8   8   8   8  .   .   0   24  8   8   8   8   8   8   1   None
+0x 8c 24 TrueColor    1     32  0  rgba   0   0   8   8   8   8  .   .   0    0  8  16  16  16  16   0   0   None
+0x 8d 24 TrueColor    1     32  0  rgba   0   0   8   8   8   8  .   .   0    0  8  16  16  16  16   8   1   None
+0x 8e 24 TrueColor    1     32  0  rgba   0   0   8   8   8   8  .   .   0   16  8  16  16  16  16   0   0   None
+0x 8f 24 TrueColor    1     32  0  rgba   0   0   8   8   8   8  .   .   0   16  8  16  16  16  16   8   1   None
+0x 90 24 TrueColor    1     32  0  rgba   0   0   8   8   8   8  .   .   0   24  8  16  16  16  16   0   0   None
+0x 91 24 TrueColor    1     32  0  rgba   0   0   8   8   8   8  .   .   0   24  8  16  16  16  16   8   1   None
+0x 92 15 TrueColor    1     15  0  rgba   1   0   5   5   5   0  .   .   0    0  0   8   8   8   8   0   0   None
+0x 93 15 TrueColor    1     15  0  rgba   1   0   5   5   5   0  .   .   0    0  0   8   8   8   8   8   1   None
+0x 94 15 TrueColor    1     15  0  rgba   1   0   5   5   5   0  .   .   0   16  0   8   8   8   8   0   0   None
+0x 95 15 TrueColor    1     15  0  rgba   1   0   5   5   5   0  .   .   0   16  0   8   8   8   8   8   1   None
+0x 96 15 TrueColor    1     15  0  rgba   1   0   5   5   5   0  .   .   0   24  0   8   8   8   8   0   0   None
+0x 97 15 TrueColor    1     15  0  rgba   1   0   5   5   5   0  .   .   0   24  0   8   8   8   8   8   1   None
+0x 98 15 TrueColor    1     15  0  rgba   1   0   5   5   5   0  .   .   0    0  0  16  16  16  16   0   0   None
+0x 99 15 TrueColor    1     15  0  rgba   1   0   5   5   5   0  .   .   0    0  0  16  16  16  16   8   1   None
+0x 9a 15 TrueColor    1     15  0  rgba   1   0   5   5   5   0  .   .   0   16  0  16  16  16  16   0   0   None
+0x 9b 15 TrueColor    1     15  0  rgba   1   0   5   5   5   0  .   .   0   16  0  16  16  16  16   8   1   None
+0x 9c 15 TrueColor    1     15  0  rgba   1   0   5   5   5   0  .   .   0   24  0  16  16  16  16   0   0   None
+0x 9d 15 TrueColor    1     15  0  rgba   1   0   5   5   5   0  .   .   0   24  0  16  16  16  16   8   1   None
+0x 9e 24 TrueColor    1     32  0  rgba   1   0   8   8   8   8  .   .   0    0  0   8   8   8   8   0   0   None
+0x 9f 24 TrueColor    1     32  0  rgba   1   0   8   8   8   8  .   .   0    0  0   8   8   8   8   8   1   None
+0x a0 24 TrueColor    1     32  0  rgba   1   0   8   8   8   8  .   .   0   16  0   8   8   8   8   0   0   None
+0x a1 24 TrueColor    1     32  0  rgba   1   0   8   8   8   8  .   .   0   16  0   8   8   8   8   8   1   None
+0x a2 24 TrueColor    1     32  0  rgba   1   0   8   8   8   8  .   .   0   24  0   8   8   8   8   0   0   None
+0x a3 24 TrueColor    1     32  0  rgba   1   0   8   8   8   8  .   .   0   24  0   8   8   8   8   8   1   None
+0x a4 24 TrueColor    1     32  0  rgba   1   0   8   8   8   8  .   .   0    0  0  16  16  16  16   0   0   None
+0x a5 24 TrueColor    1     32  0  rgba   1   0   8   8   8   8  .   .   0    0  0  16  16  16  16   8   1   None
+0x a6 24 TrueColor    1     32  0  rgba   1   0   8   8   8   8  .   .   0   16  0  16  16  16  16   0   0   None
+0x a7 24 TrueColor    1     32  0  rgba   1   0   8   8   8   8  .   .   0   16  0  16  16  16  16   8   1   None
+0x a8 24 TrueColor    1     32  0  rgba   1   0   8   8   8   8  .   .   0   24  0  16  16  16  16   0   0   None
+0x a9 24 TrueColor    1     32  0  rgba   1   0   8   8   8   8  .   .   0   24  0  16  16  16  16   8   1   None
+0x aa 15 TrueColor    1     15  0  rgba   1   0   5   5   5   0  .   .   0    0  8   8   8   8   8   0   0   None
+0x ab 15 TrueColor    1     15  0  rgba   1   0   5   5   5   0  .   .   0    0  8   8   8   8   8   8   1   None
+0x ac 15 TrueColor    1     15  0  rgba   1   0   5   5   5   0  .   .   0   16  8   8   8   8   8   0   0   None
+0x ad 15 TrueColor    1     15  0  rgba   1   0   5   5   5   0  .   .   0   16  8   8   8   8   8   8   1   None
+0x ae 15 TrueColor    1     15  0  rgba   1   0   5   5   5   0  .   .   0   24  8   8   8   8   8   0   0   None
+0x af 15 TrueColor    1     15  0  rgba   1   0   5   5   5   0  .   .   0   24  8   8   8   8   8   8   1   None
+0x b0 15 TrueColor    1     15  0  rgba   1   0   5   5   5   0  .   .   0    0  8  16  16  16  16   0   0   None
+0x b1 15 TrueColor    1     15  0  rgba   1   0   5   5   5   0  .   .   0    0  8  16  16  16  16   8   1   None
+0x b2 15 TrueColor    1     15  0  rgba   1   0   5   5   5   0  .   .   0   16  8  16  16  16  16   0   0   None
+0x b3 15 TrueColor    1     15  0  rgba   1   0   5   5   5   0  .   .   0   16  8  16  16  16  16   8   1   None
+0x b4 15 TrueColor    1     15  0  rgba   1   0   5   5   5   0  .   .   0   24  8  16  16  16  16   0   0   None
+0x b5 15 TrueColor    1     15  0  rgba   1   0   5   5   5   0  .   .   0   24  8  16  16  16  16   8   1   None
+0x b6 24 TrueColor    1     32  0  rgba   1   0   8   8   8   8  .   .   0    0  8   8   8   8   8   0   0   None
+0x b7 24 TrueColor    1     32  0  rgba   1   0   8   8   8   8  .   .   0    0  8   8   8   8   8   8   1   None
+0x b8 24 TrueColor    1     32  0  rgba   1   0   8   8   8   8  .   .   0   16  8   8   8   8   8   0   0   None
+0x b9 24 TrueColor    1     32  0  rgba   1   0   8   8   8   8  .   .   0   16  8   8   8   8   8   8   1   None
+0x ba 24 TrueColor    1     32  0  rgba   1   0   8   8   8   8  .   .   0   24  8   8   8   8   8   0   0   None
+0x bb 24 TrueColor    1     32  0  rgba   1   0   8   8   8   8  .   .   0   24  8   8   8   8   8   8   1   None
+0x bc 24 TrueColor    1     32  0  rgba   1   0   8   8   8   8  .   .   0    0  8  16  16  16  16   0   0   None
+0x bd 24 TrueColor    1     32  0  rgba   1   0   8   8   8   8  .   .   0    0  8  16  16  16  16   8   1   None
+0x be 24 TrueColor    1     32  0  rgba   1   0   8   8   8   8  .   .   0   16  8  16  16  16  16   0   0   None
+0x bf 24 TrueColor    1     32  0  rgba   1   0   8   8   8   8  .   .   0   16  8  16  16  16  16   8   1   None
+0x c0 24 TrueColor    1     32  0  rgba   1   0   8   8   8   8  .   .   0   24  8  16  16  16  16   0   0   None
+0x c1 24 TrueColor    1     32  0  rgba   1   0   8   8   8   8  .   .   0   24  8  16  16  16  16   8   1   None
+0x c2 15 TrueColor    1     15  0  rgba   0   0   5   5   5   0  .   .   2    0  0   8   8   8   8   0   0   None
+0x c3 15 TrueColor    1     15  0  rgba   0   0   5   5   5   0  .   .   2    0  0   8   8   8   8   8   1   None
+0x c4 15 TrueColor    1     15  0  rgba   0   0   5   5   5   0  .   .   2   16  0   8   8   8   8   0   0   None
+0x c5 15 TrueColor    1     15  0  rgba   0   0   5   5   5   0  .   .   2   16  0   8   8   8   8   8   1   None
+0x c6 15 TrueColor    1     15  0  rgba   0   0   5   5   5   0  .   .   2   24  0   8   8   8   8   0   0   None
+0x c7 15 TrueColor    1     15  0  rgba   0   0   5   5   5   0  .   .   2   24  0   8   8   8   8   8   1   None
+0x c8 15 TrueColor    1     15  0  rgba   0   0   5   5   5   0  .   .   2    0  0  16  16  16  16   0   0   None
+0x c9 15 TrueColor    1     15  0  rgba   0   0   5   5   5   0  .   .   2    0  0  16  16  16  16   8   1   None
+0x ca 15 TrueColor    1     15  0  rgba   0   0   5   5   5   0  .   .   2   16  0  16  16  16  16   0   0   None
+0x cb 15 TrueColor    1     15  0  rgba   0   0   5   5   5   0  .   .   2   16  0  16  16  16  16   8   1   None
+0x cc 15 TrueColor    1     15  0  rgba   0   0   5   5   5   0  .   .   2   24  0  16  16  16  16   0   0   None
+0x cd 15 TrueColor    1     15  0  rgba   0   0   5   5   5   0  .   .   2   24  0  16  16  16  16   8   1   None
+0x ce 24 TrueColor    1     32  0  rgba   0   0   8   8   8   8  .   .   2    0  0   8   8   8   8   0   0   None
+0x cf 24 TrueColor    1     32  0  rgba   0   0   8   8   8   8  .   .   2    0  0   8   8   8   8   8   1   None
+0x d0 24 TrueColor    1     32  0  rgba   0   0   8   8   8   8  .   .   2   16  0   8   8   8   8   0   0   None
+0x d1 24 TrueColor    1     32  0  rgba   0   0   8   8   8   8  .   .   2   16  0   8   8   8   8   8   1   None
+0x d2 24 TrueColor    1     32  0  rgba   0   0   8   8   8   8  .   .   2   24  0   8   8   8   8   0   0   None
+0x d3 24 TrueColor    1     32  0  rgba   0   0   8   8   8   8  .   .   2   24  0   8   8   8   8   8   1   None
+0x d4 24 TrueColor    1     32  0  rgba   0   0   8   8   8   8  .   .   2    0  0  16  16  16  16   0   0   None
+0x d5 24 TrueColor    1     32  0  rgba   0   0   8   8   8   8  .   .   2    0  0  16  16  16  16   8   1   None
+0x d6 24 TrueColor    1     32  0  rgba   0   0   8   8   8   8  .   .   2   16  0  16  16  16  16   0   0   None
+0x d7 24 TrueColor    1     32  0  rgba   0   0   8   8   8   8  .   .   2   16  0  16  16  16  16   8   1   None
+0x d8 24 TrueColor    1     32  0  rgba   0   0   8   8   8   8  .   .   2   24  0  16  16  16  16   0   0   None
+0x d9 24 TrueColor    1     32  0  rgba   0   0   8   8   8   8  .   .   2   24  0  16  16  16  16   8   1   None
+0x da 15 TrueColor    1     15  0  rgba   0   0   5   5   5   0  .   .   2    0  8   8   8   8   8   0   0   None
+0x db 15 TrueColor    1     15  0  rgba   0   0   5   5   5   0  .   .   2    0  8   8   8   8   8   8   1   None
+0x dc 15 TrueColor    1     15  0  rgba   0   0   5   5   5   0  .   .   2   16  8   8   8   8   8   0   0   None
+0x dd 15 TrueColor    1     15  0  rgba   0   0   5   5   5   0  .   .   2   16  8   8   8   8   8   8   1   None
+0x de 15 TrueColor    1     15  0  rgba   0   0   5   5   5   0  .   .   2   24  8   8   8   8   8   0   0   None
+0x df 15 TrueColor    1     15  0  rgba   0   0   5   5   5   0  .   .   2   24  8   8   8   8   8   8   1   None
+0x e0 15 TrueColor    1     15  0  rgba   0   0   5   5   5   0  .   .   2    0  8  16  16  16  16   0   0   None
+0x e1 15 TrueColor    1     15  0  rgba   0   0   5   5   5   0  .   .   2    0  8  16  16  16  16   8   1   None
+0x e2 15 TrueColor    1     15  0  rgba   0   0   5   5   5   0  .   .   2   16  8  16  16  16  16   0   0   None
+0x e3 15 TrueColor    1     15  0  rgba   0   0   5   5   5   0  .   .   2   16  8  16  16  16  16   8   1   None
+0x e4 15 TrueColor    1     15  0  rgba   0   0   5   5   5   0  .   .   2   24  8  16  16  16  16   0   0   None
+0x e5 15 TrueColor    1     15  0  rgba   0   0   5   5   5   0  .   .   2   24  8  16  16  16  16   8   1   None
+0x e6 24 TrueColor    1     32  0  rgba   0   0   8   8   8   8  .   .   2    0  8   8   8   8   8   0   0   None
+0x e7 24 TrueColor    1     32  0  rgba   0   0   8   8   8   8  .   .   2    0  8   8   8   8   8   8   1   None
+0x e8 24 TrueColor    1     32  0  rgba   0   0   8   8   8   8  .   .   2   16  8   8   8   8   8   0   0   None
+0x e9 24 TrueColor    1     32  0  rgba   0   0   8   8   8   8  .   .   2   16  8   8   8   8   8   8   1   None
+0x ea 24 TrueColor    1     32  0  rgba   0   0   8   8   8   8  .   .   2   24  8   8   8   8   8   0   0   None
+0x eb 24 TrueColor    1     32  0  rgba   0   0   8   8   8   8  .   .   2   24  8   8   8   8   8   8   1   None
+0x ec 24 TrueColor    1     32  0  rgba   0   0   8   8   8   8  .   .   2    0  8  16  16  16  16   0   0   None
+0x ed 24 TrueColor    1     32  0  rgba   0   0   8   8   8   8  .   .   2    0  8  16  16  16  16   8   1   None
+0x ee 24 TrueColor    1     32  0  rgba   0   0   8   8   8   8  .   .   2   16  8  16  16  16  16   0   0   None
+0x ef 24 TrueColor    1     32  0  rgba   0   0   8   8   8   8  .   .   2   16  8  16  16  16  16   8   1   None
+0x f0 24 TrueColor    1     32  0  rgba   0   0   8   8   8   8  .   .   2   24  8  16  16  16  16   0   0   None
+0x f1 24 TrueColor    1     32  0  rgba   0   0   8   8   8   8  .   .   2   24  8  16  16  16  16   8   1   None
+0x f2 15 TrueColor    1     15  0  rgba   1   0   5   5   5   0  .   .   2    0  0   8   8   8   8   0   0   None
+0x f3 15 TrueColor    1     15  0  rgba   1   0   5   5   5   0  .   .   2    0  0   8   8   8   8   8   1   None
+0x f4 15 TrueColor    1     15  0  rgba   1   0   5   5   5   0  .   .   2   16  0   8   8   8   8   0   0   None
+0x f5 15 TrueColor    1     15  0  rgba   1   0   5   5   5   0  .   .   2   16  0   8   8   8   8   8   1   None
+0x f6 15 TrueColor    1     15  0  rgba   1   0   5   5   5   0  .   .   2   24  0   8   8   8   8   0   0   None
+0x f7 15 TrueColor    1     15  0  rgba   1   0   5   5   5   0  .   .   2   24  0   8   8   8   8   8   1   None
+0x f8 15 TrueColor    1     15  0  rgba   1   0   5   5   5   0  .   .   2    0  0  16  16  16  16   0   0   None
+0x f9 15 TrueColor    1     15  0  rgba   1   0   5   5   5   0  .   .   2    0  0  16  16  16  16   8   1   None
+0x fa 15 TrueColor    1     15  0  rgba   1   0   5   5   5   0  .   .   2   16  0  16  16  16  16   0   0   None
+0x fb 15 TrueColor    1     15  0  rgba   1   0   5   5   5   0  .   .   2   16  0  16  16  16  16   8   1   None
+0x fc 15 TrueColor    1     15  0  rgba   1   0   5   5   5   0  .   .   2   24  0  16  16  16  16   0   0   None
+0x fd 15 TrueColor    1     15  0  rgba   1   0   5   5   5   0  .   .   2   24  0  16  16  16  16   8   1   None
+0x fe 24 TrueColor    1     32  0  rgba   1   0   8   8   8   8  .   .   2    0  0   8   8   8   8   0   0   None
+0x ff 24 TrueColor    1     32  0  rgba   1   0   8   8   8   8  .   .   2    0  0   8   8   8   8   8   1   None
+0x100 24 TrueColor    1     32  0  rgba   1   0   8   8   8   8  .   .   2   16  0   8   8   8   8   0   0   None
+0x101 24 TrueColor    1     32  0  rgba   1   0   8   8   8   8  .   .   2   16  0   8   8   8   8   8   1   None
+0x102 24 TrueColor    1     32  0  rgba   1   0   8   8   8   8  .   .   2   24  0   8   8   8   8   0   0   None
+0x103 24 TrueColor    1     32  0  rgba   1   0   8   8   8   8  .   .   2   24  0   8   8   8   8   8   1   None
+0x104 24 TrueColor    1     32  0  rgba   1   0   8   8   8   8  .   .   2    0  0  16  16  16  16   0   0   None
+0x105 24 TrueColor    1     32  0  rgba   1   0   8   8   8   8  .   .   2    0  0  16  16  16  16   8   1   None
+0x106 24 TrueColor    1     32  0  rgba   1   0   8   8   8   8  .   .   2   16  0  16  16  16  16   0   0   None
+0x107 24 TrueColor    1     32  0  rgba   1   0   8   8   8   8  .   .   2   16  0  16  16  16  16   8   1   None
+0x108 24 TrueColor    1     32  0  rgba   1   0   8   8   8   8  .   .   2   24  0  16  16  16  16   0   0   None
+0x109 24 TrueColor    1     32  0  rgba   1   0   8   8   8   8  .   .   2   24  0  16  16  16  16   8   1   None
+0x10a 15 TrueColor    1     15  0  rgba   1   0   5   5   5   0  .   .   2    0  8   8   8   8   8   0   0   None
+0x10b 15 TrueColor    1     15  0  rgba   1   0   5   5   5   0  .   .   2    0  8   8   8   8   8   8   1   None
+0x10c 15 TrueColor    1     15  0  rgba   1   0   5   5   5   0  .   .   2   16  8   8   8   8   8   0   0   None
+0x10d 15 TrueColor    1     15  0  rgba   1   0   5   5   5   0  .   .   2   16  8   8   8   8   8   8   1   None
+0x10e 15 TrueColor    1     15  0  rgba   1   0   5   5   5   0  .   .   2   24  8   8   8   8   8   0   0   None
+0x10f 15 TrueColor    1     15  0  rgba   1   0   5   5   5   0  .   .   2   24  8   8   8   8   8   8   1   None
+0x110 15 TrueColor    1     15  0  rgba   1   0   5   5   5   0  .   .   2    0  8  16  16  16  16   0   0   None
+0x111 15 TrueColor    1     15  0  rgba   1   0   5   5   5   0  .   .   2    0  8  16  16  16  16   8   1   None
+0x112 15 TrueColor    1     15  0  rgba   1   0   5   5   5   0  .   .   2   16  8  16  16  16  16   0   0   None
+0x113 15 TrueColor    1     15  0  rgba   1   0   5   5   5   0  .   .   2   16  8  16  16  16  16   8   1   None
+0x114 15 TrueColor    1     15  0  rgba   1   0   5   5   5   0  .   .   2   24  8  16  16  16  16   0   0   None
+0x115 15 TrueColor    1     15  0  rgba   1   0   5   5   5   0  .   .   2   24  8  16  16  16  16   8   1   None
+0x116 24 TrueColor    1     32  0  rgba   1   0   8   8   8   8  .   .   2    0  8   8   8   8   8   0   0   None
+0x117 24 TrueColor    1     32  0  rgba   1   0   8   8   8   8  .   .   2    0  8   8   8   8   8   8   1   None
+0x118 24 TrueColor    1     32  0  rgba   1   0   8   8   8   8  .   .   2   16  8   8   8   8   8   0   0   None
+0x119 24 TrueColor    1     32  0  rgba   1   0   8   8   8   8  .   .   2   16  8   8   8   8   8   8   1   None
+0x11a 24 TrueColor    1     32  0  rgba   1   0   8   8   8   8  .   .   2   24  8   8   8   8   8   0   0   None
+0x11b 24 TrueColor    1     32  0  rgba   1   0   8   8   8   8  .   .   2   24  8   8   8   8   8   8   1   None
+0x11c 24 TrueColor    1     32  0  rgba   1   0   8   8   8   8  .   .   2    0  8  16  16  16  16   0   0   None
+0x11d 24 TrueColor    1     32  0  rgba   1   0   8   8   8   8  .   .   2    0  8  16  16  16  16   8   1   None
+0x11e 24 TrueColor    1     32  0  rgba   1   0   8   8   8   8  .   .   2   16  8  16  16  16  16   0   0   None
+0x11f 24 TrueColor    1     32  0  rgba   1   0   8   8   8   8  .   .   2   16  8  16  16  16  16   8   1   None
+0x120 24 TrueColor    1     32  0  rgba   1   0   8   8   8   8  .   .   2   24  8  16  16  16  16   0   0   None
+0x121 24 TrueColor    1     32  0  rgba   1   0   8   8   8   8  .   .   2   24  8  16  16  16  16   8   1   None
+0x122 15 TrueColor    1     15  0  rgba   0   1   5   5   5   0  .   .   0    0  0   8   8   8   8   0   0   None
+0x123 15 TrueColor    1     15  0  rgba   0   1   5   5   5   0  .   .   0    0  0   8   8   8   8   8   1   None
+0x124 15 TrueColor    1     15  0  rgba   0   1   5   5   5   0  .   .   0   16  0   8   8   8   8   0   0   None
+0x125 15 TrueColor    1     15  0  rgba   0   1   5   5   5   0  .   .   0   16  0   8   8   8   8   8   1   None
+0x126 15 TrueColor    1     15  0  rgba   0   1   5   5   5   0  .   .   0   24  0   8   8   8   8   0   0   None
+0x127 15 TrueColor    1     15  0  rgba   0   1   5   5   5   0  .   .   0   24  0   8   8   8   8   8   1   None
+0x128 15 TrueColor    1     15  0  rgba   0   1   5   5   5   0  .   .   0    0  0  16  16  16  16   0   0   None
+0x129 15 TrueColor    1     15  0  rgba   0   1   5   5   5   0  .   .   0    0  0  16  16  16  16   8   1   None
+0x12a 15 TrueColor    1     15  0  rgba   0   1   5   5   5   0  .   .   0   16  0  16  16  16  16   0   0   None
+0x12b 15 TrueColor    1     15  0  rgba   0   1   5   5   5   0  .   .   0   16  0  16  16  16  16   8   1   None
+0x12c 15 TrueColor    1     15  0  rgba   0   1   5   5   5   0  .   .   0   24  0  16  16  16  16   0   0   None
+0x12d 15 TrueColor    1     15  0  rgba   0   1   5   5   5   0  .   .   0   24  0  16  16  16  16   8   1   None
+0x12e 24 TrueColor    1     32  0  rgba   0   1   8   8   8   8  .   .   0    0  0   8   8   8   8   0   0   None
+0x12f 24 TrueColor    1     32  0  rgba   0   1   8   8   8   8  .   .   0    0  0   8   8   8   8   8   1   None
+0x130 24 TrueColor    1     32  0  rgba   0   1   8   8   8   8  .   .   0   16  0   8   8   8   8   0   0   None
+0x131 24 TrueColor    1     32  0  rgba   0   1   8   8   8   8  .   .   0   16  0   8   8   8   8   8   1   None
+0x132 24 TrueColor    1     32  0  rgba   0   1   8   8   8   8  .   .   0   24  0   8   8   8   8   0   0   None
+0x133 24 TrueColor    1     32  0  rgba   0   1   8   8   8   8  .   .   0   24  0   8   8   8   8   8   1   None
+0x134 24 TrueColor    1     32  0  rgba   0   1   8   8   8   8  .   .   0    0  0  16  16  16  16   0   0   None
+0x135 24 TrueColor    1     32  0  rgba   0   1   8   8   8   8  .   .   0    0  0  16  16  16  16   8   1   None
+0x136 24 TrueColor    1     32  0  rgba   0   1   8   8   8   8  .   .   0   16  0  16  16  16  16   0   0   None
+0x137 24 TrueColor    1     32  0  rgba   0   1   8   8   8   8  .   .   0   16  0  16  16  16  16   8   1   None
+0x138 24 TrueColor    1     32  0  rgba   0   1   8   8   8   8  .   .   0   24  0  16  16  16  16   0   0   None
+0x139 24 TrueColor    1     32  0  rgba   0   1   8   8   8   8  .   .   0   24  0  16  16  16  16   8   1   None
+0x13a 15 TrueColor    1     15  0  rgba   0   1   5   5   5   0  .   .   0    0  8   8   8   8   8   0   0   None
+0x13b 15 TrueColor    1     15  0  rgba   0   1   5   5   5   0  .   .   0    0  8   8   8   8   8   8   1   None
+0x13c 15 TrueColor    1     15  0  rgba   0   1   5   5   5   0  .   .   0   16  8   8   8   8   8   0   0   None
+0x13d 15 TrueColor    1     15  0  rgba   0   1   5   5   5   0  .   .   0   16  8   8   8   8   8   8   1   None
+0x13e 15 TrueColor    1     15  0  rgba   0   1   5   5   5   0  .   .   0   24  8   8   8   8   8   0   0   None
+0x13f 15 TrueColor    1     15  0  rgba   0   1   5   5   5   0  .   .   0   24  8   8   8   8   8   8   1   None
+0x140 15 TrueColor    1     15  0  rgba   0   1   5   5   5   0  .   .   0    0  8  16  16  16  16   0   0   None
+0x141 15 TrueColor    1     15  0  rgba   0   1   5   5   5   0  .   .   0    0  8  16  16  16  16   8   1   None
+0x142 15 TrueColor    1     15  0  rgba   0   1   5   5   5   0  .   .   0   16  8  16  16  16  16   0   0   None
+0x143 15 TrueColor    1     15  0  rgba   0   1   5   5   5   0  .   .   0   16  8  16  16  16  16   8   1   None
+0x144 15 TrueColor    1     15  0  rgba   0   1   5   5   5   0  .   .   0   24  8  16  16  16  16   0   0   None
+0x145 15 TrueColor    1     15  0  rgba   0   1   5   5   5   0  .   .   0   24  8  16  16  16  16   8   1   None
+0x146 24 TrueColor    1     32  0  rgba   0   1   8   8   8   8  .   .   0    0  8   8   8   8   8   0   0   None
+0x147 24 TrueColor    1     32  0  rgba   0   1   8   8   8   8  .   .   0    0  8   8   8   8   8   8   1   None
+0x148 24 TrueColor    1     32  0  rgba   0   1   8   8   8   8  .   .   0   16  8   8   8   8   8   0   0   None
+0x149 24 TrueColor    1     32  0  rgba   0   1   8   8   8   8  .   .   0   16  8   8   8   8   8   8   1   None
+0x14a 24 TrueColor    1     32  0  rgba   0   1   8   8   8   8  .   .   0   24  8   8   8   8   8   0   0   None
+0x14b 24 TrueColor    1     32  0  rgba   0   1   8   8   8   8  .   .   0   24  8   8   8   8   8   8   1   None
+0x14c 24 TrueColor    1     32  0  rgba   0   1   8   8   8   8  .   .   0    0  8  16  16  16  16   0   0   None
+0x14d 24 TrueColor    1     32  0  rgba   0   1   8   8   8   8  .   .   0    0  8  16  16  16  16   8   1   None
+0x14e 24 TrueColor    1     32  0  rgba   0   1   8   8   8   8  .   .   0   16  8  16  16  16  16   0   0   None
+0x14f 24 TrueColor    1     32  0  rgba   0   1   8   8   8   8  .   .   0   16  8  16  16  16  16   8   1   None
+0x150 24 TrueColor    1     32  0  rgba   0   1   8   8   8   8  .   .   0   24  8  16  16  16  16   0   0   None
+0x151 24 TrueColor    1     32  0  rgba   0   1   8   8   8   8  .   .   0   24  8  16  16  16  16   8   1   None
+0x152 15 TrueColor    1     15  0  rgba   1   1   5   5   5   0  .   .   0    0  0   8   8   8   8   0   0   None
+0x153 15 TrueColor    1     15  0  rgba   1   1   5   5   5   0  .   .   0    0  0   8   8   8   8   8   1   None
+0x154 15 TrueColor    1     15  0  rgba   1   1   5   5   5   0  .   .   0   16  0   8   8   8   8   0   0   None
+0x155 15 TrueColor    1     15  0  rgba   1   1   5   5   5   0  .   .   0   16  0   8   8   8   8   8   1   None
+0x156 15 TrueColor    1     15  0  rgba   1   1   5   5   5   0  .   .   0   24  0   8   8   8   8   0   0   None
+0x157 15 TrueColor    1     15  0  rgba   1   1   5   5   5   0  .   .   0   24  0   8   8   8   8   8   1   None
+0x158 15 TrueColor    1     15  0  rgba   1   1   5   5   5   0  .   .   0    0  0  16  16  16  16   0   0   None
+0x159 15 TrueColor    1     15  0  rgba   1   1   5   5   5   0  .   .   0    0  0  16  16  16  16   8   1   None
+0x15a 15 TrueColor    1     15  0  rgba   1   1   5   5   5   0  .   .   0   16  0  16  16  16  16   0   0   None
+0x15b 15 TrueColor    1     15  0  rgba   1   1   5   5   5   0  .   .   0   16  0  16  16  16  16   8   1   None
+0x15c 15 TrueColor    1     15  0  rgba   1   1   5   5   5   0  .   .   0   24  0  16  16  16  16   0   0   None
+0x15d 15 TrueColor    1     15  0  rgba   1   1   5   5   5   0  .   .   0   24  0  16  16  16  16   8   1   None
+0x15e 24 TrueColor    1     32  0  rgba   1   1   8   8   8   8  .   .   0    0  0   8   8   8   8   0   0   None
+0x15f 24 TrueColor    1     32  0  rgba   1   1   8   8   8   8  .   .   0    0  0   8   8   8   8   8   1   None
+0x160 24 TrueColor    1     32  0  rgba   1   1   8   8   8   8  .   .   0   16  0   8   8   8   8   0   0   None
+0x161 24 TrueColor    1     32  0  rgba   1   1   8   8   8   8  .   .   0   16  0   8   8   8   8   8   1   None
+0x162 24 TrueColor    1     32  0  rgba   1   1   8   8   8   8  .   .   0   24  0   8   8   8   8   0   0   None
+0x163 24 TrueColor    1     32  0  rgba   1   1   8   8   8   8  .   .   0   24  0   8   8   8   8   8   1   None
+0x164 24 TrueColor    1     32  0  rgba   1   1   8   8   8   8  .   .   0    0  0  16  16  16  16   0   0   None
+0x165 24 TrueColor    1     32  0  rgba   1   1   8   8   8   8  .   .   0    0  0  16  16  16  16   8   1   None
+0x166 24 TrueColor    1     32  0  rgba   1   1   8   8   8   8  .   .   0   16  0  16  16  16  16   0   0   None
+0x167 24 TrueColor    1     32  0  rgba   1   1   8   8   8   8  .   .   0   16  0  16  16  16  16   8   1   None
+0x168 24 TrueColor    1     32  0  rgba   1   1   8   8   8   8  .   .   0   24  0  16  16  16  16   0   0   None
+0x169 24 TrueColor    1     32  0  rgba   1   1   8   8   8   8  .   .   0   24  0  16  16  16  16   8   1   None
+0x16a 15 TrueColor    1     15  0  rgba   1   1   5   5   5   0  .   .   0    0  8   8   8   8   8   0   0   None
+0x16b 15 TrueColor    1     15  0  rgba   1   1   5   5   5   0  .   .   0    0  8   8   8   8   8   8   1   None
+0x16c 15 TrueColor    1     15  0  rgba   1   1   5   5   5   0  .   .   0   16  8   8   8   8   8   0   0   None
+0x16d 15 TrueColor    1     15  0  rgba   1   1   5   5   5   0  .   .   0   16  8   8   8   8   8   8   1   None
+0x16e 15 TrueColor    1     15  0  rgba   1   1   5   5   5   0  .   .   0   24  8   8   8   8   8   0   0   None
+0x16f 15 TrueColor    1     15  0  rgba   1   1   5   5   5   0  .   .   0   24  8   8   8   8   8   8   1   None
+0x170 15 TrueColor    1     15  0  rgba   1   1   5   5   5   0  .   .   0    0  8  16  16  16  16   0   0   None
+0x171 15 TrueColor    1     15  0  rgba   1   1   5   5   5   0  .   .   0    0  8  16  16  16  16   8   1   None
+0x172 15 TrueColor    1     15  0  rgba   1   1   5   5   5   0  .   .   0   16  8  16  16  16  16   0   0   None
+0x173 15 TrueColor    1     15  0  rgba   1   1   5   5   5   0  .   .   0   16  8  16  16  16  16   8   1   None
+0x174 15 TrueColor    1     15  0  rgba   1   1   5   5   5   0  .   .   0   24  8  16  16  16  16   0   0   None
+0x175 15 TrueColor    1     15  0  rgba   1   1   5   5   5   0  .   .   0   24  8  16  16  16  16   8   1   None
+0x176 24 TrueColor    1     32  0  rgba   1   1   8   8   8   8  .   .   0    0  8   8   8   8   8   0   0   None
+0x177 24 TrueColor    1     32  0  rgba   1   1   8   8   8   8  .   .   0    0  8   8   8   8   8   8   1   None
+0x178 24 TrueColor    1     32  0  rgba   1   1   8   8   8   8  .   .   0   16  8   8   8   8   8   0   0   None
+0x179 24 TrueColor    1     32  0  rgba   1   1   8   8   8   8  .   .   0   16  8   8   8   8   8   8   1   None
+0x17a 24 TrueColor    1     32  0  rgba   1   1   8   8   8   8  .   .   0   24  8   8   8   8   8   0   0   None
+0x17b 24 TrueColor    1     32  0  rgba   1   1   8   8   8   8  .   .   0   24  8   8   8   8   8   8   1   None
+0x17c 24 TrueColor    1     32  0  rgba   1   1   8   8   8   8  .   .   0    0  8  16  16  16  16   0   0   None
+0x17d 24 TrueColor    1     32  0  rgba   1   1   8   8   8   8  .   .   0    0  8  16  16  16  16   8   1   None
+0x17e 24 TrueColor    1     32  0  rgba   1   1   8   8   8   8  .   .   0   16  8  16  16  16  16   0   0   None
+0x17f 24 TrueColor    1     32  0  rgba   1   1   8   8   8   8  .   .   0   16  8  16  16  16  16   8   1   None
+0x180 24 TrueColor    1     32  0  rgba   1   1   8   8   8   8  .   .   0   24  8  16  16  16  16   0   0   None
+0x181 24 TrueColor    1     32  0  rgba   1   1   8   8   8   8  .   .   0   24  8  16  16  16  16   8   1   None
+0x182 15 TrueColor    1     15  0  rgba   0   1   5   5   5   0  .   .   2    0  0   8   8   8   8   0   0   None
+0x183 15 TrueColor    1     15  0  rgba   0   1   5   5   5   0  .   .   2    0  0   8   8   8   8   8   1   None
+0x184 15 TrueColor    1     15  0  rgba   0   1   5   5   5   0  .   .   2   16  0   8   8   8   8   0   0   None
+0x185 15 TrueColor    1     15  0  rgba   0   1   5   5   5   0  .   .   2   16  0   8   8   8   8   8   1   None
+0x186 15 TrueColor    1     15  0  rgba   0   1   5   5   5   0  .   .   2   24  0   8   8   8   8   0   0   None
+0x187 15 TrueColor    1     15  0  rgba   0   1   5   5   5   0  .   .   2   24  0   8   8   8   8   8   1   None
+0x188 15 TrueColor    1     15  0  rgba   0   1   5   5   5   0  .   .   2    0  0  16  16  16  16   0   0   None
+0x189 15 TrueColor    1     15  0  rgba   0   1   5   5   5   0  .   .   2    0  0  16  16  16  16   8   1   None
+0x18a 15 TrueColor    1     15  0  rgba   0   1   5   5   5   0  .   .   2   16  0  16  16  16  16   0   0   None
+0x18b 15 TrueColor    1     15  0  rgba   0   1   5   5   5   0  .   .   2   16  0  16  16  16  16   8   1   None
+0x18c 15 TrueColor    1     15  0  rgba   0   1   5   5   5   0  .   .   2   24  0  16  16  16  16   0   0   None
+0x18d 15 TrueColor    1     15  0  rgba   0   1   5   5   5   0  .   .   2   24  0  16  16  16  16   8   1   None
+0x18e 24 TrueColor    1     32  0  rgba   0   1   8   8   8   8  .   .   2    0  0   8   8   8   8   0   0   None
+0x18f 24 TrueColor    1     32  0  rgba   0   1   8   8   8   8  .   .   2    0  0   8   8   8   8   8   1   None
+0x190 24 TrueColor    1     32  0  rgba   0   1   8   8   8   8  .   .   2   16  0   8   8   8   8   0   0   None
+0x191 24 TrueColor    1     32  0  rgba   0   1   8   8   8   8  .   .   2   16  0   8   8   8   8   8   1   None
+0x192 24 TrueColor    1     32  0  rgba   0   1   8   8   8   8  .   .   2   24  0   8   8   8   8   0   0   None
+0x193 24 TrueColor    1     32  0  rgba   0   1   8   8   8   8  .   .   2   24  0   8   8   8   8   8   1   None
+0x194 24 TrueColor    1     32  0  rgba   0   1   8   8   8   8  .   .   2    0  0  16  16  16  16   0   0   None
+0x195 24 TrueColor    1     32  0  rgba   0   1   8   8   8   8  .   .   2    0  0  16  16  16  16   8   1   None
+0x196 24 TrueColor    1     32  0  rgba   0   1   8   8   8   8  .   .   2   16  0  16  16  16  16   0   0   None
+0x197 24 TrueColor    1     32  0  rgba   0   1   8   8   8   8  .   .   2   16  0  16  16  16  16   8   1   None
+0x198 24 TrueColor    1     32  0  rgba   0   1   8   8   8   8  .   .   2   24  0  16  16  16  16   0   0   None
+0x199 24 TrueColor    1     32  0  rgba   0   1   8   8   8   8  .   .   2   24  0  16  16  16  16   8   1   None
+0x19a 15 TrueColor    1     15  0  rgba   0   1   5   5   5   0  .   .   2    0  8   8   8   8   8   0   0   None
+0x19b 15 TrueColor    1     15  0  rgba   0   1   5   5   5   0  .   .   2    0  8   8   8   8   8   8   1   None
+0x19c 15 TrueColor    1     15  0  rgba   0   1   5   5   5   0  .   .   2   16  8   8   8   8   8   0   0   None
+0x19d 15 TrueColor    1     15  0  rgba   0   1   5   5   5   0  .   .   2   16  8   8   8   8   8   8   1   None
+0x19e 15 TrueColor    1     15  0  rgba   0   1   5   5   5   0  .   .   2   24  8   8   8   8   8   0   0   None
+0x19f 15 TrueColor    1     15  0  rgba   0   1   5   5   5   0  .   .   2   24  8   8   8   8   8   8   1   None
+0x1a0 15 TrueColor    1     15  0  rgba   0   1   5   5   5   0  .   .   2    0  8  16  16  16  16   0   0   None
+0x1a1 15 TrueColor    1     15  0  rgba   0   1   5   5   5   0  .   .   2    0  8  16  16  16  16   8   1   None
+0x1a2 15 TrueColor    1     15  0  rgba   0   1   5   5   5   0  .   .   2   16  8  16  16  16  16   0   0   None
+0x1a3 15 TrueColor    1     15  0  rgba   0   1   5   5   5   0  .   .   2   16  8  16  16  16  16   8   1   None
+0x1a4 15 TrueColor    1     15  0  rgba   0   1   5   5   5   0  .   .   2   24  8  16  16  16  16   0   0   None
+0x1a5 15 TrueColor    1     15  0  rgba   0   1   5   5   5   0  .   .   2   24  8  16  16  16  16   8   1   None
+0x1a6 24 TrueColor    1     32  0  rgba   0   1   8   8   8   8  .   .   2    0  8   8   8   8   8   0   0   None
+0x1a7 24 TrueColor    1     32  0  rgba   0   1   8   8   8   8  .   .   2    0  8   8   8   8   8   8   1   None
+0x1a8 24 TrueColor    1     32  0  rgba   0   1   8   8   8   8  .   .   2   16  8   8   8   8   8   0   0   None
+0x1a9 24 TrueColor    1     32  0  rgba   0   1   8   8   8   8  .   .   2   16  8   8   8   8   8   8   1   None
+0x1aa 24 TrueColor    1     32  0  rgba   0   1   8   8   8   8  .   .   2   24  8   8   8   8   8   0   0   None
+0x1ab 24 TrueColor    1     32  0  rgba   0   1   8   8   8   8  .   .   2   24  8   8   8   8   8   8   1   None
+0x1ac 24 TrueColor    1     32  0  rgba   0   1   8   8   8   8  .   .   2    0  8  16  16  16  16   0   0   None
+0x1ad 24 TrueColor    1     32  0  rgba   0   1   8   8   8   8  .   .   2    0  8  16  16  16  16   8   1   None
+0x1ae 24 TrueColor    1     32  0  rgba   0   1   8   8   8   8  .   .   2   16  8  16  16  16  16   0   0   None
+0x1af 24 TrueColor    1     32  0  rgba   0   1   8   8   8   8  .   .   2   16  8  16  16  16  16   8   1   None
+0x1b0 24 TrueColor    1     32  0  rgba   0   1   8   8   8   8  .   .   2   24  8  16  16  16  16   0   0   None
+0x1b1 24 TrueColor    1     32  0  rgba   0   1   8   8   8   8  .   .   2   24  8  16  16  16  16   8   1   None
+0x1b2 15 TrueColor    1     15  0  rgba   1   1   5   5   5   0  .   .   2    0  0   8   8   8   8   0   0   None
+0x1b3 15 TrueColor    1     15  0  rgba   1   1   5   5   5   0  .   .   2    0  0   8   8   8   8   8   1   None
+0x1b4 15 TrueColor    1     15  0  rgba   1   1   5   5   5   0  .   .   2   16  0   8   8   8   8   0   0   None
+0x1b5 15 TrueColor    1     15  0  rgba   1   1   5   5   5   0  .   .   2   16  0   8   8   8   8   8   1   None
+0x1b6 15 TrueColor    1     15  0  rgba   1   1   5   5   5   0  .   .   2   24  0   8   8   8   8   0   0   None
+0x1b7 15 TrueColor    1     15  0  rgba   1   1   5   5   5   0  .   .   2   24  0   8   8   8   8   8   1   None
+0x1b8 15 TrueColor    1     15  0  rgba   1   1   5   5   5   0  .   .   2    0  0  16  16  16  16   0   0   None
+0x1b9 15 TrueColor    1     15  0  rgba   1   1   5   5   5   0  .   .   2    0  0  16  16  16  16   8   1   None
+0x1ba 15 TrueColor    1     15  0  rgba   1   1   5   5   5   0  .   .   2   16  0  16  16  16  16   0   0   None
+0x1bb 15 TrueColor    1     15  0  rgba   1   1   5   5   5   0  .   .   2   16  0  16  16  16  16   8   1   None
+0x1bc 15 TrueColor    1     15  0  rgba   1   1   5   5   5   0  .   .   2   24  0  16  16  16  16   0   0   None
+0x1bd 15 TrueColor    1     15  0  rgba   1   1   5   5   5   0  .   .   2   24  0  16  16  16  16   8   1   None
+0x1be 24 TrueColor    1     32  0  rgba   1   1   8   8   8   8  .   .   2    0  0   8   8   8   8   0   0   None
+0x1bf 24 TrueColor    1     32  0  rgba   1   1   8   8   8   8  .   .   2    0  0   8   8   8   8   8   1   None
+0x1c0 24 TrueColor    1     32  0  rgba   1   1   8   8   8   8  .   .   2   16  0   8   8   8   8   0   0   None
+0x1c1 24 TrueColor    1     32  0  rgba   1   1   8   8   8   8  .   .   2   16  0   8   8   8   8   8   1   None
+0x1c2 24 TrueColor    1     32  0  rgba   1   1   8   8   8   8  .   .   2   24  0   8   8   8   8   0   0   None
+0x1c3 24 TrueColor    1     32  0  rgba   1   1   8   8   8   8  .   .   2   24  0   8   8   8   8   8   1   None
+0x1c4 24 TrueColor    1     32  0  rgba   1   1   8   8   8   8  .   .   2    0  0  16  16  16  16   0   0   None
+0x1c5 24 TrueColor    1     32  0  rgba   1   1   8   8   8   8  .   .   2    0  0  16  16  16  16   8   1   None
+0x1c6 24 TrueColor    1     32  0  rgba   1   1   8   8   8   8  .   .   2   16  0  16  16  16  16   0   0   None
+0x1c7 24 TrueColor    1     32  0  rgba   1   1   8   8   8   8  .   .   2   16  0  16  16  16  16   8   1   None
+0x1c8 24 TrueColor    1     32  0  rgba   1   1   8   8   8   8  .   .   2   24  0  16  16  16  16   0   0   None
+0x1c9 24 TrueColor    1     32  0  rgba   1   1   8   8   8   8  .   .   2   24  0  16  16  16  16   8   1   None
+0x1ca 15 TrueColor    1     15  0  rgba   1   1   5   5   5   0  .   .   2    0  8   8   8   8   8   0   0   None
+0x1cb 15 TrueColor    1     15  0  rgba   1   1   5   5   5   0  .   .   2    0  8   8   8   8   8   8   1   None
+0x1cc 15 TrueColor    1     15  0  rgba   1   1   5   5   5   0  .   .   2   16  8   8   8   8   8   0   0   None
+0x1cd 15 TrueColor    1     15  0  rgba   1   1   5   5   5   0  .   .   2   16  8   8   8   8   8   8   1   None
+0x1ce 15 TrueColor    1     15  0  rgba   1   1   5   5   5   0  .   .   2   24  8   8   8   8   8   0   0   None
+0x1cf 15 TrueColor    1     15  0  rgba   1   1   5   5   5   0  .   .   2   24  8   8   8   8   8   8   1   None
+0x1d0 15 TrueColor    1     15  0  rgba   1   1   5   5   5   0  .   .   2    0  8  16  16  16  16   0   0   None
+0x1d1 15 TrueColor    1     15  0  rgba   1   1   5   5   5   0  .   .   2    0  8  16  16  16  16   8   1   None
+0x1d2 15 TrueColor    1     15  0  rgba   1   1   5   5   5   0  .   .   2   16  8  16  16  16  16   0   0   None
+0x1d3 15 TrueColor    1     15  0  rgba   1   1   5   5   5   0  .   .   2   16  8  16  16  16  16   8   1   None
+0x1d4 15 TrueColor    1     15  0  rgba   1   1   5   5   5   0  .   .   2   24  8  16  16  16  16   0   0   None
+0x1d5 15 TrueColor    1     15  0  rgba   1   1   5   5   5   0  .   .   2   24  8  16  16  16  16   8   1   None
+0x1d6 24 TrueColor    1     32  0  rgba   1   1   8   8   8   8  .   .   2    0  8   8   8   8   8   0   0   None
+0x1d7 24 TrueColor    1     32  0  rgba   1   1   8   8   8   8  .   .   2    0  8   8   8   8   8   8   1   None
+0x1d8 24 TrueColor    1     32  0  rgba   1   1   8   8   8   8  .   .   2   16  8   8   8   8   8   0   0   None
+0x1d9 24 TrueColor    1     32  0  rgba   1   1   8   8   8   8  .   .   2   16  8   8   8   8   8   8   1   None
+0x1da 24 TrueColor    1     32  0  rgba   1   1   8   8   8   8  .   .   2   24  8   8   8   8   8   0   0   None
+0x1db 24 TrueColor    1     32  0  rgba   1   1   8   8   8   8  .   .   2   24  8   8   8   8   8   8   1   None
+0x1dc 24 TrueColor    1     32  0  rgba   1   1   8   8   8   8  .   .   2    0  8  16  16  16  16   0   0   None
+0x1dd 24 TrueColor    1     32  0  rgba   1   1   8   8   8   8  .   .   2    0  8  16  16  16  16   8   1   None
+0x1de 24 TrueColor    1     32  0  rgba   1   1   8   8   8   8  .   .   2   16  8  16  16  16  16   0   0   None
+0x1df 24 TrueColor    1     32  0  rgba   1   1   8   8   8   8  .   .   2   16  8  16  16  16  16   8   1   None
+0x1e0 24 TrueColor    1     32  0  rgba   1   1   8   8   8   8  .   .   2   24  8  16  16  16  16   0   0   None
+0x1e1 24 TrueColor    1     32  0  rgba   1   1   8   8   8   8  .   .   2   24  8  16  16  16  16   8   1   None
+
