@@ -775,11 +775,13 @@ PRIVATE void Lvl_CarmackExpand( W16 *source, W16 *dest, W16 length )
 			count = ch & 0xff;
 			if( ! count ) {
 				/* have to insert a word containing the tag byte */
-				ch |= *((PW8)inptr)++; /* not an lvalue (?) */
+				ch |= *((PW8)inptr); /* trying to fix an lvalue cast error here */
+				ch++; /* this may have changed the original behavior... */
 				*outptr++ = (W16)ch;
 				length--;
 			} else {
-				offset = *((PW8)inptr)++;  /* not an lvalue (?) */
+				offset = *((PW8)inptr); /* trying to fix an lvalue cast error here */
+				offset++;  /* this may have changed the original behavior... */
 				copyptr = outptr - offset;
 				length -= count;
 				while( count-- ) {
@@ -790,7 +792,8 @@ PRIVATE void Lvl_CarmackExpand( W16 *source, W16 *dest, W16 length )
 			count = ch & 0xff;
 			if( ! count ) {
 				/* have to insert a word containing the tag byte */
-				ch |= *((PW8)inptr)++;  /* not an lvalue (?) */
+				ch |= *((PW8)inptr); /* trying to fix an lvalue cast error here */
+				ch++; /* this may have changed the original behavior... */
 				*outptr++ = ch;
 				length--;
 			} else {

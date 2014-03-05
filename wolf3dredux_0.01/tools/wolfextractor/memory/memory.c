@@ -59,6 +59,11 @@ PUBLIC void *wolfextractor_Memory_malloc( size_t size )
 {
     void *ptr;
     ptr = malloc( size );
+	/* I wish Xcode 3.2.6 had per-target breakpoints... I set 1 here for debugging
+	 * wolfextractor, and then when switching back to building my main target,
+	 * it for some reason thought that this breakpoint was in the different,
+	 * separate memory.c that is compiled for the main target...
+	 * darn duplicated code... */
 
     if( ptr != NULL ){
 #if PARANOID

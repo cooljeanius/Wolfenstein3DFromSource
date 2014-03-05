@@ -32,7 +32,7 @@
 
 
 #ifndef DEBUG_MEMORY
-# define DEBUG_MEMORY 0
+# define DEBUG_MEMORY 1
 #endif /* !DEBUG_MEMORY */
 
 
@@ -60,14 +60,10 @@ PUBLIC void *memory_Memory_malloc( size_t size )
     void *ptr;
     ptr = malloc( size );
 
-    if( ptr != NULL )
-    {
-
-#if DEBUG_MEMORY
-
+    if( ptr != NULL ) {
+#if DEBUG_MEMORY || 1
 		Com_DPrintf( "[Memory_malloc]: %p size:%ld\n", ptr, size );
-
-#endif /* DEBUG_MEMORY */
+#endif /* DEBUG_MEMORY || 1 */
 
         return ptr;
     }
@@ -101,14 +97,10 @@ PUBLIC void *Memory_calloc( size_t num, size_t size )
     void *ptr;
     ptr = calloc( num, size );
 
-    if( ptr != NULL )
-    {
-
-#if DEBUG_MEMORY
-
+    if( ptr != NULL ) {
+#if DEBUG_MEMORY || 1
 		Com_DPrintf( "[Memory_calloc]: %p size:%ld num:%ld\n", ptr, size, num );
-
-#endif /* DEBUG_MEMORY */
+#endif /* DEBUG_MEMORY || 1 */
 
         return ptr;
     }
@@ -142,13 +134,9 @@ PUBLIC void *Memory_realloc( void *memblock, size_t size )
 
     ptr = realloc( memblock, size );
 
-    if( ptr != NULL )
-    {
-
-#if DEBUG_MEMORY
-
+    if( ptr != NULL ) {
+#if DEBUG_MEMORY || 1
 		Com_DPrintf( "[Memory_realloc]: %p size:%ld\n", ptr, size );
-
 #endif /* DEBUG_MEMORY */
 
         return ptr;
@@ -175,13 +163,9 @@ PUBLIC void *Memory_realloc( void *memblock, size_t size )
 */
 PUBLIC void Memory_free( void *memblock )
 {
-    if( memblock )
-    {
-
-#if DEBUG_MEMORY
-
+    if( memblock ) {
+#if DEBUG_MEMORY || 1
 		Com_DPrintf( "[Memory_free]: %p\n", memblock );
-
 #endif /* DEBUG_MEMORY */
 
 	    free( memblock );

@@ -100,6 +100,9 @@ AC_CHECK_HEADERS([assert.h bits/libc-lock.h ctype.h errno.h fcntl.h \
 AC_CHECK_HEADERS([X11/extensions/xf86dga.h],[],[
   AC_CHECK_HEADERS([X11/extensions/Xxf86dga.h])
 ])
+AC_CHECK_HEADERS([X11/extensions/xf86vmode.h],[],[
+  AC_CHECK_HEADERS([X11/extensions/Xxf86vmode.h])
+])
 
 # Checks for typedefs, structures, and compiler characteristics.
 AC_C_CHAR_UNSIGNED
