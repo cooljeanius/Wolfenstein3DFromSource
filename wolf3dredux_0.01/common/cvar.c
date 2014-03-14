@@ -524,7 +524,7 @@ PUBLIC _boolean Cvar_Command( void )
 PRIVATE void Cvar_Set_f( void )
 {
 	int		c;
-	int		flags;
+	int		flags; /* should this really be an "int" instead of "CVARFlags"? */
 
 	c = Cmd_Argc();
 	if( c != 3 && c != 4 ) {
@@ -541,7 +541,7 @@ PRIVATE void Cvar_Set_f( void )
 			Com_Printf( "flags can only be 'u' or 's'\n" );
 			return;
 		}
-		Cvar_FullSet( Cmd_Argv( 1 ), Cmd_Argv( 2 ), flags );
+		Cvar_FullSet( Cmd_Argv( 1 ), Cmd_Argv( 2 ), (CVARFlags)flags );
 	} else {
 		Cvar_Set( Cmd_Argv( 1 ), Cmd_Argv( 2 ) );
 	}
@@ -665,6 +665,13 @@ PRIVATE char *Cvar_BitInfo( int bit )
 		}
 	}
 	return info;
+#else
+	/* we should have already returned, so this should all be NOTREACHED: */
+	if (bit == 0) { /* dummy condition to use "bit" parameter */
+		return (char*)bit;
+	} else {
+		return NULL;
+	}
 #endif /* 0 */
 }
 

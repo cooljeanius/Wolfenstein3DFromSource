@@ -311,40 +311,40 @@ PUBLIC void FS_SetGamedir( char *dir )
 
 -----------------------------------------------------------------------------
 */
-PRIVATE void FS_Link_f( void )
+PRIVATE void FS_Link_f(void)
 {
 	filelink_t	*flink, **prev;
 
-	if( Cmd_Argc() != 3 ) {
+	if (Cmd_Argc() != 3) {
 		Com_Printf( "Usage: link <from> <to>\n" );
 		return;
 	}
 
 	/* see if the link already exists */
 	prev = &fs_links;
-	for( flink = fs_links ; flink ; flink = flink->next ) {
-		if( ! strcmp( flink->from, Cmd_Argv(1) ) ) {
-			Z_Free( flink->to );
-			if( ! strlen( Cmd_Argv( 2 ) ) ) {
+	for ((flink = fs_links); flink; (flink = flink->next)) {
+		if (! strcmp(flink->from, Cmd_Argv(1))) {
+			Z_Free(flink->to);
+			if (! strlen(Cmd_Argv(2))) {
 				/* delete it */
 				*prev = flink->next;
-				Z_Free( flink->from );
-				Z_Free( flink );
+				Z_Free(flink->from);
+				Z_Free(flink);
 				return;
 			}
-			flink->to = my_CopyString( Cmd_Argv( 2 ) );
+			flink->to = my_CopyString(Cmd_Argv(2));
 			return;
 		}
 		prev = &flink->next;
 	}
 
 	/* create a new link */
-	flink = Z_Malloc( sizeof( *flink ) );
+	flink = Z_Malloc(sizeof(*flink));
 	flink->next = fs_links;
 	fs_links = flink;
-	flink->from = my_CopyString( Cmd_Argv( 1 ) );
-	flink->fromlength = strlen( flink->from );
-	flink->to = my_CopyString( Cmd_Argv( 2 ) );
+	flink->from = my_CopyString(Cmd_Argv(1));
+	flink->fromlength = (int)strlen(flink->from);
+	flink->to = my_CopyString(Cmd_Argv(2));
 }
 
 /*
@@ -359,46 +359,52 @@ PRIVATE void FS_Link_f( void )
 
 -----------------------------------------------------------------------------
 */
-PRIVATE char **FS_ListFiles( char *findname, int *numfiles, unsigned musthave, unsigned canthave )
+PRIVATE char **FS_ListFiles(char *findname, int *numfiles, unsigned musthave,
+							unsigned canthave)
 {
 	char *s;
-	int nfiles = 0;
-	char **list = 0;
+	int nfiles;
+	char **list;
 
-	s = FS_FindFirst( findname, musthave, canthave );
-	while ( s ) {
-		if ( s[strlen(s)-1] != '.' ) {
+	nfiles = 0;
+	list = 0;
+
+	s = FS_FindFirst(findname, musthave, canthave);
+	while (s) {
+		if (s[(strlen(s) - 1)] != '.') {
 			nfiles++;
 		}
-		s = FS_FindNext( musthave, canthave );
+		s = FS_FindNext(musthave, canthave);
 	}
 	FS_FindClose ();
 
-	if ( !nfiles ) {
+	if (!nfiles) {
 		return NULL;
 	}
 
 	nfiles++; /* add space for a guard */
 	*numfiles = nfiles;
 
-	list = MM_MALLOC( sizeof( char * ) * nfiles );
-	if( list == NULL ) {
-		MM_OUTOFMEM( "list" );
+	/* MM_MALLOC is a define wrapper around Memory_Malloc in
+	 * "../../memory/memory.h", which returns a (void*): */
+	list = (char **)MM_MALLOC((size_t)((size_t)(sizeof(char *)) * (size_t)nfiles));
+	if (list == NULL) {
+		MM_OUTOFMEM("list");
 	}
 
-	memset( list, 0, sizeof( char * ) * nfiles );
+	memset((void *)list, (int)0, (size_t)((sizeof(char *)) * (size_t)nfiles));
 
-	s = FS_FindFirst( findname, musthave, canthave );
+	s = FS_FindFirst(findname, musthave, canthave);
 	nfiles = 0;
-	while( s ) {
-		if( s[ strlen( s ) - 1 ] != '.' ) {
-			list[ nfiles ] = strdup( s );
+	while (s) {
+		if (s[(strlen(s) - 1)] != '.') {
+			list[nfiles] = strdup(s); /* null pointer dereference? */
 
-			(void)my_strlwr( list[ nfiles ] );
+			(void)my_strlwr(list[nfiles]);
 
 			nfiles++;
 		}
-		s = FS_FindNext( musthave, canthave );
+		s = FS_FindNext(musthave, canthave);
 	}
 	FS_FindClose();
 
@@ -548,11 +554,11 @@ PUBLIC char *FS_NextPath( char *prevpath )
 
 -----------------------------------------------------------------------------
 */
-PUBLIC void FS_InitFilesystem( void )
+PUBLIC void FS_InitFilesystem(void)
 {
-	Cmd_AddCommand( "path", FS_Path_f );
-	Cmd_AddCommand( "link", FS_Link_f );
-	Cmd_AddCommand( "dir", FS_Dir_f );
+	Cmd_AddCommand("path", FS_Path_f);
+	Cmd_AddCommand("link", FS_Link_f);
+	Cmd_AddCommand("dir", FS_Dir_f);
 
 	/*
 	 * basedir <path>

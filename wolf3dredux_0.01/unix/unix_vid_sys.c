@@ -171,13 +171,13 @@ PUBLIC void VID_NewWindow( int width, int height )
  	This function refreshes the rendering layer.
 -----------------------------------------------------------------------------
 */
-extern void IN_ActivateMouse( void ) ;
+extern void IN_ActivateMouse(void) ;
 
-PRIVATE _boolean VID_LoadRefresh( void )
+PRIVATE _boolean VID_LoadRefresh(void)
 {
 	R_Shutdown();
 
-	if( R_Init( 0, 0 ) == -1 ) {
+	if (R_Init(0, 0) == -1) {
 		Com_Printf("VID_LoadRefresh() encountered an error, running R_Shutdown()...\n");
 		R_Shutdown();
 		Com_Printf("...and returning false.\n");
@@ -210,13 +210,13 @@ PRIVATE _boolean VID_LoadRefresh( void )
 	mode to match.
 -----------------------------------------------------------------------------
 */
-PUBLIC void Video_CheckChanges( void )
+PUBLIC void Video_CheckChanges(void)
 {
-	if( r_ref->modified ) {
+	if (r_ref->modified) {
 		Sound_StopAllSounds();
 	}
 
-	while( r_ref->modified ) {
+	while (r_ref->modified) {
 		/* refresh has changed */
 		r_ref->modified = false;
 		r_fullscreen->modified = true;
@@ -225,10 +225,10 @@ PUBLIC void Video_CheckChanges( void )
 		ClientStatic.disable_screen = true;
 #endif /* 0 */
 
-		if ( ! VID_LoadRefresh() ) {
+		if (! VID_LoadRefresh()) {
 			Com_Printf("in Video_CheckChanges() in unix_vid_sys.c:\n");
 			Com_Printf("VID_LoadRefresh() failed:\n");
-			Com_Error( ERR_FATAL, "Could not start OpenGL module!" );
+			Com_Error(ERR_FATAL, "Could not start OpenGL module!");
 			Com_Printf(" (in Video_CheckChanges() in unix_vid_sys.c)");
 			Com_Printf(" (this means that VID_LoadRefresh() failed)");
 
@@ -256,23 +256,22 @@ PUBLIC void Video_CheckChanges( void )
  Notes:
 -----------------------------------------------------------------------------
 */
-PUBLIC void Video_Init( void )
+PUBLIC void Video_Init(void)
 {
 	/* Create the video variables so we know how to start the graphics drivers */
 	/* if DISPLAY is defined, try X */
-	if( getenv( "DISPLAY" ) ) {
-		r_ref = Cvar_Get( "r_ref", "softx", CVAR_ARCHIVE );
+	if (getenv("DISPLAY")) {
+		r_ref = Cvar_Get("r_ref", "softx", CVAR_ARCHIVE);
 	} else {
-		r_ref = Cvar_Get( "r_ref", "soft", CVAR_ARCHIVE );
+		r_ref = Cvar_Get("r_ref", "soft", CVAR_ARCHIVE);
 	}
-	vid_xpos = Cvar_Get( "win_xpos", "3", CVAR_ARCHIVE );
-	vid_ypos = Cvar_Get( "win_ypos", "22", CVAR_ARCHIVE );
-	r_fullscreen = Cvar_Get( "r_fullscreen", "0", CVAR_ARCHIVE );
-	vid_gamma = Cvar_Get( "vid_gamma", "1", CVAR_ARCHIVE );
+	vid_xpos = Cvar_Get("win_xpos", "3", CVAR_ARCHIVE);
+	vid_ypos = Cvar_Get("win_ypos", "22", CVAR_ARCHIVE);
+	r_fullscreen = Cvar_Get("r_fullscreen", "0", CVAR_ARCHIVE);
+	vid_gamma = Cvar_Get("vid_gamma", "1", CVAR_ARCHIVE);
 
 	/* Add some console commands that we want to handle */
-	Cmd_AddCommand( "vid_restart", VID_Restart_f );
-
+	Cmd_AddCommand("vid_restart", VID_Restart_f);
 
 	/* Start the graphics mode and load refresh DLL */
 	Video_CheckChanges();

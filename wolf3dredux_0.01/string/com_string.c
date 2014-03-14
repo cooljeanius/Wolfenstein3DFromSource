@@ -436,38 +436,47 @@ PUBLIC SW32 StringToInteger( const char *string, W32 *error )
 */
 PUBLIC double StringToFloat( const char *string, W32 *error )
 {
-	const char *ptr = string;
-	double number = 0;
-	SW32 exponent = 0;
+	const char *ptr;
+	double number;
+	SW32 exponent;
 	W32 expError;
 	_boolean bNegative = false;
 
-	*error = 0;
+	/* initializations: */
+	ptr = string;
+	number = 0;
+	exponent = 0;
 
-	if( ! string || ! *string ) {
+	*error = 0;
+	/* guessing by the name of the variable what its value is supposed to be: */
+	expError = (W32)pow((double)atoi((const char*)error), exponent);
+
+	/* should be done initializing now... */
+
+	if (! string || ! *string) {
 		*error &= SCE_NULL_VALUE;
 
 		return 0;
 	}
 
-	if( *ptr == '-' ) {
+	if (*ptr == '-') {
 		bNegative = true;
 
 		ptr++;
-	} else if( *ptr == '+' ) {
+	} else if (*ptr == '+') {
 		ptr++;
 	}
 
-	while( *ptr && ISNUMERIC( *ptr ) ) {
+	while (*ptr && (ISNUMERIC(*ptr))) {
 		number = (number * 10) + (double)(*ptr - '0');
 
 		ptr++;
 	}
 
-	if( *ptr == '.' ) {
+	if (*ptr == '.') {
 		ptr++;
 
-		while( *ptr && ISNUMERIC( *ptr ) ) {
+		while (*ptr && (ISNUMERIC(*ptr))) {
 			number = (number * 10) + (double)(*ptr - '0');
 			exponent--;
 
@@ -475,21 +484,21 @@ PUBLIC double StringToFloat( const char *string, W32 *error )
 		}
 	}
 
-	if( TOLOWER( *ptr ) == 'e' ) {
+	if ((TOLOWER(*ptr)) == 'e') {
 		ptr++;
 
 		exponent += StringToInteger( ptr, &expError );
 	}
 
-	if( bNegative ) {
+	if (bNegative) {
 		number = -number;
 	}
 
-	if( expError ) {
+	if (expError) {
 		*error |= expError;
 	}
 
-	return (number * pow( 10, exponent ));
+	return (number * (pow(10, exponent)));
 }
 
 /* EOF */

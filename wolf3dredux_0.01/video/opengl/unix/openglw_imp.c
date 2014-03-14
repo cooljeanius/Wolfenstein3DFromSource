@@ -269,8 +269,14 @@ int GLimp_SetMode( int *pwidth, int *pheight, int mode, _boolean fullscreen )
 			}
 
 			if( best_fit != -1 ) {
-				actualWidth = vidmodes[ best_fit ]->hdisplay; /* never read (?) */
-				actualHeight = vidmodes[ best_fit ]->vdisplay; /* never read (?) */
+				actualWidth = vidmodes[ best_fit ]->hdisplay;
+				actualHeight = vidmodes[ best_fit ]->vdisplay;
+
+				/* dummy to silence clang static analyzer warnings about values
+				 * stored to 'actualWidth' & 'actualHeight' never being read: */
+				if ((actualWidth == 0) || (actualHeight == 0)) {
+					;
+				}
 
 				/* change to the mode */
 				XF86VidModeSwitchToMode( display, screen_num, vidmodes[ best_fit ] );
@@ -279,7 +285,12 @@ int GLimp_SetMode( int *pwidth, int *pheight, int mode, _boolean fullscreen )
 				/* Move the viewport to top left */
 				XF86VidModeSetViewPort( display, screen_num, 0, 0 );
 			} else {
-				fullscreen = 0; /* never read (?) */
+				fullscreen = 0;
+				/* dummy to silence clang static analyzer warning about value
+				 * stored to 'fullscreen' never being read: */
+				if (fullscreen == 0) {
+					;
+				}
 			}
 		}
 	}

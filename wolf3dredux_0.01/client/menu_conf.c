@@ -56,14 +56,13 @@ colour3_t colourDGray = { 140, 140, 140 };
 
 PRIVATE void Separator_Draw( menuseparator_s *s )
 {
-	if ( s->generic.name )
-	{
+	if ( s->generic.name ) {
 		Menu_DrawStringR2LDark( s->generic.fs, s->generic.x + s->generic.parent->x, s->generic.y + s->generic.parent->y, s->generic.name );
 	}
 }
 
 void DrawWindow( int x, int y, int w, int h,
-				  colour3_t bg, colour3_t act, colour3_t deact )
+				 colour3_t bg, colour3_t act, colour3_t deact )
 {
 	R_Draw_Fill( x, y, w, h, bg );
 
@@ -138,8 +137,11 @@ _boolean Field_DoEnter( menufield_s *f )
 
 void Field_Draw( menufield_s *f )
 {
-	;
-/* Should something be put here? */
+	/* dummy to use parameter "f": */
+	if (f->length == 0) {
+		;
+	}
+	/* TODO: put some actual code here? */
 }
 
 _boolean Field_Key( menufield_s *f, int key )
@@ -224,7 +226,7 @@ _boolean Field_Key( menufield_s *f, int key )
 			strtok( cbd, "\n\r\b" );
 
 			strncpy( f->buffer, cbd, f->length - 1 );
-			f->cursor = strlen( f->buffer );
+			f->cursor = (int)strlen( f->buffer );
 			f->visible_offset = f->cursor - f->visible_length;
 			if ( f->visible_offset < 0 ) {
 				f->visible_offset = 0;
@@ -270,7 +272,7 @@ _boolean Field_Key( menufield_s *f, int key )
 			}
 
 			if ( f->cursor < f->length ) {
-				f->buffer[ f->cursor++ ] = key;
+				f->buffer[ f->cursor++ ] = (char)key;
 				f->buffer[ f->cursor ] = 0;
 
 				if ( f->cursor > f->visible_length ) {
@@ -367,7 +369,7 @@ void Menu_Center( menuframework_s *menu )
 	height = ( ( menucommon_s * ) menu->items[menu->nitems-1])->y;
 	height += 10;
 
-	menu->y = ( VID_HEIGHT - height ) >> 1;
+	menu->y = ( VID_HEIGHT - (unsigned int)height ) >> 1;
 }
 
 void Menu_Draw( menuframework_s *menu )
@@ -422,38 +424,56 @@ void Menu_Draw( menuframework_s *menu )
 			Draw_Char( menu->x + item->x - 24 + item->cursor_offset, menu->y + item->y,
 					   12 + ( ( int ) ( Sys_Milliseconds()/250 ) & 1 ) );
 #endif /* 0 */
-			Font_put_character( item->fs, menu->x + item->x - 24 + item->cursor_offset,
-							    menu->y + item->y, ccursor[ 0 + ( (int)( Sys_Milliseconds() / 250 ) & 1 ) ] );
+			Font_put_character(item->fs,
+							   (menu->x + item->x - 24 + item->cursor_offset),
+							   (menu->y + item->y),
+							   (W16)ccursor[(0 + ((int)(Sys_Milliseconds() / 250) & 1))]);
 		} else {
 #if 0
 			Draw_Char( menu->x + item->cursor_offset, menu->y + item->y,
 					   12 + ( ( int ) ( Sys_Milliseconds()/250 ) & 1 ) );
 #endif /* 0 */
 			Font_put_character( item->fs, menu->x + item->cursor_offset, menu->y + item->y,
-							    ccursor[ 0 + ( (int)( Sys_Milliseconds() / 250 ) & 1 ) ] );
+							    (W16)ccursor[ 0 + ( (int)( Sys_Milliseconds() / 250 ) & 1 ) ] );
 		}
 	}
 
 }
 
+/* unused function (?): */
 void Menu_DrawStatusBar( const char *string )
 {
+	int l;
+	int maxrow;
+	int maxcol;
+	int col;
 	if ( string ) {
-		int l = strlen( string );
+		l = (int)strlen( string );
 #if 0
-		int maxrow = VID_HEIGHT / 8;
+		maxrow = (VID_HEIGHT / 8);
+#else
+		maxrow = 0;
 #endif /* 0 */
-		int maxcol = VID_WIDTH / 8;
-		int col = maxcol / 2 - l / 2;
+		if (maxrow == 0) { /* dummy condition to use maxrow */
+			maxcol = (int)((int)(VID_WIDTH) / 8); /* ...actually never mind */
+		} else { /* maxrow is NOT 0; use original value */
+			maxcol = (int)((int)(VID_WIDTH) / 8);
+		}
+		/* parentheses are technically unneeded, but they help for those of us
+		 * that sometimes forget the order of operations: */
+		col = (maxcol / 2) - (l / 2);
 
-		R_Draw_Fill( 0, VID_HEIGHT-8, VID_WIDTH, 8, colourBlack );
-		Menu_DrawString( FONT1, col*8, VID_HEIGHT - 8, string, colourBlack );
+		R_Draw_Fill(0, (int)((int)(VID_HEIGHT) - 8), (int)(VID_WIDTH), 8,
+					colourBlack);
+		Menu_DrawString(FONT1, col*8, (int)((int)(VID_HEIGHT) - 8), string,
+						colourBlack);
 	} else {
-		R_Draw_Fill( 0, VID_HEIGHT-8, VID_WIDTH, 8, colourBlack );
+		R_Draw_Fill(0, (int)((int)(VID_HEIGHT) - 8), (int)(VID_WIDTH), 8,
+					colourBlack);
 	}
 }
 
-void Menu_DrawString( FONTSELECT fs, int x, int y, const char *string, colour3_t c )
+void Menu_DrawString(FONTSELECT fs, int x, int y, const char *string, colour3_t c)
 {
 	Font_SetColour( fs, c );
 	Font_put_line( fs, x, y, string );
@@ -467,8 +487,11 @@ void Menu_DrawStringR2L( FONTSELECT fs, int x, int y, const char *string, colour
 
 void Menu_DrawStringR2LDark( FONTSELECT fs, int x, int y, const char *string )
 {
-	;
-/* TODO: put something here? */
+	/* TODO: use "fs" parameter */
+	if ((x == 0) || (y == 0)) { /* dummy condition to use "x" and "y" */
+		printf("string passed to Menu_DrawStringR2LDark was %s", string);
+	}
+/* TODO: actually put something here? */
 }
 
 void *Menu_ItemAtCursor( menuframework_s *m )
@@ -562,6 +585,7 @@ int Menu_TallySlots( menuframework_s *menu )
  *
  *******************************************************************/
 
+/* unused function (?): */
 void Menulist_DoEnter( menulist_s *l )
 {
 	int start;
@@ -660,6 +684,7 @@ void Slider_Draw( menuslider_s *s )
  *
  *******************************************************************/
 
+/* unused function (?): */
 void SpinControl_DoEnter( menulist_s *s )
 {
 	s->curvalue++;

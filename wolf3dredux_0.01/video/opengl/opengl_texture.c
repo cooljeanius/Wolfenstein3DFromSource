@@ -191,6 +191,12 @@ PUBLIC _boolean R_UploadTexture( texture_t *tex, PW8 data )
 	i = 0;
 	c = 0;
 
+	/* dummy to silence clang static analyzer warnings about values stored to
+	 * 'samples' and 'i' and 'c' never being read: */
+	if ((samples == 0) || (i == 0) || (c == 0)) {
+		;
+	}
+
 	pfglGenTextures( 1, &tex->texnum );
 	pfglBindTexture( GL_TEXTURE_2D, tex->texnum );
 

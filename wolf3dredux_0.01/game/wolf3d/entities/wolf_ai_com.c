@@ -200,6 +200,12 @@ PRIVATE void AI_Dodge( entity_t *self )
 
 	i = 0;
 
+	/* dummy to silence clang static analyzer warning about value stored to
+	 * 'i' never being read: */
+	if (i == 0) {
+		;
+	}
+
 	if( self->flags & FL_FIRSTATTACK ) {
 /* turning around is only ok the very first time after noticing the player */
 		turnaround = dir8_nodir;

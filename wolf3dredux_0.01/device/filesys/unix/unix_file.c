@@ -149,36 +149,41 @@ PUBLIC char *FS_FindFirst( const char *path, W32 musthave, W32 canthave )
 	struct dirent *d;
 	char *p;
 
-	p = "";
+	p = ""; /* initialize */
 
-	if( fdir ) {
+#if __clang_analyzer__
+	Com_DPrintf("FS_FindFirst( %s )\n", p);
+#endif /* __clang_analyzer__ (hack) */
+
+	if (fdir) {
 		Com_Printf( "FS_FindFirst without close\n" );
 
 		return NULL;
 	}
 
-	FS_FilePath( path, findbase );
-	my_strlcpy( findpattern, FS_SkipPath( path ), sizeof( findpattern ) );
+	FS_FilePath((char *)path, findbase);
+	my_strlcpy(findpattern, (char *)FS_SkipPath((char *)path), sizeof(findpattern));
 
-	if( ! *findbase ) {
-		if( (fdir = opendir( "." )) == NULL ) {
+	if (! *findbase) {
+		if ((fdir = opendir( "." )) == NULL) {
 			return NULL;
 		}
 	} else {
-		if( (fdir = opendir( findbase )) == NULL ) {
+		if ((fdir = opendir(findbase)) == NULL) {
 			return NULL;
 		}
 	}
 
-	while( (d = readdir( fdir )) != NULL ) {
-		if( ! *findpattern || glob_match( findpattern, d->d_name ) ) {
-			if( ! *findbase ) {
-				my_strlcpy( findpath, d->d_name, sizeof( findpath ) );
+	while ((d = readdir(fdir)) != NULL) {
+		if ((! *findpattern) || glob_match(findpattern, d->d_name)) {
+			if (! *findbase) {
+				my_strlcpy(findpath, d->d_name, sizeof(findpath));
 			} else {
-				my_snprintf( findpath, sizeof( findpath ), "%s/%s", findbase, d->d_name );
+				my_snprintf(findpath, sizeof(findpath), "%s/%s", findbase,
+							d->d_name);
 			}
 
-			if( CompareAttributes( findpath, musthave, canthave ) ) {
+			if (CompareAttributes(findpath, musthave, canthave)) {
 				return findpath;
 			}
 		}

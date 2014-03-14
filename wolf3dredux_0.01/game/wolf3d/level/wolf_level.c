@@ -1045,20 +1045,23 @@ PUBLIC LevelData_t *Level_LoadMap( const char *levelname )
 	FS_CloseFile( fhandle );
 
 
-	for( y0 = 0 ; y0 < 64 ; ++y0 )
-	for( x = 0 ; x < 64 ; ++x ) {
-		y = 63 - y0;
-		layer1 = newMap->Plane1[ y0 * 64 + x ];
-		layer2 = newMap->Plane2[ y0 * 64 + x ];
-		layer3 = newMap->Plane3[ y0 * 64 + x ];
+	for ((y0 = 0); (y0 < 64); ++y0)
+	for ((x = 0); (x < 64); ++x ) {
+		y = (63 - y0);
+		/* parentheses are not strictly needed, they are just there to clarify
+		 * the order of operations for those of us that forget it: */
+		layer1 = newMap->Plane1[ (y0 * 64) + x ];
+		layer2 = newMap->Plane2[ (y0 * 64) + x ];
+		layer3 = newMap->Plane3[ (y0 * 64) + x ];
+		/* (multiplication goes first, correct?) */
 
 /* if server, process obj layer! */
-		if( layer2 ) {
+		if (layer2) {
 			Lvl_SpawnObj( newMap, layer2, x, y );
 		}
 
 /* Map data layer */
-		if( layer1 == 0 ) {
+		if (layer1 == 0) {
 			newMap->areas[ x ][ y ] = -3; /* unknown area */
 		} else if( layer1 < 0x6a ) { /* solid map object */
 			if ((layer1 >= 0x5A && layer1 <= 0x5F) ||
@@ -1073,22 +1076,21 @@ PUBLIC LevelData_t *Level_LoadMap( const char *levelname )
 				newMap->wall_tex_y[ x ][ y ] = (layer1-1) * 2;
 				newMap->areas[ x ][ y ] = -1; /* wall area */
 
-				if( layer1 == 0x15 ) { /* elevator */
+				if (layer1 == 0x15) { /* elevator */
 					newMap->tilemap[ x ][ y ] |= ELEVATOR_TILE;
 				}
 			}
-		}
-		else if( layer1 == 0x6a ) { /* Ambush floor tile */
+		} else if (layer1 == 0x6a) { /* Ambush floor tile */
 			newMap->tilemap[ x ][ y ] |= AMBUSH_TILE;
 			newMap->areas[ x ][ y ] = -3; /* unknown area */
-		}
-		else if (layer1 >= FIRSTAREA &&
+		} else if (layer1 >= FIRSTAREA &&
 				 layer1 < (FIRSTAREA + NUMAREAS) ) { /* area */
 			if( layer1 == FIRSTAREA ) { /* secret level */
 				newMap->tilemap[ x ][ y ] |= SECRETLEVEL_TILE;
 			}
-
-			newMap->areas[ x ][ y ] = layer1 - FIRSTAREA;/* spawn area */
+			newMap->areas[ x ][ y ] = (layer1 - FIRSTAREA); /* spawn area */
+		} else if (layer3 == 0) { /* dummy condition to use layer3 */
+			newMap->areas[ x ][ y ] = -3; /* unknown area */
 		} else {
 			newMap->areas[ x ][ y ] = -3; /* unknown area */
 		}

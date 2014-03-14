@@ -126,7 +126,7 @@ skipwhite:
 				return com_token;
 			}
 			if( len < MAX_TOKEN_CHARS ) {
-				com_token[ len ] = c;
+				com_token[ len ] = (char)c;
 				len++;
 			}
 		}
@@ -135,7 +135,7 @@ skipwhite:
 /* parse a regular word */
 	do {
 		if( len < MAX_TOKEN_CHARS ) {
-			com_token[ len ] = c;
+			com_token[ len ] = (char)c;
 			len++;
 		}
 		data++;

@@ -53,13 +53,15 @@
 #include "../../../video/video.h"
 #include "../../../string/com_string.h"
 
+#include "../input.h" /* should have the prototype for install_grabs(), and others */
+
 extern Display *display;
 extern Window mainwin;
 
 extern _boolean vidmode_active;
 
 PRIVATE _boolean        mouse_avail;
-int mx, my;
+int mx, my; /* TODO: consider changing these ints to floating-point-type vars? */
 PRIVATE int old_mouse_x, old_mouse_y;
 
 PRIVATE cvar_t	*m_filter;
@@ -95,8 +97,7 @@ PRIVATE cvar_t *freelook;
  Notes:
 -----------------------------------------------------------------------------
 */
-/* "display" is declared global above... this shadows it, apparently? */
-PRIVATE Cursor CreateNullCursor( Display *display, Window root )
+PRIVATE Cursor CreateNullCursor(Display *local_display, Window root)
 {
     Pixmap cursormask;
     XGCValues xgc;
@@ -104,17 +105,17 @@ PRIVATE Cursor CreateNullCursor( Display *display, Window root )
     XColor dummycolour;
     Cursor cursor;
 
-    cursormask = XCreatePixmap( display, root, 1, 1, 1 );
+    cursormask = XCreatePixmap(local_display, root, 1, 1, 1);
     xgc.function = GXclear;
-    gc = XCreateGC( display, cursormask, GCFunction, &xgc );
-    XFillRectangle( display, cursormask, gc, 0, 0, 1, 1 );
+    gc = XCreateGC(local_display, cursormask, GCFunction, &xgc);
+    XFillRectangle(local_display, cursormask, gc, 0, 0, 1, 1);
     dummycolour.pixel = 0;
     dummycolour.red = 0;
     dummycolour.flags = 04;
-    cursor = XCreatePixmapCursor(display, cursormask, cursormask,
-								 &dummycolour, &dummycolour, 0, 0 );
-    XFreePixmap( display, cursormask );
-    XFreeGC( display, gc );
+    cursor = XCreatePixmapCursor(local_display, cursormask, cursormask,
+								 &dummycolour, &dummycolour, 0, 0);
+    XFreePixmap(local_display, cursormask);
+    XFreeGC(local_display, gc);
 
     return cursor;
 }
@@ -130,13 +131,11 @@ PRIVATE Cursor CreateNullCursor( Display *display, Window root )
  Notes:
 -----------------------------------------------------------------------------
 */
-PUBLIC void install_grabs( void );
-/* TODO: put the prototype in a header */
-PUBLIC void install_grabs( void )
+/* prototype moved to "../input.h" */
+PUBLIC void install_grabs(void)
 {
-
 	/* inviso cursor */
-	XDefineCursor( display, mainwin, CreateNullCursor( display, mainwin ) );
+	XDefineCursor(display, mainwin, CreateNullCursor(display, mainwin));
 
 	XGrabPointer(display, mainwin,
 				 True,
@@ -144,34 +143,36 @@ PUBLIC void install_grabs( void )
 				 GrabModeAsync, GrabModeAsync,
 				 mainwin,
 				 None,
-				 CurrentTime );
+				 CurrentTime);
 
 	if( in_dgamouse->value ) {
 		int MajorVersion, MinorVersion;
 
-		if( ! XF86DGAQueryVersion( display, &MajorVersion, &MinorVersion ) ) {
+		if (! XF86DGAQueryVersion(display, &MajorVersion, &MinorVersion)) {
 			/* unable to query, probalby not supported */
-			Com_Printf( "Failed to detect XF86DGA Mouse\n" );
-			Cvar_Set( "in_dgamouse", "0" );
+			Com_Printf("Failed to detect XF86DGA Mouse\n");
+			Cvar_Set("in_dgamouse", "0");
 		} else {
 			dgamouse = true;
-			XF86DGADirectVideo( display, DefaultScreen( display ), XF86DGADirectMouse );
-			XWarpPointer( display, None, mainwin, 0, 0, 0, 0, 0, 0 );
+			XF86DGADirectVideo(display, DefaultScreen(display), XF86DGADirectMouse);
+			XWarpPointer(display, None, mainwin, 0, 0, 0, 0, 0, 0);
 		}
 	} else {
 		XWarpPointer(display, None, mainwin,
 					 0, 0, 0, 0,
-					 viddef.width / 2, viddef.height / 2 );
+					 (int)(viddef.width / 2), (int)(viddef.height / 2));
 	}
 
 	XGrabKeyboard(display, mainwin,
 				  False,
 				  GrabModeAsync, GrabModeAsync,
-				  CurrentTime );
+				  CurrentTime);
 
 	mouse_active = true;
 
-/*	XSync(display, True); */
+#if 0 || (__clang_analyzer__ && defined(True))
+	XSync(display, True);
+#endif /* 0 || (__clang_analyzer__ && defined(True)) */
 }
 
 
@@ -186,15 +187,14 @@ PUBLIC void install_grabs( void )
  Notes:
 -----------------------------------------------------------------------------
 */
-PUBLIC void uninstall_grabs( void );
-/* TODO: put the prototype in a header */
-PUBLIC void uninstall_grabs( void )
+/* prototype moved to "../input.h" */
+PUBLIC void uninstall_grabs(void)
 {
-	if( ! display || ! mainwin ) {
+	if (! display || ! mainwin) {
 		return;
 	}
 
-	if( dgamouse ) {
+	if (dgamouse) {
 		dgamouse = false;
 		XF86DGADirectVideo( display, DefaultScreen( display ), 0 );
 	}
@@ -220,9 +220,9 @@ PUBLIC void uninstall_grabs( void )
  Notes:
 -----------------------------------------------------------------------------
 */
-PRIVATE void Force_CenterView_f( void )
+PRIVATE void Force_CenterView_f(void)
 {
-	ClientState.viewangles[ PITCH ] = 0;
+	ClientState.viewangles[PITCH] = 0;
 }
 
 /*
@@ -236,7 +236,7 @@ PRIVATE void Force_CenterView_f( void )
  Notes:
 -----------------------------------------------------------------------------
 */
-PRIVATE void RW_IN_MLookDown( void )
+PRIVATE void RW_IN_MLookDown(void)
 {
 	mlooking = true;
 }
@@ -252,7 +252,7 @@ PRIVATE void RW_IN_MLookDown( void )
  Notes:
 -----------------------------------------------------------------------------
 */
-PRIVATE void RW_IN_MLookUp( void )
+PRIVATE void RW_IN_MLookUp(void)
 {
 	mlooking = false;
 	IN_CenterView();
@@ -269,28 +269,28 @@ PRIVATE void RW_IN_MLookUp( void )
  Notes:
 -----------------------------------------------------------------------------
 */
-PUBLIC void IN_StartupMouse( void );
-/* TODO: put the prototype in a header */
-PUBLIC void IN_StartupMouse( void )
+/* prototype moved to "../input.h" */
+PUBLIC void IN_StartupMouse(void)
 {
 	/* mouse variables */
-	m_filter = Cvar_Get( "m_filter", "0", 0 );
-    in_mouse = Cvar_Get( "in_mouse", "1", CVAR_ARCHIVE );
-    in_dgamouse = Cvar_Get( "in_dgamouse", "1", CVAR_ARCHIVE );
-	freelook = Cvar_Get( "freelook", "0", 0 );
-	lookstrafe = Cvar_Get( "lookstrafe", "0", 0 );
-	sensitivity = Cvar_Get( "m_sensitivity", "3", 0 );
-	m_pitch = Cvar_Get( "m_pitch", "0.022", 0 );
-	m_yaw = Cvar_Get( "m_yaw", "0.022", 0 );
-	m_forward = Cvar_Get( "m_forward", "1", 0 );
-	m_side = Cvar_Get( "m_side", "0.8", 0 );
+	m_filter = Cvar_Get("m_filter", "0", 0);
+    in_mouse = Cvar_Get("in_mouse", "1", CVAR_ARCHIVE);
+    in_dgamouse = Cvar_Get( "in_dgamouse", "1", CVAR_ARCHIVE);
+	freelook = Cvar_Get("freelook", "0", 0);
+	lookstrafe = Cvar_Get("lookstrafe", "0", 0);
+	sensitivity = Cvar_Get("m_sensitivity", "3", 0);
+	m_pitch = Cvar_Get("m_pitch", "0.022", 0);
+	m_yaw = Cvar_Get("m_yaw", "0.022", 0);
+	m_forward = Cvar_Get("m_forward", "1", 0);
+	m_side = Cvar_Get("m_side", "0.8", 0);
 
-	Cmd_AddCommand( "+mlook", RW_IN_MLookDown );
-	Cmd_AddCommand( "-mlook", RW_IN_MLookUp );
+	Cmd_AddCommand("+mlook", RW_IN_MLookDown);
+	Cmd_AddCommand("-mlook", RW_IN_MLookUp);
 
-	Cmd_AddCommand( "force_centerview", Force_CenterView_f );
+	Cmd_AddCommand("force_centerview", Force_CenterView_f);
 
-	mx = my = 0.0;
+	/* used to be "0.0", but that was a double, and "mx" and "my" are ints... */
+	mx = my = 0;
 	mouse_avail = true;
 
 	install_grabs();
@@ -307,9 +307,8 @@ PUBLIC void IN_StartupMouse( void )
  Notes:
 -----------------------------------------------------------------------------
 */
-PUBLIC void RW_IN_Shutdown( void );
-/* TODO: put the prototype in a header */
-PUBLIC void RW_IN_Shutdown( void )
+/* prototype moved to "../input.h" */
+PUBLIC void RW_IN_Shutdown(void)
 {
 	mouse_avail = false;
 }
@@ -325,17 +324,16 @@ PUBLIC void RW_IN_Shutdown( void )
  Notes:
 -----------------------------------------------------------------------------
 */
-PUBLIC void IN_MouseMove( usercmd_t *cmd );
-/* TODO: put the prototype in a header */
-PUBLIC void IN_MouseMove( usercmd_t *cmd )
+/* prototype moved to "../input.h" */
+PUBLIC void IN_MouseMove(usercmd_t *cmd)
 {
-	if( ! mouse_avail ) {
+	if (! mouse_avail) {
 		return;
 	}
 
-	if( m_filter->value ) {
-		mx = (mx + old_mouse_x) * 0.5;
-		my = (my + old_mouse_y) * 0.5;
+	if (m_filter->value) {
+		mx = (int)((mx + old_mouse_x) * 0.5);
+		my = (int)((my + old_mouse_y) * 0.5);
 	}
 
 	old_mouse_x = mx;
@@ -345,8 +343,8 @@ PUBLIC void IN_MouseMove( usercmd_t *cmd )
 	my *= sensitivity->value;
 
 	/* add mouse X/Y movement to cmd */
-	if( (in_strafe.state & 1) ||
-		(lookstrafe->value && mlooking ) ) {
+	if ((in_strafe.state & 1) ||
+		(lookstrafe->value && mlooking)) {
 		cmd->sidemove += m_side->value * mx;
 	} else {
 		ClientState.viewangles[ YAW ] -= m_yaw->value * mx;
@@ -374,41 +372,37 @@ PUBLIC void IN_MouseMove( usercmd_t *cmd )
  Notes:
 -----------------------------------------------------------------------------
 */
-
-PUBLIC void IN_DeactivateMouse( void );
-/* TODO: put the prototype in a header */
-PUBLIC void IN_DeactivateMouse( void )
+/* prototype moved to "../input.h" */
+PUBLIC void IN_DeactivateMouse(void)
 {
-	if( ! mouse_avail || ! display || ! mainwin ) {
+	if (! mouse_avail || ! display || ! mainwin) {
 		return;
 	}
 
-	if( mouse_active ) {
+	if (mouse_active) {
 		uninstall_grabs();
 		mouse_active = false;
 	}
 }
 
-PUBLIC void IN_ActivateMouse( void );
-/* TODO: put the prototype in a header */
-PUBLIC void IN_ActivateMouse( void )
+/* prototype moved to "../input.h" */
+PUBLIC void IN_ActivateMouse(void)
 {
-	if( ! mouse_avail || ! display || ! mainwin ) {
+	if (! mouse_avail || ! display || ! mainwin) {
 		return;
 	}
 
-	if( ! mouse_active ) {
-		mx = my = 0; /* avoid spazzing */
+	if (! mouse_active) {
+		mx = my = 0; /* avoid spazzing out */
 		install_grabs();
 		mouse_active = true;
 	}
 }
 
-void RW_IN_Activate( _boolean active );
-/* TODO: put the prototype in a header */
-void RW_IN_Activate( _boolean active )
+/* prototype moved to "../input.h" */
+void RW_IN_Activate(_boolean active)
 {
-	if( active || vidmode_active ) {
+	if (active || vidmode_active) {
 		IN_ActivateMouse();
 	} else {
 		IN_DeactivateMouse();

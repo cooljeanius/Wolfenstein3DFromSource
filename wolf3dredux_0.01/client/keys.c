@@ -217,7 +217,7 @@ PRIVATE void CompleteCommand( void )
 	if( cmd ) {
 		key_lines[ edit_line ][ 1 ] = '/';
 		my_strlcpy( key_lines[ edit_line ] + 2, cmd, sizeof( key_lines[ edit_line ] ) - 2 );
-		key_linepos = strlen( cmd ) + 2;
+		key_linepos = (int)(strlen( cmd ) + 2);
 		key_lines[ edit_line ][ key_linepos ] = ' ';
 		key_linepos++;
 		key_lines[ edit_line ][ key_linepos ] = 0;
@@ -307,7 +307,7 @@ PRIVATE void Key_Console( int key )
 
 			strtok( cbd, "\n\r\b" );
 
-			iStringLength = strlen( cbd );
+			iStringLength = (int)strlen( cbd );
 			if( iStringLength + key_linepos >= MAXCMDLINE ) {
 				iStringLength = MAXCMDLINE - key_linepos;
 			}
@@ -375,7 +375,7 @@ PRIVATE void Key_Console( int key )
 			history_line = (edit_line + 1) & 31;
 		}
 		my_strlcpy( key_lines[ edit_line ], key_lines[ history_line ], sizeof( key_lines[ edit_line ] )  );
-		key_linepos = strlen(key_lines[edit_line]);
+		key_linepos = (int)strlen(key_lines[edit_line]);
 		return;
 	}
 
@@ -395,7 +395,7 @@ PRIVATE void Key_Console( int key )
 			key_linepos = 1;
 		} else {
 			my_strlcpy( key_lines[ edit_line ], key_lines[ history_line ], sizeof( key_lines[ edit_line ] ) );
-			key_linepos = strlen(key_lines[edit_line]);
+			key_linepos = (int)strlen(key_lines[edit_line]);
 		}
 		return;
 	}
@@ -428,7 +428,7 @@ PRIVATE void Key_Console( int key )
 	}
 
 	if (key_linepos < MAXCMDLINE-1) {
-		key_lines[ edit_line ][ key_linepos ] = key;
+		key_lines[ edit_line ][ key_linepos ] = (char)key;
 		key_linepos++;
 		key_lines[ edit_line ][ key_linepos ] = 0;
 	}
@@ -496,7 +496,7 @@ PRIVATE void Key_Message( int key )
 		return; /* all full */
 	}
 
-    chat_buffer[ chat_bufferlen++ ] = key;
+    chat_buffer[ chat_bufferlen++ ] = (char)key;
     chat_buffer[ chat_bufferlen ] = '\0'; /* NUL-terminate chat buffer. */
 }
 
@@ -565,7 +565,7 @@ PUBLIC char *Key_KeynumToString( int keynum )
 
     if( keynum > 32 && keynum < 127 ) {
 		/* printable ASCII */
-        tinystr[ 0 ] = keynum;
+        tinystr[ 0 ] = (char)keynum;
         tinystr[ 1 ] = '\0';
         return tinystr;
     }
@@ -607,9 +607,9 @@ PUBLIC void Key_SetBinding( int keynum, char *binding )
 	}
 
 	/* allocate memory for new binding */
-	length = strlen( binding );
-	newbinding = Z_Malloc( length + 1 );
-	my_strlcpy( newbinding, binding, length + 1 );
+	length = (int)strlen( binding );
+	newbinding = Z_Malloc( (size_t)(length + 1) );
+	my_strlcpy( newbinding, binding, (size_t)(length + 1) );
 	newbinding[ length ] = 0;
 	keybindings[ keynum ] = newbinding;
 }
@@ -686,6 +686,12 @@ PRIVATE void Key_Bind_f( void )
 	char            cmd[ 1024 ];
 
 	i = 0;
+
+	/* dummy to silence clang static analyzer warning about value stored to
+	 * 'i' never being read: */
+	if (i == 0) {
+		;
+	}
 
 	c = Cmd_Argc();
 

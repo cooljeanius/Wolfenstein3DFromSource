@@ -161,23 +161,23 @@ PUBLIC void *Memory_realloc( void *memblock, size_t size )
 
 -----------------------------------------------------------------------------
 */
-PUBLIC void Memory_free( void *memblock )
+PUBLIC void Memory_free(void *memblock)
 {
-    if( memblock ) {
+    if (memblock) {
 #if DEBUG_MEMORY || 1
-		Com_DPrintf( "[Memory_free]: %p\n", memblock );
-#endif /* DEBUG_MEMORY */
+		Com_DPrintf("[Memory_free]: %p\n", memblock);
+#endif /* DEBUG_MEMORY || 1 */
 
-	    free( memblock );
+	    free(memblock);
     }
 }
 
 
-PUBLIC void Memory_outofmem( const char *name, const char *file, W32 line )
+PUBLIC void Memory_outofmem(const char *name, const char *file, W32 line)
 {
 
-    Com_Error( ERR_FATAL, "%s:%ld failed allocation for \"%s\"\n",
-	    file, line, name );
+    Com_Error(ERR_FATAL, "%s:%ld failed allocation for \"%s\"\n",
+			  file, line, name);
 
 }
 

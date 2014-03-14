@@ -53,20 +53,24 @@ uLong ZEXPORT adler32(adler, buf, len)
     unsigned long s2 = (adler >> 16) & 0xffff;
     int k;
 
-    if (buf == Z_NULL) return 1L;
+    if (buf == Z_NULL) {
+		return 1L;
+	}
 
     while (len > 0) {
         k = len < NMAX ? (int)len : NMAX;
-        len -= k;
+        len -= (unsigned int)k;
         while (k >= 16) {
             DO16(buf);
             buf += 16;
             k -= 16;
         }
-        if (k != 0) do {
-            s1 += *buf++;
-            s2 += s1;
-        } while (--k);
+        if (k != 0) {
+			do {
+				s1 += *buf++;
+				s2 += s1;
+			} while (--k);
+		}
         MOD(s1);
         MOD(s2);
     }

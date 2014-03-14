@@ -121,18 +121,18 @@ PRIVATE _boolean PL_ChangeWeapon( player_t *self, int weapon )
 */
 PRIVATE _boolean PL_Use( player_t *self, LevelData_t *lvl )
 {
-	int x, y, dir;
+	int x, y, dir; /* should "dir" really be an "int" instead of "dir4type"? */
 
     dir = Get4dir( self->position.angle );
 	x = self->tilex + dx4dir[ dir ];
 	y = self->tiley + dy4dir[ dir ];
 
 	if( lvl->tilemap[ x ][ y ] & DOOR_TILE ) {
-		return Door_TryUse( &lvl->Doors.DoorMap[ x ][ y ], Player.items );
+		return Door_TryUse(&lvl->Doors.DoorMap[ x ][ y ], (int)Player.items);
 	}
 
 	if( lvl->tilemap[ x ][ y ] & SECRET_TILE ) {
-		return PushWall_Push( x, y, dir );
+		return PushWall_Push(x, y, (dir4type)dir);
 	}
 
 	if( lvl->tilemap[ x ][ y ] & ELEVATOR_TILE ) {
@@ -141,7 +141,12 @@ PRIVATE _boolean PL_Use( player_t *self, LevelData_t *lvl )
 		switch( dir ) {
 			case dir4_east:
 			case dir4_west:
-				newtex = lvl->wall_tex_x[ x ][ y ] += 2;
+				newtex = (lvl->wall_tex_x[ x ][ y ] += 2);
+				/* dummy to silence clang static analyzer warning about value
+				 * stored to 'newtex' never being read: */
+				if (newtex == 2) {
+					;
+				}
 				break;
 
 			case dir4_north:
@@ -300,6 +305,12 @@ PRIVATE void PL_ControlMovement( player_t *self, LevelData_t *lvl )
     float angle;
 
 	speed = 0;
+
+	/* dummy to silence clang static analyzer warning about value stored to
+	 * 'speed' never being read: */
+	if (speed == 0) {
+		;
+	}
 
 	/* rotation */
     angle = self->position.angle;
@@ -642,12 +653,12 @@ PRIVATE void PL_notarget_f( void )
 PUBLIC void PL_Init(void)
 {
 	PL_Reset();
-	PL_NewGame( &Player );
+	PL_NewGame(&Player);
 
-	Cmd_AddCommand( "god", Cmd_God_f );
-	Cmd_AddCommand( "notarget", PL_notarget_f );
+	Cmd_AddCommand("god", Cmd_God_f);
+	Cmd_AddCommand("notarget", PL_notarget_f);
 
-	Cmd_AddCommand( "give", Cmd_Give_f );
+	Cmd_AddCommand("give", Cmd_Give_f);
 }
 
 /* ------------------------- * environment interraction * --------------------*/

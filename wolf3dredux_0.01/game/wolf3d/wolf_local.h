@@ -129,12 +129,12 @@ extern int tics;
 W32 floornumber;
 
 
-extern void Game_Init( void );
-extern void Game_Shutdown( void );
-extern void Game_Reset( void );
+extern void Game_Init(void);
+extern void Game_Shutdown(void);
+extern void Game_Reset(void);
 
 
-extern void ProcessGuards( void );
+extern void ProcessGuards(void);
 
 
 #define WL6SPRITESDIRNAME	"sprites"

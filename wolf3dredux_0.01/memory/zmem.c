@@ -68,14 +68,14 @@ zhead_t	z_chain;
  Notes:
 -----------------------------------------------------------------------------
 */
-PUBLIC void Z_Free( void *memblock )
+PUBLIC void Z_Free(void *memblock)
 {
 	zhead_t	*z;
 
-	z = ( (zhead_t *)memblock ) - 1;
+	z = (((zhead_t *)memblock) - 1);
 
-	if( z->magic != Z_MAGIC ) {
-		Com_Error( ERR_FATAL, "Z_Free: bad magic" );
+	if (z->magic != Z_MAGIC) {
+		Com_Error(ERR_FATAL, "Z_Free: bad magic");
 	}
 
 	z->prev->next = z->next;
@@ -84,7 +84,7 @@ PUBLIC void Z_Free( void *memblock )
 	z_count--;
 	z_bytes -= z->size;
 
-	MM_FREE( z );
+	MM_FREE(z);
 }
 
 /*
@@ -98,9 +98,9 @@ PUBLIC void Z_Free( void *memblock )
  Notes: Lists number of bytes and blocks of zone memory allocated.
 -----------------------------------------------------------------------------
 */
-PUBLIC void Z_Stats_f( void )
+PUBLIC void Z_Stats_f(void)
 {
-	Com_Printf( "%i bytes in %i blocks\n", z_bytes, z_count );
+	Com_Printf("%i bytes in %i blocks\n", z_bytes, z_count);
 }
 
 
@@ -115,14 +115,14 @@ PUBLIC void Z_Stats_f( void )
  Notes:
 -----------------------------------------------------------------------------
 */
-PUBLIC void Z_FreeTags( int tag )
+PUBLIC void Z_FreeTags(int tag)
 {
 	zhead_t	*z, *next;
 
-	for( z = z_chain.next; z != &z_chain; z = next ) {
+	for ((z = z_chain.next); (z != &z_chain); (z = next)) {
 		next = z->next;
 		if( z->tag == tag ) {
-			Z_Free( (void *)(z+1) );
+			Z_Free((void *)(z+1));
 		}
 	}
 }
@@ -142,26 +142,33 @@ PUBLIC void Z_FreeTags( int tag )
  Notes:
 -----------------------------------------------------------------------------
 */
-PUBLIC void *Z_TagMalloc( size_t size, int tag )
+PUBLIC void *Z_TagMalloc(size_t size, int tag)
 {
-	zhead_t	*z;
+	zhead_t	*z; /* zhead_t is a struct typedef-ed in "zmem.h" */
 
 	/* Allocate memory */
-	size += sizeof( zhead_t );
-	z = MM_MALLOC( size );
+	size += sizeof(zhead_t);
+	z = (zhead_t *)MM_MALLOC((size_t)size);
+	/* MM_MALLOC is a define wrapper for Memory_Malloc in "memory.h" */
 
-
-	if( ! z ) {
-		Com_Error( ERR_FATAL, "Z_Malloc: failed on allocation of %i bytes", size );
+	if (! z) {
+		Com_Error(ERR_FATAL, "Z_Malloc: failed on allocation of %i bytes", size);
+	} else if (z) {
+#if DEBUG_MEMORY || 1
+		Com_Printf("Z_Malloc: proceeding with allocation of %i bytes\n", size);
+#else
+		;
+#endif /* DEBUG_MEMORY || 1 */
 	}
 
 	/* Set memory block to zero and fill in header. */
-	memset( z, 0, size );
+	memset(z, 0, size);
 	z_count++;
 	z_bytes += size;
-	z->magic = Z_MAGIC; /* null pointer dereference here? */
-	z->tag = tag;
-	z->size = size;
+	z->magic = (short)Z_MAGIC; /* null pointer dereference here? */
+	/* (Z_MAGIC is defined above) */
+	z->tag = (short)tag;
+	z->size = (int)size;
 
 	/* Add new memory block to chain. */
 	z->next = z_chain.next;
@@ -185,7 +192,9 @@ PUBLIC void *Z_TagMalloc( size_t size, int tag )
  Notes: Calls Z_TagMalloc() with tag set to zero.
 -----------------------------------------------------------------------------
 */
-PUBLIC void *Z_Malloc( size_t size )
+PUBLIC void *Z_Malloc(size_t size)
 {
-	return Z_TagMalloc( size, 0 );
+	return Z_TagMalloc(size, 0);
 }
+
+/* EOF */

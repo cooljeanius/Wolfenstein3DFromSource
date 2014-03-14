@@ -94,9 +94,8 @@ PUBLIC SW32 FS_GetFileSize( filehandle_t *fhandle )
 	SW32	pos;
 	SW32	end;
 
-	if( fhandle->bLoaded )
-	{
-		return fhandle->filesize;
+	if( fhandle->bLoaded ) {
+		return (SW32)(fhandle->filesize);
 	}
 
 	pos = ftell( fhandle->hFile );
@@ -129,8 +128,8 @@ PUBLIC W32 FS_FileSeek( filehandle_t *fhandle, SW32 offset, W32 origin )
 	if( fhandle->bLoaded ) {
 		switch( origin ) {
 			case SEEK_SET:
-				if( offset < 0 ||
-					offset > fhandle->filesize ) {
+				if ((offset < 0) ||
+					(offset > (SW32)(fhandle->filesize))) {
 					return 1;
 				}
 
@@ -138,12 +137,12 @@ PUBLIC W32 FS_FileSeek( filehandle_t *fhandle, SW32 offset, W32 origin )
 				break;
 
 			case SEEK_END:
-				if( offset > 0 ) {
+				if (offset > 0) {
 					return 1;
 				}
 
 				/* offset is negative */
-				if( (fhandle->filesize + offset) < 0  ) {
+				if (((SW32)(fhandle->filesize) + offset) < 0) {
 					return 1;
 				}
 
@@ -175,7 +174,7 @@ PUBLIC W32 FS_FileSeek( filehandle_t *fhandle, SW32 offset, W32 origin )
 		return 0;
 	}
 
-	return fseek( fhandle->hFile, offset, origin );
+	return (W32)fseek(fhandle->hFile, offset, (int)origin);
 }
 
 /*
@@ -332,17 +331,17 @@ PRIVATE _boolean LoadFile( filehandle_t *hFile )
 {
 	W32 read;
 
-	hFile->filesize = FS_GetFileSize( hFile );
-	hFile->filedata = Z_Malloc( hFile->filesize );
+	hFile->filesize = (W32)FS_GetFileSize(hFile);
+	hFile->filedata = Z_Malloc(hFile->filesize);
 
-	read = fread( hFile->filedata, 1, hFile->filesize, hFile->hFile );
-	if( read != hFile->filesize ) {
+	read = fread(hFile->filedata, 1, hFile->filesize, hFile->hFile);
+	if (read != hFile->filesize) {
 		fclose( hFile->hFile );
 
 		return false;
 	}
 
-	fclose( hFile->hFile );
+	fclose(hFile->hFile);
 
 	hFile->hFile = NULL;
 
@@ -384,21 +383,22 @@ PUBLIC filehandle_t *FS_OpenFile( const char *filename, W32 FlagsAndAttributes )
 	filehandle_t	*hFile;
 
 
-	hFile = Z_Malloc( sizeof( filehandle_t ) );
-	memset( hFile, 0, sizeof( filehandle_t ) );
+	hFile = Z_Malloc(sizeof(filehandle_t));
+	memset(hFile, 0, sizeof(filehandle_t));
 
 	/* check for links first */
-	for( link = fs_links ; link ; link = link->next ) {
-		if( ! strncmp( filename, link->from, link->fromlength ) ) {
-			my_snprintf( netpath, sizeof( netpath ), "%s%s", link->to, filename + link->fromlength );
-			hFile->hFile = fopen( netpath, "rb" );
-			if( ! hFile->hFile ) {
+	for (link = fs_links ; link ; link = link->next) {
+		if (! strncmp(filename, link->from, (size_t)link->fromlength)) {
+			my_snprintf(netpath, sizeof(netpath), "%s%s", link->to,
+						(filename + link->fromlength));
+			hFile->hFile = fopen(netpath, "rb");
+			if (! hFile->hFile) {
 				FS_CloseFile( hFile );
 
 				return NULL;
 			}
 
-			Com_DPrintf( "link file: %s\n", netpath );
+			Com_DPrintf("link file: %s\n", netpath);
 
 			if( FlagsAndAttributes & FA_FILE_FLAG_LOAD ) {
 				if( ! LoadFile( hFile ) ) {
@@ -450,24 +450,25 @@ PUBLIC filehandle_t *FS_OpenFile( const char *filename, W32 FlagsAndAttributes )
 					Com_DPrintf( "PackFile: %s : %s\n", pak->filename, filename );
 
 					/* open a new file handle on the pakfile */
-					hFile->hFile = fopen( pak->filename, "rb" );
-					if( ! hFile->hFile ) {
-						FS_CloseFile( hFile );
+					hFile->hFile = fopen(pak->filename, "rb");
+					if (! hFile->hFile) {
+						FS_CloseFile(hFile);
 
-						Com_Error( ERR_FATAL, "Could not reopen (%s)\n", pak->filename );
+						Com_Error(ERR_FATAL, "Could not reopen (%s)\n",
+								  pak->filename);
 					}
 
-					fseek( hFile->hFile, pakfiles->fileoffset, SEEK_SET );
+					fseek(hFile->hFile, (long)pakfiles->fileoffset, SEEK_SET);
 
-					if( pakfiles->compression_method ) {
-						if( ! LoadCompressedFile( hFile, pakfiles ) ) {
-							FS_CloseFile( hFile );
+					if (pakfiles->compression_method) {
+						if (! LoadCompressedFile(hFile, pakfiles)) {
+							FS_CloseFile(hFile);
 
 							return NULL;
 						}
-					} else if( FlagsAndAttributes & FA_FILE_FLAG_LOAD ) {
-						if( ! LoadFile( hFile ) ) {
-							FS_CloseFile( hFile );
+					} else if (FlagsAndAttributes & FA_FILE_FLAG_LOAD) {
+						if (! LoadFile(hFile)) {
+							FS_CloseFile(hFile);
 
 							return NULL;
 						}
@@ -478,18 +479,19 @@ PUBLIC filehandle_t *FS_OpenFile( const char *filename, W32 FlagsAndAttributes )
 			}
 		} else {
 			/* check a file in the directory tree */
-			my_snprintf( netpath, sizeof( netpath ), "%s/%s", search->filename, filename );
+			my_snprintf(netpath, sizeof(netpath), "%s/%s", search->filename,
+						filename );
 
-			hFile->hFile = fopen( netpath, "rb" );
-			if( ! hFile->hFile ) {
+			hFile->hFile = fopen(netpath, "rb");
+			if (! hFile->hFile) {
 				continue;
 			}
 
-			Com_DPrintf( "[FS_OpenFile]: %s\n", netpath );
+			Com_DPrintf("[FS_OpenFile]: %s\n", netpath);
 
-			if( FlagsAndAttributes & FA_FILE_FLAG_LOAD ) {
-				if( ! LoadFile( hFile ) ) {
-					FS_CloseFile( hFile );
+			if (FlagsAndAttributes & FA_FILE_FLAG_LOAD) {
+				if (! LoadFile(hFile)) {
+					FS_CloseFile(hFile);
 
 					return NULL;
 				}
@@ -497,12 +499,11 @@ PUBLIC filehandle_t *FS_OpenFile( const char *filename, W32 FlagsAndAttributes )
 
 			return hFile;
 		}
-
 	}
 
-	Com_DPrintf( "[FS_OpenFile]: Could not find (%s)\n", filename );
+	Com_DPrintf("[FS_OpenFile]: Could not find (%s)\n", filename);
 
-	FS_CloseFile( hFile );
+	FS_CloseFile(hFile);
 
 	return NULL;
 }
@@ -523,34 +524,38 @@ PUBLIC filehandle_t *FS_OpenFile( const char *filename, W32 FlagsAndAttributes )
 
 -----------------------------------------------------------------------------
 */
-PUBLIC SW32 FS_ReadFile( void *buffer, W32 size, W32 count, filehandle_t *fhandle )
+PUBLIC SW32 FS_ReadFile(void *buffer, W32 size, W32 count, filehandle_t *fhandle)
+/* filehandle_t is typedef-ed in "filesystem.h" */
 {
 	W8	*buf = (PW8)buffer;
 
-	if( fhandle->bLoaded ) {
+	if (fhandle->bLoaded) {
 		W32 i;
 
-		if( (size * count) > (fhandle->ptrEnd - fhandle->ptrCurrent) ) {
+		/* W32 vs. W8, which to cast? guessing...: */
+		if ((size * count) > (W32)(fhandle->ptrEnd - fhandle->ptrCurrent)) {
 			SW32 read;
 
 			read = (fhandle->ptrEnd - fhandle->ptrCurrent);
 
-			for( i = 0 ; i < (fhandle->ptrEnd - fhandle->ptrCurrent) ; ++i ) {
+			/* the previous cast to W32 was a guess, but might as well keep it
+			 * consistent: */
+			for ((i = 0); (i < (W32)(fhandle->ptrEnd - fhandle->ptrCurrent)); ++i) {
 				buf[ i ] = fhandle->ptrCurrent[ i ];
 			}
 
 			fhandle->ptrCurrent = fhandle->ptrEnd;
 
-			return( read );
+			return(read);
 		} else {
-			for( i = 0 ; i < (size * count) ; ++i, fhandle->ptrCurrent++ ) {
+			for ((i = 0); (i < (size * count)); ++i, fhandle->ptrCurrent++) {
 				buf[ i ] = *fhandle->ptrCurrent;
 			}
 
-			return( (size * count) / size );
+			return(SW32)((size * count) / size);
 		}
 	} else {
-		return fread( buf, size, count, fhandle->hFile );
+		return (SW32)fread(buf, size, count, fhandle->hFile);
 	}
 
 	/* should never get here */

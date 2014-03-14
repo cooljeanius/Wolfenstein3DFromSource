@@ -560,7 +560,7 @@ PUBLIC int OpenGL_Init( const char *dllname )
 			Com_Printf("appleloadpath will be truncated in string concatenation.\n");
 		}
 		applecombinedloadpath = strncat(appleloadpath, applefallbackloadpath,
-										sizeof(appleloadpath) - strlen(appleloadpath) - 1);
+										(sizeof(appleloadpath) - strlen(appleloadpath) - 1));
 	} else if (appleloadpath != NULL) {
 		applecombinedloadpath = appleloadpath;
 	} else if (applefallbackloadpath != NULL) {
@@ -572,7 +572,7 @@ PUBLIC int OpenGL_Init( const char *dllname )
 	/* same reasoning as above for the checks against NULL: */
 	if ((applecombinedloadpath != NULL) && (loadpath != NULL)) {
 		if (strnlen1(applecombinedloadpath, PATH_MAX) >
-			sizeof(loadpath) - strlen(loadpath)) {
+			(sizeof(loadpath) - strlen(loadpath))) {
 			Com_Printf("loadpath will be truncated in string concatenation.\n");
 		}
 		allcombinedloadpath = strncat(loadpath, applecombinedloadpath,

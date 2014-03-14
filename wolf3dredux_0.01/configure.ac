@@ -115,8 +115,15 @@ AC_TYPE_SIZE_T
 AC_TYPE_UID_T
 AC_TYPE_INTMAX_T
 AC_TYPE_UINTMAX_T
+AC_STRUCT_TIMEZONE dnl# also checks struct tm
 AC_CHECK_TYPE([long long])
 AC_CHECK_TYPE([unsigned long long])
+AC_CHECK_TYPES([time_t, __darwin_time_t])
+AC_CHECK_MEMBERS([struct timeval.tv_sec])
+AC_CHECK_SIZEOF([long])
+AC_CHECK_ALIGNOF([long])
+AC_CHECK_SIZEOF([int])
+AC_CHECK_ALIGNOF([int])
 AC_CHECK_SIZEOF([unsigned int])
 AC_CHECK_ALIGNOF([unsigned int])
 

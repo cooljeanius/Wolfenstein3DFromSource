@@ -122,9 +122,9 @@ PRIVATE void KeyDown( kbutton_t *b )
 
 	/* save timestamp */
 	c = Cmd_Argv( 2 );
-	b->downtime = atoi( c );
+	b->downtime = (unsigned int)atoi( c );
 	if( ! b->downtime ) {
-		b->downtime = sys_frame_time - 100;
+		b->downtime = ((unsigned int)sys_frame_time - 100);
 	}
 
 	b->state |= 1 + 2;	/* down + impulse down */
@@ -178,7 +178,7 @@ PRIVATE void KeyUp( kbutton_t *b )
 
 	/* save timestamp */
 	c = Cmd_Argv( 2 );
-	uptime = atoi( c );
+	uptime = (unsigned int)atoi( c );
 	if( uptime ) {
 		b->msec += uptime - b->downtime;
 	} else {
@@ -427,14 +427,16 @@ PRIVATE void Client_FinishMove( usercmd_t *cmd )
 	if( ms > 250 ) {
 		ms = 100; /* time was unreasonable */
 	}
-	cmd->msec = ms;
+	cmd->msec = (W8)ms;
 
 
 	for( i = 0 ; i < 3 ; ++i ) {
-		cmd->angles[ i ] = ANGLE2SHORT( ClientState.viewangles[ i ] );
+		/* you would think that with a name like "ANGLE2SHORT", it would already
+		 * return a 'short' even without the cast, but nope: */
+		cmd->angles[ i ] = (short)ANGLE2SHORT( ClientState.viewangles[ i ] );
 	}
 
-	cmd->impulse = in_impulse;
+	cmd->impulse = (W8)in_impulse;
 	in_impulse = 0;
 
 /* send the ambient light level at the player's current position */

@@ -52,20 +52,43 @@ PUBLIC W32	curtime;
 -----------------------------------------------------------------------------
 */
 /* prototype should be in "../timer.h" */
-PUBLIC W32 Sys_Milliseconds( void )
+PUBLIC W32 Sys_Milliseconds(void)
 {
 	struct timeval tp;
 	struct timezone tzp;
+/* not sure if I should change the "&&" here to another "||"...: */
+#if defined(__APPLE__) && (defined(__darwin_time_t) || defined(HAVE___DARWIN_TIME_T))
+	/* sizes of members of struct timeval vary by system, so since we set the
+	 * value of secbase to a member of struct timeval later, make sure that it
+	 * is the right type here first, so that it will not be necessary to cast
+	 * it later: */
+	static __darwin_time_t secbase;
+#elif !defined(__APPLE__) && (defined(time_t) || defined(HAVE_TIME_T))
+	static time_t	secbase;
+#elif defined(SIZEOF_LONG) && defined(SIZEOF_INT)
+/* this is not entirely right; we should really be checking the size of the
+ * type of the member tv_sec of struct timeval, and then comparing _that_ with
+ * the size of int, but I am not sure exactly how to do that: */
+# if SIZEOF_LONG > SIZEOF_INT
+	static long		secbase;
+# else
 	static int		secbase;
+# endif /* SIZEOF_LONG > SIZEOF_INT */
+#else
+	static int		secbase;
+#endif /* end conditions for different types of tv_sec */
 
-	gettimeofday( &tp, &tzp );
+	gettimeofday(&tp, &tzp);
 
-	if( ! secbase ) {
+	if (! secbase) {
 		secbase = tp.tv_sec;
-		return tp.tv_usec / 1000;
+		return (W32)(tp.tv_usec / 1000);
 	}
 
-	curtime = (tp.tv_sec - secbase) * 1000 + tp.tv_usec / 1000;
+	/* some of these parentheses are just to help me remember the order of
+	 * operations (others are actually needed though): */
+	curtime = (W32)((tp.tv_sec - secbase) * 1000) +
+					(unsigned long)(tp.tv_usec / 1000);
 
 	return curtime;
 }

@@ -1075,13 +1075,15 @@ int flush;
     strm->total_in += in;
     strm->total_out += out;
     state->total += out;
-    if (state->wrap && out)
-        strm->adler = state->check =
-            UPDATE(state->check, strm->next_out - out, out);
-    strm->data_type = state->bits + (state->last ? 64 : 0) +
+		if (state->wrap && out) {
+			strm->adler = state->check =
+				UPDATE(state->check, (strm->next_out - out), out);
+		}
+    strm->data_type = (int)state->bits + (state->last ? 64 : 0) +
                       (state->mode == TYPE ? 128 : 0);
-    if (((in == 0 && out == 0) || flush == Z_FINISH) && ret == Z_OK)
-        ret = Z_BUF_ERROR;
+		if ((((in == 0) && (out == 0)) || (flush == Z_FINISH)) && (ret == Z_OK)) {
+			ret = Z_BUF_ERROR;
+		}
     return ret;
 }
 

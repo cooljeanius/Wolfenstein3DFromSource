@@ -369,7 +369,7 @@ PRIVATE void R_Register( void )
 */
 PRIVATE _boolean R_SetMode( void )
 {
-	rserr_t err;
+	rserr_t err; /* rserr_t is an enum typedef-ed in "../renderer.h" */
 	_boolean fullscreen;
 
 
@@ -378,34 +378,46 @@ PRIVATE _boolean R_SetMode( void )
 	r_fullscreen->modified = false;
 	gl_mode->modified = false;
 
-	if ( ( err = GLimp_SetMode( &viddef.width, &viddef.height, FloatToInt( gl_mode->value ), fullscreen ) ) == rserr_ok ) {
-		gl_state.prev_mode = FloatToInt( gl_mode->value );
+	if ((err = (rserr_t)GLimp_SetMode((int*)&viddef.width, (int*)&viddef.height,
+									  (int)FloatToInt((float)(gl_mode->value)),
+									  fullscreen)) == rserr_ok) {
+		gl_state.prev_mode = (int)FloatToInt((float)(gl_mode->value));
 	} else {
 		if( err == rserr_invalid_fullscreen ) {
-			Cvar_SetValue( "r_fullscreen", 0);
+			Cvar_SetValue("r_fullscreen", 0);
 			r_fullscreen->modified = false;
-			Com_Printf( "[R_SetMode()] -fullscreen unavailable in this mode\n" );
+			Com_Printf("[R_SetMode()] -fullscreen unavailable in this mode\n");
 
-			if( ( err = GLimp_SetMode( &viddef.width, &viddef.height, FloatToInt( gl_mode->value ), false ) ) == rserr_ok ) {
+			if((err = (rserr_t)GLimp_SetMode((int*)&viddef.width,
+											 (int*)&viddef.height,
+											 (int)FloatToInt((float)(gl_mode->value)),
+											 false)) == rserr_ok) {
+				if (err == rserr_ok) {
+					Com_Printf("err is %s", err);
+				}
 				return true;
 			}
-		} else if ( err == rserr_invalid_mode ) {
+		} else if (err == rserr_invalid_mode) {
 			Cvar_SetValue( "gl_mode", (float)gl_state.prev_mode );
 			gl_mode->modified = false;
 			Com_Printf( "ref_gl::R_SetMode() - invalid mode\n" );
 		}
 
 		/* try setting it back to something safe */
-		if ( ( err = GLimp_SetMode( &viddef.width, &viddef.height, gl_state.prev_mode, false ) ) != rserr_ok ) {
-			Com_Printf( "ref_gl::R_SetMode() - could not revert to safe mode\n" );
+		if ((err = (rserr_t)GLimp_SetMode((int*)&viddef.width,
+										  (int*)&viddef.height,
+										  gl_state.prev_mode,
+										  false)) != rserr_ok) {
+			Com_Printf("ref_gl::R_SetMode() - could not revert to safe mode\n");
+			if (err != rserr_ok) {
+				Com_Printf("err is %s", err);
+			}
 			return false;
 		}
 	}
 
 	return true;
-
 }
-
 
 
 /*
@@ -427,9 +439,9 @@ PUBLIC int R_Init( void *hinstance, void *hWnd )
 	int		a, b;
 
 
-	Com_Printf( "\n------ Display Initialization ------\n" );
+	Com_Printf("\n------ Display Initialization ------\n");
 
-	Com_Printf( "Initializing OpenGL Subsystem\n" );
+	Com_Printf("Initializing OpenGL Subsystem\n");
 
 	R_Register(); /* sets gl_driver, among other things */
 
@@ -519,8 +531,8 @@ PUBLIC int R_Init( void *hinstance, void *hWnd )
 	Font_Init();
 
 
-	err = pfglGetError();
-	if( err != GL_NO_ERROR ) {
+	err = (int)pfglGetError();
+	if (err != GL_NO_ERROR) {
 		Com_Printf( "glGetError() = 0x%x\n", err );
 	}
 
@@ -538,7 +550,7 @@ PUBLIC int R_Init( void *hinstance, void *hWnd )
  Notes:
 -----------------------------------------------------------------------------
 */
-PUBLIC void R_Shutdown( void )
+PUBLIC void R_Shutdown(void)
 {
 #if 0
 	Cmd_RemoveCommand ("modellist");
@@ -546,7 +558,7 @@ PUBLIC void R_Shutdown( void )
 	Cmd_RemoveCommand ("imagelist");
 	Cmd_RemoveCommand ("gl_strings");
 
-	Mod_FreeAll ();
+	Mod_FreeAll();
 #endif /* 0 */
 
 	TM_Shutdown();
@@ -575,17 +587,17 @@ PUBLIC void R_Shutdown( void )
  Notes:
 -----------------------------------------------------------------------------
 */
-PUBLIC void R_BeginFrame( void )
+PUBLIC void R_BeginFrame(void)
 {
 
 /*
  * Change modes if necessary.
  */
-	if ( gl_mode->modified || r_fullscreen->modified )
-	{	/* FIXME: only restart if CDS is required */
+	if ( gl_mode->modified || r_fullscreen->modified ) {
+		/* FIXME: only restart if CDS is required */
 		cvar_t	*ref;
 
-		ref = Cvar_Get( "r_ref", "gl", CVAR_INIT );
+		ref = Cvar_Get("r_ref", "gl", CVAR_INIT);
 		ref->modified = true;
 	}
 
@@ -601,13 +613,13 @@ PUBLIC void R_BeginFrame( void )
 /*
  * Draw buffer stuff.
  */
-	if ( gl_drawbuffer->modified ) {
+	if (gl_drawbuffer->modified) {
 		gl_drawbuffer->modified = false;
 
-		if ( my_stricmp( gl_drawbuffer->string, "GL_FRONT" ) == 0 ) {
-			pfglDrawBuffer( GL_FRONT );
+		if (my_stricmp(gl_drawbuffer->string, "GL_FRONT") == 0) {
+			pfglDrawBuffer(GL_FRONT);
 		} else {
-			pfglDrawBuffer( GL_BACK );
+			pfglDrawBuffer(GL_BACK);
 		}
 
 	}
@@ -617,7 +629,7 @@ PUBLIC void R_BeginFrame( void )
  */
 
 #if 0
-	if ( gl_texturemode->modified ) {
+	if (gl_texturemode->modified) {
 		R_TextureMode( gl_texturemode->string );
 		gl_texturemode->modified = false;
 	}
@@ -647,7 +659,7 @@ PUBLIC void R_BeginFrame( void )
  Notes:
 -----------------------------------------------------------------------------
 */
-PUBLIC void R_EndFrame( void )
+PUBLIC void R_EndFrame(void)
 {
 	GLimp_EndFrame();
 }
@@ -663,9 +675,9 @@ PUBLIC void R_EndFrame( void )
  Notes:
 -----------------------------------------------------------------------------
 */
-PUBLIC void R_AppActivate( _boolean active )
+PUBLIC void R_AppActivate(_boolean active)
 {
-	GLimp_AppActivate( active );
+	GLimp_AppActivate(active);
 }
 
 
@@ -680,13 +692,13 @@ PUBLIC void R_AppActivate( _boolean active )
  Notes:
 -----------------------------------------------------------------------------
 */
-PUBLIC void GL_UpdateSwapInterval( void )
+PUBLIC void GL_UpdateSwapInterval(void)
 {
-	if ( gl_swapinterval->modified ) {
+	if (gl_swapinterval->modified) {
 		gl_swapinterval->modified = false;
 #ifdef _WIN32
-		if ( pfwglSwapIntervalEXT ) {
-			pfwglSwapIntervalEXT( FloatToInt( gl_swapinterval->value ) );
+		if (pfwglSwapIntervalEXT) {
+			pfwglSwapIntervalEXT(FloatToInt(gl_swapinterval->value));
 		}
 #endif /* _WIN32 */
 	}
@@ -708,12 +720,12 @@ PUBLIC void GL_UpdateSwapInterval( void )
 */
 PUBLIC void PrintGLError( W32 err, const char *from )
 {
-    if( err == GL_NO_ERROR ) {
+    if (err == GL_NO_ERROR) {
 		return;
 	}
 
 	/* TODO: fix comparison with string literal results (use strncmp instead) */
-    if( from != "" ) {
+    if (from != "") {
 		Com_Printf( "\n\n\nGL Error: %s\n", from );
 	}
 

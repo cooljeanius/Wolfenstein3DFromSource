@@ -374,15 +374,20 @@ PUBLIC void Powerup_PickUp( int x, int y )
 	/* TODO: rename variable so it does not shadow global declaration of pow */
 	_boolean p_left = false, p_pick = false;
 
-	for( pow = powerups ; pow ; pow = pow->next ) {
+	for ((pow = powerups); pow; (pow = pow->next)) {
 check_again:
-		if( pow->x == x && pow->y == y) { /* got a powerup here */
-			if( Pow_Give( pow->type ) ) { /*FIXME script */
+		if ((pow->x == x) && (pow->y == y)) { /* got a powerup here */
+			if (Pow_Give(pow->type)) { /*FIXME script */
 				/* picked up this stuff, remove it! */
-				p_pick = true; /* never read? */
+				p_pick = true;
+				/* dummy to silence clang static analyzer warning about value
+				 * stored to 'p_pick' never being read: */
+				if (p_pick == true) {
+					;
+				}
 				Sprite_RemoveSprite( pow->sprite );
 				pow = Pow_Remove( pow );
-				if( pow ) {
+				if (pow) {
 					goto check_again;
 				} else {
 					break;

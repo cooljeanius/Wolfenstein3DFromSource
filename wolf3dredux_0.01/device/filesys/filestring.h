@@ -37,16 +37,18 @@
 #define __FILESTRING_H__
 
 
-extern void FS_CreatePath( char *path );
+extern void FS_CreatePath(char *path);
 
-extern void FS_FilePath( char *in, char *out );
+extern void FS_FilePath(char *in, char *out);
 
-extern char *FS_SkipPath( char *pathname );
+extern char *FS_SkipPath(char *pathname);
 
-extern void FS_StripExtension( char *in, char *out );
+extern void FS_StripExtension(char *in, char *out);
 
-extern char *FS_FileExtension( char *in );
+extern char *FS_FileExtension(char *in);
 
-extern void FS_FileBase( char *in, char *out );
+extern void FS_FileBase(char *in, char *out);
 
 #endif /* __FILESTRING_H__ */
+
+/* EOF */

@@ -34,7 +34,9 @@
 #include "../../../device/input/input.h"
 #include "../../../sound/sound.h"
 
-extern void R_DrawWorld( void );
+#include "wolf_client.h" /* new header for prototypes from this file */
+
+extern void R_DrawWorld(void);
 
 
 /*
@@ -49,9 +51,9 @@ extern void R_DrawWorld( void );
 
 -----------------------------------------------------------------------------
 */
-PRIVATE void V_RenderView( void )
+PRIVATE void V_RenderView(void)
 {
-	if( ClientStatic.key_dest != key_game ) {
+	if (ClientStatic.key_dest != key_game) {
 		return;
 	}
 
@@ -71,9 +73,8 @@ PRIVATE void V_RenderView( void )
 
 -----------------------------------------------------------------------------
 */
-PUBLIC void Client_Screen_UpdateScreen( void );
-/* TODO: put the prototype into a header */
-PUBLIC void Client_Screen_UpdateScreen( void )
+/* prototype moved to "wolf_client.h" */
+PUBLIC void Client_Screen_UpdateScreen(void)
 {
 	R_BeginFrame(); /********/
 
@@ -101,78 +102,74 @@ PUBLIC void Client_Screen_UpdateScreen( void )
 
 -----------------------------------------------------------------------------
 */
-PUBLIC void Client_PrepRefresh( const char *r_mapname );
-/* TODO: put the prototype into a header */
-PUBLIC void Client_PrepRefresh( const char *r_mapname )
+/* prototype moved to "wolf_client.h" */
+PUBLIC void Client_PrepRefresh(const char *r_mapname)
 {
 	char mapname[ 32 ];
-#if 0
+#if 0 || __clang_analyzer__
 	int			i;
-	char		name[ MAX_GAMEPATH ];
+	char		name[MAX_GAMEPATH];
 	float		rotate;
 	vec3_t		axis;
-#endif /* 0 */
+#endif /* 0 || __clang_analyzer__ */
 
-    if( ! r_mapname || ! *r_mapname ) {
+    if (! r_mapname || ! *r_mapname) {
 		return;
 	}
 
-	R_DrawPsyched( 0 );
+	R_DrawPsyched(0);
 	R_EndFrame();
 
-	if( g_version->value == SPEAROFDESTINY ) {
+	if (g_version->value == SPEAROFDESTINY) {
 		spritelocation = SODSPRITESDIRNAME;
-	}
-	else
-	{
+	} else {
 		spritelocation = WL6SPRITESDIRNAME;
 	}
 
-#if 0
-	SCR_AddDirtyPoint( 0, 0 );
-	SCR_AddDirtyPoint( viddef.width - 1, viddef.height - 1 );
-#endif /* 0 */
+#if 0 || __clang_analyzer__
+	SCR_AddDirtyPoint(0, 0);
+	SCR_AddDirtyPoint((viddef.width - 1), (viddef.height - 1));
+#endif /* 0 || __clang_analyzer__ */
 
-	my_strlcpy( mapname, r_mapname, sizeof( mapname ) ); /* skip "maps/" */
-	if( (NULL != strstr( mapname, ".map" )) || (NULL != strstr( mapname, ".MAP" ))  )
-    {
-        mapname[ strlen( mapname ) - 4 ] = '\0'; /* cut off ".map" */
+	my_strlcpy(mapname, r_mapname, sizeof(mapname)); /* skip "maps/" */
+	if((NULL != strstr(mapname, ".map")) || (NULL != strstr(mapname, ".MAP"))) {
+        mapname[(strlen(mapname) - 4)] = '\0'; /* cut off ".map" */
     }
 
 	/* register models, pics, and skins	*/
-	R_BeginRegistration( mapname );
+	R_BeginRegistration(mapname);
 
-	if( r_world == NULL ) {
+	if (r_world == NULL) {
 		return;
 	}
 
-	Com_Printf( "Map: %s\n", r_world->mapName );
+	Com_Printf("Map: %s\n", r_world->mapName);
 
 	R_DrawPsyched( 30 );
 	R_EndFrame();
 
-	Level_ScanInfoPlane( r_world ); /* Spawn items/guards */
+	Level_ScanInfoPlane(r_world); /* Spawn items/guards */
 
-	Com_Printf( "Spawning Entities\n" );
-	PL_Spawn( r_world->pSpawn, r_world ); /* Spawn Player */
+	Com_Printf("Spawning Entities\n");
+	PL_Spawn(r_world->pSpawn, r_world); /* Spawn Player */
 
-	Com_Printf( "Caching Textures and Sounds\n" );
+	Com_Printf("Caching Textures and Sounds\n");
 	Level_PrecacheTextures_Sound( r_world );
 
-	R_DrawPsyched( 80 );
+	R_DrawPsyched(80);
 	R_EndFrame();
 
 	/* the renderer can now free unneeded stuff */
 	R_EndRegistration();
 
-	R_DrawPsyched( 100 );
+	R_DrawPsyched(100);
 	R_EndFrame();
 
 	/* clear any lines of console text */
 	Con_ClearNotify();
 
-	if( r_world->musicName ) {
-		Sound_StartBGTrack( r_world->musicName, r_world->musicName );
+	if (r_world->musicName) {
+		Sound_StartBGTrack(r_world->musicName, r_world->musicName);
 	}
 
 	R_EndFrame();
@@ -182,7 +179,7 @@ PUBLIC void Client_PrepRefresh( const char *r_mapname )
 
 int tics;
 
-extern void M_Intermission_f( void );
+extern void M_Intermission_f(void);
 
 /*
 -----------------------------------------------------------------------------
@@ -196,10 +193,12 @@ extern void M_Intermission_f( void );
 
 -----------------------------------------------------------------------------
 */
-PUBLIC void Client_Frame( int msec )
+PUBLIC void Client_Frame(int msec)
 {
 	static int extratime;
-/*	static int lasttimecalled; */
+#if 0 || __clang_analyzer__
+	static int lasttimecalled;
+#endif /* 0 || __clang_analyzer__ */
 
 
 	vec3_t vnull = { 0, 0, 0 };
@@ -212,59 +211,66 @@ PUBLIC void Client_Frame( int msec )
 
 	/* decide the simulation time */
 	ClientStatic.frametime = extratime / 1000.0f;
-#if 0
+#if 0 || __clang_analyzer__
 	cl.time += extratime;
-#endif /* 0 */
-	ClientStatic.realtime = curtime;
+#endif /* 0 || __clang_analyzer__ */
+	ClientStatic.realtime = (int)curtime;
 
 	extratime = 0;
 
 #if 0
-	if( ClientStatic.frametime > (1.0f / cl_minfps->value) ) {
+	if (ClientStatic.frametime > (1.0f / cl_minfps->value)) {
 		ClientStatic.frametime = (1.0f / cl_minfps->value);
 	}
 #else
-	if( ClientStatic.frametime > (1.0f / 5) ) {
+	if (ClientStatic.frametime > (1.0f / 5)) {
 		ClientStatic.frametime = (1.0f / 5);
 	}
 #endif /* 0 */
 
-	ClientState.time = ClientStatic.frametime * 100;
+	ClientState.time = (int)(ClientStatic.frametime * 100);
 
     tics = 1;
 
 	/* allow rendering change */
 	Video_CheckChanges();
 	/* TODO: handle errors thrown by Video_CheckChanges() */
-#if 0
-	if( ! ClientState.refresh_prepped && ClientStatic.state == ca_active ) {
-		Client_PrepRefresh( levelstate. );
+#if 0 || __clang_analyzer__
+	if (! ClientState.refresh_prepped && (ClientStatic.state == ca_active)) {
+		Client_PrepRefresh(levelstate./**/);
 	}
-#endif /* 0 */
+#endif /* 0 || __clang_analyzer__ */
 
-	Sound_Update( vnull, vnull, vnull, vnull );
+	Sound_Update(vnull, vnull, vnull, vnull);
 
-	if (ClientStatic.key_dest == key_game && ClientStatic.state == ca_active) {
+	if ((ClientStatic.key_dest == key_game) && (ClientStatic.state == ca_active)) {
 		if (Player.playstate != ex_dead) {
-            int tempFineAngle; /* unused (?) */
+            int tempFineAngle; /* unused (?) (was previously) */
 
 			tempFineAngle = 0;
 
+			/* dummy to silence clang static analyzer warning about value stored to
+			 * 'tempFineAngle' never being read: */
+			if (tempFineAngle == 0) {
+				;
+			}
+
 			Client_SendCommand();
 
-            Player.position.angle = angle_normalize( FINE2RAD( ClientState.viewangles[ YAW ] ) + Player.position.angle );
+            Player.position.angle = (angle_normalize((float)FINE2RAD(ClientState.viewangles[YAW]) +
+													 Player.position.angle));
 		} else {
-			memset( &ClientState.cmd, 0, sizeof( ClientState.cmd ) );
+			memset(&ClientState.cmd, 0, sizeof(ClientState.cmd));
 		}
 
 
-		if (Player.playstate == ex_complete || Player.playstate == ex_secretlevel) {
+		if ((Player.playstate == ex_complete) || (Player.playstate == ex_secretlevel)) {
 			M_Intermission_f();
 		} else {
-			PL_Process( &Player, r_world );	/* Player processing */
+			PL_Process(&Player, r_world); /* Player processing */
 			ProcessGuards(); /* if single */
 			PushWall_Process();
-			Door_ProcessDoors_e( &r_world->Doors, tics, msec );
+			Door_ProcessDoors_e(&r_world->Doors, tics, msec);
 
 			levelstate.time += tics;
 		}

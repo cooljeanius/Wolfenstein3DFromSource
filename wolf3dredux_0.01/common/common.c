@@ -126,7 +126,7 @@ PUBLIC void Com_BeginRedirect( int target, char *buffer, int buffersize, void (*
 	rd_target = target;
 	rd_buffer = buffer;
 	rd_buffersize = buffersize;
-	rd_flush = flush;
+	rd_flush = flush; /* this seems dangerous... */
 
 	*rd_buffer = 0;
 }
@@ -178,11 +178,11 @@ PUBLIC void Com_Printf( const char *fmt, ... )
 	msg[ sizeof( msg ) - 1 ] = '\0';
 
 	if( rd_target ) {
-		if( (strlen( msg ) + strlen( rd_buffer ) ) > (rd_buffersize - 1) ) {
+		if( (int)((int)strlen(msg) + (int)strlen(rd_buffer)) > (rd_buffersize - 1) ) {
 			rd_flush( rd_target, rd_buffer );
 			*rd_buffer = '\0';
 		}
-		my_strlcat( rd_buffer, msg, rd_buffersize );
+		my_strlcat( rd_buffer, msg, (size_t)rd_buffersize );
 		return;
 	}
 
@@ -195,7 +195,8 @@ PUBLIC void Com_Printf( const char *fmt, ... )
 #  define Sys_ConsoleOutput printf
 # endif /* !Sys_ConsoleOutput */
 	/* also echo to debugging console */
-	Sys_ConsoleOutput( msg ); /* potentially insecure, but that is because it is a dirty hack */
+	Sys_ConsoleOutput("%s", msg );
+	/* (was) potentially insecure, but that is because it is a dirty hack */
 #endif /* ECHO_TO_DEBUGGING_CONSOLE */
 
 	/* logfile */
@@ -394,9 +395,9 @@ PUBLIC void Com_SetServerState( int state )
 
 -----------------------------------------------------------------------------
 */
-PUBLIC void SZ_Init( sizebuf_t *buf, PW8 data, int length )
+PUBLIC void SZ_Init(sizebuf_t *buf, PW8 data, int length)
 {
-	memset( buf, 0, sizeof( *buf ) );
+	memset(buf, 0, sizeof(*buf));
 	buf->data = data;
 	buf->maxsize = length;
 }
@@ -488,7 +489,7 @@ PUBLIC void SZ_Print( sizebuf_t *buf, W8 *data )
 {
 	int		len;
 
-	len = strlen( data ) + 1; /* TODO: check signedness of arg passed to strlen */
+	len = (int)(strlen((const char*)data) + 1);
 
 	if (buf->cursize) {
 		if( buf->data[ buf->cursize - 1 ] ) {
@@ -681,14 +682,14 @@ PRIVATE void Com_Error_f (void)
  Notes:
 -----------------------------------------------------------------------------
 */
-extern void Game_Init( void );
+extern void Game_Init(void);
 
-PUBLIC void common_Init( int argc, char *argv[] )
+PUBLIC void common_Init(int argc, char *argv[])
 {
 	char	*s;
 
-	if( setjmp( abortframe ) ) {
-		Sys_Error( "Error during initialization" );
+	if (setjmp(abortframe)) {
+		Sys_Error("Error during initialization");
 	}
 
 	z_chain.next = z_chain.prev = &z_chain;
@@ -696,7 +697,7 @@ PUBLIC void common_Init( int argc, char *argv[] )
 
 	/* Prepare enough of the subsystems to handle
 	 * cvar and command buffer management. */
-	COM_InitArgv( argc, argv );
+	COM_InitArgv(argc, argv);
 
 	Cmd_Init();
 	Cvar_Init();
@@ -707,15 +708,15 @@ PUBLIC void common_Init( int argc, char *argv[] )
 	 * a basedir or cddir needs to be set before execing
 	 * config files, but we want other parms to override
 	 * the settings of the config files. */
-	Cbuf_AddEarlyCommands( false );
+	Cbuf_AddEarlyCommands(false);
 	Cbuf_Execute();
 
 	FS_InitFilesystem();
 
-	Cbuf_AddText( "exec DEFAULT.CFG\n" );
-	Cbuf_AddText( "exec config.cfg\n" );
+	Cbuf_AddText("exec DEFAULT.CFG\n");
+	Cbuf_AddText("exec config.cfg\n");
 
-	Cbuf_AddEarlyCommands( true );
+	Cbuf_AddEarlyCommands(true);
 	Cbuf_Execute();
 
 	/*
@@ -747,8 +748,8 @@ PUBLIC void common_Init( int argc, char *argv[] )
 	s = va( "%s %s %s %s %s %s", APP_VERSION, RELEASENAME, CPUSTRING, __DATE__, __TIME__, BUILDSTRING );
 	Cvar_Get( "version", s, CVAR_SERVERINFO | CVAR_NOSET );
 
-	if( dedicated->value ) {
-		Cmd_AddCommand( "quit", Com_Quit );
+	if (dedicated->value) {
+		Cmd_AddCommand("quit", Com_Quit);
 	}
 
 	Sys_OS_Init();
@@ -759,7 +760,7 @@ PUBLIC void common_Init( int argc, char *argv[] )
 
 
 /* add + commands from command line */
-	if( ! Cbuf_AddLateCommands() ) {
+	if (! Cbuf_AddLateCommands()) {
 		/* if the user did NOT give any commands, run default action */
 		Cbuf_AddText( "intro PC13\n" );	/* refer to default.cfg */
 		Cbuf_Execute();

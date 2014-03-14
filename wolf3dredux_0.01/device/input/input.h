@@ -32,33 +32,45 @@
 #include "../../client/client.h"
 
 
-extern void IN_Init( void );
+extern void IN_Init(void);
 
-extern void IN_Shutdown( void );
+extern void IN_Shutdown(void);
 
-extern void IN_Commands( void );
+extern void IN_Commands(void);
 /* oportunity for devices to stick commands on the script buffer */
 
-extern void IN_Frame( void );
+extern void IN_Frame(void);
 
-extern void IN_Move( usercmd_t *cmd );
+extern void IN_Move(usercmd_t *cmd);
 /* add additional movement on top of the keyboard move cmd */
 
-extern void IN_Activate( _boolean active );
+extern void IN_Activate(_boolean active);
 
-extern void IN_ClearStates( void );
+extern void IN_ClearStates(void);
 
 /* this one is implemented in either unix_joystick.c or win_joystick.c,
  * depending on platform: */
-extern void IN_StartupJoystick( void );
+extern void IN_StartupJoystick(void);
+
+/* these ones are implemented in either unix_mouse.c or win_mouse.c,
+ * depending on platform: */
+extern void IN_StartupMouse(void);
+extern void IN_ActivateMouse(void);
+extern void IN_DeactivateMouse(void);
+extern void IN_MouseMove(usercmd_t *cmd);
 
 /* these only exist for unix so far, in unix_keys.c: */
-#if defined(__unix__) || defined(__APPLE__)
-extern void Do_Key_Event( int key, _boolean down );
-extern void KBD_Init( void );
-extern void KBD_Update( void );
+#if (defined(__unix__) || defined(__APPLE__)) && !defined(_WIN32)
+extern void Do_Key_Event(int key, _boolean down);
+extern void KBD_Init(void);
+extern void KBD_Update(void);
 extern void KBD_Close(void);
-#endif /* __unix__ || __APPLE__ */
+/* these ones are from unix_mouse.c: */
+extern void install_grabs(void);
+extern void uninstall_grabs(void);
+extern void RW_IN_Activate(_boolean active);
+extern void RW_IN_Shutdown(void);
+#endif /* (__unix__ || __APPLE__) && !_WIN32 */
 
 #endif /* __INPUT_H__ */
 

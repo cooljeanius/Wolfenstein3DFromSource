@@ -807,6 +807,12 @@ PRIVATE _boolean ProjectileTryMove( entity_t *self, LevelData_t *lvl )
 
 	y = 0;
 
+	/* dummy to silence clang static analyzer warning about value stored to
+	 * 'y' never being read: */
+	if (y == 0) {
+		;
+	}
+
 	xl = (self->x - PROJSIZE) >> TILESHIFT;
 	yl = (self->y - PROJSIZE) >> TILESHIFT;
 
@@ -853,6 +859,12 @@ PUBLIC void T_Projectile( entity_t *self )
 	int deltax, deltay, speed, damage;
 
 	damage = 0;
+
+	/* dummy to silence clang static analyzer warning about value stored to
+	 * 'damage' never being read: */
+	if (damage == 0) {
+		;
+	}
 
 	speed = self->speed * tics;
 

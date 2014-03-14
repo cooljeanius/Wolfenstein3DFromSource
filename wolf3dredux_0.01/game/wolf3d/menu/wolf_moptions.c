@@ -313,7 +313,12 @@ PRIVATE void Options_MenuInit( void )
 
 	s_options_console_action.generic.type	= MTYPE_ACTION;
 	s_options_console_action.generic.x		= 0;
-	s_options_console_action.generic.y		= y += nYOffset;
+	s_options_console_action.generic.y		= (y += nYOffset);
+	/* dummy to silence clang static analyzer warning about value stored to
+	 * 'y' never actually being read: */
+	if (s_options_console_action.generic.y == y) {
+		;
+	}
 	s_options_console_action.generic.fs		= FONT1;
 	s_options_console_action.generic.fontBaseColour = &textcolour;
 	s_options_console_action.generic.fontHighColour = &highlight;
@@ -671,7 +676,12 @@ PRIVATE void Keys_MenuInit( void )
 	s_keys_move_down_action.generic.type	= MTYPE_ACTION;
 	s_keys_move_down_action.generic.flags  = MF_GRAYED;
 	s_keys_move_down_action.generic.x		= 0;
-	s_keys_move_down_action.generic.y		= y += nYOffset;
+	s_keys_move_down_action.generic.y		= (y += nYOffset);
+	/* dummy to silence clang static analyzer warning about value stored to
+	 * 'y' never actually being read: */
+	if (s_keys_move_down_action.generic.y == y) {
+		;
+	}
 	s_keys_move_down_action.generic.fontBaseColour = &textcolour;
 	s_keys_move_down_action.generic.ownerdraw = DrawKeyBindingFunc;
 	s_keys_move_down_action.generic.ownerdraw = DrawKeyBindingFunc;

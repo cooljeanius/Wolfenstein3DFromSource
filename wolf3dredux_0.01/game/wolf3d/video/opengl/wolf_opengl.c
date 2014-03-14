@@ -227,7 +227,9 @@ PUBLIC void R_Draw_Wall( float x, float y, float z1, float z2, int type, int tex
 	texture_t *twall;
 
 	x1 = 0; /* initialize, just in case */
+	x2 = 0; /* initialize, just in case */
 	y1 = 0; /* initialize, just in case */
+	y2 = 0; /* initialize, just in case */
 
 	switch( type ) {
 	/* X wall */

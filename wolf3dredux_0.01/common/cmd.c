@@ -90,7 +90,8 @@ PRIVATE void Cmd_Wait_f( void )
 =============================================================================
 */
 
-PRIVATE sizebuf_t	cmd_text;
+/* global variable declarations: */
+PRIVATE sizebuf_t	cmd_text; /* sizebuf_t is typedef-ed in "common.h" */
 
 PRIVATE W8	cmd_text_buf[ 8192 ];
 PRIVATE W8	defer_text_buf[ 8192 ];
@@ -108,9 +109,9 @@ PRIVATE W8	defer_text_buf[ 8192 ];
 
 -----------------------------------------------------------------------------
 */
-PRIVATE void Cbuf_Init( void )
+PRIVATE void Cbuf_Init(void)
 {
-	SZ_Init( &cmd_text, cmd_text_buf, sizeof( cmd_text_buf ) );
+	SZ_Init(&cmd_text, cmd_text_buf, sizeof(cmd_text_buf));
 }
 
 
@@ -129,14 +130,14 @@ PUBLIC void Cbuf_AddText( const char *text )
 {
 	W32	length;
 
-	length = strlen( text );
+	length = (W32)strlen( text );
 
-	if( cmd_text.cursize + length >= cmd_text.maxsize ) {
+	if ((int)((W32)cmd_text.cursize + length) >= cmd_text.maxsize) {
 		Com_Printf( "Cbuf_AddText: overflow\n" );
 		return;
 	}
 
-	SZ_Write( &cmd_text, (void *)text, length );
+	SZ_Write( &cmd_text, (void *)text, (int)length );
 }
 
 /*
@@ -159,8 +160,8 @@ PUBLIC void Cbuf_InsertText( char *text )
 	size_t	templen;
 
 	/* copy off any commands still remaining in the exec buffer */
-	templen = cmd_text.cursize;
-	if( templen ) {
+	templen = (size_t)cmd_text.cursize;
+	if (templen) {
 		temp = Z_Malloc( templen );
 		memcpy( temp, cmd_text.data, templen );
 		SZ_Clear( &cmd_text );
@@ -172,8 +173,8 @@ PUBLIC void Cbuf_InsertText( char *text )
 	Cbuf_AddText( text );
 
 	/* add the copied off data */
-	if( templen ) {
-		SZ_Write( &cmd_text, temp, templen );
+	if (templen) {
+		SZ_Write( &cmd_text, temp, (int)templen );
 		Z_Free( temp );
 	}
 }
@@ -213,7 +214,7 @@ PUBLIC void Cbuf_CopyToDefer( void )
 */
 PUBLIC void Cbuf_InsertFromDefer( void )
 {
-	Cbuf_InsertText( defer_text_buf );
+	Cbuf_InsertText( (char*)defer_text_buf );
 	defer_text_buf[ 0 ] = 0;
 }
 
@@ -272,6 +273,12 @@ PUBLIC void Cbuf_Execute( void )
 
 	i = 0;
 	quotes = 0;
+
+	/* dummy to silence clang static analyzer warnings about values stored to
+	 * 'i' and 'quotes' never being read: */
+	if ((i == 0) || (quotes == 0)) {
+		;
+	}
 
 	alias_count = 0;	/* do NOT allow infinite alias loops */
 
@@ -392,6 +399,12 @@ PUBLIC _boolean Cbuf_AddLateCommands( void )
 
 	j = 0;
 
+	/* dummy to silence clang static analyzer warning about value stored to
+	 * 'j' never being read: */
+	if (j == 0) {
+		;
+	}
+
 	/* build the combined string to parse from */
 	s = 0;
 	argc = COM_Argc();
@@ -403,25 +416,27 @@ PUBLIC _boolean Cbuf_AddLateCommands( void )
 		return false;
 	}
 
-	text = Z_Malloc( s + 1 );
+	text = Z_Malloc( (size_t)(s + 1) );
 	text[ 0 ] = '\0';	/* Start with a NUL-terminated string. */
 
 	for( i = 1; i < argc; ++i ) {
-		my_strlcat( text, COM_Argv( i ), s );
+		my_strlcat( text, COM_Argv( i ), (size_t)s );
 		if( i != argc-1 ) {
-			my_strlcat( text, " ", s );
+			my_strlcat( text, " ", (size_t)s );
 		}
 	}
 
 	/* pull out the commands */
-	build = Z_Malloc( s + 1 );
+	build = Z_Malloc( (size_t)(s + 1) );
 	build[ 0 ] = '\0'; /* Start with a NUL-terminated string. */
 
-	for( i = 0; i < s-1; ++i ) {
-		if( text[ i ] == '+' ) {
+	for (i = 0; i < s-1; ++i) {
+		if (text[ i ] == '+') {
 			i++;
 
-			for( j = i ; (text[ j ] != '+') && (text[ j ] != '-') && (text[ j ] != 0) ; j++ ) {
+			for ((j = i);
+				 ((text[ j ] != '+') && (text[ j ] != '-') && (text[ j ] != 0));
+				 j++) {
 				;
 				/* do nothing (?) */
 			}
@@ -429,8 +444,8 @@ PUBLIC _boolean Cbuf_AddLateCommands( void )
 			c = text[ j ];
 			text[ j ] = 0;
 
-			my_strlcat( build, text+i, s+1 );
-			my_strlcat( build, "\n", s+1 );
+			my_strlcat( build, (text + i), (size_t)(s + 1) );
+			my_strlcat( build, "\n", (size_t)(s + 1) );
 			text[ j ] = c;
 			i = j - 1;
 		}
@@ -488,12 +503,12 @@ PRIVATE void Cmd_Exec_f( void )
 		return;
 	}
 
-	len = FS_GetFileSize( hfile );
+	len = (int)FS_GetFileSize( hfile );
 
 	Com_Printf( "execing %s\n", Cmd_Argv( 1 ) );
 
 	/* the file does NOT have a trailing 0, so we need to copy it off */
-	f2 = Z_Malloc( len + 1 );
+	f2 = Z_Malloc( (size_t)(len + 1) );
 	memcpy( f2, hfile->filedata, len );
 	f2[ len ] = 0;
 
@@ -701,7 +716,7 @@ PRIVATE char *Cmd_MacroExpandString( char *text )
 	inquote = false;
 	scan = text;
 
-	len = strlen( scan );
+	len = (int)strlen( scan );
 	if( len >= MAX_STRING_CHARS ) {
 		Com_Printf( "Line exceeded %i chars, discarded.\n", MAX_STRING_CHARS );
 		return NULL;
@@ -731,7 +746,7 @@ PRIVATE char *Cmd_MacroExpandString( char *text )
 
 		token = Cvar_VariableString (token);
 
-		j = strlen(token);
+		j = (int)strlen(token);
 		len += j;
 		if (len >= MAX_STRING_CHARS) {
 			Com_Printf ("Expanded line exceeded %i chars, discarded.\n", MAX_STRING_CHARS);
@@ -739,8 +754,10 @@ PRIVATE char *Cmd_MacroExpandString( char *text )
 		}
 
 		strncpy( temporary, scan, i );
-		my_strlcpy( temporary+i, token, sizeof( temporary ) - i );
-		my_strlcpy( temporary+i+j, start, sizeof( temporary ) - i - j );
+		my_strlcpy((temporary + i), token, (sizeof(temporary) - (unsigned long)i));
+		/* is order of parentheses in 3rd parameter correct here? */
+		my_strlcpy((temporary + i + j), start,
+				   (sizeof(temporary) - (unsigned long)i - (unsigned long)j));
 
 		my_strlcpy( expanded, temporary, sizeof( expanded ) );
 		scan = expanded;
@@ -780,6 +797,12 @@ PUBLIC void Cmd_TokenizeString( char *text, _boolean macroExpand )
 	char	*com_token;
 
 	i = 0;
+
+	/* dummy to silence clang static analyzer warning about value stored to
+	 * 'i' never being read: */
+	if (i == 0) {
+		;
+	}
 
 	/* clear the args from the last string */
 	for( i = 0 ; i < cmd_argc ; ++i ) {
@@ -821,7 +844,7 @@ PUBLIC void Cmd_TokenizeString( char *text, _boolean macroExpand )
 			my_strlcpy( cmd_args, text, sizeof( cmd_args ) - 1 );
 
 			/* strip off any trailing whitespace */
-			l = strlen( cmd_args ) - 1;
+			l = (int)(strlen( cmd_args ) - 1);
 			for( ; l >= 0 ; --l ) {
 				if (cmd_args[l] <= ' ') {
 					cmd_args[l] = 0;
@@ -975,7 +998,7 @@ PUBLIC char *Cmd_CompleteCommand( char *partial )
 	cmdalias_t		*a;
 	W32 hashid;
 
-	len = strlen( partial );
+	len = (int)strlen( partial );
 
 	if( ! len ) {
 		return NULL;
@@ -1003,13 +1026,13 @@ PUBLIC char *Cmd_CompleteCommand( char *partial )
  * Check for partial match.
  */
 	for( cmd = cmd_functions ; cmd ; cmd = cmd->next ) {
-		if( ! strncmp( partial, cmd->name, len ) ) {
+		if( ! strncmp( partial, cmd->name, (size_t)len ) ) {
 			return cmd->name;
 		}
 	}
 
 	for( a = cmd_alias ; a ; a = a->next ) {
-		if( ! strncmp( partial, a->name, len ) ) {
+		if( ! strncmp( partial, a->name, (size_t)len ) ) {
 			return a->name;
 		}
 	}
@@ -1117,18 +1140,18 @@ PRIVATE void Cmd_List_f( void )
  Notes:
 -----------------------------------------------------------------------------
 */
-PUBLIC void Cmd_Init( void )
+PUBLIC void Cmd_Init(void)
 {
 	Cbuf_Init();
 
 /*
  * register our commands
  */
-	Cmd_AddCommand( "listCmds",	Cmd_List_f );
-	Cmd_AddCommand( "exec",		Cmd_Exec_f );
-	Cmd_AddCommand( "echo",		Cmd_Echo_f );
-	Cmd_AddCommand( "alias",	Cmd_Alias_f);
-	Cmd_AddCommand( "wait",		Cmd_Wait_f );
+	Cmd_AddCommand("listCmds",	Cmd_List_f);
+	Cmd_AddCommand("exec",		Cmd_Exec_f);
+	Cmd_AddCommand("echo",		Cmd_Echo_f);
+	Cmd_AddCommand("alias",		Cmd_Alias_f);
+	Cmd_AddCommand("wait",		Cmd_Wait_f);
 }
 
 /* EOF */

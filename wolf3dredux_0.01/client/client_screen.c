@@ -106,16 +106,18 @@ PUBLIC void Client_Screen_DrawConsole( void )
 {
 	Con_CheckResize();
 
-	if( ClientStatic.state == ca_disconnected || ClientStatic.state == ca_connecting )
-	{	/* forced full screen console */
-		Con_DrawConsole( 1.0 );
+	if ((ClientStatic.state == ca_disconnected) ||
+		(ClientStatic.state == ca_connecting)) {
+		/* forced full screen console */
+		Con_DrawConsole(1.0);
 		return;
 	}
 
-	if( ClientStatic.state != ca_active /*|| ! ClientState.refresh_prepped*/ )
-	{	/* connected, but cannot render */
-		Con_DrawConsole( 0.5 );
-		R_Draw_Fill( 0, viddef.height >> 1, viddef.width, viddef.height >> 1, colourBlack );
+	if (ClientStatic.state != ca_active /*|| ! ClientState.refresh_prepped*/) {
+		/* connected, but cannot render */
+		Con_DrawConsole(0.5);
+		R_Draw_Fill(0, (viddef.height >> 1), (int)viddef.width,
+					(viddef.height >> 1), colourBlack );
 		return;
 	}
 

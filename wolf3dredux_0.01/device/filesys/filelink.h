@@ -66,7 +66,7 @@ searchpath_t	*fs_searchpaths;
 searchpath_t	*fs_base_searchpaths;	/* without gamedirs */
 
 /* prototypes */
-extern void FS_FreeFile( void *buffer );
+extern void FS_FreeFile(void *buffer);
 
 #endif /* __FILELINK_H__ */
 

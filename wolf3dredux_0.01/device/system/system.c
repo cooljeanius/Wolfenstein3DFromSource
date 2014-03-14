@@ -44,17 +44,17 @@ extern void Print_OS_Info( void );
 */
 PUBLIC void Sys_Information( void )
 {
-	Com_Printf( "\n----- Determining System Specs -----\n" );
+	Com_Printf("\n----- Determining System Specs -----\n");
 
 #if 0
-	Com_Printf( "[CPU]\n" );
+	Com_Printf("[CPU]\n");
 	Get_CPU_info(); /* unimplemented */
 #endif /* 0 */
 
-	Com_Printf( "[Memory]\n" );
+	Com_Printf("[Memory]\n");
 	Print_Memory_Stats();
 
-	Com_Printf( "[Operating System]\n" );
+	Com_Printf("[Operating System]\n");
 	Print_OS_Info();
 
 	Com_Printf( "------------------------------------\n\n" );

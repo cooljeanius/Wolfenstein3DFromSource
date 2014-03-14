@@ -51,25 +51,30 @@ extern int mx, my;
 int win_x, win_y;
 
 
-void Do_Key_Event( int key, _boolean down )
+void Do_Key_Event(int key, _boolean down)
 {
-	Key_Event( key, down, Sys_Milliseconds() );
+	Key_Event(key, down, (unsigned int)Sys_Milliseconds());
 }
 
 
-static int XLateKey( XKeyEvent *ev )
+static int XLateKey(XKeyEvent *ev)
 {
 
 	int key;
-	char buf[ 64 ];
+	char buf[64];
 	KeySym keysym;
 
 	key = 0;
 
+	/* dummy to silence clang static analyzer warning about value stored to
+	 * 'key' never being read: */
+	if (key == 0) {
+		;
+	}
+
 	XLookupString( ev, buf, sizeof buf, &keysym, 0 );
 
-	switch( keysym )
-	{
+	switch( keysym ) {
 		case XK_KP_Page_Up:	key = K_KP_PGUP;	break;
 		case XK_Page_Up:	key = K_PGUP;		break;
 

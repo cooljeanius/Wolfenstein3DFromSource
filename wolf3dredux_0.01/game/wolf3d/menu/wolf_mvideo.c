@@ -237,7 +237,7 @@ PUBLIC void Video_MenuInit( void )
 	s_mode_list.curvalue = (int)gl_mode->value;
 
 
-	s_opengl_menu.x = (viddef.width >> 1) + 80;
+	s_opengl_menu.x = ((viddef.width >> 1) + 80);
 	s_opengl_menu.nitems = 0;
 
 
@@ -252,7 +252,7 @@ PUBLIC void Video_MenuInit( void )
 
 	s_brightness_slider.generic.type	= MTYPE_SLIDER;
 	s_brightness_slider.generic.x	= 0;
-	s_brightness_slider.generic.y	= y += nYOffset;
+	s_brightness_slider.generic.y	= (y += nYOffset);
 	s_brightness_slider.generic.fs		= FONT1;
 	s_brightness_slider.generic.fontBaseColour = &textcolour;
 	s_brightness_slider.generic.fontHighColour = &highlight;
@@ -260,11 +260,11 @@ PUBLIC void Video_MenuInit( void )
 	s_brightness_slider.generic.callback = BrightnessCallback;
 	s_brightness_slider.minvalue = 0;
 	s_brightness_slider.maxvalue = 20;
-	s_brightness_slider.curvalue = (vid_gamma->value + 10) * 10;
+	s_brightness_slider.curvalue = ((vid_gamma->value + 10) * 10);
 
 	s_fs_box.generic.type = MTYPE_SPINCONTROL;
 	s_fs_box.generic.x	= 0;
-	s_fs_box.generic.y	= y += nYOffset;
+	s_fs_box.generic.y	= (y += nYOffset);
 	s_fs_box.generic.fs		= FONT1;
 	s_fs_box.generic.fontBaseColour = &textcolour;
 	s_fs_box.generic.fontHighColour = &readcolour;
@@ -276,7 +276,7 @@ PUBLIC void Video_MenuInit( void )
 
 	s_tq_slider.generic.type	= MTYPE_SLIDER;
 	s_tq_slider.generic.x		= 0;
-	s_tq_slider.generic.y		= y += nYOffset;
+	s_tq_slider.generic.y		= (y += nYOffset);
 	s_tq_slider.generic.fs		= FONT1;
 	s_tq_slider.generic.fontBaseColour = &textcolour;
 	s_tq_slider.generic.fontHighColour = &highlight;
@@ -287,7 +287,7 @@ PUBLIC void Video_MenuInit( void )
 
 	s_finish_box.generic.type = MTYPE_SPINCONTROL;
 	s_finish_box.generic.x	= 0;
-	s_finish_box.generic.y	= y += nYOffset;
+	s_finish_box.generic.y	= (y += nYOffset);
 	s_finish_box.generic.fs		= FONT1;
 	s_finish_box.generic.fontBaseColour = &textcolour;
 	s_finish_box.generic.fontHighColour = &readcolour;
@@ -298,7 +298,7 @@ PUBLIC void Video_MenuInit( void )
 	s_defaults_action.generic.type = MTYPE_ACTION;
 	s_defaults_action.generic.name = "reset to defaults";
 	s_defaults_action.generic.x    = 0;
-	s_defaults_action.generic.y    = y += nYOffset;
+	s_defaults_action.generic.y    = (y += nYOffset);
 	s_defaults_action.generic.fs		= FONT1;
 	s_defaults_action.generic.fontBaseColour = &textcolour;
 	s_defaults_action.generic.fontHighColour = &highlight;
@@ -307,7 +307,12 @@ PUBLIC void Video_MenuInit( void )
 	s_cancel_action.generic.type = MTYPE_ACTION;
 	s_cancel_action.generic.name = "cancel";
 	s_cancel_action.generic.x    = 0;
-	s_cancel_action.generic.y    = y += nYOffset;
+	s_cancel_action.generic.y    = (y += nYOffset);
+	/* dummy to silence clang static analyzer warning about value stored to
+	 * 'y' never actually being read: */
+	if (s_cancel_action.generic.y == y) {
+		;
+	}
 	s_cancel_action.generic.fs		= FONT1;
 	s_cancel_action.generic.fontBaseColour = &textcolour;
 	s_cancel_action.generic.fontHighColour = &highlight;

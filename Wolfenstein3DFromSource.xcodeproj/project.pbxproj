@@ -120,6 +120,7 @@
 		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
+		A5475D3618D37D4800FE1646 /* wolf_client.h in Headers */ = {isa = PBXBuildFile; fileRef = A5475D3518D37D4800FE1646 /* wolf_client.h */; };
 		A571EE6818C64A260037F031 /* strnlen.c in Sources */ = {isa = PBXBuildFile; fileRef = A571EE6418C64A260037F031 /* strnlen.c */; };
 		A571EE6918C64A260037F031 /* strnlen1.c in Sources */ = {isa = PBXBuildFile; fileRef = A571EE6518C64A260037F031 /* strnlen1.c */; };
 		A571EE6A18C64A260037F031 /* strnlen1.h in Headers */ = {isa = PBXBuildFile; fileRef = A571EE6618C64A260037F031 /* strnlen1.h */; };
@@ -521,6 +522,7 @@
 		7B0AFCBA1470CF7400165517 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = /System/Library/Frameworks/OpenGL.framework; sourceTree = "<absolute>"; };
 		8D1107310486CEB800E47090 /* Wolfenstein3DFromSource-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Wolfenstein3DFromSource-Info.plist"; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* Wolfenstein3DFromSource.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Wolfenstein3DFromSource.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A5475D3518D37D4800FE1646 /* wolf_client.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = wolf_client.h; sourceTree = "<group>"; };
 		A571EC3D18C519C00037F031 /* test_com_string.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = test_com_string.c; sourceTree = "<group>"; };
 		A571EE6318C64A260037F031 /* README */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
 		A571EE6418C64A260037F031 /* strnlen.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = strnlen.c; sourceTree = "<group>"; };
@@ -891,6 +893,7 @@
 			children = (
 				7B0AFB181470CE6200165517 /* wolf_client_main.c */,
 				7B0AFB191470CE6200165517 /* wolf_sv_ccmds.c */,
+				A5475D3518D37D4800FE1646 /* wolf_client.h */,
 			);
 			path = client;
 			sourceTree = "<group>";
@@ -1556,6 +1559,7 @@
 				A571EE6C18C64B580037F031 /* config.h in Headers */,
 				A571F0FB18C6E1F80037F031 /* error.h in Headers */,
 				A571F10118C6E9820037F031 /* progname.h in Headers */,
+				A5475D3618D37D4800FE1646 /* wolf_client.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1978,6 +1982,7 @@
 					/opt/X11/lib,
 					/usr/X11R6/lib,
 				);
+				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
 					"-lX11",
 					"-lXext",

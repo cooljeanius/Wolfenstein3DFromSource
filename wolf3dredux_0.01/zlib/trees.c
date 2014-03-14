@@ -171,7 +171,7 @@ local void gen_trees_header OF((void));
 #  define send_code(s, c, tree) \
      { if (z_verbose>2) fprintf(stderr,"\ncd %3d ",(c)); \
        send_bits(s, tree[c].Code, tree[c].Len); }
-#endif
+#endif /* !DEBUG */
 
 /* ===========================================================================
  * Output a short LSB first on the stream.
@@ -524,8 +524,11 @@ local void gen_bitlen(s, desc)
         xbits = 0;
         if (n >= base) xbits = extra[n-base];
         f = tree[n].Freq;
-        s->opt_len += (ulg)f * (bits + xbits);
-        if (stree) s->static_len += (ulg)f * (stree[n].Len + xbits);
+        s->opt_len += ((ulg)f * ((unsigned long)bits + (unsigned long)xbits));
+        if (stree) {
+			s->static_len += ((ulg)f * ((unsigned long)stree[n].Len +
+										(unsigned long)xbits));
+		}
     }
     if (overflow == 0) return;
 
@@ -557,8 +560,8 @@ local void gen_bitlen(s, desc)
             if (m > max_code) continue;
             if (tree[m].Len != (unsigned) bits) {
                 Trace((stderr,"code %d bits %d->%d\n", m, tree[m].Len, bits));
-                s->opt_len += ((long)bits - (long)tree[m].Len)
-                              *(long)tree[m].Freq;
+                s->opt_len += ((unsigned long)((long)bits - (long)tree[m].Len) *
+							   (unsigned long)(long)tree[m].Freq);
                 tree[m].Len = (ush)bits;
             }
             n--;
@@ -580,15 +583,17 @@ local void gen_codes (tree, max_code, bl_count)
     ushf *bl_count;            /* number of codes at each bit length */
 {
     ush next_code[MAX_BITS+1]; /* next code value for each bit length */
-    ush code = 0;              /* running code value */
+    ush code;                  /* running code value */
     int bits;                  /* bit index */
     int n;                     /* code index */
+
+	code = 0; /* initialize running code value */
 
     /* The distribution counts are first used to generate the code values
      * without bit reversal.
      */
     for (bits = 1; bits <= MAX_BITS; bits++) {
-        next_code[bits] = code = (code + bl_count[bits-1]) << 1;
+        next_code[bits] = code = (ush)((ush)(code + (ush)bl_count[bits-1]) << 1);
     }
     /* Check that the bit counts in bl_count are consistent. The last code
      * must be all ones.
@@ -601,7 +606,7 @@ local void gen_codes (tree, max_code, bl_count)
         int len = tree[n].Len;
         if (len == 0) continue;
         /* Now reverse the bits */
-        tree[n].Code = bi_reverse(next_code[len]++, len);
+        tree[n].Code = (ush)bi_reverse(next_code[len]++, len);
 
         Tracecv(tree != static_ltree, (stderr,"\nn %3d %c l %2d c %4x (%x) ",
              n, (isgraph(n) ? n : ' '), len, tree[n].Code, next_code[len]-1));
@@ -820,10 +825,12 @@ local int build_bl_tree(s)
      * 3 but the actual value used is 4.)
      */
     for (max_blindex = BL_CODES-1; max_blindex >= 3; max_blindex--) {
-        if (s->bl_tree[bl_order[max_blindex]].Len != 0) break;
+        if (s->bl_tree[bl_order[max_blindex]].Len != 0) {
+			break;
+		}
     }
     /* Update opt_len to include the bit length tree and counts */
-    s->opt_len += 3*(max_blindex+1) + 5+5+4;
+    s->opt_len += ((unsigned long)(3 * (int)(max_blindex + 1)) + 5 + 5 + 4);
     Tracev((stderr, "\ndyn trees: dyn %ld, stat %ld",
             s->opt_len, s->static_len));
 
@@ -874,7 +881,7 @@ void _tr_stored_block(s, buf, stored_len, eof)
 #ifdef DEBUG
     s->compressed_len = (s->compressed_len + 3 + 7) & (ulg)~7L;
     s->compressed_len += (stored_len + 4) << 3;
-#endif
+#endif /* DEBUG */
     copy_block(s, buf, (unsigned)stored_len, 1); /* with header */
 }
 
@@ -896,19 +903,19 @@ void _tr_align(s)
     send_code(s, END_BLOCK, static_ltree);
 #ifdef DEBUG
     s->compressed_len += 10L; /* 3 for block type, 7 for EOB */
-#endif
+#endif /* DEBUG */
     bi_flush(s);
     /* Of the 10 bits for the empty block, we have already sent
      * (10 - bi_valid) bits. The lookahead for the last real code (before
      * the EOB of the previous block) was thus at least one plus the length
      * of the EOB plus what we have just sent of the empty static block.
      */
-    if (1 + s->last_eob_len + 10 - s->bi_valid < 9) {
+    if ((1 + s->last_eob_len + 10 - s->bi_valid) < 9) {
         send_bits(s, STATIC_TREES<<1, 3);
         send_code(s, END_BLOCK, static_ltree);
 #ifdef DEBUG
         s->compressed_len += 10L;
-#endif
+#endif /* DEBUG */
         bi_flush(s);
     }
     s->last_eob_len = 7;
@@ -983,12 +990,12 @@ void _tr_flush_block(s, buf, stored_len, eof)
     } else if (static_lenb >= 0) { /* force static trees */
 #else
     } else if (static_lenb == opt_lenb) {
-#endif
+#endif /* FORCE_STATIC */
         send_bits(s, (STATIC_TREES<<1)+eof, 3);
         compress_block(s, (ct_data *)static_ltree, (ct_data *)static_dtree);
 #ifdef DEBUG
         s->compressed_len += 3 + s->static_len;
-#endif
+#endif /* DEBUG */
     } else {
         send_bits(s, (DYN_TREES<<1)+eof, 3);
         send_all_trees(s, s->l_desc.max_code+1, s->d_desc.max_code+1,
@@ -996,7 +1003,7 @@ void _tr_flush_block(s, buf, stored_len, eof)
         compress_block(s, (ct_data *)s->dyn_ltree, (ct_data *)s->dyn_dtree);
 #ifdef DEBUG
         s->compressed_len += 3 + s->opt_len;
-#endif
+#endif /* DEBUG */
     }
     Assert (s->compressed_len == s->bits_sent, "bad compressed size");
     /* The above check is made mod 2^32, for files larger than 512 MB
@@ -1101,7 +1108,7 @@ local void compress_block(s, ltree, dtree)
             send_code(s, code, dtree);       /* send the distance code */
             extra = extra_dbits[code];
             if (extra != 0) {
-                dist -= base_dist[code];
+                dist -= (unsigned int)(base_dist[code]);
                 send_bits(s, dist, extra);   /* send the extra distance bits */
             }
         } /* literal or match pair ? */
@@ -1204,12 +1211,14 @@ local void copy_block(s, buf, len, header)
         put_short(s, (ush)~len);
 #ifdef DEBUG
         s->bits_sent += 2*16;
-#endif
+#endif /* DEBUG */
     }
 #ifdef DEBUG
     s->bits_sent += (ulg)len<<3;
-#endif
+#endif /* DEBUG */
     while (len--) {
         put_byte(s, *buf++);
     }
 }
+
+/* EOF */

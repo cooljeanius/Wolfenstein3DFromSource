@@ -68,7 +68,7 @@ colour3_t colourconLLGray = { 192, 192, 192 };
 
  Returns: Nothing.
 
- Notes:
+ Notes: Unused, apparently...
 
 -----------------------------------------------------------------------------
 */
@@ -160,16 +160,12 @@ PRIVATE void Con_ToggleChat_f( void )
 {
 	Key_ClearTyping();
 
-	if( ClientStatic.key_dest == key_console )
-	{
-		if( ClientStatic.state == ca_active )
-		{
+	if( ClientStatic.key_dest == key_console ) {
+		if( ClientStatic.state == ca_active ) {
 			M_ForceMenuOff();
 			ClientStatic.key_dest = key_game;
 		}
-	}
-	else
-	{
+	} else {
 		ClientStatic.key_dest = key_console;
 	}
 
@@ -214,8 +210,7 @@ PRIVATE void Con_Dump_f( void )
 	char	buffer[1024];
 	char	name[MAX_OSPATH];
 
-	if( Cmd_Argc() != 2 )
-	{
+	if( Cmd_Argc() != 2 ) {
 		Com_Printf( "usage: conDump <filename>\n" );
 		return;
 	}
@@ -248,7 +243,7 @@ PRIVATE void Con_Dump_f( void )
 	buffer[ con.linewidth ] = '\0';
 	for( ; length <= con.current ; ++length ) {
 		line = con.text + (length % con.totallines) * con.linewidth;
-		my_strlcpy( buffer, line, con.linewidth );
+		my_strlcpy( buffer, line, (size_t)con.linewidth );
 		for( x = con.linewidth - 1; x >= 0; --x ) {
 			if( buffer[ x ] == ' ' ) {
 				buffer[ x ] = '\0';	/* NUL-terminate string */
@@ -281,8 +276,7 @@ PUBLIC void Con_ClearNotify( void )
 {
 	int	i;
 
-	for( i = 0; i < NUM_CON_TIMES; ++i )
-	{
+	for( i = 0; i < NUM_CON_TIMES; ++i ) {
 		con.times[ i ] = 0;
 	}
 }
@@ -404,18 +398,18 @@ PUBLIC void Con_CheckResize( void )
 
 -----------------------------------------------------------------------------
 */
-PUBLIC void Con_Init( void )
+PUBLIC void Con_Init(void)
 {
 	con.linewidth = -1;
 
 	Con_CheckResize();
 
-	Com_Printf( "Console Initialized\n" );
+	Com_Printf("Console Initialized\n");
 
 /*
  * register our commands
  */
-	con_notifytime = Cvar_Get( "con_notifytime", "3", CVAR_INIT );
+	con_notifytime = Cvar_Get("con_notifytime", "3", CVAR_INIT);
 
 	Cmd_AddCommand( "toggleconsole", Con_ToggleConsole_f );
 	Cmd_AddCommand( "togglechat", Con_ToggleChat_f );
@@ -467,11 +461,18 @@ PRIVATE void Con_Linefeed( void )
 PUBLIC void Con_Print( char *txt )
 {
 	int		y;
-	int		c, wordlength;
+	int		c;
+	int		wordlength;
 	static int	cr;
 	int		mask;
 
 	wordlength = 0;
+
+	/* dummy to silence clang static analyzer warning about value stored to
+	 * 'wordlength' never being read: */
+	if (wordlength == 0) {
+		;
+	}
 
 	if( ! con.initialized ) {
 		return;
@@ -488,8 +489,7 @@ PUBLIC void Con_Print( char *txt )
 	while( (c = *txt) ) {
 		/* count word length */
 		for( wordlength = 0 ; wordlength < con.linewidth ; ++wordlength ) {
-			if( txt[ wordlength ] <= ' ')
-			{
+			if( txt[ wordlength ] <= ' ') {
 				break;
 			}
 		}
@@ -527,7 +527,7 @@ PUBLIC void Con_Print( char *txt )
 
 			default: /* display character and advance */
 				y = con.current % con.totallines;
-				con.text[ y * con.linewidth + con.x] = c | mask | con.ormask;
+				con.text[ y * con.linewidth + con.x] = (char)(c | mask | con.ormask);
 				con.x++;
 				if( con.x >= con.linewidth ) {
 					con.x = 0;
@@ -554,14 +554,14 @@ PUBLIC void Con_CenteredPrint( const char *text )
 	int		length;
 	char	buffer[ 1024 ];
 
-	length = strlen( text );
+	length = (int)strlen( text );
 	length = ( con.linewidth - length ) >> 1;
 	if( length < 0 ) {
 		length = 0;
 	}
 
 	memset( buffer, ' ', length );
-	my_strlcpy( buffer + length, text, sizeof( buffer ) - length );
+	my_strlcpy( buffer + length, text, (size_t)((int)sizeof(buffer) - (int)length) );
 	my_strlcat( buffer, "\n", sizeof( buffer ) );
 	Con_Print( buffer );
 }
@@ -598,6 +598,12 @@ PRIVATE void Con_DrawInput( void )
 
 	y = 0;
 
+	/* dummy to silence clang static analyzer warning about value stored to
+	 * 'y' never being read: */
+	if (y == 0) {
+		;
+	}
+
 	if( ClientStatic.key_dest != key_console ) {
 		return; /* do NOT draw anything (always draw if not active) */
 	}
@@ -622,13 +628,20 @@ PRIVATE void Con_DrawInput( void )
 	/* draw it */
 	y = con.vislines - heightfont;
 
+	/* dummy to silence clang static analyzer warning about value stored to
+	 * 'y' never being read: */
+	if (y == 0) {
+		;
+	}
+
 	charwidth = 8;
-	for( i = 0 ; i < con.linewidth ; ++i ) {
-		charwidth += Font_put_character( FONT0, charwidth, con.vislines - 22, text[ i ] );
+	for ((i = 0); (i < con.linewidth); ++i) {
+		charwidth += (Font_put_character(FONT0, charwidth, (con.vislines - 22),
+										 (W16)text[i]));
 	}
 
 	/* remove cursor */
-	key_lines[ edit_line ][ key_linepos ] = 0;
+	key_lines[edit_line][key_linepos] = 0;
 }
 
 /*
@@ -667,8 +680,9 @@ PUBLIC void Con_DrawNotify( void )
 		if( i < 0 ) {
 			continue;
 		}
-
-		time = FloatToInt( con.times[ i % NUM_CON_TIMES ] );
+		/* you would think that with a name like "FloatToInt", it would already
+		 * return an 'int' even without the cast, but nope: */
+		time = (int)FloatToInt( (float)(con.times[ i % NUM_CON_TIMES ]) );
 		if( time == 0 ) {
 			continue;
 		}
@@ -682,7 +696,7 @@ PUBLIC void Con_DrawNotify( void )
 
 		charwidth = 0;
 		for( x = 0 ; x < con.linewidth ; ++x ) {
-			charwidth += Font_put_character( FONT1, charwidth, v, text[ x ] );
+			charwidth += Font_put_character( FONT1, charwidth, v, (W16)text[ x ] );
 		}
 
 		v += size;
@@ -745,9 +759,11 @@ PUBLIC void Con_DrawConsole( float frac )
 #endif /* 0 */
 	int heightfont, charwidth;
 
-	lines = FloatToInt( viddef.height * frac );
-	if( lines < 1 )
-	{
+	/* you would think that with a name like "FloatToInt", it would already
+	 * return an 'int' even without the cast, but nope: */
+	/* also blech at having to double-cast... */
+	lines = (W32)(int)FloatToInt( (float)(viddef.height * frac) );
+	if( lines < 1 ) {
 		return;
 	}
 
@@ -764,8 +780,9 @@ PUBLIC void Con_DrawConsole( float frac )
 /*
  * Draw the background
  */
-	R_Draw_Fill( 0, -viddef.height + lines, viddef.width, viddef.height, colourBlack );
-	R_Draw_Fill( 0, lines-2, viddef.width, 2, colourconLGray );
+	R_Draw_Fill(0, (int)(-viddef.height + lines), (int)(viddef.width),
+				(int)(viddef.height), colourBlack);
+	R_Draw_Fill(0, (int)(lines - 2), (int)(viddef.width), 2, colourconLGray);
 
 
 #if 0
@@ -773,24 +790,25 @@ PUBLIC void Con_DrawConsole( float frac )
 	SCR_AddDirtyPoint( viddef.width-1, lines-1 );
 #endif /* 0 */
 
-	my_snprintf( version, sizeof( version ), "v%s", APP_VERSION );
-	Font_SetColour( FONT0, colourGreen );
-	Font_put_lineR2L( FONT0, viddef.width-20, lines - 2 - heightfont, version );
-	Font_SetColour( FONT0, colourconLLGray );
+	my_snprintf(version, sizeof( version ), "v%s", APP_VERSION);
+	Font_SetColour(FONT0, colourGreen);
+	Font_put_lineR2L(FONT0, (int)(viddef.width - 20),
+					 (int)(lines - 2 - (unsigned long)heightfont), version);
+	Font_SetColour(FONT0, colourconLLGray);
 
 /*
  * Draw the text
  */
-	con.vislines = lines;
+	con.vislines = (int)lines;
 
 #if 0
 	rows = (lines - 8) >> 3; /* rows of text to draw */
 
 	y = lines - 24;
 #else
-	rows = (lines - 22) >> 3; /* rows of text to draw */
+	rows = (int)(lines - 22) >> 3; /* rows of text to draw */
 
-	y = lines - 30;
+	y = (int)(lines - 30);
 #endif /* 0 */
 
 	/* draw from the bottom up */
@@ -818,7 +836,7 @@ PUBLIC void Con_DrawConsole( float frac )
 
 		charwidth = 0;
 		for( x = 0; x < con.linewidth; ++x ) {
-			charwidth += Font_put_character( FONT0, charwidth, y, text[ x ] );
+			charwidth += Font_put_character( FONT0, charwidth, y, (W16)text[ x ] );
 		}
 	}
 

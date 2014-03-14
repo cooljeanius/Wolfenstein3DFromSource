@@ -30,8 +30,9 @@
 #include "../../../device/filesys/filesystem.h"
 #include "../../../string/com_string.h"
 
+#include "wolf_client.h" /* new header for prototypes from this file */
 
-extern void Client_PrepRefresh( const char *r_mapname );
+extern void Client_PrepRefresh(const char *r_mapname);
 
 
 /*
@@ -46,29 +47,32 @@ extern void Client_PrepRefresh( const char *r_mapname );
 
 -----------------------------------------------------------------------------
 */
-PRIVATE void SV_GameMap_f( void )
+PRIVATE void SV_GameMap_f(void)
 {
 	char		*map;
 	char r_mapname[ 32 ];
 
-	if( Cmd_Argc() != 2 ) {
-		Com_Printf( "USAGE: gamemap <map>\n" );
+	if (Cmd_Argc() != 2) {
+		Com_Printf("USAGE: gamemap <map>\n");
 		return;
 	}
 
-#if 0
-	Com_DPrintf( "SV_GameMap( %s )\n", Cmd_Argv( 1 ) );
-#endif /* 0 */
+#if 0 || __clang_analyzer__
+	Com_DPrintf("SV_GameMap( %s )\n", Cmd_Argv(1));
+#endif /* 0 || __clang_analyzer__ */
 
-	FS_CreatePath( va( "%s/save/current/", FS_Gamedir() ) );
+	FS_CreatePath(va("%s/save/current/", FS_Gamedir()));
 
 	/* check for clearing the current savegame */
-	map = Cmd_Argv( 1 ); /* never read (?) */
+	map = Cmd_Argv(1);
+#if __clang_analyzer__
+	Com_DPrintf("SV_GameMap( %s )\n", map);
+#endif /* __clang_analyzer__ (hack to use value stored to map) */
 
 	/* start up the next map */
-	my_strlcpy( r_mapname, Cmd_Argv( 1 ), sizeof( r_mapname ) );
+	my_strlcpy(r_mapname, Cmd_Argv(1), sizeof(r_mapname));
 
-	Client_PrepRefresh( r_mapname );
+	Client_PrepRefresh(r_mapname);
 }
 
 /*
@@ -83,29 +87,28 @@ PRIVATE void SV_GameMap_f( void )
 
 -----------------------------------------------------------------------------
 */
-PUBLIC void Map_f( void );
-/* TODO: put the prototype in a header */
-PUBLIC void Map_f( void )
+/* prototype moved to "wolf_client.h" */
+PUBLIC void Map_f(void)
 {
 	char	*map;
-	char	expanded[ MAX_GAMEPATH ];
+	char	expanded[MAX_GAMEPATH];
 
 	/* Check to make sure the level exists. */
-	map = Cmd_Argv( 1 );
-	if( ! strstr( map, "." ) ) {
-		my_snprintf( expanded, sizeof( expanded ), "maps/%s.map", map );
+	map = Cmd_Argv(1);
+	if (! strstr(map, ".")) {
+		my_snprintf(expanded, sizeof(expanded), "maps/%s.map", map);
 	} else {
-		my_snprintf( expanded, sizeof( expanded ), "maps/%s", map );
+		my_snprintf(expanded, sizeof(expanded), "maps/%s", map);
 	}
 
 
-#if 0
+#if 0 || __clang_analyzer__
 	sv.state = ss_dead; /* do NOT save current level when changing */
-	SV_WipeSavegame( "current" );
-#endif /* 0 */
+	SV_WipeSavegame("current");
+#endif /* 0 || __clang_analyzer__ */
 	SV_GameMap_f();
 
-	if( r_world ) {
+	if (r_world) {
 		ClientStatic.key_dest = key_game;
 		ClientStatic.state = ca_active;
 	} else {

@@ -45,13 +45,17 @@ int stream_size;
         strm->zalloc = zcalloc;
         strm->opaque = (voidpf)0;
     }
-    if (strm->zfree == (free_func)0) strm->zfree = zcfree;
+    if (strm->zfree == (free_func)0) {
+		strm->zfree = zcfree;
+	}
     state = (struct inflate_state FAR *)ZALLOC(strm, 1,
                                                sizeof(struct inflate_state));
-    if (state == Z_NULL) return Z_MEM_ERROR;
+    if (state == Z_NULL) {
+		return Z_MEM_ERROR;
+	}
     Tracev((stderr, "inflate: allocated\n"));
     strm->state = (voidpf)state;
-    state->wbits = windowBits;
+    state->wbits = (unsigned int)windowBits;
     state->wsize = 1U << windowBits;
     state->window = window;
     state->write = 0;

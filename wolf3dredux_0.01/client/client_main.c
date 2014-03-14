@@ -182,7 +182,7 @@ PUBLIC void Client_Quit_f( void )
 PRIVATE void Client_InitLocal( void )
 {
 	ClientStatic.state = ca_disconnected;
-	ClientStatic.realtime = Sys_Milliseconds();
+	ClientStatic.realtime = (int)Sys_Milliseconds();
 
 
 	Client_InitInput();
@@ -192,48 +192,48 @@ PRIVATE void Client_InitLocal( void )
  * register our variables
  */
 #if 0
-	adr0 = Cvar_Get( "adr0", "", CVAR_ARCHIVE );
-	adr1 = Cvar_Get( "adr1", "", CVAR_ARCHIVE );
-	adr2 = Cvar_Get( "adr2", "", CVAR_ARCHIVE );
-	adr3 = Cvar_Get( "adr3", "", CVAR_ARCHIVE );
-	adr4 = Cvar_Get( "adr4", "", CVAR_ARCHIVE );
-	adr5 = Cvar_Get( "adr5", "", CVAR_ARCHIVE );
-	adr6 = Cvar_Get( "adr6", "", CVAR_ARCHIVE );
-	adr7 = Cvar_Get( "adr7", "", CVAR_ARCHIVE );
-	adr8 = Cvar_Get( "adr8", "", CVAR_ARCHIVE );
+	adr0 = Cvar_Get("adr0", "", CVAR_ARCHIVE);
+	adr1 = Cvar_Get("adr1", "", CVAR_ARCHIVE);
+	adr2 = Cvar_Get("adr2", "", CVAR_ARCHIVE);
+	adr3 = Cvar_Get("adr3", "", CVAR_ARCHIVE);
+	adr4 = Cvar_Get("adr4", "", CVAR_ARCHIVE);
+	adr5 = Cvar_Get("adr5", "", CVAR_ARCHIVE);
+	adr6 = Cvar_Get("adr6", "", CVAR_ARCHIVE);
+	adr7 = Cvar_Get("adr7", "", CVAR_ARCHIVE);
+	adr8 = Cvar_Get("adr8", "", CVAR_ARCHIVE);
 #endif /* 0 */
 
-	cl_upspeed		= Cvar_Get( "cl_upspeed", "200", CVAR_INIT );
-	cl_forwardspeed = Cvar_Get( "cl_forwardspeed", "4000", CVAR_INIT );
-	cl_sidespeed	= Cvar_Get( "cl_sidespeed", "4000", CVAR_INIT );
-	cl_yawspeed		= Cvar_Get( "cl_yawspeed", "140", CVAR_INIT );
-	cl_pitchspeed	= Cvar_Get( "cl_pitchspeed", "150", CVAR_INIT );
-	cl_anglespeedkey= Cvar_Get( "cl_anglespeedkey", "1.5", CVAR_INIT );
+	cl_upspeed		= Cvar_Get("cl_upspeed", "200", CVAR_INIT);
+	cl_forwardspeed = Cvar_Get("cl_forwardspeed", "4000", CVAR_INIT);
+	cl_sidespeed	= Cvar_Get("cl_sidespeed", "4000", CVAR_INIT);
+	cl_yawspeed		= Cvar_Get("cl_yawspeed", "140", CVAR_INIT);
+	cl_pitchspeed	= Cvar_Get("cl_pitchspeed", "150", CVAR_INIT);
+	cl_anglespeedkey= Cvar_Get("cl_anglespeedkey", "1.5", CVAR_INIT);
 
-    cl_rotatespeed = Cvar_Get( "cl_rotatespeed", "10000", CVAR_INIT );
+    cl_rotatespeed = Cvar_Get( "cl_rotatespeed", "10000", CVAR_INIT);
 
 #if 0
-	cl_drawfps = Cvar_Get( "cl_drawfps", "0", CVAR_ARCHIVE );
+	cl_drawfps = Cvar_Get("cl_drawfps", "0", CVAR_ARCHIVE);
 #endif /* 0 */
 
-	cl_run		= Cvar_Get( "cl_run", "0", CVAR_ARCHIVE );
-	freelook	= Cvar_Get( "freelook", "0", CVAR_ARCHIVE );
-	lookspring	= Cvar_Get( "lookspring", "0", CVAR_ARCHIVE );
-	lookstrafe	= Cvar_Get( "lookstrafe", "0", CVAR_ARCHIVE );
-	sensitivity = Cvar_Get( "m_sensitivity", "300", CVAR_ARCHIVE );
+	cl_run		= Cvar_Get("cl_run", "0", CVAR_ARCHIVE);
+	freelook	= Cvar_Get("freelook", "0", CVAR_ARCHIVE);
+	lookspring	= Cvar_Get("lookspring", "0", CVAR_ARCHIVE);
+	lookstrafe	= Cvar_Get("lookstrafe", "0", CVAR_ARCHIVE);
+	sensitivity = Cvar_Get("m_sensitivity", "300", CVAR_ARCHIVE);
 
-	m_pitch = Cvar_Get( "m_pitch", "0.022", CVAR_ARCHIVE );
-	m_yaw	= Cvar_Get( "m_yaw", "1", CVAR_INIT );
-	m_side	= Cvar_Get( "m_side", "1", CVAR_INIT );
-	m_forward = Cvar_Get( "m_forward", "1", CVAR_INIT );
+	m_pitch = Cvar_Get("m_pitch", "0.022", CVAR_ARCHIVE);
+	m_yaw	= Cvar_Get("m_yaw", "1", CVAR_INIT);
+	m_side	= Cvar_Get("m_side", "1", CVAR_INIT);
+	m_forward = Cvar_Get("m_forward", "1", CVAR_INIT);
 
-	cl_name = Cvar_Get( "name", "player", CVAR_ARCHIVE );
+	cl_name = Cvar_Get("name", "player", CVAR_ARCHIVE);
 
 
 /*
  * register our commands
  */
-	Cmd_AddCommand( "quit", Client_Quit_f );
+	Cmd_AddCommand("quit", Client_Quit_f);
 
 }
 

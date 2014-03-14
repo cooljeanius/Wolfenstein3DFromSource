@@ -461,7 +461,13 @@ PUBLIC texture_t *TM_FindTexture( const char *name, texturetype_t type )
 
 	i = 0;
 
-	if( ! name || ! *name ) {
+	/* dummy to silence clang static analyzer warning about value stored to
+	 * 'i' never being read: */
+	if (i == 0) {
+		;
+	}
+
+	if (! name || ! *name) {
 		return r_notexture;
 	}
 
@@ -713,46 +719,53 @@ PRIVATE void pixel_region_get_row( W8 *src, int y, int width, W8 *tmp_src, int B
 	}
 }
 
-PRIVATE void pixel_region_set_row( W8 *dest,
-		      int         BytesPerPixel,
-		      int         y,
-		      int         width,
-		      W8 *data )
+PRIVATE void pixel_region_set_row(W8 *dest,
+								  int BytesPerPixel,
+								  int y,
+								  int width,
+								  W8 *data)
 {
 	int i;
 	unsigned long k = 0;
     unsigned char *scanline = dest;
 	unsigned char *ptr = data;
 
-	for( i = 0 ; i < (width * BytesPerPixel) ; ++i ) {
+	for ((i = 0); (i < (width * BytesPerPixel)); ++i) {
 		scanline[ y * width * BytesPerPixel + i ] = ptr[ k++ ];
 	}
 }
 
 PRIVATE void
-get_premultiplied_double_row( W8 *in,
-                              int PRbytes,
-                              int         x,
-                              int         y,
-                              int         w,
-                              double     *row,
-                              W8      *tmp_src,
-                              int         n )
+get_premultiplied_double_row(W8 *in,
+							 int PRbytes,
+							 int         x,
+							 int         y,
+							 int         w,
+							 double     *row,
+							 W8      *tmp_src,
+							 int         n)
 {
 	int b;
-	int bytes = PRbytes;
+	int bytes;
 
-	pixel_region_get_row( in, y, w, tmp_src, bytes );
+	bytes = PRbytes; /* initialize */
 
-	if( pixel_region_has_alpha( bytes ) ) {
+	/* dummy to use parameter 'n': */
+	if (n == 0) {
+		;
+	}
+
+	pixel_region_get_row(in, y, w, tmp_src, bytes);
+
+	if (pixel_region_has_alpha(bytes)) {
 		/* premultiply the alpha into the double array */
 		double *irow  = row;
 		int     alpha = bytes - 1;
 		double  mod_alpha;
 
-		for( x = 0; x < w; ++x ) {
+		for (x = 0; x < w; ++x) {
 			mod_alpha = tmp_src[ alpha ] / 255.0;
-			for( b = 0; b < alpha; ++b ) {
+			for (b = 0; b < alpha; ++b) {
 				irow[ b ] = mod_alpha * tmp_src[ b ];
 			}
 
@@ -761,17 +774,17 @@ get_premultiplied_double_row( W8 *in,
 			tmp_src += bytes;
 		}
     } else { /* no alpha */
-		for( x = 0; x < w * bytes; ++x ) {
+		for (x = 0; x < w * bytes; ++x) {
 			row[ x ] = tmp_src[ x ];
 		}
 	}
 
 	/* set the off edge pixels to their nearest neighbor */
-	for( b = 0; b < 2 * bytes; b++ ) {
+	for (b = 0; b < 2 * bytes; b++) {
 		row[ b - 2 * bytes ] = row[ b % bytes ];
 	}
 
-	for( b = 0; b < bytes * 2; b++ ) {
+	for (b = 0; b < bytes * 2; b++) {
 		row[ b + w * bytes ] = row[ (w - 1) * bytes + b % bytes ];
 	}
 }
