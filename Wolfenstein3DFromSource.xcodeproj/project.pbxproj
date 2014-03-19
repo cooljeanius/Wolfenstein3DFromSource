@@ -6,6 +6,22 @@
 	objectVersion = 45;
 	objects = {
 
+/* Begin PBXAggregateTarget section */
+		A5476DFC18DA2A2C00FE1646 /* Tools */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = A5476E0B18DA2A4B00FE1646 /* Build configuration list for PBXAggregateTarget "Tools" */;
+			buildPhases = (
+			);
+			dependencies = (
+				A5476E0018DA2A3300FE1646 /* PBXTargetDependency */,
+				A5476E0218DA2A3400FE1646 /* PBXTargetDependency */,
+				A5476E0418DA2A3600FE1646 /* PBXTargetDependency */,
+			);
+			name = Tools;
+			productName = Tools;
+		};
+/* End PBXAggregateTarget section */
+
 /* Begin PBXBuildFile section */
 		1DDD58160DA1D0A300B32029 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DDD58140DA1D0A300B32029 /* MainMenu.xib */; };
 		256AC3DA0F4B6AC300CF3369 /* Wolfenstein3DFromSourceAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 256AC3D90F4B6AC300CF3369 /* Wolfenstein3DFromSourceAppDelegate.m */; };
@@ -298,6 +314,30 @@
 		A5C60DD818BE7F0B00EA0942 /* zutil.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B0AFC051470CE6300165517 /* zutil.h */; };
 		A5C60E0C18BE8D6700EA0942 /* ebg_my_preprocessor_defines_snowleopard.h in Headers */ = {isa = PBXBuildFile; fileRef = A5C60E0B18BE8D6700EA0942 /* ebg_my_preprocessor_defines_snowleopard.h */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		A5476DFF18DA2A3300FE1646 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A571F1B618C6FA080037F031 /* WolfExtractor */;
+			remoteInfo = WolfExtractor;
+		};
+		A5476E0118DA2A3400FE1646 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A5476C7C18DA0BE800FE1646 /* gamepal */;
+			remoteInfo = gamepal;
+		};
+		A5476E0318DA2A3600FE1646 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A5476CD718DA105800FE1646 /* signon */;
+			remoteInfo = signon;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		089C165DFE840E0CC02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -1776,6 +1816,7 @@
 				A571F1B618C6FA080037F031 /* WolfExtractor */,
 				A5476C7C18DA0BE800FE1646 /* gamepal */,
 				A5476CD718DA105800FE1646 /* signon */,
+				A5476DFC18DA2A2C00FE1646 /* Tools */,
 			);
 		};
 /* End PBXProject section */
@@ -2007,6 +2048,24 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		A5476E0018DA2A3300FE1646 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A571F1B618C6FA080037F031 /* WolfExtractor */;
+			targetProxy = A5476DFF18DA2A3300FE1646 /* PBXContainerItemProxy */;
+		};
+		A5476E0218DA2A3400FE1646 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A5476C7C18DA0BE800FE1646 /* gamepal */;
+			targetProxy = A5476E0118DA2A3400FE1646 /* PBXContainerItemProxy */;
+		};
+		A5476E0418DA2A3600FE1646 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A5476CD718DA105800FE1646 /* signon */;
+			targetProxy = A5476E0318DA2A3600FE1646 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin PBXVariantGroup section */
 		089C165CFE840E0CC02AAC07 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
@@ -2090,6 +2149,27 @@
 				INSTALL_PATH = /usr/local/bin;
 				PREBINDING = NO;
 				PRODUCT_NAME = signon;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
+		A5476DFD18DA2A2C00FE1646 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				PRODUCT_NAME = Tools;
+			};
+			name = Debug;
+		};
+		A5476DFE18DA2A2C00FE1646 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				PRODUCT_NAME = Tools;
 				ZERO_LINK = NO;
 			};
 			name = Release;
@@ -2375,6 +2455,15 @@
 			buildConfigurations = (
 				A5476CDA18DA105900FE1646 /* Debug */,
 				A5476CDB18DA105900FE1646 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A5476E0B18DA2A4B00FE1646 /* Build configuration list for PBXAggregateTarget "Tools" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A5476DFD18DA2A2C00FE1646 /* Debug */,
+				A5476DFE18DA2A2C00FE1646 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

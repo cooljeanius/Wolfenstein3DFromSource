@@ -54,178 +54,187 @@
 PRIVATE char *nextlevelname; /* unused (?) */
 
 
-PRIVATE void M_DrawInterBJ( int x, int y, int f )
+PRIVATE void M_DrawInterBJ(int x, int y, int f)
 {
-	char	guypic[ 32 ];
+	char	guypic[32];
 	static _boolean cached;
 
-	if( ! cached ) {
+	if (! cached) {
 		W8 i;
 
-		for ( i = 0; i < 2; ++i ) {
-			my_snprintf( guypic, sizeof( guypic ), "pics/L_GUY%dPIC.tga", i );
+		for ((i = 0); (i < 2); ++i) {
+			my_snprintf(guypic, sizeof(guypic), "pics/L_GUY%dPIC.tga", i);
 
-			(void)TM_FindTexture( guypic, TT_Pic );
+			(void)TM_FindTexture(guypic, TT_Pic);
 		}
 
 		cached = true;
 	}
 
-	my_snprintf( guypic, sizeof( guypic ), "pics/L_GUY%dPIC.tga", f );
+	my_snprintf(guypic, sizeof(guypic), "pics/L_GUY%dPIC.tga", f);
 
-	R_Draw_Pic( x, y, guypic );
+	R_Draw_Pic(x, y, guypic);
 
 }
 
 #define PAR_AMOUNT	500
 
-extern void R_DrawHUD( void );
+extern void R_DrawHUD(void);
 extern W32 gameTimeCount;
 PRIVATE W32 leveltime;
 PRIVATE _boolean bgive_bonus = false;
 
-PRIVATE void M_Secret_Draw( void )
+PRIVATE void M_Secret_Draw(void)
 {
-	char string[ 32 ];
+	char string[32];
 
-	R_Draw_Fill( 0, 0, viddef.width, viddef.height, interbkgnd );
+	R_Draw_Fill(0, 0, (int)viddef.width, (int)viddef.height, interbkgnd);
 
-	M_DrawInterBJ( 0, 38, (int)(ClientStatic.realtime / 500) % 2 );
+	M_DrawInterBJ(0, 38, ((int)(ClientStatic.realtime / 500) % 2));
 
-	if( g_version->value == SPEAROFDESTINY ) {
-		switch( levelstate.floornum ) {
+	if (g_version->value == SPEAROFDESTINY) {
+		switch (levelstate.floornum) {
 			case 4:
-				my_snprintf( string, sizeof( string ), "TRANS\nGROSSE\nDEFEATED!" );
+				my_snprintf(string, sizeof(string), "TRANS\nGROSSE\nDEFEATED!");
 				break;
 
 			case 9:
-				my_snprintf( string, sizeof( string ), "BARNACLE\nWILHELM\nDEFEATED!" );
+				my_snprintf(string, sizeof(string),
+							"BARNACLE\nWILHELM\nDEFEATED!");
 				break;
 
 			case 15:
-				my_snprintf( string, sizeof( string ), "UBERMUTANT\nDEFEATED!" );
+				my_snprintf(string, sizeof(string), "UBERMUTANT\nDEFEATED!");
 				break;
 
 			case 17:
-				my_snprintf( string, sizeof( string ), "DEATH\nKNIGHT\nDEFEATED!" );
+				my_snprintf(string, sizeof(string), "DEATH\nKNIGHT\nDEFEATED!");
 				break;
 
 			case 18:
-				my_snprintf( string, sizeof( string ), "SECRET TUNNEL\nAREA\nCOMPLETED!" );
+				my_snprintf(string, sizeof(string),
+							"SECRET TUNNEL\nAREA\nCOMPLETED!");
 				break;
 
 			case 19:
-				my_snprintf( string, sizeof( string ), "SECRET CASTLE\nAREA\nCOMPLETED!" );
+				my_snprintf(string, sizeof(string),
+							"SECRET CASTLE\nAREA\nCOMPLETED!");
 				break;
 		}
 
-		R_put_line( 240, 56, string );
+		R_put_line(240, 56, string);
 	} else {
-		my_snprintf( string, sizeof( string ), "SECRET FLOOR\n COMPLETED!" );
-		R_put_line( 240, 56, string );
+		my_snprintf(string, sizeof(string), "SECRET FLOOR\n COMPLETED!");
+		R_put_line(240, 56, string);
 	}
 
-	my_snprintf( string, sizeof( string ), "15000 BONUS!" );
-	R_put_line( 128, 256, string );
+	my_snprintf(string, sizeof(string), "15000 BONUS!");
+	R_put_line(128, 256, string);
 
 	R_DrawHUD();
 }
 
-PRIVATE W16 ElevatorBackTo[] = { 1, 1, 7, 3, 5, 3 };
+PRIVATE W16 ElevatorBackTo[] = { 1, 1, 7, 3, 5, 3 }; /* unused? */
 
 /* This is for Spear of Destiny */
 #define FROMSECRET1		3
 #define FROMSECRET2		11
 
 
-PRIVATE char *M_Secret_Key( int key )
+PRIVATE char *M_Secret_Key(int key)
 {
-	char szTextMsg[ 128 ];
+	char szTextMsg[128];
 	char *mapfilename;
 
-	PL_NextLevel( &Player );
+	PL_NextLevel(&Player);
 
 
 	M_ForceMenuOff();
 
-	if( g_version->value == SPEAROFDESTINY ) {
+	/* dummy condition to use parameter 'key': */
+	if (key == 0) {
+		;
+	}
+
+	if (g_version->value == SPEAROFDESTINY) {
 		int mapon = 0;
 
-		switch( levelstate.floornum ) {
+		switch (levelstate.floornum) {
 			case 18:
-				mapon = FROMSECRET1+1;
+				mapon = (FROMSECRET1 + 1);
 				break;
 
 			case 19:
-				mapon = FROMSECRET2+1;
+				mapon = (FROMSECRET2 + 1);
 				break;
 
 			default:
-				mapon = levelstate.floornum + 1;
+				mapon = (int)(levelstate.floornum + 1);
 		}
-		my_snprintf( szTextMsg, sizeof( szTextMsg ),
-				"loading ; map s%.2d.map\n", mapon );
+		my_snprintf(szTextMsg, sizeof(szTextMsg),
+					"loading ; map s%.2d.map\n", mapon);
 	} else {
-		mapfilename = episode_getNextMapName( &floornumber );
+		mapfilename = episode_getNextMapName(&floornumber);
 
-		if( ! mapfilename ) {
-			Com_Printf( "Unable to get next map file name\n" );
+		if (! mapfilename) {
+			Com_Printf("Unable to get next map file name\n");
 
 			ClientStatic.key_dest = key_console;
 
 			return NULL;
 		}
 
-		my_snprintf( szTextMsg, sizeof( szTextMsg ), "loading ; map %s\n", mapfilename );
+		my_snprintf(szTextMsg, sizeof(szTextMsg), "loading ; map %s\n",
+					mapfilename);
 	}
 
 	Player.playstate = ex_playing;
 
-	Cbuf_AddText( szTextMsg );
+	Cbuf_AddText(szTextMsg);
 
 	return NULL;
 }
 
-PRIVATE void M_Intermission_Draw( void )
+PRIVATE void M_Intermission_Draw(void)
 {
-	char string[ 32 ];
+	char string[32];
 	W32 ratio;
 	static W32 bonus = 0;
 	W32 timeleft = 0;
 	W32 min, sec;
 
 
-	R_Draw_Fill( 0, 0, viddef.width, viddef.height, interbkgnd );
+	R_Draw_Fill(0, 0, (int)viddef.width, (int)viddef.height, interbkgnd);
 
-	M_DrawInterBJ( 0, 38, (int)(ClientStatic.realtime / 500) % 2 );
+	M_DrawInterBJ(0, 38, ((int)(ClientStatic.realtime / 500) % 2));
 
 
-	sec = leveltime / 70;
+	sec = (leveltime / 70);
 
-	if( sec > 99 * 60 ) /* 99 minutes max */
-	{
-	   sec = 99 * 60;
+	if (sec > (99 * 60)) { /* 99 minutes max */
+	   sec = (99 * 60);
 	}
 
-	min = sec / 60;
+	min = (sec / 60);
 	sec %= 60;
 
-	if( ! bgive_bonus ) /* TODO: Fix bonus points being given when this screen is redrawn. */
-	{
+	if (! bgive_bonus) {
+		/* TODO: Fix bonus points being given when this screen is redrawn. */
 		bgive_bonus = true;
 
-		if( leveltime < (levelstate.fpartime * 4200) ) {
-			timeleft = (levelstate.fpartime * 4200) / 70 - sec;
+		if (leveltime < (levelstate.fpartime * 4200)) {
+			timeleft = (W32)(((levelstate.fpartime * 4200) / 70) - sec);
 		}
 
-		bonus = timeleft * PAR_AMOUNT;
+		bonus = (timeleft * PAR_AMOUNT);
 
-		PL_GivePoints( &Player, bonus );
+		PL_GivePoints(&Player, bonus);
 	}
 
 
-	my_snprintf( string, sizeof( string ), "FLOOR %d\nCOMPLETED", levelstate.floornum + 1 );
-	R_put_line( 240, 38, string );
+	my_snprintf(string, sizeof(string), "FLOOR %d\nCOMPLETED",
+				(levelstate.floornum + 1));
+	R_put_line(240, 38, string);
 
 	my_snprintf( string, sizeof( string ), "BONUS %d", bonus );
 	R_put_line( 240, 120, string );
@@ -241,7 +250,7 @@ PRIVATE void M_Intermission_Draw( void )
 	 */
 
 	if( levelstate.total_monsters > 0 ) {
-		ratio = (levelstate.killed_monsters * 100) / levelstate.total_monsters;
+		ratio = ((levelstate.killed_monsters * 100) / levelstate.total_monsters);
 	} else {
 		ratio = 0;
 	}
@@ -279,12 +288,16 @@ PRIVATE void M_Intermission_Draw( void )
 	R_DrawHUD();
 }
 
-PRIVATE char *M_Intermission_Key( int key )
+PRIVATE char *M_Intermission_Key(int key)
 {
 	char szTextMsg[ 128 ];
 
 	PL_NextLevel( &Player );
 
+	/* dummy condition to use parameter 'key': */
+	if (key == 0) {
+		;
+	}
 
 	M_ForceMenuOff();
 
@@ -360,7 +373,7 @@ PRIVATE void M_Victory_Draw( void )
 	W32 ratio;
 	W32 min, sec;
 
-	R_Draw_Fill( 0, 0, viddef.width, viddef.height, interbkgnd );
+	R_Draw_Fill( 0, 0, (int)viddef.width, (int)viddef.height, interbkgnd );
 
 	R_Draw_Pic( 32, 12, "pics/L_BJWINSPIC.tga" );
 
@@ -459,52 +472,63 @@ PRIVATE const char victorytextPageTwo[ 6 ][ 1024 ] =
 
 
 
-PRIVATE void M_Victory_Draw_PageOne( void )
+PRIVATE void M_Victory_Draw_PageOne(void)
 {
 	SW32 w, h;
 
-	R_Draw_Tile( 0, 0, viddef.width, viddef.height, "walls/000.tga" );
+	R_Draw_Tile(0, 0, (int)viddef.width, (int)viddef.height, "walls/000.tga");
 
-	M_DrawWindow( 16, 16, 608, 408, colourWhite, colourBlack, colourBlack );
+	M_DrawWindow(16, 16, 608, 408, colourWhite, colourBlack, colourBlack);
 
-	TM_GetTextureSize( &w, &h, "pics/PLAQUE_PAGE.tga" );
-	R_Draw_Pic( ((viddef.width >> 1) - w)  >> 1, viddef.height - 48, "pics/PLAQUE_PAGE.tga" );
+	TM_GetTextureSize(&w, &h, "pics/PLAQUE_PAGE.tga");
+	R_Draw_Pic((int)(((viddef.width >> 1) - w) >> 1), (int)(viddef.height - 48),
+			   "pics/PLAQUE_PAGE.tga");
 
-	TM_GetTextureSize( &w, &h, "pics/PLAQUE_BLANK.tga" );
-	R_Draw_Pic( viddef.width - w - (((viddef.width >> 1) - w)  >> 1), viddef.height - 48, "pics/PLAQUE_BLANK.tga" );
+	TM_GetTextureSize(&w, &h, "pics/PLAQUE_BLANK.tga");
+	R_Draw_Pic((int)(viddef.width - w - (((viddef.width >> 1) - w) >> 1)),
+			   (int)(viddef.height - 48), "pics/PLAQUE_BLANK.tga");
 
-	R_Draw_Pic( 32, 32, "pics/H_BLAZEPIC.tga" );
+	R_Draw_Pic(32, 32, "pics/H_BLAZEPIC.tga");
 
-	Font_SetColour( FONT0, colourBlack );
-	Font_SetSize( FONT0, 2 );
+	Font_SetColour(FONT0, colourBlack);
+	Font_SetSize(FONT0, 2);
 
-	Font_put_line( FONT0, (viddef.width - w - (((viddef.width >> 1) - w)  >> 1)) + 32,  (viddef.height - 48) + 6, "pg 1 of 2" );
+	Font_put_line(FONT0,
+				  (int)((viddef.width - w - (((viddef.width >> 1) - w)  >> 1)) + 32),
+				  (int)((viddef.height - 48) + 6), "pg 1 of 2");
 
-	Font_put_paragraph( FONT0, 240+32+10, 32, victorytextPageOnePartOne[ (W32)episode->value ], 0, 350 );
+	Font_put_paragraph(FONT0, (240 + 32 + 10), 32,
+					   victorytextPageOnePartOne[(W32)episode->value], 0, 350);
 
-	Font_put_paragraph( FONT0, 32+4, 160+16+34, victorytextPageOnePartTwo[ (W32)episode->value ], 0, 600 );
+	Font_put_paragraph(FONT0, (32 + 4), (160 + 16 + 34),
+					   victorytextPageOnePartTwo[(W32)episode->value], 0, 600);
 }
 
-PRIVATE void M_Victory_Draw_PageTwo( void )
+PRIVATE void M_Victory_Draw_PageTwo(void)
 {
 	SW32 w, h;
 
-	R_Draw_Tile( 0, 0, viddef.width, viddef.height, "walls/000.tga" );
+	R_Draw_Tile(0, 0, (int)viddef.width, (int)viddef.height, "walls/000.tga");
 
-	M_DrawWindow( 16, 16, 608, 408, colourWhite, colourBlack, colourBlack );
+	M_DrawWindow(16, 16, 608, 408, colourWhite, colourBlack, colourBlack);
 
-	TM_GetTextureSize( &w, &h, "pics/PLAQUE_PAGE.tga" );
-	R_Draw_Pic( ((viddef.width >> 1) - w)  >> 1, viddef.height - 48, "pics/PLAQUE_PAGE.tga" );
+	TM_GetTextureSize(&w, &h, "pics/PLAQUE_PAGE.tga");
+	R_Draw_Pic((int)(((viddef.width >> 1) - w)  >> 1),
+			   (int)(viddef.height - 48), "pics/PLAQUE_PAGE.tga");
 
-	TM_GetTextureSize( &w, &h, "pics/PLAQUE_BLANK.tga" );
-	R_Draw_Pic( viddef.width - w - (((viddef.width >> 1) - w)  >> 1), viddef.height - 48, "pics/PLAQUE_BLANK.tga" );
+	TM_GetTextureSize(&w, &h, "pics/PLAQUE_BLANK.tga");
+	R_Draw_Pic((int)(viddef.width - w - (((viddef.width >> 1) - w)  >> 1)),
+			   (int)(viddef.height - 48), "pics/PLAQUE_BLANK.tga");
 
-	Font_SetColour( FONT0, colourBlack );
-	Font_SetSize( FONT0, 2 );
+	Font_SetColour(FONT0, colourBlack);
+	Font_SetSize(FONT0, 2);
 
-	Font_put_line( FONT0, (viddef.width - w - (((viddef.width >> 1) - w)  >> 1)) + 32,  (viddef.height - 48) + 6, "pg 2 of 2" );
+	Font_put_line(FONT0,
+				  (int)((viddef.width - w - (((viddef.width >> 1) - w) >> 1)) + 32),
+				  (int)((viddef.height - 48) + 6), "pg 2 of 2");
 
-	Font_put_paragraph( FONT0, 32+4, 34, victorytextPageTwo[ (W32)episode->value ], 0, 600 );
+	Font_put_paragraph(FONT0, (32 + 4), 34,
+					   victorytextPageTwo[(W32)episode->value], 0, 600);
 }
 
 
@@ -512,7 +536,7 @@ PRIVATE W16 page = 0;
 
 PRIVATE void M_Victory_Text_Draw(void)
 {
-	if( page == 0 ) {
+	if (page == 0) {
 		M_Victory_Draw_PageOne();
 	} else {
 		M_Victory_Draw_PageTwo();
@@ -533,7 +557,7 @@ PRIVATE char *M_Victory_Key(int key)
 		return NULL;
 	}
 
-	switch( key ) {
+	switch (key) {
 		case K_ESCAPE:
 			nvictory = 1;
 			M_ForceMenuOff();
@@ -575,7 +599,7 @@ typedef struct
 
 } SpearVictoryLayer_t;
 
-PRIVATE SpearVictoryLayer_t sodvl[ 12 ];
+PRIVATE SpearVictoryLayer_t sodvl[12];
 PRIVATE W16 victory_slide = 0;
 PRIVATE W32 victory_basetime;
 
@@ -583,25 +607,26 @@ PRIVATE W32 victory_basetime;
 PRIVATE W32 collapse_basetime;
 PRIVATE W8 collapse_slide = 1;
 
-PRIVATE void SOD_Victory_BJCOLLAPSE_Draw( void )
+PRIVATE void SOD_Victory_BJCOLLAPSE_Draw(void)
 {
 	W32 w, h;
-	static char name[ 32 ];
+	static char name[32];
 
 
-	R_Draw_Fill( 0, 0, viddef.width, viddef.height, viewcolour );
+	R_Draw_Fill(0, 0, (int)viddef.width, (int)viddef.height, viewcolour);
 
-	if( ClientStatic.realtime >= (collapse_basetime + 2000) &&
-		collapse_slide != 4 ) {
-		collapse_basetime = ClientStatic.realtime;
+	if (((unsigned long)ClientStatic.realtime >= (collapse_basetime + 2000)) &&
+		(collapse_slide != 4)) {
+		collapse_basetime = (W32)ClientStatic.realtime;
 		++collapse_slide;
 	}
 
-	my_snprintf( name, sizeof( name ), "pics/BJCOLLAPSE%dPIC.tga", collapse_slide );
+	my_snprintf(name, sizeof(name), "pics/BJCOLLAPSE%dPIC.tga", collapse_slide);
 
 
-	TM_GetTextureSize( &w, &h, name );
-	R_Draw_Pic( (viddef.width - w) >> 1, (viddef.height - h) >> 1, name );
+	TM_GetTextureSize((SW32 *)&w, (SW32 *)&h, name);
+	R_Draw_Pic((int)((viddef.width - w) >> 1), (int)((viddef.height - h) >> 1),
+			   name);
 }
 
 
@@ -609,123 +634,134 @@ PRIVATE void SOD_Victory_BJCOLLAPSE_Draw( void )
 #define STR_ENDGAME2 "With the spear gone, the Allies will finally\nbe able to destroy Hitler..."
 
 
-PRIVATE void SOD_EndScreen2_Draw( void )
+PRIVATE void SOD_EndScreen2_Draw(void)
 {
 	W32 w, h;
 
-	R_Draw_Fill( 0, 0, viddef.width, viddef.height, viewcolour );
+	R_Draw_Fill(0, 0, (int)viddef.width, (int)viddef.height, viewcolour);
 
-	TM_GetTextureSize( &w, &h, "pics/ENDSCREEN3PIC.tga" );
-	R_Draw_Pic( (viddef.width - w) >> 1, (viddef.height - h) >> 1, "pics/ENDSCREEN3PIC.tga" );
+	TM_GetTextureSize((SW32 *)&w, (SW32 *)&h, "pics/ENDSCREEN3PIC.tga");
+	R_Draw_Pic((int)((viddef.width - w) >> 1), (int)((viddef.height - h) >> 1),
+			   "pics/ENDSCREEN3PIC.tga" );
 
-	Font_SetSize( FONT0, 2 );
-	Font_SetColour( FONT0, colourWhite );
+	Font_SetSize(FONT0, 2);
+	Font_SetColour(FONT0, colourWhite);
 
-	if( victory_slide == 3 ) {
-		Font_GetMsgDimensions( FONT0, STR_ENDGAME1, &w, &h );
-		Font_put_line( FONT0, (viddef.width - w) >> 1, viddef.height - h, STR_ENDGAME1 );
+	if (victory_slide == 3) {
+		Font_GetMsgDimensions(FONT0, STR_ENDGAME1, (int *)&w, (int *)&h);
+		Font_put_line(FONT0, (int)((viddef.width - w) >> 1),
+					  (int)(viddef.height - h), STR_ENDGAME1);
 	} else {
-		Font_GetMsgDimensions( FONT0, STR_ENDGAME2, &w, &h );
-		Font_put_line( FONT0, (viddef.width - w) >> 1, viddef.height - h, STR_ENDGAME2 );
+		Font_GetMsgDimensions(FONT0, STR_ENDGAME2, (int *)&w, (int *)&h);
+		Font_put_line(FONT0, (int)((viddef.width - w) >> 1),
+					  (int)(viddef.height - h), STR_ENDGAME2 );
 	}
 
 }
 
 
 
-PRIVATE void SOD_EndScreen_Draw( void )
+PRIVATE void SOD_EndScreen_Draw(void)
 {
 	W32 w, h;
-	static char texname[ 64 ];
+	static char texname[64];
 
-	R_Draw_Fill( 0, 0, viddef.width, viddef.height, viewcolour );
+	R_Draw_Fill(0, 0, (int)viddef.width, (int)viddef.height, viewcolour);
 
 
-	switch( victory_slide ) {
+	switch (victory_slide) {
 		case 2:
-			R_Draw_Tile( 0, 0, viddef.width, viddef.height, "pics/C_BACKDROPPIC.tga" );
-			my_strlcpy( texname, "pics/ENDSCREEN11PIC.tga", sizeof( texname ) );
+			R_Draw_Tile(0, 0, (int)viddef.width, (int)viddef.height,
+						"pics/C_BACKDROPPIC.tga");
+			my_strlcpy(texname, "pics/ENDSCREEN11PIC.tga", sizeof(texname));
 			break;
 
 		case 5:
-			my_strlcpy( texname, "pics/ENDSCREEN4PIC.tga", sizeof( texname ) );
+			my_strlcpy(texname, "pics/ENDSCREEN4PIC.tga", sizeof(texname));
 			break;
 
 		case 6:
-			my_strlcpy( texname, "pics/ENDSCREEN5PIC.tga", sizeof( texname ) );
+			my_strlcpy(texname, "pics/ENDSCREEN5PIC.tga", sizeof(texname));
 			break;
 
 		case 7:
-			my_strlcpy( texname, "pics/ENDSCREEN6PIC.tga", sizeof( texname ) );
+			my_strlcpy(texname, "pics/ENDSCREEN6PIC.tga", sizeof(texname));
 			break;
 
 		case 8:
-			my_strlcpy( texname, "pics/ENDSCREEN7PIC.tga", sizeof( texname ) );
+			my_strlcpy(texname, "pics/ENDSCREEN7PIC.tga", sizeof(texname));
 			break;
 
 		case 9:
-			my_strlcpy( texname, "pics/ENDSCREEN8PIC.tga", sizeof( texname ) );
+			my_strlcpy(texname, "pics/ENDSCREEN8PIC.tga", sizeof(texname));
 			break;
 
 		case 10:
-			my_strlcpy( texname, "pics/ENDSCREEN9PIC.tga", sizeof( texname ) );
+			my_strlcpy(texname, "pics/ENDSCREEN9PIC.tga", sizeof(texname));
 			break;
 
 		case 11:
-			R_Draw_Tile( 0, 0, viddef.width, viddef.height, "pics/C_BACKDROPPIC.tga" );
-			my_strlcpy( texname, "pics/ENDSCREEN12PIC.tga", sizeof( texname ) );
+			R_Draw_Tile(0, 0, (int)viddef.width, (int)viddef.height,
+						"pics/C_BACKDROPPIC.tga");
+			my_strlcpy(texname, "pics/ENDSCREEN12PIC.tga", sizeof(texname));
 			break;
 
 		default:
-			my_strlcpy( texname, "", sizeof( texname ) );
+			my_strlcpy(texname, "", sizeof(texname));
 			break;
 
 	}
 
 
-	TM_GetTextureSize( &w, &h, texname );
-	R_Draw_Pic( (viddef.width - w) >> 1, (viddef.height - h) >> 1, texname );
-
+	TM_GetTextureSize((SW32 *)&w, (SW32 *)&h, texname);
+	R_Draw_Pic((int)((viddef.width - w) >> 1), (int)((viddef.height - h) >> 1),
+			   texname);
 }
 
 
-PRIVATE void M_SODVictory_Draw( void )
+PRIVATE void M_SODVictory_Draw(void)
 {
-	if( victory_slide > NUM_VICTORY_SLIDES ) {
+	if (victory_slide > NUM_VICTORY_SLIDES) {
 		M_ForceMenuOff();
 		M_Menu_Main_f();
 
 		return;
 	}
 
-	sodvl[ victory_slide ].draw();
+	sodvl[victory_slide].draw();
 
-	if( sodvl[ victory_slide ].delay_time ) {
-		if( ClientStatic.realtime >= (victory_basetime + sodvl[ victory_slide ].delay_time) ) {
-			victory_basetime = ClientStatic.realtime;
+	if (sodvl[victory_slide].delay_time) {
+		if ((unsigned long)ClientStatic.realtime >=
+			(victory_basetime + sodvl[victory_slide].delay_time)) {
+			victory_basetime = (W32)ClientStatic.realtime;
 
 			++victory_slide;
-			if( victory_slide == 1 ) {
+			if (victory_slide == 1) {
 				Sound_StopBGTrack();
 
-				Sound_StartBGTrack( "music/ENDLEVEL.ogg", "music/ENDLEVEL.ogg" );
+				Sound_StartBGTrack("music/ENDLEVEL.ogg", "music/ENDLEVEL.ogg");
 			}
 		}
 	}
 }
 
-PRIVATE const char *M_SODVictory_Key( int key )
+PRIVATE const char *M_SODVictory_Key(int key)
 {
-	victory_basetime = ClientStatic.realtime;
+	victory_basetime = (W32)ClientStatic.realtime;
 	++victory_slide;
 
-	if( victory_slide == 1 ) {
-		Sound_StopBGTrack();
-
-		Sound_StartBGTrack( "music/ENDLEVEL.ogg", "music/ENDLEVEL.ogg" );
+	/* dummy condition to use parameter 'key': */
+	if (key == 0) {
+		;
 	}
 
-	if( victory_slide > NUM_VICTORY_SLIDES ) {
+	if (victory_slide == 1) {
+		Sound_StopBGTrack();
+
+		Sound_StartBGTrack("music/ENDLEVEL.ogg", "music/ENDLEVEL.ogg");
+	}
+
+	if (victory_slide > NUM_VICTORY_SLIDES) {
 		M_ForceMenuOff();
 		M_Menu_Main_f();
 	}
@@ -738,16 +774,16 @@ PRIVATE const char *M_SODVictory_Key( int key )
  */
 
 
-PUBLIC void M_Intermission_f( void )
+PUBLIC void M_Intermission_f(void)
 {
 	Sound_StopAllSounds();
 	Sound_StopBGTrack();
 
-	Sound_StartBGTrack( "music/ENDLEVEL.ogg", "music/ENDLEVEL.ogg" );
+	Sound_StartBGTrack("music/ENDLEVEL.ogg", "music/ENDLEVEL.ogg");
 
 	bgive_bonus = false;
 
-	leveltime = levelstate.time;
+	leveltime = (W32)levelstate.time;
 
 
 	LevelRatios.time += leveltime;
@@ -761,56 +797,56 @@ PUBLIC void M_Intermission_f( void )
 	LevelRatios.found_treasure += levelstate.found_treasure;
 	LevelRatios.total_treasure += levelstate.total_treasure;
 
-	if( g_version->value == SPEAROFDESTINY ) {
-		switch( levelstate.floornum ) {
+	if (g_version->value == SPEAROFDESTINY) {
+		switch (levelstate.floornum) {
 			case 17:
 				collapse_slide = 1;
 				victory_slide = 0;
 
-				sodvl[ 0 ].draw = SOD_Victory_BJCOLLAPSE_Draw;
-				sodvl[ 0 ].delay_time = 12000;
+				sodvl[0].draw = SOD_Victory_BJCOLLAPSE_Draw;
+				sodvl[0].delay_time = 12000;
 
-				sodvl[ 1 ].draw = M_Victory_Draw;
-				sodvl[ 1 ].delay_time = 0;
+				sodvl[1].draw = M_Victory_Draw;
+				sodvl[1].delay_time = 0;
 
-				sodvl[ 2 ].draw = SOD_EndScreen_Draw;
-				sodvl[ 2 ].delay_time = 0;
+				sodvl[2].draw = SOD_EndScreen_Draw;
+				sodvl[2].delay_time = 0;
 
-				sodvl[ 3 ].draw = SOD_EndScreen2_Draw;
-				sodvl[ 3 ].delay_time = 9000;
+				sodvl[3].draw = SOD_EndScreen2_Draw;
+				sodvl[3].delay_time = 9000;
 
-				sodvl[ 4 ].draw = SOD_EndScreen2_Draw;
-				sodvl[ 4 ].delay_time = 9000;
+				sodvl[4].draw = SOD_EndScreen2_Draw;
+				sodvl[4].delay_time = 9000;
 
-				sodvl[ 5 ].draw = SOD_EndScreen_Draw;
-				sodvl[ 5 ].delay_time = 0;
+				sodvl[5].draw = SOD_EndScreen_Draw;
+				sodvl[5].delay_time = 0;
 
-				sodvl[ 5 ].draw = SOD_EndScreen_Draw;
-				sodvl[ 5 ].delay_time = 0;
+				sodvl[5].draw = SOD_EndScreen_Draw;
+				sodvl[5].delay_time = 0;
 
-				sodvl[ 6 ].draw = SOD_EndScreen_Draw;
-				sodvl[ 6 ].delay_time = 0;
+				sodvl[6].draw = SOD_EndScreen_Draw;
+				sodvl[6].delay_time = 0;
 
-				sodvl[ 7 ].draw = SOD_EndScreen_Draw;
-				sodvl[ 7 ].delay_time = 0;
+				sodvl[7].draw = SOD_EndScreen_Draw;
+				sodvl[7].delay_time = 0;
 
-				sodvl[ 8 ].draw = SOD_EndScreen_Draw;
-				sodvl[ 8 ].delay_time = 0;
+				sodvl[8].draw = SOD_EndScreen_Draw;
+				sodvl[8].delay_time = 0;
 
-				sodvl[ 9 ].draw = SOD_EndScreen_Draw;
-				sodvl[ 9 ].delay_time = 0;
+				sodvl[9].draw = SOD_EndScreen_Draw;
+				sodvl[9].delay_time = 0;
 
-				sodvl[ 10 ].draw = SOD_EndScreen_Draw;
-				sodvl[ 10 ].delay_time = 0;
+				sodvl[10].draw = SOD_EndScreen_Draw;
+				sodvl[10].delay_time = 0;
 
-				sodvl[ 11 ].draw = SOD_EndScreen_Draw;
-				sodvl[ 11 ].delay_time = 0;
+				sodvl[11].draw = SOD_EndScreen_Draw;
+				sodvl[11].delay_time = 0;
 
-				collapse_basetime = victory_basetime = ClientStatic.realtime;
+				collapse_basetime = victory_basetime = (W32)ClientStatic.realtime;
 
-				Sound_StartBGTrack( "music/XTHEEND.ogg", "music/XTHEEND.ogg" );
+				Sound_StartBGTrack("music/XTHEEND.ogg", "music/XTHEEND.ogg");
 
-				M_PushMenu( M_SODVictory_Draw, M_SODVictory_Key );
+				M_PushMenu(M_SODVictory_Draw, M_SODVictory_Key);
 				return;
 
 			case 4:
@@ -818,23 +854,26 @@ PUBLIC void M_Intermission_f( void )
 			case 15:
 			case 18:
 			case 19:
-				PL_GivePoints( &Player, 15000 );
-				M_PushMenu( M_Secret_Draw, M_Secret_Key );
+				PL_GivePoints(&Player, 15000);
+				M_PushMenu(M_Secret_Draw, (const char *(*)(int))M_Secret_Key);
 				return;
 		}
 
-		M_PushMenu( M_Intermission_Draw, M_Intermission_Key );
+		M_PushMenu(M_Intermission_Draw,
+				   (const char *(*)(int))M_Intermission_Key);
 	}
 
-    if( strstr( levelstate.level_name, "Boss" ) != NULL && g_version->value == WOLFENSTEINWL6 ) {
-		Sound_StartBGTrack( "music/URAHERO.ogg", "music/URAHERO.ogg" );
+    if ((strstr(levelstate.level_name, "Boss") != NULL) &&
+		(g_version->value == WOLFENSTEINWL6)) {
+		Sound_StartBGTrack("music/URAHERO.ogg", "music/URAHERO.ogg");
 
-		M_PushMenu( M_Victory_Draw, M_Victory_Key );
-	} else if( levelstate.floornum == 9 && g_version->value == WOLFENSTEINWL6 ) {
-		PL_GivePoints( &Player, 15000 );
-		M_PushMenu( M_Secret_Draw, M_Secret_Key );
+		M_PushMenu(M_Victory_Draw, (const char *(*)(int))M_Victory_Key);
+	} else if ((levelstate.floornum == 9) &&
+			   (g_version->value == WOLFENSTEINWL6)) {
+		PL_GivePoints(&Player, 15000);
+		M_PushMenu(M_Secret_Draw, (const char *(*)(int))M_Secret_Key);
 	} else {
-		M_PushMenu( M_Intermission_Draw, M_Intermission_Key );
+		M_PushMenu(M_Intermission_Draw, (const char *(*)(int))M_Intermission_Key);
 	}
 
 }

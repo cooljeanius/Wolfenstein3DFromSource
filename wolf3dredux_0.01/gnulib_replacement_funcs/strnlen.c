@@ -21,8 +21,8 @@
 #include <string.h>
 
 /* Find the length of STRING, but scan at most MAXLEN characters.
- * If no '\0' terminator is found in that many characters, return MAXLEN. */
-
+ * If no '\0' terminator is found in that many characters, return MAXLEN.
+ */
 #ifndef strnlen
 /* this prototype would not be necessary if I were using gnulib properly, or if
  * I were on a system that already had strnlen()... */

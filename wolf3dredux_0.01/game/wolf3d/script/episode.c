@@ -1,3 +1,6 @@
+/*
+ * episode.c
+ */
 
 #include <stdlib.h>
 #include <string.h>
@@ -46,9 +49,7 @@ PRIVATE ttree_t *maptree = NULL;		/* map tree */
 #define	MAP_FLOOR	"floor-number"
 
 
-
-
-PRIVATE W8 *parse_maptag( W8 *in, W32 *linenumber )
+PRIVATE W8 *parse_maptag(W8 *in, W32 *linenumber)
 {
 	_boolean bfilename = false;
 	_boolean bfloornum = false;
@@ -59,48 +60,43 @@ PRIVATE W8 *parse_maptag( W8 *in, W32 *linenumber )
 	char *szMapDef;
 
 
-	newMap = Z_TagMalloc( sizeof( mapLink_t ), TAG_LEVEL_SCP );
+	newMap = Z_TagMalloc(sizeof(mapLink_t), TAG_LEVEL_SCP);
 
-	memset( newMap, 0, sizeof( mapLink_t ) );
-
-
+	memset(newMap, 0, sizeof(mapLink_t));
 
 
 	ptr = in;
 
-	ptr = script_ignoreWhiteSpace( ptr );
+	ptr = script_ignoreWhiteSpace(ptr);
 
-	ptr = script_ReadString( ptr, &szMapDef );
+	ptr = script_ReadString(ptr, (W8**)&szMapDef);
 
-	ptr = script_lookforCharacter( ptr, '{', 0 );
+	ptr = script_lookforCharacter(ptr, '{', 0);
 
-	if( *ptr == ENDOFSTREAM )
-	{
+	if (*ptr == ENDOFSTREAM) {
 
 		return ptr;
 	}
 
 	ptr++;
 
-	while( *ptr != ENDOFSTREAM &&  *ptr != '}' )
-	{
-		ptr = script_ignoreWhiteSpace( ptr );
+	while ((*ptr != ENDOFSTREAM) && (*ptr != '}')) {
+		ptr = script_ignoreWhiteSpace(ptr);
 
-		lg = strlen( MAP_FNAME );
-		if( ! strncmp( ptr, MAP_FNAME, lg ) )
-		{
+		lg = strlen(MAP_FNAME);
+		if (! strncmp((const char *)ptr, MAP_FNAME, lg)) {
 			ptr += lg;
 
-			ptr = script_ignoreWhiteSpace( ptr );
+			ptr = script_ignoreWhiteSpace(ptr);
 
-			if( newMap->filename )
-			{
-				Com_Printf( "Error on line (%d) <filename> has already been defined!\n", *linenumber );
+			if (newMap->filename) {
+				Com_Printf("Error on line (%d) <filename> has already been defined!\n",
+						   *linenumber);
 
 				continue;
 			}
 
-			ptr = script_ReadQuoteString( ptr, &newMap->filename );
+			ptr = script_ReadQuoteString(ptr, (W8**)&newMap->filename);
 
 
 			bfilename = true;
@@ -108,100 +104,94 @@ PRIVATE W8 *parse_maptag( W8 *in, W32 *linenumber )
 			continue;
 		}
 
-		lg = strlen( MAP_SECRET );
-		if( ! strncmp( ptr, MAP_SECRET, lg ) )
-		{
+		lg = strlen(MAP_SECRET);
+		if (! strncmp((const char *)ptr, MAP_SECRET, lg)) {
 			ptr += lg;
 
-			ptr = script_ignoreWhiteSpace( ptr );
+			ptr = script_ignoreWhiteSpace(ptr);
 
-			if( newMap->secretDef )
-			{
-				Com_Printf( "Error on line (%d) <secretlevel> id has already been defined!\n", *linenumber );
+			if (newMap->secretDef) {
+				Com_Printf("Error on line (%d) <secretlevel> id has already been defined!\n",
+						   *linenumber);
 
 				continue;
 			}
 
-			ptr = script_ReadString( ptr, &newMap->secretDef );
+			ptr = script_ReadString(ptr, (W8**)&newMap->secretDef);
+
+			continue;
+		}
+
+		lg = strlen(MAP_NEXT);
+		if (! strncmp((const char *)ptr, MAP_NEXT, lg)) {
+			ptr += lg;
+
+			ptr = script_ignoreWhiteSpace(ptr);
+
+			if (newMap->nextDef) {
+				Com_Printf("Error on line (%d) <nextlevel> id has already been defined!\n",
+						   *linenumber);
+
+				continue;
+			}
+
+			ptr = script_ReadString(ptr, (W8**)&newMap->nextDef);
 
 
 			continue;
 		}
 
-		lg = strlen( MAP_NEXT );
-		if( ! strncmp( ptr, MAP_NEXT, lg ) )
-		{
-			ptr += lg;
-
-			ptr = script_ignoreWhiteSpace( ptr );
-
-			if( newMap->nextDef )
-			{
-				Com_Printf( "Error on line (%d) <nextlevel> id has already been defined!\n", *linenumber );
-
-				continue;
-			}
-
-			ptr = script_ReadString( ptr, &newMap->nextDef );
-
-
-			continue;
-		}
-
-		lg = strlen( MAP_FLOOR );
-		if( ! strncmp( ptr, MAP_FLOOR, lg ) )
-		{
+		lg = strlen(MAP_FLOOR);
+		if (! strncmp((const char *)ptr, MAP_FLOOR, lg)) {
 			decimalType_t dtNum;
 			ptr += lg;
 
-			ptr = script_ignoreWhiteSpace( ptr );
+			ptr = script_ignoreWhiteSpace(ptr);
 
-			if( bfloornum )
-			{
-				Com_Printf( "Error on line (%d) <floornum> id has already been defined!\n", *linenumber );
+			if (bfloornum) {
+				Com_Printf("Error on line (%d) <floornum> id has already been defined!\n",
+						   *linenumber);
 
 				continue;
 			}
 
-			ptr = script_ReadNumber( ptr, 0, &dtNum );
+			ptr = script_ReadNumber(ptr, 0, &dtNum);
 
-			newMap->floornum = dtNum.Integer;
+			newMap->floornum = (W32)dtNum.Integer;
 
 			bfloornum = true;
 
 			continue;
 		}
 
-		ptr = script_ignoreString( ptr );
+		ptr = script_ignoreString(ptr);
 
 	}
 
-	if( *ptr == '}' )
-	{
+	if (*ptr == '}') {
 		ptr++;
 	}
 
-	if( ! bfilename || ! bfloornum )
-	{
-		Z_Free( newMap );
+	if (! bfilename || ! bfloornum) {
+		Z_Free(newMap);
 
 		return ptr;
 	}
 
-	if( ! bRoot )
-	{
+	if (! bRoot) {
 		currentepisode->rootMapDef = szMapDef;
 		bRoot = true;
 	}
 
-	ternary_tree_add( szMapDef, (void *)newMap, maptree, 0, &oldMap );
+	ternary_tree_add((unsigned char *)szMapDef, (void *)newMap, maptree, 0,
+					 (void **)&oldMap);
 
 
 	return ptr;
 }
 
 
-PRIVATE W8 *parse_episodetag( W8 *in, W32 *linenumber )
+PRIVATE W8 *parse_episodetag(W8 *in, W32 *linenumber)
 {
 	W32 lg;
 	W8 *ptr = in;
@@ -212,47 +202,45 @@ PRIVATE W8 *parse_episodetag( W8 *in, W32 *linenumber )
 	bRoot = false;
 
 
-	newEpisode = Z_TagMalloc( sizeof( episode_t ), TAG_LEVEL_SCP );
+	newEpisode = Z_TagMalloc(sizeof(episode_t), TAG_LEVEL_SCP);
 
 
 	currentepisode = newEpisode;
 
 
-	ptr = script_ignoreWhiteSpace( ptr );
+	ptr = script_ignoreWhiteSpace(ptr);
 
-	ptr = script_ReadString( ptr, &newEpisode->episodename );
+	ptr = script_ReadString(ptr, (W8**)&newEpisode->episodename);
 
-	ptr = script_lookforCharacter( ptr, '{', 0 );
+	ptr = script_lookforCharacter(ptr, '{', 0);
 
-	if( *ptr == ENDOFSTREAM )
-	{
-		Z_Free( newEpisode );
+	if (*ptr == ENDOFSTREAM) {
+		Z_Free(newEpisode);
 
 		return ptr;
 	}
 
 	ptr++;
 
-	while( *ptr != ENDOFSTREAM &&  *ptr != '}' )
-	{
-		ptr = script_ignoreWhiteSpace( ptr );
+	while ((*ptr != ENDOFSTREAM) && (*ptr != '}')) {
+		ptr = script_ignoreWhiteSpace(ptr);
 
-		lg = strlen( MAP_DEF );
-		if( ! strncmp( ptr, MAP_DEF, lg ) ) {
+		lg = strlen(MAP_DEF);
+		if (! strncmp((const char *)ptr, MAP_DEF, lg)) {
 			ptr += lg;
 
-
-			ptr = parse_maptag( ptr, linenumber );
+			ptr = parse_maptag(ptr, linenumber);
 		}
 
-		ptr = script_ignoreString( ptr );
+		ptr = script_ignoreString(ptr);
 	}
 
-	if( *ptr == '}' ) {
+	if (*ptr == '}') {
 		ptr++;
 	}
 
-	ternary_tree_add( newEpisode->episodename, (void *)newEpisode, maptree, 0, &oldEpisode );
+	ternary_tree_add((unsigned char *)newEpisode->episodename,
+					 (void *)newEpisode, maptree, 0, (void **)&oldEpisode);
 
 	return ptr;
 }
@@ -260,26 +248,29 @@ PRIVATE W8 *parse_episodetag( W8 *in, W32 *linenumber )
 
 PRIVATE Tag_Property_t episode_tags[] =
 {
-	{"episodeDef", parse_episodetag }
+	/* casting here to avoid a warning leads to an error: */
+	{ "episodeDef", parse_episodetag }
 };
 
 
-PUBLIC _boolean episode_init( const char *filename )
+PUBLIC _boolean episode_init(const char *filename)
 {
 	W32 startime, endtime;
 
-	if( ! filename || ! *filename ) {
+	if (! filename || ! *filename) {
 		return false;
 	}
 
-	Com_Printf( "Processing script (%s)\n", filename );
+	Com_Printf("Processing script (%s)\n", filename);
 
-	maptree = ternary_tree_init( 10 );
+	maptree = ternary_tree_init(10);
 
 	startime = Sys_Milliseconds();
 
-	if( ! script_Parse( filename, episode_tags, sizeof( episode_tags ) / sizeof( episode_tags[ 0 ] ), TAG_LEVEL_SCP ) ) {
-		Com_Printf( "Unable to open script (%s)\n", filename );
+	if (! script_Parse(filename, episode_tags,
+					   (sizeof(episode_tags) / sizeof(episode_tags[0])),
+					   TAG_LEVEL_SCP)) {
+		Com_Printf("Unable to open script (%s)\n", filename);
 
 		episode_shutdown();
 
@@ -288,41 +279,44 @@ PUBLIC _boolean episode_init( const char *filename )
 
 	endtime = Sys_Milliseconds();
 
-	Com_Printf( "script parsed in %d ms\n", endtime - startime );
+	Com_Printf("script parsed in %d ms\n", (endtime - startime));
 
 
-	currentMap = (mapLink_t *) ternary_tree_find( currentepisode->rootMapDef, maptree );
+	currentMap = (mapLink_t *)ternary_tree_find((unsigned char *)currentepisode->rootMapDef,
+												maptree);
 
 	return true;
 }
 
-PUBLIC void episode_shutdown( void )
+PUBLIC void episode_shutdown(void)
 {
-	ternary_tree_cleanup( maptree );
+	ternary_tree_cleanup(maptree);
 	maptree = NULL;
 
-	Z_FreeTags( TAG_LEVEL_SCP );
+	Z_FreeTags(TAG_LEVEL_SCP);
 }
 
 
 
-PUBLIC _boolean episode_setEpisode( char *nameDef )
+PUBLIC _boolean episode_setEpisode(char *nameDef)
 {
-	currentepisode = (episode_t *) ternary_tree_find( nameDef, maptree );
+	currentepisode = (episode_t *)ternary_tree_find((unsigned char *)nameDef,
+													maptree);
 
-	if( ! currentepisode ) {
+	if (! currentepisode) {
 		return false;
 	}
 
-	currentMap = (mapLink_t *) ternary_tree_find( currentepisode->rootMapDef, maptree );
+	currentMap = (mapLink_t *)ternary_tree_find((unsigned char *)currentepisode->rootMapDef,
+												maptree);
 
 	return true;
 }
 
 
-PUBLIC char *episode_getCurrentMapFileName( W32 *floornum )
+PUBLIC char *episode_getCurrentMapFileName(W32 *floornum)
 {
-	if( ! currentMap ) {
+	if (! currentMap) {
 		*floornum = 0;
 		return NULL;
 	}
@@ -332,17 +326,18 @@ PUBLIC char *episode_getCurrentMapFileName( W32 *floornum )
 	return currentMap->filename;
 }
 
-PUBLIC char *episode_getNextMapName( W32 *floornum )
+PUBLIC char *episode_getNextMapName(W32 *floornum)
 {
-	if( ! currentMap ) {
+	if (! currentMap) {
 		*floornum = 0;
 
 		return NULL;
 	}
 
-	currentMap = (mapLink_t *) ternary_tree_find( currentMap->nextDef, maptree );
+	currentMap = (mapLink_t *)ternary_tree_find((unsigned char *)currentMap->nextDef,
+												maptree);
 
-	if( ! currentMap ) {
+	if (! currentMap) {
 		*floornum = 0;
 
 		return NULL;
@@ -353,17 +348,18 @@ PUBLIC char *episode_getNextMapName( W32 *floornum )
 	return currentMap->filename;
 }
 
-PUBLIC char *episode_getNextSecretMapName( W32 *floornum )
+PUBLIC char *episode_getNextSecretMapName(W32 *floornum)
 {
-	if( ! currentMap ) {
+	if (! currentMap) {
 		*floornum = 0;
 
 		return NULL;
 	}
 
-	currentMap = (mapLink_t *) ternary_tree_find( currentMap->secretDef, maptree );
+	currentMap = (mapLink_t *)ternary_tree_find((unsigned char *)currentMap->secretDef,
+												maptree);
 
-	if( ! currentMap ) {
+	if (! currentMap) {
 		*floornum = 0;
 
 		return NULL;

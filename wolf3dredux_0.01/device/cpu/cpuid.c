@@ -42,7 +42,7 @@
 cpu_info_struct main_cpu_s;
 
 
-#if (i386 || __i386 || __i386__ || _M_IX86)
+#if (i386 || __i386 || __i386__ || _M_IX86 || _I386)
 # ifdef _WIN32
 #  define WIN32_LEAN_AND_MEAN 1
 #  include <windows.h>
