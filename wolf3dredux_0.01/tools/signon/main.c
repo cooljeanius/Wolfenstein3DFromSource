@@ -1,5 +1,4 @@
 /*
- *
  *	Copyright (C) 2004-2005 Michael Liebscher <johnnycanuck@users.sourceforge.net>
  *
  *	This program is free software; you can redistribute it and/or
@@ -31,12 +30,12 @@
 #include <memory.h>
 
 
-#include "tga.h"
+#include "WriteTGA_minimal.h"
 
 
-
-#define INPUT_FNAME     "signon.obj"
-#define OUTPUT_FNAME    "signon.tga"
+/* TODO: allow these paths to be configurable instead of hardcoded: */
+#define INPUT_FNAME "signon.obj"
+#define OUTPUT_FNAME "signon.tga"
 
 #define IMAGE_WIDTH   320
 #define IMAGE_HEIGHT  200
@@ -53,7 +52,7 @@ extern char gamepal[];	/* Wolf3D palette */
 
  Parameters: Nothing.
 
- Returns: 0 on success, otherwise nonzero.
+ Returns: 0 on success, otherwise nonzero (or more specifically, '1')
 
  Notes: This is the application entry point.
 
@@ -62,91 +61,90 @@ extern char gamepal[];	/* Wolf3D palette */
 
 -----------------------------------------------------------------------------
 */
-#ifndef main
-int main( int argc, char *argv[] )
+#ifndef main /* this ifdef is bad */
+int main(int argc, char *argv[])
 #else
-int signon_main( int argc, char *argv[] )
+int signon_main(int argc, char *argv[])
 #endif /* !main */
 {
-    unsigned int i, temp, index;
+    unsigned int i, temp, signon_index;
     unsigned long count;
-    unsigned char *buffer; // tga file buffer.
-    unsigned char signon[ 64512 ]; // Buffer to hold raw sign on screen data.
+    unsigned char *buffer; /* tga file buffer. */
+    unsigned char signon[64512]; /* Buffer to hold raw sign on screen data. */
 
-    FILE *filestream = fopen( INPUT_FNAME, "rb" );
+    FILE *filestream = fopen(INPUT_FNAME, "rb");
 
-    if( filestream == NULL )
-	{
-		printf( "Could not open file \"signon.obj\" for read!\n" );
+	printf("signon: running with path '%s' with '%i' args.\n",
+		   argv[0], argc);
+
+    if (filestream == NULL) {
+		printf("Could not open file \"%s\" for read!\n", INPUT_FNAME);
 
 		return 1;
 	}
 
-    // Seek past header info
-    if( fseek( filestream, 0x79, SEEK_SET ) )
-    {
-        if( fclose( filestream ) )
-        {
-            printf( "[Error]: The filestream was not closed\n" );
+    /* Seek past header info */
+    if (fseek(filestream, (long)(0x79), SEEK_SET ) ) {
+        if (fclose(filestream)) {
+            printf("[Error]: The filestream was not closed\n");
         }
 
-        printf( "[Error]: Could not seek past header data!\n" );
+        printf("[Error]: Could not seek past header data!\n");
 
 		return 1;
     }
 
-    // On the last iteration, we read in the seven filler bytes,
-    //  output will discard them.
+    /* On the last iteration, we read in the seven filler bytes,
+     * output will discard them. */
     count = 0;
-    for( i = 0; i < 63; ++i )
-    {
-        // Read in 1k of Data
-        count += fread( signon + (i*1024), sizeof( char ), 1024, filestream );
+    for ((i = 0); (i < 63); ++i) {
+        /* Read in 1k of Data */
+        count += fread((signon + (i * 1024)), sizeof(char), (size_t)1024,
+					   filestream);
 
-        // Seek past seven bytes of filler
-        fseek( filestream, 7, SEEK_CUR );
+        /* Seek past seven bytes of filler */
+        fseek(filestream, (long)(7), SEEK_CUR);
     }
 
-    if( fclose( filestream ) )
-    {
-        printf( "[Error]: The filestream was not closed\n" );
+    if (fclose(filestream)) {
+        printf( "[Error]: The filestream was not closed\n");
     }
 
-    if( count != 64006 )
-    {
-        printf( "[Error]: Could not Read from input file\n" );
+    if (count != 64006) {
+        printf("[Error]: Could not read from input file\n");
 
 		return 1;
     }
 
-//
-// Output Targa image
-//
+/*
+ * Output Targa image
+ */
 
-    buffer = malloc( IMAGE_SIZE );
-    if( buffer == NULL )
-    {
-        printf( "malloc: insufficient memory available!\n" );
+    buffer = malloc((size_t)(IMAGE_SIZE));
+    if (buffer == NULL) {
+        printf("malloc: insufficient memory available!\n");
 
 		return 1;
     }
 
     /* Convert palette to rgb */
-	for( i = 0, index = 0; i < IMAGE_SIZE; i += BYTESPERPIXEL, ++index )
-	{
-        temp = signon[ index ] * 3;
+	for ((i = 0), (signon_index = 0); (i < IMAGE_SIZE); (i += BYTESPERPIXEL),
+		 ++signon_index) {
+        temp = (signon[signon_index] * 3);
 
-        buffer[ i ]   = gamepal[ temp ] << 2;		/* Red */
-        buffer[ i+1 ] = gamepal[ temp + 1 ] << 2;	/* Green */
-        buffer[ i+2 ] = gamepal[ temp + 2 ] << 2;	/* Blue	*/
+        buffer[(i)]		= (unsigned char)(gamepal[(temp)] << 2);	/* Red */
+        buffer[(i + 1)] = (unsigned char)(gamepal[(temp + 1)] << 2);/* Green */
+        buffer[(i + 2)] = (unsigned char)(gamepal[(temp + 2)] << 2);/* Blue	*/
     }
 
+	/* this matches the prototype; I have no clue why GCC says otherwise... */
+    (void)WriteTGA((const char *)(OUTPUT_FNAME), (unsigned short)(24),
+				   (unsigned short)(IMAGE_WIDTH),
+				   (unsigned short)(IMAGE_HEIGHT), (void *)(buffer),
+				   (unsigned char)(0), (unsigned char)(1));
 
-    (void)WriteTGA( OUTPUT_FNAME, 24, IMAGE_WIDTH, IMAGE_HEIGHT, buffer, 0, 1 );
-
-    if( buffer )
-    {
-        free( buffer );
+    if (buffer) {
+        free(buffer);
         buffer = NULL;
     }
 

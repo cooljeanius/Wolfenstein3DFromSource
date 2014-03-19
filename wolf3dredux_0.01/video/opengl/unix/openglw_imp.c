@@ -299,8 +299,9 @@ int GLimp_SetMode( int *pwidth, int *pheight, int mode, _boolean fullscreen )
 	attr.background_pixel = 0;
 	attr.border_pixel = 0;
 	attr.colormap = XCreateColormap( display, root, visinfo->visual, AllocNone );
-	if( vidmode_active ) {
-		attribmask = CWBackPixel | CWColormap | CWSaveUnder | CWBackingStore | CWOverrideRedirect;
+	if (vidmode_active) {
+		attribmask = (CWBackPixel | CWColormap | CWSaveUnder | CWBackingStore |
+					  CWOverrideRedirect);
 		attr.override_redirect = True;
 		attr.backing_store = NotUseful;
 		attr.save_under = False;
@@ -308,9 +309,10 @@ int GLimp_SetMode( int *pwidth, int *pheight, int mode, _boolean fullscreen )
 		attribmask = CWBackPixel | CWBorderPixel | CWColormap;
 	}
 
-	mainwin = XCreateWindow(display, root, 0, 0, width, height,
+	mainwin = XCreateWindow(display, root, 0, 0,
+							(unsigned int)width, (unsigned int)height,
 							0, visinfo->depth, InputOutput,
-							visinfo->visual, attribmask, &attr );
+							visinfo->visual, attribmask, &attr);
 
 	size_hints.flags = PSize | PMinSize | PMaxSize;
 	size_hints.min_width = width;
@@ -369,26 +371,26 @@ int GLimp_SetMode( int *pwidth, int *pheight, int mode, _boolean fullscreen )
 	return rserr_ok;
 }
 
-void GLimp_Shutdown( void )
+void GLimp_Shutdown(void)
 {
 	uninstall_grabs();
 	mouse_active = false;
 	dgamouse = false;
 
-	if( display ) {
-		if( ctx ) {
-			pfglXDestroyContext( display, ctx );
+	if (display) {
+		if (ctx) {
+			pfglXDestroyContext(display, ctx);
 		}
 
-		if( mainwin ) {
-			XDestroyWindow( display, mainwin );
+		if (mainwin) {
+			XDestroyWindow(display, mainwin);
 		}
 
-		if( vidmode_active ) {
-			XF86VidModeSwitchToMode( display, screen_num, vidmodes[ 0 ] );
+		if (vidmode_active) {
+			XF86VidModeSwitchToMode(display, screen_num, vidmodes[0]);
 		}
 
-		XCloseDisplay( display );
+		XCloseDisplay(display);
 	}
 
 	ctx = NULL;
@@ -396,8 +398,9 @@ void GLimp_Shutdown( void )
 	mainwin = 0;
 }
 
-_boolean GLimp_Init( void *hinstance, void *wndproc )
+_boolean GLimp_Init(void *hinstance, void *wndproc)
 {
+	/* TODO: use parameters */
 	InitSig();
 
 	return true;
@@ -406,24 +409,27 @@ _boolean GLimp_Init( void *hinstance, void *wndproc )
 /* this prototype should have been dragged in from including "../opengl.h", but
  * if not...: */
 #ifndef GLimp_BeginFrame
-extern void GLimp_BeginFrame( void );
+extern void GLimp_BeginFrame(void);
 #endif /* !GLimp_BeginFrame */
-void GLimp_BeginFrame( void )
+void GLimp_BeginFrame(void)
 {
 	;
 /* TODO: actually put something here? */
 }
 
-void GLimp_EndFrame( void )
+void GLimp_EndFrame(void)
 {
 	pfglFlush();
-	pfglXSwapBuffers( display, mainwin );
+	pfglXSwapBuffers(display, mainwin);
 }
 
-void GLimp_AppActivate( _boolean active )
+void GLimp_AppActivate(_boolean active)
 {
-	;
-/* TODO: actually put something here? */
+	/* dummy condition to use parameter 'active': */
+	if (active) {
+		;
+	}
+/* TODO: actually put something here for real? */
 }
 
 /* EOF */

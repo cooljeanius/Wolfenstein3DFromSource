@@ -12,16 +12,120 @@ ACLOCAL_AMFLAGS = -I m4 --install
 
 COMPILER = @CC@
 #TODO: have autoconf check that all flags are supported:
-AM_CFLAGS = -Wall -c -ffast-math -funroll-loops
+AM_CFLAGS = -Wall -ffast-math -funroll-loops
+NON_AM_CFLAGS = -c
 AM_CPPFLAGS = -I. -I/usr/X11R6/include
 OLD_LDFLAGS_UNUSED =  -s
 XLDFLAGS = -L/usr/X11R6/lib @LIBS@
 VORBISFLAGS = @VORBIS_LIBS@
 
 ODIR = Release
+## should contain a "/" at the end:
+LIBOBJDIR = @LIBOBJDIR@
+
+SUBDIRS = $(LIBOBJDIR) .
                                                                                 
 EXEBASE = wolf3dredux
 EXE = $(ODIR)/$(EXEBASE)
+
+bin_PROGRAMS = wolf3dredux
+
+wolf3dredux_SOURCES = client/client_input.c \
+                      client/client_main.c \
+                      client/client_screen.c \
+                      client/console.c \
+                      client/keys.c \
+                      client/menu_conf.c \
+                      common/arch.c \
+                      common/cmd.c \
+                      common/common.c \
+                      common/cvar.c \
+                      common/share.c \
+                      common/ttree.c \
+                      device/cpu/cpuid.c \
+                      device/filesys/fileio.c \
+                      device/filesys/files.c \
+                      device/filesys/filestring.c \
+                      device/filesys/zippak.c \
+                      device/filesys/unix/unix_file.c \
+                      device/filesys/unix/glob.c \
+                      device/input/in_view.c \
+                      device/input/unix/unix_keys.c \
+                      device/input/unix/unix_mouse.c \
+                      device/input/unix/unix_joystick.c \
+                      device/system/system.c \
+                      device/system/unix/unix_system.c \
+                      device/timer/unix/unix_timer.c \
+                      font/font_manager.c \
+                      loaders/tga.c \
+                      loaders/wav.c \
+                      math/angle.c \
+                      math/math.c \
+                      math/matrix.c \
+                      math/random_number.c \
+                      math/vector.c \
+                      memory/memory.c \
+                      memory/zmem.c \
+                      script/script.c \
+                      sound/sound.c \
+                      sound/sound_sfx_id.c \
+                      sound/sound_stream.c \
+                      sound/openal/openal_binding.c \
+                      sound/openal/openal_main.c \
+                      string/com_string.c \
+                      unix/unix_main.c \
+                      unix/unix_vid_sys.c \
+                      video/texture_manager.c \
+                      video/opengl/opengl_binding.c \
+                      video/opengl/opengl_draw.c \
+                      video/opengl/opengl_extension.c \
+                      video/opengl/opengl_main.c \
+                      video/opengl/opengl_texture.c \
+                      video/opengl/unix/openglw_imp.c \
+                      zlib/adler32.c \
+                      zlib/crc32.c \
+                      zlib/inffast.c \
+                      zlib/inflate.c \
+                      zlib/inftrees.c \
+                      zlib/zutil.c \
+                      game/wolf3d/wolf_main.c \
+                      game/wolf3d/client/wolf_client_main.c \
+                      game/wolf3d/client/wolf_sv_ccmds.c \
+                      game/wolf3d/common/wolf_common.c \
+                      game/wolf3d/entities/wolf_actor_ai.c \
+                      game/wolf3d/entities/wolf_actors.c \
+                      game/wolf3d/entities/wolf_ai_com.c \
+                      game/wolf3d/entities/wolf_bj.c \
+                      game/wolf3d/entities/wolf_player.c \
+                      game/wolf3d/entities/wolf_powerups.c \
+                      game/wolf3d/entities/wolf_sprites.c \
+                      game/wolf3d/entities/wolf_weapon.c \
+                      game/wolf3d/level/wolf_areas.c \
+                      game/wolf3d/level/wolf_doors.c \
+                      game/wolf3d/level/wolf_level.c \
+                      game/wolf3d/level/wolf_pushwalls.c \
+                      game/wolf3d/math/wolf_math.c \
+                      game/wolf3d/menu/wolf_mcredits.c \
+                      game/wolf3d/menu/wolf_menu.c \
+                      game/wolf3d/menu/wolf_mintermission.c \
+                      game/wolf3d/menu/wolf_mintro.c \
+                      game/wolf3d/menu/wolf_mnewgame.c \
+                      game/wolf3d/menu/wolf_moptions.c \
+                      game/wolf3d/menu/wolf_mquit.c \
+                      game/wolf3d/menu/wolf_msound.c \
+                      game/wolf3d/menu/wolf_mvideo.c \
+                      game/wolf3d/script/episode.c \
+                      game/wolf3d/video/wolf_raycast.c \
+                      game/wolf3d/video/wolf_renderer.c \
+                      game/wolf3d/video/opengl/wolf_opengl.c
+wolf3dredux_LDADD = $(LIBOBJDIR)libgnu.a
+
+noinst_PROGRAMS = gamepal signon
+
+gamepal_SOURCES = tools/gamepal/main.c
+signon_SOURCES = tools/signon/wolf_pal.c \
+                 tools/signon/main.c \
+                 tools/signon/WriteTGA_minimal.c
 
 DO_CC = $(COMPILER) $(CFLAGS) $(AM_CFLAGS) $(AM_CPPFLAGS) ${CPPFLAGS} -o $@ -c $<
 	
@@ -115,8 +219,10 @@ PROGRAM_OBJS =  $(ODIR)/client_input.o \
 		$(ODIR)/wolf_renderer.o \
 		$(ODIR)/wolf_opengl.o
 
-all: $(EXE)
+all: config.h all-recursive $(EXE)
 
+# Leave out the ALLOCA obj, because its header requires special
+# modification that comes by actually using gnulib properly
 $(EXE): $(PROGRAM_OBJS) $(LIBOBJS)
 	${COMPILER} -o $(EXE) $(PROGRAM_OBJS) $(LIBOBJS) ${LDFLAGS} $(XLDFLAGS) $(VORBISFLAGS) -lm 
 
@@ -240,11 +346,17 @@ $(ODIR)/error.o : gnulib_replacement_funcs/error.c
 $(ODIR)/progname.o : gnulib_replacement_funcs/progname.c 
 	$(DO_CC)
 
+error.o: $(ODIR)/error.o $(ODIR)/progname.o
+	test -e $(ODIR)/error.o && cp -v $(ODIR)/error.o .
+
 progname.o: $(ODIR)/progname.o
 	test -e $(ODIR)/progname.o && cp -v $(ODIR)/progname.o .
 
-error.o: $(ODIR)/error.o $(ODIR)/progname.o
-	test -e $(ODIR)/error.o && cp -v $(ODIR)/error.o .
+$(ODIR)/lstat.o : gnulib_replacement_funcs/lstat.c
+	$(DO_CC)
+
+lstat.o: $(ODIR)/lstat.o
+	test -e $(ODIR)/lstat.o && cp -v $(ODIR)/lstat.o .
 
 $(ODIR)/strnlen.o : gnulib_replacement_funcs/strnlen.c 
 	$(DO_CC)
@@ -361,6 +473,7 @@ $(ODIR)/opengl_main.o : video/opengl/opengl_main.c
 $(ODIR)/opengl_texture.o : video/opengl/opengl_texture.c 
 	$(DO_CC)
 
+# this file seems not to exist yet?
 $(ODIR)/opengl_interface.o : video/opengl/unix/opengl_interface.c 
 	$(DO_CC)
 

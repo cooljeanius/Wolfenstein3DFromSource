@@ -73,35 +73,35 @@
 		terminates (unless nMaxLength == 0).
 -----------------------------------------------------------------------------
 */
-PUBLIC size_t cs_strlcpy( char *dest, const char *source, size_t nMaxLength )
+PUBLIC size_t cs_strlcpy(char *dest, const char *source, size_t nMaxLength)
 {
 	char *d = dest;
 	const char *s = source;
 	size_t n = nMaxLength;
 
 	/* Copy as many bytes as will fit */
-	if( n != 0 && --n != 0 ) {
+	if ((n != 0) && (--n != 0)) {
 		do {
-			if( (*d++ = *s++) == 0 ) {
+			if ((*d++ = *s++) == 0) {
 				break;
 			}
 
-		} while( --n != 0 );
+		} while (--n != 0);
 	}
 
 	/* Not enough room in dest, add NUL and traverse rest of source */
-	if( n == 0 ) {
-		if( nMaxLength != 0 ) {
+	if (n == 0) {
+		if (nMaxLength != 0) {
 			*d = '\0';		/* NUL-terminate dest */
 		}
 
-		while( *s++ ) {
+		while (*s++) {
 			;
 			/* do nothing (?) */
 		}
 	}
 
-	return( s - source - 1 );	/* count does not include NUL */
+	return ((size_t)(s - source - 1));	/* count does not include NUL */
 }
 
 /*
@@ -123,28 +123,28 @@ PUBLIC size_t cs_strlcpy( char *dest, const char *source, size_t nMaxLength )
 		terminates (unless nMaxLength <= strlen( dest ) ).
 -----------------------------------------------------------------------------
 */
-PUBLIC size_t cs_strlcat( char *dest, const char *source, size_t nMaxLength )
+PUBLIC size_t cs_strlcat(char *dest, const char *source, size_t nMaxLength)
 {
 	char *d = dest;
 	const char *s = source;
 	size_t n = nMaxLength;
 	size_t dlen;
 
-	/* Find the end of dest and adjust bytes left but don't go past end */
-	while( n-- != 0 && *d != '\0' ) {
+	/* Find the end of dest and adjust bytes left but do NOT go past end */
+	while ((n-- != 0) && (*d != '\0')) {
 		d++;
 	}
 
-	dlen = d - dest;
-	n = nMaxLength - dlen;
+	dlen = (size_t)(d - dest);
+	n = (nMaxLength - dlen);
 
 	/* No room left to append string */
-	if( n == 0 ) {
-		return( dlen + strlen( s ) );
+	if (n == 0) {
+		return(dlen + strlen(s));
 	}
 
-	while( *s != '\0' ) {
-		if( n != 1 ) {
+	while (*s != '\0') {
+		if (n != 1) {
 			*d++ = *s;
 			n--;
 		}
@@ -152,7 +152,7 @@ PUBLIC size_t cs_strlcat( char *dest, const char *source, size_t nMaxLength )
 	}
 	*d = '\0';	/* NUL-terminate string */
 
-	return( dlen + (s - source) );	/* count does not include NUL */
+	return (dlen + (unsigned long)(s - source)); /*count does not include NUL*/
 
 }
 
@@ -256,13 +256,15 @@ PUBLIC void cs_snprintf( char *dest, size_t size, const char *format, ... )
  Notes:
 -----------------------------------------------------------------------------
 */
-PUBLIC W32 cs_strhash( const char *string )
+PUBLIC W32 cs_strhash(const char *string)
 {
-	W32 hash = *string;
+	W32 hash;
+	hash = (W32)(*string); /* initialize separately */
 
-	if( hash ) {
-		for( string += 1; *string != '\0'; ++string ) {
-			hash = (hash << 5) - hash + *string;
+	if (hash) {
+		for ((string += 1); (*string != '\0'); ++string) {
+			hash = ((hash << 5) - hash + (unsigned long)(*string));
+			/* really, that is all that it does? */
 		}
 	}
 
@@ -286,21 +288,21 @@ PUBLIC W32 cs_strhash( const char *string )
 
 -----------------------------------------------------------------------------
 */
-PUBLIC char *cs_strupr( char *string )
+PUBLIC char *cs_strupr(char *string)
 {
 	W8 *ptr;
 
-	if( ! string || ! *string ) {
+	if (! string || ! *string) {
 		return string;
 	}
 
-	ptr = string;
+	ptr = (W8*)string;
 
 	do {
-		*ptr = TOUPPER( *ptr );
+		*ptr = TOUPPER(*ptr);
 		ptr++;
 
-	} while( *ptr );
+	} while(*ptr);
 
 
 	return string;
@@ -322,21 +324,21 @@ PUBLIC char *cs_strupr( char *string )
 
 -----------------------------------------------------------------------------
 */
-PUBLIC char *cs_strlwr( char *string )
+PUBLIC char *cs_strlwr(char *string)
 {
 	W8 *ptr;
 
-	if( ! string || ! *string ) {
+	if (! string || ! *string) {
 		return string;
 	}
 
-	ptr = string;
+	ptr = (W8*)string;
 
 	do {
-		*ptr = TOLOWER( *ptr );
+		*ptr = TOLOWER(*ptr);
 		ptr++;
 
-	} while( *ptr );
+	} while (*ptr);
 
 
 	return string;

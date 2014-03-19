@@ -87,13 +87,13 @@ PUBLIC W8 FS_Mkdir( const char *dirname )
 -----------------------------------------------------------------------------
 */
 /* TODO: put this function in a shared library */
-#ifndef FS_ChangeCurrentDirectory
-PUBLIC W8 FS_ChangeCurrentDirectory( const char *path )
+#ifndef FS_ChangeCurrentDirectory /* this ifdef is bad */
+PUBLIC W8 FS_ChangeCurrentDirectory(const char *path)
 #else
-PUBLIC W8 wolfextractor_unix_file_FS_ChangeCurrentDirectory( const char *path )
+PUBLIC W8 wolfextractor_unix_file_FS_ChangeCurrentDirectory(const char *path)
 #endif /* !FS_ChangeCurrentDirectory */
 {
-	return ! chdir( path );
+	return ! chdir(path);
 }
 
 /*
@@ -112,23 +112,25 @@ PUBLIC W8 wolfextractor_unix_file_FS_ChangeCurrentDirectory( const char *path )
  Notes:
 -----------------------------------------------------------------------------
 */
-PUBLIC _boolean FS_GetFileAttributes( const char *filename, struct filestats *fs )
+PUBLIC _boolean FS_GetFileAttributes(const char *filename, struct filestats *fs)
 {
+	/* TODO: implementation details of 'struct stat' can vary; tune this code
+	 * according to the different possibilities: */
 	struct stat st;
 
 	fs->attributes = 0;
 
-	if( stat( filename, &st ) == -1 ) {
+	if (stat(filename, &st) == -1) {
 		return false;
 	}
 
-	if( st.st_mode & S_IFDIR ) {
+	if (st.st_mode & S_IFDIR) {
 		fs->attributes |= FA_DIR;
 	}
 
-	fs->creationtime = st.st_ctime;
-	fs->lastaccesstime = st.st_atime;
-	fs->lastwritetime = st.st_ctime;
+	fs->creationtime = (W32)st.st_ctime;
+	fs->lastaccesstime = (W32)st.st_atime;
+	fs->lastwritetime = (W32)st.st_ctime;
 
 	return true;
 }
@@ -179,39 +181,46 @@ PRIVATE _boolean CompareAttributes( const char *path, W32 musthave, W32 canthave
  Notes:
 -----------------------------------------------------------------------------
 */
-PUBLIC char *FS_FindFirst( const char *path, W32 musthave, W32 canthave )
+PUBLIC char *FS_FindFirst(const char *path, W32 musthave, W32 canthave)
 {
 	struct dirent *d;
-	char *p; /* unused (?) */
+	char *p; /* unused (?) (formerly) */
+	p = ""; /* dummy value */
 
-	if( fdir ) {
-		printf( "FS_FindFirst without close\n" );
+	/* dummy condition to use 'p': */
+	if (p != NULL) {
+		;
+	}
+
+	if (fdir) {
+		printf("FS_FindFirst without close\n");
 
 		return NULL;
 	}
 
-	FS_FilePath( path, findbase );
-	cs_strlcpy( findpattern, FS_SkipPath( path ), sizeof( findpattern ) );
+	FS_FilePath((char *)path, findbase);
+	cs_strlcpy(findpattern, FS_SkipPath((char *)path), sizeof(findpattern));
 
-	if( ! *findbase ) {
-		if( (fdir = opendir( "." )) == NULL ) {
+	if (! *findbase) {
+		if ((fdir = opendir(".")) == NULL) {
 			return NULL;
 		}
 	} else {
-		if( (fdir = opendir( findbase )) == NULL ) {
+		if ((fdir = opendir(findbase)) == NULL) {
 			return NULL;
 		}
 	}
 
-	while( (d = readdir( fdir )) != NULL ) {
-		if( ! *findpattern || glob_match( findpattern, d->d_name ) ) {
-			if( ! *findbase ) {
-				cs_strlcpy( findpath, d->d_name, sizeof( findpath ) );
+	while ((d = readdir(fdir)) != NULL) {
+		if (! *findpattern || glob_match(findpattern, d->d_name)) {
+			if (! *findbase) {
+				cs_strlcpy(findpath, d->d_name, sizeof(findpath));
 			} else {
-				cs_snprintf( findpath, sizeof( findpath ), "%s/%s", findbase, d->d_name );
+				cs_snprintf(findpath, sizeof(findpath), "%s/%s", findbase,
+							d->d_name);
 			}
 
-			if( CompareAttributes( findpath, musthave, canthave ) ) {
+			if (CompareAttributes(findpath, musthave, canthave)) {
 				return findpath;
 			}
 		}

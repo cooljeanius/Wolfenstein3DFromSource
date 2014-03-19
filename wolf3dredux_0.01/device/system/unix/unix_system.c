@@ -56,7 +56,7 @@
  Notes:
 -----------------------------------------------------------------------------
 */
-PUBLIC void Sys_OS_Init( void )
+PUBLIC void Sys_OS_Init(void)
 {
 	Com_Printf("Initializng OS specific things...\n");
 /* should something more actually go here? */
@@ -74,42 +74,42 @@ PUBLIC void Sys_OS_Init( void )
 -----------------------------------------------------------------------------
 */
 /* prototype should be in "../system.h" */
-PUBLIC void Print_OS_Info( void )
+PUBLIC void Print_OS_Info(void)
 {
 #if defined(__FreeBSD__) || defined(__APPLE__)
-	int mib[ 2 ];
+	int mib[2];
 	size_t len;
 	char *p;
 
 	Com_Printf("Using version of Print_OS_Info() originally designed for FreeBSD...\n");
 
-	mib[ 0 ] = CTL_KERN;
-	mib[ 1 ] = KERN_OSTYPE;
+	mib[0] = CTL_KERN;
+	mib[1] = KERN_OSTYPE;
 
 
-	if( sysctl( mib, 2, NULL, &len, NULL, 0 ) == -1 ) {
+	if (sysctl(mib, 2, NULL, &len, NULL, 0) == -1) {
 		return;
 	}
 
-	p = MM_MALLOC( len );
+	p = MM_MALLOC(len);
 
-	if( sysctl( mib, 2, p, &len, NULL, 0 ) == -1 ) {
-		free( p );
+	if (sysctl(mib, 2, p, &len, NULL, 0) == -1) {
+		free(p);
 		return;
 	}
 
-	Com_Printf( "%*s ", len, p );
+	Com_Printf("%*s ", len, p);
 
-	mib[ 1 ] = KERN_OSRELEASE;
+	mib[1] = KERN_OSRELEASE;
 
-	if( sysctl( mib, 2, NULL, &len, NULL, 0 ) == -1 ) {
-		free( p );
+	if (sysctl(mib, 2, NULL, &len, NULL, 0) == -1) {
+		free(p);
 		return;
 	}
 
-	p = MM_REALLOC( p, len );
+	p = MM_REALLOC(p, len);
 
-	if( sysctl( mib, 2, p, &len, NULL, 0 ) == 0 ) {
+	if (sysctl(mib, 2, p, &len, NULL, 0) == 0) {
 		Com_Printf( "%*s\n", len, p );
 	}
 
@@ -120,19 +120,19 @@ PUBLIC void Print_OS_Info( void )
 
 	Com_Printf("Using version of Print_OS_Info() originally designed for Linux...\n");
 
-	if( uname( &myname ) != 0 ) {
-		Com_Printf( "[Print_OS_Info] Could not get OS info.\n" );
+	if (uname(&myname) != 0) {
+		Com_Printf("[Print_OS_Info] Could not get OS info.\n");
 		return;
 	}
 
-	Com_Printf( "%s %s\n", myname.sysname, myname.release );
+	Com_Printf("%s %s\n", myname.sysname, myname.release);
 #elif defined __APPLE__
 	/* TODO: actually do something here */
 	/* (not sure whether to steal from the __FreeBSD__ or __linux__ portion for
 	 * this one... they both work and print identical results...) */
-	Com_Printf( "[Print_OS_Info] Implementation for OSX is incomplete.\n" );
+	Com_Printf("[Print_OS_Info] Implementation for OSX is incomplete.\n");
 #else
-	Com_Printf( "[Print_OS_Info] Unknown Operating System.\n" );
+	Com_Printf("[Print_OS_Info] Unknown Operating System.\n");
 #endif /* __FreeBSD__ || __linux__ || __APPLE__ */
 
 }
@@ -149,61 +149,61 @@ PUBLIC void Print_OS_Info( void )
 -----------------------------------------------------------------------------
 */
 /* prototype should be in "../system.h" */
-PUBLIC void Print_Memory_Stats( void )
+PUBLIC void Print_Memory_Stats(void)
 {
 #if defined(__FreeBSD__) || defined(__APPLE__)
-	int mib[ 2 ];
+	int mib[2];
 	int value;
 	size_t len;
 
 	Com_Printf("Using version of Print_Memory_Stats() originally designed for FreeBSD...\n");
 
-	mib[ 0 ] = CTL_HW;
-	mib[ 1 ] = HW_PHYSMEM;
-	len = sizeof( value );
-	sysctl( mib, 2, &value, &len, NULL, 0 );
+	mib[0] = CTL_HW;
+	mib[1] = HW_PHYSMEM;
+	len = sizeof(value);
+	sysctl(mib, 2, &value, &len, NULL, 0);
 
-	Com_Printf( "Physical Memory: %lu MiB\n", value / DIV );
+	Com_Printf("Physical Memory: %lu MiB\n", (value / DIV));
 #elif defined __linux__
 	FILE* fp;
-	char buffer[ 1024 ];
+	char buffer[1024];
 	size_t bytes_read;
 	char *match;
 
 	Com_Printf("Using version of Print_Memory_Stats() originally designed for Linux...\n");
 
 	/* Read the contents of /proc/meminfo */
-	fp = fopen( "/proc/meminfo" ,  "r" );
-	bytes_read = fread( buffer, 1, sizeof( buffer ), fp );
-	fclose( fp );
+	fp = fopen("/proc/meminfo", "r");
+	bytes_read = fread(buffer, 1, sizeof(buffer), fp);
+	fclose(fp);
 
 	/* Bail if read failed or if buffer is not big enough. */
-	if( bytes_read == 0 || bytes_read == sizeof( buffer ) ) {
+	if ((bytes_read == 0) || (bytes_read == sizeof(buffer))) {
 		return;
 	}
 
 	/* NUL-terminate the string. */
-	buffer[ bytes_read ] =  '\0';
+	buffer[bytes_read] =  '\0';
 
 	/* Locate the line that starts with  'Mem:' */
-	match = strstr( buffer,  "Mem:" );
+	match = strstr(buffer, "Mem:");
 
-	if( match == NULL ) {
+	if (match == NULL) {
 		return;
 	}
 
-	strtok( match, " " );
+	strtok(match, " ");
 
-	Com_Printf( "Total Memory: %lu MiB\n", atoi( strtok( NULL, " " ) ) / DIV );
-	Com_Printf( "Used Memory: %lu MiB\n", atoi( strtok( NULL, " " ) ) / DIV  );
-	Com_Printf( "Free Memory: %lu MiB\n", atoi( strtok( NULL, " " ) ) / DIV  );
+	Com_Printf("Total Memory: %lu MiB\n", (atoi(strtok(NULL, " ")) / DIV));
+	Com_Printf("Used Memory: %lu MiB\n", (atoi(strtok(NULL, " ")) / DIV));
+	Com_Printf("Free Memory: %lu MiB\n", (atoi(strtok(NULL, " ")) / DIV));
 #elif defined __APPLE__
 	/* TODO: actually do something here */
 	/* (The __FreeBSD__ section is probably better to take from here, as there
 	 * is no /proc/meminfo on darwin...) */
-	Com_Printf( "[Print_Memory_Stats] Probing memory is unimplemented on OSX.\n" );
+	Com_Printf("[Print_Memory_Stats] Probing memory is unimplemented on OSX.\n");
 #else
-	Com_Printf( "[Print_Memory_Stats] Could not probe memory.\n" );
+	Com_Printf("[Print_Memory_Stats] Could not probe memory.\n");
 #endif /* __FreeBSD__ || __linux__ || __APPLE__ */
 
 }

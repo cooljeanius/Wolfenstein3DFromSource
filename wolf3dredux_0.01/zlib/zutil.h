@@ -249,7 +249,7 @@ extern const char * const z_errmsg[10]; /* indexed by 2-zlib_error */
 #  define Tracevv(x)
 #  define Tracec(c,x)
 #  define Tracecv(c,x)
-#endif
+#endif /* DEBUG */
 
 
 voidpf zcalloc OF((voidpf opaque, unsigned items, unsigned size));

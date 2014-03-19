@@ -80,19 +80,19 @@ struct atkinf
 
 -----------------------------------------------------------------------------
 */
-PRIVATE _boolean PL_ChangeWeapon( player_t *self, int weapon )
+PRIVATE _boolean PL_ChangeWeapon(player_t *self, int weapon)
 {
 	unsigned itemflag;
 
-	itemflag = ITEM_WEAPON_1 << weapon;
+	itemflag = ((unsigned int)ITEM_WEAPON_1 << weapon);
 
-	if( self->ammo[ AMMO_BULLETS ] == 0 && weapon != WEAPON_KNIFE ) {
+	if (self->ammo[AMMO_BULLETS] == 0 && weapon != WEAPON_KNIFE) {
 		Com_Printf("Not enough ammo.\n");
 		return false;
 	}
 
-	if( ! (self->items & itemflag) ) {
-		Com_Printf( "No weapon.\n" );
+	if (!(self->items & itemflag)) {
+		Com_Printf("No weapon.\n");
 		return false;
 	}
 
@@ -189,45 +189,45 @@ PRIVATE _boolean PL_Use( player_t *self, LevelData_t *lvl )
 
 -----------------------------------------------------------------------------
 */
-PRIVATE _boolean PL_TryMove( player_t *self, LevelData_t *lvl )
+PRIVATE _boolean PL_TryMove(player_t *self, LevelData_t *lvl)
 {
 	int xl, yl, xh, yh, x, y;
 	int d, n;
 
-	xl = POS2TILE( Player.position.origin[ 0 ] - PLAYERSIZE );
-	yl = POS2TILE( Player.position.origin[ 1 ] - PLAYERSIZE );
-	xh = POS2TILE( Player.position.origin[ 0 ] + PLAYERSIZE );
-	yh = POS2TILE( Player.position.origin[ 1 ] + PLAYERSIZE );
+	xl = ((int)POS2TILE(Player.position.origin[0] - PLAYERSIZE));
+	yl = ((int)POS2TILE(Player.position.origin[1] - PLAYERSIZE));
+	xh = ((int)POS2TILE(Player.position.origin[0] + PLAYERSIZE));
+	yh = ((int)POS2TILE(Player.position.origin[1] + PLAYERSIZE));
 
 	/* Checking for solid walls: */
-	for( y = yl ; y <= yh ; ++y ) {
-		for( x = xl ; x <= xh ; ++x ) {
-			if( lvl->tilemap[ x ][ y ] & SOLID_TILE ) {
+	for ((y = yl); (y <= yh); ++y) {
+		for ((x = xl); (x <= xh); ++x) {
+			if (lvl->tilemap[x][y] & SOLID_TILE) {
 				return 0;
 			}
 
-			if (lvl->tilemap[ x ][ y ] & DOOR_TILE &&
-				Door_Opened( &lvl->Doors, x, y) != DOOR_FULLOPEN ) {
+			if (lvl->tilemap[x][y] & DOOR_TILE &&
+				Door_Opened(&lvl->Doors, x, y) != DOOR_FULLOPEN) {
 				return 0;
 			}
 		}
 	}
 
 	/* check for actors */
-	for( n = 0 ; n < NumGuards ; ++n ) {
-		if( Guards[ n ].state >= st_die1 ) {
+	for ((n = 0); (n < NumGuards); ++n) {
+		if (Guards[n].state >= st_die1) {
 			continue;
 		}
 
-		d = self->position.origin[ 0 ] - Guards[ n ].x;
+		d = ((int)self->position.origin[0] - Guards[n].x);
 
-		if( d < -MINACTORDIST || d > MINACTORDIST ) {
+		if ((d < -MINACTORDIST) || (d > MINACTORDIST)) {
 			continue;
 		}
 
-		d = self->position.origin[ 1 ] - Guards[ n ].y;
+		d = ((int)self->position.origin[1] - Guards[n].y);
 
-		if( d < -MINACTORDIST || d > MINACTORDIST) {
+		if ((d < -MINACTORDIST) || (d > MINACTORDIST)) {
 			continue;
 		}
 
@@ -249,41 +249,42 @@ PRIVATE _boolean PL_TryMove( player_t *self, LevelData_t *lvl )
 
 -----------------------------------------------------------------------------
 */
-PRIVATE void PL_ClipMove( player_t *self, int xmove, int ymove )
+PRIVATE void PL_ClipMove(player_t *self, int xmove, int ymove)
 {
 	int basex, basey;
 
-	basex = self->position.origin[ 0 ];
-	basey = self->position.origin[ 1 ];
+	basex = ((int)self->position.origin[0]);
+	basey = ((int)self->position.origin[1]);
 
-	self->position.origin[ 0 ] += xmove;
-	self->position.origin[ 1 ] += ymove;
-	if( PL_TryMove( self, r_world ) ) {
+	self->position.origin[0] += xmove;
+	self->position.origin[1] += ymove;
+	if (PL_TryMove(self, r_world)) {
 		return; /* we moved as we wanted */
 	}
 
-#if 0
-	Sound_StartSound( NULL, 0, CHAN_BODY, Sound_RegisterSound( "lsfx/000.wav" ), 1, ATTN_NORM, 0 );
-#endif /* 0 */
+#if 0 || __clang_analyzer__
+	Sound_StartSound(NULL, 0, CHAN_BODY, Sound_RegisterSound("lsfx/000.wav"),
+					 1, ATTN_NORM, 0);
+#endif /* 0 || __clang_analyzer__ */
 
-	if( xmove )	{ /* do NOT bother if we do NOT move x! */
-		self->position.origin[ 0 ] = basex + xmove;
-		self->position.origin[ 1 ] = basey;
-		if( PL_TryMove( self, r_world ) ) {
+	if (xmove) { /* do NOT bother if we do NOT move x! */
+		self->position.origin[0] = (basex + xmove);
+		self->position.origin[1] = basey;
+		if (PL_TryMove(self, r_world)) {
 			return; /* Maybe we will move only X direction? */
 		}
 	}
-	if( ymove )	{ /* do NOT bother if we do NOT move y! */
-		self->position.origin[ 0 ] = basex;
-		self->position.origin[ 1 ] = basey + ymove;
-		if( PL_TryMove( self, r_world ) ) {
-			return; /* May be we will move only Y direction? */
+	if (ymove)	{ /* do NOT bother if we do NOT move y! */
+		self->position.origin[0] = basex;
+		self->position.origin[1] = (basey + ymove);
+		if (PL_TryMove(self, r_world)) {
+			return; /* Maybe we will move only Y direction? */
 		}
 	}
 
 	/* movement blocked; we must stay in one place... :-( */
-	self->position.origin[ 0 ] = basex;
-	self->position.origin[ 1 ] = basey;
+	self->position.origin[0] = basex;
+	self->position.origin[1] = basey;
 }
 
 
@@ -342,39 +343,38 @@ PRIVATE void PL_ControlMovement( player_t *self, LevelData_t *lvl )
 	funnyticount = 0; /* ZERO FUNNY COUNTER IF MOVED! */ /* FIXME! */
 #endif /* SPEAR */
 
-	self->speed = self->movx + self->movy;
+	self->speed = (self->movx + self->movy);
 
 	/* bound movement */
-	if( self->movx > MAXMOVE ) {
+	if (self->movx > MAXMOVE) {
 		self->movx = MAXMOVE;
-	} else if( self->movx < -MAXMOVE ) {
+	} else if (self->movx < -MAXMOVE) {
 		self->movx = -MAXMOVE;
 	}
 
-	if( self->movy > MAXMOVE ) {
+	if (self->movy > MAXMOVE) {
 		self->movy = MAXMOVE;
-	} else if( self->movy < -MAXMOVE ) {
+	} else if (self->movy < -MAXMOVE) {
 		self->movy = -MAXMOVE;
 	}
 
 	/* move player and clip movement to walls (check for no-clip mode here) */
-	PL_ClipMove( self, self->movx, self->movy );
-	self->tilex = POS2TILE( self->position.origin[ 0 ] );
-	self->tiley = POS2TILE( self->position.origin[ 1 ] );
+	PL_ClipMove(self, self->movx, self->movy);
+	self->tilex = ((int)POS2TILE(self->position.origin[0]));
+	self->tiley = ((int)POS2TILE(self->position.origin[1]));
 
-	Powerup_PickUp( self->tilex, self->tiley );
+	Powerup_PickUp(self->tilex, self->tiley);
 
 	/* Checking for area change */
-	if( lvl->areas[ self->tilex ][ self->tiley ] >= 0 &&
-		lvl->areas[ self->tilex ][ self->tiley ] != Player.areanumber ) {
-		Player.areanumber = lvl->areas[ self->tilex ][ self->tiley ];
-		Areas_ConnectAreas( Player.areanumber );
+	if ((lvl->areas[self->tilex][self->tiley] >= 0) &&
+		(lvl->areas[self->tilex][self->tiley] != Player.areanumber)) {
+		Player.areanumber = lvl->areas[self->tilex][self->tiley];
+		Areas_ConnectAreas(Player.areanumber);
 	}
 
-	if( lvl->tilemap[ self->tilex ][ self->tiley ] & EXIT_TILE ) {
+	if (lvl->tilemap[self->tilex][self->tiley] & EXIT_TILE) {
 		M_Intermission_f();
 	}
-
 
 }
 
@@ -390,55 +390,57 @@ PRIVATE void PL_ControlMovement( player_t *self, LevelData_t *lvl )
 
 -----------------------------------------------------------------------------
 */
-PRIVATE void PL_PlayerAttack( player_t *self, _boolean re_attack )
+PRIVATE void PL_PlayerAttack(player_t *self, _boolean re_attack)
 {
 	struct atkinf *cur;
 
 	self->attackcount -= tics;
-	while( self->attackcount <= 0 ) {
-		cur = &attackinfo[ self->weapon ][ self->attackframe ];
-		switch( cur->attack ) {
+	while (self->attackcount <= 0) {
+		cur = &attackinfo[self->weapon][self->attackframe];
+		switch (cur->attack) {
 			case -1:
-				self->flags &= ~PL_FLAG_ATTCK;
-				if( ! self->ammo[ AMMO_BULLETS ] ) {
+				self->flags &= (unsigned int)(~PL_FLAG_ATTCK);
+				if (! self->ammo[AMMO_BULLETS]) {
 					self->weapon = WEAPON_KNIFE;
-				} else if( self->weapon != self->pendingweapon ) {
+				} else if (self->weapon != self->pendingweapon) {
 					self->weapon = self->pendingweapon;
 				}
 				self->attackframe = self->weaponframe = 0;
 				return;
 
 			case 4:
-				if( ! self->ammo[ AMMO_BULLETS ] ) {
+				if (! self->ammo[AMMO_BULLETS]) {
 					break;
 				}
 
-				if( re_attack ) {
+				if (re_attack) {
 					self->attackframe -= 2;
 				}
 
 			case 1:
-				if( ! self->ammo[ AMMO_BULLETS ] ) { /* can only happen with chain gun */
+				if (! self->ammo[AMMO_BULLETS]) {
+					/* can only happen with chain gun */
 					self->attackframe++;
 					break;
 				}
-				fire_lead( self );
-				self->ammo[ AMMO_BULLETS ]--;
+				fire_lead(self);
+				self->ammo[AMMO_BULLETS]--;
 				break;
 
 			case 2:
-				fire_hit( self );
+				fire_hit(self);
 				break;
 
 			case 3:
-				if(self->ammo[AMMO_BULLETS] && re_attack)
+				if(self->ammo[AMMO_BULLETS] && re_attack) {
 					self->attackframe-=2;
+				}
 				break;
 		}
 
 		self->attackcount += cur->tics;
 		self->attackframe++;
-		self->weaponframe = attackinfo[ self->weapon ][ self->attackframe ].frame;
+		self->weaponframe = attackinfo[self->weapon][self->attackframe].frame;
 	}
 
 }
@@ -456,31 +458,31 @@ PRIVATE void PL_PlayerAttack( player_t *self, _boolean re_attack )
 
 -----------------------------------------------------------------------------
 */
-PUBLIC void PL_Process( player_t *self, LevelData_t *lvl )
+PUBLIC void PL_Process(player_t *self, LevelData_t *lvl)
 {
 	int n;
 
 	self->madenoise = false;
 
-	PL_ControlMovement( self, lvl );
+	PL_ControlMovement(self, lvl);
 
-	if( self->flags & PL_FLAG_ATTCK ) {
-		PL_PlayerAttack( self, ClientState.cmd.buttons & BUTTON_ATTACK );
+	if (self->flags & PL_FLAG_ATTCK) {
+		PL_PlayerAttack(self, (ClientState.cmd.buttons & BUTTON_ATTACK));
 	} else {
-		if( ClientState.cmd.buttons & BUTTON_USE ) {
-			if(!(self->flags & PL_FLAG_REUSE) && PL_Use( self, lvl ) ) {
-				self->flags|=PL_FLAG_REUSE;
+		if (ClientState.cmd.buttons & BUTTON_USE) {
+			if(!(self->flags & PL_FLAG_REUSE) && PL_Use(self, lvl)) {
+				self->flags |= PL_FLAG_REUSE;
 			}
 		} else {
-			self->flags &= ~PL_FLAG_REUSE;
+			self->flags &= (unsigned int)(~PL_FLAG_REUSE);
 		}
 
-		if( ClientState.cmd.buttons & BUTTON_ATTACK ) {
+		if (ClientState.cmd.buttons & BUTTON_ATTACK) {
 			self->flags |= PL_FLAG_ATTCK;
 
 			self->attackframe = 0;
-			self->attackcount = attackinfo[ self->weapon ][ 0 ].tics;
-			self->weaponframe = attackinfo[ self->weapon ][ 0 ].frame;
+			self->attackcount = attackinfo[self->weapon][0].tics;
+			self->weaponframe = attackinfo[self->weapon][0].frame;
 		}
 	}
 
@@ -557,10 +559,10 @@ PUBLIC void PL_Spawn( placeonplane_t location, LevelData_t *lvl )
 
 	Player.position = location;
 
-	Player.tilex = POS2TILE( location.origin[ 0 ] );
-	Player.tiley = POS2TILE( location.origin[ 1 ] );
-	Player.areanumber = lvl->areas[ Player.tilex ][ Player.tiley ];
-	if( Player.areanumber < 0 ) {
+	Player.tilex = ((int)POS2TILE(location.origin[0]));
+	Player.tiley = ((int)POS2TILE(location.origin[1]));
+	Player.areanumber = lvl->areas[Player.tilex][Player.tiley];
+	if (Player.areanumber < 0) {
 		Player.areanumber = 36;
 	}
 
@@ -800,14 +802,14 @@ PUBLIC _boolean PL_GiveAmmo( player_t *self, int type, int ammo )
 
 -----------------------------------------------------------------------------
 */
-PUBLIC void PL_GiveWeapon( player_t *self, int weapon )
+PUBLIC void PL_GiveWeapon(player_t *self, int weapon)
 {
 	unsigned itemflag;
 
-	PL_GiveAmmo( self, AMMO_BULLETS, 6 ); /* give some ammo with a weapon */
+	PL_GiveAmmo(self, AMMO_BULLETS, 6); /* give some ammo with a weapon */
 
-	itemflag = ITEM_WEAPON_1 << weapon;
-	if( self->items & itemflag ) {
+	itemflag = ((unsigned int)ITEM_WEAPON_1 << weapon);
+	if (self->items & itemflag) {
 		return; /* player owns this weapon */
 	} else {
 		self->items |= itemflag;
@@ -913,13 +915,13 @@ PUBLIC void PL_NewGame( player_t *self )
 
 -----------------------------------------------------------------------------
 */
-PUBLIC void PL_NextLevel( player_t *self )
+PUBLIC void PL_NextLevel(player_t *self)
 {
 	self->old_score = self->score;
 	self->attackcount = self->attackframe = self->weaponframe = 0;
 	self->flags = 0;
 
-	self->items &= ~(ITEM_KEY_1 | ITEM_KEY_2 | ITEM_KEY_3 | ITEM_KEY_4);
+	self->items &= (unsigned)~(ITEM_KEY_1 | ITEM_KEY_2 | ITEM_KEY_3 | ITEM_KEY_4);
 }
 
 /*

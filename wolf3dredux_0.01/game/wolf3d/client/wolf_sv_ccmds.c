@@ -102,10 +102,11 @@ PUBLIC void Map_f(void)
 	}
 
 
-#if 0 || __clang_analyzer__
+#if 0
+	/* 'sv' and 'ss_dead' are undeclared: */
 	sv.state = ss_dead; /* do NOT save current level when changing */
 	SV_WipeSavegame("current");
-#endif /* 0 || __clang_analyzer__ */
+#endif /* 0 */
 	SV_GameMap_f();
 
 	if (r_world) {

@@ -88,25 +88,25 @@ const char *menu_out_sound	= "lsfx/039.wav";
 PRIVATE int	m_main_cursor;
 
 
-void M_Menu_Main_f( void );
-extern void M_Menu_Game_f( void );
-	extern void M_Menu_Skill_f( void );
-extern void M_Menu_Options_f( void );
-void M_Menu_LoadGame_f( void );
-void M_Menu_SaveGame_f( void );
-extern void M_Menu_Credits_f( void );
-extern void M_Menu_Sound_f( void );
-void M_Menu_Video_f( void );
+void M_Menu_Main_f(void);
+extern void M_Menu_Game_f(void);
+extern void M_Menu_Skill_f(void);
+extern void M_Menu_Options_f(void);
+void M_Menu_LoadGame_f(void);
+void M_Menu_SaveGame_f(void);
+extern void M_Menu_Credits_f(void);
+extern void M_Menu_Sound_f(void);
+void M_Menu_Video_f(void);
 
 
-extern void M_Menu_Keys_f( void );
-extern void M_Menu_Quit_f( void );
+extern void M_Menu_Keys_f(void);
+extern void M_Menu_Quit_f(void);
 
-extern void M_Menu_Credits( void );
+extern void M_Menu_Credits(void);
 
 
-extern void M_Intro_f( void );
-extern void M_Intermission_f( void );
+extern void M_Intro_f(void);
+extern void M_Intermission_f(void);
 
 _boolean	m_entersound; /* play after drawing a frame, so that caching
 						   * will NOT disrupt the sound */
@@ -135,39 +135,82 @@ typedef struct
 
 } menulayer_t;
 
-menulayer_t	m_layers[ MAX_MENU_DEPTH ];
+menulayer_t	m_layers[MAX_MENU_DEPTH];
 int		m_menudepth;
 
 
-PUBLIC void M_Banner( const char *name, W16 nYOffest )
+/*
+ -----------------------------------------------------------------------------
+ Function: M_Banner
+
+ Parameters:
+		name -[in]: string for the filename of the image/texture to draw.
+		nYOffset -[in]: y coordinate (had been "nyOffest", but that looked like
+									  it had been a typo, with the "e" and the
+									  "s" switched, so I fixed it)
+
+ Returns: Nothing.
+
+ Notes:
+ -----------------------------------------------------------------------------
+ */
+PUBLIC void M_Banner(const char *name, W16 nYOffset)
 {
 	SW32 w, h;
 
-	if( g_version->value == SPEAROFDESTINY ) {
-		R_Draw_Fill( 0, 20, viddef.width, 44, colourBlack );
-		R_Draw_Fill( 0, 66, viddef.width, 2, colourBlack );
+	if (g_version->value == SPEAROFDESTINY) {
+		R_Draw_Fill(0, 20, (int)viddef.width, 44, colourBlack);
+		R_Draw_Fill(0, 66, (int)viddef.width, 2, colourBlack);
 	} else {
-		R_Draw_Fill( 0, 20, viddef.width, 48, colourBlack );
-		R_Draw_Fill( 0, 64, viddef.width, 2, bannerline );
+		R_Draw_Fill(0, 20, (int)viddef.width, 48, colourBlack);
+		R_Draw_Fill(0, 64, (int)viddef.width, 2, bannerline);
 	}
 
-	TM_GetTextureSize( &w, &h, name );
-	R_Draw_Pic( ( viddef.width - w ) >> 1, nYOffest, name );
+	TM_GetTextureSize(&w, &h, name);
+#ifdef __i386__
+	/* needs an extra cast: */
+	R_Draw_Pic((int)((viddef.width - (unsigned long)(w)) >> 1), nYOffset, name);
+#else
+	R_Draw_Pic((int)((viddef.width - w) >> 1), nYOffset, name);
+#endif /* __i386__ */
 }
 
 
+/*
+ -----------------------------------------------------------------------------
+ Function: M_BannerString
 
-PUBLIC void M_BannerString( const char *string, W16 nYOffset )
+ Parameters:
+		string -[in]:
+		nYOffset -[in]:
+
+ Returns: Nothing.
+
+ Notes:
+ -----------------------------------------------------------------------------
+ */
+PUBLIC void M_BannerString(const char *string, W16 nYOffset)
 {
 	int w, h;
 
-	Font_GetMsgDimensions( 1, string, &w, &h );
-	Font_SetColour( 1,  readhcolour );
-	Font_put_line( 1, (viddef.width - w) >> 1, nYOffset, string );
+	Font_GetMsgDimensions(1, string, &w, &h);
+	Font_SetColour(1, readhcolour);
+	Font_put_line(1, ((viddef.width - (unsigned int)(w)) >> 1), nYOffset,
+				  string);
 }
 
+/*
+ -----------------------------------------------------------------------------
+ Function: M_PushMenu
 
-PUBLIC void M_PushMenu( void (*draw) (void), const char *(*key) (int k) )
+ Parameters: Yikes...
+
+ Returns: Nothing.
+
+ Notes:
+ -----------------------------------------------------------------------------
+ */
+PUBLIC void M_PushMenu(void (*draw) (void), const char *(*key) (int k))
 {
 	int		i;
 
@@ -205,7 +248,18 @@ PUBLIC void M_PushMenu( void (*draw) (void), const char *(*key) (int k) )
 
 }
 
-PUBLIC void M_ForceMenuOff( void )
+/*
+ -----------------------------------------------------------------------------
+ Function: M_ForceMenuOff
+
+ Parameters: Nothing.
+
+ Returns: Nothing.
+
+ Notes:
+ -----------------------------------------------------------------------------
+ */
+PUBLIC void M_ForceMenuOff(void)
 {
 	m_drawfunc = 0;
 	m_keyfunc = 0;
@@ -221,7 +275,18 @@ PUBLIC void M_ForceMenuOff( void )
 	Cvar_Set( "paused", "0" );
 }
 
-void M_PopMenu( void )
+/*
+ -----------------------------------------------------------------------------
+ Function: M_PopMenu
+
+ Parameters: Nothing.
+
+ Returns: Nothing.
+
+ Notes:
+ -----------------------------------------------------------------------------
+ */
+void M_PopMenu(void)
 {
 #if 0
 	Sound_StartLocalSound( menu_out_sound );
@@ -240,8 +305,18 @@ void M_PopMenu( void )
 	}
 }
 
+/*
+ -----------------------------------------------------------------------------
+ Function: Default_MenuKey
 
-const char *Default_MenuKey( menuframework_s *m, int key )
+ Parameters: key -[in] Current key that has been pressed.
+
+ Returns:
+
+ Notes:
+ -----------------------------------------------------------------------------
+ */
+const char *Default_MenuKey(menuframework_s *m, int key)
 {
 	const char *sound = NULL;
 	menucommon_s *item;
@@ -354,84 +429,148 @@ const char *Default_MenuKey( menuframework_s *m, int key )
 /*============================================================================*/
 
 /*
-================
+================================================================
 M_DrawCharacter
 
-Draws one solid graphics character
-cx and cy are in 320*240 coordinates, and will be centered on
-higher res screens.
-================
+(will eventually) draw one solid graphics character
+cx and cy are in 320*240 coordinates, and should be centered on
+higher res screens. Returns nothing.
+================================================================
 */
-void M_DrawCharacter( int cx, int cy, int num )
+void M_DrawCharacter(int cx, int cy, int num)
 {
-	;
-/* TODO: actually put something here? */
+	/* both of these are dummy conditions just to use the parameters: */
+	if ((cx < 320) && (cy < 240)) {
+		;
+	}
+	if (num == 0) {
+		;
+	}
+/* TODO: actually put something here for real? */
 }
 
-void M_Print( int cx, int cy, const char *str )
+/*
+ -----------------------------------------------------------------------------
+ Function: M_Print
+
+ Parameters:
+		cx -[in]:
+		cy -[in]:
+		str -[in]:
+
+ Returns: Nothing.
+
+ Notes:
+ -----------------------------------------------------------------------------
+ */
+void M_Print(int cx, int cy, const char *str)
 {
 	while (*str) {
-		M_DrawCharacter( cx, cy, (*str)+128 );
+		M_DrawCharacter(cx, cy, ((*str) + 128));
 		str++;
 		cx += 8;
 	}
 }
 
-void M_PrintWhite( int cx, int cy, const char *str )
+/*
+ -----------------------------------------------------------------------------
+ Function: M_PrintWhite
+
+ Parameters:
+		cx -[in]:
+		cy -[in]:
+		str -[in]:
+
+ Returns: Nothing.
+
+ Notes:
+ -----------------------------------------------------------------------------
+ */
+void M_PrintWhite(int cx, int cy, const char *str)
 {
-	while( *str ) {
-		M_DrawCharacter( cx, cy, *str );
+	while (*str) {
+		M_DrawCharacter(cx, cy, *str);
 		str++;
 		cx += 8;
 	}
 }
 
-void M_DrawPic( int x, int y, const char *pic )
+/*
+ -----------------------------------------------------------------------------
+ Function: M_DrawPic
+
+ Parameters:
+		x -[in]:
+		y -[in]:
+		pic -[in]:
+
+ Returns: Nothing.
+
+ Notes: Simple wrapper around R_DrawPic(), adjusted for the menu.
+ -----------------------------------------------------------------------------
+ */
+void M_DrawPic(int x, int y, const char *pic)
 {
-	R_Draw_Pic( x + ((viddef.width - 320)>>1), y + ((viddef.height - 240)>>1), pic );
+	R_Draw_Pic((int)((unsigned int)(x) + ((viddef.width - 320) >> 1)),
+			   (int)((unsigned int)(y) + ((viddef.height - 240) >> 1)), pic);
 }
 
 
 /*
-=============
+=============================================
 M_DrawCursor
 
 Draws an animating cursor with the point at
 x,y.  The pic will extend to the left of x,
-and both above and below y.
-=============
+and both above and below y. Returns nothing.
+=============================================
 */
-void M_DrawCursor( int x, int y, int f )
+void M_DrawCursor(int x, int y, int f)
 {
 	char	cursorname[80];
 	static _boolean cached;
 
-	if ( ! cached ) {
+	if (! cached) {
 		int i;
 
-		for ( i = 0 ; i < NUM_CURSOR_FRAMES ; ++i ) {
+		for ((i = 0); (i < NUM_CURSOR_FRAMES); ++i) {
 			if( g_version->value == SPEAROFDESTINY ) {
-				my_snprintf( cursorname, sizeof( cursorname ), "pics/SC_CURSOR%dPIC.tga", i );
+				my_snprintf(cursorname, sizeof(cursorname),
+							"pics/SC_CURSOR%dPIC.tga", i);
 			} else {
-				my_snprintf( cursorname, sizeof( cursorname ), "pics/C_CURSOR%dPIC.tga", i );
+				my_snprintf(cursorname, sizeof(cursorname),
+							"pics/C_CURSOR%dPIC.tga", i);
 			}
 
-			TM_FindTexture( cursorname, TT_Pic );
+			TM_FindTexture(cursorname, TT_Pic);
 		}
 		cached = true;
 	}
 
 
-	if( g_version->value == SPEAROFDESTINY ) {
-		my_snprintf( cursorname, sizeof( cursorname ), "pics/SC_CURSOR%dPIC.tga", f );
+	if (g_version->value == SPEAROFDESTINY) {
+		my_snprintf(cursorname, sizeof(cursorname),
+					"pics/SC_CURSOR%dPIC.tga", f);
 	} else {
-		my_snprintf( cursorname, sizeof( cursorname ), "pics/C_CURSOR%dPIC.tga", f );
+		my_snprintf(cursorname, sizeof(cursorname),
+					"pics/C_CURSOR%dPIC.tga", f);
 	}
 
-	R_Draw_Pic( x, y, cursorname );
+	R_Draw_Pic(x, y, cursorname);
 
 }
 
+/*
+ -----------------------------------------------------------------------------
+ Function: M_DrawTextBox
+
+ Parameters:
+
+ Returns: Nothing.
+
+ Notes:
+ -----------------------------------------------------------------------------
+ */
 void M_DrawTextBox (int x, int y, int width, int lines)
 {
 	int		cx, cy;
@@ -441,59 +580,96 @@ void M_DrawTextBox (int x, int y, int width, int lines)
 	cx = x;
 	cy = y;
 	M_DrawCharacter (cx, cy, 1);
-	for (n = 0; n < lines; n++) {
+	for ((n = 0); (n < lines); n++) {
 		cy += 8;
-		M_DrawCharacter (cx, cy, 4);
+		M_DrawCharacter(cx, cy, 4);
 	}
-	M_DrawCharacter (cx, cy+8, 7);
+	M_DrawCharacter(cx, (cy + 8), 7);
 
 	/* draw middle */
 	cx += 8;
 	while (width > 0) {
 		cy = y;
-		M_DrawCharacter (cx, cy, 2);
-		for (n = 0; n < lines; n++) {
+		M_DrawCharacter(cx, cy, 2);
+		for ((n = 0); (n < lines); n++) {
 			cy += 8;
-			M_DrawCharacter (cx, cy, 5);
+			M_DrawCharacter(cx, cy, 5);
 		}
-		M_DrawCharacter (cx, cy+8, 8);
+		M_DrawCharacter(cx, (cy + 8), 8);
 		width -= 1;
 		cx += 8;
 	}
 
 	/* draw right side */
 	cy = y;
-	M_DrawCharacter (cx, cy, 3);
-	for( n = 0; n < lines; ++n ) {
+	M_DrawCharacter(cx, cy, 3);
+	for ((n = 0); (n < lines); ++n) {
 		cy += 8;
-		M_DrawCharacter (cx, cy, 6);
+		M_DrawCharacter(cx, cy, 6);
 	}
-	M_DrawCharacter (cx, cy+8, 9);
+	M_DrawCharacter(cx, (cy + 8), 9);
 }
 
+/*
+ -----------------------------------------------------------------------------
+ Function: M_DrawWindow
 
+ Parameters:
+
+ Returns: Nothing.
+
+ Notes:
+ -----------------------------------------------------------------------------
+ */
 PUBLIC void M_DrawWindow(int x, int y, int w, int h,
-						 colour3_t bg, colour3_t act, colour3_t deact )
+						 colour3_t bg, colour3_t act, colour3_t deact)
 {
-	R_Draw_Fill( x, y, w, h, bg );
+	R_Draw_Fill(x, y, w, h, bg);
 
 
-	R_Draw_Line( x,		y,	x+w, y,		1, deact );	/* Top */
-	R_Draw_Line( x,		y,	x,	 y+h,	1, deact );	/* Left */
-	R_Draw_Line( x+w,	y,	x+w, y+h+1, 1, act );	/* Right */
-	R_Draw_Line( x,		y+h,x+w, y+h,	1, act );	/* Bottom */
+	R_Draw_Line((x),		(y),	 (x + w), (y),			1, deact); /* Top */
+	R_Draw_Line((x),		(y),	 (x),	  (y + h),		1, deact);/* Left */
+	R_Draw_Line((x + w),	(y),	 (x + w), (y + h + 1),  1, act); /* Right */
+	R_Draw_Line((x),		(y + h), (x + w), (y + h),		1, act);/* Bottom */
 }
 
-void M_DrawInfoBar( void )
+/*
+ -----------------------------------------------------------------------------
+ Function: M_DrawInfoBar
+
+ Parameters: Nothing.
+
+ Returns: Nothing.
+
+ Notes:
+ -----------------------------------------------------------------------------
+ */
+void M_DrawInfoBar(void)
 {
 	SW32 w, h;
 
-	if( g_version->value == SPEAROFDESTINY ) {
-		TM_GetTextureSize( &w, &h, "pics/SC_MOUSELBACKPIC.tga" );
-		R_Draw_Pic( (viddef.width - w) >> 1, viddef.height - h, "pics/SC_MOUSELBACKPIC.tga" );
+	if (g_version->value == SPEAROFDESTINY) {
+		TM_GetTextureSize(&w, &h, "pics/SC_MOUSELBACKPIC.tga");
+#ifdef __i386__
+		/* needs some extra casts: */
+		R_Draw_Pic((int)((viddef.width - (unsigned long)(w)) >> 1),
+				   (int)(viddef.height - (unsigned long)(h)),
+				   "pics/SC_MOUSELBACKPIC.tga");
+#else
+		R_Draw_Pic((int)((viddef.width - w) >> 1), (int)(viddef.height - h),
+				   "pics/SC_MOUSELBACKPIC.tga");
+#endif /* __i386__ */
 	} else {
-		TM_GetTextureSize( &w, &h, "pics/C_MOUSELBACKPIC.tga" );
-		R_Draw_Pic( (viddef.width - w) >> 1, viddef.height - h, "pics/C_MOUSELBACKPIC.tga" );
+		TM_GetTextureSize(&w, &h, "pics/C_MOUSELBACKPIC.tga");
+#ifdef __i386__
+		/* needs some extra casts: */
+		R_Draw_Pic((int)((viddef.width - (unsigned long)(w)) >> 1),
+				   (int)(viddef.height - (unsigned long)(h)),
+				   "pics/C_MOUSELBACKPIC.tga");
+#else
+		R_Draw_Pic((int)((viddef.width - w) >> 1), (int)(viddef.height - h),
+				   "pics/C_MOUSELBACKPIC.tga");
+#endif /* __i386__ */
 	}
 }
 
@@ -540,34 +716,45 @@ PRIVATE const char *menunames[] =
  Notes:
 -----------------------------------------------------------------------------
 */
-void M_Main_Draw( void )
+void M_Main_Draw(void)
 {
 	int i;
 	SW32 w, h;
 	int cx, cy;
 
 
-	R_Draw_Fill( 0, 0, viddef.width, viddef.height, bgcolour );
+	R_Draw_Fill(0, 0, (int)viddef.width, (int)viddef.height, bgcolour);
 
-	M_Banner( "pics/C_OPTIONSPIC.tga", 0 );
+	M_Banner("pics/C_OPTIONSPIC.tga", 0);
 
 
-	TM_GetTextureSize( &w, &h, "pics/C_MOUSELBACKPIC.tga" );
-	R_Draw_Pic( (viddef.width - w) >> 1, (viddef.height - h), "pics/C_MOUSELBACKPIC.tga" );
+	TM_GetTextureSize(&w, &h, "pics/C_MOUSELBACKPIC.tga");
+#ifdef __i386__
+	/* needs some extra casts: */
+	R_Draw_Pic((int)((viddef.width - (unsigned long)(w)) >> 1),
+			   (int)(viddef.height - (unsigned long)(h)),
+			   "pics/C_MOUSELBACKPIC.tga");
+#else
+	R_Draw_Pic((int)((viddef.width - w) >> 1), (int)(viddef.height - h),
+			   "pics/C_MOUSELBACKPIC.tga");
+#endif /* __i386__ */
 
-	cx = (viddef.width - 356) >> 1;
-	cy = (viddef.height - 272) >> 1;
-	M_DrawWindow( cx, cy, 356, 272, bkgdcolour, bord2colour, deactive );
+	cx = ((viddef.width - 356) >> 1);
+	cy = ((viddef.height - 272) >> 1);
+	M_DrawWindow(cx, cy, 356, 272, bkgdcolour, bord2colour, deactive);
 
-	for( i = 0 ; menunames[ i ] != 0 ; ++i ) {
-		if( m_main_cursor == i ) {
-			Menu_DrawString( FONT1, cx + 60, cy + 5 + i * 26, menunames[ i ], highlight );
+	for ((i = 0); (menunames[i] != 0); ++i) {
+		if (m_main_cursor == i) {
+			Menu_DrawString(FONT1, (cx + 60), (cy + 5 + (i * 26)), menunames[i],
+							highlight);
 		} else {
-			Menu_DrawString( FONT1, cx + 60, cy + 5 + i * 26, menunames[ i ], textcolour );
+			Menu_DrawString(FONT1, (cx + 60), (cy + 5 + (i * 26)), menunames[i],
+							textcolour);
 		}
 	}
 
-	M_DrawCursor(  cx + 3, cy + m_main_cursor * 26 + 2, (int)(ClientStatic.realtime / 1000) % NUM_CURSOR_FRAMES );
+	M_DrawCursor((cx + 3), (cy + (m_main_cursor * 26) + 2),
+				 ((int)(ClientStatic.realtime / 1000) % NUM_CURSOR_FRAMES));
 
 }
 
@@ -575,26 +762,26 @@ void M_Main_Draw( void )
 -----------------------------------------------------------------------------
  Function: M_Main_Key	-Handles key input for the main menu.
 
- Parameters: key [in] Current key that has been pressed.
+ Parameters: key -[in] Current key that has been pressed.
 
- Returns: Pointer to a string that contains the filename for the sound effect to be played,
- 		NULL otherwise.
+ Returns: Pointer to a string that contains the filename for the sound effect to
+		  be played, NULL otherwise.
 
  Notes:
 -----------------------------------------------------------------------------
 */
-const char *M_Main_Key( int key )
+const char *M_Main_Key(int key)
 {
 	const char *sound = menu_move_sound;
 
-	switch( key ) {
+	switch (key) {
 		case K_ESCAPE:
 			M_PopMenu();
 			break;
 
 		case K_KP_DOWNARROW:
 		case K_DOWNARROW:
-			if( ++m_main_cursor >= MAIN_ITEMS ) {
+			if (++m_main_cursor >= MAIN_ITEMS) {
 				m_main_cursor = 0;
 			}
 			return sound;
@@ -657,40 +844,73 @@ const char *M_Main_Key( int key )
 }
 
 
+/*
+ -----------------------------------------------------------------------------
+ Function: M_SMain_Draw
+
+ Parameters: Nothing.
+
+ Returns: Nothing.
+
+ Notes:
+ -----------------------------------------------------------------------------
+ */
 /* SOD main menu */
-void M_SMain_Draw( void )
+void M_SMain_Draw(void)
 {
 	int i;
 	SW32 w, h;
 	int cx, cy;
 
 
-	R_Draw_Tile( 0, 0, viddef.width, viddef.height, "pics/C_BACKDROPPIC.tga" );
+	R_Draw_Tile(0, 0, (int)viddef.width, (int)viddef.height,
+				"pics/C_BACKDROPPIC.tga");
 
-	M_Banner( "pics/SC_OPTIONSPIC.tga", 0 );
+	M_Banner("pics/SC_OPTIONSPIC.tga", 0);
 
 
-	TM_GetTextureSize( &w, &h, "pics/SC_MOUSELBACKPIC.tga" );
-	R_Draw_Pic( (viddef.width - w) >> 1, (viddef.height - h), "pics/SC_MOUSELBACKPIC.tga" );
+	TM_GetTextureSize(&w, &h, "pics/SC_MOUSELBACKPIC.tga");
+#ifdef __i386__
+	/* needs some extra casts: */
+	R_Draw_Pic((int)((viddef.width - (unsigned long)(w)) >> 1),
+			   (int)(viddef.height - (unsigned long)(h)),
+			   "pics/SC_MOUSELBACKPIC.tga");
+#else
+	R_Draw_Pic((int)((viddef.width - w) >> 1), (int)(viddef.height - h),
+			   "pics/SC_MOUSELBACKPIC.tga");
+#endif /* __i386__ */
 
-	cx = (viddef.width - 356) >> 1;
-	cy = (viddef.height - 272) >> 1;
-	M_DrawWindow( cx, cy, 356, 272, sodbkgdcolour, sodbord2colour, soddeactive );
+	cx = ((viddef.width - 356) >> 1);
+	cy = ((viddef.height - 272) >> 1);
+	M_DrawWindow(cx, cy, 356, 272, sodbkgdcolour, sodbord2colour, soddeactive);
 
-	for( i = 0 ; menunames[ i ] != 0 ; ++i ) {
-		if( m_main_cursor == i ) {
-			Menu_DrawString( FONT1, cx + 60, cy + 5 + i * 26, menunames[ i ], highlight );
+	for ((i = 0); (menunames[i] != 0); ++i) {
+		if (m_main_cursor == i) {
+			Menu_DrawString(FONT1, (cx + 60), (cy + 5 + (i * 26)), menunames[i],
+							highlight);
 		} else {
-			Menu_DrawString( FONT1, cx + 60, cy + 5 + i * 26, menunames[ i ], textcolour );
+			Menu_DrawString(FONT1, (cx + 60), (cy + 5 + (i * 26)), menunames[i],
+							textcolour);
 		}
 	}
 
-	M_DrawCursor(  cx + 3, cy + m_main_cursor * 26 + 2, (int)(ClientStatic.realtime / 1000) % NUM_CURSOR_FRAMES );
-
+	M_DrawCursor((cx + 3), (cy + (m_main_cursor * 26) + 2),
+				 ((int)(ClientStatic.realtime / 1000) % NUM_CURSOR_FRAMES));
 }
 
 
-void M_Menu_Main_f( void )
+/*
+ -----------------------------------------------------------------------------
+ Function: M_Menu_Main_f
+
+ Parameters: Nothing.
+
+ Returns: Nothing.
+
+ Notes:
+ -----------------------------------------------------------------------------
+ */
+void M_Menu_Main_f(void)
 {
 	Sound_StopBGTrack();
 	Sound_StartBGTrack( "music/WONDERIN.ogg", "music/WONDERIN.ogg" );
@@ -714,13 +934,24 @@ void M_Menu_Main_f( void )
 =======================================================================
 */
 
-extern void Video_MenuDraw( void );
-extern const char *Video_MenuKey( int key );
+extern void Video_MenuDraw(void);
+extern const char *Video_MenuKey(int key);
 
-void M_Menu_Video_f( void )
+/*
+ -----------------------------------------------------------------------------
+ Function: M_Menu_Video_f
+
+ Parameters: Nothing.
+
+ Returns: Nothing.
+
+ Notes:
+ -----------------------------------------------------------------------------
+ */
+void M_Menu_Video_f(void)
 {
 	Video_MenuInit();
-	M_PushMenu( Video_MenuDraw, Video_MenuKey );
+	M_PushMenu(Video_MenuDraw, Video_MenuKey);
 }
 
 
@@ -738,38 +969,71 @@ void M_Menu_Video_f( void )
 static menuframework_s	s_savegame_menu;
 
 static menuframework_s	s_loadgame_menu;
-static menuaction_s		s_loadgame_actions[ MAX_SAVEGAMES ];
+static menuaction_s		s_loadgame_actions[MAX_SAVEGAMES];
 
-char		m_savestrings[ MAX_SAVEGAMES ][ 32 ];
-_boolean	m_savevalid[ MAX_SAVEGAMES ];
+char		m_savestrings[MAX_SAVEGAMES][32];
+_boolean	m_savevalid[MAX_SAVEGAMES];
 
-void Create_Savestrings( void )
+/*
+ -----------------------------------------------------------------------------
+ Function: Create_Savestrings
+
+ Parameters: Nothing
+
+ Returns: Nothing.
+
+ Notes:
+ -----------------------------------------------------------------------------
+ */
+void Create_Savestrings(void)
 {
 	;
 /* TODO: actually put something here? */
 }
 
-void LoadGameCallback( void *self )
-{
-	menuaction_s *a = ( menuaction_s * ) self;
+/*
+ -----------------------------------------------------------------------------
+ Function: LoadGameCallback
 
-	if( m_savevalid[ a->generic.localdata[ 0 ] ] ) {
+ Parameters: Nothing (?)
+
+ Returns: Nothing.
+
+ Notes:
+ -----------------------------------------------------------------------------
+ */
+void LoadGameCallback(void *self)
+{
+	menuaction_s *a = (menuaction_s *)self;
+
+	if (m_savevalid[a->generic.localdata[0]]) {
 		Cbuf_AddText( va( "load save%i\n",  a->generic.localdata[ 0 ] ) );
 	}
 	M_ForceMenuOff();
 }
 
-void LoadGame_MenuInit( void )
+/*
+ -----------------------------------------------------------------------------
+ Function: LoadGame_MenuInit
+
+ Parameters: Nothing.
+
+ Returns: Nothing.
+
+ Notes:
+ -----------------------------------------------------------------------------
+ */
+void LoadGame_MenuInit(void)
 {
 	int i;
 
-	s_loadgame_menu.x = viddef.width / 2 - 120;
-	s_loadgame_menu.y = viddef.height / 2 - 58;
+	s_loadgame_menu.x = (int)((viddef.width / 2) - 120);
+	s_loadgame_menu.y = (int)((viddef.height / 2) - 58);
 	s_loadgame_menu.nitems = 0;
 
 	Create_Savestrings();
 
-	for( i = 0; i < MAX_SAVEGAMES; ++i ) {
+	for ((i = 0); (i < MAX_SAVEGAMES); ++i) {
 		s_loadgame_actions[i].generic.name			= m_savestrings[i];
 		s_loadgame_actions[i].generic.flags			= MF_LEFT_JUSTIFY;
 		s_loadgame_actions[i].generic.localdata[0]	= i;
@@ -777,34 +1041,57 @@ void LoadGame_MenuInit( void )
 
 		s_loadgame_actions[i].generic.x = 0;
 		s_loadgame_actions[i].generic.y = ( i ) * 20;
-		if( i > 0 )	{ /* separate from autosave */
-			s_loadgame_actions[ i ].generic.y += 20;
+		if (i > 0) { /* separate from autosave */
+			s_loadgame_actions[i].generic.y += 20;
 		}
 
-		s_loadgame_actions[ i ].generic.type = MTYPE_ACTION;
+		s_loadgame_actions[i].generic.type = MTYPE_ACTION;
 
-		Menu_AddItem( &s_loadgame_menu, &s_loadgame_actions[ i ] );
+		Menu_AddItem(&s_loadgame_menu, &s_loadgame_actions[i]);
 	}
 }
 
-void LoadGame_MenuDraw( void )
+/*
+ -----------------------------------------------------------------------------
+ Function: LoadGame_MenuDraw
+
+ Parameters: Nothing.
+
+ Returns: Nothing.
+
+ Notes:
+ -----------------------------------------------------------------------------
+ */
+void LoadGame_MenuDraw(void)
 {
-	if( g_version->value == SPEAROFDESTINY ) {
-		R_Draw_Tile( 0, 0, viddef.width, viddef.height, "pics/C_BACKDROPPIC.tga" );
+	if (g_version->value == SPEAROFDESTINY) {
+		R_Draw_Tile(0, 0, (int)viddef.width, (int)viddef.height,
+					"pics/C_BACKDROPPIC.tga");
 
-		M_Banner( "pics/SC_LOADGAMEPIC.tga", 0 );
+		M_Banner("pics/SC_LOADGAMEPIC.tga", 0);
 	} else {
-		R_Draw_Fill( 0, 0, viddef.width, viddef.height, bgcolour );
+		R_Draw_Fill(0, 0, (int)viddef.width, (int)viddef.height, bgcolour);
 
-		M_Banner( "pics/C_LOADGAMEPIC.tga", 0 );
+		M_Banner("pics/C_LOADGAMEPIC.tga", 0);
 	}
-#if 0
-	Menu_AdjustCursor( &s_loadgame_menu, 1 );
-	Menu_Draw( &s_loadgame_menu );
-#endif /* 0 */
+#if 0 || __clang_analyzer__
+	Menu_AdjustCursor(&s_loadgame_menu, 1);
+	Menu_Draw(&s_loadgame_menu);
+#endif /* 0 || __clang_analyzer__ */
 }
 
-const char *LoadGame_MenuKey( int key )
+/*
+ -----------------------------------------------------------------------------
+ Function: LoadGame_MenuKey
+
+ Parameters: key -[in] Current key that has been pressed.
+
+ Returns:
+
+ Notes:
+ -----------------------------------------------------------------------------
+ */
+const char *LoadGame_MenuKey(int key)
 {
 	if( key == K_ESCAPE || key == K_ENTER ) {
 		s_savegame_menu.cursor = s_loadgame_menu.cursor - 1;
@@ -815,10 +1102,21 @@ const char *LoadGame_MenuKey( int key )
 	return Default_MenuKey( &s_loadgame_menu, key );
 }
 
-void M_Menu_LoadGame_f( void )
+/*
+ -----------------------------------------------------------------------------
+ Function: M_Menu_LoadGame_f
+
+ Parameters:
+
+ Returns: Nothing.
+
+ Notes:
+ -----------------------------------------------------------------------------
+ */
+void M_Menu_LoadGame_f(void)
 {
 	LoadGame_MenuInit();
-	M_PushMenu( LoadGame_MenuDraw, LoadGame_MenuKey );
+	M_PushMenu(LoadGame_MenuDraw, LoadGame_MenuKey);
 }
 
 
@@ -831,8 +1129,19 @@ void M_Menu_LoadGame_f( void )
 =============================================================================
 */
 static menuframework_s	s_savegame_menu;
-static menuaction_s		s_savegame_actions[ MAX_SAVEGAMES ];
+static menuaction_s		s_savegame_actions[MAX_SAVEGAMES];
 
+/*
+ -----------------------------------------------------------------------------
+ Function: SaveGameCallback
+
+ Parameters: Nothing (?)
+
+ Returns: Nothing.
+
+ Notes:
+ -----------------------------------------------------------------------------
+ */
 void SaveGameCallback( void *self )
 {
 	menuaction_s *a = ( menuaction_s * ) self;
@@ -841,70 +1150,116 @@ void SaveGameCallback( void *self )
 	M_ForceMenuOff();
 }
 
-void SaveGame_MenuDraw( void )
+/*
+ -----------------------------------------------------------------------------
+ Function: SaveGame_MenuDraw
+
+ Parameters: Nothing.
+
+ Returns: Nothing.
+
+ Notes:
+ -----------------------------------------------------------------------------
+ */
+void SaveGame_MenuDraw(void)
 {
-	if( g_version->value == SPEAROFDESTINY ) {
-		R_Draw_Tile( 0, 0, viddef.width, viddef.height, "pics/C_BACKDROPPIC.tga" );
+	if (g_version->value == SPEAROFDESTINY) {
+		R_Draw_Tile(0, 0, (int)viddef.width, (int)viddef.height,
+					"pics/C_BACKDROPPIC.tga");
 
-		M_Banner( "pics/SC_SAVEGAMEPIC.tga", 0 );
+		M_Banner("pics/SC_SAVEGAMEPIC.tga", 0);
 	} else {
-		R_Draw_Fill( 0, 0, viddef.width, viddef.height, bgcolour );
+		R_Draw_Fill(0, 0, (int)viddef.width, (int)viddef.height, bgcolour);
 
-		M_Banner( "pics/C_SAVEGAMEPIC.tga", 0 );
+		M_Banner("pics/C_SAVEGAMEPIC.tga", 0);
 	}
-#if 0
-	Menu_AdjustCursor( &s_savegame_menu, 1 );
-	Menu_Draw( &s_savegame_menu );
-#endif /* 0 */
+#if 0 || __clang_analyzer__
+	Menu_AdjustCursor(&s_savegame_menu, 1);
+	Menu_Draw(&s_savegame_menu);
+#endif /* 0 || __clang_analyzer__ */
 }
 
-void SaveGame_MenuInit( void )
+/*
+ -----------------------------------------------------------------------------
+ Function: SaveGame_Menu_init
+
+ Parameters: Nothing.
+
+ Returns: Nothing.
+
+ Notes:
+ -----------------------------------------------------------------------------
+ */
+void SaveGame_MenuInit(void)
 {
 	int i;
 
-	s_savegame_menu.x = viddef.width / 2 - 120;
-	s_savegame_menu.y = viddef.height / 2 - 58;
+	s_savegame_menu.x = (int)((viddef.width / 2) - 120);
+	s_savegame_menu.y = (int)((viddef.height / 2) - 58);
 	s_savegame_menu.nitems = 0;
 
 	Create_Savestrings();
 
 	/* do NOT include the autosave slot */
-	for ( i = 0; i < MAX_SAVEGAMES - 1; ++i ) {
-		s_savegame_actions[i].generic.name = m_savestrings[i+1];
-		s_savegame_actions[i].generic.localdata[0] = i+1;
+	for ((i = 0); (i < (MAX_SAVEGAMES - 1)); ++i ) {
+		s_savegame_actions[i].generic.name = m_savestrings[(i + 1)];
+		s_savegame_actions[i].generic.localdata[0] = (i + 1);
 		s_savegame_actions[i].generic.flags = MF_LEFT_JUSTIFY;
 		s_savegame_actions[i].generic.callback = SaveGameCallback;
 
 		s_savegame_actions[i].generic.x = 0;
-		s_savegame_actions[i].generic.y = ( i ) * 20;
+		s_savegame_actions[i].generic.y = ((i) * 20);
 
 		s_savegame_actions[i].generic.type = MTYPE_ACTION;
 
-		Menu_AddItem( &s_savegame_menu, &s_savegame_actions[i] );
+		Menu_AddItem(&s_savegame_menu, &s_savegame_actions[i]);
 	}
 }
 
-const char *SaveGame_MenuKey( int key )
+/*
+ -----------------------------------------------------------------------------
+ Function: SaveGame_MenuKey
+
+ Parameters: key -[in] Current key that has been pressed.
+
+ Returns: Looks like a string?
+
+ Notes: A little more than your average simple wrapper around Default_MenuKey()
+		this time, actually.
+ -----------------------------------------------------------------------------
+ */
+const char *SaveGame_MenuKey(int key)
 {
-	if ( key == K_ENTER || key == K_ESCAPE ) {
-		s_loadgame_menu.cursor = s_savegame_menu.cursor - 1;
-		if ( s_loadgame_menu.cursor < 0 ) {
+	if ((key == K_ENTER) || (key == K_ESCAPE)) {
+		s_loadgame_menu.cursor = (s_savegame_menu.cursor - 1);
+		if (s_loadgame_menu.cursor < 0) {
 			s_loadgame_menu.cursor = 0;
 		}
 	}
-	return Default_MenuKey( &s_savegame_menu, key );
+	return Default_MenuKey(&s_savegame_menu, key);
 }
 
-void M_Menu_SaveGame_f( void )
+/*
+ -----------------------------------------------------------------------------
+ Function: M_Menu_SaveGame_f
+
+ Parameters: Nothing.
+
+ Returns: Nothing.
+
+ Notes:
+ -----------------------------------------------------------------------------
+ */
+void M_Menu_SaveGame_f(void)
 {
-#if 0
-	if( ! Com_ServerState() ) {
+#if 0 || __clang_analyzer__
+	if (! Com_ServerState()) {
 		return;	/* not playing a game */
 	}
-#endif /* 0 */
+#endif /* 0 || __clang_analyzer__ */
 
 	SaveGame_MenuInit();
-	M_PushMenu( SaveGame_MenuDraw, SaveGame_MenuKey );
+	M_PushMenu(SaveGame_MenuDraw, SaveGame_MenuKey);
 	Create_Savestrings();
 }
 
@@ -913,62 +1268,92 @@ void M_Menu_SaveGame_f( void )
 /*============================================================================*/
 /* Menu Subsystem */
 
+/*
+ -----------------------------------------------------------------------------
+ Function: Menu_Init
 
-void Menu_Init( void )
+ Parameters: Nothing.
+
+ Returns: Nothing.
+
+ Notes: Just adds a bunch of commands, looks like...
+ -----------------------------------------------------------------------------
+ */
+void Menu_Init(void)
 {
-	Cmd_AddCommand( "intro", M_Intro_f );
-	Cmd_AddCommand( "intermission", M_Intermission_f );
+	Cmd_AddCommand("intro", M_Intro_f);
+	Cmd_AddCommand("intermission", M_Intermission_f);
 
-	Cmd_AddCommand ("menu_main", M_Menu_Main_f);
-	Cmd_AddCommand ("menu_game", M_Menu_Game_f);
-	Cmd_AddCommand ("menu_loadgame", M_Menu_LoadGame_f);
-	Cmd_AddCommand ("menu_savegame", M_Menu_SaveGame_f);
-	Cmd_AddCommand ("menu_credits", M_Menu_Credits_f );
-	Cmd_AddCommand ("menu_video", M_Menu_Video_f);
-	Cmd_AddCommand ("menu_options", M_Menu_Options_f);
-	Cmd_AddCommand ("menu_keys", M_Menu_Keys_f);
-	Cmd_AddCommand ("menu_quit", M_Menu_Quit_f);
+	Cmd_AddCommand("menu_main", M_Menu_Main_f);
+	Cmd_AddCommand("menu_game", M_Menu_Game_f);
+	Cmd_AddCommand("menu_loadgame", M_Menu_LoadGame_f);
+	Cmd_AddCommand("menu_savegame", M_Menu_SaveGame_f);
+	Cmd_AddCommand("menu_credits", M_Menu_Credits_f );
+	Cmd_AddCommand("menu_video", M_Menu_Video_f);
+	Cmd_AddCommand("menu_options", M_Menu_Options_f);
+	Cmd_AddCommand("menu_keys", M_Menu_Keys_f);
+	Cmd_AddCommand("menu_quit", M_Menu_Quit_f);
 }
 
 
+/*
+ -----------------------------------------------------------------------------
+ Function: M_Draw
 
-void M_Draw( void )
+ Parameters: Nothing.
+
+ Returns: Nothing.
+
+ Notes:
+ -----------------------------------------------------------------------------
+ */
+void M_Draw(void)
 {
-	if( ClientStatic.key_dest != key_menu ) {
+	if (ClientStatic.key_dest != key_menu) {
 		return;
 	}
 
-#if 0
+#if 0 /* try other conditions */
 	/* repaint everything next frame */
 	SCR_DirtyScreen();
 
 	/* dim everything behind it down */
-	if( cl.cinematictime > 0 ) {
-		R_Draw_Fill( 0, 0, viddef.width, viddef.height, bgcolour );
+	if (cl.cinematictime > 0) { /* 'cl' is undeclared */
+		R_Draw_Fill(0, 0, (int)viddef.width, (int)viddef.height, bgcolour);
 	} else {
-		Draw_FadeScreen();
+		Draw_FadeScreen(); /* unimplemented */
 	}
 #endif /* 0 */
 
-	m_drawfunc();
+	m_drawfunc(); /* function pointer from up top */
 
 	/* delay playing the enter sound until after the
 	 * menu has been drawn, to avoid delay while
 	 * caching images */
-	if( m_entersound ) {
-		Sound_StartLocalSound( menu_in_sound );
+	if (m_entersound) {
+		Sound_StartLocalSound(menu_in_sound);
 		m_entersound = false;
 	}
 }
 
+/*
+ -----------------------------------------------------------------------------
+ Function: M_Keydown
 
-void M_Keydown( int key )
+ Parameters: key -[in] Current key that has been pressed.
+
+ Returns: Nothing.
+
+ Notes:
+ -----------------------------------------------------------------------------
+ */
+void M_Keydown(int key)
 {
 	const char *s;
 
-	if( m_keyfunc ) {
-		if( ( s = m_keyfunc( key ) ) != 0 ) {
-			Sound_StartLocalSound( (char *) s );
+	if (m_keyfunc) {
+		if ((s = m_keyfunc(key)) != 0) {
+			Sound_StartLocalSound((char *) s);
 		}
 	}
 }

@@ -1,5 +1,4 @@
 /*
- *
  *	Copyright (C) 2004-2005 Michael Liebscher <johnnycanuck@users.sourceforge.net>
  *
  *	This program is free software; you can redistribute it and/or
@@ -42,9 +41,9 @@
 # include <unistd.h>
 #endif /* !unlink */
 
-
-#define INPUT_FNAME     "gamepal.obj"
-#define OUTPUT_FNAME    "wolf_pal.c"
+/* TODO: allow these paths to be configurable instead of hardcoded: */
+#define INPUT_FNAME "gamepal.obj"
+#define OUTPUT_FNAME "wolf_pal.c"
 
 /* Output format */
 #define VAR_DEC_S   "\nchar gamepal[ ] = {\n"
@@ -78,31 +77,31 @@
 
 -----------------------------------------------------------------------------
 */
-void PrintErrorDestroyFile( const char *filename, const char *format, ... );
+void PrintErrorDestroyFile(const char *filename, const char *format, ...);
 /* TODO: move the above prototype to a matching header file */
-void PrintErrorDestroyFile( const char *filename, const char *format, ... )
+void PrintErrorDestroyFile(const char *filename, const char *format, ...)
 {
     va_list	argptr;
-	char	msg[ 128 ];
+	char	msg[128];
 
-	if( ! filename || ! *filename || ! format || ! *format ) {
-	   printf( "NULL arguments passed into [LogErrorDestroyFile]\n" );
+	if (! filename || ! *filename || ! format || ! *format) {
+	   printf("NULL arguments passed into [LogErrorDestroyFile]\n");
 	   return;
     }
 
-    va_start( argptr, format );
-	vsnprintf( msg, sizeof( msg ), format, argptr );
-	va_end( argptr );
+    va_start(argptr, format);
+	vsnprintf(msg, sizeof(msg), format, argptr);
+	va_end(argptr);
 
-	msg[ sizeof( msg ) - 1 ] = '\0';
+	msg[(sizeof(msg) - 1)] = '\0';
 
-    printf( msg );
+    printf("%s", msg);
 
     /* Delete file */
-    if( unlink( filename ) == -1 ) {
-        snprintf( msg, sizeof( msg ),
-                      "[Error]: Could not remove file '%s'\n", filename );
-        printf( msg );
+    if (unlink(filename) == -1) {
+        snprintf(msg, sizeof(msg),
+				 "[Error]: Could not remove file '%s'\n", filename);
+        printf("%s", msg);
     }
 }
 
@@ -113,7 +112,14 @@ void PrintErrorDestroyFile( const char *filename, const char *format, ... )
 
  Parameters: Nothing.
 
- Returns: 0 on success, otherwise nonzero.
+ Returns: 0 on success, otherwise nonzero. More specifically:
+
+			1: Could not open file for read
+			2: Could not seek past header data
+			3: Read error on file
+			4: Could not create output file
+			5: Could not write to output file
+			6: Could not seek back on output file
 
  Notes: This is the application entry point.
 
@@ -122,117 +128,124 @@ void PrintErrorDestroyFile( const char *filename, const char *format, ... )
 
 -----------------------------------------------------------------------------
 */
-#ifndef main
-int main( int argc, char *argv[] )
+#ifndef main /* this ifdef is bad */
+int main(int argc, char *argv[])
 #else
-int gamepal_main( int argc, char *argv[] )
+int gamepal_main(int argc, char *argv[])
 #endif /* !main */
 {
     int i;
     long count; /* Counts number of bytes read and written. */
-    char buffer[ 128 ];
-    unsigned char gamepal[ PAL_SIZE ]; /* Buffer to hold palette data. */
-    FILE *filestream = fopen( INPUT_FNAME, "rb" );
+    char buffer[128];
+    unsigned char gamepal[PAL_SIZE]; /* Buffer to hold palette data. */
 
-    if( filestream == NULL ) {
-	    printf( "[Error]: Could not open file '%s' for read!\n", INPUT_FNAME );
+    FILE *filestream;
+
+	filestream = fopen(INPUT_FNAME, "rb");
+
+	printf("gamepal: running with path '%s' with '%i' args.\n",
+		   argv[0], argc);
+
+    if (filestream == NULL) {
+	    printf("[Error]: Could not open file '%s' for read!\n", INPUT_FNAME);
 
         return 1;
 	}
 
     /* Seek past header info */
-    if( fseek( filestream, 0x77, SEEK_SET ) ) {
-        fclose( filestream );
+    if (fseek(filestream, (long)0x77, SEEK_SET)) {
+        fclose(filestream);
 
-        printf( "[Error]: Could not seek past header data!\n" );
+        printf("[Error]: Could not seek past header data!\n");
 
         return 2;
     }
 
     /* Read in palette data */
-    count = fread( gamepal, sizeof( char ), PAL_SIZE, filestream );
-    if( count != PAL_SIZE ) {
-		fclose( filestream );
+    count = (long)fread(gamepal, sizeof(char), (size_t)PAL_SIZE, filestream);
+    if (count != PAL_SIZE) {
+		fclose(filestream);
 
-        printf( "[Error]: Read error on file '%s'\n", INPUT_FNAME );
+        printf("[Error]: Read error on file '%s'\n", INPUT_FNAME);
 
         return 3;
     }
 
-    if( fclose( filestream ) ) {
-        printf( "[Error]: The filestream was not closed\n" );
+    if (fclose(filestream)) {
+        printf("[Error]: The filestream was not closed\n");
+		/* return here? */
     }
 
 /*
  * Output Wolf3D Palette into file OUTPUT_FNAME
  */
 
-    filestream = fopen( OUTPUT_FNAME, "w" );
-    if( filestream == NULL ) {
-        printf( "[Error]: Could not create output file '%s'\n", OUTPUT_FNAME );
+    filestream = fopen(OUTPUT_FNAME, "w");
+    if (filestream == NULL) {
+        printf("[Error]: Could not create output file '%s'\n", OUTPUT_FNAME);
 
         return 4;
     }
 
     /* Write variable declaration */
-    count = fwrite( VAR_DEC_S, sizeof( char ),
-                    strlen( VAR_DEC_S ), filestream );
+    count = (long)fwrite(VAR_DEC_S, sizeof(char),
+						 strlen(VAR_DEC_S), filestream);
 
-    if( count != strlen( VAR_DEC_S ) ) {
-        fclose( filestream );
+    if (count != strlen(VAR_DEC_S)) {
+        fclose(filestream);
 
-        PrintErrorDestroyFile( OUTPUT_FNAME,
-                             "[Error]: Could not write to output file: '%s'",
-                             OUTPUT_FNAME );
+        PrintErrorDestroyFile(OUTPUT_FNAME,
+							  "[Error]: Could not write to output file: '%s'",
+							  OUTPUT_FNAME);
 
         return 5;
     }
 
     /* Write out rgb values */
-    for( i = 0; i < PAL_SIZE; i += 3 ) {
-        snprintf( buffer, sizeof( buffer ), VAR_DEC_B,
-                    gamepal[ i ], gamepal[ i+1 ], gamepal[ i+2 ]  );
-        count = fwrite( buffer, sizeof( char ), strlen( buffer ), filestream );
+    for ((i = 0); (i < PAL_SIZE); (i += 3)) {
+        snprintf(buffer, sizeof(buffer), VAR_DEC_B,
+				 gamepal[i], gamepal[(i + 1)], gamepal[(i + 2)]);
+        count = (long)fwrite(buffer, sizeof(char), strlen(buffer), filestream);
 
-        if( count != strlen( buffer ) ) {
-            fclose( filestream );
+        if (count != (long)strlen(buffer)) {
+            fclose(filestream);
 
-            PrintErrorDestroyFile( OUTPUT_FNAME,
-                             "[Error]: Could not write to output file: '%s'",
-                             OUTPUT_FNAME );
+            PrintErrorDestroyFile(OUTPUT_FNAME,
+								  "[Error]: Could not write to output file: '%s'",
+								  OUTPUT_FNAME);
 
             return 5;
         }
     }
 
     /* Seek back over the last lines: ",\n" */
-    if( fseek( filestream, -3, SEEK_CUR ) ) {
-        fclose( filestream );
+    if (fseek(filestream, (long)-3, SEEK_CUR)) {
+        fclose(filestream);
 
-        PrintErrorDestroyFile( OUTPUT_FNAME,
-                         "[Error]: Could not seek back on output file '%s'\n",
-                         OUTPUT_FNAME );
+        PrintErrorDestroyFile(OUTPUT_FNAME,
+							  "[Error]: Could not seek back on output file '%s'\n",
+							  OUTPUT_FNAME);
 
         return 6;
     }
 
-    count = fwrite( VAR_DEC_E, sizeof( char ),
-                    strlen( VAR_DEC_E ), filestream );
+    count = (long)fwrite(VAR_DEC_E, sizeof(char),
+						 strlen(VAR_DEC_E), filestream);
 
-    if( count != strlen( VAR_DEC_E ) ) {
-        fclose( filestream );
+    if (count != strlen(VAR_DEC_E)) {
+        fclose(filestream);
 
-        PrintErrorDestroyFile( OUTPUT_FNAME,
-                             "[Error]: Could not write to output file: '%s'",
-                             OUTPUT_FNAME );
+        PrintErrorDestroyFile(OUTPUT_FNAME,
+							  "[Error]: Could not write to output file: '%s'",
+							  OUTPUT_FNAME);
 
         return 5;
     }
 
-    if( fclose( filestream ) ) {
-        printf( "[Error]: The filestream was not closed\n" );
+    if (fclose(filestream)) {
+        printf("[Error]: The filestream was not closed\n");
+		/* return here? */
     }
-
 
     return 0;
 }

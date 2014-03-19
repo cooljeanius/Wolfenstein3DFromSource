@@ -121,6 +121,48 @@
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
 		A5475D3618D37D4800FE1646 /* wolf_client.h in Headers */ = {isa = PBXBuildFile; fileRef = A5475D3518D37D4800FE1646 /* wolf_client.h */; };
+		A54761A018D4B24D00FE1646 /* libdmalloc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A547619F18D4B24D00FE1646 /* libdmalloc.a */; settings = {ATTRIBUTES = (Weak, ); }; };
+		A54766E118D7D34C00FE1646 /* vorbisenc_inter.h in Headers */ = {isa = PBXBuildFile; fileRef = A54766E018D7D34C00FE1646 /* vorbisenc_inter.h */; };
+		A547673C18D7E15700FE1646 /* arch.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B0AFADA1470CE6200165517 /* arch.h */; };
+		A547673D18D7E15C00FE1646 /* arch.c in Sources */ = {isa = PBXBuildFile; fileRef = 7B0AFAD91470CE6200165517 /* arch.c */; };
+		A547674518D7E18700FE1646 /* adler32.c in Sources */ = {isa = PBXBuildFile; fileRef = 7B0AFBE41470CE6300165517 /* adler32.c */; };
+		A547674618D7E18700FE1646 /* compress.c in Sources */ = {isa = PBXBuildFile; fileRef = 7B0AFBE71470CE6300165517 /* compress.c */; };
+		A547674718D7E18700FE1646 /* crc32.c in Sources */ = {isa = PBXBuildFile; fileRef = 7B0AFBE91470CE6300165517 /* crc32.c */; };
+		A547674818D7E18700FE1646 /* deflate.c in Sources */ = {isa = PBXBuildFile; fileRef = 7B0AFBEB1470CE6300165517 /* deflate.c */; };
+		A547674A18D7E18700FE1646 /* gzio.c in Sources */ = {isa = PBXBuildFile; fileRef = 7B0AFBEF1470CE6300165517 /* gzio.c */; };
+		A547674B18D7E18700FE1646 /* infback.c in Sources */ = {isa = PBXBuildFile; fileRef = 7B0AFBF11470CE6300165517 /* infback.c */; };
+		A547674C18D7E18700FE1646 /* inffast.c in Sources */ = {isa = PBXBuildFile; fileRef = 7B0AFBF21470CE6300165517 /* inffast.c */; };
+		A547674D18D7E18700FE1646 /* inflate.c in Sources */ = {isa = PBXBuildFile; fileRef = 7B0AFBF51470CE6300165517 /* inflate.c */; };
+		A547674E18D7E18700FE1646 /* inftrees.c in Sources */ = {isa = PBXBuildFile; fileRef = 7B0AFBF71470CE6300165517 /* inftrees.c */; };
+		A547675018D7E18700FE1646 /* trees.c in Sources */ = {isa = PBXBuildFile; fileRef = 7B0AFBFD1470CE6300165517 /* trees.c */; };
+		A547675118D7E18700FE1646 /* uncompr.c in Sources */ = {isa = PBXBuildFile; fileRef = 7B0AFBFF1470CE6300165517 /* uncompr.c */; };
+		A547675218D7E18700FE1646 /* zutil.c in Sources */ = {isa = PBXBuildFile; fileRef = 7B0AFC041470CE6300165517 /* zutil.c */; };
+		A547675318D7E19600FE1646 /* crc32.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B0AFBEA1470CE6300165517 /* crc32.h */; };
+		A547675418D7E19600FE1646 /* deflate.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B0AFBEC1470CE6300165517 /* deflate.h */; };
+		A547675518D7E19600FE1646 /* inffast.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B0AFBF31470CE6300165517 /* inffast.h */; };
+		A547675618D7E19600FE1646 /* inffixed.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B0AFBF41470CE6300165517 /* inffixed.h */; };
+		A547675718D7E19600FE1646 /* inflate.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B0AFBF61470CE6300165517 /* inflate.h */; };
+		A547675818D7E19600FE1646 /* inftrees.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B0AFBF81470CE6300165517 /* inftrees.h */; };
+		A547675918D7E19600FE1646 /* trees.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B0AFBFE1470CE6300165517 /* trees.h */; };
+		A547675A18D7E19600FE1646 /* zconf.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B0AFC001470CE6300165517 /* zconf.h */; };
+		A547675B18D7E19600FE1646 /* zconf.in.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B0AFC011470CE6300165517 /* zconf.in.h */; };
+		A547675C18D7E19600FE1646 /* zlib.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B0AFC031470CE6300165517 /* zlib.h */; };
+		A547675D18D7E19600FE1646 /* zutil.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B0AFC051470CE6300165517 /* zutil.h */; };
+		A5476C1518D9EB8400FE1646 /* lstat.c in Sources */ = {isa = PBXBuildFile; fileRef = A5476C1418D9EB8400FE1646 /* lstat.c */; };
+		A5476C1B18D9F17C00FE1646 /* malloc.c in Sources */ = {isa = PBXBuildFile; fileRef = A5476C1A18D9F17C00FE1646 /* malloc.c */; };
+		A5476C2018D9F18800FE1646 /* realloc.c in Sources */ = {isa = PBXBuildFile; fileRef = A5476C1C18D9F18800FE1646 /* realloc.c */; };
+		A5476C2118D9F18800FE1646 /* stat-macros.h in Headers */ = {isa = PBXBuildFile; fileRef = A5476C1D18D9F18800FE1646 /* stat-macros.h */; };
+		A5476C2218D9F18800FE1646 /* stat-size.h in Headers */ = {isa = PBXBuildFile; fileRef = A5476C1E18D9F18800FE1646 /* stat-size.h */; };
+		A5476C2318D9F18800FE1646 /* stat.c in Sources */ = {isa = PBXBuildFile; fileRef = A5476C1F18D9F18800FE1646 /* stat.c */; };
+		A5476C3118D9F20000FE1646 /* dosname.h in Headers */ = {isa = PBXBuildFile; fileRef = A5476C3018D9F20000FE1646 /* dosname.h */; };
+		A5476C3318D9F20800FE1646 /* pathmax.h in Headers */ = {isa = PBXBuildFile; fileRef = A5476C3218D9F20800FE1646 /* pathmax.h */; };
+		A5476C3518D9F21400FE1646 /* verify.h in Headers */ = {isa = PBXBuildFile; fileRef = A5476C3418D9F21400FE1646 /* verify.h */; };
+		A5476C3B18D9F35800FE1646 /* fileblocks.c in Sources */ = {isa = PBXBuildFile; fileRef = A5476C3A18D9F35800FE1646 /* fileblocks.c */; };
+		A5476C8118DA0BF900FE1646 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 7B0AFB841470CE6200165517 /* main.c */; };
+		A5476CDC18DA105F00FE1646 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 7B0AFB861470CE6200165517 /* main.c */; };
+		A5476CDD18DA106100FE1646 /* wolf_pal.c in Sources */ = {isa = PBXBuildFile; fileRef = 7B0AFB871470CE6200165517 /* wolf_pal.c */; };
+		A5476D4418DA140000FE1646 /* WriteTGA_minimal.c in Sources */ = {isa = PBXBuildFile; fileRef = A5476D4318DA140000FE1646 /* WriteTGA_minimal.c */; };
+		A5476DCC18DA1D6700FE1646 /* WriteTGA_minimal.h in Headers */ = {isa = PBXBuildFile; fileRef = A5476D4218DA140000FE1646 /* WriteTGA_minimal.h */; };
 		A571EE6818C64A260037F031 /* strnlen.c in Sources */ = {isa = PBXBuildFile; fileRef = A571EE6418C64A260037F031 /* strnlen.c */; };
 		A571EE6918C64A260037F031 /* strnlen1.c in Sources */ = {isa = PBXBuildFile; fileRef = A571EE6518C64A260037F031 /* strnlen1.c */; };
 		A571EE6A18C64A260037F031 /* strnlen1.h in Headers */ = {isa = PBXBuildFile; fileRef = A571EE6618C64A260037F031 /* strnlen1.h */; };
@@ -523,6 +565,22 @@
 		8D1107310486CEB800E47090 /* Wolfenstein3DFromSource-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Wolfenstein3DFromSource-Info.plist"; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* Wolfenstein3DFromSource.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Wolfenstein3DFromSource.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A5475D3518D37D4800FE1646 /* wolf_client.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = wolf_client.h; sourceTree = "<group>"; };
+		A547619F18D4B24D00FE1646 /* libdmalloc.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libdmalloc.a; path = /opt/local/lib/libdmalloc.a; sourceTree = "<absolute>"; };
+		A54766E018D7D34C00FE1646 /* vorbisenc_inter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = vorbisenc_inter.h; sourceTree = "<group>"; };
+		A5476C1418D9EB8400FE1646 /* lstat.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = lstat.c; sourceTree = "<group>"; };
+		A5476C1A18D9F17C00FE1646 /* malloc.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = malloc.c; sourceTree = "<group>"; };
+		A5476C1C18D9F18800FE1646 /* realloc.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = realloc.c; sourceTree = "<group>"; };
+		A5476C1D18D9F18800FE1646 /* stat-macros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "stat-macros.h"; sourceTree = "<group>"; };
+		A5476C1E18D9F18800FE1646 /* stat-size.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "stat-size.h"; sourceTree = "<group>"; };
+		A5476C1F18D9F18800FE1646 /* stat.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = stat.c; sourceTree = "<group>"; };
+		A5476C3018D9F20000FE1646 /* dosname.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = dosname.h; sourceTree = "<group>"; };
+		A5476C3218D9F20800FE1646 /* pathmax.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pathmax.h; sourceTree = "<group>"; };
+		A5476C3418D9F21400FE1646 /* verify.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = verify.h; sourceTree = "<group>"; };
+		A5476C3A18D9F35800FE1646 /* fileblocks.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = fileblocks.c; sourceTree = "<group>"; };
+		A5476C7D18DA0BE800FE1646 /* gamepal */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = gamepal; sourceTree = BUILT_PRODUCTS_DIR; };
+		A5476CD818DA105800FE1646 /* signon */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = signon; sourceTree = BUILT_PRODUCTS_DIR; };
+		A5476D4218DA140000FE1646 /* WriteTGA_minimal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WriteTGA_minimal.h; sourceTree = "<group>"; };
+		A5476D4318DA140000FE1646 /* WriteTGA_minimal.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = WriteTGA_minimal.c; sourceTree = "<group>"; };
 		A571EC3D18C519C00037F031 /* test_com_string.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = test_com_string.c; sourceTree = "<group>"; };
 		A571EE6318C64A260037F031 /* README */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
 		A571EE6418C64A260037F031 /* strnlen.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = strnlen.c; sourceTree = "<group>"; };
@@ -553,10 +611,25 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		A5476C7B18DA0BE800FE1646 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A5476CD618DA105800FE1646 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		A571F1B518C6FA080037F031 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A54761A018D4B24D00FE1646 /* libdmalloc.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -597,6 +670,8 @@
 			children = (
 				8D1107320486CEB800E47090 /* Wolfenstein3DFromSource.app */,
 				A571F1B718C6FA080037F031 /* WolfExtractor */,
+				A5476C7D18DA0BE800FE1646 /* gamepal */,
+				A5476CD818DA105800FE1646 /* signon */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -610,6 +685,7 @@
 				29B97317FDCFA39411CA2CEA /* Resources */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
+				A547619F18D4B24D00FE1646 /* libdmalloc.a */,
 			);
 			name = Wolfenstein3DFromSource;
 			sourceTree = "<group>";
@@ -1127,6 +1203,8 @@
 			children = (
 				7B0AFB861470CE6200165517 /* main.c */,
 				7B0AFB871470CE6200165517 /* wolf_pal.c */,
+				A5476D4218DA140000FE1646 /* WriteTGA_minimal.h */,
+				A5476D4318DA140000FE1646 /* WriteTGA_minimal.c */,
 			);
 			path = signon;
 			sourceTree = "<group>";
@@ -1149,6 +1227,7 @@
 				7B0AFBB31470CE6200165517 /* Release */,
 				7B0AFBB41470CE6200165517 /* string */,
 				7B0AFBB71470CE6300165517 /* vorbisenc_inter.c */,
+				A54766E018D7D34C00FE1646 /* vorbisenc_inter.h */,
 				7B0AFBB81470CE6300165517 /* wolf */,
 				7B0AFBC01470CE6300165517 /* wolfextractor.sln */,
 				7B0AFBC11470CE6300165517 /* wolfextractor.vcproj */,
@@ -1424,14 +1503,24 @@
 		A571EE6218C64A260037F031 /* gnulib_replacement_funcs */ = {
 			isa = PBXGroup;
 			children = (
-				A571F0F918C6E1F80037F031 /* error.h */,
+				A5476C3018D9F20000FE1646 /* dosname.h */,
 				A571F0FA18C6E1F80037F031 /* error.c */,
+				A571F0F918C6E1F80037F031 /* error.h */,
+				A5476C3A18D9F35800FE1646 /* fileblocks.c */,
+				A5476C1418D9EB8400FE1646 /* lstat.c */,
+				A5476C1A18D9F17C00FE1646 /* malloc.c */,
+				A5476C3218D9F20800FE1646 /* pathmax.h */,
 				A571F0FF18C6E9820037F031 /* progname.h */,
 				A571F10018C6E9820037F031 /* progname.c */,
 				A571EE6318C64A260037F031 /* README */,
+				A5476C1C18D9F18800FE1646 /* realloc.c */,
+				A5476C1D18D9F18800FE1646 /* stat-macros.h */,
+				A5476C1E18D9F18800FE1646 /* stat-size.h */,
+				A5476C1F18D9F18800FE1646 /* stat.c */,
 				A571EE6418C64A260037F031 /* strnlen.c */,
 				A571EE6518C64A260037F031 /* strnlen1.c */,
 				A571EE6618C64A260037F031 /* strnlen1.h */,
+				A5476C3418D9F21400FE1646 /* verify.h */,
 			);
 			path = gnulib_replacement_funcs;
 			sourceTree = "<group>";
@@ -1439,10 +1528,30 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
+		A5476DCD18DA1D8700FE1646 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A5476DCC18DA1D6700FE1646 /* WriteTGA_minimal.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		A571F21018C6FD6E0037F031 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A547675318D7E19600FE1646 /* crc32.h in Headers */,
+				A547675418D7E19600FE1646 /* deflate.h in Headers */,
+				A547675518D7E19600FE1646 /* inffast.h in Headers */,
+				A547675618D7E19600FE1646 /* inffixed.h in Headers */,
+				A547675718D7E19600FE1646 /* inflate.h in Headers */,
+				A547675818D7E19600FE1646 /* inftrees.h in Headers */,
+				A547675918D7E19600FE1646 /* trees.h in Headers */,
+				A547675A18D7E19600FE1646 /* zconf.h in Headers */,
+				A547675B18D7E19600FE1646 /* zconf.in.h in Headers */,
+				A547675C18D7E19600FE1646 /* zlib.h in Headers */,
+				A547675D18D7E19600FE1646 /* zutil.h in Headers */,
+				A547673C18D7E15700FE1646 /* arch.h in Headers */,
 				A571F1CE18C6FA9E0037F031 /* wav.h in Headers */,
 				A571F1CC18C6FA9E0037F031 /* tga.h in Headers */,
 				A571F1D018C6FAA70037F031 /* mac.h in Headers */,
@@ -1455,6 +1564,7 @@
 				A571F1C418C6FA7B0037F031 /* file.h in Headers */,
 				A571F1C018C6FA300037F031 /* adlib.h in Headers */,
 				A571F1C218C6FA300037F031 /* fmopl.h in Headers */,
+				A54766E118D7D34C00FE1646 /* vorbisenc_inter.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1560,6 +1670,11 @@
 				A571F0FB18C6E1F80037F031 /* error.h in Headers */,
 				A571F10118C6E9820037F031 /* progname.h in Headers */,
 				A5475D3618D37D4800FE1646 /* wolf_client.h in Headers */,
+				A5476C2118D9F18800FE1646 /* stat-macros.h in Headers */,
+				A5476C2218D9F18800FE1646 /* stat-size.h in Headers */,
+				A5476C3118D9F20000FE1646 /* dosname.h in Headers */,
+				A5476C3318D9F20800FE1646 /* pathmax.h in Headers */,
+				A5476C3518D9F21400FE1646 /* verify.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1585,6 +1700,39 @@
 			productName = Wolfenstein3DFromSource;
 			productReference = 8D1107320486CEB800E47090 /* Wolfenstein3DFromSource.app */;
 			productType = "com.apple.product-type.application";
+		};
+		A5476C7C18DA0BE800FE1646 /* gamepal */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A5476C8618DA0C1D00FE1646 /* Build configuration list for PBXNativeTarget "gamepal" */;
+			buildPhases = (
+				A5476C7A18DA0BE800FE1646 /* Sources */,
+				A5476C7B18DA0BE800FE1646 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = gamepal;
+			productName = gamepal;
+			productReference = A5476C7D18DA0BE800FE1646 /* gamepal */;
+			productType = "com.apple.product-type.tool";
+		};
+		A5476CD718DA105800FE1646 /* signon */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A5476CE718DA108A00FE1646 /* Build configuration list for PBXNativeTarget "signon" */;
+			buildPhases = (
+				A5476DCD18DA1D8700FE1646 /* Headers */,
+				A5476CD518DA105800FE1646 /* Sources */,
+				A5476CD618DA105800FE1646 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = signon;
+			productName = signon;
+			productReference = A5476CD818DA105800FE1646 /* signon */;
+			productType = "com.apple.product-type.tool";
 		};
 		A571F1B618C6FA080037F031 /* WolfExtractor */ = {
 			isa = PBXNativeTarget;
@@ -1626,6 +1774,8 @@
 			targets = (
 				8D1107260486CEB800E47090 /* Wolfenstein3DFromSource */,
 				A571F1B618C6FA080037F031 /* WolfExtractor */,
+				A5476C7C18DA0BE800FE1646 /* gamepal */,
+				A5476CD718DA105800FE1646 /* signon */,
 			);
 		};
 /* End PBXProject section */
@@ -1788,6 +1938,29 @@
 				A571EE6918C64A260037F031 /* strnlen1.c in Sources */,
 				A571F0FC18C6E1F80037F031 /* error.c in Sources */,
 				A571F10218C6E9820037F031 /* progname.c in Sources */,
+				A5476C1518D9EB8400FE1646 /* lstat.c in Sources */,
+				A5476C1B18D9F17C00FE1646 /* malloc.c in Sources */,
+				A5476C2018D9F18800FE1646 /* realloc.c in Sources */,
+				A5476C2318D9F18800FE1646 /* stat.c in Sources */,
+				A5476C3B18D9F35800FE1646 /* fileblocks.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A5476C7A18DA0BE800FE1646 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A5476C8118DA0BF900FE1646 /* main.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A5476CD518DA105800FE1646 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A5476CDD18DA106100FE1646 /* wolf_pal.c in Sources */,
+				A5476CDC18DA105F00FE1646 /* main.c in Sources */,
+				A5476D4418DA140000FE1646 /* WriteTGA_minimal.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1795,6 +1968,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A547674518D7E18700FE1646 /* adler32.c in Sources */,
+				A547674618D7E18700FE1646 /* compress.c in Sources */,
+				A547674718D7E18700FE1646 /* crc32.c in Sources */,
+				A547674818D7E18700FE1646 /* deflate.c in Sources */,
+				A547674A18D7E18700FE1646 /* gzio.c in Sources */,
+				A547674B18D7E18700FE1646 /* infback.c in Sources */,
+				A547674C18D7E18700FE1646 /* inffast.c in Sources */,
+				A547674D18D7E18700FE1646 /* inflate.c in Sources */,
+				A547674E18D7E18700FE1646 /* inftrees.c in Sources */,
+				A547675018D7E18700FE1646 /* trees.c in Sources */,
+				A547675118D7E18700FE1646 /* uncompr.c in Sources */,
+				A547675218D7E18700FE1646 /* zutil.c in Sources */,
+				A547673D18D7E15C00FE1646 /* arch.c in Sources */,
 				A571F1E018C6FAD60037F031 /* zipfile.c in Sources */,
 				A571F1D818C6FACF0037F031 /* wl6_name.c in Sources */,
 				A571F1D918C6FACF0037F031 /* wolf_aud.c in Sources */,
@@ -1841,6 +2027,73 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		A5476C7F18DA0BE900FE1646 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = ansi;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_WARN_UNINITIALIZED_AUTOS = NO;
+				"GCC_WARN_UNINITIALIZED_AUTOS[arch=i386]" = YES;
+				INSTALL_PATH = /usr/local/bin;
+				ONLY_ACTIVE_ARCH = NO;
+				PREBINDING = NO;
+				PRODUCT_NAME = gamepal;
+			};
+			name = Debug;
+		};
+		A5476C8018DA0BE900FE1646 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_MODEL_TUNING = G5;
+				INSTALL_PATH = /usr/local/bin;
+				PREBINDING = NO;
+				PRODUCT_NAME = gamepal;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
+		A5476CDA18DA105900FE1646 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = ansi;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				"GCC_WARN_UNINITIALIZED_AUTOS[arch=i386]" = YES;
+				INSTALL_PATH = /usr/local/bin;
+				ONLY_ACTIVE_ARCH = NO;
+				PREBINDING = NO;
+				PRODUCT_NAME = signon;
+			};
+			name = Debug;
+		};
+		A5476CDB18DA105900FE1646 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_MODEL_TUNING = G5;
+				INSTALL_PATH = /usr/local/bin;
+				PREBINDING = NO;
+				PRODUCT_NAME = signon;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
 		A571F1BC18C6FA090037F031 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1852,9 +2105,19 @@
 				GCC_MODEL_TUNING = G5;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"PARANOID=1",
+				);
+				"GCC_WARN_UNINITIALIZED_AUTOS[arch=i386]" = YES;
 				INSTALL_PATH = /usr/local/bin;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/opt/local/lib,
+				);
+				MallocStackLogging = 1;
+				MallocStackLoggingNoCompact = 1;
+				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"-lvorbis",
 					"-lvorbisenc",
@@ -1864,6 +2127,7 @@
 					"-lz",
 				);
 				PREBINDING = NO;
+				PRESERVE_DEAD_CODE_INITS_AND_TERMS = YES;
 				PRODUCT_NAME = WolfExtractor;
 			};
 			name = Debug;
@@ -1876,9 +2140,38 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_MODEL_TUNING = G5;
+				GENERATE_PKGINFO_FILE = YES;
+				HEADER_SEARCH_PATHS = (
+					/System/Library/Frameworks/OpenGL.framework/Versions/A/Headers,
+					/opt/local/include,
+					/opt/X11/include,
+					/usr/X11R6/include,
+				);
 				INSTALL_PATH = /usr/local/bin;
+				LD_GENERATE_MAP_FILE = YES;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/opt/local/lib,
+				);
+				OTHER_LDFLAGS = (
+					"-lX11",
+					"-lXext",
+					"-lXxf86dga",
+					"-lXxf86vm",
+					"-lvorbis",
+					"-lvorbisenc",
+					"-lvorbisfile",
+					"-logg",
+					"-lICE",
+					"-lm",
+					"-lz",
+				);
 				PREBINDING = NO;
 				PRODUCT_NAME = WolfExtractor;
+				RUN_CLANG_STATIC_ANALYZER = YES;
+				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = YES;
+				SEPARATE_STRIP = YES;
+				VALIDATE_PRODUCT = YES;
 				ZERO_LINK = NO;
 			};
 			name = Release;
@@ -1897,6 +2190,10 @@
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Wolfenstein3DFromSource_Prefix.pch;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"DEBUG_MEMORY=0",
+				);
 				INFOPLIST_FILE = "Wolfenstein3DFromSource-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
 				PRODUCT_NAME = Wolfenstein3DFromSource;
@@ -1925,6 +2222,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_ALTIVEC_EXTENSIONS = YES;
 				GCC_AUTO_VECTORIZATION = YES;
@@ -1996,6 +2294,7 @@
 				PREBINDING = NO;
 				RUN_CLANG_STATIC_ANALYZER = YES;
 				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = YES;
+				STRIP_INSTALLED_PRODUCT = NO;
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
 				WARNING_CFLAGS = (
@@ -2009,17 +2308,77 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				GCC_ALTIVEC_EXTENSIONS = YES;
+				GCC_AUTO_VECTORIZATION = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_EXCEPTIONS = YES;
+				GCC_ENABLE_SSE3_EXTENSIONS = YES;
+				GCC_ENABLE_SSE41_EXTENSIONS = YES;
+				GCC_ENABLE_SSE42_EXTENSIONS = YES;
+				GCC_ENABLE_SUPPLEMENTAL_SSE3_INSTRUCTIONS = YES;
+				GCC_FAST_MATH = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = Wolfenstein3DFromSource_Prefix.pch;
+				GCC_UNROLL_LOOPS = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_PKGINFO_FILE = YES;
+				HEADER_SEARCH_PATHS = (
+					/System/Library/Frameworks/OpenGL.framework/Versions/A/Headers,
+					/opt/local/include,
+					/opt/X11/include,
+					/usr/X11R6/include,
+				);
+				LD_GENERATE_MAP_FILE = YES;
+				LIBRARY_SEARCH_PATHS = (
+					/System/Library/Frameworks/OpenGL.framework/Versions/A/Libraries,
+					/opt/local/lib,
+					/opt/X11/lib,
+					/usr/X11R6/lib,
+				);
+				OTHER_LDFLAGS = (
+					"-lX11",
+					"-lXext",
+					"-lXxf86dga",
+					"-lXxf86vm",
+					"-lvorbis",
+					"-lvorbisfile",
+					"-logg",
+					"-lICE",
+				);
 				PREBINDING = NO;
+				RUN_CLANG_STATIC_ANALYZER = YES;
+				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = YES;
 				SDKROOT = macosx10.6;
+				SEPARATE_STRIP = YES;
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		A5476C8618DA0C1D00FE1646 /* Build configuration list for PBXNativeTarget "gamepal" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A5476C7F18DA0BE900FE1646 /* Debug */,
+				A5476C8018DA0BE900FE1646 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A5476CE718DA108A00FE1646 /* Build configuration list for PBXNativeTarget "signon" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A5476CDA18DA105900FE1646 /* Debug */,
+				A5476CDB18DA105900FE1646 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		A571F1BE18C6FA270037F031 /* Build configuration list for PBXNativeTarget "WolfExtractor" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

@@ -169,28 +169,31 @@ PRIVATE W16	cachedMutant = 0;
 
 PRIVATE int progress_bar = 0;
 
-extern void R_EndFrame( void );
+extern void R_EndFrame(void);
 
 
 
-PRIVATE void CacheTextures( W16 start, W16 end )
+PRIVATE void CacheTextures(W16 start, W16 end)
 {
 	W32 i;
-	static char texname[ 64 ];
+	static char texname[64];
 
 
-	if( end < start ) {
+	if (end < start) {
 		return;
 	}
 
-	for( i = start ; i <= end ; ++i ) {
-#if 0
-		my_snprintf( texname, sizeof( texname ), "%s/%.3d.tga", spritelocation, i );
-#endif /* 0 */
-		(void)TM_FindTexture_Sprite( i );
+	for ((i = start); (i <= end); ++i) {
+#ifndef DEBUG
+# define DEBUG 1
+#endif /* !DEBUG */
+#if 0 || DEBUG || __clang_analyzer__
+		my_snprintf(texname, sizeof(texname), "%s/%.3d.tga", spritelocation, i);
+#endif /* 0  || DEBUG || __clang_analyzer__ */
+		(void)TM_FindTexture_Sprite(i);
 	}
 
-	R_DrawPsyched( ++progress_bar + 30 );
+	R_DrawPsyched((W32)++progress_bar + 30);
 	R_EndFrame();
 }
 
@@ -624,9 +627,9 @@ PRIVATE void Lvl_SpawnStatic( LevelData_t *lvl, int type, int x, int y )
 
 	if( statinfo[ type ].powerup == -1 ) {
 		if( statinfo[ type ].block ) {	/* blocking static */
-			lvl->tilemap[ x ][ y ] |= BLOCK_TILE;
+			lvl->tilemap[x][y] |= BLOCK_TILE;
 		} else {						/* dressing static */
-			lvl->tilemap[ x ][ y ] |= DRESS_TILE;
+			lvl->tilemap[x][y] |= DRESS_TILE;
 		}
 
 		spr_id = Sprite_GetNewSprite();
@@ -660,82 +663,83 @@ PRIVATE void Lvl_SpawnStatic( LevelData_t *lvl, int type, int x, int y )
 
 -----------------------------------------------------------------------------
 */
-PRIVATE void Lvl_SpawnObj( LevelData_t *lvl, int type, int x, int y )
+PRIVATE void Lvl_SpawnObj(LevelData_t *lvl, int type, int x, int y)
 {
-	if( type >= 23 && type < 23 + num_statics ) {
+	if ((type >= 23) && (type < (23 + num_statics))) {
 		/* static object */
-		Lvl_SpawnStatic( lvl, type - 23, x, y);
+		Lvl_SpawnStatic(lvl, (type - 23), x, y);
 		return;
 	}
 
-	switch( type ) {
+	switch (type) {
 		case 0x13: /* start N */
-			lvl->pSpawn.origin[ 0 ] = TILE2POS( x );
-			lvl->pSpawn.origin[ 1 ] = TILE2POS( y );
-            lvl->pSpawn.angle = DEG2RAD( 90 );
+			lvl->pSpawn.origin[0] = TILE2POS(x);
+			lvl->pSpawn.origin[1] = TILE2POS(y);
+            lvl->pSpawn.angle = (float)DEG2RAD(90);
 			break;
 
 		case 0x14: /* start E */
-			lvl->pSpawn.origin[ 0 ] = TILE2POS( x );
-			lvl->pSpawn.origin[ 1 ] = TILE2POS( y );
-            lvl->pSpawn.angle = DEG2RAD( 0 );
+			lvl->pSpawn.origin[0] = TILE2POS(x);
+			lvl->pSpawn.origin[1] = TILE2POS(y);
+			/* cast not technically needed here, but keep it consistent: */
+            lvl->pSpawn.angle = (float)DEG2RAD(0);
 			break;
 
 		case 0x15: /* start S */
-			lvl->pSpawn.origin[ 0 ] = TILE2POS( x );
-			lvl->pSpawn.origin[ 1 ] = TILE2POS( y );
-            lvl->pSpawn.angle = DEG2RAD( 270 );
+			lvl->pSpawn.origin[0] = TILE2POS(x);
+			lvl->pSpawn.origin[1] = TILE2POS(y);
+            lvl->pSpawn.angle = (float)DEG2RAD(270);
 			break;
 
 		case 0x16: /* start W */
-			lvl->pSpawn.origin[ 0 ] = TILE2POS( x );
-			lvl->pSpawn.origin[ 1 ] = TILE2POS( y );
-            lvl->pSpawn.angle = DEG2RAD( 180 );
+			lvl->pSpawn.origin[0] = TILE2POS(x);
+			lvl->pSpawn.origin[1] = TILE2POS(y);
+            lvl->pSpawn.angle = (float)DEG2RAD(180);
 			break;
 
 		case 0x5a: /* turn E */
-			lvl->tilemap[ x ][ y ] |= TILE_IS_E_TURN;/*FIXME!*/
+			lvl->tilemap[x][y] |= TILE_IS_E_TURN;/*FIXME!*/
 			break;
 
 		case 0x5b: /* turn NE */
-			lvl->tilemap[ x ][ y ] |= TILE_IS_NE_TURN;/*FIXME!*/
+			lvl->tilemap[x][y] |= TILE_IS_NE_TURN;/*FIXME!*/
 			break;
 
 		case 0x5c: /* turn N */
-			lvl->tilemap[ x ][ y ] |= TILE_IS_N_TURN;/*FIXME!*/
+			lvl->tilemap[x][y] |= TILE_IS_N_TURN;/*FIXME!*/
 			break;
 
 		case 0x5d: /* turn NW */
-			lvl->tilemap[ x ][ y ] |= TILE_IS_NW_TURN;/*FIXME!*/
+			lvl->tilemap[x][y] |= TILE_IS_NW_TURN;/*FIXME!*/
 			break;
 
 		case 0x5e: /* turn W */
-			lvl->tilemap[ x ][ y ] |= TILE_IS_W_TURN;/*FIXME!*/
+			lvl->tilemap[x][y] |= TILE_IS_W_TURN;/*FIXME!*/
 			break;
 
 		case 0x5f: /* turn SW */
-			lvl->tilemap[ x ][ y ] |= TILE_IS_SW_TURN;/*FIXME!*/
+			lvl->tilemap[x][y] |= TILE_IS_SW_TURN;/*FIXME!*/
 			break;
 
 		case 0x60: /* turn S */
-			lvl->tilemap[ x ][ y ] |= TILE_IS_S_TURN;/*FIXME!*/
+			lvl->tilemap[x][y] |= TILE_IS_S_TURN;/*FIXME!*/
 			break;
 
 		case 0x61: /* turn SE */
-			lvl->tilemap[ x ][ y ] |= TILE_IS_SE_TURN;/*FIXME!*/
+			lvl->tilemap[x][y] |= TILE_IS_SE_TURN;/*FIXME!*/
 			break;
 
 		case 0x62: /* pushwall modifier */
-			lvl->tilemap[ x ][ y ] |= SECRET_TILE;
+			lvl->tilemap[x][y] |= SECRET_TILE;
 			levelstate.total_secrets++;
 			break;
 
 		case 0x63: /* Victory trigger */
-			lvl->tilemap[ x ][ y ] |= EXIT_TILE;
+			lvl->tilemap[x][y] |= EXIT_TILE;
 			break;
 		/* spawn guards */
 
-	} /* end of switch( type ) */
+	} /* end of "switch (type)" */
 
 }
 
@@ -747,13 +751,13 @@ PRIVATE void Lvl_SpawnObj( LevelData_t *lvl, int type, int x, int y )
  Parameters:
 		length -[in] The length of the EXPANDED data.
 
- Returns:
+ Returns: Nothing.
 
  Notes:
 
 -----------------------------------------------------------------------------
 */
-PRIVATE void Lvl_CarmackExpand( W16 *source, W16 *dest, W16 length )
+PRIVATE void Lvl_CarmackExpand(W16 *source, W16 *dest, W16 length)
 {
 	#define NEARTAG	0xA7
 	#define FARTAG	0xA8
@@ -775,13 +779,13 @@ PRIVATE void Lvl_CarmackExpand( W16 *source, W16 *dest, W16 length )
 			count = ch & 0xff;
 			if( ! count ) {
 				/* have to insert a word containing the tag byte */
-				ch |= *((PW8)inptr); /* trying to fix an lvalue cast error here */
+				ch |= *((PW8)inptr); /* try to fix an lvalue cast error here */
 				ch++; /* this may have changed the original behavior... */
 				*outptr++ = (W16)ch;
 				length--;
 			} else {
-				offset = *((PW8)inptr); /* trying to fix an lvalue cast error here */
-				offset++;  /* this may have changed the original behavior... */
+				offset = *((PW8)inptr); /* fix an lvalue cast error here */
+				offset++; /* this may have changed the original behavior... */
 				copyptr = outptr - offset;
 				length -= count;
 				while( count-- ) {
@@ -792,7 +796,7 @@ PRIVATE void Lvl_CarmackExpand( W16 *source, W16 *dest, W16 length )
 			count = ch & 0xff;
 			if( ! count ) {
 				/* have to insert a word containing the tag byte */
-				ch |= *((PW8)inptr); /* trying to fix an lvalue cast error here */
+				ch |= *((PW8)inptr); /* try to fix an lvalue cast error here */
 				ch++; /* this may have changed the original behavior... */
 				*outptr++ = ch;
 				length--;
@@ -826,26 +830,24 @@ PRIVATE void Lvl_CarmackExpand( W16 *source, W16 *dest, W16 length )
 
 -----------------------------------------------------------------------------
 */
-PRIVATE void Lvl_RLEWexpand( W16 *source, W16 *dest,
-				   long length, unsigned rlewtag )
+PRIVATE void Lvl_RLEWexpand(W16 *source, W16 *dest,
+							long length, unsigned rlewtag)
 {
-  unsigned value,count,i;
+  unsigned value, count, i;
   W16 *end;
-
-
 
 /*
  * expand it
  */
-	end = dest + (length >> 1);
+	end = (dest + (length >> 1));
 
 	do {
 		value = *source++;
-		if( value != rlewtag ) {
+		if (value != rlewtag) {
 			/*
 			 * uncompressed
 			 */
-			*dest++ = value;
+			*dest++ = (W16)value;
 		} else {
 			/*
 			 * compressed string
@@ -853,11 +855,11 @@ PRIVATE void Lvl_RLEWexpand( W16 *source, W16 *dest,
 			count = *source++;
 			value = *source++;
 
-			for( i = 1 ; i <= count ; ++i ) {
-				*dest++ = value;
+			for ((i = 1); (i <= count); ++i) {
+				*dest++ = (W16)value;
 			}
 		}
-	} while( dest < end );
+	} while (dest < end);
 
 }
 
@@ -871,18 +873,19 @@ PRIVATE void Lvl_RLEWexpand( W16 *source, W16 *dest,
  Function: Level_LoadMap
 
  Parameters:
+		levelname -[in] The name of the level to load
 
- Returns:
+ Returns: The data for the level to load, in a struct of type LevelData_t
 
  Notes:
 
 -----------------------------------------------------------------------------
 */
-PUBLIC LevelData_t *Level_LoadMap( const char *levelname )
+PUBLIC LevelData_t *Level_LoadMap(const char *levelname)
 {
 	W16 rle;
-	W32  offset[ 3 ];
-	W16 length[ 3 ];
+	W32 offset[3];
+	W16 length[3];
 	W16 w, h;
 	W32	signature;
 	W16 *buffer, expanded;
@@ -898,31 +901,29 @@ PUBLIC LevelData_t *Level_LoadMap( const char *levelname )
 
 	int x, y0, y, layer1, layer2, layer3;
 
-
-
-	if( g_version->value == SPEAROFDESTINY ) {
+	if (g_version->value == SPEAROFDESTINY) {
 		statinfo = static_sod;
-		num_statics = sizeof( static_sod ) / sizeof( static_sod[ 0 ] );
+		num_statics = (sizeof(static_sod) / sizeof(static_sod[0]));
 	} else {
 		statinfo = static_wl6;
-		num_statics = sizeof( static_wl6 ) / sizeof( static_wl6[ 0 ] );
+		num_statics = (sizeof(static_wl6) / sizeof(static_wl6[0]));
 	}
 
 
-	newMap = (LevelData_t *) Z_Malloc( sizeof( LevelData_t ) );
-	memset( newMap, 0, sizeof( LevelData_t ) );
+	newMap = (LevelData_t *)Z_Malloc(sizeof(LevelData_t));
+	memset(newMap, 0, sizeof(LevelData_t));
 
 
-    fhandle = FS_OpenFile( levelname, 0 );
-	if( ! fhandle ) {
-		Com_Printf( "Could not load map (%s)\n", levelname );
+    fhandle = FS_OpenFile(levelname, 0);
+	if (! fhandle) {
+		Com_Printf("Could not load map (%s)\n", levelname);
 
 		return NULL;
 	}
 
-	filesize = FS_GetFileSize( fhandle );
-	if( filesize < MAPHEADER_SIZE ) {
-		Z_Free( newMap );
+	filesize = FS_GetFileSize(fhandle);
+	if (filesize < MAPHEADER_SIZE) {
+		Z_Free(newMap);
 
 		return NULL;
 	}
@@ -931,58 +932,57 @@ PUBLIC LevelData_t *Level_LoadMap( const char *levelname )
 /*
  * Process map header
  */
-	FS_ReadFile( &signature, 1, 4, fhandle );
-	if( signature != MAP_SIGNATURE ) {
-		Z_Free( newMap );
+	FS_ReadFile(&signature, 1, 4, fhandle);
+	if (signature != MAP_SIGNATURE) {
+		Z_Free(newMap);
 
 		return NULL;
 	}
 
 
+	FS_ReadFile(&rle, 2, 1, fhandle);
 
-	FS_ReadFile( &rle, 2, 1, fhandle );
+	FS_ReadFile(&w, 2, 1, fhandle);
+	FS_ReadFile(&h, 2, 1, fhandle);
 
-	FS_ReadFile( &w, 2, 1, fhandle );
-	FS_ReadFile( &h, 2, 1, fhandle );
-
-	FS_ReadFile( &ceiling, 4, 1, fhandle );
-	FS_ReadFile( &floor, 4, 1, fhandle );
-
-
-	FS_ReadFile( &length, 2, 3, fhandle );
-	FS_ReadFile( &offset, 4, 3, fhandle );
+	FS_ReadFile(&ceiling, 4, 1, fhandle);
+	FS_ReadFile(&floor, 4, 1, fhandle);
 
 
-	FS_ReadFile( &mapNameLength, 1, 2, fhandle );
-	FS_ReadFile( &musicNameLength, 1, 2, fhandle );
-
-	FS_ReadFile( &levelstate.fpartime, sizeof( float ), 1, fhandle );
-
-	FS_ReadFile( levelstate.spartime, sizeof( W8 ), 5, fhandle );
-	levelstate.spartime[ 5 ] = '\0';
+	FS_ReadFile(&length, 2, 3, fhandle);
+	FS_ReadFile(&offset, 4, 3, fhandle);
 
 
-	if( filesize < (MAPHEADER_SIZE + mapNameLength + musicNameLength +
-					length[ 0 ] + length[ 1 ] + length[ 2 ]) ) {
-		Z_Free( newMap );
+	FS_ReadFile(&mapNameLength, 1, 2, fhandle);
+	FS_ReadFile(&musicNameLength, 1, 2, fhandle);
+
+	FS_ReadFile(&levelstate.fpartime, sizeof(float), 1, fhandle);
+
+	FS_ReadFile(levelstate.spartime, sizeof(W8), 5, fhandle);
+	levelstate.spartime[5] = '\0';
+
+
+	if (filesize < (MAPHEADER_SIZE + mapNameLength + musicNameLength +
+					length[0] + length[1] + length[2])) {
+		Z_Free(newMap);
 
 		return NULL;
 	}
 
-	mapName = Z_Malloc( mapNameLength + 1 );
-	musicName = Z_Malloc( musicNameLength + 1 );
+	mapName = Z_Malloc(mapNameLength + 1);
+	musicName = Z_Malloc(musicNameLength + 1);
 
 
-	FS_ReadFile( mapName, 1, mapNameLength, fhandle );
-	mapName[ mapNameLength ] = '\0';
+	FS_ReadFile(mapName, 1, mapNameLength, fhandle);
+	mapName[mapNameLength] = '\0';
 
 
-	FS_ReadFile( musicName, 1, musicNameLength, fhandle );
-	musicName[ musicNameLength ] = '\0';
+	FS_ReadFile(musicName, 1, musicNameLength, fhandle);
+	musicName[musicNameLength] = '\0';
 
 
-	if( filesize < (MAPHEADER_SIZE + mapNameLength + musicNameLength) ) {
-		Z_Free( newMap );
+	if (filesize < (MAPHEADER_SIZE + mapNameLength + musicNameLength)) {
+		Z_Free(newMap);
 
 		return NULL;
 	}
@@ -990,59 +990,65 @@ PUBLIC LevelData_t *Level_LoadMap( const char *levelname )
 /*
  * Plane1  -Walls
  */
-	data = MM_MALLOC( length[ 0 ] );
+	data = MM_MALLOC(length[0]);
 
-	FS_FileSeek( fhandle, offset[ 0 ], SEEK_SET );
-	FS_ReadFile( data, 1, length[ 0 ], fhandle );
+	FS_FileSeek(fhandle, (SW32)offset[0], SEEK_SET);
+	FS_ReadFile(data, 1, length[0], fhandle);
 
 
 	expanded = *((unsigned short *)data);
-	buffer = MM_MALLOC( expanded );
+	buffer = MM_MALLOC(expanded);
 
-	Lvl_CarmackExpand( (unsigned short *)data+1, buffer, expanded );
-	Lvl_RLEWexpand( buffer+1, newMap->Plane1, 64*64*2, rle );
+	/* not sure if the cast here was supposed to be for just 'data' or for
+	 * '(data + 1)'...: */
+	Lvl_CarmackExpand((unsigned short *)(data + 1), buffer, expanded);
+	Lvl_RLEWexpand((buffer + 1), newMap->Plane1, (64 * 64 * 2), rle);
 
-	MM_FREE( buffer );
-	MM_FREE( data );
+	MM_FREE(buffer);
+	MM_FREE(data);
 
 /*
  * Plane2 -Objects
  */
-    data = MM_MALLOC( length[ 1 ] );
+    data = MM_MALLOC(length[1]);
 
-	FS_FileSeek( fhandle, offset[ 1 ], SEEK_SET );
-	FS_ReadFile( data, 1, length[ 1 ], fhandle );
+	FS_FileSeek(fhandle, (SW32)offset[1], SEEK_SET);
+	FS_ReadFile(data, 1, length[1], fhandle);
 
 
 	expanded = *((PW16)data);
-	buffer = MM_MALLOC( expanded );
+	buffer = MM_MALLOC(expanded);
 
-	Lvl_CarmackExpand( (PW16)data+1, buffer, expanded );
-	Lvl_RLEWexpand( buffer+1, newMap->Plane2, 64*64*2, rle );
+	/* not sure if the cast here was supposed to be for just 'data' or for
+	 * '(data + 1)'...: */
+	Lvl_CarmackExpand((PW16)(data + 1), buffer, expanded);
+	Lvl_RLEWexpand((buffer + 1), newMap->Plane2, (64 * 64 * 2), rle);
 
-	MM_FREE( buffer );
-	MM_FREE( data );
+	MM_FREE(buffer);
+	MM_FREE(data);
 
 /*
  * Plane3 -Other
  */
-    data = MM_MALLOC( length[ 2 ] );
+    data = MM_MALLOC(length[2]);
 
-	FS_FileSeek( fhandle, offset[ 2 ], SEEK_SET );
-	FS_ReadFile( data, 1, length[ 2 ], fhandle );
+	FS_FileSeek(fhandle, (SW32)offset[2], SEEK_SET);
+	FS_ReadFile(data, 1, length[2], fhandle);
 
 
 	expanded = *((PW16)data);
-	buffer = MM_MALLOC( expanded );
+	buffer = MM_MALLOC(expanded);
 
-	Lvl_CarmackExpand( (PW16)data+1, buffer, expanded );
-	Lvl_RLEWexpand( buffer+1, newMap->Plane3, 64*64*2, rle );
+	/* not sure if the cast here was supposed to be for just 'data' or for
+	 * '(data + 1)'...: */
+	Lvl_CarmackExpand((PW16)(data + 1), buffer, expanded);
+	Lvl_RLEWexpand((buffer + 1), newMap->Plane3, (64 * 64 * 2), rle );
 
-    MM_FREE( buffer );
-	MM_FREE( data );
+    MM_FREE(buffer);
+	MM_FREE(data);
 
 
-	FS_CloseFile( fhandle );
+	FS_CloseFile(fhandle);
 
 
 	for ((y0 = 0); (y0 < 64); ++y0)
@@ -1050,67 +1056,67 @@ PUBLIC LevelData_t *Level_LoadMap( const char *levelname )
 		y = (63 - y0);
 		/* parentheses are not strictly needed, they are just there to clarify
 		 * the order of operations for those of us that forget it: */
-		layer1 = newMap->Plane1[ (y0 * 64) + x ];
-		layer2 = newMap->Plane2[ (y0 * 64) + x ];
-		layer3 = newMap->Plane3[ (y0 * 64) + x ];
+		layer1 = newMap->Plane1[((y0 * 64) + x)];
+		layer2 = newMap->Plane2[((y0 * 64) + x)];
+		layer3 = newMap->Plane3[((y0 * 64) + x)];
 		/* (multiplication goes first, correct?) */
 
 /* if server, process obj layer! */
 		if (layer2) {
-			Lvl_SpawnObj( newMap, layer2, x, y );
+			Lvl_SpawnObj(newMap, layer2, x, y);
 		}
 
 /* Map data layer */
 		if (layer1 == 0) {
-			newMap->areas[ x ][ y ] = -3; /* unknown area */
-		} else if( layer1 < 0x6a ) { /* solid map object */
-			if ((layer1 >= 0x5A && layer1 <= 0x5F) ||
-				layer1 == 0x64 || layer1 == 0x65 ) { /* door */
-				newMap->tilemap[ x ][ y ] |= DOOR_TILE;
-				Door_SpawnDoor( &newMap->Doors, x, y, layer1 );
-				newMap->areas[ x ][ y ] = -2; /* door area */
+			newMap->areas[x][y] = -3; /* unknown area */
+		} else if (layer1 < 0x6a) { /* solid map object */
+			if (((layer1 >= 0x5A) && (layer1 <= 0x5F)) ||
+				(layer1 == 0x64) || (layer1 == 0x65)) { /* door */
+				newMap->tilemap[x][y] |= DOOR_TILE;
+				Door_SpawnDoor(&newMap->Doors, x, y, layer1);
+				newMap->areas[x][y] = -2; /* door area */
 			} else {
-				newMap->tilemap[ x ][ y ] |= WALL_TILE;
+				newMap->tilemap[x][y] |= WALL_TILE;
 
-				newMap->wall_tex_x[ x ][ y ] = (layer1-1) * 2 + 1;
-				newMap->wall_tex_y[ x ][ y ] = (layer1-1) * 2;
-				newMap->areas[ x ][ y ] = -1; /* wall area */
+				newMap->wall_tex_x[x][y] = (((layer1 - 1) * 2) + 1);
+				newMap->wall_tex_y[x][y] = ((layer1 - 1) * 2);
+				newMap->areas[x][y] = -1; /* wall area */
 
 				if (layer1 == 0x15) { /* elevator */
-					newMap->tilemap[ x ][ y ] |= ELEVATOR_TILE;
+					newMap->tilemap[x][y] |= ELEVATOR_TILE;
 				}
 			}
 		} else if (layer1 == 0x6a) { /* Ambush floor tile */
-			newMap->tilemap[ x ][ y ] |= AMBUSH_TILE;
-			newMap->areas[ x ][ y ] = -3; /* unknown area */
+			newMap->tilemap[x][y] |= AMBUSH_TILE;
+			newMap->areas[x][y] = -3; /* unknown area */
 		} else if (layer1 >= FIRSTAREA &&
-				 layer1 < (FIRSTAREA + NUMAREAS) ) { /* area */
-			if( layer1 == FIRSTAREA ) { /* secret level */
-				newMap->tilemap[ x ][ y ] |= SECRETLEVEL_TILE;
+				   layer1 < (FIRSTAREA + NUMAREAS)) { /* area */
+			if (layer1 == FIRSTAREA) { /* secret level */
+				newMap->tilemap[x][y] |= SECRETLEVEL_TILE;
 			}
-			newMap->areas[ x ][ y ] = (layer1 - FIRSTAREA); /* spawn area */
+			newMap->areas[x][y] = (layer1 - FIRSTAREA); /* spawn area */
 		} else if (layer3 == 0) { /* dummy condition to use layer3 */
-			newMap->areas[ x ][ y ] = -3; /* unknown area */
+			newMap->areas[x][y] = -3; /* unknown area */
 		} else {
-			newMap->areas[ x ][ y ] = -3; /* unknown area */
+			newMap->areas[x][y] = -3; /* unknown area */
 		}
 /* End of the map data layer */
 	}
 
-	Door_SetAreas( &newMap->Doors, newMap->areas );
+	Door_SetAreas(&newMap->Doors, newMap->areas);
 
-	my_strlcpy( levelstate.level_name, mapName, sizeof( levelstate.level_name ) );
+	my_strlcpy(levelstate.level_name, mapName, sizeof(levelstate.level_name));
 
 
 	newMap->mapName = mapName;
 	newMap->musicName = musicName;
 
-	newMap->ceilingColour[ 0 ] = (W8)((ceiling >> 16) & 0xFF);
-	newMap->ceilingColour[ 1 ] = (W8)((ceiling >> 8) & 0xFF);
-	newMap->ceilingColour[ 2 ] = (W8)((ceiling ) & 0xFF);
-	newMap->floorColour[ 0 ] = (W8)((floor >> 16) & 0xFF);
-	newMap->floorColour[ 1 ] = (W8)((floor >> 8) & 0xFF);
-	newMap->floorColour[ 2 ] = (W8)((floor ) & 0xFF);
+	newMap->ceilingColour[0] = (W8)((ceiling >> 16) & 0xFF);
+	newMap->ceilingColour[1] = (W8)((ceiling >> 8) & 0xFF);
+	newMap->ceilingColour[2] = (W8)((ceiling) & 0xFF);
+	newMap->floorColour[0] = (W8)((floor >> 16) & 0xFF);
+	newMap->floorColour[1] = (W8)((floor >> 8) & 0xFF);
+	newMap->floorColour[2] = (W8)((floor) & 0xFF);
 
 	return newMap;
 }
@@ -1123,6 +1129,8 @@ PUBLIC LevelData_t *Level_LoadMap( const char *levelname )
  Function: Level_PrecacheTextures_Sound
 
  Parameters:
+ 		lvl -[in] The data for the level to precache the textures and sound
+				  from, in LevelData_t form.
 
  Returns: Nothing.
 
@@ -1130,67 +1138,69 @@ PUBLIC LevelData_t *Level_LoadMap( const char *levelname )
 
 -----------------------------------------------------------------------------
 */
-PUBLIC void Level_PrecacheTextures_Sound( LevelData_t *lvl )
+PUBLIC void Level_PrecacheTextures_Sound(LevelData_t *lvl)
 {
 	int x, y;
-	char texname[ 32 ];
+	char texname[32];
 
 
+	for ((x = 0); (x < 64); ++x)
+	for ((y = 0); (y < 64); ++y) {
+		if (lvl->tilemap[x][y] & WALL_TILE) {
+#if 0 || __clang_analyzer__
+			my_snprintf(texname, sizeof(texname), "walls/%.3d.tga",
+						lvl->wall_tex_x[x][y]);
+			(void)TM_FindTexture(texname, TT_Wall);
+#endif /* 0 || __clang_analyzer__ */
 
-	for( x = 0 ; x < 64 ; ++x )
-	for( y = 0 ; y < 64 ; ++y ) {
-		if( lvl->tilemap[ x ][ y ] & WALL_TILE ) {
-#if 0
-			my_snprintf( texname, sizeof( texname ), "walls/%.3d.tga", lvl->wall_tex_x[ x ][ y ] );
-			(void)TM_FindTexture( texname, TT_Wall );
-#endif /* 0 */
+            TM_FindTexture_Wall((W32)(lvl->wall_tex_x[x][y]));
 
-            TM_FindTexture_Wall( lvl->wall_tex_x[ x ][ y ] );
+#if 0 || __clang_analyzer__
+			my_snprintf(texname, sizeof(texname), "walls/%.3d.tga",
+						lvl->wall_tex_y[x][y]);
+			(void)TM_FindTexture(texname, TT_Wall);
+#endif /* 0 || __clang_analyzer__ */
 
-#if 0
-			my_snprintf( texname, sizeof( texname ), "walls/%.3d.tga", lvl->wall_tex_y[ x ][ y ] );
-			(void)TM_FindTexture( texname, TT_Wall );
-#endif /* 0 */
-
-            TM_FindTexture_Wall( lvl->wall_tex_y[ x ][ y ] );
+            TM_FindTexture_Wall((W32)(lvl->wall_tex_y[x][y]));
 		}
 
-		if( lvl->tilemap[ x ][ y ] & POWERUP_TILE ) {
-			my_snprintf( texname, sizeof( texname ), "%s/%.3d.tga", spritelocation, lvl->tilemap[ x ][ y ] & POWERUP_TILE );
-			(void)TM_FindTexture( texname, TT_Wall );
+		if (lvl->tilemap[x][y] & POWERUP_TILE) {
+			my_snprintf(texname, sizeof(texname), "%s/%.3d.tga", spritelocation,
+						lvl->tilemap[x][y] & POWERUP_TILE);
+			(void)TM_FindTexture(texname, TT_Wall);
 		}
 	}
 
 	/* Doors */
-	for( x = TEX_DOOR; x < TEX_DLOCK+1 ; ++x ) {
-#if 0
-		my_snprintf( texname, sizeof( texname ), "walls/%.3d.tga", x );
-		(void)TM_FindTexture( texname, TT_Wall );
-#endif /* 0 */
+	for ((x = TEX_DOOR); (x < (TEX_DLOCK + 1)); ++x ) {
+#if 0 || __clang_analyzer__
+		my_snprintf(texname, sizeof(texname), "walls/%.3d.tga", x);
+		(void)TM_FindTexture(texname, TT_Wall);
+#endif /* 0 || __clang_analyzer__ */
 
-        TM_FindTexture_Wall( x );
+        TM_FindTexture_Wall((W32)(x));
 	}
 
 
 	/* Items */
-	CacheTextures( 26, 36 );
+	CacheTextures(26, 36);
 
 	/* Weapon frames */
-	CacheTextures( SPR_KNIFEREADY, SPR_CHAINATK4 );
+	CacheTextures(SPR_KNIFEREADY, SPR_CHAINATK4);
 
-	for( x = 1; x < 8 ; ++x ) {
-		my_snprintf( texname, sizeof( texname ), "pics/FACE%dAPIC.tga", x );
-		(void)TM_FindTexture( texname, TT_Pic );
+	for ((x = 1); (x < 8); ++x) {
+		my_snprintf(texname, sizeof(texname), "pics/FACE%dAPIC.tga", x);
+		(void)TM_FindTexture(texname, TT_Pic);
 
-		my_snprintf( texname, sizeof( texname ), "pics/FACE%dBPIC.tga", x );
-		(void)TM_FindTexture( texname, TT_Pic );
+		my_snprintf(texname, sizeof(texname), "pics/FACE%dBPIC.tga", x);
+		(void)TM_FindTexture(texname, TT_Pic);
 
-		my_snprintf( texname, sizeof( texname ), "pics/FACE%dCPIC.tga", x );
-		(void)TM_FindTexture( texname, TT_Pic );
+		my_snprintf(texname, sizeof(texname), "pics/FACE%dCPIC.tga", x);
+		(void)TM_FindTexture(texname, TT_Pic);
 	}
 
-	my_snprintf( texname, sizeof( texname ), "pics/FACE8APIC.tga" );
-	(void)TM_FindTexture( texname, TT_Pic );
+	my_snprintf(texname, sizeof(texname), "pics/FACE8APIC.tga");
+	(void)TM_FindTexture(texname, TT_Pic);
 
 }
 
@@ -1208,7 +1218,8 @@ PUBLIC void Level_PrecacheTextures_Sound( LevelData_t *lvl )
 
 -----------------------------------------------------------------------------
 */
-PUBLIC _boolean Level_CheckLine( SW32 x1, SW32 y1, SW32 x2, SW32 y2, LevelData_t *lvl )
+PUBLIC _boolean Level_CheckLine(SW32 x1, SW32 y1, SW32 x2, SW32 y2,
+								LevelData_t *lvl)
 {
 	SW32 xt1, yt1, xt2, yt2; /* tile positions */
 	SW32 x, y;				/* current point in !tiles! */
@@ -1261,11 +1272,11 @@ PUBLIC _boolean Level_CheckLine( SW32 x1, SW32 y1, SW32 x2, SW32 y2, LevelData_t
 			Frac += ystep;
 
 
-			if( lvl->tilemap[ x ][ y ] & WALL_TILE ) {
+			if( lvl->tilemap[x][y] & WALL_TILE ) {
 				return false; /* Wall is in path quitting! */
 			}
 
-			if( lvl->tilemap[ x ][ y ] & DOOR_TILE ) {
+			if( lvl->tilemap[x][y] & DOOR_TILE ) {
 				/* door, see if the door is open enough */
 				if( lvl->Doors.DoorMap[ x ][ y ].action != dr_open ) {
 					if( lvl->Doors.DoorMap[ x ][ y ].action == dr_closed ) {
@@ -1302,11 +1313,11 @@ PUBLIC _boolean Level_CheckLine( SW32 x1, SW32 y1, SW32 x2, SW32 y2, LevelData_t
 			x = Frac >> FRACBITS;
 			Frac += xstep;
 
-			if( lvl->tilemap[ x ][ y ] & WALL_TILE ) {
+			if( lvl->tilemap[x][y] & WALL_TILE ) {
 				return false; /* Wall is in path quitting! */
 			}
 
-			if( lvl->tilemap[ x ][ y ] & DOOR_TILE ) {
+			if( lvl->tilemap[x][y] & DOOR_TILE ) {
 				/* door, see if the door is open enough */
 				if( lvl->Doors.DoorMap[ x ][ y ].action != dr_open ) {
 					if( lvl->Doors.DoorMap[ x ][ y ].action == dr_closed ) {

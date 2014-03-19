@@ -84,17 +84,17 @@ PUBLIC W32 UnixTimeToDosTime( time_t *t )
   struct tm *s;
 
   /* Round up to even seconds. */
-  t_even = (time_t)(((W32)(*t) + 1) & (~1));
+  t_even = (time_t)(((W32)(*t) + 1) & (unsigned long)(~1));
 
-  s = localtime( &t_even );
-  if( s == (struct tm *)NULL ) {
+  s = localtime(&t_even);
+  if (s == (struct tm *)NULL) {
       /* time conversion error; use current time instead */
-      t_even = (time_t)(((W32)time(NULL) + 1) & (~1));
-      s = localtime( &t_even );
+      t_even = (time_t)(((W32)time(NULL) + 1) & (unsigned long)(~1));
+      s = localtime(&t_even);
   }
 
-  return DOSTIME( s->tm_year + 1900, s->tm_mon + 1, s->tm_mday,
-                 s->tm_hour, s->tm_min, s->tm_sec );
+  return DOSTIME((s->tm_year + 1900), (s->tm_mon + 1), s->tm_mday,
+                 s->tm_hour, s->tm_min, s->tm_sec);
 }
 
 
@@ -243,7 +243,7 @@ PUBLIC SW32 FS_FileLength( FILE *filestream )
  Notes:
 -----------------------------------------------------------------------------
 */
-PUBLIC void FS_Read( void *buffer, int len, FILE *f )
+PUBLIC void FS_Read(void *buffer, int len, FILE *f)
 {
 	int	block, remaining;
 	int	read;
@@ -259,26 +259,23 @@ PUBLIC void FS_Read( void *buffer, int len, FILE *f )
 
 	#define	MAX_READ	0x10000		/* read in blocks of 64k */
 
-	while( remaining )
-	{
+	while (remaining) {
 		block = remaining;
-		if( block > MAX_READ )
-		{
+		if (block > MAX_READ) {
 			block = MAX_READ;
 		}
-		read = fread( buf, 1, block, f );
-		if( read == 0 )
-		{
+		read = (int)(fread(buf, 1, (size_t)(block), f));
+		if (read == 0) {
 			/* we might have been trying to read from a CD */
-			if( ! tries ) {
+			if (! tries) {
 				tries = 1;
 			} else {
-				printf( "FS_Read: 0 bytes read" );
+				printf("FS_Read(): 0 bytes read");
 			}
 		}
 
-		if( read == -1 ) {
-			printf( "FS_Read: -1 bytes read" );
+		if (read == -1) {
+			printf("FS_Read(): -1 bytes read");
 		}
 
 		remaining -= read;
@@ -322,7 +319,7 @@ PUBLIC SW32 FS_FOpenFile( const char *filename, FILE **file )
  Notes:
 -----------------------------------------------------------------------------
 */
-PUBLIC SW32 FS_LoadFile( const char *path, void **buffer )
+PUBLIC SW32 FS_LoadFile(const char *path, void **buffer)
 {
 	FILE	*fhandle;
 	W8		*buf;
@@ -331,26 +328,26 @@ PUBLIC SW32 FS_LoadFile( const char *path, void **buffer )
 	buf = NULL;	/* quiet compiler warning */
 
 /* look for it in the filesystem or pack files */
-	length = FS_FOpenFile( path, &fhandle );
-	if( ! fhandle ) {
-		if( buffer ) {
+	length = FS_FOpenFile(path, &fhandle);
+	if (! fhandle) {
+		if (buffer) {
 			*buffer = NULL;
 		}
 
 		return -1;
 	}
 
-	if( ! buffer ) {
-		fclose( fhandle );
+	if (! buffer) {
+		fclose(fhandle);
 		return length;
 	}
 
-	buf = MM_MALLOC( length );
+	buf = MM_MALLOC((size_t)(length));
 	*buffer = buf;
 
-	FS_Read( buf, length, fhandle );
+	FS_Read(buf, (int)(length), fhandle);
 
-	fclose( fhandle );
+	fclose(fhandle);
 
 	return length;
 }

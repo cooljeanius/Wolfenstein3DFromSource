@@ -54,64 +54,51 @@
  Notes:
 -----------------------------------------------------------------------------
 */
-PRIVATE void rle_write( FILE   *fp,
-						W8	*buffer,
-						W32	width,
-						W32	bytes )
+PRIVATE void rle_write(FILE   *fp,
+					   W8	*buffer,
+					   W32	width,
+					   W32	bytes)
 {
 	SW32    repeat = 0;
 	SW32    direct = 0;
 	W8	 *from   = buffer;
 	W32    x;
 
-	for( x = 1 ; x < width ; ++x )
-	{
-		if( memcmp( buffer, buffer + bytes, bytes ) )
-		{
+	for ((x = 1); (x < width); ++x) {
+		if (memcmp(buffer, (buffer + bytes), bytes)) {
 			/* next pixel is different */
-			if( repeat )
-			{
-				putc( 128 + repeat, fp );
-				fwrite( from, bytes, 1, fp );
-				from = buffer + bytes; /* point to first different pixel */
+			if (repeat) {
+				putc((int)(128 + repeat), fp);
+				fwrite(from, bytes, 1, fp);
+				from = (buffer + bytes); /* point to first different pixel */
 				repeat = 0;
 				direct = 0;
-			}
-			else
-			{
+			} else {
 				direct += 1;
 			}
-		}
-		else
-		{
+		} else {
 			/* next pixel is the same */
-			if( direct )
-			{
-				putc( direct - 1, fp );
-				fwrite( from, bytes, direct, fp );
+			if (direct) {
+				putc((int)(direct - 1), fp);
+				fwrite(from, bytes, (size_t)direct, fp);
 				from = buffer; /* point to first identical pixel */
 				direct = 0;
 				repeat = 1;
-			}
-			else
-			{
+			} else {
 				repeat += 1;
 			}
 		}
 
-		if( repeat == 128 )
-		{
-			putc( 255, fp );
-			fwrite( from, bytes, 1, fp );
-			from = buffer + bytes;
+		if (repeat == 128) {
+			putc(255, fp);
+			fwrite(from, bytes, 1, fp);
+			from = (buffer + bytes);
 			direct = 0;
 			repeat = 0;
-		}
-		else if( direct == 128 )
-		{
-			putc( 127, fp );
-			fwrite( from, bytes, direct, fp );
-			from = buffer + bytes;
+		} else if (direct == 128) {
+			putc(127, fp);
+			fwrite(from, bytes, (size_t)direct, fp);
+			from = (buffer + bytes);
 			direct = 0;
 			repeat = 0;
 		}
@@ -119,15 +106,12 @@ PRIVATE void rle_write( FILE   *fp,
 		buffer += bytes;
     }
 
-	if( repeat > 0 )
-	{
-		putc( 128 + repeat, fp );
-		fwrite( from, bytes, 1, fp );
-	}
-	else
-	{
-		putc( direct, fp );
-		fwrite( from, bytes, direct + 1, fp );
+	if (repeat > 0) {
+		putc((int)(128 + repeat), fp);
+		fwrite(from, bytes, 1, fp);
+	} else {
+		putc((int)direct, fp);
+		fwrite(from, bytes, (size_t)(direct + 1), fp);
 	}
 }
 
@@ -150,90 +134,100 @@ PRIVATE void rle_write( FILE   *fp,
 -----------------------------------------------------------------------------
 */
 /* TODO: put this function in a shared library */
-#ifndef WriteTGA
+#ifndef WriteTGA /* this if(n)def is bad */
 PUBLIC W8 WriteTGA(const char *filename, W16 bpp, W16 width, W16 height,
 				   void *Data, W8 upsideDown, W8 rle);
 /* TODO: put the prototype in a relevant header */
 PUBLIC W8 WriteTGA(const char *filename, W16 bpp, W16 width, W16 height,
 				   void *Data, W8 upsideDown, W8 rle)
 #else
-PUBLIC W8 wolfextractor_WriteTGA(const char *filename, W16 bpp, W16 width, W16 height,
-								 void *Data, W8 upsideDown, W8 rle);
+PUBLIC W8 wolfextractor_WriteTGA(const char *filename, W16 bpp, W16 width,
+								 W16 height, void *Data, W8 upsideDown, W8 rle);
 /* TODO: as above with the prototype in the previous condition */
-PUBLIC W8 wolfextractor_WriteTGA(const char *filename, W16 bpp, W16 width, W16 height,
-								 void *Data, W8 upsideDown, W8 rle)
+PUBLIC W8 wolfextractor_WriteTGA(const char *filename, W16 bpp, W16 width,
+								 W16 height, void *Data, W8 upsideDown, W8 rle)
 #endif /* !WriteTGA */
 {
     W16	i, x, y, BytesPerPixel;
 	W8	*scanline;
-	W8 header[ 18 ];
+	W8 header[18];
 	FILE *filestream;
-	W8 *ptr = (PW8) Data;
+	W8 *ptr = (PW8)Data;
 	W8 temp;
 
-	BytesPerPixel = bpp >> 3;
+	BytesPerPixel = (bpp >> 3);
 
-	filestream = fopen( filename, "wb" );
-    if( filestream == NULL ) {
-		printf( "Could not open file (%s) for write!\n", filename );
+	filestream = fopen(filename, "wb");
+    if (filestream == NULL) {
+		printf("Could not open file (%s) for write!\n", filename);
 		return 0;
 	}
 
-	memset( header, 0, 18 );
-    header[2] = rle ? 10 : 2;
+	memset(header, 0, 18);
+    header[2] = (rle ? 10 : 2);
 
-    header[12] = width & 255;	/* width low */
-    header[13] = width >> 8;	/* width high */
+    header[12] = (width & 255);	/* width low */
+    header[13] = (width >> 8);	/* width high */
 
-    header[14] = height & 255;	/* height low */
-    header[15] = height >> 8;	/* height high */
+    header[14] = (height & 255); /* height low */
+    header[15] = (height >> 8);	/* height high */
 
-    header[16] = bpp & 255;	/* pixel size */
+    header[16] = (bpp & 255);	/* pixel size */
 
-    if( upsideDown ) {
-		header[17] |= 1 << 5; /* Image Descriptor */
+    if (upsideDown) {
+		header[17] |= (1 << 5); /* Image Descriptor */
     }
 
 
-	fwrite( header, sizeof( W8 ), sizeof( header ), filestream  );
+	fwrite(header, sizeof(W8), sizeof(header), filestream);
 
 
-
-	scanline = (PW8) MM_MALLOC( width * BytesPerPixel );
-    if( scanline == NULL )
-	{
-		fclose( filestream );
+	scanline = (PW8)MM_MALLOC((size_t)(width * BytesPerPixel));
+    if (scanline == NULL) {
+		fclose(filestream);
 		return 0;
 	}
 
-	for( y = 0; y < height; ++y )
-	{
+	for ((y = 0); (y < height); ++y) {
 		W32 k = 0;
 
-		for( i = 0; i < (width * BytesPerPixel); ++i ) {
-			scanline[ k++ ] = ptr[ (height - y - 1) * width * BytesPerPixel + i ];
+		for ((i = 0); (i < (width * BytesPerPixel)); ++i ) {
+			scanline[k++] = ptr[((height - y - 1) * width * BytesPerPixel + i)];
 		}
 
 
-		if( bpp == 24 || bpp == 32 ) {
+		if ((bpp == 24) || (bpp == 32)) {
 			/* swap rgb to bgr */
-			for( x = 0 ; x < (width * BytesPerPixel) ; x += BytesPerPixel ) {
-				temp = scanline[ x ];
-				scanline[ x ] = scanline[ x + 2 ];
-				scanline[ x + 2 ] = temp;
+			for ((x = 0); (x < (width * BytesPerPixel)); (x += BytesPerPixel)) {
+				temp = scanline[x];
+				scanline[x] = scanline[(x + 2)];
+				scanline[(x + 2)] = temp;
 			}
 		}
 
-		if( rle ) {
-			rle_write( filestream, scanline, width, BytesPerPixel );
+		if (rle) {
+			rle_write(filestream, scanline, width, BytesPerPixel);
 		} else {
-			fwrite( scanline, sizeof( W8 ), width * BytesPerPixel, filestream );
+			fwrite(scanline, sizeof(W8), (width * BytesPerPixel), filestream);
 		}
 	}
 
-    MM_FREE( scanline );
+    MM_FREE(scanline);
 
-    fclose( filestream );
+	if (filestream == NULL) {
+		printf("WriteTGA(): file (%s) somehow became null!\n", filename);
+		return 0;
+	}
+
+	if (! filestream) {
+		printf("WriteTGA(): something bad happened to the filestream (%s) here!\n",
+			   filename);
+		return 0;
+	}
+
+    fclose(filestream);
 
 	return 1;
 }
+
+/* EOF */

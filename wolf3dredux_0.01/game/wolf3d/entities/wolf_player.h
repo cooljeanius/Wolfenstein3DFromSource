@@ -132,7 +132,7 @@ typedef struct player_s
 
 	/* stats */
 	int health, lives, frags;
-	int armor; /* there are 2 types. The better one is indicated by high bit set */
+	int armor; /* there are 2 types. Better 1 is indicated by high bit set. */
 	int ammo[AMMO_TYPES];
 	int old_score, score, next_extra;
 	unsigned items; /* (keys, weapon) */
@@ -144,7 +144,7 @@ typedef struct player_s
 
 	_boolean madenoise;	/* FIXME: move to flags? */
 	entity_t *LastAttacker;
-	int faceframe, facecount; /* bj's face in the HUD */ /* FIXME decide something! */
+	int faceframe, facecount; /*face of bj in HUD*/ /*FIXME: decide something!*/
 	_boolean face_gotgun, face_ouch;
 	state_t playstate; /* fixme: move to gamestate */
 

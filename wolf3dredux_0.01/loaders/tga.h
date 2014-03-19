@@ -94,14 +94,14 @@ enum {  TGA_OK = 0, /* success */
 /* text strings corresponding to the error codes */
 static char*
 tga_error_strings[] = {
-	"Success",
-	"Error",
-	"Out of memory",
-	"Failed to open file",
-	"Seek failed",
-	"Read failed",
-	"Write failed",
-	"Unknown sub-format"
+	"Success",				/* 0 (?) */
+	"Error",				/* 1 (?) */
+	"Out of memory",		/* 2 (?) */
+	"Failed to open file",	/* 3 (?) */
+	"Seek failed",			/* 4 (?) */
+	"Read failed",			/* 5 (?) */
+	"Write failed",			/* 6 (?) */
+	"Unknown sub-format"	/* 7 (?) */
 };
 
 
@@ -129,20 +129,20 @@ typedef void (*TGAErrorProc)(TGA*, int);
 
 /* TGA image header */
 struct _TGAHeader {
-    	tbyte	id_len;		/* image id length */
+	tbyte	id_len;		/* image id length */
 	tbyte	map_t;		/* color map type */
 	tbyte	img_t;		/* image type */
 	tshort	map_first;	/* index of first map entry */
 	tshort	map_len;	/* number of entries in color map */
 	tbyte	map_entry;	/* bit-depth of a cmap entry */
-	tshort	x;		/* x-coordinate */
-	tshort	y;		/* y-coordinate */
+	tshort	x;			/* x-coordinate */
+	tshort	y;			/* y-coordinate */
 	tshort	width;		/* width of image */
 	tshort	height;		/* height of image */
 	tbyte	depth;		/* pixel-depth of image */
-	tbyte   alpha;          /* alpha bits */
-	tbyte	horz;	        /* horizontal orientation */
-	tbyte	vert;	        /* vertical orientation */
+	tbyte   alpha;      /* alpha bits */
+	tbyte	horz;	    /* horizontal orientation */
+	tbyte	vert;	    /* vertical orientation */
 };
 
 /* TGA image data */
@@ -155,11 +155,13 @@ struct _TGAData {
 
 /* TGA image handle */
 struct _TGA {
-	FILE*		fd;		/* file stream */
-	tlong		off;		/* current offset in file*/
-	int		last;		/* last error code */
-	TGAHeader	hdr;		/* image header */
+	FILE*			fd;			/* file stream */
+	tlong			off;		/* current offset in file*/
+	int				last;		/* last error code */
+	TGAHeader		hdr;		/* image header */
 	TGAErrorProc 	error;		/* user-defined error proc */
+	char*			error_string; /* dummy field so that we can have a place to
+								   * use the 'tga_error_strings' global var */
 };
 
 
@@ -226,3 +228,5 @@ if(tga) (tga)->last = code\
 
 
 #endif /* __TGA_H */
+
+/* EOF */

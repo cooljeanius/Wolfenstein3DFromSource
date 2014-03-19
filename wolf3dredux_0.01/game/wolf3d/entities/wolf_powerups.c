@@ -341,17 +341,17 @@ PRIVATE int Pow_Give( pow_t type )
 
 -----------------------------------------------------------------------------
 */
-PUBLIC void Powerup_Spawn( int x, int y, int type, LevelData_t *lvl )
+PUBLIC void Powerup_Spawn(int x, int y, int type, LevelData_t *lvl)
 {
 	powerup_t *newp;
 
-	lvl->tilemap[ x ][ y ] |= POWERUP_TILE;
+	lvl->tilemap[x][y] |= POWERUP_TILE;
 	newp = Pow_AddNew();
 	newp->sprite = Sprite_GetNewSprite();
-	Sprite_SetPos( newp->sprite, TILE2POS( newp->x = x ), TILE2POS( newp->y = y ), 0 );
-	newp->type = type;
-	Sprite_SetTex( newp->sprite, -1, Pow_Texture[ type ] );
-	lvl->tilemap[ x ][ y ] |= POWERUP_TILE;
+	Sprite_SetPos(newp->sprite, TILE2POS(newp->x = x), TILE2POS(newp->y = y), 0);
+	newp->type = (pow_t)type;
+	Sprite_SetTex(newp->sprite, -1, Pow_Texture[type]);
+	lvl->tilemap[x][y] |= POWERUP_TILE;
 /* good place to update total treasure count! */
 }
 

@@ -92,19 +92,21 @@ PRIVATE FM_OPL *hAdLib = NULL;
 -----------------------------------------------------------------------------
 */
 /* prototype should be in "adlib.h", which should have been included...
- * I do not understand why my compiler thinks that the prototype is missing... */
-PUBLIC _boolean ADLIB_Init( W32 freq )
+ * I fail to understand why my compiler thinks (or used to think) that the
+ * prototype is missing... */
+PUBLIC _boolean ADLIB_Init(W32 freq)
 {
-    hAdLib = OPLCreate( OPL_TYPE_YM3812, OPL_INTERNAL_FREQ, freq );
+	/* hAdLib is global variable from above */
+    hAdLib = (OPLCreate(OPL_TYPE_YM3812, OPL_INTERNAL_FREQ, (int)(freq)));
 
-    if( hAdLib == NULL ) {
-        printf( "Could not create AdLib OPL Emulator\n" );
+    if (hAdLib == NULL) {
+        printf("Could not create AdLib OPL Emulator\n");
 
 		return false;
     }
 
-	OPLWrite( hAdLib, 0x01, 0x20 ); /* Set WSE=1 */
-	OPLWrite( hAdLib, 0x08, 0x00 ); /* Set CSM=0 & SEL=0 */
+	OPLWrite(hAdLib, 0x01, 0x20); /* Set WSE=1 */
+	OPLWrite(hAdLib, 0x08, 0x00); /* Set CSM=0 & SEL=0 */
 
     return true;
 }
@@ -175,7 +177,7 @@ PRIVATE void ADLIB_SetFXInst( Instrument *inst )
 
 -----------------------------------------------------------------------------
 */
-PUBLIC W8 ADLIB_DecodeSound( AdLibSound *sound, W8 *buffer, W32 *length )
+PUBLIC W8 ADLIB_DecodeSound(AdLibSound *sound, W8 *buffer, W32 *length)
 {
     Instrument  inst;
 	W32 alLengthLeft;
@@ -185,37 +187,36 @@ PUBLIC W8 ADLIB_DecodeSound( AdLibSound *sound, W8 *buffer, W32 *length )
 
 
 	inst = sound->inst;
-	alBlock = ( (sound->block & 7) << 2 ) | 0x20;
+	alBlock = (W32)(((sound->block & 7) << 2) | 0x20);
 	alLengthLeft= *((PW32)sound->common.length);
 	alSound = sound->data;
 
 	*length = alLengthLeft * 157 * 2; /* 157[.5] = 22050 / 140 */
 
-	if( *length > MAX_WAV_SIZE ) {
+	if (*length > MAX_WAV_SIZE) {
 		return 0;
 	}
 
-	ptr = (PW16) buffer;
+	ptr = (PW16)buffer;
 
-    OPLWrite( hAdLib, alFreqL, 0 );
-	OPLWrite( hAdLib, alFreqH, 0 );
+    OPLWrite(hAdLib, alFreqL, 0);
+	OPLWrite(hAdLib, alFreqH, 0);
 
 	ADLIB_SetFXInst( &inst );
 
-    while( alLengthLeft ) {
+    while (alLengthLeft) {
 		s = *alSound++;
-		if( ! s ) {
-			OPLWrite( hAdLib, alFreqH+0, 0 );
+		if (! s) {
+			OPLWrite(hAdLib, alFreqH+0, 0);
         } else {
-			OPLWrite( hAdLib, alFreqL+0, s );
-			OPLWrite( hAdLib, alFreqH+0, alBlock );
-		} if( ! ( --alLengthLeft ) ) {
-			OPLWrite( hAdLib, alFreqH+0, 0 );
+			OPLWrite(hAdLib, alFreqL+0, s);
+			OPLWrite(hAdLib, alFreqH+0, (int)(alBlock));
+		} if (! (--alLengthLeft)) {
+			OPLWrite(hAdLib, alFreqH+0, 0);
 		}
-		YM3812UpdateOne( hAdLib, ptr, 157 );
+		YM3812UpdateOne(hAdLib, ptr, 157);
 		ptr += 157;
 	}
-
 
 	return 1;
 }
@@ -271,24 +272,30 @@ PUBLIC void ADLIB_LoadMusic( void *musbuffer )
 
 -----------------------------------------------------------------------------
 */
-PUBLIC W32 ADLIB_UpdateMusic( W32 size, void *buffer )
+PUBLIC W32 ADLIB_UpdateMusic(W32 size, void *buffer)
 {
 	W8 *al;		/*[2] {a, v} (register, value)*/
 	W16 *ptr;
 	W32 n;
 	W32 AdLibTicks;
-	_boolean flag = false; /* unused (?) */
+	_boolean flag; /* unused (?) (formerly) */
+	flag = false;
+
+	/* dummy condition to use 'flag': */
+	if (flag) {
+		;
+	}
 
 
 	AdLibTicks = size;
 
 	ptr = (PW16)buffer;
 
-	for( n = 0 ; n < AdLibTicks; ++n ) {
-		while( sqHackLen && (sqHackTime <= alTimeCount) ) {
+	for ((n = 0); (n < AdLibTicks); ++n ) {
+		while (sqHackLen && (sqHackTime <= alTimeCount)) {
 			al = (PW8)sqHackPtr++;
-			sqHackTime = alTimeCount + *sqHackPtr++;
-			OPLWrite( hAdLib, al[ 0 ], al[ 1 ] );
+			sqHackTime = (alTimeCount + *sqHackPtr++);
+			OPLWrite(hAdLib, al[0], al[1]);
 			sqHackLen -= 4;
 		}
 		alTimeCount++;
@@ -298,12 +305,12 @@ PUBLIC W32 ADLIB_UpdateMusic( W32 size, void *buffer )
 		YM3812UpdateOne( hAdLib, ptr, 63 );
 		ptr += 63;
 
-		if( sqHackLen <= 0 ) {
-			return (long)ptr - (long)buffer;
+		if (sqHackLen <= 0) {
+			return (W32)((long)ptr - (long)buffer);
 		}
 	}
 
-	return AdLibTicks * ADLIB_MUSIC_BYPS / 700;
+	return (AdLibTicks * ADLIB_MUSIC_BYPS / 700);
 }
 
 

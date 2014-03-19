@@ -17,6 +17,7 @@
 # Since we (used to) leave AM_INIT_AUTOMAKE out of configure.ac, this
 # (only) exists to make sure that m4 macros are handled properly.
 # The real makefile is still handwritten (as makefile.orig).
+
 VPATH = @srcdir@
 am__is_gnu_make = test -n '$(MAKEFILE_LIST)' && test -n '$(MAKELEVEL)'
 am__make_running_with_option = \
@@ -82,11 +83,14 @@ POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
 target_triplet = @target@
+bin_PROGRAMS = wolf3dredux$(EXEEXT)
+noinst_PROGRAMS = gamepal$(EXEEXT) signon$(EXEEXT)
 subdir = .
 DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/Makefile.am \
 	$(top_srcdir)/configure $(am__configure_deps) \
-	$(srcdir)/config.h.in build-aux/compile build-aux/config.guess \
-	build-aux/config.sub build-aux/install-sh build-aux/missing \
+	$(srcdir)/config.h.in $(top_srcdir)/build-aux/depcomp \
+	build-aux/compile build-aux/config.guess build-aux/config.sub \
+	build-aux/depcomp build-aux/install-sh build-aux/missing \
 	build-aux/ltmain.sh $(top_srcdir)/build-aux/compile \
 	$(top_srcdir)/build-aux/config.guess \
 	$(top_srcdir)/build-aux/config.sub \
@@ -107,6 +111,91 @@ mkinstalldirs = $(install_sh) -d
 CONFIG_HEADER = config.h
 CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
+am__installdirs = "$(DESTDIR)$(bindir)"
+PROGRAMS = $(bin_PROGRAMS) $(noinst_PROGRAMS)
+am__dirstamp = $(am__leading_dot)dirstamp
+am_gamepal_OBJECTS = tools/gamepal/main.$(OBJEXT)
+gamepal_OBJECTS = $(am_gamepal_OBJECTS)
+gamepal_LDADD = $(LDADD)
+AM_V_lt = $(am__v_lt_@AM_V@)
+am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
+am__v_lt_0 = --silent
+am__v_lt_1 = 
+am_signon_OBJECTS = tools/signon/wolf_pal.$(OBJEXT) \
+	tools/signon/main.$(OBJEXT) \
+	tools/signon/WriteTGA_minimal.$(OBJEXT)
+signon_OBJECTS = $(am_signon_OBJECTS)
+signon_LDADD = $(LDADD)
+am_wolf3dredux_OBJECTS = client/client_input.$(OBJEXT) \
+	client/client_main.$(OBJEXT) client/client_screen.$(OBJEXT) \
+	client/console.$(OBJEXT) client/keys.$(OBJEXT) \
+	client/menu_conf.$(OBJEXT) common/arch.$(OBJEXT) \
+	common/cmd.$(OBJEXT) common/common.$(OBJEXT) \
+	common/cvar.$(OBJEXT) common/share.$(OBJEXT) \
+	common/ttree.$(OBJEXT) device/cpu/cpuid.$(OBJEXT) \
+	device/filesys/fileio.$(OBJEXT) device/filesys/files.$(OBJEXT) \
+	device/filesys/filestring.$(OBJEXT) \
+	device/filesys/zippak.$(OBJEXT) \
+	device/filesys/unix/unix_file.$(OBJEXT) \
+	device/filesys/unix/glob.$(OBJEXT) \
+	device/input/in_view.$(OBJEXT) \
+	device/input/unix/unix_keys.$(OBJEXT) \
+	device/input/unix/unix_mouse.$(OBJEXT) \
+	device/input/unix/unix_joystick.$(OBJEXT) \
+	device/system/system.$(OBJEXT) \
+	device/system/unix/unix_system.$(OBJEXT) \
+	device/timer/unix/unix_timer.$(OBJEXT) \
+	font/font_manager.$(OBJEXT) loaders/tga.$(OBJEXT) \
+	loaders/wav.$(OBJEXT) math/angle.$(OBJEXT) math/math.$(OBJEXT) \
+	math/matrix.$(OBJEXT) math/random_number.$(OBJEXT) \
+	math/vector.$(OBJEXT) memory/memory.$(OBJEXT) \
+	memory/zmem.$(OBJEXT) script/script.$(OBJEXT) \
+	sound/sound.$(OBJEXT) sound/sound_sfx_id.$(OBJEXT) \
+	sound/sound_stream.$(OBJEXT) \
+	sound/openal/openal_binding.$(OBJEXT) \
+	sound/openal/openal_main.$(OBJEXT) string/com_string.$(OBJEXT) \
+	unix/unix_main.$(OBJEXT) unix/unix_vid_sys.$(OBJEXT) \
+	video/texture_manager.$(OBJEXT) \
+	video/opengl/opengl_binding.$(OBJEXT) \
+	video/opengl/opengl_draw.$(OBJEXT) \
+	video/opengl/opengl_extension.$(OBJEXT) \
+	video/opengl/opengl_main.$(OBJEXT) \
+	video/opengl/opengl_texture.$(OBJEXT) \
+	video/opengl/unix/openglw_imp.$(OBJEXT) zlib/adler32.$(OBJEXT) \
+	zlib/crc32.$(OBJEXT) zlib/inffast.$(OBJEXT) \
+	zlib/inflate.$(OBJEXT) zlib/inftrees.$(OBJEXT) \
+	zlib/zutil.$(OBJEXT) game/wolf3d/wolf_main.$(OBJEXT) \
+	game/wolf3d/client/wolf_client_main.$(OBJEXT) \
+	game/wolf3d/client/wolf_sv_ccmds.$(OBJEXT) \
+	game/wolf3d/common/wolf_common.$(OBJEXT) \
+	game/wolf3d/entities/wolf_actor_ai.$(OBJEXT) \
+	game/wolf3d/entities/wolf_actors.$(OBJEXT) \
+	game/wolf3d/entities/wolf_ai_com.$(OBJEXT) \
+	game/wolf3d/entities/wolf_bj.$(OBJEXT) \
+	game/wolf3d/entities/wolf_player.$(OBJEXT) \
+	game/wolf3d/entities/wolf_powerups.$(OBJEXT) \
+	game/wolf3d/entities/wolf_sprites.$(OBJEXT) \
+	game/wolf3d/entities/wolf_weapon.$(OBJEXT) \
+	game/wolf3d/level/wolf_areas.$(OBJEXT) \
+	game/wolf3d/level/wolf_doors.$(OBJEXT) \
+	game/wolf3d/level/wolf_level.$(OBJEXT) \
+	game/wolf3d/level/wolf_pushwalls.$(OBJEXT) \
+	game/wolf3d/math/wolf_math.$(OBJEXT) \
+	game/wolf3d/menu/wolf_mcredits.$(OBJEXT) \
+	game/wolf3d/menu/wolf_menu.$(OBJEXT) \
+	game/wolf3d/menu/wolf_mintermission.$(OBJEXT) \
+	game/wolf3d/menu/wolf_mintro.$(OBJEXT) \
+	game/wolf3d/menu/wolf_mnewgame.$(OBJEXT) \
+	game/wolf3d/menu/wolf_moptions.$(OBJEXT) \
+	game/wolf3d/menu/wolf_mquit.$(OBJEXT) \
+	game/wolf3d/menu/wolf_msound.$(OBJEXT) \
+	game/wolf3d/menu/wolf_mvideo.$(OBJEXT) \
+	game/wolf3d/script/episode.$(OBJEXT) \
+	game/wolf3d/video/wolf_raycast.$(OBJEXT) \
+	game/wolf3d/video/wolf_renderer.$(OBJEXT) \
+	game/wolf3d/video/opengl/wolf_opengl.$(OBJEXT)
+wolf3dredux_OBJECTS = $(am_wolf3dredux_OBJECTS)
+wolf3dredux_DEPENDENCIES = $(LIBOBJDIR)libgnu.a
 AM_V_P = $(am__v_P_@AM_V@)
 am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
 am__v_P_0 = false
@@ -119,13 +208,52 @@ AM_V_at = $(am__v_at_@AM_V@)
 am__v_at_ = $(am__v_at_@AM_DEFAULT_V@)
 am__v_at_0 = @
 am__v_at_1 = 
-SOURCES =
-DIST_SOURCES =
+DEFAULT_INCLUDES = -I.@am__isrc@
+depcomp = $(SHELL) $(top_srcdir)/build-aux/depcomp
+am__depfiles_maybe = depfiles
+am__mv = mv -f
+COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
+	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
+LTCOMPILE = $(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) \
+	$(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) \
+	$(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) \
+	$(AM_CFLAGS) $(CFLAGS)
+AM_V_CC = $(am__v_CC_@AM_V@)
+am__v_CC_ = $(am__v_CC_@AM_DEFAULT_V@)
+am__v_CC_0 = @echo "  CC      " $@;
+am__v_CC_1 = 
+CCLD = $(CC)
+LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) \
+	$(LIBTOOLFLAGS) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) \
+	$(AM_LDFLAGS) $(LDFLAGS) -o $@
+AM_V_CCLD = $(am__v_CCLD_@AM_V@)
+am__v_CCLD_ = $(am__v_CCLD_@AM_DEFAULT_V@)
+am__v_CCLD_0 = @echo "  CCLD    " $@;
+am__v_CCLD_1 = 
+SOURCES = $(gamepal_SOURCES) $(signon_SOURCES) $(wolf3dredux_SOURCES)
+DIST_SOURCES = $(gamepal_SOURCES) $(signon_SOURCES) \
+	$(wolf3dredux_SOURCES)
+RECURSIVE_TARGETS = all-recursive check-recursive cscopelist-recursive \
+	ctags-recursive dvi-recursive html-recursive info-recursive \
+	install-data-recursive install-dvi-recursive \
+	install-exec-recursive install-html-recursive \
+	install-info-recursive install-pdf-recursive \
+	install-ps-recursive install-recursive installcheck-recursive \
+	installdirs-recursive pdf-recursive ps-recursive \
+	tags-recursive uninstall-recursive
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
     *) (install-info --version) >/dev/null 2>&1;; \
   esac
+RECURSIVE_CLEAN_TARGETS = mostlyclean-recursive clean-recursive	\
+  distclean-recursive maintainer-clean-recursive
+am__recursive_targets = \
+  $(RECURSIVE_TARGETS) \
+  $(RECURSIVE_CLEAN_TARGETS) \
+  $(am__extra_recursive_targets)
+AM_RECURSIVE_TARGETS = $(am__recursive_targets:-recursive=) TAGS CTAGS \
+	cscope distdir dist dist-all distcheck
 am__tagged_files = $(HEADERS) $(SOURCES) $(TAGS_FILES) \
 	$(LISP)config.h.in
 # Read a list of newline-separated strings from the standard input,
@@ -147,7 +275,7 @@ am__define_uniq_tagged_files = \
 ETAGS = etags
 CTAGS = ctags
 CSCOPE = cscope
-AM_RECURSIVE_TARGETS = cscope
+DIST_SUBDIRS = $(SUBDIRS)
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 distdir = $(PACKAGE)-$(VERSION)
 top_distdir = $(distdir)
@@ -158,6 +286,31 @@ am__remove_distdir = \
       || { sleep 5 && rm -rf "$(distdir)"; }; \
   else :; fi
 am__post_remove_distdir = $(am__remove_distdir)
+am__relativize = \
+  dir0=`pwd`; \
+  sed_first='s,^\([^/]*\)/.*$$,\1,'; \
+  sed_rest='s,^[^/]*/*,,'; \
+  sed_last='s,^.*/\([^/]*\)$$,\1,'; \
+  sed_butlast='s,/*[^/]*$$,,'; \
+  while test -n "$$dir1"; do \
+    first=`echo "$$dir1" | sed -e "$$sed_first"`; \
+    if test "$$first" != "."; then \
+      if test "$$first" = ".."; then \
+        dir2=`echo "$$dir0" | sed -e "$$sed_last"`/"$$dir2"; \
+        dir0=`echo "$$dir0" | sed -e "$$sed_butlast"`; \
+      else \
+        first2=`echo "$$dir2" | sed -e "$$sed_first"`; \
+        if test "$$first2" = "$$first"; then \
+          dir2=`echo "$$dir2" | sed -e "$$sed_rest"`; \
+        else \
+          dir2="../$$dir2"; \
+        fi; \
+        dir0="$$dir0"/"$$first"; \
+      fi; \
+    fi; \
+    dir1=`echo "$$dir1" | sed -e "$$sed_rest"`; \
+  done; \
+  reldir="$$dir2"
 DIST_ARCHIVES = $(distdir).tar.gz
 GZIP_ENV = --best
 DIST_TARGETS = dist-gzip
@@ -206,10 +359,12 @@ INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
 LD = @LD@
 LDFLAGS = @LDFLAGS@
 LIBM = @LIBM@
+LIBOBJDIR = @LIBOBJDIR@
 LIBOBJS = @LIBOBJS@
 LIBS = @LIBS@
 LIBTOOL = @LIBTOOL@
 LIPO = @LIPO@
+LLVM_SYMBOLIZER = @LLVM_SYMBOLIZER@
 LN_S = @LN_S@
 LTLIBOBJS = @LTLIBOBJS@
 MAINT = @MAINT@
@@ -236,6 +391,7 @@ PKG_CONFIG = @PKG_CONFIG@
 PKG_CONFIG_LIBDIR = @PKG_CONFIG_LIBDIR@
 PKG_CONFIG_PATH = @PKG_CONFIG_PATH@
 RANLIB = @RANLIB@
+SCAN_BUILD = @SCAN_BUILD@
 SED = @SED@
 SET_MAKE = @SET_MAKE@
 SHELL = @SHELL@
@@ -316,14 +472,111 @@ ACLOCAL_AMFLAGS = -I m4 --install
 #
 COMPILER = @CC@
 #TODO: have autoconf check that all flags are supported:
-AM_CFLAGS = -Wall -c -ffast-math -funroll-loops
+AM_CFLAGS = -Wall -ffast-math -funroll-loops
+NON_AM_CFLAGS = -c
 AM_CPPFLAGS = -I. -I/usr/X11R6/include
 OLD_LDFLAGS_UNUSED = -s
 XLDFLAGS = -L/usr/X11R6/lib @LIBS@
 VORBISFLAGS = @VORBIS_LIBS@
 ODIR = Release
+SUBDIRS = $(LIBOBJDIR) .
 EXEBASE = wolf3dredux
 EXE = $(ODIR)/$(EXEBASE)
+wolf3dredux_SOURCES = client/client_input.c \
+                      client/client_main.c \
+                      client/client_screen.c \
+                      client/console.c \
+                      client/keys.c \
+                      client/menu_conf.c \
+                      common/arch.c \
+                      common/cmd.c \
+                      common/common.c \
+                      common/cvar.c \
+                      common/share.c \
+                      common/ttree.c \
+                      device/cpu/cpuid.c \
+                      device/filesys/fileio.c \
+                      device/filesys/files.c \
+                      device/filesys/filestring.c \
+                      device/filesys/zippak.c \
+                      device/filesys/unix/unix_file.c \
+                      device/filesys/unix/glob.c \
+                      device/input/in_view.c \
+                      device/input/unix/unix_keys.c \
+                      device/input/unix/unix_mouse.c \
+                      device/input/unix/unix_joystick.c \
+                      device/system/system.c \
+                      device/system/unix/unix_system.c \
+                      device/timer/unix/unix_timer.c \
+                      font/font_manager.c \
+                      loaders/tga.c \
+                      loaders/wav.c \
+                      math/angle.c \
+                      math/math.c \
+                      math/matrix.c \
+                      math/random_number.c \
+                      math/vector.c \
+                      memory/memory.c \
+                      memory/zmem.c \
+                      script/script.c \
+                      sound/sound.c \
+                      sound/sound_sfx_id.c \
+                      sound/sound_stream.c \
+                      sound/openal/openal_binding.c \
+                      sound/openal/openal_main.c \
+                      string/com_string.c \
+                      unix/unix_main.c \
+                      unix/unix_vid_sys.c \
+                      video/texture_manager.c \
+                      video/opengl/opengl_binding.c \
+                      video/opengl/opengl_draw.c \
+                      video/opengl/opengl_extension.c \
+                      video/opengl/opengl_main.c \
+                      video/opengl/opengl_texture.c \
+                      video/opengl/unix/openglw_imp.c \
+                      zlib/adler32.c \
+                      zlib/crc32.c \
+                      zlib/inffast.c \
+                      zlib/inflate.c \
+                      zlib/inftrees.c \
+                      zlib/zutil.c \
+                      game/wolf3d/wolf_main.c \
+                      game/wolf3d/client/wolf_client_main.c \
+                      game/wolf3d/client/wolf_sv_ccmds.c \
+                      game/wolf3d/common/wolf_common.c \
+                      game/wolf3d/entities/wolf_actor_ai.c \
+                      game/wolf3d/entities/wolf_actors.c \
+                      game/wolf3d/entities/wolf_ai_com.c \
+                      game/wolf3d/entities/wolf_bj.c \
+                      game/wolf3d/entities/wolf_player.c \
+                      game/wolf3d/entities/wolf_powerups.c \
+                      game/wolf3d/entities/wolf_sprites.c \
+                      game/wolf3d/entities/wolf_weapon.c \
+                      game/wolf3d/level/wolf_areas.c \
+                      game/wolf3d/level/wolf_doors.c \
+                      game/wolf3d/level/wolf_level.c \
+                      game/wolf3d/level/wolf_pushwalls.c \
+                      game/wolf3d/math/wolf_math.c \
+                      game/wolf3d/menu/wolf_mcredits.c \
+                      game/wolf3d/menu/wolf_menu.c \
+                      game/wolf3d/menu/wolf_mintermission.c \
+                      game/wolf3d/menu/wolf_mintro.c \
+                      game/wolf3d/menu/wolf_mnewgame.c \
+                      game/wolf3d/menu/wolf_moptions.c \
+                      game/wolf3d/menu/wolf_mquit.c \
+                      game/wolf3d/menu/wolf_msound.c \
+                      game/wolf3d/menu/wolf_mvideo.c \
+                      game/wolf3d/script/episode.c \
+                      game/wolf3d/video/wolf_raycast.c \
+                      game/wolf3d/video/wolf_renderer.c \
+                      game/wolf3d/video/opengl/wolf_opengl.c
+
+wolf3dredux_LDADD = $(LIBOBJDIR)libgnu.a
+gamepal_SOURCES = tools/gamepal/main.c
+signon_SOURCES = tools/signon/wolf_pal.c \
+                 tools/signon/main.c \
+                 tools/signon/WriteTGA_minimal.c
+
 DO_CC = $(COMPILER) $(CFLAGS) $(AM_CFLAGS) $(AM_CPPFLAGS) ${CPPFLAGS} -o $@ -c $<
 PROGRAM_OBJS = $(ODIR)/client_input.o \
 		$(ODIR)/client_main.o \
@@ -416,9 +669,10 @@ PROGRAM_OBJS = $(ODIR)/client_input.o \
 
 DISTCLEANFILES = *~
 all: config.h
-	$(MAKE) $(AM_MAKEFLAGS) all-am
+	$(MAKE) $(AM_MAKEFLAGS) all-recursive
 
 .SUFFIXES:
+.SUFFIXES: .c .lo .o .obj
 am--refresh: Makefile
 	@:
 $(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ $(srcdir)/Makefile.am  $(am__configure_deps)
@@ -468,6 +722,665 @@ $(srcdir)/config.h.in: @MAINTAINER_MODE_TRUE@ $(am__configure_deps)
 
 distclean-hdr:
 	-rm -f config.h stamp-h1
+install-binPROGRAMS: $(bin_PROGRAMS)
+	@$(NORMAL_INSTALL)
+	@list='$(bin_PROGRAMS)'; test -n "$(bindir)" || list=; \
+	if test -n "$$list"; then \
+	  echo " $(MKDIR_P) '$(DESTDIR)$(bindir)'"; \
+	  $(MKDIR_P) "$(DESTDIR)$(bindir)" || exit 1; \
+	fi; \
+	for p in $$list; do echo "$$p $$p"; done | \
+	sed 's/$(EXEEXT)$$//' | \
+	while read p p1; do if test -f $$p \
+	 || test -f $$p1 \
+	  ; then echo "$$p"; echo "$$p"; else :; fi; \
+	done | \
+	sed -e 'p;s,.*/,,;n;h' \
+	    -e 's|.*|.|' \
+	    -e 'p;x;s,.*/,,;s/$(EXEEXT)$$//;$(transform);s/$$/$(EXEEXT)/' | \
+	sed 'N;N;N;s,\n, ,g' | \
+	$(AWK) 'BEGIN { files["."] = ""; dirs["."] = 1 } \
+	  { d=$$3; if (dirs[d] != 1) { print "d", d; dirs[d] = 1 } \
+	    if ($$2 == $$4) files[d] = files[d] " " $$1; \
+	    else { print "f", $$3 "/" $$4, $$1; } } \
+	  END { for (d in files) print "f", d, files[d] }' | \
+	while read type dir files; do \
+	    if test "$$dir" = .; then dir=; else dir=/$$dir; fi; \
+	    test -z "$$files" || { \
+	    echo " $(INSTALL_PROGRAM_ENV) $(LIBTOOL) $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=install $(INSTALL_PROGRAM) $$files '$(DESTDIR)$(bindir)$$dir'"; \
+	    $(INSTALL_PROGRAM_ENV) $(LIBTOOL) $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=install $(INSTALL_PROGRAM) $$files "$(DESTDIR)$(bindir)$$dir" || exit $$?; \
+	    } \
+	; done
+
+uninstall-binPROGRAMS:
+	@$(NORMAL_UNINSTALL)
+	@list='$(bin_PROGRAMS)'; test -n "$(bindir)" || list=; \
+	files=`for p in $$list; do echo "$$p"; done | \
+	  sed -e 'h;s,^.*/,,;s/$(EXEEXT)$$//;$(transform)' \
+	      -e 's/$$/$(EXEEXT)/' \
+	`; \
+	test -n "$$list" || exit 0; \
+	echo " ( cd '$(DESTDIR)$(bindir)' && rm -f" $$files ")"; \
+	cd "$(DESTDIR)$(bindir)" && rm -f $$files
+
+clean-binPROGRAMS:
+	@list='$(bin_PROGRAMS)'; test -n "$$list" || exit 0; \
+	echo " rm -f" $$list; \
+	rm -f $$list || exit $$?; \
+	test -n "$(EXEEXT)" || exit 0; \
+	list=`for p in $$list; do echo "$$p"; done | sed 's/$(EXEEXT)$$//'`; \
+	echo " rm -f" $$list; \
+	rm -f $$list
+
+clean-noinstPROGRAMS:
+	@list='$(noinst_PROGRAMS)'; test -n "$$list" || exit 0; \
+	echo " rm -f" $$list; \
+	rm -f $$list || exit $$?; \
+	test -n "$(EXEEXT)" || exit 0; \
+	list=`for p in $$list; do echo "$$p"; done | sed 's/$(EXEEXT)$$//'`; \
+	echo " rm -f" $$list; \
+	rm -f $$list
+tools/gamepal/$(am__dirstamp):
+	@$(MKDIR_P) tools/gamepal
+	@: > tools/gamepal/$(am__dirstamp)
+tools/gamepal/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) tools/gamepal/$(DEPDIR)
+	@: > tools/gamepal/$(DEPDIR)/$(am__dirstamp)
+tools/gamepal/main.$(OBJEXT): tools/gamepal/$(am__dirstamp) \
+	tools/gamepal/$(DEPDIR)/$(am__dirstamp)
+
+gamepal$(EXEEXT): $(gamepal_OBJECTS) $(gamepal_DEPENDENCIES) $(EXTRA_gamepal_DEPENDENCIES) 
+	@rm -f gamepal$(EXEEXT)
+	$(AM_V_CCLD)$(LINK) $(gamepal_OBJECTS) $(gamepal_LDADD) $(LIBS)
+tools/signon/$(am__dirstamp):
+	@$(MKDIR_P) tools/signon
+	@: > tools/signon/$(am__dirstamp)
+tools/signon/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) tools/signon/$(DEPDIR)
+	@: > tools/signon/$(DEPDIR)/$(am__dirstamp)
+tools/signon/wolf_pal.$(OBJEXT): tools/signon/$(am__dirstamp) \
+	tools/signon/$(DEPDIR)/$(am__dirstamp)
+tools/signon/main.$(OBJEXT): tools/signon/$(am__dirstamp) \
+	tools/signon/$(DEPDIR)/$(am__dirstamp)
+tools/signon/WriteTGA_minimal.$(OBJEXT): tools/signon/$(am__dirstamp) \
+	tools/signon/$(DEPDIR)/$(am__dirstamp)
+
+signon$(EXEEXT): $(signon_OBJECTS) $(signon_DEPENDENCIES) $(EXTRA_signon_DEPENDENCIES) 
+	@rm -f signon$(EXEEXT)
+	$(AM_V_CCLD)$(LINK) $(signon_OBJECTS) $(signon_LDADD) $(LIBS)
+client/$(am__dirstamp):
+	@$(MKDIR_P) client
+	@: > client/$(am__dirstamp)
+client/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) client/$(DEPDIR)
+	@: > client/$(DEPDIR)/$(am__dirstamp)
+client/client_input.$(OBJEXT): client/$(am__dirstamp) \
+	client/$(DEPDIR)/$(am__dirstamp)
+client/client_main.$(OBJEXT): client/$(am__dirstamp) \
+	client/$(DEPDIR)/$(am__dirstamp)
+client/client_screen.$(OBJEXT): client/$(am__dirstamp) \
+	client/$(DEPDIR)/$(am__dirstamp)
+client/console.$(OBJEXT): client/$(am__dirstamp) \
+	client/$(DEPDIR)/$(am__dirstamp)
+client/keys.$(OBJEXT): client/$(am__dirstamp) \
+	client/$(DEPDIR)/$(am__dirstamp)
+client/menu_conf.$(OBJEXT): client/$(am__dirstamp) \
+	client/$(DEPDIR)/$(am__dirstamp)
+common/$(am__dirstamp):
+	@$(MKDIR_P) common
+	@: > common/$(am__dirstamp)
+common/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) common/$(DEPDIR)
+	@: > common/$(DEPDIR)/$(am__dirstamp)
+common/arch.$(OBJEXT): common/$(am__dirstamp) \
+	common/$(DEPDIR)/$(am__dirstamp)
+common/cmd.$(OBJEXT): common/$(am__dirstamp) \
+	common/$(DEPDIR)/$(am__dirstamp)
+common/common.$(OBJEXT): common/$(am__dirstamp) \
+	common/$(DEPDIR)/$(am__dirstamp)
+common/cvar.$(OBJEXT): common/$(am__dirstamp) \
+	common/$(DEPDIR)/$(am__dirstamp)
+common/share.$(OBJEXT): common/$(am__dirstamp) \
+	common/$(DEPDIR)/$(am__dirstamp)
+common/ttree.$(OBJEXT): common/$(am__dirstamp) \
+	common/$(DEPDIR)/$(am__dirstamp)
+device/cpu/$(am__dirstamp):
+	@$(MKDIR_P) device/cpu
+	@: > device/cpu/$(am__dirstamp)
+device/cpu/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) device/cpu/$(DEPDIR)
+	@: > device/cpu/$(DEPDIR)/$(am__dirstamp)
+device/cpu/cpuid.$(OBJEXT): device/cpu/$(am__dirstamp) \
+	device/cpu/$(DEPDIR)/$(am__dirstamp)
+device/filesys/$(am__dirstamp):
+	@$(MKDIR_P) device/filesys
+	@: > device/filesys/$(am__dirstamp)
+device/filesys/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) device/filesys/$(DEPDIR)
+	@: > device/filesys/$(DEPDIR)/$(am__dirstamp)
+device/filesys/fileio.$(OBJEXT): device/filesys/$(am__dirstamp) \
+	device/filesys/$(DEPDIR)/$(am__dirstamp)
+device/filesys/files.$(OBJEXT): device/filesys/$(am__dirstamp) \
+	device/filesys/$(DEPDIR)/$(am__dirstamp)
+device/filesys/filestring.$(OBJEXT): device/filesys/$(am__dirstamp) \
+	device/filesys/$(DEPDIR)/$(am__dirstamp)
+device/filesys/zippak.$(OBJEXT): device/filesys/$(am__dirstamp) \
+	device/filesys/$(DEPDIR)/$(am__dirstamp)
+device/filesys/unix/$(am__dirstamp):
+	@$(MKDIR_P) device/filesys/unix
+	@: > device/filesys/unix/$(am__dirstamp)
+device/filesys/unix/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) device/filesys/unix/$(DEPDIR)
+	@: > device/filesys/unix/$(DEPDIR)/$(am__dirstamp)
+device/filesys/unix/unix_file.$(OBJEXT):  \
+	device/filesys/unix/$(am__dirstamp) \
+	device/filesys/unix/$(DEPDIR)/$(am__dirstamp)
+device/filesys/unix/glob.$(OBJEXT):  \
+	device/filesys/unix/$(am__dirstamp) \
+	device/filesys/unix/$(DEPDIR)/$(am__dirstamp)
+device/input/$(am__dirstamp):
+	@$(MKDIR_P) device/input
+	@: > device/input/$(am__dirstamp)
+device/input/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) device/input/$(DEPDIR)
+	@: > device/input/$(DEPDIR)/$(am__dirstamp)
+device/input/in_view.$(OBJEXT): device/input/$(am__dirstamp) \
+	device/input/$(DEPDIR)/$(am__dirstamp)
+device/input/unix/$(am__dirstamp):
+	@$(MKDIR_P) device/input/unix
+	@: > device/input/unix/$(am__dirstamp)
+device/input/unix/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) device/input/unix/$(DEPDIR)
+	@: > device/input/unix/$(DEPDIR)/$(am__dirstamp)
+device/input/unix/unix_keys.$(OBJEXT):  \
+	device/input/unix/$(am__dirstamp) \
+	device/input/unix/$(DEPDIR)/$(am__dirstamp)
+device/input/unix/unix_mouse.$(OBJEXT):  \
+	device/input/unix/$(am__dirstamp) \
+	device/input/unix/$(DEPDIR)/$(am__dirstamp)
+device/input/unix/unix_joystick.$(OBJEXT):  \
+	device/input/unix/$(am__dirstamp) \
+	device/input/unix/$(DEPDIR)/$(am__dirstamp)
+device/system/$(am__dirstamp):
+	@$(MKDIR_P) device/system
+	@: > device/system/$(am__dirstamp)
+device/system/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) device/system/$(DEPDIR)
+	@: > device/system/$(DEPDIR)/$(am__dirstamp)
+device/system/system.$(OBJEXT): device/system/$(am__dirstamp) \
+	device/system/$(DEPDIR)/$(am__dirstamp)
+device/system/unix/$(am__dirstamp):
+	@$(MKDIR_P) device/system/unix
+	@: > device/system/unix/$(am__dirstamp)
+device/system/unix/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) device/system/unix/$(DEPDIR)
+	@: > device/system/unix/$(DEPDIR)/$(am__dirstamp)
+device/system/unix/unix_system.$(OBJEXT):  \
+	device/system/unix/$(am__dirstamp) \
+	device/system/unix/$(DEPDIR)/$(am__dirstamp)
+device/timer/unix/$(am__dirstamp):
+	@$(MKDIR_P) device/timer/unix
+	@: > device/timer/unix/$(am__dirstamp)
+device/timer/unix/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) device/timer/unix/$(DEPDIR)
+	@: > device/timer/unix/$(DEPDIR)/$(am__dirstamp)
+device/timer/unix/unix_timer.$(OBJEXT):  \
+	device/timer/unix/$(am__dirstamp) \
+	device/timer/unix/$(DEPDIR)/$(am__dirstamp)
+font/$(am__dirstamp):
+	@$(MKDIR_P) font
+	@: > font/$(am__dirstamp)
+font/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) font/$(DEPDIR)
+	@: > font/$(DEPDIR)/$(am__dirstamp)
+font/font_manager.$(OBJEXT): font/$(am__dirstamp) \
+	font/$(DEPDIR)/$(am__dirstamp)
+loaders/$(am__dirstamp):
+	@$(MKDIR_P) loaders
+	@: > loaders/$(am__dirstamp)
+loaders/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) loaders/$(DEPDIR)
+	@: > loaders/$(DEPDIR)/$(am__dirstamp)
+loaders/tga.$(OBJEXT): loaders/$(am__dirstamp) \
+	loaders/$(DEPDIR)/$(am__dirstamp)
+loaders/wav.$(OBJEXT): loaders/$(am__dirstamp) \
+	loaders/$(DEPDIR)/$(am__dirstamp)
+math/$(am__dirstamp):
+	@$(MKDIR_P) math
+	@: > math/$(am__dirstamp)
+math/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) math/$(DEPDIR)
+	@: > math/$(DEPDIR)/$(am__dirstamp)
+math/angle.$(OBJEXT): math/$(am__dirstamp) \
+	math/$(DEPDIR)/$(am__dirstamp)
+math/math.$(OBJEXT): math/$(am__dirstamp) \
+	math/$(DEPDIR)/$(am__dirstamp)
+math/matrix.$(OBJEXT): math/$(am__dirstamp) \
+	math/$(DEPDIR)/$(am__dirstamp)
+math/random_number.$(OBJEXT): math/$(am__dirstamp) \
+	math/$(DEPDIR)/$(am__dirstamp)
+math/vector.$(OBJEXT): math/$(am__dirstamp) \
+	math/$(DEPDIR)/$(am__dirstamp)
+memory/$(am__dirstamp):
+	@$(MKDIR_P) memory
+	@: > memory/$(am__dirstamp)
+memory/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) memory/$(DEPDIR)
+	@: > memory/$(DEPDIR)/$(am__dirstamp)
+memory/memory.$(OBJEXT): memory/$(am__dirstamp) \
+	memory/$(DEPDIR)/$(am__dirstamp)
+memory/zmem.$(OBJEXT): memory/$(am__dirstamp) \
+	memory/$(DEPDIR)/$(am__dirstamp)
+script/$(am__dirstamp):
+	@$(MKDIR_P) script
+	@: > script/$(am__dirstamp)
+script/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) script/$(DEPDIR)
+	@: > script/$(DEPDIR)/$(am__dirstamp)
+script/script.$(OBJEXT): script/$(am__dirstamp) \
+	script/$(DEPDIR)/$(am__dirstamp)
+sound/$(am__dirstamp):
+	@$(MKDIR_P) sound
+	@: > sound/$(am__dirstamp)
+sound/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) sound/$(DEPDIR)
+	@: > sound/$(DEPDIR)/$(am__dirstamp)
+sound/sound.$(OBJEXT): sound/$(am__dirstamp) \
+	sound/$(DEPDIR)/$(am__dirstamp)
+sound/sound_sfx_id.$(OBJEXT): sound/$(am__dirstamp) \
+	sound/$(DEPDIR)/$(am__dirstamp)
+sound/sound_stream.$(OBJEXT): sound/$(am__dirstamp) \
+	sound/$(DEPDIR)/$(am__dirstamp)
+sound/openal/$(am__dirstamp):
+	@$(MKDIR_P) sound/openal
+	@: > sound/openal/$(am__dirstamp)
+sound/openal/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) sound/openal/$(DEPDIR)
+	@: > sound/openal/$(DEPDIR)/$(am__dirstamp)
+sound/openal/openal_binding.$(OBJEXT): sound/openal/$(am__dirstamp) \
+	sound/openal/$(DEPDIR)/$(am__dirstamp)
+sound/openal/openal_main.$(OBJEXT): sound/openal/$(am__dirstamp) \
+	sound/openal/$(DEPDIR)/$(am__dirstamp)
+string/$(am__dirstamp):
+	@$(MKDIR_P) string
+	@: > string/$(am__dirstamp)
+string/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) string/$(DEPDIR)
+	@: > string/$(DEPDIR)/$(am__dirstamp)
+string/com_string.$(OBJEXT): string/$(am__dirstamp) \
+	string/$(DEPDIR)/$(am__dirstamp)
+unix/$(am__dirstamp):
+	@$(MKDIR_P) unix
+	@: > unix/$(am__dirstamp)
+unix/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) unix/$(DEPDIR)
+	@: > unix/$(DEPDIR)/$(am__dirstamp)
+unix/unix_main.$(OBJEXT): unix/$(am__dirstamp) \
+	unix/$(DEPDIR)/$(am__dirstamp)
+unix/unix_vid_sys.$(OBJEXT): unix/$(am__dirstamp) \
+	unix/$(DEPDIR)/$(am__dirstamp)
+video/$(am__dirstamp):
+	@$(MKDIR_P) video
+	@: > video/$(am__dirstamp)
+video/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) video/$(DEPDIR)
+	@: > video/$(DEPDIR)/$(am__dirstamp)
+video/texture_manager.$(OBJEXT): video/$(am__dirstamp) \
+	video/$(DEPDIR)/$(am__dirstamp)
+video/opengl/$(am__dirstamp):
+	@$(MKDIR_P) video/opengl
+	@: > video/opengl/$(am__dirstamp)
+video/opengl/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) video/opengl/$(DEPDIR)
+	@: > video/opengl/$(DEPDIR)/$(am__dirstamp)
+video/opengl/opengl_binding.$(OBJEXT): video/opengl/$(am__dirstamp) \
+	video/opengl/$(DEPDIR)/$(am__dirstamp)
+video/opengl/opengl_draw.$(OBJEXT): video/opengl/$(am__dirstamp) \
+	video/opengl/$(DEPDIR)/$(am__dirstamp)
+video/opengl/opengl_extension.$(OBJEXT): video/opengl/$(am__dirstamp) \
+	video/opengl/$(DEPDIR)/$(am__dirstamp)
+video/opengl/opengl_main.$(OBJEXT): video/opengl/$(am__dirstamp) \
+	video/opengl/$(DEPDIR)/$(am__dirstamp)
+video/opengl/opengl_texture.$(OBJEXT): video/opengl/$(am__dirstamp) \
+	video/opengl/$(DEPDIR)/$(am__dirstamp)
+video/opengl/unix/$(am__dirstamp):
+	@$(MKDIR_P) video/opengl/unix
+	@: > video/opengl/unix/$(am__dirstamp)
+video/opengl/unix/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) video/opengl/unix/$(DEPDIR)
+	@: > video/opengl/unix/$(DEPDIR)/$(am__dirstamp)
+video/opengl/unix/openglw_imp.$(OBJEXT):  \
+	video/opengl/unix/$(am__dirstamp) \
+	video/opengl/unix/$(DEPDIR)/$(am__dirstamp)
+zlib/$(am__dirstamp):
+	@$(MKDIR_P) zlib
+	@: > zlib/$(am__dirstamp)
+zlib/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) zlib/$(DEPDIR)
+	@: > zlib/$(DEPDIR)/$(am__dirstamp)
+zlib/adler32.$(OBJEXT): zlib/$(am__dirstamp) \
+	zlib/$(DEPDIR)/$(am__dirstamp)
+zlib/crc32.$(OBJEXT): zlib/$(am__dirstamp) \
+	zlib/$(DEPDIR)/$(am__dirstamp)
+zlib/inffast.$(OBJEXT): zlib/$(am__dirstamp) \
+	zlib/$(DEPDIR)/$(am__dirstamp)
+zlib/inflate.$(OBJEXT): zlib/$(am__dirstamp) \
+	zlib/$(DEPDIR)/$(am__dirstamp)
+zlib/inftrees.$(OBJEXT): zlib/$(am__dirstamp) \
+	zlib/$(DEPDIR)/$(am__dirstamp)
+zlib/zutil.$(OBJEXT): zlib/$(am__dirstamp) \
+	zlib/$(DEPDIR)/$(am__dirstamp)
+game/wolf3d/$(am__dirstamp):
+	@$(MKDIR_P) game/wolf3d
+	@: > game/wolf3d/$(am__dirstamp)
+game/wolf3d/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) game/wolf3d/$(DEPDIR)
+	@: > game/wolf3d/$(DEPDIR)/$(am__dirstamp)
+game/wolf3d/wolf_main.$(OBJEXT): game/wolf3d/$(am__dirstamp) \
+	game/wolf3d/$(DEPDIR)/$(am__dirstamp)
+game/wolf3d/client/$(am__dirstamp):
+	@$(MKDIR_P) game/wolf3d/client
+	@: > game/wolf3d/client/$(am__dirstamp)
+game/wolf3d/client/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) game/wolf3d/client/$(DEPDIR)
+	@: > game/wolf3d/client/$(DEPDIR)/$(am__dirstamp)
+game/wolf3d/client/wolf_client_main.$(OBJEXT):  \
+	game/wolf3d/client/$(am__dirstamp) \
+	game/wolf3d/client/$(DEPDIR)/$(am__dirstamp)
+game/wolf3d/client/wolf_sv_ccmds.$(OBJEXT):  \
+	game/wolf3d/client/$(am__dirstamp) \
+	game/wolf3d/client/$(DEPDIR)/$(am__dirstamp)
+game/wolf3d/common/$(am__dirstamp):
+	@$(MKDIR_P) game/wolf3d/common
+	@: > game/wolf3d/common/$(am__dirstamp)
+game/wolf3d/common/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) game/wolf3d/common/$(DEPDIR)
+	@: > game/wolf3d/common/$(DEPDIR)/$(am__dirstamp)
+game/wolf3d/common/wolf_common.$(OBJEXT):  \
+	game/wolf3d/common/$(am__dirstamp) \
+	game/wolf3d/common/$(DEPDIR)/$(am__dirstamp)
+game/wolf3d/entities/$(am__dirstamp):
+	@$(MKDIR_P) game/wolf3d/entities
+	@: > game/wolf3d/entities/$(am__dirstamp)
+game/wolf3d/entities/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) game/wolf3d/entities/$(DEPDIR)
+	@: > game/wolf3d/entities/$(DEPDIR)/$(am__dirstamp)
+game/wolf3d/entities/wolf_actor_ai.$(OBJEXT):  \
+	game/wolf3d/entities/$(am__dirstamp) \
+	game/wolf3d/entities/$(DEPDIR)/$(am__dirstamp)
+game/wolf3d/entities/wolf_actors.$(OBJEXT):  \
+	game/wolf3d/entities/$(am__dirstamp) \
+	game/wolf3d/entities/$(DEPDIR)/$(am__dirstamp)
+game/wolf3d/entities/wolf_ai_com.$(OBJEXT):  \
+	game/wolf3d/entities/$(am__dirstamp) \
+	game/wolf3d/entities/$(DEPDIR)/$(am__dirstamp)
+game/wolf3d/entities/wolf_bj.$(OBJEXT):  \
+	game/wolf3d/entities/$(am__dirstamp) \
+	game/wolf3d/entities/$(DEPDIR)/$(am__dirstamp)
+game/wolf3d/entities/wolf_player.$(OBJEXT):  \
+	game/wolf3d/entities/$(am__dirstamp) \
+	game/wolf3d/entities/$(DEPDIR)/$(am__dirstamp)
+game/wolf3d/entities/wolf_powerups.$(OBJEXT):  \
+	game/wolf3d/entities/$(am__dirstamp) \
+	game/wolf3d/entities/$(DEPDIR)/$(am__dirstamp)
+game/wolf3d/entities/wolf_sprites.$(OBJEXT):  \
+	game/wolf3d/entities/$(am__dirstamp) \
+	game/wolf3d/entities/$(DEPDIR)/$(am__dirstamp)
+game/wolf3d/entities/wolf_weapon.$(OBJEXT):  \
+	game/wolf3d/entities/$(am__dirstamp) \
+	game/wolf3d/entities/$(DEPDIR)/$(am__dirstamp)
+game/wolf3d/level/$(am__dirstamp):
+	@$(MKDIR_P) game/wolf3d/level
+	@: > game/wolf3d/level/$(am__dirstamp)
+game/wolf3d/level/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) game/wolf3d/level/$(DEPDIR)
+	@: > game/wolf3d/level/$(DEPDIR)/$(am__dirstamp)
+game/wolf3d/level/wolf_areas.$(OBJEXT):  \
+	game/wolf3d/level/$(am__dirstamp) \
+	game/wolf3d/level/$(DEPDIR)/$(am__dirstamp)
+game/wolf3d/level/wolf_doors.$(OBJEXT):  \
+	game/wolf3d/level/$(am__dirstamp) \
+	game/wolf3d/level/$(DEPDIR)/$(am__dirstamp)
+game/wolf3d/level/wolf_level.$(OBJEXT):  \
+	game/wolf3d/level/$(am__dirstamp) \
+	game/wolf3d/level/$(DEPDIR)/$(am__dirstamp)
+game/wolf3d/level/wolf_pushwalls.$(OBJEXT):  \
+	game/wolf3d/level/$(am__dirstamp) \
+	game/wolf3d/level/$(DEPDIR)/$(am__dirstamp)
+game/wolf3d/math/$(am__dirstamp):
+	@$(MKDIR_P) game/wolf3d/math
+	@: > game/wolf3d/math/$(am__dirstamp)
+game/wolf3d/math/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) game/wolf3d/math/$(DEPDIR)
+	@: > game/wolf3d/math/$(DEPDIR)/$(am__dirstamp)
+game/wolf3d/math/wolf_math.$(OBJEXT):  \
+	game/wolf3d/math/$(am__dirstamp) \
+	game/wolf3d/math/$(DEPDIR)/$(am__dirstamp)
+game/wolf3d/menu/$(am__dirstamp):
+	@$(MKDIR_P) game/wolf3d/menu
+	@: > game/wolf3d/menu/$(am__dirstamp)
+game/wolf3d/menu/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) game/wolf3d/menu/$(DEPDIR)
+	@: > game/wolf3d/menu/$(DEPDIR)/$(am__dirstamp)
+game/wolf3d/menu/wolf_mcredits.$(OBJEXT):  \
+	game/wolf3d/menu/$(am__dirstamp) \
+	game/wolf3d/menu/$(DEPDIR)/$(am__dirstamp)
+game/wolf3d/menu/wolf_menu.$(OBJEXT):  \
+	game/wolf3d/menu/$(am__dirstamp) \
+	game/wolf3d/menu/$(DEPDIR)/$(am__dirstamp)
+game/wolf3d/menu/wolf_mintermission.$(OBJEXT):  \
+	game/wolf3d/menu/$(am__dirstamp) \
+	game/wolf3d/menu/$(DEPDIR)/$(am__dirstamp)
+game/wolf3d/menu/wolf_mintro.$(OBJEXT):  \
+	game/wolf3d/menu/$(am__dirstamp) \
+	game/wolf3d/menu/$(DEPDIR)/$(am__dirstamp)
+game/wolf3d/menu/wolf_mnewgame.$(OBJEXT):  \
+	game/wolf3d/menu/$(am__dirstamp) \
+	game/wolf3d/menu/$(DEPDIR)/$(am__dirstamp)
+game/wolf3d/menu/wolf_moptions.$(OBJEXT):  \
+	game/wolf3d/menu/$(am__dirstamp) \
+	game/wolf3d/menu/$(DEPDIR)/$(am__dirstamp)
+game/wolf3d/menu/wolf_mquit.$(OBJEXT):  \
+	game/wolf3d/menu/$(am__dirstamp) \
+	game/wolf3d/menu/$(DEPDIR)/$(am__dirstamp)
+game/wolf3d/menu/wolf_msound.$(OBJEXT):  \
+	game/wolf3d/menu/$(am__dirstamp) \
+	game/wolf3d/menu/$(DEPDIR)/$(am__dirstamp)
+game/wolf3d/menu/wolf_mvideo.$(OBJEXT):  \
+	game/wolf3d/menu/$(am__dirstamp) \
+	game/wolf3d/menu/$(DEPDIR)/$(am__dirstamp)
+game/wolf3d/script/$(am__dirstamp):
+	@$(MKDIR_P) game/wolf3d/script
+	@: > game/wolf3d/script/$(am__dirstamp)
+game/wolf3d/script/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) game/wolf3d/script/$(DEPDIR)
+	@: > game/wolf3d/script/$(DEPDIR)/$(am__dirstamp)
+game/wolf3d/script/episode.$(OBJEXT):  \
+	game/wolf3d/script/$(am__dirstamp) \
+	game/wolf3d/script/$(DEPDIR)/$(am__dirstamp)
+game/wolf3d/video/$(am__dirstamp):
+	@$(MKDIR_P) game/wolf3d/video
+	@: > game/wolf3d/video/$(am__dirstamp)
+game/wolf3d/video/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) game/wolf3d/video/$(DEPDIR)
+	@: > game/wolf3d/video/$(DEPDIR)/$(am__dirstamp)
+game/wolf3d/video/wolf_raycast.$(OBJEXT):  \
+	game/wolf3d/video/$(am__dirstamp) \
+	game/wolf3d/video/$(DEPDIR)/$(am__dirstamp)
+game/wolf3d/video/wolf_renderer.$(OBJEXT):  \
+	game/wolf3d/video/$(am__dirstamp) \
+	game/wolf3d/video/$(DEPDIR)/$(am__dirstamp)
+game/wolf3d/video/opengl/$(am__dirstamp):
+	@$(MKDIR_P) game/wolf3d/video/opengl
+	@: > game/wolf3d/video/opengl/$(am__dirstamp)
+game/wolf3d/video/opengl/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) game/wolf3d/video/opengl/$(DEPDIR)
+	@: > game/wolf3d/video/opengl/$(DEPDIR)/$(am__dirstamp)
+game/wolf3d/video/opengl/wolf_opengl.$(OBJEXT):  \
+	game/wolf3d/video/opengl/$(am__dirstamp) \
+	game/wolf3d/video/opengl/$(DEPDIR)/$(am__dirstamp)
+
+wolf3dredux$(EXEEXT): $(wolf3dredux_OBJECTS) $(wolf3dredux_DEPENDENCIES) $(EXTRA_wolf3dredux_DEPENDENCIES) 
+	@rm -f wolf3dredux$(EXEEXT)
+	$(AM_V_CCLD)$(LINK) $(wolf3dredux_OBJECTS) $(wolf3dredux_LDADD) $(LIBS)
+
+mostlyclean-compile:
+	-rm -f *.$(OBJEXT)
+	-rm -f client/*.$(OBJEXT)
+	-rm -f common/*.$(OBJEXT)
+	-rm -f device/cpu/*.$(OBJEXT)
+	-rm -f device/filesys/*.$(OBJEXT)
+	-rm -f device/filesys/unix/*.$(OBJEXT)
+	-rm -f device/input/*.$(OBJEXT)
+	-rm -f device/input/unix/*.$(OBJEXT)
+	-rm -f device/system/*.$(OBJEXT)
+	-rm -f device/system/unix/*.$(OBJEXT)
+	-rm -f device/timer/unix/*.$(OBJEXT)
+	-rm -f font/*.$(OBJEXT)
+	-rm -f game/wolf3d/*.$(OBJEXT)
+	-rm -f game/wolf3d/client/*.$(OBJEXT)
+	-rm -f game/wolf3d/common/*.$(OBJEXT)
+	-rm -f game/wolf3d/entities/*.$(OBJEXT)
+	-rm -f game/wolf3d/level/*.$(OBJEXT)
+	-rm -f game/wolf3d/math/*.$(OBJEXT)
+	-rm -f game/wolf3d/menu/*.$(OBJEXT)
+	-rm -f game/wolf3d/script/*.$(OBJEXT)
+	-rm -f game/wolf3d/video/*.$(OBJEXT)
+	-rm -f game/wolf3d/video/opengl/*.$(OBJEXT)
+	-rm -f loaders/*.$(OBJEXT)
+	-rm -f math/*.$(OBJEXT)
+	-rm -f memory/*.$(OBJEXT)
+	-rm -f script/*.$(OBJEXT)
+	-rm -f sound/*.$(OBJEXT)
+	-rm -f sound/openal/*.$(OBJEXT)
+	-rm -f string/*.$(OBJEXT)
+	-rm -f tools/gamepal/*.$(OBJEXT)
+	-rm -f tools/signon/*.$(OBJEXT)
+	-rm -f unix/*.$(OBJEXT)
+	-rm -f video/*.$(OBJEXT)
+	-rm -f video/opengl/*.$(OBJEXT)
+	-rm -f video/opengl/unix/*.$(OBJEXT)
+	-rm -f zlib/*.$(OBJEXT)
+
+distclean-compile:
+	-rm -f *.tab.c
+
+@AMDEP_TRUE@@am__include@ @am__quote@client/$(DEPDIR)/client_input.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@client/$(DEPDIR)/client_main.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@client/$(DEPDIR)/client_screen.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@client/$(DEPDIR)/console.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@client/$(DEPDIR)/keys.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@client/$(DEPDIR)/menu_conf.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@common/$(DEPDIR)/arch.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@common/$(DEPDIR)/cmd.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@common/$(DEPDIR)/common.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@common/$(DEPDIR)/cvar.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@common/$(DEPDIR)/share.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@common/$(DEPDIR)/ttree.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@device/cpu/$(DEPDIR)/cpuid.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@device/filesys/$(DEPDIR)/fileio.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@device/filesys/$(DEPDIR)/files.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@device/filesys/$(DEPDIR)/filestring.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@device/filesys/$(DEPDIR)/zippak.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@device/filesys/unix/$(DEPDIR)/glob.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@device/filesys/unix/$(DEPDIR)/unix_file.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@device/input/$(DEPDIR)/in_view.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@device/input/unix/$(DEPDIR)/unix_joystick.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@device/input/unix/$(DEPDIR)/unix_keys.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@device/input/unix/$(DEPDIR)/unix_mouse.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@device/system/$(DEPDIR)/system.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@device/system/unix/$(DEPDIR)/unix_system.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@device/timer/unix/$(DEPDIR)/unix_timer.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@font/$(DEPDIR)/font_manager.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@game/wolf3d/$(DEPDIR)/wolf_main.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@game/wolf3d/client/$(DEPDIR)/wolf_client_main.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@game/wolf3d/client/$(DEPDIR)/wolf_sv_ccmds.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@game/wolf3d/common/$(DEPDIR)/wolf_common.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@game/wolf3d/entities/$(DEPDIR)/wolf_actor_ai.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@game/wolf3d/entities/$(DEPDIR)/wolf_actors.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@game/wolf3d/entities/$(DEPDIR)/wolf_ai_com.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@game/wolf3d/entities/$(DEPDIR)/wolf_bj.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@game/wolf3d/entities/$(DEPDIR)/wolf_player.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@game/wolf3d/entities/$(DEPDIR)/wolf_powerups.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@game/wolf3d/entities/$(DEPDIR)/wolf_sprites.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@game/wolf3d/entities/$(DEPDIR)/wolf_weapon.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@game/wolf3d/level/$(DEPDIR)/wolf_areas.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@game/wolf3d/level/$(DEPDIR)/wolf_doors.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@game/wolf3d/level/$(DEPDIR)/wolf_level.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@game/wolf3d/level/$(DEPDIR)/wolf_pushwalls.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@game/wolf3d/math/$(DEPDIR)/wolf_math.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@game/wolf3d/menu/$(DEPDIR)/wolf_mcredits.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@game/wolf3d/menu/$(DEPDIR)/wolf_menu.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@game/wolf3d/menu/$(DEPDIR)/wolf_mintermission.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@game/wolf3d/menu/$(DEPDIR)/wolf_mintro.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@game/wolf3d/menu/$(DEPDIR)/wolf_mnewgame.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@game/wolf3d/menu/$(DEPDIR)/wolf_moptions.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@game/wolf3d/menu/$(DEPDIR)/wolf_mquit.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@game/wolf3d/menu/$(DEPDIR)/wolf_msound.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@game/wolf3d/menu/$(DEPDIR)/wolf_mvideo.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@game/wolf3d/script/$(DEPDIR)/episode.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@game/wolf3d/video/$(DEPDIR)/wolf_raycast.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@game/wolf3d/video/$(DEPDIR)/wolf_renderer.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@game/wolf3d/video/opengl/$(DEPDIR)/wolf_opengl.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@loaders/$(DEPDIR)/tga.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@loaders/$(DEPDIR)/wav.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@math/$(DEPDIR)/angle.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@math/$(DEPDIR)/math.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@math/$(DEPDIR)/matrix.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@math/$(DEPDIR)/random_number.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@math/$(DEPDIR)/vector.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@memory/$(DEPDIR)/memory.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@memory/$(DEPDIR)/zmem.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@script/$(DEPDIR)/script.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@sound/$(DEPDIR)/sound.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@sound/$(DEPDIR)/sound_sfx_id.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@sound/$(DEPDIR)/sound_stream.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@sound/openal/$(DEPDIR)/openal_binding.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@sound/openal/$(DEPDIR)/openal_main.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@string/$(DEPDIR)/com_string.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@tools/gamepal/$(DEPDIR)/main.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@tools/signon/$(DEPDIR)/WriteTGA_minimal.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@tools/signon/$(DEPDIR)/main.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@tools/signon/$(DEPDIR)/wolf_pal.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@unix/$(DEPDIR)/unix_main.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@unix/$(DEPDIR)/unix_vid_sys.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@video/$(DEPDIR)/texture_manager.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@video/opengl/$(DEPDIR)/opengl_binding.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@video/opengl/$(DEPDIR)/opengl_draw.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@video/opengl/$(DEPDIR)/opengl_extension.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@video/opengl/$(DEPDIR)/opengl_main.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@video/opengl/$(DEPDIR)/opengl_texture.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@video/opengl/unix/$(DEPDIR)/openglw_imp.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@zlib/$(DEPDIR)/adler32.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@zlib/$(DEPDIR)/crc32.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@zlib/$(DEPDIR)/inffast.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@zlib/$(DEPDIR)/inflate.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@zlib/$(DEPDIR)/inftrees.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@zlib/$(DEPDIR)/zutil.Po@am__quote@
+
+.c.o:
+@am__fastdepCC_TRUE@	$(AM_V_CC)depbase=`echo $@ | sed 's|[^/]*$$|$(DEPDIR)/&|;s|\.o$$||'`;\
+@am__fastdepCC_TRUE@	$(COMPILE) -MT $@ -MD -MP -MF $$depbase.Tpo -c -o $@ $< &&\
+@am__fastdepCC_TRUE@	$(am__mv) $$depbase.Tpo $$depbase.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(COMPILE) -c -o $@ $<
+
+.c.obj:
+@am__fastdepCC_TRUE@	$(AM_V_CC)depbase=`echo $@ | sed 's|[^/]*$$|$(DEPDIR)/&|;s|\.obj$$||'`;\
+@am__fastdepCC_TRUE@	$(COMPILE) -MT $@ -MD -MP -MF $$depbase.Tpo -c -o $@ `$(CYGPATH_W) '$<'` &&\
+@am__fastdepCC_TRUE@	$(am__mv) $$depbase.Tpo $$depbase.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(COMPILE) -c -o $@ `$(CYGPATH_W) '$<'`
+
+.c.lo:
+@am__fastdepCC_TRUE@	$(AM_V_CC)depbase=`echo $@ | sed 's|[^/]*$$|$(DEPDIR)/&|;s|\.lo$$||'`;\
+@am__fastdepCC_TRUE@	$(LTCOMPILE) -MT $@ -MD -MP -MF $$depbase.Tpo -c -o $@ $< &&\
+@am__fastdepCC_TRUE@	$(am__mv) $$depbase.Tpo $$depbase.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='$<' object='$@' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LTCOMPILE) -c -o $@ $<
 
 mostlyclean-libtool:
 	-rm -f *.lo
@@ -478,14 +1391,61 @@ clean-libtool:
 distclean-libtool:
 	-rm -f libtool config.lt
 
+# This directory's subdirectories are mostly independent; you can cd
+# into them and run 'make' without going through this Makefile.
+# To change the values of 'make' variables: instead of editing Makefiles,
+# (1) if the variable is set in 'config.status', edit 'config.status'
+#     (which will cause the Makefiles to be regenerated when you run 'make');
+# (2) otherwise, pass the desired values on the 'make' command line.
+$(am__recursive_targets):
+	@fail=; \
+	if $(am__make_keepgoing); then \
+	  failcom='fail=yes'; \
+	else \
+	  failcom='exit 1'; \
+	fi; \
+	dot_seen=no; \
+	target=`echo $@ | sed s/-recursive//`; \
+	case "$@" in \
+	  distclean-* | maintainer-clean-*) list='$(DIST_SUBDIRS)' ;; \
+	  *) list='$(SUBDIRS)' ;; \
+	esac; \
+	for subdir in $$list; do \
+	  echo "Making $$target in $$subdir"; \
+	  if test "$$subdir" = "."; then \
+	    dot_seen=yes; \
+	    local_target="$$target-am"; \
+	  else \
+	    local_target="$$target"; \
+	  fi; \
+	  ($(am__cd) $$subdir && $(MAKE) $(AM_MAKEFLAGS) $$local_target) \
+	  || eval $$failcom; \
+	done; \
+	if test "$$dot_seen" = "no"; then \
+	  $(MAKE) $(AM_MAKEFLAGS) "$$target-am" || exit 1; \
+	fi; test -z "$$fail"
+
 ID: $(am__tagged_files)
 	$(am__define_uniq_tagged_files); mkid -fID $$unique
-tags: tags-am
+tags: tags-recursive
 TAGS: tags
 
 tags-am: $(TAGS_DEPENDENCIES) $(am__tagged_files)
 	set x; \
 	here=`pwd`; \
+	if ($(ETAGS) --etags-include --version) >/dev/null 2>&1; then \
+	  include_option=--etags-include; \
+	  empty_fix=.; \
+	else \
+	  include_option=--include; \
+	  empty_fix=; \
+	fi; \
+	list='$(SUBDIRS)'; for subdir in $$list; do \
+	  if test "$$subdir" = .; then :; else \
+	    test ! -f $$subdir/TAGS || \
+	      set "$$@" "$$include_option=$$here/$$subdir/TAGS"; \
+	  fi; \
+	done; \
 	$(am__define_uniq_tagged_files); \
 	shift; \
 	if test -z "$(ETAGS_ARGS)$$*$$unique"; then :; else \
@@ -498,7 +1458,7 @@ tags-am: $(TAGS_DEPENDENCIES) $(am__tagged_files)
 	      $$unique; \
 	  fi; \
 	fi
-ctags: ctags-am
+ctags: ctags-recursive
 
 CTAGS: ctags
 ctags-am: $(TAGS_DEPENDENCIES) $(am__tagged_files)
@@ -517,7 +1477,7 @@ cscope: cscope.files
 clean-cscope:
 	-rm -f cscope.files
 cscope.files: clean-cscope cscopelist
-cscopelist: cscopelist-am
+cscopelist: cscopelist-recursive
 
 cscopelist-am: $(am__tagged_files)
 	list='$(am__tagged_files)'; \
@@ -567,6 +1527,31 @@ distdir: $(DISTFILES)
 	    test -f "$(distdir)/$$file" \
 	    || cp -p $$d/$$file "$(distdir)/$$file" \
 	    || exit 1; \
+	  fi; \
+	done
+	@list='$(DIST_SUBDIRS)'; for subdir in $$list; do \
+	  if test "$$subdir" = .; then :; else \
+	    $(am__make_dryrun) \
+	      || test -d "$(distdir)/$$subdir" \
+	      || $(MKDIR_P) "$(distdir)/$$subdir" \
+	      || exit 1; \
+	    dir1=$$subdir; dir2="$(distdir)/$$subdir"; \
+	    $(am__relativize); \
+	    new_distdir=$$reldir; \
+	    dir1=$$subdir; dir2="$(top_distdir)"; \
+	    $(am__relativize); \
+	    new_top_distdir=$$reldir; \
+	    echo " (cd $$subdir && $(MAKE) $(AM_MAKEFLAGS) top_distdir="$$new_top_distdir" distdir="$$new_distdir" \\"; \
+	    echo "     am__remove_distdir=: am__skip_length_check=: am__skip_mode_fix=: distdir)"; \
+	    ($(am__cd) $$subdir && \
+	      $(MAKE) $(AM_MAKEFLAGS) \
+	        top_distdir="$$new_top_distdir" \
+	        distdir="$$new_distdir" \
+		am__remove_distdir=: \
+		am__skip_length_check=: \
+		am__skip_mode_fix=: \
+	        distdir) \
+	      || exit 1; \
 	  fi; \
 	done
 	-test -n "$(am__skip_mode_fix)" \
@@ -701,18 +1686,22 @@ distcleancheck: distclean
 	       $(distcleancheck_listfiles) ; \
 	       exit 1; } >&2
 check-am: all-am
-check: check-am
-all-am: Makefile config.h
-installdirs:
-install: install-am
-install-exec: install-exec-am
-install-data: install-data-am
-uninstall: uninstall-am
+check: check-recursive
+all-am: Makefile $(PROGRAMS) config.h
+installdirs: installdirs-recursive
+installdirs-am:
+	for dir in "$(DESTDIR)$(bindir)"; do \
+	  test -z "$$dir" || $(MKDIR_P) "$$dir"; \
+	done
+install: install-recursive
+install-exec: install-exec-recursive
+install-data: install-data-recursive
+uninstall: uninstall-recursive
 
 install-am: all-am
 	@$(MAKE) $(AM_MAKEFLAGS) install-exec-am install-data-am
 
-installcheck: installcheck-am
+installcheck: installcheck-recursive
 install-strip:
 	if test -z '$(STRIP)'; then \
 	  $(MAKE) $(AM_MAKEFLAGS) INSTALL_PROGRAM="$(INSTALL_STRIP_PROGRAM)" \
@@ -730,103 +1719,181 @@ clean-generic:
 distclean-generic:
 	-test -z "$(CONFIG_CLEAN_FILES)" || rm -f $(CONFIG_CLEAN_FILES)
 	-test . = "$(srcdir)" || test -z "$(CONFIG_CLEAN_VPATH_FILES)" || rm -f $(CONFIG_CLEAN_VPATH_FILES)
+	-rm -f client/$(DEPDIR)/$(am__dirstamp)
+	-rm -f client/$(am__dirstamp)
+	-rm -f common/$(DEPDIR)/$(am__dirstamp)
+	-rm -f common/$(am__dirstamp)
+	-rm -f device/cpu/$(DEPDIR)/$(am__dirstamp)
+	-rm -f device/cpu/$(am__dirstamp)
+	-rm -f device/filesys/$(DEPDIR)/$(am__dirstamp)
+	-rm -f device/filesys/$(am__dirstamp)
+	-rm -f device/filesys/unix/$(DEPDIR)/$(am__dirstamp)
+	-rm -f device/filesys/unix/$(am__dirstamp)
+	-rm -f device/input/$(DEPDIR)/$(am__dirstamp)
+	-rm -f device/input/$(am__dirstamp)
+	-rm -f device/input/unix/$(DEPDIR)/$(am__dirstamp)
+	-rm -f device/input/unix/$(am__dirstamp)
+	-rm -f device/system/$(DEPDIR)/$(am__dirstamp)
+	-rm -f device/system/$(am__dirstamp)
+	-rm -f device/system/unix/$(DEPDIR)/$(am__dirstamp)
+	-rm -f device/system/unix/$(am__dirstamp)
+	-rm -f device/timer/unix/$(DEPDIR)/$(am__dirstamp)
+	-rm -f device/timer/unix/$(am__dirstamp)
+	-rm -f font/$(DEPDIR)/$(am__dirstamp)
+	-rm -f font/$(am__dirstamp)
+	-rm -f game/wolf3d/$(DEPDIR)/$(am__dirstamp)
+	-rm -f game/wolf3d/$(am__dirstamp)
+	-rm -f game/wolf3d/client/$(DEPDIR)/$(am__dirstamp)
+	-rm -f game/wolf3d/client/$(am__dirstamp)
+	-rm -f game/wolf3d/common/$(DEPDIR)/$(am__dirstamp)
+	-rm -f game/wolf3d/common/$(am__dirstamp)
+	-rm -f game/wolf3d/entities/$(DEPDIR)/$(am__dirstamp)
+	-rm -f game/wolf3d/entities/$(am__dirstamp)
+	-rm -f game/wolf3d/level/$(DEPDIR)/$(am__dirstamp)
+	-rm -f game/wolf3d/level/$(am__dirstamp)
+	-rm -f game/wolf3d/math/$(DEPDIR)/$(am__dirstamp)
+	-rm -f game/wolf3d/math/$(am__dirstamp)
+	-rm -f game/wolf3d/menu/$(DEPDIR)/$(am__dirstamp)
+	-rm -f game/wolf3d/menu/$(am__dirstamp)
+	-rm -f game/wolf3d/script/$(DEPDIR)/$(am__dirstamp)
+	-rm -f game/wolf3d/script/$(am__dirstamp)
+	-rm -f game/wolf3d/video/$(DEPDIR)/$(am__dirstamp)
+	-rm -f game/wolf3d/video/$(am__dirstamp)
+	-rm -f game/wolf3d/video/opengl/$(DEPDIR)/$(am__dirstamp)
+	-rm -f game/wolf3d/video/opengl/$(am__dirstamp)
+	-rm -f loaders/$(DEPDIR)/$(am__dirstamp)
+	-rm -f loaders/$(am__dirstamp)
+	-rm -f math/$(DEPDIR)/$(am__dirstamp)
+	-rm -f math/$(am__dirstamp)
+	-rm -f memory/$(DEPDIR)/$(am__dirstamp)
+	-rm -f memory/$(am__dirstamp)
+	-rm -f script/$(DEPDIR)/$(am__dirstamp)
+	-rm -f script/$(am__dirstamp)
+	-rm -f sound/$(DEPDIR)/$(am__dirstamp)
+	-rm -f sound/$(am__dirstamp)
+	-rm -f sound/openal/$(DEPDIR)/$(am__dirstamp)
+	-rm -f sound/openal/$(am__dirstamp)
+	-rm -f string/$(DEPDIR)/$(am__dirstamp)
+	-rm -f string/$(am__dirstamp)
+	-rm -f tools/gamepal/$(DEPDIR)/$(am__dirstamp)
+	-rm -f tools/gamepal/$(am__dirstamp)
+	-rm -f tools/signon/$(DEPDIR)/$(am__dirstamp)
+	-rm -f tools/signon/$(am__dirstamp)
+	-rm -f unix/$(DEPDIR)/$(am__dirstamp)
+	-rm -f unix/$(am__dirstamp)
+	-rm -f video/$(DEPDIR)/$(am__dirstamp)
+	-rm -f video/$(am__dirstamp)
+	-rm -f video/opengl/$(DEPDIR)/$(am__dirstamp)
+	-rm -f video/opengl/$(am__dirstamp)
+	-rm -f video/opengl/unix/$(DEPDIR)/$(am__dirstamp)
+	-rm -f video/opengl/unix/$(am__dirstamp)
+	-rm -f zlib/$(DEPDIR)/$(am__dirstamp)
+	-rm -f zlib/$(am__dirstamp)
 	-test -z "$(DISTCLEANFILES)" || rm -f $(DISTCLEANFILES)
 
 maintainer-clean-generic:
 	@echo "This command is intended for maintainers to use"
 	@echo "it deletes files that may require special tools to rebuild."
-clean: clean-am
+clean: clean-recursive
 
-clean-am: clean-generic clean-libtool clean-local mostlyclean-am
+clean-am: clean-binPROGRAMS clean-generic clean-libtool clean-local \
+	clean-noinstPROGRAMS mostlyclean-am
 
-distclean: distclean-am
+distclean: distclean-recursive
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
+	-rm -rf client/$(DEPDIR) common/$(DEPDIR) device/cpu/$(DEPDIR) device/filesys/$(DEPDIR) device/filesys/unix/$(DEPDIR) device/input/$(DEPDIR) device/input/unix/$(DEPDIR) device/system/$(DEPDIR) device/system/unix/$(DEPDIR) device/timer/unix/$(DEPDIR) font/$(DEPDIR) game/wolf3d/$(DEPDIR) game/wolf3d/client/$(DEPDIR) game/wolf3d/common/$(DEPDIR) game/wolf3d/entities/$(DEPDIR) game/wolf3d/level/$(DEPDIR) game/wolf3d/math/$(DEPDIR) game/wolf3d/menu/$(DEPDIR) game/wolf3d/script/$(DEPDIR) game/wolf3d/video/$(DEPDIR) game/wolf3d/video/opengl/$(DEPDIR) loaders/$(DEPDIR) math/$(DEPDIR) memory/$(DEPDIR) script/$(DEPDIR) sound/$(DEPDIR) sound/openal/$(DEPDIR) string/$(DEPDIR) tools/gamepal/$(DEPDIR) tools/signon/$(DEPDIR) unix/$(DEPDIR) video/$(DEPDIR) video/opengl/$(DEPDIR) video/opengl/unix/$(DEPDIR) zlib/$(DEPDIR)
 	-rm -f Makefile
-distclean-am: clean-am distclean-generic distclean-hdr \
-	distclean-libtool distclean-local distclean-tags
+distclean-am: clean-am distclean-compile distclean-generic \
+	distclean-hdr distclean-libtool distclean-local distclean-tags
 
-dvi: dvi-am
+dvi: dvi-recursive
 
 dvi-am:
 
-html: html-am
+html: html-recursive
 
 html-am:
 
-info: info-am
+info: info-recursive
 
 info-am:
 
 install-data-am:
 
-install-dvi: install-dvi-am
+install-dvi: install-dvi-recursive
 
 install-dvi-am:
 
-install-exec-am:
+install-exec-am: install-binPROGRAMS
 
-install-html: install-html-am
+install-html: install-html-recursive
 
 install-html-am:
 
-install-info: install-info-am
+install-info: install-info-recursive
 
 install-info-am:
 
 install-man:
 
-install-pdf: install-pdf-am
+install-pdf: install-pdf-recursive
 
 install-pdf-am:
 
-install-ps: install-ps-am
+install-ps: install-ps-recursive
 
 install-ps-am:
 
 installcheck-am:
 
-maintainer-clean: maintainer-clean-am
+maintainer-clean: maintainer-clean-recursive
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
 	-rm -rf $(top_srcdir)/autom4te.cache
+	-rm -rf client/$(DEPDIR) common/$(DEPDIR) device/cpu/$(DEPDIR) device/filesys/$(DEPDIR) device/filesys/unix/$(DEPDIR) device/input/$(DEPDIR) device/input/unix/$(DEPDIR) device/system/$(DEPDIR) device/system/unix/$(DEPDIR) device/timer/unix/$(DEPDIR) font/$(DEPDIR) game/wolf3d/$(DEPDIR) game/wolf3d/client/$(DEPDIR) game/wolf3d/common/$(DEPDIR) game/wolf3d/entities/$(DEPDIR) game/wolf3d/level/$(DEPDIR) game/wolf3d/math/$(DEPDIR) game/wolf3d/menu/$(DEPDIR) game/wolf3d/script/$(DEPDIR) game/wolf3d/video/$(DEPDIR) game/wolf3d/video/opengl/$(DEPDIR) loaders/$(DEPDIR) math/$(DEPDIR) memory/$(DEPDIR) script/$(DEPDIR) sound/$(DEPDIR) sound/openal/$(DEPDIR) string/$(DEPDIR) tools/gamepal/$(DEPDIR) tools/signon/$(DEPDIR) unix/$(DEPDIR) video/$(DEPDIR) video/opengl/$(DEPDIR) video/opengl/unix/$(DEPDIR) zlib/$(DEPDIR)
 	-rm -f Makefile
 maintainer-clean-am: distclean-am maintainer-clean-generic
 
-mostlyclean: mostlyclean-am
+mostlyclean: mostlyclean-recursive
 
-mostlyclean-am: mostlyclean-generic mostlyclean-libtool
+mostlyclean-am: mostlyclean-compile mostlyclean-generic \
+	mostlyclean-libtool
 
-pdf: pdf-am
+pdf: pdf-recursive
 
 pdf-am:
 
-ps: ps-am
+ps: ps-recursive
 
 ps-am:
 
-uninstall-am:
+uninstall-am: uninstall-binPROGRAMS
 
-.MAKE: all install-am install-strip
+.MAKE: $(am__recursive_targets) all install-am install-strip
 
-.PHONY: CTAGS GTAGS TAGS all all-am am--refresh check check-am clean \
-	clean-cscope clean-generic clean-libtool clean-local cscope \
-	cscopelist-am ctags ctags-am dist dist-all dist-bzip2 \
-	dist-gzip dist-lzip dist-shar dist-tarZ dist-xz dist-zip \
-	distcheck distclean distclean-generic distclean-hdr \
-	distclean-libtool distclean-local distclean-tags \
-	distcleancheck distdir distuninstallcheck dvi dvi-am html \
-	html-am info info-am install install-am install-data \
+.PHONY: $(am__recursive_targets) CTAGS GTAGS TAGS all all-am \
+	am--refresh check check-am clean clean-binPROGRAMS \
+	clean-cscope clean-generic clean-libtool clean-local \
+	clean-noinstPROGRAMS cscope cscopelist-am ctags ctags-am dist \
+	dist-all dist-bzip2 dist-gzip dist-lzip dist-shar dist-tarZ \
+	dist-xz dist-zip distcheck distclean distclean-compile \
+	distclean-generic distclean-hdr distclean-libtool \
+	distclean-local distclean-tags distcleancheck distdir \
+	distuninstallcheck dvi dvi-am html html-am info info-am \
+	install install-am install-binPROGRAMS install-data \
 	install-data-am install-dvi install-dvi-am install-exec \
 	install-exec-am install-html install-html-am install-info \
 	install-info-am install-man install-pdf install-pdf-am \
 	install-ps install-ps-am install-strip installcheck \
-	installcheck-am installdirs maintainer-clean \
-	maintainer-clean-generic mostlyclean mostlyclean-generic \
-	mostlyclean-libtool pdf pdf-am ps ps-am tags tags-am uninstall \
-	uninstall-am
+	installcheck-am installdirs installdirs-am maintainer-clean \
+	maintainer-clean-generic mostlyclean mostlyclean-compile \
+	mostlyclean-generic mostlyclean-libtool pdf pdf-am ps ps-am \
+	tags tags-am uninstall uninstall-am uninstall-binPROGRAMS
 
 
-all: $(EXE)
+all: config.h all-recursive $(EXE)
 
+# Leave out the ALLOCA obj, because its header requires special
+# modification that comes by actually using gnulib properly
 $(EXE): $(PROGRAM_OBJS) $(LIBOBJS)
 	${COMPILER} -o $(EXE) $(PROGRAM_OBJS) $(LIBOBJS) ${LDFLAGS} $(XLDFLAGS) $(VORBISFLAGS) -lm 
 
@@ -948,11 +2015,17 @@ $(ODIR)/error.o : gnulib_replacement_funcs/error.c
 $(ODIR)/progname.o : gnulib_replacement_funcs/progname.c 
 	$(DO_CC)
 
+error.o: $(ODIR)/error.o $(ODIR)/progname.o
+	test -e $(ODIR)/error.o && cp -v $(ODIR)/error.o .
+
 progname.o: $(ODIR)/progname.o
 	test -e $(ODIR)/progname.o && cp -v $(ODIR)/progname.o .
 
-error.o: $(ODIR)/error.o $(ODIR)/progname.o
-	test -e $(ODIR)/error.o && cp -v $(ODIR)/error.o .
+$(ODIR)/lstat.o : gnulib_replacement_funcs/lstat.c
+	$(DO_CC)
+
+lstat.o: $(ODIR)/lstat.o
+	test -e $(ODIR)/lstat.o && cp -v $(ODIR)/lstat.o .
 
 $(ODIR)/strnlen.o : gnulib_replacement_funcs/strnlen.c 
 	$(DO_CC)
@@ -1065,6 +2138,7 @@ $(ODIR)/opengl_main.o : video/opengl/opengl_main.c
 $(ODIR)/opengl_texture.o : video/opengl/opengl_texture.c 
 	$(DO_CC)
 
+# this file seems not to exist yet?
 $(ODIR)/opengl_interface.o : video/opengl/unix/opengl_interface.c 
 	$(DO_CC)
 

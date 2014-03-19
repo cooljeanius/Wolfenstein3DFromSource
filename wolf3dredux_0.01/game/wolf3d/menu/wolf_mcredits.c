@@ -44,7 +44,7 @@
 
 PRIVATE int credits_start_time;
 PRIVATE const char **credits;
-PRIVATE char *creditsIndex[ 256 ];
+PRIVATE char *creditsIndex[256];
 
 
 PRIVATE const char *reduxcredits[] =
@@ -76,33 +76,51 @@ PRIVATE const char *reduxcredits[] =
 	0
 };
 
-PRIVATE void M_Credits_MenuDraw( void )
+PRIVATE void M_Credits_MenuDraw(void)
 {
 	int i, x, y;
 	int w, h;
 
-	if( g_version->value == SPEAROFDESTINY ) {
-		R_Draw_Tile( 0, 0, viddef.width, viddef.height, "pics/C_BACKDROPPIC.tga" );
+	if (g_version->value == SPEAROFDESTINY) {
+		R_Draw_Tile(0, 0, (int)viddef.width, (int)viddef.height,
+					"pics/C_BACKDROPPIC.tga");
 	} else {
-		R_Draw_Fill( 0, 0, viddef.width, viddef.height, bgcolour );
+		R_Draw_Fill(0, 0, (int)viddef.width, (int)viddef.height, bgcolour);
 	}
 
-	Font_SetSize( FONT0, 1 );
-	Font_SetColour( FONT0, colourWhite );
+	Font_SetSize(FONT0, 1);
+	Font_SetColour(FONT0, colourWhite);
 
 /*
  *	Draw the credits
  */
-	for( i = 0, y = viddef.height - ( ( ClientStatic.realtime - credits_start_time ) / 40.0F ); credits[ i ] && y < viddef.height; y += Font_GetSize( FONT0 ), ++i )
-	{
-		int stringoffset = 0;
-		int bold = false;
+	for ((i = 0),
+		 (y = (int)((int)(viddef.height) -
+					((ClientStatic.realtime - credits_start_time) / 40.0F)));
+		 credits[i] && (y < (int)viddef.height);
+		 (y += (int)Font_GetSize(FONT0)), ++i) {
+		int stringoffset;
+		int bold; /* why is this an 'int' type instead of a boolean type? */
 
-		if ( y <= -8 ) {
+		stringoffset = 0; /* initialize separately */
+		bold = false; /* initialize separately with a boolean value */
+
+		/* the first half of this condition is the only part that matters: */
+		if ((y <= -8) && (stringoffset == 0)) {
 			continue;
 		}
 
-		if( credits[ i ][ 0 ] == '+' ) {
+		/* dummy condition to use value stored to 'bold': */
+		if (bold == false) {
+			;
+		}
+
+		/* dummy condition to use global variable 'creditsIndex[]': */
+		if (creditsIndex[i] == NULL) {
+			;
+		}
+
+		if (credits[i][0] == '+') {
 			bold = true;
 			stringoffset = 1;
 		} else {
@@ -110,28 +128,32 @@ PRIVATE void M_Credits_MenuDraw( void )
 			stringoffset = 0;
 		}
 
-		Font_GetMsgDimensions( FONT0, credits[ i ] + stringoffset, &w, &h );
+		Font_GetMsgDimensions(FONT0, credits[i] + stringoffset, &w, &h);
 
-		x = (viddef.width - w) >> 1;
+		x = (((int)viddef.width - w) >> 1);
 
-		if( bold ) {
-			Font_SetColour( FONT0, readhcolour );
-			Font_put_line( FONT0, x, y, credits[ i ] + stringoffset );
-			Font_SetColour( FONT0, colourWhite );
+		if (bold) {
+			Font_SetColour(FONT0, readhcolour);
+			Font_put_line(FONT0, x, y, (credits[i] + stringoffset));
+			Font_SetColour(FONT0, colourWhite );
 		} else {
-			Font_put_line( FONT0, x, y, credits[ i ] + stringoffset );
+			Font_put_line(FONT0, x, y, (credits[i] + stringoffset));
 		}
-	}
+	} /* end of for-loop */
 
-	if ( y < 0 ) {
+	if (y < 0) {
 		credits_start_time = ClientStatic.realtime;
 	}
 
 }
 
 
-PRIVATE const char *M_Credits_Key( int key )
+PRIVATE const char *M_Credits_Key(int key)
 {
+	/* dummy condition to use parameter 'key': */
+	if (key == 0) {
+		;
+	}
 	M_PopMenu();
 
 	return menu_out_sound;

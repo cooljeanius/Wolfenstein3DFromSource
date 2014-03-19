@@ -44,7 +44,9 @@ int ZEXPORT compress2 (dest, destLen, source, sourceLen, level)
     stream.opaque = (voidpf)0;
 
     err = deflateInit(&stream, level);
-    if (err != Z_OK) return err;
+    if (err != Z_OK) {
+		return err;
+	}
 
     err = deflate(&stream, Z_FINISH);
     if (err != Z_STREAM_END) {

@@ -39,7 +39,7 @@
 #include "wolf_renderer.h"
 
 
-W8 tile_visible[ 64 ][ 64 ]; /* can player see this tile? */
+W8 tile_visible[64][64]; /* can player see this tile? */
 
 
 /*
@@ -55,49 +55,49 @@ W8 tile_visible[ 64 ][ 64 ]; /* can player see this tile? */
 
 -----------------------------------------------------------------------------
 */
-
-
-
-PUBLIC void R_RayCast( placeonplane_t viewport, LevelData_t *lvl )
+PUBLIC void R_RayCast(placeonplane_t viewport, LevelData_t *lvl)
 {
 	int n, x, y, vx, vy;
     float angle;
 	r_trace_t trace;
 
 
-    float tanfov2 = TanDgr( CalcFov( 75, 640, 480) / 2.0 ) * ((float)640 / (float)480 );
+    float tanfov2;
     float tanval;
 
-	memset( tile_visible, 0, sizeof( tile_visible ) ); /* clear tile visible flags */
+	tanfov2 = (float)(TanDgr(CalcFov(75, 640, 480) / 2.0) *
+					  ((float)640 / (float)480));
+
+	memset(tile_visible, 0, sizeof(tile_visible)); /* clear tile visible flags */
 
 /* viewport tile coordinates */
-	x = viewport.origin[ 0 ];
-	y = viewport.origin[ 1 ];
+	x = (int)viewport.origin[0];
+	y = (int)viewport.origin[1];
 
     angle = viewport.angle;
 
-	vx = POS2TILE( viewport.origin[ 0 ] );
-	vy = POS2TILE( viewport.origin[ 1 ] );
+	vx = (int)POS2TILE(viewport.origin[0]);
+	vy = (int)POS2TILE(viewport.origin[1]);
 
 	trace.tile_vis = tile_visible;
-	trace.flags = TRACE_SIGHT | TRACE_MARK_MAP;
+	trace.flags = (TRACE_SIGHT | TRACE_MARK_MAP);
 
 /*
  * Ray casting
  */
 
 	/* FIXME: control ray count and make angle init */
-	for( n = 0 ; n < 640 ; ++n ) {
+	for ((n = 0); (n < 640); ++n ) {
 
 		trace.x = x;
 		trace.y = y;
 
-        tanval = tanfov2 * (-1.0 + 2.0 * (double)n / (double)(640-1) );
+        tanval = (float)(tanfov2 * (-1.0 + (2.0 * (double)n / (double)(640 - 1))));
 
-        trace.angle = angle_normalize( angle + atan( tanval ) );
+        trace.angle = (angle_normalize((float)(angle + atan(tanval))));
 
 
-		R_Trace( &trace, lvl );
+		R_Trace(&trace, lvl);
 	}
 
 /*
@@ -199,8 +199,8 @@ PUBLIC void R_RayCast( placeonplane_t viewport, LevelData_t *lvl )
 }
 
 
-int x_tile_step[ 4 ] = { 1, -1, -1,  1 };
-int y_tile_step[ 4 ] = { 1,  1, -1, -1 };
+int x_tile_step[4] = { 1, -1, -1,  1 };
+int y_tile_step[4] = { 1,  1, -1, -1 };
 
 
 /*
@@ -324,7 +324,7 @@ PUBLIC void R_Trace( r_trace_t *trace, LevelData_t *lvl )
 /*
  * Start of ray-casting
  */
-	while( 1 ) {
+	while (1) {
 /*
  * Vertical loop // an analogue for X-Ray
  */
@@ -361,7 +361,7 @@ PUBLIC void R_Trace( r_trace_t *trace, LevelData_t *lvl )
 			XmapPos = xintercept >> TILESHIFT;
 		}
 
-	} /* end of "while( 1 )" while-loop */
+	} /* end of "while (1)" while-loop */
 
 }
 

@@ -88,9 +88,15 @@ PRIVATE menuaction_s	s_driver_action; /* unused (?) */
  Notes:
 -----------------------------------------------------------------------------
 */
-PRIVATE void BrightnessCallback( void *s )
+PRIVATE void BrightnessCallback(void *s)
 {
-	menuslider_s *slider = ( menuslider_s * ) s;
+	menuslider_s *slider;
+	slider = (menuslider_s *)s; /* init separately */
+
+	/* dummy condition to use 'slider' */
+	if (slider == s) {
+		;
+	}
 
 	s_brightness_slider.curvalue = s_brightness_slider.curvalue;
 
@@ -104,10 +110,11 @@ PRIVATE void BrightnessCallback( void *s )
 
  Returns: Nothing.
 
- Notes:
+ Notes: A simple wrapper around Video_MenuInit() for now.
 -----------------------------------------------------------------------------
 */
-PRIVATE void ResetDefaults( void *unused )
+/* is the 'unused' parameter really necessary? */
+PRIVATE void ResetDefaults(void *unused)
 {
 	Video_MenuInit();
 }
@@ -123,23 +130,24 @@ PRIVATE void ResetDefaults( void *unused )
  Notes:
 -----------------------------------------------------------------------------
 */
-PRIVATE void ApplyChanges( void *unused )
+/* is the 'unused' parameter really necessary? */
+PRIVATE void ApplyChanges(void *unused)
 {
 	float gamma;
 
 	/* Scale to a range of -1.f to 1.f */
-	gamma = (s_brightness_slider.curvalue - 10.0) / 10.0;
+	gamma = (float)((s_brightness_slider.curvalue - 10.0) / 10.0);
 
-	Cvar_SetValue( "vid_gamma", gamma );
+	Cvar_SetValue("vid_gamma", gamma);
 
-	Cvar_SetValue( "gl_picmip", 3 - s_tq_slider.curvalue );
-	Cvar_SetValue( "r_fullscreen", (float)s_fs_box.curvalue );
-	Cvar_SetValue( "gl_ext_palettedtexture", (float)s_paletted_texture_box.curvalue );
-	Cvar_SetValue( "gl_finish", (float)s_finish_box.curvalue );
-	Cvar_SetValue( "gl_mode", (float)s_mode_list.curvalue );
+	Cvar_SetValue("gl_picmip", (3 - s_tq_slider.curvalue));
+	Cvar_SetValue("r_fullscreen", (float)s_fs_box.curvalue);
+	Cvar_SetValue("gl_ext_palettedtexture", (float)s_paletted_texture_box.curvalue);
+	Cvar_SetValue("gl_finish", (float)s_finish_box.curvalue);
+	Cvar_SetValue("gl_mode", (float)s_mode_list.curvalue);
 
-	Cvar_Set( "r_ref", "gl" );
-	Cvar_Set( "gl_driver", OPENGL_DLL_NAME );
+	Cvar_Set("r_ref", "gl");
+	Cvar_Set("gl_driver", OPENGL_DLL_NAME);
 
 
 	/*
@@ -147,13 +155,11 @@ PRIVATE void ApplyChanges( void *unused )
 	 * has been modified
 	 */
 
-	if( vid_gamma->modified )
-	{
+	if (vid_gamma->modified) {
 		r_ref->modified = true;
 	}
 
-	if( gl_driver->modified )
-	{
+	if (gl_driver->modified) {
 		r_ref->modified = true;
 	}
 
@@ -171,10 +177,13 @@ PRIVATE void ApplyChanges( void *unused )
  Notes:
 -----------------------------------------------------------------------------
 */
-PRIVATE void CancelChanges( void *unused )
+/* is the 'unused' parameter really necessary? */
+PRIVATE void CancelChanges(void *unused)
 {
-	extern void M_PopMenu( void );
-
+	/* why is this prototype in the middle of this function? */
+	extern void M_PopMenu(void);
+	/* I mean, I get that it is right before the function is actually used,
+	 * but still... */
 	M_PopMenu();
 }
 
@@ -189,7 +198,7 @@ PRIVATE void CancelChanges( void *unused )
  Notes:
 -----------------------------------------------------------------------------
 */
-PUBLIC void Video_MenuInit( void )
+PUBLIC void Video_MenuInit(void)
 {
 	static const char *resolutions[] =
 	{
@@ -214,24 +223,25 @@ PUBLIC void Video_MenuInit( void )
 	int y = 0;
 	int nYOffset = 27;
 
-	if( ! gl_driver ) {
-		gl_driver = Cvar_Get( "gl_driver", OPENGL_DLL_NAME, CVAR_INIT );
+	if (! gl_driver) {
+		gl_driver = Cvar_Get("gl_driver", OPENGL_DLL_NAME, CVAR_INIT);
 	}
 
-	if( ! gl_picmip ) {
-		gl_picmip = Cvar_Get( "gl_picmip", "0", CVAR_INIT );
+	if (! gl_picmip) {
+		gl_picmip = Cvar_Get("gl_picmip", "0", CVAR_INIT);
 	}
 
-	if( ! gl_mode ) {
-		gl_mode = Cvar_Get( "gl_mode", "3", CVAR_INIT );
+	if (! gl_mode) {
+		gl_mode = Cvar_Get("gl_mode", "3", CVAR_INIT);
 	}
 
-	if( ! gl_ext_palettedtexture ) {
-		gl_ext_palettedtexture = Cvar_Get( "gl_ext_palettedtexture", "1", CVAR_ARCHIVE );
+	if (! gl_ext_palettedtexture) {
+		gl_ext_palettedtexture = Cvar_Get("gl_ext_palettedtexture", "1",
+										  CVAR_ARCHIVE);
 	}
 
-	if( ! gl_finish ) {
-		gl_finish = Cvar_Get( "gl_finish", "0", CVAR_ARCHIVE );
+	if (! gl_finish) {
+		gl_finish = Cvar_Get("gl_finish", "0", CVAR_ARCHIVE);
 	}
 
 	s_mode_list.curvalue = (int)gl_mode->value;
@@ -245,50 +255,50 @@ PUBLIC void Video_MenuInit( void )
 	s_mode_list.generic.name = "Video Mode";
 	s_mode_list.generic.x = 0;
 	s_mode_list.generic.y = y;
-	s_mode_list.generic.fs		= FONT1;
+	s_mode_list.generic.fs = FONT1;
 	s_mode_list.generic.fontBaseColour = &textcolour;
 	s_mode_list.generic.fontHighColour = &readcolour;
 	s_mode_list.itemnames = resolutions;
 
-	s_brightness_slider.generic.type	= MTYPE_SLIDER;
-	s_brightness_slider.generic.x	= 0;
-	s_brightness_slider.generic.y	= (y += nYOffset);
-	s_brightness_slider.generic.fs		= FONT1;
+	s_brightness_slider.generic.type = MTYPE_SLIDER;
+	s_brightness_slider.generic.x = 0;
+	s_brightness_slider.generic.y = (y += nYOffset);
+	s_brightness_slider.generic.fs = FONT1;
 	s_brightness_slider.generic.fontBaseColour = &textcolour;
 	s_brightness_slider.generic.fontHighColour = &highlight;
-	s_brightness_slider.generic.name	= "brightness";
+	s_brightness_slider.generic.name = "brightness";
 	s_brightness_slider.generic.callback = BrightnessCallback;
 	s_brightness_slider.minvalue = 0;
 	s_brightness_slider.maxvalue = 20;
 	s_brightness_slider.curvalue = ((vid_gamma->value + 10) * 10);
 
 	s_fs_box.generic.type = MTYPE_SPINCONTROL;
-	s_fs_box.generic.x	= 0;
-	s_fs_box.generic.y	= (y += nYOffset);
-	s_fs_box.generic.fs		= FONT1;
+	s_fs_box.generic.x = 0;
+	s_fs_box.generic.y = (y += nYOffset);
+	s_fs_box.generic.fs = FONT1;
 	s_fs_box.generic.fontBaseColour = &textcolour;
 	s_fs_box.generic.fontHighColour = &readcolour;
-	s_fs_box.generic.name	= "fullscreen";
+	s_fs_box.generic.name = "fullscreen";
 	s_fs_box.itemnames = yesno_names;
 	s_fs_box.curvalue = (int)r_fullscreen->value;
 
 
 
-	s_tq_slider.generic.type	= MTYPE_SLIDER;
-	s_tq_slider.generic.x		= 0;
-	s_tq_slider.generic.y		= (y += nYOffset);
-	s_tq_slider.generic.fs		= FONT1;
+	s_tq_slider.generic.type = MTYPE_SLIDER;
+	s_tq_slider.generic.x = 0;
+	s_tq_slider.generic.y = (y += nYOffset);
+	s_tq_slider.generic.fs = FONT1;
 	s_tq_slider.generic.fontBaseColour = &textcolour;
 	s_tq_slider.generic.fontHighColour = &highlight;
-	s_tq_slider.generic.name	= "texture quality";
+	s_tq_slider.generic.name = "texture quality";
 	s_tq_slider.minvalue = 0;
 	s_tq_slider.maxvalue = 3;
 	s_tq_slider.curvalue = 3-gl_picmip->value;
 
 	s_finish_box.generic.type = MTYPE_SPINCONTROL;
-	s_finish_box.generic.x	= 0;
-	s_finish_box.generic.y	= (y += nYOffset);
-	s_finish_box.generic.fs		= FONT1;
+	s_finish_box.generic.x = 0;
+	s_finish_box.generic.y = (y += nYOffset);
+	s_finish_box.generic.fs = FONT1;
 	s_finish_box.generic.fontBaseColour = &textcolour;
 	s_finish_box.generic.fontHighColour = &readcolour;
 	s_finish_box.generic.name = "sync every frame";
@@ -297,44 +307,44 @@ PUBLIC void Video_MenuInit( void )
 
 	s_defaults_action.generic.type = MTYPE_ACTION;
 	s_defaults_action.generic.name = "reset to defaults";
-	s_defaults_action.generic.x    = 0;
-	s_defaults_action.generic.y    = (y += nYOffset);
-	s_defaults_action.generic.fs		= FONT1;
+	s_defaults_action.generic.x = 0;
+	s_defaults_action.generic.y = (y += nYOffset);
+	s_defaults_action.generic.fs = FONT1;
 	s_defaults_action.generic.fontBaseColour = &textcolour;
 	s_defaults_action.generic.fontHighColour = &highlight;
 	s_defaults_action.generic.callback = ResetDefaults;
 
 	s_cancel_action.generic.type = MTYPE_ACTION;
 	s_cancel_action.generic.name = "cancel";
-	s_cancel_action.generic.x    = 0;
-	s_cancel_action.generic.y    = (y += nYOffset);
+	s_cancel_action.generic.x = 0;
+	s_cancel_action.generic.y = (y += nYOffset);
 	/* dummy to silence clang static analyzer warning about value stored to
 	 * 'y' never actually being read: */
 	if (s_cancel_action.generic.y == y) {
 		;
 	}
-	s_cancel_action.generic.fs		= FONT1;
+	s_cancel_action.generic.fs = FONT1;
 	s_cancel_action.generic.fontBaseColour = &textcolour;
 	s_cancel_action.generic.fontHighColour = &highlight;
 	s_cancel_action.generic.callback = CancelChanges;
 
 #if 0
-	Menu_AddItem( &s_opengl_menu, ( void * ) &s_ref_list );
+	Menu_AddItem(&s_opengl_menu, (void *)&s_ref_list); /* undeclared */
 #endif /* 0 */
-	Menu_AddItem( &s_opengl_menu, ( void * ) &s_mode_list );
-	Menu_AddItem( &s_opengl_menu, ( void * ) &s_brightness_slider );
-	Menu_AddItem( &s_opengl_menu, ( void * ) &s_fs_box );
-	Menu_AddItem( &s_opengl_menu, ( void * ) &s_tq_slider );
-#if 0
-	Menu_AddItem( &s_opengl_menu, ( void * ) &s_paletted_texture_box );
-#endif /* 0 */
-	Menu_AddItem( &s_opengl_menu, ( void * ) &s_finish_box );
+	Menu_AddItem(&s_opengl_menu, (void *)&s_mode_list);
+	Menu_AddItem(&s_opengl_menu, (void *)&s_brightness_slider);
+	Menu_AddItem(&s_opengl_menu, (void *)&s_fs_box);
+	Menu_AddItem(&s_opengl_menu, (void *)&s_tq_slider);
+#if 0 || __clang_analyzer__
+	Menu_AddItem(&s_opengl_menu, (void *)&s_paletted_texture_box);
+#endif /* 0 || __clang_analyzer__ */
+	Menu_AddItem(&s_opengl_menu, (void *)&s_finish_box);
 
-	Menu_AddItem( &s_opengl_menu, ( void * ) &s_defaults_action );
+	Menu_AddItem(&s_opengl_menu, (void *)&s_defaults_action);
 
-	Menu_AddItem( &s_opengl_menu, ( void * ) &s_cancel_action );
+	Menu_AddItem(&s_opengl_menu, (void *)&s_cancel_action);
 
-	Menu_Center( &s_opengl_menu );
+	Menu_Center(&s_opengl_menu);
 	s_opengl_menu.x -= 8;
 }
 
@@ -349,78 +359,77 @@ PUBLIC void Video_MenuInit( void )
  Notes:
 -----------------------------------------------------------------------------
 */
-void Video_MenuDraw( void )
+void Video_MenuDraw(void)
 {
 
-	if( g_version->value == SPEAROFDESTINY )
-	{
-		R_Draw_Tile( 0, 0, viddef.width, viddef.height, "pics/C_BACKDROPPIC.tga" );
+	if (g_version->value == SPEAROFDESTINY) {
+		R_Draw_Tile(0, 0, (int)viddef.width, (int)viddef.height,
+					"pics/C_BACKDROPPIC.tga");
 
-		M_BannerString( "Video Setup", 15 );
-		M_DrawWindow(  ( (viddef.width - 550)>>1 ), ( (viddef.height - 335)>>1 ), 550, 335,
-			sodbkgdcolour, sodbord2colour, soddeactive );
+		M_BannerString("Video Setup", 15);
+		M_DrawWindow(((viddef.width - 550) >> 1), ((viddef.height - 335) >> 1),
+					 550, 335, sodbkgdcolour, sodbord2colour, soddeactive);
 	} else {
-		R_Draw_Fill( 0, 0, viddef.width, viddef.height, bgcolour );
+		R_Draw_Fill(0, 0, (int)viddef.width, (int)viddef.height, bgcolour);
 
-		M_BannerString( "Video Setup", 15 );
-		M_DrawWindow(  ( (viddef.width - 550)>>1 ), ( (viddef.height - 335)>>1 ), 550, 335,
-			bkgdcolour, bord2colour, deactive );
+		M_BannerString("Video Setup", 15);
+		M_DrawWindow(((viddef.width - 550) >> 1), ((viddef.height - 335) >> 1),
+					 550, 335, bkgdcolour, bord2colour, deactive);
 	}
 
 	/* move cursor to a reasonable starting position */
-	Menu_AdjustCursor( &s_opengl_menu, 1 );
+	Menu_AdjustCursor(&s_opengl_menu, 1);
 
 	/* draw the menu */
-	Menu_Draw( &s_opengl_menu );
+	Menu_Draw(&s_opengl_menu);
 }
 
 /*
 -----------------------------------------------------------------------------
  Function: Video_MenuKey
 
- Parameters:
+ Parameters: key -[in] Current key that has been pressed.
 
- Returns:
+ Returns: Looks like a string?
 
  Notes:
 -----------------------------------------------------------------------------
 */
-const char *Video_MenuKey( int key )
+const char *Video_MenuKey(int key)
 {
 	menuframework_s *m = &s_opengl_menu;
 
-	switch( key )
-	{
+	switch (key) {
 		case K_ESCAPE:
-			ApplyChanges( 0 );
+			ApplyChanges(0);
 			return NULL;
 
 		case K_KP_UPARROW:
 		case K_UPARROW:
 			m->cursor--;
-			Menu_AdjustCursor( m, -1 );
+			Menu_AdjustCursor(m, -1);
 			break;
 
 		case K_KP_DOWNARROW:
 		case K_DOWNARROW:
 			m->cursor++;
-			Menu_AdjustCursor( m, 1 );
+			Menu_AdjustCursor(m, 1);
 			break;
 
 		case K_KP_LEFTARROW:
 		case K_LEFTARROW:
-			Menu_SlideItem( m, -1 );
+			Menu_SlideItem(m, -1);
 			break;
 
 		case K_KP_RIGHTARROW:
 		case K_RIGHTARROW:
-			Menu_SlideItem( m, 1 );
+			Menu_SlideItem(m, 1);
 			break;
 
 		case K_KP_ENTER:
 		case K_ENTER:
-			if( ! Menu_SelectItem( m ) ) {
-				ApplyChanges( NULL );
+			if (! Menu_SelectItem(m)) {
+				ApplyChanges(NULL);
 			}
 			break;
 	}

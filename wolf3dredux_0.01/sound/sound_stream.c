@@ -1,22 +1,20 @@
 /*
-
-	Copyright (C) 2005 Michael Liebscher
-
-	This program is free software; you can redistribute it and/or
-	modify it under the terms of the GNU General Public License
-	as published by the Free Software Foundation; either version 2
-	of the License, or (at your option) any later version.
-
-	This program is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	GNU General Public License for more details.
-
-	You should have received a copy of the GNU General Public License
-	along with this program; if not, write to the Free Software
-	Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-
-*/
+ *	Copyright (C) 2005 Michael Liebscher
+ *
+ *	This program is free software; you can redistribute it and/or
+ *	modify it under the terms of the GNU General Public License
+ *	as published by the Free Software Foundation; either version 2
+ *	of the License, or (at your option) any later version.
+ *
+ *	This program is distributed in the hope that it will be useful,
+ *	but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *	GNU General Public License for more details.
+ *
+ *	You should have received a copy of the GNU General Public License
+ *	along with this program; if not, write to the Free Software
+ *	Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */
 
 /*
  *	sound_stream.c:	Sound Stream manager.
@@ -30,8 +28,13 @@
  */
 
 #include <string.h>
-#include <vorbis/vorbisfile.h>
 
+/* silences some warnings in the vorbisfile header: */
+#ifndef OV_EXCLUDE_STATIC_CALLBACKS
+# define OV_EXCLUDE_STATIC_CALLBACKS 1
+#endif /* !OV_EXCLUDE_STATIC_CALLBACKS */
+
+#include <vorbis/vorbisfile.h>
 
 
 #include "../common/common.h"
@@ -42,11 +45,10 @@
 #include "sound.h"
 
 
-
 typedef struct
 {
-	char		introName[ MAX_GAMEPATH ];
-	char		loopName[ MAX_GAMEPATH ];
+	char		introName[MAX_GAMEPATH];
+	char		loopName[MAX_GAMEPATH];
 	_boolean	looping;
 
 	filehandle_t *hFile;
@@ -68,7 +70,7 @@ PRIVATE musicTrack_t	bgTrack;
 PRIVATE channel_t	*s_streamingChannel;
 
 
-extern void Sound_StopBGTrack( void );
+extern void Sound_StopBGTrack(void);
 
 
 
@@ -87,18 +89,17 @@ extern void Sound_StopBGTrack( void );
  Notes:
 -----------------------------------------------------------------------------
 */
-PRIVATE size_t ovc_read( void *ptr, size_t size, size_t nmemb, void *datasource )
+PRIVATE size_t ovc_read(void *ptr, size_t size, size_t nmemb, void *datasource)
 {
 	musicTrack_t	*track = (musicTrack_t *)datasource;
 
 
-	if( ! size || ! nmemb )
-	{
+	if (! size || ! nmemb) {
 		return 0;
 	}
 
 
-	return FS_ReadFile( ptr, size, nmemb, track->hFile );
+	return (size_t)(FS_ReadFile(ptr, size, nmemb, track->hFile));
 }
 
 /*
@@ -119,25 +120,30 @@ PRIVATE size_t ovc_read( void *ptr, size_t size, size_t nmemb, void *datasource 
  Notes:
 -----------------------------------------------------------------------------
 */
-PRIVATE int ovc_seek( void *datasource, ogg_int64_t offset, int whence )
+PRIVATE int ovc_seek(void *datasource, ogg_int64_t offset, int whence)
 {
 	musicTrack_t	*track = (musicTrack_t *)datasource;
 
-	return FS_FileSeek( track->hFile, offset, whence );
+#ifdef __i386__
+	/* needs an extra cast: */
+	return (int)(FS_FileSeek(track->hFile, (SW32)offset, (W32)whence));
+#else
+	return (int)(FS_FileSeek(track->hFile, offset, (W32)whence));
+#endif /* __i386__ */
 }
 
 /*
 -----------------------------------------------------------------------------
  Function: ovc_close -OGG close Callback. Closes a stream.
 
- Parameters: datasource -[in] music track data structure.
+ Parameters: datasource -[in] music track data structure. (unused)
 
  Returns: 0 if the stream is successfully closed, otherwise nonzero.
 
  Notes:
 -----------------------------------------------------------------------------
 */
-PRIVATE int ovc_close( void *datasource )
+PRIVATE int ovc_close(void *datasource)
 {
 	return 0;
 }
@@ -154,11 +160,11 @@ PRIVATE int ovc_close( void *datasource )
  Notes:
 -----------------------------------------------------------------------------
 */
-PRIVATE long ovc_tell( void *datasource )
+PRIVATE long ovc_tell(void *datasource)
 {
 	musicTrack_t	*track = (musicTrack_t *)datasource;
 
-	return FS_FileTell( track->hFile );
+	return FS_FileTell(track->hFile);
 }
 
 /*
@@ -174,59 +180,64 @@ PRIVATE long ovc_tell( void *datasource )
  Notes:
 -----------------------------------------------------------------------------
 */
-PRIVATE _boolean Sound_OpenBGTrack( const char *name, musicTrack_t *track )
+PRIVATE _boolean Sound_OpenBGTrack(const char *name, musicTrack_t *track)
 {
 	OggVorbis_File	*vorbisFile;
 	vorbis_info		*vorbisInfo;
 	ov_callbacks	vorbisCallbacks = {ovc_read, ovc_seek, ovc_close, ovc_tell};
 	int ret;
 
-	track->hFile = FS_OpenFile( name, 0 );
-	if( ! track->hFile )
-	{
+	track->hFile = FS_OpenFile(name, 0);
+	if (! track->hFile) {
 		return false;
 	}
 
 
-	track->vorbisFile = vorbisFile = Z_Malloc( sizeof( OggVorbis_File ) );
+	track->vorbisFile = vorbisFile = Z_Malloc(sizeof(OggVorbis_File));
 
-	if( (ret = ov_open_callbacks( track, vorbisFile, NULL, 0, vorbisCallbacks )) < 0 )
-	{
-		switch( ret )
-		{
+	if ((ret = ov_open_callbacks(track, vorbisFile,
+								 NULL, 0, vorbisCallbacks)) < 0) {
+		switch (ret) {
 			case OV_EREAD:
-				Com_DPrintf( "A read from media returned an error.(%s)\n", name );
+				Com_DPrintf("Sound_OpenBGTrack(): A read from media returned an error (OV_EREAD).(%s)\n",
+							name);
 				break;
 			case OV_ENOTVORBIS:
-				Com_DPrintf( "Bitstream is not Vorbis data.(%s)\n", name );
+				Com_DPrintf("Sound_OpenBGTrack(): Bitstream is not Vorbis data (OV_ENOTVORBIS).(%s)\n",
+							name);
 				break;
 			case OV_EVERSION:
-				Com_DPrintf( "Vorbis version mismatch.(%s)\n", name );
+				Com_DPrintf("Sound_OpenBGTrack(): Vorbis version mismatch (OV_EVERSION).(%s)\n",
+							name);
 				break;
 			case OV_EBADHEADER:
-				Com_DPrintf( "Invalid Vorbis bitstream header.(%s)\n", name );
+				Com_DPrintf("Sound_OpenBGTrack(): Invalid Vorbis bitstream header (OV_EBADHEADER).(%s)\n",
+							name);
 				break;
 			case OV_EFAULT:
-				Com_DPrintf( "Internal logic fault; indicates a bug or heap/stack corruption.(%s)\n", name );
+				Com_DPrintf("Sound_OpenBGTrack(): Internal logic fault; indicates a bug or heap/stack corruption (OV_EFAULT).(%s)\n",
+							name);
 				break;
 
 		}
-		Com_DPrintf( "Could not open OGG stream (%s)\n", name );
+		Com_DPrintf("Sound_OpenBGTrack(): Could not open OGG stream (%s)\n",
+					name);
 
 		return false;
 	}
 
-	vorbisInfo = ov_info( vorbisFile, -1 );
-	if( vorbisInfo->channels != 1 && vorbisInfo->channels != 2 )
-	{
-		Com_DPrintf( "Only mono and stereo OGG files supported (%s)\n", name );
+	vorbisInfo = ov_info(vorbisFile, -1);
+	if ((vorbisInfo->channels != 1) && (vorbisInfo->channels != 2)) {
+		Com_DPrintf("Sound_OpenBGTrack(): Only mono and stereo OGG files supported (%s)\n",
+					name);
 
 		return false;
 	}
 
-	track->start = ov_raw_tell( vorbisFile );
-	track->rate = vorbisInfo->rate;
-	track->format = (vorbisInfo->channels == 2) ? AL_FORMAT_STEREO16 : AL_FORMAT_MONO16;
+	track->start = (int)ov_raw_tell(vorbisFile);
+	track->rate = (int)vorbisInfo->rate;
+	track->format = (unsigned int)((vorbisInfo->channels == 2) ?
+								   AL_FORMAT_STEREO16 : AL_FORMAT_MONO16);
 
 	return true;
 }
@@ -242,19 +253,17 @@ PRIVATE _boolean Sound_OpenBGTrack( const char *name, musicTrack_t *track )
  Notes:
 -----------------------------------------------------------------------------
 */
-PRIVATE void Sound_CloseBGTrack( musicTrack_t *track )
+PRIVATE void Sound_CloseBGTrack(musicTrack_t *track)
 {
-	if( track->vorbisFile )
-	{
-		ov_clear( track->vorbisFile );
+	if (track->vorbisFile) {
+		ov_clear(track->vorbisFile);
 
-		Z_Free( track->vorbisFile );
+		Z_Free(track->vorbisFile);
 		track->vorbisFile = NULL;
 	}
 
-	if( track->hFile )
-	{
-		FS_CloseFile( track->hFile );
+	if (track->hFile) {
+		FS_CloseFile(track->hFile);
 	}
 }
 
@@ -270,7 +279,7 @@ PRIVATE void Sound_CloseBGTrack( musicTrack_t *track )
  Notes:
 -----------------------------------------------------------------------------
 */
-PUBLIC void Sound_StreamBGTrack( void )
+PUBLIC void Sound_StreamBGTrack(void)
 {
 
 	W8		data[BUFFER_SIZE];
@@ -280,39 +289,42 @@ PUBLIC void Sound_StreamBGTrack( void )
 
 	dummy = 0;
 
-	if( ! s_musicVolume->value ) {
+	if (! s_musicVolume->value) {
 		return;
 	}
 
-	if( ! s_streamingChannel ) {
+	if (! s_streamingChannel) {
 		return;
 	}
 
 	/* Unqueue and delete any processed buffers */
-	pfalGetSourcei( s_streamingChannel->sourceName, AL_BUFFERS_PROCESSED, &processed );
-	if( processed > 0 ) {
+	pfalGetSourcei(s_streamingChannel->sourceName, AL_BUFFERS_PROCESSED,
+				   &processed);
+	if (processed > 0) {
 		while (processed--) {
-			pfalSourceUnqueueBuffers( s_streamingChannel->sourceName, 1, &buffer );
-			pfalDeleteBuffers( 1, &buffer );
+			pfalSourceUnqueueBuffers(s_streamingChannel->sourceName, 1,
+									 &buffer);
+			pfalDeleteBuffers(1, &buffer);
 		}
 	}
 
 	/* Make sure we always have at least 4 buffers in the queue */
-	pfalGetSourcei( s_streamingChannel->sourceName, AL_BUFFERS_QUEUED, &queued );
-	while( queued < 4 ) {
+	pfalGetSourcei(s_streamingChannel->sourceName, AL_BUFFERS_QUEUED, &queued);
+	while (queued < 4) {
 		size = 0;
 
 		/* Stream from disk */
-		while( size < BUFFER_SIZE ) {
-			read = ov_read( bgTrack.vorbisFile, data + size, BUFFER_SIZE - size, 0, 2, 1, &dummy );
-			if( read == 0 ) {
+		while (size < BUFFER_SIZE) {
+			read = (int)ov_read(bgTrack.vorbisFile, (char *)(data + size),
+								(BUFFER_SIZE - size), 0, 2, 1, &dummy);
+			if (read == 0) {
 				/* End of file */
-				if( ! bgTrack.looping) {
+				if (! bgTrack.looping) {
 					/* Close the intro track */
-					Sound_CloseBGTrack( &bgTrack );
+					Sound_CloseBGTrack(&bgTrack);
 
 					/* Open the loop track */
-					if( ! Sound_OpenBGTrack( bgTrack.loopName, &bgTrack ) ) {
+					if (! Sound_OpenBGTrack(bgTrack.loopName, &bgTrack)) {
 						Sound_StopBGTrack();
 						return;
 					}
@@ -321,13 +333,14 @@ PUBLIC void Sound_StreamBGTrack( void )
 				}
 
 				/* Restart the track, skipping over the header */
-				ov_raw_seek( bgTrack.vorbisFile, (ogg_int64_t)bgTrack.start );
+				ov_raw_seek(bgTrack.vorbisFile, (ogg_int64_t)bgTrack.start);
 
 				/* Try streaming again */
-				read = ov_read( bgTrack.vorbisFile, data + size, BUFFER_SIZE - size, 0, 2, 1, &dummy );
+				read = (int)ov_read(bgTrack.vorbisFile, (char *)(data + size),
+									(BUFFER_SIZE - size), 0, 2, 1, &dummy);
 			}
 
-			if( read <= 0 ) {
+			if (read <= 0) {
 				/* An error occurred */
 				Sound_StopBGTrack();
 				return;
@@ -337,19 +350,20 @@ PUBLIC void Sound_StreamBGTrack( void )
 		}
 
 		/* Upload and queue the new buffer */
-		pfalGenBuffers( 1, &buffer );
-		pfalBufferData( buffer, bgTrack.format, data, size, bgTrack.rate );
-		pfalSourceQueueBuffers( s_streamingChannel->sourceName, 1, &buffer );
+		pfalGenBuffers(1, &buffer);
+		pfalBufferData(buffer, (ALenum)bgTrack.format, data, (ALsizei)size,
+					   (ALsizei)bgTrack.rate);
+		pfalSourceQueueBuffers(s_streamingChannel->sourceName, 1, &buffer);
 
 		queued++;
 	}
 
 	/* Update volume */
-	pfalSourcef( s_streamingChannel->sourceName, AL_GAIN, s_musicVolume->value );
+	pfalSourcef(s_streamingChannel->sourceName, AL_GAIN, s_musicVolume->value);
 
 	/* If not playing, then do so */
-	pfalGetSourcei( s_streamingChannel->sourceName, AL_SOURCE_STATE, &state );
-	if( state != AL_PLAYING ) {
+	pfalGetSourcei(s_streamingChannel->sourceName, AL_SOURCE_STATE, &state);
+	if (state != AL_PLAYING) {
 		pfalSourcePlay(s_streamingChannel->sourceName);
 	}
 }
@@ -365,38 +379,36 @@ PUBLIC void Sound_StreamBGTrack( void )
  Notes:
 -----------------------------------------------------------------------------
 */
-PUBLIC void Sound_StartStreaming( void )
+PUBLIC void Sound_StartStreaming(void)
 {
-	if( ! sound_initialized )
-	{
+	if (! sound_initialized) {
 		return;
 	}
 
-	if( s_streamingChannel )
-	{
+	if (s_streamingChannel) {
 		return;
 	}
 
-	s_streamingChannel = Sound_PickChannel( 0, 0 );
-	if( ! s_streamingChannel ) {
+	s_streamingChannel = Sound_PickChannel(0, 0);
+	if (! s_streamingChannel) {
 		return;
 	}
 
 	s_streamingChannel->streaming = true;
 
 	/* hmmm... */
-	pfalDeleteSources( 1, &s_streamingChannel->sourceName );
-	pfalGenSources( 1, &s_streamingChannel->sourceName );
+	pfalDeleteSources(1, &s_streamingChannel->sourceName);
+	pfalGenSources(1, &s_streamingChannel->sourceName);
 
 	/* Set up the source */
-	pfalSourcei( s_streamingChannel->sourceName, AL_BUFFER, 0 );
-	pfalSourcei( s_streamingChannel->sourceName, AL_LOOPING, AL_FALSE );
-	pfalSourcei( s_streamingChannel->sourceName, AL_SOURCE_RELATIVE, AL_TRUE );
-	pfalSourcefv( s_streamingChannel->sourceName, AL_POSITION, vec3_origin );
-	pfalSourcefv( s_streamingChannel->sourceName, AL_VELOCITY, vec3_origin );
-	pfalSourcef( s_streamingChannel->sourceName, AL_REFERENCE_DISTANCE, 1.0 );
-	pfalSourcef( s_streamingChannel->sourceName, AL_MAX_DISTANCE, 1.0 );
-	pfalSourcef( s_streamingChannel->sourceName, AL_ROLLOFF_FACTOR, 0.0 );
+	pfalSourcei(s_streamingChannel->sourceName, AL_BUFFER, 0);
+	pfalSourcei(s_streamingChannel->sourceName, AL_LOOPING, AL_FALSE);
+	pfalSourcei(s_streamingChannel->sourceName, AL_SOURCE_RELATIVE, AL_TRUE);
+	pfalSourcefv(s_streamingChannel->sourceName, AL_POSITION, vec3_origin);
+	pfalSourcefv(s_streamingChannel->sourceName, AL_VELOCITY, vec3_origin);
+	pfalSourcef(s_streamingChannel->sourceName, AL_REFERENCE_DISTANCE, 1.0);
+	pfalSourcef(s_streamingChannel->sourceName, AL_MAX_DISTANCE, 1.0);
+	pfalSourcef(s_streamingChannel->sourceName, AL_ROLLOFF_FACTOR, 0.0);
 }
 
 /*
@@ -410,37 +422,39 @@ PUBLIC void Sound_StartStreaming( void )
  Notes:
 -----------------------------------------------------------------------------
 */
-PUBLIC void Sound_StopStreaming( void )
+PUBLIC void Sound_StopStreaming(void)
 {
 	int			processed;
 	unsigned	buffer;
 
-	if( ! sound_initialized ) {
+	if (! sound_initialized) {
 		return;
 	}
 
-	if( ! s_streamingChannel ) {
+	if (! s_streamingChannel) {
 		return;
 	}
 
 	s_streamingChannel->streaming = false;
 
 
-	pfalSourceStop( s_streamingChannel->sourceName );
+	pfalSourceStop(s_streamingChannel->sourceName);
 
-	pfalGetSourcei( s_streamingChannel->sourceName, AL_BUFFERS_PROCESSED, &processed );
-	if( processed > 0 ) {
-		while( processed-- ) {
-			pfalSourceUnqueueBuffers( s_streamingChannel->sourceName, 1, &buffer );
-			pfalDeleteBuffers( 1, &buffer );
+	pfalGetSourcei(s_streamingChannel->sourceName, AL_BUFFERS_PROCESSED,
+				   &processed);
+	if (processed > 0) {
+		while (processed--) {
+			pfalSourceUnqueueBuffers(s_streamingChannel->sourceName, 1,
+									 &buffer);
+			pfalDeleteBuffers(1, &buffer);
 		}
 	}
 
-	pfalSourcei( s_streamingChannel->sourceName, AL_BUFFER, 0 );
+	pfalSourcei(s_streamingChannel->sourceName, AL_BUFFER, 0);
 
 	/* hmmm... */
-	pfalDeleteSources( 1, &s_streamingChannel->sourceName );
-	pfalGenSources( 1, &s_streamingChannel->sourceName );
+	pfalDeleteSources(1, &s_streamingChannel->sourceName);
+	pfalGenSources(1, &s_streamingChannel->sourceName);
 
 	s_streamingChannel = NULL;
 }
@@ -458,21 +472,21 @@ PUBLIC void Sound_StopStreaming( void )
  Notes:
 -----------------------------------------------------------------------------
 */
-PUBLIC void Sound_StartBGTrack( const char *introTrack, const char *loopTrack )
+PUBLIC void Sound_StartBGTrack(const char *introTrack, const char *loopTrack)
 {
-	if( ! sound_initialized ) {
+	if (! sound_initialized) {
 		return;
 	}
 
 	Sound_StopBGTrack();
 
 
-	my_strlcpy( bgTrack.introName, introTrack, sizeof( bgTrack.introName ) );
-	my_strlcpy( bgTrack.loopName, loopTrack, sizeof( bgTrack.loopName) );
+	my_strlcpy(bgTrack.introName, introTrack, sizeof(bgTrack.introName));
+	my_strlcpy(bgTrack.loopName, loopTrack, sizeof(bgTrack.loopName));
 
 	Sound_StartStreaming();
 
-	if( ! Sound_OpenBGTrack( bgTrack.introName, &bgTrack ) ) {
+	if (! Sound_OpenBGTrack(bgTrack.introName, &bgTrack)) {
 		Sound_StopBGTrack();
 		return;
 	}
@@ -491,17 +505,17 @@ PUBLIC void Sound_StartBGTrack( const char *introTrack, const char *loopTrack )
  Notes:
 -----------------------------------------------------------------------------
 */
-PUBLIC void Sound_StopBGTrack( void )
+PUBLIC void Sound_StopBGTrack(void)
 {
-	if( ! sound_initialized ) {
+	if (! sound_initialized) {
 		return;
 	}
 
 	Sound_StopStreaming();
 
-	Sound_CloseBGTrack( &bgTrack );
+	Sound_CloseBGTrack(&bgTrack);
 
-	memset( &bgTrack, 0, sizeof( musicTrack_t ) );
+	memset(&bgTrack, 0, sizeof(musicTrack_t));
 }
 
 /* EOF */

@@ -249,7 +249,7 @@ extern _boolean Door_TryUse( doors_t *Door, int keys );
  *	Areas
  *
  ******************/
-extern	_boolean	areabyplayer[ NUMAREAS ];
+extern _boolean areabyplayer[NUMAREAS]; /* NUMAREAS is defined as '37' above */
 
 extern void Areas_ConnectAreas( int areanumber );
 extern void Areas_InitAreas( int areanumber );

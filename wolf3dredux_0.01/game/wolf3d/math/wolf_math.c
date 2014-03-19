@@ -124,15 +124,15 @@ PUBLIC quadrant GetQuadrant( float angle )
  Notes:
 -----------------------------------------------------------------------------
 */
-PUBLIC dir4type Get4dir( float angle )
+PUBLIC dir4type Get4dir(float angle)
 {
-	angle = angle_normalize( angle + M_PI / 4 );
+	angle = angle_normalize(angle + (float)(M_PI / 4));
 
-	if( angle < M_PI / 2 ) {
+	if (angle < (M_PI / 2)) {
 		return dir4_east;
-	} else if( angle < M_PI ) {
+	} else if (angle < M_PI) {
 		return dir4_north;
-	} else if( angle < 3 * M_PI / 2 ) {
+	} else if (angle < (3 * M_PI / 2)) {
 		return dir4_west;
 	} else {
 		return dir4_south;
@@ -150,23 +150,23 @@ PUBLIC dir4type Get4dir( float angle )
  Notes:
 -----------------------------------------------------------------------------
 */
-PUBLIC dir8type Get8dir( float angle )
+PUBLIC dir8type Get8dir(float angle)
 {
-	angle = angle_normalize( angle + M_PI / 12 );
+	angle = (angle_normalize(angle + (float)(M_PI / 12)));
 
-	if( angle <= (M_PI / 4) ) {
+	if (angle <= (M_PI / 4)) {
 		return dir8_east;
-	} else if( angle < (M_PI / 2) ) {
+	} else if (angle < (M_PI / 2)) {
 		return dir8_northeast;
-	} else if( angle <= (3 * M_PI / 4) ) {
+	} else if (angle <= (3 * M_PI / 4)) {
 		return dir8_north;
-	} else if( angle < M_PI ) {
+	} else if (angle < M_PI) {
 		return dir8_northwest;
-	} else if( angle <= (5 * M_PI / 4) ) {
+	} else if (angle <= (5 * M_PI / 4)) {
 		return dir8_west;
-	} else if( angle < (3 * M_PI / 2) ) {
+	} else if (angle < (3 * M_PI / 2)) {
 		return dir8_southwest;
-	} else if( angle <= (7 * M_PI / 4) ) {
+	} else if (angle <= (7 * M_PI / 4)) {
 		return dir8_south;
 	} else {
 		return dir8_southeast;
@@ -227,9 +227,11 @@ PUBLIC int LineLen2Point( int x, int y, float angle )
 	point1 = {x, y}
 -----------------------------------------------------------------------------
 */
-PUBLIC float TransformPoint( double Point1X, double Point1Y, double Point2X, double Point2Y )
+PUBLIC float TransformPoint(double Point1X, double Point1Y,
+							double Point2X, double Point2Y)
 {
-	return angle_normalize( atan2( Point1Y - Point2Y, Point1X - Point2X ) );
+	return (float)(angle_normalize((float)atan2((Point1Y - Point2Y),
+												(Point1X - Point2X))));
 }
 
 /* EOF */

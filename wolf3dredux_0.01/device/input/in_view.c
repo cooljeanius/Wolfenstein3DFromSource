@@ -75,11 +75,11 @@ cvar_t	*v_centerspeed;
 
 -----------------------------------------------------------------------------
 */
-void IN_Init( void )
+void IN_Init(void)
 {
 	/* centering */
-	v_centermove  = Cvar_Get( "v_centermove",	"0.15",		0);
-	v_centerspeed = Cvar_Get( "v_centerspeed",	"500",		0);
+	v_centermove  = Cvar_Get("v_centermove", "0.15", 0);
+	v_centerspeed = Cvar_Get("v_centerspeed", "500", 0);
 
 	IN_StartupMouse();
 	IN_StartupJoystick();
@@ -93,11 +93,11 @@ void IN_Init( void )
 
  Returns: Nothing.
 
- Notes:
+ Notes: Simple wrapper around IN_DeactivateMouse() for now.
 
 -----------------------------------------------------------------------------
 */
-void IN_Shutdown( void )
+void IN_Shutdown(void)
 {
 	IN_DeactivateMouse();
 }
@@ -116,7 +116,7 @@ void IN_Shutdown( void )
 	between a deactivate and an activate.
 -----------------------------------------------------------------------------
 */
-void IN_Activate( _boolean active )
+void IN_Activate(_boolean active)
 {
 	in_appactive = active;
 	mouseactive = ! active;	/* force a new window check or turn off */
@@ -134,32 +134,28 @@ void IN_Activate( _boolean active )
 
 -----------------------------------------------------------------------------
 */
-void IN_Frame( void )
+void IN_Frame(void)
 {
-	if( ! mouseinitialized )
-	{
+	if (! mouseinitialized) {
 		return;
 	}
 
-	if( ! in_mouse || ! in_appactive )
-	{
+	if (! in_mouse || ! in_appactive) {
 		IN_DeactivateMouse();
 		return;
 	}
 
-	if( ! ClientState.refresh_prepped
-		|| ClientStatic.key_dest == key_console
-		|| ClientStatic.key_dest == key_menu)
-	{
+	if (! ClientState.refresh_prepped
+		|| (ClientStatic.key_dest == key_console)
+		|| (ClientStatic.key_dest == key_menu)) {
 		/* temporarily deactivate if in fullscreen */
-		if( Cvar_VariableValue( "r_fullscreen" ) == 0 )
-		{
-			IN_DeactivateMouse ();
+		if (Cvar_VariableValue("r_fullscreen") == 0) {
+			IN_DeactivateMouse();
 			return;
 		}
 	}
 
-	IN_ActivateMouse ();
+	IN_ActivateMouse();
 }
 
 /*
@@ -174,13 +170,13 @@ void IN_Frame( void )
 
 -----------------------------------------------------------------------------
 */
-void IN_Move( usercmd_t *cmd )
+void IN_Move(usercmd_t *cmd)
 {
-	IN_MouseMove( cmd );
+	IN_MouseMove(cmd);
 
-#if 0
-	if( ActiveApp ) {
-		IN_JoyMove( cmd );
+#if 0 /* try other conditions */
+	if (ActiveApp) {
+		IN_JoyMove(cmd);
 	}
 #endif /* 0 */
 }
@@ -198,7 +194,7 @@ void IN_Move( usercmd_t *cmd )
 
 -----------------------------------------------------------------------------
 */
-void IN_ClearStates( void )
+void IN_ClearStates(void)
 {
 	mx_accum = 0;
 	my_accum = 0;

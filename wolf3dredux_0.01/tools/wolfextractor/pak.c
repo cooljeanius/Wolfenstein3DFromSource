@@ -59,7 +59,7 @@ PRIVATE struct zlist *zfchain = NULL; /* Zip file chain */
  Notes:
 -----------------------------------------------------------------------------
 */
-PRIVATE struct zlist *writelocalfilechunk( const char *filename, FILE *fout )
+PRIVATE struct zlist *writelocalfilechunk(const char *filename, FILE *fout)
 {
 	W8 *data;
 	struct zlist *zentry;
@@ -70,9 +70,9 @@ PRIVATE struct zlist *writelocalfilechunk( const char *filename, FILE *fout )
 	z_stream c_stream; /* compression stream */
 
 
-	zentry = MM_MALLOC( sizeof( *zentry ) );
+	zentry = MM_MALLOC(sizeof(*zentry));
 
-	memset( zentry, 0, sizeof( *zentry ) );
+	memset(zentry, 0, sizeof(*zentry));
 	zentry->next = NULL;
 
 	zentry->versionmadeby = VMB_VFAT;
@@ -82,19 +82,19 @@ PRIVATE struct zlist *writelocalfilechunk( const char *filename, FILE *fout )
 
 	zentry->deletefile = 1;
 
-	zentry->uncompressed_size = FS_LoadFile( filename, &data );
+	zentry->uncompressed_size = (W32)FS_LoadFile(filename, (void **)&data);
 
-	if( zentry->uncompressed_size == -1 || data == NULL ) {
-		printf( "Could not open file (%s)\n", filename );
-		MM_FREE( zentry );
+	if ((zentry->uncompressed_size == (W32)(-1)) || (data == NULL)) {
+		printf("Could not open file (%s)\n", filename);
+		MM_FREE(zentry);
 
 		return NULL;
 	}
 
 
-	FS_GetFileAttributes( filename, &fs );
+	FS_GetFileAttributes(filename, &fs);
 
-	zentry->timedate = UnixTimeToDosTime( &fs.lastwritetime );
+	zentry->timedate = UnixTimeToDosTime((time_t *)&fs.lastwritetime);
 
 
 /*
@@ -154,19 +154,19 @@ PRIVATE struct zlist *writelocalfilechunk( const char *filename, FILE *fout )
  *	End of compression
  */
 
-	zentry->crc32 = crc32( 0, data, zentry->uncompressed_size );
+	zentry->crc32 = (crc32(0, data, (uInt)zentry->uncompressed_size));
 
-	cs_strlcpy( zentry->filename, filename, sizeof( zentry->filename ) );
-	zentry->filename_length = strlen( zentry->filename );
+	cs_strlcpy(zentry->filename, filename, sizeof(zentry->filename));
+	zentry->filename_length = (W16)(strlen(zentry->filename));
 
-	zentry->offset = ftell( fout );
+	zentry->offset = (W32)(ftell(fout));
 
 	/* Write header to file */
-	if( ! zip_writelocalfileheader( zentry, fout ) ) {
-		printf( "Error writing local header to zip file\n" );
-		MM_FREE( compr );
-		MM_FREE( data );
-		MM_FREE( zentry );
+	if (! zip_writelocalfileheader(zentry, fout)) {
+		printf("Error writing local header to zip file\n");
+		MM_FREE(compr);
+		MM_FREE(data);
+		MM_FREE(zentry);
 
 		return NULL;
 	}
@@ -200,35 +200,35 @@ PRIVATE struct zlist *writelocalfilechunk( const char *filename, FILE *fout )
  Notes:
 -----------------------------------------------------------------------------
 */
-PRIVATE _boolean writecentralchunk( struct zlist *z, FILE *fout )
+PRIVATE _boolean writecentralchunk(struct zlist *z, FILE *fout)
 {
 	W32 central_offset;
 	W32 central_size;
 	W32 num = 0;
 	struct zlist *ztemp;
 
-	if( z == NULL ) {
-		printf( "NULL zip list passed into writecentralchunk().\n" );
+	if (z == NULL) {
+		printf("NULL zip list passed into writecentralchunk(), returning false.\n");
 
 		return false;
 	}
 
-	central_offset = ftell( fout );
+	central_offset = (W32)(ftell(fout));
 
 	ztemp = z;
 	do {
 		++num;
-		if( ! zip_writecentral( ztemp, fout ) ) {
-			printf( "Error writing central header to zip file\n" );
+		if (! zip_writecentral(ztemp, fout)) {
+			printf("writecentralchunk(): Error writing central header to zip file\n");
 			return false;
 		}
 		ztemp = ztemp->next;
-	} while( ztemp );
+	} while(ztemp);
 
-	central_size = ftell( fout ) - central_offset;
+	central_size = ((unsigned long)(ftell(fout)) - central_offset);
 
-	if( ! zip_writeend( num, central_size, central_offset, 0, NULL, fout ) ) {
-		printf( "Error writing end header to zip file\n" );
+	if (! zip_writeend((SW32)(num), central_size, central_offset, 0, NULL, fout)) {
+		printf("writecentralchunk(): Error writing end header to zip file\n");
 
 		return false;
 	}
@@ -294,7 +294,7 @@ PRIVATE _boolean parsedirectory( const char *path, FILE *f )
  Notes:
 -----------------------------------------------------------------------------
 */
-PRIVATE struct zlist *addscripttozipfile( char *filename, FILE *fout, W16 version )
+PRIVATE struct zlist *addscripttozipfile(char *filename, FILE *fout, W16 version)
 {
 	W8 *data;
 	struct zlist *zentry;
@@ -303,49 +303,50 @@ PRIVATE struct zlist *addscripttozipfile( char *filename, FILE *fout, W16 versio
 	W32 retval;
 	W8 *compr;
 	z_stream c_stream; /* compression stream */
-	char commandline[ 256 ];
+	char commandline[256];
 	int value = 0;
 	FILE *fin;
 
-	fin = fopen( filename, "rb" );
-	if( fin == NULL ) {
+	fin = fopen(filename, "rb");
+	if (fin == NULL) {
 		return NULL;
 	}
 
-	retval = FS_FileLength( fin );
+	retval = (W32)FS_FileLength(fin);
 
-	if( retval == -1 ) {
-		printf( "Could not open file (%s)\n", filename );
+	if (retval == (W32)(-1)) {
+		printf("Could not open file (%s)\n", filename);
 
 		return NULL;
 	}
 
 	/* add g_version command */
-	if( version == SDM_PAK || version == SOD_PAK ) {
+	if ((version == SDM_PAK) ||( version == SOD_PAK)) {
 		value = 1;
 	} else {
 		value = 0;
 	}
-	cs_snprintf( commandline, sizeof( commandline ), "\n%s%d\n", GVERSION_TEXT, value );
+	cs_snprintf(commandline, sizeof(commandline), "\n%s%d\n", GVERSION_TEXT,
+				value);
 
 
-	data = MM_MALLOC( retval + strlen( commandline ) + 1 );
+	data = MM_MALLOC((size_t)(retval + strlen(commandline) + 1));
 
-	if( fread( data, 1, retval, fin ) != retval ) {
-		printf( "Could not read from file (%s)\n", filename );
+	if (fread(data, 1, retval, fin) != retval) {
+		printf("Could not read from file (%s)\n", filename);
 
-		MM_FREE( data )
+		MM_FREE(data)
 
 		return NULL;
 	}
 
-	fclose( fin );
+	fclose(fin);
 
-	memcpy( data + retval, commandline, strlen( commandline ) );
+	memcpy((data + retval), commandline, strlen(commandline));
 
 
-	zentry = MM_MALLOC( sizeof( *zentry ) );
-	memset( zentry, 0, sizeof( *zentry ) );
+	zentry = MM_MALLOC(sizeof(*zentry));
+	memset(zentry, 0, sizeof(*zentry));
 	zentry->next = NULL;
 
 	zentry->versionmadeby = VMB_VFAT;
@@ -355,11 +356,11 @@ PRIVATE struct zlist *addscripttozipfile( char *filename, FILE *fout, W16 versio
 
 	zentry->deletefile = 0;
 
-	zentry->uncompressed_size = retval + strlen( commandline );
+	zentry->uncompressed_size = (retval + strlen(commandline));
 
-	FS_GetFileAttributes( filename, &fs );
+	FS_GetFileAttributes(filename, &fs);
 
-	zentry->timedate = UnixTimeToDosTime( &fs.lastwritetime );
+	zentry->timedate = UnixTimeToDosTime((time_t *)&fs.lastwritetime);
 
 /*
  *	Compression
@@ -419,12 +420,12 @@ PRIVATE struct zlist *addscripttozipfile( char *filename, FILE *fout, W16 versio
  */
 
 
-	zentry->crc32 = crc32( 0, data, zentry->uncompressed_size );
+	zentry->crc32 = (crc32(0, data, (uInt)zentry->uncompressed_size));
 
-	cs_strlcpy( zentry->filename, filename, sizeof( zentry->filename ) );
-	zentry->filename_length = strlen( zentry->filename );
+	cs_strlcpy(zentry->filename, filename, sizeof(zentry->filename));
+	zentry->filename_length = (W16)(strlen(zentry->filename));
 
-	zentry->offset = ftell( fout );
+	zentry->offset = (W32)(ftell(fout));
 
 	/* Write header to file */
 	if( ! zip_writelocalfileheader( zentry, fout ) ) {

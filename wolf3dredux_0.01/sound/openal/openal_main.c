@@ -130,15 +130,16 @@ PRIVATE void Sound_Device_Register( void )
  Notes: Call Sound_Device_Shutdown() when you are done.
 -----------------------------------------------------------------------------
 */
-PUBLIC _boolean Sound_Device_Setup( void )
+PUBLIC _boolean Sound_Device_Setup(void)
 {
-	Com_Printf( "...Initializing OpenAL subsystem\n" );
+	Com_Printf("...Initializing OpenAL subsystem\n");
 
 	Sound_Device_Register();
 
 	/* Initialize our OpenAL dynamic bindings */
-	if( ! OpenAL_Init( s_driver->string ) ) {
-		Com_Printf( "[%s]: Dynamic binding of (%s) failed\n", "openal_main.c", s_driver->string );
+	if (! OpenAL_Init( s_driver->string)) {
+		Com_Printf("[%s]: Dynamic binding of (%s) failed\n", "openal_main.c",
+				   s_driver->string);
 
 		goto failed;
 	}
@@ -147,16 +148,17 @@ PUBLIC _boolean Sound_Device_Setup( void )
 	Sound_Device_getDeviceList();
 
 
-	Device = pfalcOpenDevice( (s_device->string[ 0 ]) ? s_device->string : NULL );
-	if( Device == NULL ) {
-		Com_Printf( "Failed to Initialize OpenAL\n" );
+	Device = (pfalcOpenDevice((const ALCubyte *)((s_device->string[0]) ?
+												 s_device->string : NULL)));
+	if (Device == NULL) {
+		Com_Printf("Failed to Initialize OpenAL\n");
 
 		goto failed;
 	}
 
 	/* Create context(s) */
 	Context = pfalcCreateContext( Device, NULL );
-	if( Context == NULL ) {
+	if (Context == NULL) {
 		Com_Printf( "Failed to initialize OpenAL\n" );
 
 		goto failed;

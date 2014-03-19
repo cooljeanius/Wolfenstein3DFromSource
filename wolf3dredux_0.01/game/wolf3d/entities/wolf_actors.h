@@ -124,8 +124,9 @@ typedef struct entity_s
 	int ticcount;
 	int temp2;
 	int distance;
-	char tilex, tiley;
-	char areanumber;
+	char tilex, tiley; /* why are these chars? right now I have to cast a bunch
+						* of stuff just to get it to match this... */
+	char areanumber; /* same here? why is a "number" represented by a "char"? */
 	doors_t *waitfordoor;	/* doorstruct */
 	W8 flags;				/*	FL_SHOOTABLE, etc */
 	en_state state;

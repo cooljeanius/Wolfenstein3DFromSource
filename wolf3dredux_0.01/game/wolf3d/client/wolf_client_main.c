@@ -47,7 +47,7 @@ extern void R_DrawWorld(void);
 
  Returns: Nothing.
 
- Notes:
+ Notes: Basically a simple wrapper around R_DrawWorld() for now.
 
 -----------------------------------------------------------------------------
 */
@@ -58,7 +58,6 @@ PRIVATE void V_RenderView(void)
 	}
 
 	R_DrawWorld();
-
 }
 
 /*
@@ -81,7 +80,7 @@ PUBLIC void Client_Screen_UpdateScreen(void)
 
 		V_RenderView();
 
-		Client_Screen_DrawConsole();
+		Client_Screen_DrawConsole(); /* not worth breaking on */
 
 		M_Draw();
 
@@ -210,10 +209,10 @@ PUBLIC void Client_Frame(int msec)
 	IN_Frame();
 
 	/* decide the simulation time */
-	ClientStatic.frametime = extratime / 1000.0f;
-#if 0 || __clang_analyzer__
-	cl.time += extratime;
-#endif /* 0 || __clang_analyzer__ */
+	ClientStatic.frametime = (extratime / 1000.0f);
+#if 0
+	cl.time += extratime; /* 'cl' is undeclared */
+#endif /* 0 */
 	ClientStatic.realtime = (int)curtime;
 
 	extratime = 0;
@@ -235,11 +234,11 @@ PUBLIC void Client_Frame(int msec)
 	/* allow rendering change */
 	Video_CheckChanges();
 	/* TODO: handle errors thrown by Video_CheckChanges() */
-#if 0 || __clang_analyzer__
+#if 0
 	if (! ClientState.refresh_prepped && (ClientStatic.state == ca_active)) {
-		Client_PrepRefresh(levelstate./**/);
+		Client_PrepRefresh(levelstate./**/); /* expected identifier */
 	}
-#endif /* 0 || __clang_analyzer__ */
+#endif /* 0 */
 
 	Sound_Update(vnull, vnull, vnull, vnull);
 
@@ -276,9 +275,10 @@ PUBLIC void Client_Frame(int msec)
 		}
 	}
 
-	Client_Screen_RunConsole();
+	Client_Screen_RunConsole(); /* not worth going into, no decent places to
+								 * break on within it... */
 
-    Client_Screen_UpdateScreen();
+    Client_Screen_UpdateScreen(); /* calls 5 other functions in a row */
 
 	++ClientStatic.framecount;
 }

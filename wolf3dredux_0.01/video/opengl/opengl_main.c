@@ -112,20 +112,20 @@ cvar_t	*r_ref;
 -----------------------------------------------------------------------------
 */
 PUBLIC void MYgluPerspective(GLdouble fovy, GLdouble aspect,
-							 GLdouble zNear, GLdouble zFar )
+							 GLdouble zNear, GLdouble zFar)
 {
    GLdouble xmin, xmax, ymin, ymax;
 
-   ymax = zNear * tan( fovy * M_PI / 360.0 );
+   ymax = zNear * tan(fovy * M_PI / 360.0);
    ymin = -ymax;
 
    xmin = ymin * aspect;
    xmax = ymax * aspect;
 
-   xmin += -( 2 * 0 ) / zNear;
-   xmax += -( 2 * 0 ) / zNear;
+   xmin += -(2 * 0) / zNear;
+   xmax += -(2 * 0) / zNear;
 
-   pfglFrustum( xmin, xmax, ymin, ymax, zNear, zFar );
+   pfglFrustum(xmin, xmax, ymin, ymax, zNear, zFar);
 }
 
 /*
@@ -139,52 +139,56 @@ PUBLIC void MYgluPerspective(GLdouble fovy, GLdouble aspect,
  Notes:
 -----------------------------------------------------------------------------
 */
-PRIVATE void R_ScreenShot_f( void )
+PRIVATE void R_ScreenShot_f(void)
 {
 	W8		*buffer;
-	char	picname[ 80 ];
-	char	checkname[ MAX_OSPATH ];
+	char	picname[80];
+	char	checkname[MAX_OSPATH];
 	int		i;
 	FILE	*f;
+	struct _TGA the_TGA;
+	/* use tga_error_strings[] global variable in this file: */
+	the_TGA.error_string = tga_error_strings[0];
 
 	/* create the scrnshots directory if it does NOT exist */
-	my_snprintf( checkname, sizeof( checkname ), "%s/scrnshot", FS_Gamedir() );
-	FS_CreateDirectory( checkname );
+	my_snprintf(checkname, sizeof(checkname), "%s/scrnshot", FS_Gamedir());
+	FS_CreateDirectory(checkname);
 
 /*
  * find a file name to save it to
  */
-	my_strlcpy( picname, "scrn00.tga", sizeof( picname ) );
+	my_strlcpy(picname, "scrn00.tga", sizeof(picname));
 
-	for( i = 0 ; i <= 99 ; ++i ) {
-		picname[ 4 ] = i / 10 + '0';
-		picname[ 5 ] = i % 10 + '0';
-		my_snprintf( checkname, sizeof( checkname ), "%s/scrnshot/%s", FS_Gamedir(), picname );
-		f = fopen( checkname, "rb" );
-		if( ! f ) {
+	for ((i = 0); (i <= 99); ++i ) {
+		picname[4] = (char)(i / 10 + '0');
+		picname[5] = (char)(i % 10 + '0');
+		my_snprintf(checkname, sizeof(checkname), "%s/scrnshot/%s",
+					FS_Gamedir(), picname);
+		f = fopen(checkname, "rb");
+		if (! f) {
 			break;	/* file does NOT exist */
 		}
 
-		fclose( f );
+		fclose(f);
 	}
 
-	if( i == 100 ) {
-		Com_Printf( "R_ScreenShot_f: Could not create a file\n" );
+	if (i == 100) {
+		Com_Printf("R_ScreenShot_f: Could not create a file\n");
 		return;
  	}
 
 
-	buffer = MM_MALLOC( viddef.width * viddef.height * 3 );
+	buffer = MM_MALLOC(viddef.width * viddef.height * 3);
 
 
-	pfglReadPixels( 0, 0, viddef.width, viddef.height, GL_RGB, GL_UNSIGNED_BYTE, buffer );
+	pfglReadPixels(0, 0, (GLsizei)viddef.width, (GLsizei)viddef.height, GL_RGB,
+				   GL_UNSIGNED_BYTE, buffer);
 
+	WriteTGA(checkname, 24, (W16)viddef.width, (W16)viddef.height, buffer,
+			 1, 1);
 
-	WriteTGA( checkname, 24, viddef.width, viddef.height, buffer, 1, 1 );
-
-
-	MM_FREE( buffer );
-	Com_Printf( "Wrote %s\n", picname );
+	MM_FREE(buffer);
+	Com_Printf("Wrote %s\n", picname);
 }
 
 /*
@@ -217,38 +221,38 @@ PRIVATE void R_Strings_f( void )
  Notes:
 -----------------------------------------------------------------------------
 */
-PRIVATE void R_Clear (void)
+PRIVATE void R_Clear(void)
 {
-	if( gl_ztrick->value ) {
+	if (gl_ztrick->value) {
 		static int trickframe;
 
-		if( gl_clear->value ) {
-			pfglClear( GL_COLOR_BUFFER_BIT );
+		if (gl_clear->value) {
+			pfglClear(GL_COLOR_BUFFER_BIT);
 		}
 
 		trickframe++;
-		if( trickframe & 1 ) {
+		if (trickframe & 1) {
 			gldepthmin = 0;
 			gldepthmax = 0.49999f;
-			pfglDepthFunc( GL_LEQUAL );
+			pfglDepthFunc(GL_LEQUAL);
 		} else {
 			gldepthmin = 1;
 			gldepthmax = 0.5;
-			pfglDepthFunc( GL_GEQUAL );
+			pfglDepthFunc(GL_GEQUAL);
 		}
 	} else {
-		if( gl_clear->value ) {
-			pfglClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+		if (gl_clear->value) {
+			pfglClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		} else {
-			pfglClear( GL_DEPTH_BUFFER_BIT );
+			pfglClear(GL_DEPTH_BUFFER_BIT);
 		}
 
 		gldepthmin = 0;
 		gldepthmax = 1;
-		pfglDepthFunc( GL_LEQUAL );
+		pfglDepthFunc(GL_LEQUAL);
 	}
 
-	pfglDepthRange( gldepthmin, gldepthmax );
+	pfglDepthRange(gldepthmin, gldepthmax);
 
 }
 
@@ -264,20 +268,20 @@ PRIVATE void R_Clear (void)
  Notes:
 -----------------------------------------------------------------------------
 */
-PUBLIC void R_SetGL2D( void )
+PUBLIC void R_SetGL2D(void)
 {
 	/* set 2D virtual screen size */
-	pfglViewport( 0,0, viddef.width, viddef.height );
-	pfglMatrixMode( GL_PROJECTION );
+	pfglViewport(0, 0, (GLsizei)viddef.width, (GLsizei)viddef.height);
+	pfglMatrixMode(GL_PROJECTION);
     pfglLoadIdentity();
-	pfglOrtho( 0, viddef.width, viddef.height, 0, -99999, 99999 );
-	pfglMatrixMode( GL_MODELVIEW );
+	pfglOrtho(0, viddef.width, viddef.height, 0, -99999, 99999);
+	pfglMatrixMode(GL_MODELVIEW);
     pfglLoadIdentity();
-	pfglDisable( GL_DEPTH_TEST );
-	pfglDisable( GL_CULL_FACE );
-	pfglDisable( GL_BLEND );
-	pfglEnable( GL_ALPHA_TEST );
-	pfglColor4f( 1,1,1,1 );
+	pfglDisable(GL_DEPTH_TEST);
+	pfglDisable(GL_CULL_FACE);
+	pfglDisable(GL_BLEND);
+	pfglEnable(GL_ALPHA_TEST);
+	pfglColor4f(1, 1, 1, 1);
 
 }
 
@@ -367,7 +371,7 @@ PRIVATE void R_Register( void )
  Notes:
 -----------------------------------------------------------------------------
 */
-PRIVATE _boolean R_SetMode( void )
+PRIVATE _boolean R_SetMode(void)
 {
 	rserr_t err; /* rserr_t is an enum typedef-ed in "../renderer.h" */
 	_boolean fullscreen;
@@ -471,59 +475,61 @@ PUBLIC int R_Init( void *hinstance, void *hWnd )
 	Video_MenuInit();
 
 	/* get various GL strings (TODO: check signedness) */
-	gl_config.vendor_string = pfglGetString( GL_VENDOR );
-	Com_Printf( "GL_VENDOR: %s\n", gl_config.vendor_string );
+	gl_config.vendor_string = (const char *)pfglGetString(GL_VENDOR);
+	Com_Printf("GL_VENDOR: %s\n", gl_config.vendor_string);
 
-	gl_config.renderer_string = pfglGetString( GL_RENDERER );
-	Com_Printf( "GL_RENDERER: %s\n", gl_config.renderer_string );
+	gl_config.renderer_string = (const char *)pfglGetString(GL_RENDERER);
+	Com_Printf("GL_RENDERER: %s\n", gl_config.renderer_string);
 
-	gl_config.version_string = pfglGetString( GL_VERSION );
-	Com_Printf( "GL_VERSION: %s\n", gl_config.version_string );
+	gl_config.version_string = (const char *)pfglGetString(GL_VERSION);
+	Com_Printf("GL_VERSION: %s\n", gl_config.version_string);
 
-	gl_config.extensions_string = pfglGetString( GL_EXTENSIONS );
-	Com_Printf( "GL_EXTENSIONS: %s\n", gl_config.extensions_string );
+	gl_config.extensions_string = (const char *)pfglGetString(GL_EXTENSIONS);
+	Com_Printf("GL_EXTENSIONS: %s\n", gl_config.extensions_string);
 
-	my_strlcpy( renderer_buffer, gl_config.renderer_string, sizeof( renderer_buffer ) );
-	(void)my_strlwr( renderer_buffer );
+	my_strlcpy(renderer_buffer, gl_config.renderer_string,
+			   sizeof(renderer_buffer));
+	(void)my_strlwr(renderer_buffer);
 
-	my_strlcpy( vendor_buffer, gl_config.vendor_string, sizeof( vendor_buffer ) );
-	(void)my_strlwr( vendor_buffer );
+	my_strlcpy(vendor_buffer, gl_config.vendor_string, sizeof(vendor_buffer));
+	(void)my_strlwr(vendor_buffer);
 
 
-	sscanf( gl_config.version_string, "%d.%d", &a, &b );
-	if( a >= 1 && b >= 2 ) {
+	sscanf(gl_config.version_string, "%d.%d", &a, &b);
+	if ((a >= 1) && (b >= 2)) {
 		gl_config.Version_1_2 = true;
 	}
 
-#ifdef __unix__
-	Cvar_SetValue( "gl_finish", 1 );
-#endif /* __unix__ */
+#if defined(__unix__) || defined(__APPLE__)
+	Cvar_SetValue("gl_finish", 1);
+#endif /* __unix__ || __APPLE__ */
 
-	Com_Printf( "Initializing OpenGL extensions\n" );
+	Com_Printf("Initializing OpenGL extensions\n");
 
 
-	GL_ConfigExtensions( gl_config.extensions_string );
+	GL_ConfigExtensions(gl_config.extensions_string);
 
-	if( ! gl_ext.ARBMultiTexture ) {
-		Com_Printf( "Missing Required GL extension: GL_ARB_multitexture. Update your driver.\n" );
+	if (! gl_ext.ARBMultiTexture) {
+		Com_Printf("Missing Required GL extension: GL_ARB_multitexture. Update your driver.\n");
 		return -1;
 	}
 
-	if( ! gl_ext.EXTTextureEnvCombine ) {
-		Com_Printf( "Missing Important GL extension: GL_EXT_texture_env_combine => All envcombine are setup to GL_MODULATE!");
+	if (! gl_ext.EXTTextureEnvCombine) {
+		Com_Printf("Missing Important GL extension: GL_EXT_texture_env_combine => All envcombine are setup to GL_MODULATE!");
 	}
 
 
-	if( gl_ext.nMaxAnisotropy ) {
-		Com_Printf( "GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT: %4.2f\n", gl_ext.nMaxAnisotropy );
+	if (gl_ext.nMaxAnisotropy) {
+		Com_Printf("GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT: %4.2f\n",
+				   gl_ext.nMaxAnisotropy);
 	}
 
 
-	Com_Printf( "GL_MAX_TEXTURE_UNITS_ARB: %d\n", gl_ext.nTextureStages );
+	Com_Printf("GL_MAX_TEXTURE_UNITS_ARB: %d\n", gl_ext.nTextureStages);
 
 
-	pfglGetIntegerv( GL_MAX_TEXTURE_SIZE, &glMaxTexSize );
-	Com_Printf( "GL_MAX_TEXTURE_SIZE: %d\n", glMaxTexSize);
+	pfglGetIntegerv(GL_MAX_TEXTURE_SIZE, &glMaxTexSize);
+	Com_Printf("GL_MAX_TEXTURE_SIZE: %d\n", glMaxTexSize);
 
 	GL_SetDefaultState();
 
@@ -533,7 +539,7 @@ PUBLIC int R_Init( void *hinstance, void *hWnd )
 
 	err = (int)pfglGetError();
 	if (err != GL_NO_ERROR) {
-		Com_Printf( "glGetError() = 0x%x\n", err );
+		Com_Printf("glGetError() = 0x%x\n", err);
 	}
 
 	return 1;
@@ -593,7 +599,7 @@ PUBLIC void R_BeginFrame(void)
 /*
  * Change modes if necessary.
  */
-	if ( gl_mode->modified || r_fullscreen->modified ) {
+	if (gl_mode->modified || r_fullscreen->modified) {
 		/* FIXME: only restart if CDS is required */
 		cvar_t	*ref;
 
@@ -602,7 +608,7 @@ PUBLIC void R_BeginFrame(void)
 	}
 
 
-	GLimp_BeginFrame();
+	GLimp_BeginFrame(); /* function currently does nothing... */
 
 /*
  * Go into 2D mode.
@@ -630,7 +636,7 @@ PUBLIC void R_BeginFrame(void)
 
 #if 0
 	if (gl_texturemode->modified) {
-		R_TextureMode( gl_texturemode->string );
+		R_TextureMode(gl_texturemode->string); /* unimplemented */
 		gl_texturemode->modified = false;
 	}
 #endif /* 0 */
@@ -645,7 +651,7 @@ PUBLIC void R_BeginFrame(void)
 /*
  * clear screen if desired
  */
-	R_Clear ();
+	R_Clear();
 }
 
 /*
@@ -656,7 +662,7 @@ PUBLIC void R_BeginFrame(void)
 
  Returns: Nothing.
 
- Notes:
+ Notes: A simple wrapper around GLimp_EndFrame() for now.
 -----------------------------------------------------------------------------
 */
 PUBLIC void R_EndFrame(void)
@@ -672,7 +678,7 @@ PUBLIC void R_EndFrame(void)
 
  Returns: Nothing.
 
- Notes:
+ Notes: A simple wrapper around GLimp_AppActivate() for now.
 -----------------------------------------------------------------------------
 */
 PUBLIC void R_AppActivate(_boolean active)
@@ -718,48 +724,49 @@ PUBLIC void GL_UpdateSwapInterval(void)
  Notes:
 -----------------------------------------------------------------------------
 */
-PUBLIC void PrintGLError( W32 err, const char *from )
+PUBLIC void PrintGLError(W32 err, const char *from)
 {
     if (err == GL_NO_ERROR) {
 		return;
 	}
 
-	/* TODO: fix comparison with string literal results (use strncmp instead) */
-    if (from != "") {
-		Com_Printf( "\n\n\nGL Error: %s\n", from );
+	/* should we use strncmp() with a string literal instead of comparing
+	 * against NULL? */
+    if (from != NULL) {
+		Com_Printf("\n\n\nGL Error: %s\n", from);
 	}
 
-	switch( err ) {
+	switch (err) {
 		case GL_NO_ERROR:
-			Com_Printf( "GL_NO_ERROR:\nNo error has been recorded. The value of this symbolic constant is guaranteed to be zero.\n" );
+			Com_Printf("GL_NO_ERROR:\nNo error has been recorded. The value of this symbolic constant is guaranteed to be 0.\n");
 			break;
 
 		case GL_INVALID_ENUM:
-			Com_Printf( "GL_INVALID_ENUM:\nAn unacceptable value is specified for an enumerated argument. The offending function is ignored, having no side effect other than to set the error flag.\n" );
+			Com_Printf("GL_INVALID_ENUM:\nAn unacceptable value is specified for an enumerated argument. The offending function is ignored, having no side effect other than to set the error flag.\n");
 			break;
 
 		case GL_INVALID_VALUE:
-			Com_Printf( "GL_INVALID_VALUE:\nA numeric argument is out of range. The offending function is ignored, having no side effect other than to set the error flag.\n" );
+			Com_Printf("GL_INVALID_VALUE:\nA numeric argument is out of range. The offending function is ignored, having no side effect other than to set the error flag.\n");
 			break;
 
 		case GL_INVALID_OPERATION:
-			Com_Printf( "GL_INVALID_OPERATION:\nThe specified operation is not allowed in the current state. The offending function is ignored, having no side effect other than to set the error flag.\n" );
+			Com_Printf("GL_INVALID_OPERATION:\nThe specified operation is not allowed in the current state. The offending function is ignored, having no side effect other than to set the error flag.\n");
 			break;
 
 		case GL_STACK_OVERFLOW:
-			Com_Printf( "GL_STACK_OVERFLOW:\nThis function would cause a stack overflow. The offending function is ignored, having no side effect other than to set the error flag.\n" );
+			Com_Printf("GL_STACK_OVERFLOW:\nThis function would cause a stack overflow. The offending function is ignored, having no side effect other than to set the error flag.\n");
 			break;
 
 		case GL_STACK_UNDERFLOW:
-			Com_Printf( "GL_STACK_UNDERFLOW:\nThis function would cause a stack underflow. The offending function is ignored, having no side effect other than to set the error flag.\n" );
+			Com_Printf("GL_STACK_UNDERFLOW:\nThis function would cause a stack underflow. The offending function is ignored, having no side effect other than to set the error flag.\n");
 			break;
 
 		case GL_OUT_OF_MEMORY:
-			Com_Printf( "GL_OUT_OF_MEMORY:\nThere is not enough memory left to execute the function. The state of OpenGL is undefined, except for the state of the error flags, after this error is recorded.\n" );
+			Com_Printf("GL_OUT_OF_MEMORY:\nThere is not enough memory left to execute the function. The state of OpenGL is undefined, except for the state of the error flags, after this error is recorded.\n");
 			break;
 
 		default:
-			Com_Printf( "Unknown GL error flag 0x%x\n", err );
+			Com_Printf("Unknown GL error flag 0x%x\n", err);
 	}
 }
 

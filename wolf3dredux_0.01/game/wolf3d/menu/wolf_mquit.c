@@ -37,8 +37,8 @@
 #include "../../../math/random_number.h"
 
 
-extern void M_Main_Draw( void );
-extern void M_SMain_Draw( void );
+extern void M_Main_Draw(void);
+extern void M_SMain_Draw(void);
 
 /********************************************************************
  *
@@ -46,9 +46,22 @@ extern void M_SMain_Draw( void );
  *
  *******************************************************************/
 
-PRIVATE const char *M_Quit_Key( int key )
+/*
+ -----------------------------------------------------------------------------
+ Function: M_Quit_Key
+
+ Parameters: key -[in]: Current key that has been pressed.
+
+ Returns: The type makes it look like it will be a string, but it is really
+		  just NULL.
+
+ Notes:
+
+ -----------------------------------------------------------------------------
+ */
+PRIVATE const char *M_Quit_Key(int key)
 {
-	switch( key ) {
+	switch (key) {
 		case K_ESCAPE:
 		case 'n':
 		case 'N':
@@ -66,11 +79,10 @@ PRIVATE const char *M_Quit_Key( int key )
 	}
 
 	return NULL;
-
 }
 
 
-PRIVATE const char endStrings[ 18 ][ 80 ]=
+PRIVATE const char endStrings[18][80]=
 {
 
 	{ "Dost thou wish to\nleave with such hasty\nabandon?" },
@@ -99,34 +111,57 @@ PRIVATE const char endStrings[ 18 ][ 80 ]=
 
 PRIVATE int menu_random;
 
-PRIVATE void M_Quit_Draw( void )
+/*
+ -----------------------------------------------------------------------------
+ Function: M_Quit_Draw
+
+ Parameters: Nothing.
+
+ Returns: Nothing.
+
+ Notes:
+
+ -----------------------------------------------------------------------------
+ */
+PRIVATE void M_Quit_Draw(void)
 {
 	int w, h;
 
+	Font_GetMsgDimensions(1, endStrings[menu_random], &w, &h);
 
-	Font_GetMsgDimensions( 1, endStrings[ menu_random ], &w, &h );
-
-
-	if( g_version->value == SPEAROFDESTINY ) {
+	if (g_version->value == SPEAROFDESTINY) {
 		M_SMain_Draw();
 	} else {
 		M_Main_Draw();
 	}
 
+	M_DrawWindow(((viddef.width - (unsigned int)(w + 10)) >> 1),
+				 ((viddef.height - (unsigned int)(h + 10)) >> 1),
+				 (w + 10), (h + 10),
+				 textcolour, colourBlack, highlight);
 
-	M_DrawWindow( (viddef.width - (w+10) ) >> 1, (viddef.height - (h+10)) >> 1, w+10, h+10, textcolour, colourBlack, highlight );
-
-
-	Font_SetColour( FONT1, colourBlack );
-	Font_put_line( FONT1, ( (viddef.width - (w+10) ) >> 1)+5, ((viddef.height - (h+10)) >> 1)+5, endStrings[ menu_random ] );
-
+	Font_SetColour(FONT1, colourBlack);
+	Font_put_line(FONT1, (((viddef.width - (unsigned int)(w + 10)) >> 1) + 5),
+				  (((viddef.height - (unsigned int)(h + 10)) >> 1) + 5),
+				  endStrings[menu_random]);
 }
 
+/*
+ -----------------------------------------------------------------------------
+ Function: M_Menu_Quit_f
 
-PUBLIC void M_Menu_Quit_f( void )
+ Parameters: Nothing.
+
+ Returns: Nothing.
+
+ Notes:
+
+ -----------------------------------------------------------------------------
+ */
+PUBLIC void M_Menu_Quit_f(void)
 {
-	menu_random = US_RndT() % 18;
-	M_PushMenu( M_Quit_Draw, M_Quit_Key );
+	menu_random = (int)(US_RndT() % 18);
+	M_PushMenu(M_Quit_Draw, M_Quit_Key);
 }
 
 /* EOF */

@@ -297,11 +297,12 @@ PUBLIC void Door_OpenDoor( doors_t *Door )
 
 -----------------------------------------------------------------------------
 */
-PRIVATE void Door_ChangeDoorState( doors_t *Door )
+PRIVATE void Door_ChangeDoorState(doors_t *Door)
 {
-	if( Door->action < dr_opening ) {
-		Door_OpenDoor( Door );
-	} else if( Door->action == dr_open && CanCloseDoor( Door->tilex, Door->tiley, Door->vertical ) ) {
+	if (Door->action < dr_opening) {
+		Door_OpenDoor(Door);
+	} else if ((Door->action == dr_open) &&
+			   CanCloseDoor(Door->tilex, Door->tiley, (char)Door->vertical)) {
 		Door->action = dr_closing;
 		Door->ticcount = DOOR_FULLOPEN;
 	}
@@ -319,76 +320,94 @@ PRIVATE void Door_ChangeDoorState( doors_t *Door )
 
 -----------------------------------------------------------------------------
 */
-PUBLIC void Door_ProcessDoors_e( LevelDoors_t *lvldoors, int t_tk, int t_ms )
+PUBLIC void Door_ProcessDoors_e(LevelDoors_t *lvldoors, int t_tk, int t_ms)
 {
 	int n;
 
-	for( n = 0 ; n < lvldoors->doornum ; ++n ) {
-		switch( lvldoors->Doors[ n ]->action ) {
+	/* dummy condition to use the 't_ms' parameter: */
+	if (t_ms == 0) {
+		;
+	}
+
+	for ((n = 0); (n < lvldoors->doornum); ++n) {
+		switch (lvldoors->Doors[n]->action) {
 			case dr_closed: /* this door is closed! */
 				continue;
 
 			case dr_opening:
-				if( lvldoors->Doors[ n ]->ticcount >= DOOR_FULLOPEN ) { /* door fully opened! */
-					lvldoors->Doors[ n ]->action = dr_open;
-					lvldoors->Doors[ n ]->ticcount = 0;
+				if (lvldoors->Doors[n]->ticcount >= DOOR_FULLOPEN) {
+					/* door fully opened! */
+					lvldoors->Doors[n]->action = (dr_state)dr_open;
+					lvldoors->Doors[n]->ticcount = 0;
 				} else { /* opening! */
-					if( lvldoors->Doors[ n ]->ticcount == 0 ) {
-						/* door is just starting to open, so connect the areas */
-						Areas_JoinAreas( lvldoors->Doors[ n ]->area1, lvldoors->Doors[ n ]->area2 );
-						Areas_ConnectAreas( Player.areanumber );
-						if( areabyplayer[ lvldoors->Doors[ n ]->area1 ] ) { /* Door Opening sound! */
-							Sound_StartSound( NULL, 1, CHAN_AUTO, Sound_RegisterSound( "sfx/010.wav" ), 1, ATTN_STATIC, 0 );
+					if (lvldoors->Doors[n]->ticcount == 0) {
+						/* door is just starting to open, so connect areas */
+						Areas_JoinAreas(lvldoors->Doors[n]->area1,
+										lvldoors->Doors[n]->area2);
+						Areas_ConnectAreas(Player.areanumber);
+						if (areabyplayer[lvldoors->Doors[n]->area1]) {
+							/* Door Opening sound! */
+							Sound_StartSound(NULL, 1, CHAN_AUTO,
+											 Sound_RegisterSound("sfx/010.wav"),
+											 1, ATTN_STATIC, 0);
 						}
 					}
 
 					lvldoors->Doors[n]->ticcount += t_tk;
 
-					if( lvldoors->Doors[ n ]->ticcount > DOOR_FULLOPEN ) {
-						lvldoors->Doors[ n ]->ticcount = DOOR_FULLOPEN;
+					if (lvldoors->Doors[n]->ticcount > DOOR_FULLOPEN) {
+						lvldoors->Doors[n]->ticcount = DOOR_FULLOPEN;
 					}
 				}
 				break;
 
 			case dr_closing:
-				if( lvldoors->Doors[ n ]->ticcount <= 0 ) { /* door fully closed! disconnect areas! */
-					Areas_DisconnectAreas( lvldoors->Doors[ n ]->area1, lvldoors->Doors[ n ]->area2 );
-					Areas_ConnectAreas( Player.areanumber );
-					lvldoors->Doors[ n ]->ticcount = 0;
-					lvldoors->Doors[ n ]->action = dr_closed;
+				if (lvldoors->Doors[n]->ticcount <= 0) {
+					/* door fully closed! disconnect areas! */
+					Areas_DisconnectAreas(lvldoors->Doors[n]->area1,
+										  lvldoors->Doors[n]->area2);
+					Areas_ConnectAreas(Player.areanumber);
+					lvldoors->Doors[n]->ticcount = 0;
+					lvldoors->Doors[n]->action = dr_closed;
 				} else { /* closing! */
-					if( lvldoors->Doors[ n ]->ticcount == DOOR_FULLOPEN ) {
-						if( areabyplayer[ lvldoors->Doors[ n ]->area1 ] ) { /* Door Closing sound! */
-							Sound_StartSound( NULL, 1, CHAN_AUTO, Sound_RegisterSound( "sfx/007.wav" ), 1, ATTN_STATIC, 0 );
+					if (lvldoors->Doors[n]->ticcount == DOOR_FULLOPEN) {
+						if( areabyplayer[lvldoors->Doors[n]->area1]) {
+							/* Door Closing sound! */
+							Sound_StartSound(NULL, 1, CHAN_AUTO,
+											 Sound_RegisterSound("sfx/007.wav"),
+											 1, ATTN_STATIC, 0);
 						}
 					}
-					lvldoors->Doors[ n ]->ticcount -= t_tk;
-					if( lvldoors->Doors[ n ]->ticcount < 0 ) {
-						lvldoors->Doors[ n ]->ticcount = 0;
+					lvldoors->Doors[n]->ticcount -= t_tk;
+					if (lvldoors->Doors[n]->ticcount < 0) {
+						lvldoors->Doors[n]->ticcount = 0;
 					}
 				}
 				break;
 
 			case dr_open:
-				if( lvldoors->Doors[ n ]->ticcount > DOOR_MINOPEN ) {
+				if (lvldoors->Doors[n]->ticcount > DOOR_MINOPEN) {
 					/* If player or something is in door do not close it! */
-					if( ! CanCloseDoor( lvldoors->Doors[ n ]->tilex, lvldoors->Doors[ n ]->tiley, lvldoors->Doors[ n ]->vertical ) ) {
-						lvldoors->Doors[ n ]->ticcount = DOOR_MINOPEN; /* do not close door immediately! */
+					if (! CanCloseDoor(lvldoors->Doors[n]->tilex,
+									   lvldoors->Doors[n]->tiley,
+									   (char)lvldoors->Doors[n]->vertical)) {
+						lvldoors->Doors[n]->ticcount = DOOR_MINOPEN;
+						/* do not close door immediately! */
 					}
 				}
-				if( lvldoors->Doors[ n ]->ticcount >= DOOR_TIMEOUT ) {
+				if (lvldoors->Doors[n]->ticcount >= DOOR_TIMEOUT) {
 					/* Door timeout, time to close it! */
-					lvldoors->Doors[ n ]->action = dr_closing;
-					lvldoors->Doors[ n ]->ticcount = DOOR_FULLOPEN;
+					lvldoors->Doors[n]->action = dr_closing;
+					lvldoors->Doors[n]->ticcount = DOOR_FULLOPEN;
 				} else {
 					/* Increase timeout! */
-					lvldoors->Doors[ n ]->ticcount += t_tk;
+					lvldoors->Doors[n]->ticcount += t_tk;
 				}
 				break;
 
-		} /* End switch lvldoors->Doors[ n ].action */
+		} /* End switch lvldoors->Doors[n].action */
 
-	} /* End of "for n = 0 ; n < lvldoors->doornum ; ++n" for-loop */
+	} /* End of "for (n = 0); (n < lvldoors->doornum); ++n" for-loop */
 
 }
 

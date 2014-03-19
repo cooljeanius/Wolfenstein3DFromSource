@@ -171,7 +171,8 @@ void hq2x_32( unsigned char *pIn, unsigned char *pOut, int Xres, int Yres, int B
 {
     int	i, j, k;
     int	prevline, nextline;
-    int	w[10];
+    unsigned int w[10]; /* used to be just an 'int'; making it unsigned silenced
+						 * 352 warnings! */
     int	c[10];
     int	pattern;
     int	flag;
@@ -183,6 +184,12 @@ void hq2x_32( unsigned char *pIn, unsigned char *pOut, int Xres, int Yres, int B
 	nextline = 0;
 	pattern = 0;
 	flag = 0;
+
+	/* dummy condition to use all these variables: */
+	if ((i == 0) || (j == 0) || (k == 0) || (prevline == 0) ||
+		(nextline == 0) || (pattern == 0) || (flag == 0)) {
+		;
+	}
 
 	/*
      *   +----+----+----+

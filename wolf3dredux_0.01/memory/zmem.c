@@ -152,19 +152,30 @@ PUBLIC void *Z_TagMalloc(size_t size, int tag)
 	/* MM_MALLOC is a define wrapper for Memory_Malloc in "memory.h" */
 
 	if (! z) {
-		Com_Error(ERR_FATAL, "Z_Malloc: failed on allocation of %i bytes", size);
+		Com_Error(ERR_FATAL, "Z_Malloc(): failed on allocation of '%i' bytes",
+				  size);
 	} else if (z) {
-#if DEBUG_MEMORY || 1
-		Com_Printf("Z_Malloc: proceeding with allocation of %i bytes\n", size);
+#ifndef DEBUG_MEMORY
+# define DEBUG_MEMORY 1
+#endif /* !DEBUG_MEMORY */
+#if DEBUG_MEMORY
+		Com_Printf("Z_Malloc(): proceeding with allocation of '%i' bytes\n",
+				   size);
 #else
 		;
-#endif /* DEBUG_MEMORY || 1 */
+#endif /* DEBUG_MEMORY */
 	}
 
 	/* Set memory block to zero and fill in header. */
 	memset(z, 0, size);
 	z_count++;
 	z_bytes += size;
+#if DEBUG_MEMORY
+	Com_Printf("Z_Malloc(): 'z_count' is now '%i' and 'z_bytes' is now '%i'\n",
+			   z_count, z_bytes);
+#else
+	;
+#endif /* DEBUG_MEMORY */
 	z->magic = (short)Z_MAGIC; /* null pointer dereference here? */
 	/* (Z_MAGIC is defined above) */
 	z->tag = (short)tag;

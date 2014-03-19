@@ -72,7 +72,7 @@ float ratio; /* viewport width/height */
 
 -----------------------------------------------------------------------------
 */
-PUBLIC void GL_SetDefaultState( void )
+PUBLIC void GL_SetDefaultState(void)
 {
 
 	pfglClearColor( 1,0, 0.5 , 0.5 );
@@ -112,20 +112,25 @@ PUBLIC void GL_SetDefaultState( void )
 
 -----------------------------------------------------------------------------
 */
-PRIVATE void R_CheckFOV( void )
+PRIVATE void R_CheckFOV(void)
 {
 #if 0
-	if(!vid_fov->modified) return;
+	/* 'vid_fov' is undeclared */
+	if (!vid_fov->modified) {
+		return;
+	}
 	vid_fov->modified=false;
 
-	if( vid_fov->value<1 || vid_fov->value>179) {
+	if ((vid_fov->value < 1) || (vid_fov->value > 179)) {
 		Com_Printf("Wrong FOV: %f\n", vid_fov->value);
-		Cvar_SetValue(vid_fov->name, (cur_x_fov>=1 && cur_x_fov<=179)?cur_x_fov:DEFAULT_FOV);
+		Cvar_SetValue(vid_fov->name,
+					  (((cur_x_fov >= 1) && (cur_x_fov <= 179))
+					   ? cur_x_fov : DEFAULT_FOV));
 	}
 #endif /* 0 */
-	ratio = (float) viddef.width / (float)viddef.height; /* FIXME: move somewhere */
+	ratio = ((float)viddef.width / (float)viddef.height); /* FIXME: move away */
 	cur_x_fov = 75;
-	cur_y_fov = CalcFov( cur_x_fov, (float)viddef.width, (float)viddef.height );
+	cur_y_fov = CalcFov(cur_x_fov, (float)viddef.width, (float)viddef.height);
 
 }
 
@@ -141,7 +146,7 @@ PRIVATE void R_CheckFOV( void )
 
 -----------------------------------------------------------------------------
 */
-PUBLIC void R_SetGL3D( placeonplane_t viewport )
+PUBLIC void R_SetGL3D(placeonplane_t viewport)
 {
 
 	R_CheckFOV();
@@ -154,7 +159,8 @@ PUBLIC void R_SetGL3D( placeonplane_t viewport )
 	pfglLoadIdentity();
 
     pfglRotatef( (GLfloat)( 90 - RAD2DEG( viewport.angle )), 0, 1, 0 );
-	pfglTranslatef( -viewport.origin[ 0 ] / FLOATTILE, 0, viewport.origin[ 1 ] / FLOATTILE );
+	pfglTranslatef((-viewport.origin[0] / FLOATTILE), 0,
+				   (viewport.origin[1] / FLOATTILE));
 
 	pfglCullFace( GL_BACK );
 
@@ -166,11 +172,11 @@ PUBLIC void R_SetGL3D( placeonplane_t viewport )
 
 /*
 -----------------------------------------------------------------------------
- Function:
+ Function: R_DrawBox
 
  Parameters:
 
- Returns:
+ Returns: Nothing.
 
  Notes:
 
@@ -221,7 +227,7 @@ PUBLIC void R_DrawBox( int x, int y, int w, int h, W32 color )
 
 -----------------------------------------------------------------------------
 */
-PUBLIC void R_Draw_Wall( float x, float y, float z1, float z2, int type, int tex )
+PUBLIC void R_Draw_Wall(float x, float y, float z1, float z2, int type, int tex)
 {
 	float x1, x2, y1, y2; /* y1 has a global declaration apparently... */
 	texture_t *twall;
@@ -234,102 +240,103 @@ PUBLIC void R_Draw_Wall( float x, float y, float z1, float z2, int type, int tex
 	switch( type ) {
 	/* X wall */
 		case dir4_east:
-			x1 = x2 = x + 1;
-			y1 = -1 - y;
+			x1 = x2 = (x + 1);
+			y1 = (-1 - y);
 			y2 = -y;
 			break;
 
 		case dir4_west:
 			x1 = x2 = x;
 			y1 = -y;
-			y2 = -1 - y;
+			y2 = (-1 - y);
 			break;
 
 	/* Y wall */
 		case dir4_north:
-			y1 = y2 = -y - 1;
+			y1 = y2 = (-y - 1);
 			x1 = x;
-			x2 = x + 1;
+			x2 = (x + 1);
 			break;
 
 		case dir4_south:
 			y1 = y2 = -y;
-			x1 = x + 1;
+			x1 = (x + 1);
 			x2 = x;
 			break;
 	}
 
-    twall = TM_FindTexture_Wall( tex );
+    twall = TM_FindTexture_Wall((W32)tex);
 
-    R_Bind( twall->texnum );
+    R_Bind((int)twall->texnum);
 
 
-	pfglBegin( GL_QUADS );
+	pfglBegin(GL_QUADS);
 
-	pfglTexCoord2f( 1.0, 0.0 ); pfglVertex3f( x1, z2, y1 );
-	pfglTexCoord2f( 0.0, 0.0 ); pfglVertex3f( x2, z2, y2 );
-	pfglTexCoord2f( 0.0, 1.0 ); pfglVertex3f( x2, z1, y2 );
-	pfglTexCoord2f( 1.0, 1.0 ); pfglVertex3f( x1, z1, y1 );
+	pfglTexCoord2f(1.0, 0.0); pfglVertex3f(x1, z2, y1);
+	pfglTexCoord2f(0.0, 0.0); pfglVertex3f(x2, z2, y2);
+	pfglTexCoord2f(0.0, 1.0); pfglVertex3f(x2, z1, y2);
+	pfglTexCoord2f(1.0, 1.0); pfglVertex3f(x1, z1, y1);
 
 	pfglEnd();
 }
 
 /*
 -----------------------------------------------------------------------------
- Function:
+ Function: R_Draw_Door
 
- Parameters:
+ Parameters: Yikes, there are a lot of them...
 
- Returns:
+ Returns: Nothing.
 
  Notes:
 
 -----------------------------------------------------------------------------
 */
-PUBLIC void R_Draw_Door( int x, int y, float z1, float z2, _boolean vertical, _boolean backside, int tex, int amount )
+PUBLIC void R_Draw_Door(int x, int y, float z1, float z2, _boolean vertical,
+						_boolean backside, int tex, int amount)
 {
 	float x1, x2, y1, y2, amt;
 	texture_t *twall;
 
 
-	if( amount == DOOR_FULLOPEN ) {
+	if (amount == DOOR_FULLOPEN) {
 		return;
 	}
 
-	amt = (float)amount / DOOR_FULLOPEN;
+	amt = ((float)amount / DOOR_FULLOPEN);
 
 
-	if( vertical ) {
-		x1 = x2 = (float)x + 0.5f;
+	if (vertical) {
+		x1 = x2 = ((float)x + 0.5f);
 		y1 = -((float)y - amt);
 		y2 = -((float)y - amt); /* -1 */
-		if( backside ) {
+		if (backside) {
 			y1 -= 1;
 		} else {
 			y2 -= 1;
 		}
 	} else {
-		y1 = y2 = -(float)y - 0.5f;
-		x1 = (float)x + amt; /* +1 */
-		x2 = (float)x + amt;
-		if( backside ) {
+		y1 = y2 = (-(float)y - 0.5f);
+		x1 = ((float)x + amt); /* +1 */
+		x2 = ((float)x + amt);
+		if (backside) {
 			x2 += 1;
 		} else {
 			x1 += 1;
 		}
 	}
 
-    twall = TM_FindTexture_Wall( tex );
+    twall = TM_FindTexture_Wall((W32)tex);
 
-    R_Bind( twall->texnum );
+    R_Bind((int)twall->texnum);
 
 
-	pfglBegin( GL_QUADS );
+	pfglBegin(GL_QUADS);
 
-	pfglTexCoord2f( backside ? 0.0f : 1.0f, 0.0 ); pfglVertex3f( x1, z2, y1 );
-	pfglTexCoord2f( backside ? 1.0f : 0.0f, 0.0 ); pfglVertex3f( x2, z2, y2 );
-	pfglTexCoord2f( backside ? 1.0f : 0.0f, 1.0 ); pfglVertex3f( x2, z1, y2 );
-	pfglTexCoord2f( backside ? 0.0f : 1.0f, 1.0 ); pfglVertex3f( x1, z1, y1 );
+	pfglTexCoord2f((backside ? 0.0f : 1.0f), 0.0); pfglVertex3f(x1, z2, y1);
+	pfglTexCoord2f((backside ? 1.0f : 0.0f), 0.0); pfglVertex3f(x2, z2, y2);
+	pfglTexCoord2f((backside ? 1.0f : 0.0f), 1.0); pfglVertex3f(x2, z1, y2);
+	pfglTexCoord2f((backside ? 0.0f : 1.0f), 1.0); pfglVertex3f(x1, z1, y1);
 
 	pfglEnd();
 }
@@ -347,7 +354,7 @@ PUBLIC void R_Draw_Door( int x, int y, float z1, float z2, _boolean vertical, _b
 
 -----------------------------------------------------------------------------
 */
-PUBLIC void R_DrawSprites( void )
+PUBLIC void R_DrawSprites(void)
 {
 	float sina, cosa;
 	float Ex, Ey, Dx, Dy;
@@ -358,39 +365,38 @@ PUBLIC void R_DrawSprites( void )
 
 /* build visible sprites list */
 	n_sprt = Sprite_CreateVisList();
-	if( ! n_sprt ) {
+	if (! n_sprt) {
 		return; /* nothing to draw */
 	}
 
     /* prepare values for billboarding */
-    ang = angle_normalize( Player.position.angle + M_PI / 2  ); /* FIXME: take viewport */
+    ang = (float)angle_normalize((float)(Player.position.angle + (M_PI / 2)));
+	/* FIXME: take viewport */
 
-    sina = (float)(0.5 * sin( ang ));
-	cosa = (float)(0.5 * cos( ang ));
+    sina = (float)(0.5 * sin(ang));
+	cosa = (float)(0.5 * cos(ang));
 
 
-	for( n = 0; n < n_sprt; ++n ) {
-		if( vislist[ n ].dist < MINDIST / 2 ) {
+	for ((n = 0); (n < n_sprt); ++n ) {
+		if (vislist[n].dist < (MINDIST / 2)) {
 			continue; /* little hack to save speed & z-buffer */
 		}
 
+        twall = TM_FindTexture_Sprite((W32)vislist[n].tex);
 
-        twall = TM_FindTexture_Sprite( vislist[ n ].tex );
+		R_Bind((int)twall->texnum);
 
+		pfglBegin(GL_QUADS);
 
-		R_Bind( twall->texnum );
-
-		pfglBegin( GL_QUADS );
-
-		Ex = Dx = vislist[ n ].x / FLOATTILE;
-		Ey = Dy = vislist[ n ].y / FLOATTILE;
+		Ex = Dx = (vislist[n].x / FLOATTILE);
+		Ey = Dy = (vislist[n].y / FLOATTILE);
 		Ex += cosa; Ey += sina;
 		Dx -= cosa; Dy -= sina;
 
-		pfglTexCoord2f( 0.0, 0.0 );	pfglVertex3f( Ex, UPPERZCOORD, -Ey );
-		pfglTexCoord2f( 0.0, 1.0 );	pfglVertex3f( Ex, LOWERZCOORD, -Ey );
-		pfglTexCoord2f( 1.0, 1.0 );	pfglVertex3f( Dx, LOWERZCOORD, -Dy );
-		pfglTexCoord2f( 1.0, 0.0 );	pfglVertex3f( Dx, UPPERZCOORD, -Dy );
+		pfglTexCoord2f(0.0, 0.0); pfglVertex3f(Ex, UPPERZCOORD, -Ey);
+		pfglTexCoord2f(0.0, 1.0); pfglVertex3f(Ex, LOWERZCOORD, -Ey);
+		pfglTexCoord2f(1.0, 1.0); pfglVertex3f(Dx, LOWERZCOORD, -Dy);
+		pfglTexCoord2f(1.0, 0.0); pfglVertex3f(Dx, UPPERZCOORD, -Dy);
 
 		pfglEnd();
 	}
@@ -399,101 +405,105 @@ PUBLIC void R_DrawSprites( void )
 
 /*
 -----------------------------------------------------------------------------
- Function:
+ Function: R_DrawWeapon
 
- Parameters:
+ Parameters: Nothing.
 
- Returns:
+ Returns: Nothing.
 
  Notes:
 
 -----------------------------------------------------------------------------
 */
-PUBLIC void R_DrawWeapon( void )
+PUBLIC void R_DrawWeapon(void)
 {
-	char name[ 32 ];
+	char name[32];
 	texture_t *tex;
-	static int w = 128;
-	static int h = 128;
-	static int scale = 2;
-	int x = (viddef.width - (128 * scale)) >> 1;
-	int y = viddef.height - (128 * scale) - 79;
+	static int w;
+	static int h;
+	static int scale;
+	int x;
+	int y;
 
-	my_snprintf( name, sizeof( name ), "%s/%d.tga", spritelocation, Player.weapon * 5 + Player.weaponframe + SPR_KNIFEREADY );
+	w = 128;
+	h = 128;
+	scale = 2;
+	x = ((viddef.width - (unsigned int)(128 * scale)) >> 1);
+	y = (int)((viddef.height - (unsigned int)(128 * scale)) - 79);
 
-	tex = TM_FindTexture( name, TT_Pic );
+	my_snprintf(name, sizeof(name), "%s/%d.tga", spritelocation,
+				(Player.weapon * 5 + Player.weaponframe + SPR_KNIFEREADY));
+
+	tex = TM_FindTexture(name, TT_Pic);
 
 
-	R_Bind( tex->texnum );
+	R_Bind((int)tex->texnum);
 
 
+	pfglAlphaFunc(GL_GREATER, 0.3f);
 
-	pfglAlphaFunc( GL_GREATER, 0.3f );
+	pfglEnable(GL_BLEND);
 
-	pfglEnable( GL_BLEND );
+	pfglBegin(GL_QUADS);
 
-	pfglBegin( GL_QUADS );
-
-	pfglTexCoord2f( 0.0f, 0.0f );	pfglVertex2i( x, y );
-	pfglTexCoord2f( 1.0f, 0.0f );	pfglVertex2i( x + w * scale, y );
-	pfglTexCoord2f( 1.0f, 1.0f );	pfglVertex2i( x + w * scale, y + h * scale );
-	pfglTexCoord2f( 0.0f, 1.0f );	pfglVertex2i( x, y + h * scale );
+	pfglTexCoord2f(0.0f, 0.0f); pfglVertex2i((x), (y));
+	pfglTexCoord2f(1.0f, 0.0f); pfglVertex2i((x + (w * scale)), (y));
+	pfglTexCoord2f(1.0f, 1.0f); pfglVertex2i((x + (w * scale)), (y + (h * scale)));
+	pfglTexCoord2f(0.0f, 1.0f); pfglVertex2i((x), (y + (h * scale)));
 
 	pfglEnd();
 
-	pfglDisable( GL_BLEND );
+	pfglDisable(GL_BLEND);
 
-	pfglAlphaFunc( GL_GREATER, 0.666f );
-
+	pfglAlphaFunc(GL_GREATER, 0.666f);
 
 }
 
 
 /*
 -----------------------------------------------------------------------------
- Function:
+ Function: R_DrawNumber
 
  Parameters:
 
- Returns:
+ Returns: Nothing.
 
  Notes:
 
 -----------------------------------------------------------------------------
 */
-PUBLIC void R_DrawNumber( int x, int y, int number )
+PUBLIC void R_DrawNumber(int x, int y, int number)
 {
 	texture_t *tex;
 	int	col;
 	float fcol;
 	static float w = 0.1f;
 	int i;
-	char string[ 20 ];
+	char string[20];
 	W32 length;
 
 
-	my_snprintf( string, sizeof( string ), "%d", number );
-	length = strlen( string );
+	my_snprintf(string, sizeof(string), "%d", number);
+	length = strlen(string);
 
-	tex = TM_FindTexture( "pics/N_NUMPIC.tga", TT_Pic );
+	tex = TM_FindTexture("pics/N_NUMPIC.tga", TT_Pic);
 
 
-	pfglEnable( GL_TEXTURE_2D );
+	pfglEnable(GL_TEXTURE_2D);
 
-	R_Bind( tex->texnum );
+	R_Bind((int)tex->texnum);
 
-	pfglBegin( GL_QUADS );
+	pfglBegin(GL_QUADS);
 
-	for( i = length-1 ; i >= 0 ; --i )
-	{
-		col = string[ i ] - 48;
+	for ((i = (int)(length - 1)); (i >= 0); --i) {
+		col = (string[i] - 48);
 
-		fcol = col * w;
+		fcol = (col * w);
 
-		pfglTexCoord2f( fcol,	0 );	pfglVertex2i( x, y );
-		pfglTexCoord2f( fcol+w, 0 );	pfglVertex2i( x+18, y );
-		pfglTexCoord2f( fcol+w, 1 );	pfglVertex2i( x+18, y+32 );
-		pfglTexCoord2f( fcol,	1 );	pfglVertex2i( x, y+32 );
+		pfglTexCoord2f((fcol),	0);		pfglVertex2i(x, y);
+		pfglTexCoord2f((fcol + w), 0);	pfglVertex2i((x + 18), y);
+		pfglTexCoord2f((fcol + w), 1);	pfglVertex2i((x + 18), (y + 32));
+		pfglTexCoord2f((fcol),	1);		pfglVertex2i(x, (y + 32));
 
 		x -= 18;
 	}
@@ -504,42 +514,43 @@ PUBLIC void R_DrawNumber( int x, int y, int number )
 
 
 W8 wfont[ ] = {
-			    	32, 15, 32, 32, 32, 32, 32, 12, 32, 32, 32, 32, 32, 32, 32, 32,
-			    	32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 16, 32, 32, 32, 32, 32,
-			    	32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32,
-			    	32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32 };
+32, 15, 32, 32, 32, 32, 32, 12, 32, 32, 32, 32, 32, 32, 32, 32,
+32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 16, 32, 32, 32, 32, 32,
+32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32,
+32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32
+};
 
 /*
 -----------------------------------------------------------------------------
- Function:
+ Function: R_put_line
 
  Parameters:
 
- Returns:
+ Returns: Nothing.
 
  Notes:
 
 -----------------------------------------------------------------------------
 */
-PUBLIC void R_put_line( int x, int y, const char *string )
+PUBLIC void R_put_line(int x, int y, const char *string)
 {
 	texture_t *tex;
 	int mx = x;
 	int num;
 	float frow, fcol;
-	static float	h = 0.25f;	/* (32 / 128.0f); */
-	static float	w = 0.0625f; /* (32 / 512.0f); */
+	static float h = 0.25f;	/* (32 / 128.0f); */
+	static float w = 0.0625f; /* (32 / 512.0f); */
 
 
-	tex = TM_FindTexture( "pics/L_FONTPIC.tga", TT_Pic );
+	tex = TM_FindTexture("pics/L_FONTPIC.tga", TT_Pic);
 
 
-	R_Bind( tex->texnum );
+	R_Bind((int)tex->texnum);
 
-	pfglBegin( GL_QUADS );
+	pfglBegin(GL_QUADS);
 
-	while( *string ) {
-		if( *string == '\n' ) {
+	while (*string) {
+		if (*string == '\n') {
 			mx = x;
 			y += 32;
 			++string;
@@ -550,25 +561,24 @@ PUBLIC void R_put_line( int x, int y, const char *string )
 
 		num &= 255;
 
-		if( (num & 127) == 32 ) {
+		if ((num & 127) == 32) {
 			mx += 32;
 			++string;
 			continue;		/* space */
 		}
 
 
-		frow = ((num >> 4) - 2) * h;
-		fcol = (num & 15) * w;
+		frow = (((num >> 4) - 2) * h);
+		fcol = ((num & 15) * w);
 
 
-		pfglTexCoord2f( fcol, frow );		pfglVertex2i( mx, y );
-		pfglTexCoord2f( fcol+w, frow );		pfglVertex2i( mx+32, y );
-		pfglTexCoord2f( fcol+w, frow+h );	pfglVertex2i( mx+32, y+32 );
-		pfglTexCoord2f( fcol, frow+h );		pfglVertex2i( mx, y+32 );
+		pfglTexCoord2f((fcol), (frow));			pfglVertex2i((mx), (y));
+		pfglTexCoord2f((fcol + w), (frow));		pfglVertex2i((mx + 32), (y));
+		pfglTexCoord2f((fcol + w), (frow + h));	pfglVertex2i((mx + 32), (y + 32));
+		pfglTexCoord2f((fcol), (frow + h));		pfglVertex2i((mx), (y + 32));
 
 
-
-		mx += wfont[ (num & 127) - 32 ];
+		mx += wfont[((num & 127) - 32)];
 		++string;
 	}
 

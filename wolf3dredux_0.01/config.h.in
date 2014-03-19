@@ -14,8 +14,14 @@
 /* The normal alignment of `long', in bytes. */
 #undef ALIGNOF_LONG
 
+/* The normal alignment of `short', in bytes. */
+#undef ALIGNOF_SHORT
+
 /* The normal alignment of `unsigned int', in bytes. */
 #undef ALIGNOF_UNSIGNED_INT
+
+/* The normal alignment of `unsigned long', in bytes. */
+#undef ALIGNOF_UNSIGNED_LONG
 
 /* Define to one of `_getb67', `GETB67', `getb67' for Cray-2 and Cray-YMP
    systems. This function is required for `alloca.c' support on those systems.
@@ -58,6 +64,12 @@
 /* Define to 1 if you have the `dlsym' function. */
 #undef HAVE_DLSYM
 
+/* Define to 1 if you have the <dmalloc.h> header file. */
+#undef HAVE_DMALLOC_H
+
+/* Define to 1 if you have the `dmalloc_malloc' function. */
+#undef HAVE_DMALLOC_MALLOC
+
 /* Define to 1 if you have the <errno.h> header file. */
 #undef HAVE_ERRNO_H
 
@@ -72,6 +84,9 @@
 
 /* Define to 1 if you have the `floor' function. */
 #undef HAVE_FLOOR
+
+/* Define to 1 if you have the `ftell' function. */
+#undef HAVE_FTELL
 
 /* Define to 1 if you have the `fwrite' function. */
 #undef HAVE_FWRITE
@@ -172,9 +187,64 @@
 /* Define to 1 if the system has the type `long long int'. */
 #undef HAVE_LONG_LONG_INT
 
+/* Define to 1 if `lstat' has the bug that it succeeds when given the
+   zero-length file name argument. */
+#undef HAVE_LSTAT_EMPTY_STRING_BUG
+
+/* Define to 1 if you have the <mach/mach.h> header file. */
+#undef HAVE_MACH_MACH_H
+
+/* Define to 1 if you have the <mach/vm_param.h> header file. */
+#undef HAVE_MACH_VM_PARAM_H
+
 /* Define to 1 if your system has a GNU libc compatible `malloc' function, and
    to 0 otherwise. */
 #undef HAVE_MALLOC
+
+/* Define to 1 if you have the `malloc_create_zone' function. */
+#undef HAVE_MALLOC_CREATE_ZONE
+
+/* Define to 1 if you have the `malloc_default_zone' function. */
+#undef HAVE_MALLOC_DEFAULT_ZONE
+
+/* Define to 1 if you have the `malloc_destroy_zone' function. */
+#undef HAVE_MALLOC_DESTROY_ZONE
+
+/* Define to 1 if you have the `malloc_good_size' function. */
+#undef HAVE_MALLOC_GOOD_SIZE
+
+/* Define to 1 if you have the <malloc.h> header file. */
+#undef HAVE_MALLOC_H
+
+/* Define to 1 if you have the <malloc/malloc.h> header file. */
+#undef HAVE_MALLOC_MALLOC_H
+
+/* Define to 1 if you have the `malloc_size' function. */
+#undef HAVE_MALLOC_SIZE
+
+/* Define to 1 if you have the `malloc_zone_calloc' function. */
+#undef HAVE_MALLOC_ZONE_CALLOC
+
+/* Define to 1 if you have the `malloc_zone_free' function. */
+#undef HAVE_MALLOC_ZONE_FREE
+
+/* Define to 1 if you have the `malloc_zone_from_ptr' function. */
+#undef HAVE_MALLOC_ZONE_FROM_PTR
+
+/* Define to 1 if you have the `malloc_zone_malloc' function. */
+#undef HAVE_MALLOC_ZONE_MALLOC
+
+/* Define to 1 if you have the `malloc_zone_memalign' function. */
+#undef HAVE_MALLOC_ZONE_MEMALIGN
+
+/* Define to 1 if you have the `malloc_zone_realloc' function. */
+#undef HAVE_MALLOC_ZONE_REALLOC
+
+/* Define to 1 if the system has the type `malloc_zone_t'. */
+#undef HAVE_MALLOC_ZONE_T
+
+/* Define to 1 if you have the `malloc_zone_valloc' function. */
+#undef HAVE_MALLOC_ZONE_VALLOC
 
 /* Define to 1 if you have the <math.h> header file. */
 #undef HAVE_MATH_H
@@ -209,6 +279,9 @@
 /* Define to 1 if you have the <my_GL_header> header file. */
 #undef HAVE_MY_GL_HEADER
 
+/* Define to 1 if you have the `posix_memalign' function. */
+#undef HAVE_POSIX_MEMALIGN
+
 /* Define to 1 if you have the `pow' function. */
 #undef HAVE_POW
 
@@ -233,6 +306,10 @@
 
 /* Define to 1 if you have the `sqrtf' function. */
 #undef HAVE_SQRTF
+
+/* Define to 1 if `stat' has the bug that it succeeds when given the
+   zero-length file name argument. */
+#undef HAVE_STAT_EMPTY_STRING_BUG
 
 /* Define to 1 if you have the <stdarg.h> header file. */
 #undef HAVE_STDARG_H
@@ -297,23 +374,60 @@
 /* Define to 1 if you have the `strtok' function. */
 #undef HAVE_STRTOK
 
+/* Define to 1 if `st_blksize' is a member of `struct stat'. */
+#undef HAVE_STRUCT_STAT_ST_BLKSIZE
+
+/* Define to 1 if `st_blocks' is a member of `struct stat'. */
+#undef HAVE_STRUCT_STAT_ST_BLOCKS
+
 /* Define to 1 if `tv_sec' is a member of `struct timeval'. */
 #undef HAVE_STRUCT_TIMEVAL_TV_SEC
 
 /* Define to 1 if `tm_zone' is a member of `struct tm'. */
 #undef HAVE_STRUCT_TM_TM_ZONE
 
+/* Define to 1 if your `struct stat' has `st_blocks'. Deprecated, use
+   `HAVE_STRUCT_STAT_ST_BLOCKS' instead. */
+#undef HAVE_ST_BLOCKS
+
+/* Define to 1 if you have the `sysconf' function. */
+#undef HAVE_SYSCONF
+
+/* Define to 1 if you have the `sysctl' function. */
+#undef HAVE_SYSCTL
+
+/* Define to 1 if you have the `sysctlbyname' function. */
+#undef HAVE_SYSCTLBYNAME
+
+/* Define to 1 if you have the `sysctlnametomib' function. */
+#undef HAVE_SYSCTLNAMETOMIB
+
 /* Define to 1 if you have the `system' function. */
 #undef HAVE_SYSTEM
 
+/* Define to 1 if you have the <sys/gmon.h> header file. */
+#undef HAVE_SYS_GMON_H
+
+/* Define to 1 if you have the <sys/malloc.h> header file. */
+#undef HAVE_SYS_MALLOC_H
+
+/* Define to 1 if you have the <sys/mount.h> header file. */
+#undef HAVE_SYS_MOUNT_H
+
 /* Define to 1 if you have the <sys/param.h> header file. */
 #undef HAVE_SYS_PARAM_H
+
+/* Define to 1 if you have the <sys/socket.h> header file. */
+#undef HAVE_SYS_SOCKET_H
 
 /* Define to 1 if you have the <sys/stat.h> header file. */
 #undef HAVE_SYS_STAT_H
 
 /* Define to 1 if you have the <sys/sysctl.h> header file. */
 #undef HAVE_SYS_SYSCTL_H
+
+/* Define to 1 if you have the <sys/syslimits.h> header file. */
+#undef HAVE_SYS_SYSLIMITS_H
 
 /* Define to 1 if you have the <sys/timeb.h> header file. */
 #undef HAVE_SYS_TIMEB_H
@@ -326,6 +440,9 @@
 
 /* Define to 1 if you have the <sys/utsname.h> header file. */
 #undef HAVE_SYS_UTSNAME_H
+
+/* Define to 1 if you have the <sys/vmmeter.h> header file. */
+#undef HAVE_SYS_VMMETER_H
 
 /* Define to 1 if the system has the type `time_t'. */
 #undef HAVE_TIME_T
@@ -377,6 +494,9 @@
 /* Define to 1 if you have the <wchar.h> header file. */
 #undef HAVE_WCHAR_H
 
+/* Define to 1 if you have the <windef.h> header file. */
+#undef HAVE_WINDEF_H
+
 /* Define to 1 if you have the <windows.h> header file. */
 #undef HAVE_WINDOWS_H
 
@@ -403,6 +523,10 @@
 
 /* Define to 1 if the system has the type `__darwin_time_t'. */
 #undef HAVE___DARWIN_TIME_T
+
+/* Define to 1 if `lstat' dereferences a symlink specified with a trailing
+   slash. */
+#undef LSTAT_FOLLOWS_SLASHED_SYMLINK
 
 /* Define to the sub-directory in which libtool stores uninstalled libraries.
    */
@@ -438,8 +562,14 @@
 /* The size of `long', as computed by sizeof. */
 #undef SIZEOF_LONG
 
+/* The size of `short', as computed by sizeof. */
+#undef SIZEOF_SHORT
+
 /* The size of `unsigned int', as computed by sizeof. */
 #undef SIZEOF_UNSIGNED_INT
+
+/* The size of `unsigned long', as computed by sizeof. */
+#undef SIZEOF_UNSIGNED_LONG
 
 /* If using the C implementation of alloca, define if you know the
    direction of stack growth for your system; otherwise it will be
@@ -489,6 +619,9 @@
 /* Version number of package */
 #undef VERSION
 
+/* Define if using the dmalloc debugging malloc package */
+#undef WITH_DMALLOC
+
 /* Define WORDS_BIGENDIAN to 1 if your processor stores words with the most
    significant byte first (like Motorola and SPARC, unlike Intel). */
 #if defined AC_APPLE_UNIVERSAL_BUILD
@@ -503,6 +636,17 @@
 
 /* Define to 1 if the X Window System is missing or not being used. */
 #undef X_DISPLAY_MISSING
+
+/* Enable large inode numbers on Mac OS X 10.5.  */
+#ifndef _DARWIN_USE_64_BIT_INODE
+# define _DARWIN_USE_64_BIT_INODE 1
+#endif
+
+/* Number of bits in a file offset, on hosts where this is settable. */
+#undef _FILE_OFFSET_BITS
+
+/* Define for large files, on AIX-style hosts. */
+#undef _LARGE_FILES
 
 /* Define to 1 if on MINIX. */
 #undef _MINIX
@@ -541,8 +685,25 @@
 /* Define to rpl_malloc if the replacement function should be used. */
 #undef malloc
 
+/* Define to `long int' if <sys/types.h> does not define. */
+#undef off_t
+
 /* Define to rpl_realloc if the replacement function should be used. */
 #undef realloc
+
+/* Define to the equivalent of the C99 'restrict' keyword, or to
+   nothing if this is not supported.  Do not define if restrict is
+   supported directly.  */
+#undef restrict
+/* Work around a bug in Sun C++: it does not support _Restrict or
+   __restrict__, even though the corresponding Sun C compiler ends up with
+   "#define restrict _Restrict" or "#define restrict __restrict__" in the
+   previous line.  Perhaps some future version of Sun C++ will work with
+   restrict; if so, hopefully it defines __RESTRICT like Sun C does.  */
+#if defined __SUNPRO_CC && !defined __RESTRICT
+# define _Restrict
+# define __restrict__
+#endif
 
 /* Define to `unsigned int' if <sys/types.h> does not define. */
 #undef size_t

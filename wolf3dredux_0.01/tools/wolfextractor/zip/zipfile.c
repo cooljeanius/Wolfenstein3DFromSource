@@ -229,10 +229,10 @@ _boolean zip_writeend( SW32 num, W32 size, W32 offset, W16 len, char *comment, F
 	temp16 = 0;
 	retval += fwrite( &temp16, 1, 2, f );
 
-	temp16 = LittleShort( num );
+	temp16 = (W16)LittleShort(num);
 	retval += fwrite( &temp16, 1, 2, f );
 
-	temp16 = LittleShort( num );
+	temp16 = (W16)LittleShort(num);
 	retval += fwrite( &temp16, 1, 2, f );
 
 	temp32 = LittleLong( size );

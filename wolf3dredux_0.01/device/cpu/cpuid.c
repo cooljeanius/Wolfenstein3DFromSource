@@ -30,6 +30,7 @@
  *	http://developer.intel.com/design/xeon/applnots/241618.htm
  *	http://www.amd.com/us-en/assets/content_type/white_papers_and_tech_docs/20734.pdf
  *	http://www.amd.com/us-en/assets/content_type/white_papers_and_tech_docs/24594.pdf
+ *  (dead links - redirects, that is)
  *
  */
 
@@ -41,7 +42,7 @@
 cpu_info_struct main_cpu_s;
 
 
-#if (__i386__ || _M_IX86)
+#if (i386 || __i386 || __i386__ || _M_IX86)
 # ifdef _WIN32
 #  define WIN32_LEAN_AND_MEAN 1
 #  include <windows.h>
@@ -217,7 +218,7 @@ cpu_info_struct main_cpu_s;
 
 -----------------------------------------------------------------------------
 */
-PRIVATE void x86_do_cpuid( W32 id, W32 *p )
+PRIVATE void x86_do_cpuid(W32 id, W32 *p)
 {
 #ifdef _MSC_VER
 	__asm
@@ -241,6 +242,15 @@ PRIVATE void x86_do_cpuid( W32 id, W32 *p )
 	: "=a" (p[0]), "=b" (p[1]), "=c" (p[2]), "=d" (p[3])
 	:  "0" (id)
 	);
+# else /* not sure why I have this conditional on architecture, as they both
+		* work the same way... */
+#  ifdef __i386__
+	__asm __volatile(
+	"cpuid"
+	: "=a" (p[0]), "=b" (p[1]), "=c" (p[2]), "=d" (p[3])
+	:  "0" (id)
+	);
+#  endif /* __i386__ */
 # endif /* __x86_64__ */
 #endif /* _MSC_VER || __GNUC__ */
 }
@@ -998,81 +1008,81 @@ PRIVATE void Intel_TLB_Cache_LUT( W16 x )
  Notes:
 -----------------------------------------------------------------------------
 */
-PRIVATE void x86_get_cpu_info( cpu_info_struct *s )
+PRIVATE void x86_get_cpu_info(cpu_info_struct *s)
 {
 	W32 LargestStdFunction;
 	W32 LargestExtFunction;
-	W32 regs[ 4 ];
-	char vendor_name[ 13 ];
+	W32 regs[4];
+	char vendor_name[13];
 
 
-    x86_do_cpuid( 0, regs ); /* Largest Standard Function Supported and
+    x86_do_cpuid(0, regs); /* Largest Standard Function Supported and
                               * CPU vendor name. */
 
-    LargestStdFunction = regs[ 0 ];
+    LargestStdFunction = regs[0];
 
-    my_snprintf( vendor_name, sizeof( vendor_name ), "%.4s%.4s%.4s",
-                 (PW8)(regs+1), (PW8)(regs+3), (PW8)(regs+2) );
-
-
-	Com_Printf( "Vendor: %s\n", vendor_name );
+    my_snprintf(vendor_name, sizeof(vendor_name), "%.4s%.4s%.4s",
+				(PW8)(regs + 1), (PW8)(regs + 3), (PW8)(regs + 2));
 
 
-	if( my_strnicmp( vendor_name, "AuthenticAMD", 12 ) == 0 ) {
+	Com_Printf("Vendor: %s\n", vendor_name);
+
+
+	if (my_strnicmp(vendor_name, "AuthenticAMD", 12) == 0) {
 		s->cpu_type = AMD_X86;
-	} else if( my_strnicmp( vendor_name, "GenuineIntel", 12 ) == 0 ) {
+	} else if (my_strnicmp(vendor_name, "GenuineIntel", 12) == 0) {
 		s->cpu_type = INTEL_X86;
 	} else {
 		s->cpu_type = UNKNOWN_X86;
 	}
 
 
-	x86_do_cpuid( 0x80000000, regs ); /* Largest Extended Function Supported */
+	x86_do_cpuid(0x80000000, regs); /* Largest Extended Function Supported */
 
-    LargestExtFunction = regs[ 0 ];
+    LargestExtFunction = regs[0];
 
 
 	if( LargestStdFunction >= 1 ) {
 		x86_do_cpuid( 1, regs );
 
 		/* Following are shared among all CPUs */
-		if( regs[ 3 ] & INTEL_CPUID_TSC_FLAG ) {
+		if (regs[3] & INTEL_CPUID_TSC_FLAG) {
             s->bRDTSC = true;
         }
 
-        if( regs[ 3 ] & INTEL_CPUID_MMX_FLAG ) {
+        if (regs[3] & INTEL_CPUID_MMX_FLAG) {
             s->bMMX = true;
         }
 
-        if( regs[ 3 ] & INTEL_CPUID_SSE_FLAG ) {
+        if (regs[3] & INTEL_CPUID_SSE_FLAG) {
             s->bSSE = true;
         }
 
-        if( regs[ 3 ] & INTEL_CPUID_SSE2_FLAG ) {
+        if (regs[3] & INTEL_CPUID_SSE2_FLAG) {
             s->bSSE2 = true;
         }
 
-        if( regs[ 2 ] & INTEL_CPUID_SSE3_FLAG ) {
+        if (regs[2] & INTEL_CPUID_SSE3_FLAG) {
             s->bSSE3 = true;
         }
 
 	}
 
 
-	if( LargestExtFunction >= 0x80000001 ) {
-        x86_do_cpuid( 0x80000001, regs );
+	if (LargestExtFunction >= 0x80000001) {
+        x86_do_cpuid(0x80000001, regs);
 
-		if( s->cpu_type == AMD_X86 ) {
+		if (s->cpu_type == AMD_X86) {
 
-			if( regs[ 3 ] & AMD_CPUID_EXT_MMXEXT ) {
+			if (regs[3] & AMD_CPUID_EXT_MMXEXT) {
                 s->bMMXExt = true;
             }
 
-            if( regs[ 3 ] & AMD_CPUID_EXT_3DNOW ) {
+            if (regs[3] & (unsigned long)AMD_CPUID_EXT_3DNOW) {
                 s->b3DNow = true;
             }
 
-			if( regs[ 3 ] & AMD_CPUID_EXT_3DNOWEXT ) {
+			if (regs[3] & AMD_CPUID_EXT_3DNOWEXT) {
                 s->b3DNowExt = true;
             }
 
@@ -1082,12 +1092,14 @@ PRIVATE void x86_get_cpu_info( cpu_info_struct *s )
 	if( LargestExtFunction >= 0x80000004 ) {
 		x86_get_cpu_ProcessorName();
 	} else {
-		x86_get_cpu_ProcessorName_LUT( s );
+		x86_get_cpu_ProcessorName_LUT(s);
 	}
 
-	if( s->cpu_type == AMD_X86 ) {
+	if (s->cpu_type == AMD_X86) {
 #if 0
-		Com_Printf( "Family %d, Model %d, Stepping %d\n", (temp >> 8) & 0x0F, (temp >> 4) & 0x0F, temp & 0x0F );
+		/* 'temp' is undeclared: */
+		Com_Printf("Family %d, Model %d, Stepping %d\n", ((temp >> 8) & 0x0F),
+				   ((temp >> 4) & 0x0F), (temp & 0x0F));
 #endif /* 0 */
 
 		if( LargestExtFunction >= 0x80000005 ) {
@@ -1255,26 +1267,29 @@ PRIVATE W32 x86_Get_CPU_frequency( void )
  Notes: Fills in cpu_info_struct main_cpu_s structure.
 -----------------------------------------------------------------------------
 */
-PUBLIC void Get_CPU_info( void )
+PUBLIC void Get_CPU_info(void)
 {
 
-	memset( &main_cpu_s, 0, sizeof( cpu_info_struct ) );
+	memset( &main_cpu_s, 0, sizeof(cpu_info_struct));
 #ifdef _MSC_VER
 	__asm
 	{
 		pusha      /* Save all registers on the stack */
 	}
-#endif
-	if( ! x86_can_do_cpuid() ) {
+#endif /* _MSC_VER */
+	if (! x86_can_do_cpuid()) {
 		main_cpu_s.cpu_type = UNKNOWN_X86;
+		Com_Printf("CPU recognized as some sort of x86, but not sure which.\n");
 	} else {
-		x86_get_cpu_info( &main_cpu_s );
+		x86_get_cpu_info(&main_cpu_s);
 
 
 		main_cpu_s.cpu_frequency = x86_Get_CPU_frequency();
 
-		if( main_cpu_s.cpu_frequency ) {
-			Com_Printf( "Frequency: %lu Mhz\n", main_cpu_s.cpu_frequency );
+		if (main_cpu_s.cpu_frequency) {
+			Com_Printf("CPU Frequency: %lu Mhz\n", main_cpu_s.cpu_frequency);
+		} else {
+			Com_Printf("CPU Frequency: unknown\n");
 		}
 	}
 #ifdef _MSC_VER
@@ -1286,13 +1301,15 @@ PUBLIC void Get_CPU_info( void )
 }
 
 
-#else /* __i386__ */
-PUBLIC void Get_CPU_info( void )
+#else /* !__i386__: */
+PUBLIC void Get_CPU_info(void)
 {
 
-	memset( &main_cpu_s, 0, sizeof( cpu_info_struct ) );
+	memset(&main_cpu_s, 0, sizeof(cpu_info_struct));
 
 	main_cpu_s.cpu_type = NON_X86;
+
+	Com_Printf("CPU was NOT recognized as i386, cannot say more about it.\n");
 
 }
 #endif /* __i386__ */

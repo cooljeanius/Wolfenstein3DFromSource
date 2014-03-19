@@ -24,12 +24,18 @@
  *
  */
 
+#ifdef __PROCESSOR_H__
+# warning "../cpu/processor.h was already included once."
+#endif /* __PROCESSOR_H__ */
 #include "../cpu/processor.h"
+#ifndef __PROCESSOR_H__
+# warning "../cpu/processor.h was not actually included."
+#endif /* !__PROCESSOR_H__ */
 #include "../../common/common.h"
 #include "system.h"
 
-extern void Print_Memory_Stats( void );
-extern void Print_OS_Info( void );
+extern void Print_Memory_Stats(void);
+extern void Print_OS_Info(void);
 
 /*
 -----------------------------------------------------------------------------
@@ -42,13 +48,13 @@ extern void Print_OS_Info( void );
  Notes: Initilize CPU, print out memory usage and do any OS dependent stuff.
 -----------------------------------------------------------------------------
 */
-PUBLIC void Sys_Information( void )
+PUBLIC void Sys_Information(void)
 {
 	Com_Printf("\n----- Determining System Specs -----\n");
 
-#if 0
+#if defined(Get_CPU_info) || defined(HAVE_GET_CPU_INFO)
 	Com_Printf("[CPU]\n");
-	Get_CPU_info(); /* unimplemented */
+	Get_CPU_info(); /* (should have been from ../cpu/cpuid.c) */
 #endif /* 0 */
 
 	Com_Printf("[Memory]\n");
@@ -57,7 +63,7 @@ PUBLIC void Sys_Information( void )
 	Com_Printf("[Operating System]\n");
 	Print_OS_Info();
 
-	Com_Printf( "------------------------------------\n\n" );
+	Com_Printf("------------------------------------\n\n");
 }
 
 /* EOF */

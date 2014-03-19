@@ -55,9 +55,9 @@
 #include "../memory/memory.h"
 #include "../math/mymath.h"
 
-PRIVATE texture_t	_texSprites[ 768 ];  /* Holds sprites */
-PRIVATE texture_t	_texWalls[ 256 ];  /* Holds Walls */
-PRIVATE texture_t	ttextures[ MAX_TEXTURES ];
+PRIVATE texture_t	_texSprites[768];  /* Holds sprites */
+PRIVATE texture_t	_texWalls[256];  /* Holds Walls */
+PRIVATE texture_t	ttextures[MAX_TEXTURES];
 PRIVATE int			numttextures;
 
 PRIVATE texture_t	*r_notexture;		/* use for bad texture lookups */
@@ -77,50 +77,50 @@ W32 texture_registration_sequence;
  Notes:
 -----------------------------------------------------------------------------
 */
-PUBLIC void TM_TextureList_f( void )
+PUBLIC void TM_TextureList_f(void)
 {
 	int		i;
 	texture_t	*image;
 	int		texels;
-	const char *palstrings[ 2 ] =
+	const char *palstrings[2] =
 	{
 		"RGB",
 		"PAL"
 	};
 
-	Com_Printf( "------------------\n" );
+	Com_Printf("------------------\n");
 	texels = 0;
 
-	for( i = 0, image = ttextures ; i < numttextures ; ++i, ++image ) {
-		if( image->texnum <= 0 ) {
+	for((i = 0), (image = ttextures); (i < numttextures); ++i, ++image) {
+		if (image->texnum <= 0) {
 			continue;
 		}
 
 		texels += image->upload_width * image->upload_height;
 
-		switch( image->type ) {
+		switch(image->type) {
 		case TT_Sprite:
-			Com_Printf( "S" );
+			Com_Printf("S");
 			break;
 
 		case TT_Wall:
-			Com_Printf( "W" );
+			Com_Printf("W");
 			break;
 
 		case TT_Pic:
-			Com_Printf( "P" );
+			Com_Printf("P");
 			break;
 
 		default:
-			Com_Printf( " " );
+			Com_Printf(" ");
 			break;
 		}
 
-		Com_Printf( " %3i %3i %s: %s\n",
-			image->upload_width, image->upload_height, palstrings[ 0 ], image->name );
+		Com_Printf(" %3i %3i %s: %s\n", image->upload_width,
+				   image->upload_height, palstrings[0], image->name);
 	}
 
-	Com_Printf( "Total texel count (not counting mipmaps): %i\n", texels );
+	Com_Printf("Total texel count (not counting mipmaps): %i\n", texels);
 
 }
 
@@ -142,46 +142,47 @@ PUBLIC void TM_TextureList_f( void )
  Notes: Any texture that was not touched on this registration sequence will be freed.
 -----------------------------------------------------------------------------
 */
-PUBLIC texture_t *TM_LoadTexture( const char *name, W8 *data, int width, int height, texturetype_t type, W16 bytes )
+PUBLIC texture_t *TM_LoadTexture(const char *name, W8 *data, int width,
+								 int height, texturetype_t type, W16 bytes)
 {
 	texture_t	*tex;
 	int			i;
 
 
-	if( strlen( name ) >= sizeof( tex->name ) ) {
-		Com_DPrintf( "TM_LoadTexture: \"%s\" is too long\n", name );
+	if (strlen(name) >= sizeof(tex->name)) {
+		Com_DPrintf("TM_LoadTexture: \"%s\" is too long\n", name);
 		return r_notexture;
 	}
 
 
     /* find a free texture_t space */
-    for( i = 0, tex = ttextures; i < numttextures; ++i, ++tex ) {
-	    if( ! tex->texnum ) {
+    for ((i = 0), (tex = ttextures); (i < numttextures); ++i, ++tex) {
+	    if (! tex->texnum) {
 		    break;
 	    }
     }
 
-    if( i == numttextures ) {
-	    if( numttextures == MAX_TEXTURES ) {
-		    Com_DPrintf( "MAX_TEXTURES reached\n" );
+    if (i == numttextures) {
+	    if (numttextures == MAX_TEXTURES) {
+		    Com_DPrintf("MAX_TEXTURES reached\n");
 		    return r_notexture;
 	    }
 
 	    numttextures++;
     }
 
-    tex = &ttextures[ i ];
+    tex = &ttextures[i];
 
 
-	my_strlcpy( tex->name, name, MAX_GAMEPATH );
+	my_strlcpy(tex->name, name, MAX_GAMEPATH);
 	tex->registration_sequence = texture_registration_sequence;
 
-	tex->width = width;
-	tex->height = height;
+	tex->width = (W16)width;
+	tex->height = (W16)height;
 	tex->type = type;
 	tex->bytes = bytes;
 
-	switch( type ) {
+	switch (type) {
 		case TT_Pic:
 			tex->MipMap = false;
 			tex->WrapS = Clamp;
@@ -216,30 +217,31 @@ PUBLIC texture_t *TM_LoadTexture( const char *name, W8 *data, int width, int hei
 	}
 
 
-	R_UploadTexture( tex, data );
+	R_UploadTexture(tex, data);
 
 
 	return tex;
 }
 
-PUBLIC void TM_LoadTexture_DB( const char *name, texture_t	*tex, W8 *data, int width, int height, texturetype_t type, W16 bytes )
+PUBLIC void TM_LoadTexture_DB(const char *name, texture_t *tex, W8 *data,
+							  int width, int height, texturetype_t type,
+							  W16 bytes)
 {
 
-	if( strlen( name ) >= sizeof( tex->name ) ) {
-		Com_DPrintf( "TM_LoadTexture: \"%s\" is too long\n", name );
+	if (strlen(name) >= sizeof(tex->name)) {
+		Com_DPrintf("TM_LoadTexture: \"%s\" is too long\n", name);
 	}
 
 
-	my_strlcpy( tex->name, name, MAX_GAMEPATH );
+	my_strlcpy(tex->name, name, MAX_GAMEPATH);
 	tex->registration_sequence = texture_registration_sequence;
 
-	tex->width = width;
-	tex->height = height;
+	tex->width = (W16)width;
+	tex->height = (W16)height;
 	tex->type = type;
 	tex->bytes = bytes;
 
-	switch( type )
-	{
+	switch (type) {
 		case TT_Pic:
 			tex->MipMap = false;
 			tex->WrapS = Clamp;
@@ -273,24 +275,24 @@ PUBLIC void TM_LoadTexture_DB( const char *name, texture_t	*tex, W8 *data, int w
 			break;
 	}
 
-	R_UploadTexture( tex, data );
+	R_UploadTexture(tex, data);
 }
 
-PUBLIC void TM_FindTexture_DB( const char *name, texture_t *tex, texturetype_t type )
+PUBLIC void TM_FindTexture_DB(const char *name, texture_t *tex,
+							  texturetype_t type)
 {
 	int	len;
 	W8	*data = NULL;	/* raw texture data */
 	W16	width, height;	/* width, height of texture */
 	W16 bytes;
 
-	if( ! name || ! *name ) {
+	if (! name || ! *name) {
 		return;
 	}
 
 	/* Check for file extension */
-	len = strlen( name );
-	if( len < 5 )
-	{
+	len = (int)strlen(name);
+	if (len < 5) {
 		return;
 	}
 
@@ -298,22 +300,22 @@ PUBLIC void TM_FindTexture_DB( const char *name, texture_t *tex, texturetype_t t
 /*
  * load the texture from disk
  */
-	if( ! strcmp( name + len - 4, ".tga" ) ) {
-		LoadTGA( name, &data, &width, &height, &bytes );
-		if( ! data ) {
+	if (! strcmp((name + len - 4), ".tga")) {
+		LoadTGA(name, &data, &width, &height, &bytes);
+		if (! data) {
 			return;
 		}
 
-		TM_LoadTexture_DB( name, tex, data, width, height, type, bytes );
+		TM_LoadTexture_DB(name, tex, data, width, height, type, bytes);
 	} else {
 		return;
 	}
 
 
-	MM_FREE( data );
+	MM_FREE(data);
 
 #if 0
-	return tex;
+	return tex; /* function is void, there should be no return value */
 #endif /* 0 */
 }
 
@@ -329,7 +331,7 @@ PUBLIC void TM_FindTexture_DB( const char *name, texture_t *tex, texturetype_t t
  Notes: Any texture that was not touched on this registration sequence will be freed.
 -----------------------------------------------------------------------------
 */
-PUBLIC void TM_FreeUnusedTextures( void )
+PUBLIC void TM_FreeUnusedTextures(void)
 {
 	W32		i;
 	texture_t	*tex;
@@ -337,72 +339,70 @@ PUBLIC void TM_FreeUnusedTextures( void )
 	/* never free r_notexture texture */
 	r_notexture->registration_sequence = texture_registration_sequence;
 
-	for( i = 0, tex = ttextures ; i < numttextures ; ++i, ++tex )
-	{
-		if( tex->registration_sequence == texture_registration_sequence ) {
+	for ((i = 0), (tex = ttextures); (i < (W32)numttextures); ++i, ++tex) {
+		if (tex->registration_sequence == texture_registration_sequence) {
 			continue; /* used this sequence */
 		}
 
-		if( ! tex->registration_sequence ) {
+		if (! tex->registration_sequence) {
 			continue; /* free image_t slot */
 		}
 
-		if( tex->type == TT_Pic ) {
+		if (tex->type == TT_Pic) {
 			continue; /* do NOT free pics */
 		}
 
 		/* free texture */
-		R_DeleteTexture( tex->texnum );
-		memset( tex, 0, sizeof( *tex ) );
+		R_DeleteTexture(tex->texnum);
+		memset(tex, 0, sizeof(*tex));
 	}
 
 
-    for( i = 0 ; i <  256; i++ ) {
-        tex = &_texWalls[ i ];
+    for ((i = 0); (i <  256); i++) {
+        tex = &_texWalls[i];
 
-        if( tex->registration_sequence == texture_registration_sequence ) {
+        if (tex->registration_sequence == texture_registration_sequence) {
 			continue;		/* used this sequence */
 		}
 
-		if( ! tex->registration_sequence ) {
+		if (! tex->registration_sequence) {
 			continue;		/* free image_t slot */
 		}
 
-        R_DeleteTexture( tex->texnum );
-		memset( tex, 0, sizeof( *tex ) );
+        R_DeleteTexture(tex->texnum);
+		memset(tex, 0, sizeof(*tex));
     }
 
-    for( i = 0 ; i < 768 ; i++ ) {
-        tex = &_texSprites[ i ];
+    for ((i = 0); (i < 768); i++) {
+        tex = &_texSprites[i];
 
-        if( tex->registration_sequence == texture_registration_sequence ) {
+        if (tex->registration_sequence == texture_registration_sequence) {
 			continue;		/* used this sequence */
 		}
 
-		if( ! tex->registration_sequence ) {
+		if (! tex->registration_sequence) {
 			continue;		/* free image_t slot */
 		}
 
-        R_DeleteTexture( tex->texnum );
-		memset( tex, 0, sizeof( *tex ) );
+        R_DeleteTexture(tex->texnum);
+		memset(tex, 0, sizeof(*tex));
     }
-
 }
 
 
-PUBLIC texture_t *TM_FindTexture_Wall( W32 imageId )
+PUBLIC texture_t *TM_FindTexture_Wall(W32 imageId)
 {
     texture_t *outTexture;
 
 
-    if( imageId > 256 ) {
+    if (imageId > 256) {
         return r_notexture;
     }
 
-    outTexture = &_texWalls[ imageId ];
+    outTexture = &_texWalls[imageId];
     outTexture->registration_sequence = texture_registration_sequence;
 
-    if( ! outTexture->texnum ) {
+    if (! outTexture->texnum) {
         char fileName[ 32 ];
 
         my_snprintf( fileName, sizeof( fileName ), "walls/%.3d.tga", imageId );
@@ -451,13 +451,16 @@ PUBLIC texture_t *TM_FindTexture_Sprite( W32 imageId )
  Notes:
 -----------------------------------------------------------------------------
 */
-PUBLIC texture_t *TM_FindTexture( const char *name, texturetype_t type )
+PUBLIC texture_t *TM_FindTexture(const char *name, texturetype_t type)
 {
 	texture_t	*tex;
 	int	i, len;
 	W8	*data;			/* raw texture data */
 	W16	width, height;	/* width, height of texture */
 	W16 bytes;
+	struct _TGA the_TGA;
+	/* use tga_error_strings[] global variable in this file: */
+	the_TGA.error_string = tga_error_strings[0];
 
 	i = 0;
 
@@ -472,15 +475,14 @@ PUBLIC texture_t *TM_FindTexture( const char *name, texturetype_t type )
 	}
 
 	/* Check for file extension */
-	len = strlen( name );
-	if( len < 5 ) {
+	len = (int)strlen(name);
+	if (len < 5) {
 		return r_notexture;
 	}
 
 	/* look for it in the texture cache */
-	for( i = 0, tex = ttextures; i < numttextures; ++i, ++tex ) {
-		if( ! strcmp( name, tex->name ) )
-		{
+	for ((i = 0), (tex = ttextures); (i < numttextures); ++i, ++tex) {
+		if (! strcmp(name, tex->name)) {
 			tex->registration_sequence = texture_registration_sequence;
 			return tex;
 		}
@@ -490,20 +492,18 @@ PUBLIC texture_t *TM_FindTexture( const char *name, texturetype_t type )
  * load the texture from disk
  */
 	data = NULL;
-	if( ! strcmp( name + len - 4, ".tga" ) ) {
-		LoadTGA( name, &data, &width, &height, &bytes );
-		if( ! data ) {
+	if (! strcmp((name + len - 4), ".tga")) {
+		LoadTGA(name, &data, &width, &height, &bytes);
+		if (! data) {
 			return r_notexture;
 		}
 
-		tex = TM_LoadTexture( name, data, width, height, type, bytes );
+		tex = TM_LoadTexture(name, data, width, height, type, bytes);
 	} else {
 		return r_notexture;
 	}
 
-
-	MM_FREE( data );
-
+	MM_FREE(data);
 
 	return tex;
 }
@@ -522,7 +522,7 @@ PUBLIC texture_t *TM_FindTexture( const char *name, texturetype_t type )
  Notes: If texture is not found, width and height are -1.
 -----------------------------------------------------------------------------
 */
-PUBLIC void TM_GetTextureSize( SW32 *width, SW32 *height, const char *name )
+PUBLIC void TM_GetTextureSize(SW32 *width, SW32 *height, const char *name)
 {
 	texture_t *tex;
 
@@ -595,8 +595,7 @@ expand_line( double               *dest,
 	/* this could be optimized much more by precalculating the coefficients for
 	 * each x */
 
-	for( x = 0; x < width; ++x )
-	{
+	for( x = 0; x < width; ++x ) {
 		src_col = ((int) (x * ratio + 2.0 - 0.5)) - 2;
 		/* +2, -2 is there because (int) rounds towards 0 and we need
 		 * to round down */
@@ -631,9 +630,9 @@ shrink_line( double               *dest,
 	int          slicepos;      /* slice position relative to width */
 
 #if 0
-	Com_DPrintf( "shrink_line bytes=%d old_width=%d width=%d interp=%d "
-              "avg_ratio=%f\n",
-              bytes, old_width, width, interp, avg_ratio);
+	Com_DPrintf("shrink_line bytes=%d old_width=%d width=%d interp=%d "
+				"avg_ratio=%f\n",
+				bytes, old_width, width, interp, avg_ratio);
 
 #endif /* 0 */
 
@@ -829,32 +828,25 @@ get_scaled_row( double              **src,
                 int bytes )
 {
 	/* get the necesary lines from the source image, scale them,
-		and put them into src[] */
+	 * and put them into src[] */
 	rotate_pointers( (unsigned char  **)src, 4 );
 
-	if( y < 0 )
-	{
+	if( y < 0 ) {
 		y = 0;
 	}
 
-	if( y < old_height )
-	{
+	if( y < old_height ) {
 		get_premultiplied_double_row( srcPR, bytes, 0, y, old_width,
                                     row, src_tmp, 1 );
-		if( new_width > old_width )
-		{
+		if( new_width > old_width ) {
 			expand_line( src[3], row, bytes, old_width, new_width );
-		}
-		else if( old_width > new_width )
-		{
+		} else if( old_width > new_width ) {
 			shrink_line( src[3], row, bytes, old_width, new_width );
-		}
-		else /* no scaling needed */
-		{
-			memcpy( src[3], row, sizeof( double ) * new_width * bytes );
+		} else { /* no scaling needed */
+			memcpy(src[3], row, sizeof(double) * new_width * bytes);
 		}
 	} else {
-		memcpy( src[3], src[2], sizeof( double ) * new_width * bytes );
+		memcpy(src[3], src[2], sizeof( double ) * new_width * bytes);
 	}
 }
 
@@ -863,13 +855,13 @@ get_scaled_row( double              **src,
 non-interpolating scale_region.
  */
 PRIVATE void
-scale_region_no_resample( W8 *in, int inwidth, int inheight,
-                          W8 *out, int outwidth, int outheight, char bytes )
+scale_region_no_resample(W8 *in, int inwidth, int inheight,
+						W8 *out, int outwidth, int outheight, char bytes)
 {
-	int   *x_src_offsets;
-	int   *y_src_offsets;
-	W8 *src;
-	W8 *dest;
+	int    *x_src_offsets;
+	int    *y_src_offsets;
+	W8	   *src;
+	W8	   *dest;
 	int    width, height, orig_width, orig_height;
 	int    last_src_y;
 	int    row_bytes;
@@ -884,21 +876,21 @@ scale_region_no_resample( W8 *in, int inwidth, int inheight,
 
 
 	/*  the data pointers...  */
-	x_src_offsets = (int *) MM_MALLOC( sizeof( int ) * width * bytes );
-	y_src_offsets = (int *) MM_MALLOC( sizeof( int ) * height );
-	src  = (unsigned char *) MM_MALLOC( orig_width * bytes);
-	dest = (unsigned char *) MM_MALLOC( width * bytes);
+	x_src_offsets = (int *)MM_MALLOC((size_t)(sizeof(int) * width * bytes));
+	y_src_offsets = (int *)MM_MALLOC((size_t)(sizeof(int) * height));
+	src  = (unsigned char *)MM_MALLOC((size_t)(orig_width * bytes));
+	dest = (unsigned char *)MM_MALLOC((size_t)(width * bytes));
 
 	/*  pre-calc the scale tables  */
-	for( b = 0; b < bytes; b++ ) {
-		for( x = 0; x < width; x++ ) {
-			x_src_offsets[ b + x * bytes ] =
-				b + bytes * ((x * orig_width + orig_width / 2) / width);
+	for ((b = 0); (b < bytes); b++) {
+		for ((x = 0); (x < width); x++) {
+			x_src_offsets[(b + (x * bytes))] =
+				(b + bytes * (((x * orig_width) + (orig_width / 2)) / width));
 		}
 	}
 
-	for( y = 0; y < height; y++ ) {
-		y_src_offsets[ y ] = (y * orig_height + orig_height / 2) / height;
+	for ((y = 0); (y < height); y++) {
+		y_src_offsets[y] = (((y * orig_height) + (orig_height / 2)) / height);
 	}
 
 	/*  do the scaling  */
@@ -948,14 +940,14 @@ scale_region_no_resample( W8 *in, int inwidth, int inheight,
  Notes:
 -----------------------------------------------------------------------------
 */
-PUBLIC void TM_ResampleTexture( W8 *in, int inwidth, int inheight, W8 *out,
-							    int outwidth, int outheight, W8 bytes,
-							    InterpolationType interpolation )
+PUBLIC void TM_ResampleTexture(W8 *in, int inwidth, int inheight, W8 *out,
+							   int outwidth, int outheight, W8 bytes,
+							   InterpolationType interpolation)
 {
-	double *src[ 4 ];
-	W8  *src_tmp;
-	W8  *dest;
-	double *row, *accum;
+	double  *src[4];
+	W8		*src_tmp;
+	W8		*dest;
+	double  *row, *accum;
 	int     b;
 	int     width, height;
 	int     orig_width, orig_height;
@@ -966,8 +958,9 @@ PUBLIC void TM_ResampleTexture( W8 *in, int inwidth, int inheight, W8 *out,
 	int     x, y;
 
 
-	if( interpolation == INTERPOLATION_NONE ) {
-		scale_region_no_resample( in, inwidth, inheight, out, outwidth, outheight, bytes );
+	if (interpolation == INTERPOLATION_NONE) {
+		scale_region_no_resample(in, inwidth, inheight,
+								 out, outwidth, outheight, (char)bytes);
 		return;
     }
 
@@ -977,131 +970,134 @@ PUBLIC void TM_ResampleTexture( W8 *in, int inwidth, int inheight, W8 *out,
 	width = outwidth;
 	height = outheight;
 
-#if 0
-  Com_DPrintf( "scale_region: (%d x %d) -> (%d x %d)\n",
-               orig_width, orig_height, width, height );
-#endif /* 0 */
+#if 0 || DEBUG || __clang_analyzer__
+  Com_DPrintf("scale_region: (%d x %d) -> (%d x %d)\n",
+			  orig_width, orig_height, width, height);
+#endif /* 0 || DEBUG || __clang_analyzer__ */
 
-	/*  find the ratios of old y to new y  */
+	/* find the ratios of old y to new y  */
 	y_rat = (double) orig_height / (double) height;
 
 
-	/*  the data pointers...  */
-	for( i = 0 ; i < 4 ; ++i ) {
-		src[ i ] = (double *) MM_MALLOC( sizeof( double ) * width * bytes );
+	/* the data pointers...  */
+	for ((i = 0); (i < 4); ++i ) {
+		src[i] = (double *)MM_MALLOC((size_t)(sizeof(double) * width * bytes));
 	}
 
-	dest = (PW8) MM_MALLOC( width * bytes);
+	dest = (PW8)MM_MALLOC((size_t)(width * bytes));
 
-	src_tmp = (PW8) MM_MALLOC( orig_width * bytes );
+	src_tmp = (PW8)MM_MALLOC((size_t)(orig_width * bytes));
 
 	/* offset the row pointer by 2*bytes so the range of the array
 	 * is [-2*bytes] to [(orig_width + 2)*bytes] */
-	row = (double *) MM_MALLOC( sizeof( double ) * (orig_width + 2 * 2) * bytes );
-	row += bytes * 2;
+	row = (double *)MM_MALLOC((size_t)(sizeof(double) * (orig_width + (2 * 2)) *
+									   bytes));
+	row += (bytes * 2);
 
-	accum = (double *) MM_MALLOC( sizeof( double ) * width * bytes );
+	accum = (double *)MM_MALLOC((size_t)(sizeof(double) * width * bytes));
 
 
 	/*  Scale the selected region  */
 
-	for( y = 0 ; y < height ; y++ ) {
-		if( height < orig_height ) {
+	for ((y = 0); (y < height); y++) {
+		if (height < orig_height) {
 			int          max;
 			double       frac;
-			const double inv_ratio = 1.0 / y_rat;
+			const double inv_ratio = (1.0 / y_rat);
 
-			if( y == 0 ) { /* load the first row if this is the first time through */
-				get_scaled_row( &src[0], 0, width, row, src_tmp, in, orig_width, orig_height, bytes );
+			if (y == 0) { /* load the first row if this is the first time through */
+				get_scaled_row(&src[0], 0, width, row, src_tmp, in,
+							   orig_width, orig_height, bytes);
 			}
 
 			new_y = (int)(y * y_rat);
-			frac = 1.0 - (y * y_rat - new_y);
-			for( x = 0 ; x < width * bytes; ++x ) {
-				accum[x] = src[3][x] * frac;
+			frac = (1.0 - ((y * y_rat) - new_y));
+			for ((x = 0); (x < (width * bytes)); ++x ) {
+				accum[x] = (src[3][x] * frac);
 			}
 
-			max = (int) ((y + 1) * y_rat) - new_y - 1;
+			max = (int)((y + 1) * y_rat) - new_y - 1;
 
-			get_scaled_row( &src[ 0 ], ++new_y, width, row, src_tmp, in,
-						    orig_width, orig_height, bytes  );
+			get_scaled_row(&src[0], ++new_y, width, row, src_tmp, in,
+						   orig_width, orig_height, bytes);
 
-			while( max > 0 ) {
-				for( x = 0 ; x < width * bytes ; ++x ) {
-					accum[x] += src[ 3 ][ x ];
+			while (max > 0) {
+				for ((x = 0); (x < (width * bytes)); ++x ) {
+					accum[x] += src[3][x];
 				}
 
-				get_scaled_row( &src[ 0 ], ++new_y, width, row, src_tmp, in,
-							    orig_width, orig_height, bytes );
+				get_scaled_row(&src[0], ++new_y, width, row, src_tmp, in,
+							   orig_width, orig_height, bytes);
 				max--;
             }
 
-			frac = (y + 1) * y_rat - ((int) ((y + 1) * y_rat));
-			for( x = 0 ; x < width * bytes ; ++x ) {
-				accum[ x ] += frac * src[ 3 ][ x ];
-				accum[ x ] *= inv_ratio;
+			frac = ((y + 1) * y_rat) - ((int)((y + 1) * y_rat));
+			for ((x = 0); (x < (width * bytes)); ++x) {
+				accum[x] += (frac * src[3][x]);
+				accum[x] *= inv_ratio;
 			}
-		} else if( height > orig_height ) {
+		} else if (height > orig_height) {
 			double p0, p1, p2, p3;
 			double dy;
 
-			new_y = (int)floor( y * y_rat - 0.5 );
+			new_y = (int)floor((y * y_rat) - 0.5);
 
-			while( old_y <= new_y ) {
+			while (old_y <= new_y) {
 				/* get the necesary lines from the source image, scale them,
 				 * and put them into src[] */
-				get_scaled_row( &src[ 0 ], old_y + 2, width, row, src_tmp, in,
-							    orig_width, orig_height, bytes );
+				get_scaled_row(&src[0], (old_y + 2), width, row, src_tmp, in,
+							   orig_width, orig_height, bytes);
 				old_y++;
 			}
 
 			dy = (y * y_rat - 0.5) - new_y;
 
-			p0 = cubic( dy, 1, 0, 0, 0 );
-			p1 = cubic( dy, 0, 1, 0, 0 );
-			p2 = cubic( dy, 0, 0, 1, 0 );
-			p3 = cubic( dy, 0, 0, 0, 1 );
+			p0 = cubic(dy, 1, 0, 0, 0);
+			p1 = cubic(dy, 0, 1, 0, 0);
+			p2 = cubic(dy, 0, 0, 1, 0);
+			p3 = cubic(dy, 0, 0, 0, 1);
 
-			for( x = 0 ; x < width * bytes ; ++x ) {
-				accum[ x ] = ( p0 * src[ 0 ][ x ] + p1 * src[ 1 ][ x ] +
-                               p2 * src[ 2 ][ x ] + p3 * src[ 3 ][ x ] );
+			for ((x = 0); (x < (width * bytes)); ++x) {
+				accum[x] = ((p0 * src[0][x]) + (p1 * src[1][x]) +
+							(p2 * src[2][x]) + (p3 * src[3][x]));
 			}
 
         } else { /* height == orig_height */
-			get_scaled_row( &src[ 0 ], y, width, row, src_tmp, in, orig_width, orig_height, bytes );
-			memcpy( accum, src[ 3 ], sizeof( double ) * width * bytes );
+			get_scaled_row(&src[0], y, width, row, src_tmp, in,
+						   orig_width, orig_height, bytes);
+			memcpy(accum, src[3], (sizeof(double) * width * bytes));
         }
 
-		if( pixel_region_has_alpha( bytes ) ) {
+		if (pixel_region_has_alpha(bytes)) {
 			/* unmultiply the alpha */
 			double  inv_alpha;
 			double *p = accum;
-			int     alpha = bytes - 1;
+			int     alpha = (bytes - 1);
 			int     result;
 			W8		*d = dest;
 
-			for( x = 0 ; x < width ; ++x ) {
-				if( p[ alpha ] > 0.001 ) {
-					inv_alpha = 255.0 / p[ alpha ];
-					for( b = 0 ; b < alpha ; b++ ) {
-						result = RINT( inv_alpha * p[ b ] );
-						if( result < 0 ) {
-							d[ b ] = 0;
-						} else if( result > 255 ) {
-							d[ b ] = 255;
+			for ((x = 0); (x < width); ++x) {
+				if (p[alpha] > 0.001) {
+					inv_alpha = (255.0 / p[alpha]);
+					for ((b = 0); (b < alpha); b++) {
+						result = ((int)RINT(inv_alpha * p[b]));
+						if (result < 0) {
+							d[b] = 0;
+						} else if (result > 255) {
+							d[b] = 255;
 						} else {
-							d[ b ] = result;
+							d[b] = (W8)result;
 						}
                     }
-					result = RINT( p[ alpha ] );
-					if( result > 255 ) {
-						d[ alpha ] = 255;
+					result = ((int)RINT(p[alpha]));
+					if (result > 255) {
+						d[alpha] = 255;
 					} else {
-						d[ alpha ] = result;
+						d[alpha] = (W8)result;
 					}
                 } else { /* alpha <= 0 */
-					for( b = 0 ; b <= alpha ; ++b ) {
-						d[ b ] = 0;
+					for ((b = 0); (b <= alpha); ++b) {
+						d[b] = 0;
 					}
 				}
 
@@ -1109,33 +1105,34 @@ PUBLIC void TM_ResampleTexture( W8 *in, int inwidth, int inheight, W8 *out,
 				p += bytes;
             }
         } else {
-			int w = width * bytes;
+			int w;
+			w = (width * bytes);
 
-			for( x = 0 ; x < w ; ++x ) {
-				if( accum[ x ] < 0.0 ) {
-					dest[ x ] = 0;
-				} else if( accum[ x ] > 255.0 ) {
-					dest[ x ] = 255;
+			for ((x = 0); (x < w); ++x ) {
+				if (accum[x] < 0.0) {
+					dest[x] = 0;
+				} else if (accum[x] > 255.0) {
+					dest[x] = 255;
 				} else {
-					dest[ x ] = RINT( accum[ x ] );
+					dest[x] = (W8)((int)RINT(accum[x]));
 				}
             }
         }
-		pixel_region_set_row( out, bytes, y, width, dest );
+		pixel_region_set_row(out, bytes, y, width, dest);
     }
 
 	/*  free up temporary arrays  */
-	MM_FREE( accum );
+	MM_FREE(accum);
 
-	for( i = 0 ; i < 4 ; ++i ) {
-		MM_FREE( src[ i ] );
+	for ((i = 0); (i < 4); ++i) {
+		MM_FREE(src[i]);
 	}
 
-	MM_FREE( src_tmp );
-	MM_FREE( dest );
+	MM_FREE(src_tmp);
+	MM_FREE(dest);
 
-	row -= 2 * bytes;
-	MM_FREE( row );
+	row -= (2 * bytes);
+	MM_FREE(row);
 }
 
 
@@ -1157,25 +1154,25 @@ PUBLIC _boolean TM_MipMap( PW8 in, W16 *width, W16 *height, W16 bytes )
 {
 	W16 new_width, new_height;
 
-	if( *width == 1 && *height == 1 ) {
+	if ((*width == 1) && (*height == 1)) {
 		return false;
 	}
 
 
-	if( *width < 2 ) {
+	if (*width < 2) {
 		new_width = 1;
 	} else {
 		new_width = *width >> 1;
 	}
 
-	if( *height < 2 ) {
+	if (*height < 2) {
 		new_height = 1;
 	} else {
 		new_height = *height >> 1;
 	}
 
-	TM_ResampleTexture( in, *width, *height, in, new_width, new_height, bytes,
-					    INTERPOLATION_CUBIC );
+	TM_ResampleTexture(in, *width, *height, in, new_width, new_height,
+					   (W8)bytes, INTERPOLATION_CUBIC);
 
 	*width = new_width;
 	*height = new_height;
@@ -1242,47 +1239,47 @@ PUBLIC void TM_Init( void )
  Notes:
 -----------------------------------------------------------------------------
 */
-PUBLIC void TM_Shutdown( void )
+PUBLIC void TM_Shutdown(void)
 {
 	W32		i;
 	texture_t	*tex;
 
-	for( i = 0, tex = ttextures; i < numttextures; ++i, ++tex ) {
-		if( ! tex->registration_sequence ) {
+	for ((i = 0), (tex = ttextures); ((int)i < numttextures); ++i, ++tex) {
+		if (! tex->registration_sequence) {
 			continue;		/* free image_t slot */
 		}
 
 		/* free texture */
-		R_DeleteTexture( tex->texnum );
-		memset( tex, 0, sizeof( *tex ) );
+		R_DeleteTexture(tex->texnum);
+		memset(tex, 0, sizeof(*tex));
 	}
 
 
-    for( i = 0; i < 768; i++ ) {
+    for ((i = 0); (i < 768); i++) {
         tex =  &_texSprites[ i ];
 
-		if( ! tex->registration_sequence ) {
+		if (! tex->registration_sequence) {
 			continue;		/* free image_t slot */
 		}
 
 		/* free texture */
-		R_DeleteTexture( tex->texnum );
-		memset( tex, 0, sizeof( *tex ) );
+		R_DeleteTexture(tex->texnum);
+		memset(tex, 0, sizeof(*tex));
 	}
 
-    for( i = 0; i < 256; i++ ) {
-        tex =   &_texWalls[ i ];
+    for ((i = 0); (i < 256); i++) {
+        tex = &_texWalls[i];
 
-		if( ! tex->registration_sequence ) {
+		if (! tex->registration_sequence) {
 			continue; /* free image_t slot */
 		}
 
 		/* free texture */
-		R_DeleteTexture( tex->texnum );
-		memset( tex, 0, sizeof( *tex ) );
+		R_DeleteTexture(tex->texnum);
+		memset(tex, 0, sizeof(*tex));
 	}
 
-	Cmd_RemoveCommand( "listTextures" );
+	Cmd_RemoveCommand("listTextures");
 }
 
 /* EOF */

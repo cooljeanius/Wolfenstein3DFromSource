@@ -162,29 +162,33 @@ PRIVATE void RemoveActor( entity_t *actor )
  Notes:
 -----------------------------------------------------------------------------
 */
-PUBLIC void ProcessGuards( void )
+PUBLIC void ProcessGuards(void)
 {
 	int n, tex;
 
-	for( n = 0 ; n < NumGuards ; ++n ) {
-		if( ! DoGuard( &Guards[ n ] ) ) {
+	for ((n = 0); (n < NumGuards); ++n) {
+		if (! DoGuard(&Guards[n])) {
 			/* remove guard from the game forever! */
-			RemoveActor( &Guards[ n-- ] );
+			RemoveActor(&Guards[n--]);
 			continue;
 		}
 
-		Sprite_SetPos( Guards[ n ].sprite, Guards[ n ].x, Guards[ n ].y, Guards[ n ].angle );
-		tex = objstate[ Guards[ n ].type ][ Guards[ n ].state ].texture;
+		Sprite_SetPos(Guards[n].sprite, Guards[n].x, Guards[n].y,
+					  Guards[n].angle);
+		tex = objstate[Guards[n].type][Guards[n].state].texture;
 
-		if( objstate[ Guards[ n ].type ][ Guards[ n ].state ].rotate ) {
-			if( Guards[ n ].type == en_rocket || Guards[ n ].type == en_hrocket ) {
-				tex += r_add8dir[ Get8dir( angle_wise( Player.position.angle, FINE2RAD(Guards[ n ].angle) ) ) ];
+		if (objstate[Guards[n].type][Guards[n].state].rotate) {
+			if ((Guards[n].type == en_rocket) ||
+				(Guards[n].type == en_hrocket)) {
+				tex += r_add8dir[Get8dir(angle_wise(Player.position.angle,
+													(float)FINE2RAD(Guards[n].angle)))];
 			} else {
-				tex += add8dir[ Get8dir( angle_wise( Player.position.angle, FINE2RAD(Guards[ n ].angle) ) ) ];
+				tex += add8dir[Get8dir(angle_wise(Player.position.angle,
+												  (float)FINE2RAD(Guards[n].angle)))];
 			}
 		}
 
-		Sprite_SetTex( Guards[ n ].sprite, 0, tex );
+		Sprite_SetTex(Guards[n].sprite, 0, tex);
 	}
 }
 
@@ -244,28 +248,29 @@ PUBLIC entity_t *GetNewActor( void )
  Notes:
 -----------------------------------------------------------------------------
 */
-PUBLIC entity_t *SpawnActor( enemy_t which, int x, int y, dir4type dir, LevelData_t *lvl )
+PUBLIC entity_t *SpawnActor(enemy_t which, int x, int y, dir4type dir,
+							LevelData_t *lvl)
 {
 	entity_t *new_actor;
 
 	new_actor = GetNewActor();
-	if( ! new_actor ) {
+	if (! new_actor) {
 		return NULL;
 	}
 
-	new_actor->x = TILE2POS( x );
-	new_actor->y = TILE2POS( y );
+	new_actor->x = TILE2POS(x);
+	new_actor->y = TILE2POS(y);
 
-	new_actor->tilex = x;
-	new_actor->tiley = y;
+	new_actor->tilex = (char)x;
+	new_actor->tiley = (char)y;
 
-	new_actor->angle = dir4angle[ dir ];
-	new_actor->dir = dir4to8[ dir ];
+	new_actor->angle = dir4angle[dir];
+	new_actor->dir = dir4to8[dir];
 
-	new_actor->areanumber = lvl->areas[ x ][ y ];
+	new_actor->areanumber = (char)lvl->areas[x][y];
 	new_actor->type = which;
 
-	new_actor->health = starthitpoints[ (int)skill->value ][ which ];
+	new_actor->health = starthitpoints[(int)skill->value][which];
 	new_actor->sprite = Sprite_GetNewSprite();
 
 	return new_actor;
@@ -282,20 +287,21 @@ PUBLIC entity_t *SpawnActor( enemy_t which, int x, int y, dir4type dir, LevelDat
  Notes:
 -----------------------------------------------------------------------------
 */
-PUBLIC void SpawnStand( enemy_t which, int x, int y, int dir, LevelData_t *lvl )
+PUBLIC void SpawnStand(enemy_t which, int x, int y, int dir, LevelData_t *lvl)
 {
 	entity_t *self;
 
-	self = SpawnActor( which, x, y, dir, r_world );
-	if( ! self ) {
+	self = SpawnActor(which, x, y, (dir4type)dir, r_world);
+	if (! self) {
 		return;
 	}
 
 	self->state = st_stand;
 	self->speed = SPDPATROL;
-	self->ticcount = objstate[ which ][ st_stand ].timeout ? US_RndT() % objstate[ which ][ st_stand ].timeout + 1 : 0;
+	self->ticcount = (objstate[which][st_stand].timeout ? (int)US_RndT() %
+					  objstate[which][st_stand].timeout + 1 : 0);
 	self->flags |= FL_SHOOTABLE;
-	if( lvl->tilemap[ x ][ y ] & AMBUSH_TILE ) {
+	if (lvl->tilemap[x][y] & AMBUSH_TILE) {
 		self->flags |= FL_AMBUSH;
 	}
 
@@ -313,19 +319,20 @@ PUBLIC void SpawnStand( enemy_t which, int x, int y, int dir, LevelData_t *lvl )
  Notes:
 -----------------------------------------------------------------------------
 */
-PUBLIC void SpawnPatrol( enemy_t which, int x, int y, int dir )
+PUBLIC void SpawnPatrol(enemy_t which, int x, int y, int dir)
 {
 	entity_t *self;
 
-	self = SpawnActor( which, x, y, dir, r_world );
-	if( ! self ) {
+	self = SpawnActor(which, x, y, (dir4type)dir, r_world);
+	if (! self) {
 		return;
 	}
 
 	self->state = st_path1;
 	self->speed = (which == en_dog) ? SPDDOG : SPDPATROL;
 	self->distance = TILEGLOBAL;
-	self->ticcount = objstate[ which ][ st_path1 ].timeout ? US_RndT() % objstate[ which ][ st_path1 ].timeout + 1 : 0;
+	self->ticcount = (objstate[which][st_path1].timeout ? (int)US_RndT() %
+					  objstate[which][st_path1].timeout + 1 : 0);
 	self->flags |= FL_SHOOTABLE;
 
 	levelstate.total_monsters++;
@@ -342,19 +349,20 @@ PUBLIC void SpawnPatrol( enemy_t which, int x, int y, int dir )
  Notes:
 -----------------------------------------------------------------------------
 */
-PUBLIC void SpawnDeadGuard( enemy_t which, int x, int y )
+PUBLIC void SpawnDeadGuard(enemy_t which, int x, int y)
 {
 	entity_t *self;
 
-	self = SpawnActor( which, x, y, dir4_nodir, r_world );
-	if( ! self ) {
+	self = SpawnActor(which, x, y, dir4_nodir, r_world);
+	if (! self) {
 		return;
 	}
 
 	self->state = st_dead;
 	self->speed = 0;
 	self->health = 0;
-	self->ticcount = objstate[ which ][ st_dead ].timeout ? US_RndT() % objstate[ which ][ st_dead ].timeout + 1 : 0;
+	self->ticcount = (objstate[which][st_dead].timeout ? (int)US_RndT() %
+					  objstate[which][st_dead].timeout + 1 : 0);
 
 }
 
@@ -369,12 +377,12 @@ PUBLIC void SpawnDeadGuard( enemy_t which, int x, int y )
  Notes:
 -----------------------------------------------------------------------------
 */
-PUBLIC void SpawnBoss( enemy_t which, int x, int y )
+PUBLIC void SpawnBoss(enemy_t which, int x, int y)
 {
 	entity_t *self;
 	dir4type face;
 
-	switch( which ) {
+	switch (which) {
 		case en_boss:
 		case en_schabbs:
 		case en_fat:
@@ -402,15 +410,16 @@ PUBLIC void SpawnBoss( enemy_t which, int x, int y )
 			break;
 	}
 
-	self = SpawnActor( which, x, y, face, r_world );
-	if( ! self ) {
+	self = SpawnActor(which, x, y, face, r_world);
+	if (! self) {
 		return;
 	}
 
-	self->state = which == en_spectre ? st_path1 : st_stand;
+	self->state = (which == en_spectre) ? st_path1 : st_stand;
 	self->speed = SPDPATROL;
-	self->health = starthitpoints[ (int)skill->value ][ which ];
- 	self->ticcount = objstate[ which ][ st_stand ].timeout ? US_RndT() % objstate[ which ][ st_stand ].timeout + 1 : 0;
+	self->health = starthitpoints[(int)skill->value][which];
+ 	self->ticcount = (objstate[which][st_stand].timeout ? (int)US_RndT() %
+					  objstate[which][st_stand].timeout + 1 : 0);
 	self->flags |= FL_SHOOTABLE | FL_AMBUSH;
 
 	levelstate.total_monsters++;
@@ -428,19 +437,20 @@ PUBLIC void SpawnBoss( enemy_t which, int x, int y )
  Notes:
 -----------------------------------------------------------------------------
 */
-PUBLIC void SpawnGhosts( enemy_t which, int x, int y )
+PUBLIC void SpawnGhosts(enemy_t which, int x, int y)
 {
 	entity_t *self;
 
-	self = SpawnActor( which, x, y, dir4_nodir, r_world );
-	if( ! self ) {
+	self = SpawnActor(which, x, y, dir4_nodir, r_world);
+	if (! self) {
 		return;
 	}
 
 	self->state = st_chase1;
-	self->speed = SPDPATROL * 3;
-	self->health = starthitpoints[ (int)skill->value ][ which ];
-	self->ticcount = objstate[ which ][ st_chase1 ].timeout ? US_RndT() % objstate[ which ][ st_chase1 ].timeout + 1: 0;
+	self->speed = (SPDPATROL * 3);
+	self->health = starthitpoints[(int)skill->value][which];
+	self->ticcount = (objstate[which][st_chase1].timeout ? (int)US_RndT() %
+					  objstate[which][st_chase1].timeout + 1: 0);
 	self->flags |= FL_AMBUSH;
 
 	levelstate.total_monsters++;

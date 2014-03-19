@@ -441,14 +441,14 @@ void Menu_Draw( menuframework_s *menu )
 }
 
 /* unused function (?): */
-void Menu_DrawStatusBar( const char *string )
+void Menu_DrawStatusBar(const char *string)
 {
 	int l;
 	int maxrow;
 	int maxcol;
 	int col;
-	if ( string ) {
-		l = (int)strlen( string );
+	if (string) {
+		l = (int)strlen(string);
 #if 0
 		maxrow = (VID_HEIGHT / 8);
 #else
@@ -473,59 +473,75 @@ void Menu_DrawStatusBar( const char *string )
 	}
 }
 
-void Menu_DrawString(FONTSELECT fs, int x, int y, const char *string, colour3_t c)
+void Menu_DrawString(FONTSELECT fs, int x, int y, const char *string,
+					 colour3_t c)
 {
-	Font_SetColour( fs, c );
-	Font_put_line( fs, x, y, string );
+	Font_SetColour(fs, c);
+	Font_put_line(fs, x, y, string);
 }
 
-void Menu_DrawStringR2L( FONTSELECT fs, int x, int y, const char *string, colour3_t c )
+void Menu_DrawStringR2L(FONTSELECT fs, int x, int y, const char *string,
+						colour3_t c)
 {
-	Font_SetColour( fs, c );
-	Font_put_lineR2L( fs, x, y, string );
+	Font_SetColour(fs, c );
+	Font_put_lineR2L(fs, x, y, string);
 }
 
-void Menu_DrawStringR2LDark( FONTSELECT fs, int x, int y, const char *string )
+void Menu_DrawStringR2LDark(FONTSELECT fs, int x, int y, const char *string)
 {
-	/* TODO: use "fs" parameter */
+	switch (fs) {
+		case FONT0:
+			if (FONT0 == 0) {
+				;
+			}
+			break;
+		case FONT1:
+			break;
+		case FONT2:
+			break;
+		case FONT3:
+			break;
+		default:
+			break;
+	}
 	if ((x == 0) || (y == 0)) { /* dummy condition to use "x" and "y" */
 		printf("string passed to Menu_DrawStringR2LDark was %s", string);
 	}
 /* TODO: actually put something here? */
 }
 
-void *Menu_ItemAtCursor( menuframework_s *m )
+void *Menu_ItemAtCursor(menuframework_s *m)
 {
-	if ( m->cursor < 0 || m->cursor >= m->nitems ) {
+	if ((m->cursor < 0) || (m->cursor >= m->nitems)) {
 		return 0;
 	}
 
-	return m->items[ m->cursor ];
+	return m->items[m->cursor];
 }
 
-_boolean Menu_SelectItem( menuframework_s *s )
+_boolean Menu_SelectItem(menuframework_s *s)
 {
-	menucommon_s *item = ( menucommon_s * ) Menu_ItemAtCursor( s );
+	menucommon_s *item = (menucommon_s *) Menu_ItemAtCursor(s);
 
-	if ( item ) {
-		switch ( item->type ) {
+	if (item) {
+		switch (item->type) {
 		case MTYPE_FIELD:
-			return Field_DoEnter( ( menufield_s * ) item ) ;
+			return Field_DoEnter((menufield_s *)item);
 
 		case MTYPE_ACTION:
-			Action_DoEnter( (menuaction_s *) item );
+			Action_DoEnter((menuaction_s *)item);
 			return true;
 
 		case MTYPE_LIST:
-#if 0
-			Menulist_DoEnter( ( menulist_s * ) item );
-#endif /* 0 */
+#if 0 || __clang_analyzer__
+			Menulist_DoEnter((menulist_s *)item);
+#endif /* 0 || __clang_analyzer__ */
 			return false;
 
 		case MTYPE_SPINCONTROL:
-#if 0
-			SpinControl_DoEnter( ( menulist_s * ) item );
-#endif /* 0 */
+#if 0 || __clang_analyzer__
+			SpinControl_DoEnter((menulist_s *)item);
+#endif /* 0 || __clang_analyzer__ */
 			return false;
 
 		}
@@ -534,36 +550,36 @@ _boolean Menu_SelectItem( menuframework_s *s )
 	return false;
 }
 
-void Menu_SetStatusBar( menuframework_s *m, const char *string )
+void Menu_SetStatusBar(menuframework_s *m, const char *string)
 {
 	m->statusbar = string;
 }
 
-void Menu_SlideItem( menuframework_s *s, int dir )
+void Menu_SlideItem(menuframework_s *s, int dir)
 {
-	menucommon_s *item = ( menucommon_s * ) Menu_ItemAtCursor( s );
+	menucommon_s *item = (menucommon_s *)Menu_ItemAtCursor(s);
 
-	if ( item ) {
-		switch ( item->type ) {
+	if (item) {
+		switch (item->type) {
 		case MTYPE_SLIDER:
-			Slider_DoSlide( ( menuslider_s * ) item, dir );
+			Slider_DoSlide((menuslider_s *)item, dir);
 			break;
 		case MTYPE_SPINCONTROL:
-			SpinControl_DoSlide( ( menulist_s * ) item, dir );
+			SpinControl_DoSlide((menulist_s *)item, dir);
 			break;
 		}
 	}
 }
 
-int Menu_TallySlots( menuframework_s *menu )
+int Menu_TallySlots(menuframework_s *menu)
 {
 	int i;
 	int total = 0;
 
-	for ( i = 0; i < menu->nitems; i++ ) {
-		if ( ( ( menucommon_s * ) menu->items[i] )->type == MTYPE_LIST ) {
+	for ((i = 0); (i < menu->nitems); i++) {
+		if (((menucommon_s *)menu->items[i])->type == MTYPE_LIST) {
 			int nitems = 0;
-			const char **n = ( ( menulist_s * ) menu->items[i] )->itemnames;
+			const char **n = ((menulist_s *)menu->items[i])->itemnames;
 
 			while (*n) {
 				nitems++, n++;
@@ -586,34 +602,39 @@ int Menu_TallySlots( menuframework_s *menu )
  *******************************************************************/
 
 /* unused function (?): */
-void Menulist_DoEnter( menulist_s *l )
+void Menulist_DoEnter(menulist_s *l)
 {
 	int start;
 
-	start = l->generic.y / 10 + 1;
+	start = ((l->generic.y / 10) + 1);
 
-	l->curvalue = l->generic.parent->cursor - start;
+	l->curvalue = (l->generic.parent->cursor - start);
 
-	if ( l->generic.callback ) {
-		l->generic.callback( l );
+	if (l->generic.callback) {
+		l->generic.callback(l);
 	}
 }
 
-void MenuList_Draw( menulist_s *l )
+void MenuList_Draw(menulist_s *l)
 {
 	const char **n;
 	int y = 0;
 
-	Menu_DrawStringR2LDark( l->generic.fs, l->generic.x + l->generic.parent->x + LCOLUMN_OFFSET,
-						    l->generic.y + l->generic.parent->y, l->generic.name );
+	Menu_DrawStringR2LDark(l->generic.fs,
+						   (l->generic.x + l->generic.parent->x + LCOLUMN_OFFSET),
+						   (l->generic.y + l->generic.parent->y),
+						   l->generic.name);
 
 	n = l->itemnames;
 
-  	R_Draw_Fill( l->generic.x - 112 + l->generic.parent->x,
-				 l->generic.parent->y + l->generic.y + l->curvalue*10 + 10, 128, 10, colourBlack );
+  	R_Draw_Fill((l->generic.x - 112 + l->generic.parent->x),
+				(l->generic.parent->y + l->generic.y + (l->curvalue * 10) + 10),
+				128, 10, colourBlack);
 	while ( *n ) {
-		Menu_DrawStringR2LDark( l->generic.fs, l->generic.x + l->generic.parent->x + LCOLUMN_OFFSET,
-							    l->generic.y + l->generic.parent->y + y + 10, *n );
+		Menu_DrawStringR2LDark(l->generic.fs,
+							   (l->generic.x + l->generic.parent->x + LCOLUMN_OFFSET),
+							   (l->generic.y + l->generic.parent->y + y + 10),
+							   *n);
 
 		n++;
 		y += 10;
@@ -627,52 +648,55 @@ void MenuList_Draw( menulist_s *l )
  *
  *******************************************************************/
 
-void Slider_DoSlide( menuslider_s *s, int dir )
+void Slider_DoSlide(menuslider_s *s, int dir)
 {
 	s->curvalue += dir;
 
-	if ( s->curvalue > s->maxvalue ) {
+	if (s->curvalue > s->maxvalue) {
 		s->curvalue = s->maxvalue;
-	} else if ( s->curvalue < s->minvalue ) {
+	} else if (s->curvalue < s->minvalue) {
 		s->curvalue = s->minvalue;
 	}
 
-	if ( s->generic.callback ) {
-		s->generic.callback( s );
+	if (s->generic.callback) {
+		s->generic.callback(s);
 	}
 }
 
 #define SLIDER_RANGE 10
 
-void Slider_Draw( menuslider_s *s )
+void Slider_Draw(menuslider_s *s)
 {
-	int	CharHeight = Font_GetSize( s->generic.fs );
+	int	CharHeight = Font_GetSize(s->generic.fs);
 
 
 	/* Print out Label name */
-	Font_SetColour( s->generic.fs, *s->generic.fontBaseColour );
-	Font_put_lineR2L( s->generic.fs, s->generic.x + s->generic.parent->x + LCOLUMN_OFFSET,
-					  s->generic.y + s->generic.parent->y, s->generic.name );
+	Font_SetColour(s->generic.fs, *s->generic.fontBaseColour);
+	Font_put_lineR2L(s->generic.fs,
+					 (s->generic.x + s->generic.parent->x + LCOLUMN_OFFSET),
+					 (s->generic.y + s->generic.parent->y),
+					 (s->generic.name));
 
-	s->range = ( s->curvalue - s->minvalue ) / ( float ) ( s->maxvalue - s->minvalue );
+	s->range = (s->curvalue - s->minvalue) / (float)(s->maxvalue - s->minvalue);
 
-	if( s->range < 0 ) {
+	if (s->range < 0) {
 		s->range = 0;
 	}
 
-	if( s->range > 1 ) {
+	if (s->range > 1) {
 		s->range = 1;
 	}
 
 	/* Draw Slide bar */
-	DrawWindow( s->generic.x + s->generic.parent->x + RCOLUMN_OFFSET,
-			    s->generic.y + s->generic.parent->y, 80, CharHeight,
-				colourLGray, colourBlack, colourDGray );
+	DrawWindow((s->generic.x + s->generic.parent->x + RCOLUMN_OFFSET),
+			   (s->generic.y + s->generic.parent->y), 80, CharHeight,
+			   colourLGray, colourBlack, colourDGray);
 
 	/* Draw slider */
-	DrawWindow( ( int ) (RCOLUMN_OFFSET + s->generic.parent->x + s->generic.x + (SLIDER_RANGE-1)*8 * s->range ),
-			    s->generic.y + s->generic.parent->y, 8, CharHeight,
-				colourBlack, colourDGray, colourDGray );
+	DrawWindow((int)(RCOLUMN_OFFSET + s->generic.parent->x + s->generic.x +
+					 (((SLIDER_RANGE - 1) * 8) * s->range)),
+			   (s->generic.y + s->generic.parent->y), 8, CharHeight,
+			   colourBlack, colourDGray, colourDGray);
 
 
 }
@@ -685,45 +709,49 @@ void Slider_Draw( menuslider_s *s )
  *******************************************************************/
 
 /* unused function (?): */
-void SpinControl_DoEnter( menulist_s *s )
+void SpinControl_DoEnter(menulist_s *s)
 {
 	s->curvalue++;
-	if( s->itemnames[ s->curvalue ] == 0 ) {
+	if (s->itemnames[s->curvalue] == 0) {
 		s->curvalue = 0;
 	}
 
-	if( s->generic.callback ) {
-		s->generic.callback( s );
+	if (s->generic.callback) {
+		s->generic.callback(s);
 	}
 }
 
-void SpinControl_DoSlide( menulist_s *s, int dir )
+void SpinControl_DoSlide(menulist_s *s, int dir)
 {
 	s->curvalue += dir;
 
-	if( s->curvalue < 0 ) {
+	if (s->curvalue < 0) {
 		s->curvalue = 0;
-	} else if( s->itemnames[ s->curvalue ] == 0 ) {
+	} else if (s->itemnames[s->curvalue] == 0) {
 		s->curvalue--;
 	}
 
-	if( s->generic.callback ) {
-		s->generic.callback( s );
+	if (s->generic.callback) {
+		s->generic.callback(s);
 	}
 }
 
 
-void SpinControl_Draw( menulist_s *s )
+void SpinControl_Draw(menulist_s *s)
 {
-	if( s->generic.name ) {
-		Font_SetColour( s->generic.fs, *s->generic.fontBaseColour );
-		Font_put_lineR2L( s->generic.fs, s->generic.x + s->generic.parent->x + LCOLUMN_OFFSET,
-						  s->generic.y + s->generic.parent->y, s->generic.name );
+	if (s->generic.name) {
+		Font_SetColour(s->generic.fs, *s->generic.fontBaseColour);
+		Font_put_lineR2L(s->generic.fs,
+						 (s->generic.x + s->generic.parent->x + LCOLUMN_OFFSET),
+						 (s->generic.y + s->generic.parent->y),
+						 s->generic.name);
 	}
 
-	Font_SetColour( s->generic.fs, *s->generic.fontHighColour );
-	Font_put_line( s->generic.fs, RCOLUMN_OFFSET + s->generic.x + s->generic.parent->x,
-				   s->generic.y + s->generic.parent->y, s->itemnames[ s->curvalue ] );
+	Font_SetColour(s->generic.fs, *s->generic.fontHighColour);
+	Font_put_line(s->generic.fs,
+				  (RCOLUMN_OFFSET + s->generic.x + s->generic.parent->x),
+				  (s->generic.y + s->generic.parent->y),
+				  s->itemnames[s->curvalue]);
 
 }
 

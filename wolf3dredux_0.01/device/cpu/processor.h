@@ -30,8 +30,9 @@
  *	Reference documents:
  *	ftp://download.intel.com/design/pro/applnots/24161809.pdf
  *	http://www.amd.com/us-en/assets/content_type/white_papers_and_tech_docs/20734.pdf
+ *  (dead links)
  *
- *	This module is implemented by x86_cpu.c
+ *	This module is implemented by x86_cpu.c (actually by cpuid.c)
  */
 
 
@@ -74,7 +75,11 @@ typedef struct
 extern cpu_info_struct main_cpu_s;
 
 
-extern void Get_CPU_info( void );
+extern void Get_CPU_info(void);
+/* Now that we have the prototype for it, we should "HAVE" it: */
+#ifndef HAVE_GET_CPU_INFO
+# define HAVE_GET_CPU_INFO 1
+#endif /* !HAVE_GET_CPU_INFO */
 
 
 #endif /* __PROCESSOR_H__ */

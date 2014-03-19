@@ -41,7 +41,7 @@ enum
 } NumberType;
 
 
-typedef char *(*PropertyParser) ( W8 *in, W32 *linenumber );
+typedef char *(*PropertyParser) (W8 *in, W32 *linenumber);
 
 typedef struct Tag_Property_s
 {
@@ -67,15 +67,17 @@ typedef struct datatype_s
 } dataType_t;
 
 
-extern _boolean script_Parse( const char *filename, Tag_Property_t *tagProperties, W32 tagProperties_size, int tag );
+extern _boolean script_Parse(const char *filename,
+							 Tag_Property_t *tagProperties,
+							 W32 tagProperties_size, int tag);
 
-extern W8 *script_ReadString( W8 *ptr, W8 **out );
-extern W8 *script_ReadQuoteString( W8 *ptr, W8 **out );
-extern W8 *script_ReadNumber( W8 *ptr, int numerictype, decimalType_t *nt );
-extern W8 *script_lookforCharacter( W8 *ptr, char character, _boolean bNewline );
-extern W8 *script_ignoreTag( W8 *ptr );
-extern W8 *script_ignoreString( W8 *ptr );
-extern W8 *script_ignoreWhiteSpace( W8 *ptr );
+extern W8 *script_ReadString(W8 *ptr, W8 **out);
+extern W8 *script_ReadQuoteString(W8 *ptr, W8 **out);
+extern W8 *script_ReadNumber(W8 *ptr, int numerictype, decimalType_t *nt);
+extern W8 *script_lookforCharacter(W8 *ptr, char character, _boolean bNewline);
+extern W8 *script_ignoreTag(W8 *ptr);
+extern W8 *script_ignoreString(W8 *ptr);
+extern W8 *script_ignoreWhiteSpace(W8 *ptr);
 
 
 #endif /* __SCRIPT_H__ */

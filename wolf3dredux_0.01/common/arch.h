@@ -81,7 +81,7 @@
 #   define CPUSTRING "i386"
 #  else
 #   define CPUSTRING "Unknown CPU"
-#  endif /* __powerpc__ || __i386__ */
+#  endif /* __powerpc__ || (__i386__ || __x86_64__) */
 # else
 #  warning "Unknown OS and CPU"
 #  define BUILDSTRING "Unknown OS"
@@ -149,9 +149,9 @@ typedef __int64				SW64,   *PSW64;
 #    ifdef __inline__
 #     define INLINECALL __inline__
 #    else
-#     ifdef __NO_INLINE__
+#     if defined(__NO_INLINE__) && defined(__GNUC__) && !defined(__STDC__)
 #      warning "INLINECALL will be unavailable when using the '-ansi' compiler flag"
-#     endif /* __NO_INLINE__ */
+#     endif /* __NO_INLINE__ && __GNUC__ && !__STDC__ */
 #     define INLINECALL	/* nothing (not supported) */
 #    endif /* __inline__ */
 #   else
@@ -168,12 +168,12 @@ typedef __int64				SW64,   *PSW64;
 # endif /* INLINECALL */
 
 /* Now that we have the INLINECALL keyword, we can put our prototype: */
-extern float FloatSwap( float f );
+extern float FloatSwap(float f);
 /* (the actual implementation of the function in arch.c uses the INLINECALL
  *  keyword, even if it is not present here in the prototype for it) */
 
-typedef W8	colour3_t[ 3 ]; /* RGB */
-typedef W8	colour4_t[ 4 ]; /* RGBA */
+typedef W8	colour3_t[3]; /* RGB */
+typedef W8	colour4_t[4]; /* RGBA */
 typedef W32 COLOURVAL, *PCOLOURVAL;  /* Represents a 32-bit colour value. */
 
 

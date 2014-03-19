@@ -24,3 +24,12 @@ tags
 cscope*.out
 cscope.files
 config*.lineno
+*deps/*.*o
+*/*deps/*.*o
+*/*/*deps/*.*o
+*/*/*/*deps/*.*o
+*/*/*/*/*deps/*.*o
+*.dirstamp
+wolf3dredux
+gamepal
+signon

@@ -196,7 +196,16 @@ local gzFile gz_open (path, mode, fd)
          */
     } else {
         check_header(s); /* skip the .gz header */
-        s->start = ftell(s->file) - s->stream.avail_in;
+#if __STDC__ && (__LP64__ || _LP64 || __amd64 || __amd64__ || __x86_64 || __x86_64__ || __ppc64__ || _ARCH_PPC64)
+        s->start = (ftell(s->file) - s->stream.avail_in);
+#else
+/* 32-bit needs some extra casts: */
+# if (i386 || __i386 || __i386__ || __ppc__ || __POWERPC__ || _ARCH_PPC || _ARCH_PPCGR)
+		s->start = (long)((unsigned long)(ftell(s->file)) - s->stream.avail_in);
+# else /* default: */
+		s->start = (ftell(s->file) - s->stream.avail_in);
+# endif /* 32-bit checks */
+#endif /* 64-bit checks */
     }
 
     return (gzFile)s;
@@ -984,9 +993,13 @@ int ZEXPORT gzclose (file)
     gzFile file;
 {
     int err;
-    gz_stream *s = (gz_stream*)file;
+    gz_stream *s;
 
-    if (s == NULL) return Z_STREAM_ERROR;
+	s = (gz_stream*)file;
+
+    if (s == NULL) {
+		return Z_STREAM_ERROR;
+	}
 
     if (s->mode == 'w') {
 #ifdef NO_GZCOMPRESS
@@ -998,7 +1011,16 @@ int ZEXPORT gzclose (file)
 		}
 
         putLong (s->file, s->crc);
-        putLong (s->file, (uLong)(s->in & 0xffffffff));
+# if __STDC__ && (__LP64__ || _LP64 || __amd64 || __amd64__ || __x86_64 || __x86_64__ || __ppc64__ || _ARCH_PPC64)
+        putLong (s->file, (uLong)((s->in) & 0xffffffff));
+# else
+		/* 32-bit needs an extra cast: */
+#  if (i386 || __i386 || __i386__ || __ppc__ || __POWERPC__ || _ARCH_PPC || _ARCH_PPCGR)
+		putLong (s->file, (uLong)((unsigned long)(s->in) & 0xffffffff));
+#  else /* default: */
+		putLong (s->file, (uLong)((s->in) & 0xffffffff));
+#  endif /* 32-bit checks */
+# endif /* 64-bit checks */
 #endif /* NO_GZCOMPRESS */
     }
     return destroy((gz_stream*)file);

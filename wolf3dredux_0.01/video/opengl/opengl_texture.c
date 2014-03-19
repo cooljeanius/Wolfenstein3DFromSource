@@ -178,7 +178,7 @@ PRIVATE INLINECALL GLenum MinFilterToGL( _boolean MipMap, TMinFilter MinFilter )
 
 -----------------------------------------------------------------------------
 */
-PUBLIC _boolean R_UploadTexture( texture_t *tex, PW8 data )
+PUBLIC _boolean R_UploadTexture(texture_t *tex, PW8 data)
 {
 	int samples;
 	W8 *scaled;
@@ -197,16 +197,16 @@ PUBLIC _boolean R_UploadTexture( texture_t *tex, PW8 data )
 		;
 	}
 
-	pfglGenTextures( 1, &tex->texnum );
-	pfglBindTexture( GL_TEXTURE_2D, tex->texnum );
+	pfglGenTextures(1, &tex->texnum);
+	pfglBindTexture(GL_TEXTURE_2D, tex->texnum);
 
 
-	for( scaled_width = 1 ; scaled_width < tex->width ; scaled_width <<= 1 ) {
+	for ((scaled_width = 1); (scaled_width < tex->width); (scaled_width <<= 1)) {
 		;
 		/* do nothing (?) */
 	}
 
-	if( gl_round_down->value && scaled_width > tex->width && tex->MipMap ) {
+	if ((gl_round_down->value) && (scaled_width > tex->width) && tex->MipMap) {
 		scaled_width >>= 1;
 	}
 
@@ -216,30 +216,30 @@ PUBLIC _boolean R_UploadTexture( texture_t *tex, PW8 data )
 		/* do nothing (?) */
 	}
 
-	if( gl_round_down->value && scaled_height > tex->height && tex->MipMap ) {
+	if (gl_round_down->value && (scaled_height > tex->height) && tex->MipMap) {
 		scaled_height >>= 1;
 	}
 
 
 	/* let people sample down the world textures for speed */
-	if( tex->MipMap ) {
+	if (tex->MipMap) {
 		scaled_width >>= (int)gl_picmip->value;
 		scaled_height >>= (int)gl_picmip->value;
 	}
 
 
 	/* do NOT ever bother with > glMaxTexSize textures */
-	if( scaled_width > glMaxTexSize ) {
-		scaled_width = glMaxTexSize;
+	if (scaled_width > glMaxTexSize) {
+		scaled_width = (W16)glMaxTexSize;
 	}
-	if( scaled_height > glMaxTexSize ) {
-		scaled_height = glMaxTexSize;
+	if (scaled_height > glMaxTexSize) {
+		scaled_height = (W16)glMaxTexSize;
 	}
 
-	if( scaled_width < 1 ) {
+	if (scaled_width < 1) {
 		scaled_width = 1;
 	}
-	if( scaled_height < 1 ) {
+	if (scaled_height < 1) {
 		scaled_height = 1;
 	}
 
@@ -250,37 +250,54 @@ PUBLIC _boolean R_UploadTexture( texture_t *tex, PW8 data )
 
 	scaled = Z_Malloc( scaled_width * scaled_height * tex->bytes );
 
-#if 0
-	if( tex->bytes < 4 ) {
+#if 0 || __clang_analyzer__
+	if (tex->bytes < 4) {
 		/* scan the texture for any non-255 alpha */
-		c = tex->width * tex->height;
+		c = (tex->width * tex->height);
 		scan = ((PW8)data) + 3;
 		samples = 3;
-		for( i = 0; i < c ; ++i, scan += 4 ) {
-			if ( *scan != 255 ) {
+		for ((i = 0); (i < c); ++i, (scan += 4)) {
+			if (*scan != 255) {
 				samples = 4;
 				break;
 			}
 		}
+		/* dummy condition to use 'samples': */
+		if ((samples == 3) || (samples == 4)) {
+			;
+		}
 	}
-#endif /* 0 */
-	if( scaled_width == tex->width && scaled_height == tex->height ) {
-		memcpy( scaled, data, tex->width * tex->height * tex->bytes );
+#elif 1 || __clang_analyzer__
+	if (tex->bytes < 4) {
+		scan = ((PW8)data) + 3;
+		/* dummy condition to use 'scan': */
+		if (*scan != 255) {
+			;
+		}
+	}
+#endif /* (0 || 1) || __clang_analyzer__ */
+	if ((scaled_width == tex->width) && (scaled_height == tex->height)) {
+		memcpy(scaled, data, (tex->width * tex->height * tex->bytes));
 	} else {
-		TM_ResampleTexture( data, tex->width, tex->height, scaled, scaled_width, scaled_height, tex->bytes, INTERPOLATION_NONE );
+		TM_ResampleTexture(data, tex->width, tex->height, scaled, scaled_width,
+						   scaled_height, (W8)tex->bytes, INTERPOLATION_NONE);
 	}
 
 
 	/* upload base image */
-	pfglTexImage2D( GL_TEXTURE_2D, 0, comp, scaled_width, scaled_height, 0, tex->bytes == 4 ? GL_RGBA : GL_RGB, GL_UNSIGNED_BYTE, scaled );
-
+	pfglTexImage2D(GL_TEXTURE_2D, 0, comp, scaled_width, scaled_height, 0,
+				   tex->bytes == 4 ? GL_RGBA : GL_RGB, GL_UNSIGNED_BYTE,
+				   scaled);
 
 	/* upload mipmaps if required */
-	if( tex->MipMap ) {
+	if (tex->MipMap) {
 		int miplevel = 1;
 
-		while( TM_MipMap( scaled, &scaled_width, &scaled_height, tex->bytes ) ) {
-			pfglTexImage2D( GL_TEXTURE_2D, miplevel++, tex->bytes, scaled_width, scaled_height, 0, tex->bytes == 4 ? GL_RGBA : GL_RGB, GL_UNSIGNED_BYTE, scaled );
+		while (TM_MipMap(scaled, &scaled_width, &scaled_height, tex->bytes)) {
+			pfglTexImage2D(GL_TEXTURE_2D, miplevel++, tex->bytes,
+						   scaled_width, scaled_height, 0,
+						   tex->bytes == 4 ? GL_RGBA : GL_RGB, GL_UNSIGNED_BYTE,
+						   scaled);
 		}
 	}
 
@@ -289,20 +306,30 @@ PUBLIC _boolean R_UploadTexture( texture_t *tex, PW8 data )
 
 
 	if( tex->isTextureCube ) {
-		pfglTexParameteri( GL_TEXTURE_CUBE_MAP_ARB, GL_TEXTURE_WRAP_S, WrapToGL( tex->WrapS ) );
-		pfglTexParameteri( GL_TEXTURE_CUBE_MAP_ARB, GL_TEXTURE_WRAP_T, WrapToGL( tex->WrapT ) );
-		pfglTexParameteri( GL_TEXTURE_CUBE_MAP_ARB, GL_TEXTURE_WRAP_R, WrapToGL( tex->WrapR ) );
-		pfglTexParameteri( GL_TEXTURE_CUBE_MAP_ARB, GL_TEXTURE_MIN_FILTER, MinFilterToGL( tex->MipMap, tex->MinFilter ) );
-		pfglTexParameteri( GL_TEXTURE_CUBE_MAP_ARB, GL_TEXTURE_MAG_FILTER, MagFilterToGL( tex->MagFilter ) );
+		pfglTexParameteri(GL_TEXTURE_CUBE_MAP_ARB, GL_TEXTURE_WRAP_S,
+						  (GLint)WrapToGL(tex->WrapS));
+		pfglTexParameteri(GL_TEXTURE_CUBE_MAP_ARB, GL_TEXTURE_WRAP_T,
+						  (GLint)WrapToGL(tex->WrapT));
+		pfglTexParameteri(GL_TEXTURE_CUBE_MAP_ARB, GL_TEXTURE_WRAP_R,
+						  (GLint)WrapToGL(tex->WrapR));
+		pfglTexParameteri(GL_TEXTURE_CUBE_MAP_ARB, GL_TEXTURE_MIN_FILTER,
+						  (GLint)MinFilterToGL(tex->MipMap, tex->MinFilter));
+		pfglTexParameteri(GL_TEXTURE_CUBE_MAP_ARB, GL_TEXTURE_MAG_FILTER,
+						  (GLint)MagFilterToGL(tex->MagFilter));
 	} else {
-		pfglTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, WrapToGL( tex->WrapS ) );
-		pfglTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, WrapToGL( tex->WrapT ) );
-		pfglTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, MinFilterToGL( tex->MipMap, tex->MinFilter ) );
-		pfglTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, MagFilterToGL( tex->MagFilter ) );
+		pfglTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S,
+						  (GLint)WrapToGL(tex->WrapS));
+		pfglTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T,
+						  (GLint)WrapToGL(tex->WrapT));
+		pfglTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,
+						  (GLint)MinFilterToGL(tex->MipMap, tex->MinFilter));
+		pfglTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER,
+						  (GLint)MagFilterToGL(tex->MagFilter));
 	}
 
-	if( gl_ext.EXTTextureFilterAnisotropic ) {
-		pfglTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT, gl_ext.nMaxAnisotropy );
+	if (gl_ext.EXTTextureFilterAnisotropic) {
+		pfglTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT,
+						  gl_ext.nMaxAnisotropy);
 	}
 
 	return true;
@@ -338,13 +365,14 @@ PUBLIC void R_DeleteTexture( unsigned int texnum )
 
 -----------------------------------------------------------------------------
 */
-PUBLIC void R_TexEnv( GLenum mode )
+PUBLIC void R_TexEnv(GLenum mode)
+/* should 'mode' really be of type 'GLenum'? I always have to cast it... */
 {
-	static int lastmodes[ 4 ] = { -1, -1, -1, -1 };
+	static int lastmodes[4] = { -1, -1, -1, -1 };
 
-	if ( mode != lastmodes[ currenttmu ] ) {
-		pfglTexEnvi( GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, mode );
-		lastmodes[ currenttmu ] = mode;
+	if ((int)mode != lastmodes[currenttmu]) {
+		pfglTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, (GLint)mode);
+		lastmodes[currenttmu] = (int)mode;
 	}
 }
 
@@ -403,16 +431,16 @@ PUBLIC void R_SelectTexture( GLenum texture )
 
 -----------------------------------------------------------------------------
 */
-PUBLIC void R_Bind( int texnum )
+PUBLIC void R_Bind(int texnum)
 {
 	/* Is this texture already bound? */
-	if( currentTextures[ currenttmu ] == texnum ) {
+	if (currentTextures[currenttmu] == texnum) {
 		return;
 	}
 
-	currentTextures[ currenttmu ] = texnum;
+	currentTextures[currenttmu] = texnum;
 
-	pfglBindTexture( GL_TEXTURE_2D, texnum );
+	pfglBindTexture(GL_TEXTURE_2D, (GLuint)texnum);
 }
 
 /*

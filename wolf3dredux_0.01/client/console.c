@@ -72,10 +72,11 @@ colour3_t colourconLLGray = { 192, 192, 192 };
 
 -----------------------------------------------------------------------------
 */
-PRIVATE void DrawString( int x, int y, char *s )
+PRIVATE void DrawString(int x, int y, char *s)
 {
-	Font_put_line( FONT0, x, y, s );
+	Font_put_line(FONT0, x, y, s);
 }
+
 
 /*
 -----------------------------------------------------------------------------
@@ -89,9 +90,9 @@ PRIVATE void DrawString( int x, int y, char *s )
 
 -----------------------------------------------------------------------------
 */
-void Key_ClearTyping( void )
+void Key_ClearTyping(void)
 {
-	key_lines[ edit_line ][ 1 ] = 0;	/* clear any typing */
+	key_lines[edit_line][1] = 0;	/* clear any typing */
 	key_linepos = 1;
 }
 

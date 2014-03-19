@@ -178,14 +178,14 @@ void Font_Init( void )
 		myfonts[ i ] = NULL;
 	}
 
-	(void)createFont( "pics/font1.tga" );
+	(void)createFont("pics/font1.tga");
 
 
-	(void)createFont( "pics/font2.tga" );
+	(void)createFont("pics/font2.tga");
 
 }
 
-void Font_Shutdown( void )
+void Font_Shutdown(void)
 {
 	;
 /* TODO: actually put something here? */

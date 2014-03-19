@@ -65,29 +65,27 @@ dirty_t	scr_dirty, scr_old_dirty[ 2 ];
 
 -----------------------------------------------------------------------------
 */
-PUBLIC void Client_Screen_RunConsole( void )
+PUBLIC void Client_Screen_RunConsole(void)
 {
 	/* decide on the height of the console */
-	if( ClientStatic.key_dest == key_console )
-	{
+	if (ClientStatic.key_dest == key_console) {
 		scr_conlines = 0.5;		/* half screen */
 	} else {
 		scr_conlines = 0;		/* none visible */
 	}
 
-	if( scr_conlines < scr_con_current ) {
-		scr_con_current -= scr_conspeed->value * ClientStatic.frametime;
-		if( scr_conlines > scr_con_current ) {
+	if (scr_conlines < scr_con_current) {
+		scr_con_current -= (scr_conspeed->value * ClientStatic.frametime);
+		if (scr_conlines > scr_con_current) {
 			scr_con_current = scr_conlines;
 		}
 
-	} else if( scr_conlines > scr_con_current ) {
-		scr_con_current += scr_conspeed->value * ClientStatic.frametime;
-		if( scr_conlines < scr_con_current ) {
+	} else if (scr_conlines > scr_con_current) {
+		scr_con_current += (scr_conspeed->value * ClientStatic.frametime);
+		if (scr_conlines < scr_con_current) {
 			scr_con_current = scr_conlines;
 		}
 	}
-
 }
 
 /*
@@ -102,7 +100,7 @@ PUBLIC void Client_Screen_RunConsole( void )
 
 -----------------------------------------------------------------------------
 */
-PUBLIC void Client_Screen_DrawConsole( void )
+PUBLIC void Client_Screen_DrawConsole(void)
 {
 	Con_CheckResize();
 
@@ -117,15 +115,15 @@ PUBLIC void Client_Screen_DrawConsole( void )
 		/* connected, but cannot render */
 		Con_DrawConsole(0.5);
 		R_Draw_Fill(0, (viddef.height >> 1), (int)viddef.width,
-					(viddef.height >> 1), colourBlack );
+					(viddef.height >> 1), colourBlack);
 		return;
 	}
 
 	if( scr_con_current ) {
 		Con_DrawConsole( scr_con_current );
 	} else {
-		if( ClientStatic.key_dest == key_game || ClientStatic.key_dest == key_message )
-		{
+		if ((ClientStatic.key_dest == key_game) ||
+			(ClientStatic.key_dest == key_message)) {
 			Con_DrawNotify(); /* only draw notify in game */
 		}
 	}
@@ -146,26 +144,22 @@ PUBLIC void Client_Screen_DrawConsole( void )
 
 -----------------------------------------------------------------------------
 */
-PUBLIC void SCR_AddDirtyPoint( int x, int y )
+PUBLIC void SCR_AddDirtyPoint(int x, int y)
 {
-	if( x < scr_dirty.x1 )
-	{
+	if (x < scr_dirty.x1) {
 		scr_dirty.x1 = x;
 	}
 
-	if( x > scr_dirty.x2 )
-	{
+	if (x > scr_dirty.x2) {
 		scr_dirty.x2 = x;
 	}
 
 
-	if( y < scr_dirty.y1 )
-	{
+	if (y < scr_dirty.y1) {
 		scr_dirty.y1 = y;
 	}
 
-	if( y > scr_dirty.y2 )
-	{
+	if (y > scr_dirty.y2) {
 		scr_dirty.y2 = y;
 	}
 }
@@ -182,12 +176,11 @@ PUBLIC void SCR_AddDirtyPoint( int x, int y )
 
 -----------------------------------------------------------------------------
 */
-
-PUBLIC void SCR_DirtyScreen( void )
+PUBLIC void SCR_DirtyScreen(void)
 {
 #if 0
-	SCR_AddDirtyPoint( 0, 0 );
-	SCR_AddDirtyPoint( viddef.width - 1, viddef.height - 1 );
+	SCR_AddDirtyPoint(0, 0);
+	SCR_AddDirtyPoint((viddef.width - 1), (viddef.height - 1));
 #endif /* 0 */
 }
 
@@ -205,10 +198,9 @@ PUBLIC void SCR_DirtyScreen( void )
 
 -----------------------------------------------------------------------------
 */
-PUBLIC void Client_Screen_Init( void )
+PUBLIC void Client_Screen_Init(void)
 {
-	scr_conspeed = Cvar_Get( "scr_conspeed", "3", CVAR_INIT );
-
+	scr_conspeed = Cvar_Get("scr_conspeed", "3", CVAR_INIT);
 
 	scr_initialized = true;
 }

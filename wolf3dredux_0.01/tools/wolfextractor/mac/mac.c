@@ -80,32 +80,32 @@ PRIVATE FILE *fResHandle;
  Notes: Caller is responsible for freeing memory block.
 -----------------------------------------------------------------------------
 */
-PRIVATE W8 *getResourceBlock( W32 offset, W32 length, W32 *glen )
+PRIVATE W8 *getResourceBlock(W32 offset, W32 length, W32 *glen)
 {
 	W8 *buf;
 
-	fseek( fResHandle, offset, SEEK_SET );
+	fseek(fResHandle, (long)(offset), SEEK_SET);
 
-	buf = (PW8)MM_MALLOC( length );
-	if( buf == NULL ) {
-		printf( "could not malloc data\n" );
-
-		return NULL;
-	}
-
-	if( fread( buf, 1, length, fResHandle ) != length ) {
-		printf( "read error on resource file\n" );
+	buf = (PW8)MM_MALLOC(length);
+	if (buf == NULL) {
+		printf("getResourceBlock(): could not malloc data\n");
 
 		return NULL;
 	}
 
-	if( fread( glen, 1, 4, fResHandle ) != 4 ) {
-		printf( "read error on resource file\n" );
+	if (fread(buf, 1, length, fResHandle) != length) {
+		printf("getResourceBlock(): read error on resource file\n");
 
 		return NULL;
 	}
 
-	*glen = BigLong( *glen );
+	if (fread( glen, 1, 4, fResHandle) != 4) {
+		printf("getResourceBlock(): read error on resource file\n" );
+
+		return NULL;
+	}
+
+	*glen = BigLong(*glen);
 
 	return buf;
 }
@@ -253,7 +253,7 @@ PRIVATE void DecodeBJMapImage( W32 offset, W32 length )
 
 }
 
-PRIVATE void DecodeBJIntermImages( W32 offset, W32 length )
+PRIVATE void DecodeBJIntermImages(W32 offset, W32 length)
 {
 	W32 *ptrResource;
 	W32 uncomprLength;
@@ -262,44 +262,45 @@ PRIVATE void DecodeBJIntermImages( W32 offset, W32 length )
 	W16 *ptr;
 	int width, height, i;
 	W32 junk;
-	char filename[ 32 ];
+	char filename[32];
 
-	ptrResource = (PW32)getResourceBlock( offset, length, &junk );
-	if( ! ptrResource ) {
+	ptrResource = (PW32)getResourceBlock(offset, length, &junk);
+	if (! ptrResource) {
 		return;
 	}
 
-	uncomprLength = BigLong( ptrResource[ 0 ] );
+	uncomprLength = BigLong(ptrResource[0]);
 
-	uncompr = (PW8)MM_MALLOC( uncomprLength );
+	uncompr = (PW8)MM_MALLOC(uncomprLength);
 
-	Decode_LZSS( uncompr, (PW8)&ptrResource[ 1 ], uncomprLength );
+	Decode_LZSS(uncompr, (PW8)&ptrResource[1], uncomprLength);
 
-	MM_FREE( ptrResource );
+	MM_FREE(ptrResource);
 
-	memcpy( indexs, uncompr, 12 );
+	memcpy(indexs, uncompr, 12);
 
-	indexs[ 0 ] = BigLong( indexs[ 0 ] );
-	indexs[ 1 ] = BigLong( indexs[ 1 ] );
-	indexs[ 2 ] = BigLong( indexs[ 2 ] );
+	indexs[0] = BigLong(indexs[0]);
+	indexs[1] = BigLong(indexs[1]);
+	indexs[2] = BigLong(indexs[2]);
 
 
-	buffer = MM_MALLOC( 256 * 256 * 3 );
-	for( i = 0 ; i < 3 ; ++i ) {
-		ptr = (PW16)&uncompr[ indexs[ i ]  ];
-		width = BigShort( ptr[ 0 ] );
-		height = BigShort( ptr[ 1 ] );
+	buffer = MM_MALLOC(256 * 256 * 3);
+	for ((i = 0); (i < 3); ++i) {
+		ptr = (PW16)&uncompr[indexs[i]];
+		width = BigShort(ptr[0]);
+		height = BigShort(ptr[1]);
 
-		ConvertPaletteToRGB( buffer, (PW8)&ptr[ 2 ], width * height, macPalette );
+		ConvertPaletteToRGB(buffer, (PW8)&ptr[2], (W32)(width * height),
+							macPalette);
 
-		cs_snprintf( filename, sizeof( filename ), "%s/bj%d.tga", DIRPATHPICS, i );
+		cs_snprintf(filename, sizeof(filename), "%s/bj%d.tga", DIRPATHPICS, i);
 
-		WriteTGA( filename, 24, width, height, buffer, 0, 1 );
+		WriteTGA(filename, 24, (W16)(width), (W16)(height), buffer, 0, 1);
 	}
 
-	MM_FREE( buffer );
+	MM_FREE(buffer);
 
-	MM_FREE( uncompr );
+	MM_FREE(uncompr);
 }
 
 /*
@@ -316,7 +317,7 @@ PRIVATE void DecodeBJIntermImages( W32 offset, W32 length )
  Notes:
 -----------------------------------------------------------------------------
 */
-PRIVATE void DecodeScreen( W32 offset, W32 length, const char *filename )
+PRIVATE void DecodeScreen(W32 offset, W32 length, const char *filename)
 {
 	W8 *ptrResource;
 	W32 uncomprLength;
@@ -325,28 +326,28 @@ PRIVATE void DecodeScreen( W32 offset, W32 length, const char *filename )
 	W8 *buffer;
 	W32 junk;
 
-	ptrResource = getResourceBlock( offset, length, &junk );
-	if( ! ptrResource ) {
+	ptrResource = getResourceBlock(offset, length, &junk);
+	if (! ptrResource) {
 		return;
 	}
 
-	uncomprLength = BigLong( *((PW32)ptrResource) );
-	uncompr = (PW16)MM_MALLOC( uncomprLength );
+	uncomprLength = BigLong(*((PW32)ptrResource));
+	uncompr = (PW16)MM_MALLOC(uncomprLength);
 
-	Decode_LZSS( (PW8)uncompr, ptrResource+4, uncomprLength );
+	Decode_LZSS((PW8)uncompr, (ptrResource + 4), uncomprLength);
 
-	width = BigShort( uncompr[ 0 ] );
-	height = BigShort( uncompr[ 1 ] );
+	width = (W16)BigShort(uncompr[0]);
+	height = (W16)BigShort(uncompr[1]);
 
-	buffer = MM_MALLOC( width * height * 3 );
+	buffer = MM_MALLOC(width * height * 3);
 
-	ConvertPaletteToRGB( buffer, (PW8)&uncompr[ 2 ], width * height, macPalette );
+	ConvertPaletteToRGB(buffer, (PW8)&uncompr[2], (width * height), macPalette);
 
-	WriteTGA( filename, 24, width, height, buffer, 0, 1 );
+	WriteTGA(filename, 24, width, height, buffer, 0, 1);
 
-	MM_FREE( buffer );
-    MM_FREE( uncompr );
-	MM_FREE( ptrResource );
+	MM_FREE(buffer);
+    MM_FREE(uncompr);
+	MM_FREE(ptrResource);
 }
 
 
@@ -545,7 +546,8 @@ typedef struct
  Notes:
 -----------------------------------------------------------------------------
 */
-PRIVATE void DecodeSprite( W32 offset, W32 length, W32 *retval, const char *filename )
+PRIVATE void DecodeSprite(W32 offset, W32 length, W32 *retval,
+						  const char *filename)
 {
 	W8 *ptrResource;
 	W32 uncomprLength;
@@ -554,48 +556,59 @@ PRIVATE void DecodeSprite( W32 offset, W32 length, W32 *retval, const char *file
 	W16 *ptr;
 	int i, x, width, noffset;
 
-	ptrResource = getResourceBlock( offset, length, retval );
-	if( ! ptrResource )
-	{
+	ptrResource = getResourceBlock(offset, length, retval);
+	if (! ptrResource) {
 		return;
 	}
 
-	uncomprLength = ptrResource[ 0 ];
-	uncomprLength |= ptrResource[ 1 ] << 8;
+	uncomprLength = ptrResource[0];
+	uncomprLength |= (unsigned long)(ptrResource[1] << 8);
 
-	uncompr = (PW8)MM_MALLOC( uncomprLength );
-	Decode_LZSS( uncompr, ptrResource+2, uncomprLength );
+	uncompr = (PW8)MM_MALLOC(uncomprLength);
+	Decode_LZSS(uncompr, ptrResource+2, uncomprLength);
 
 
 	buffer = (W8 *)MM_MALLOC(128 * 128 * 4);
-	memset( buffer, 0, 128 * 128 * 4 );
+	memset(buffer, 0, (128 * 128 * 4));
 
 
 	ptr = (PW16)uncompr;
 
-	width = BigShort( ptr[ 0 ] );
+	width = BigShort(ptr[0]);
 
-	noffset = 64 - width / 2;
-	for( x = 0 ; x < width ; ++x ) {
-		spriteRun *p = (spriteRun *)&ptr[ BigShort( ptr[ x + 1 ] ) / 2 ];
+	noffset = (64 - (width / 2));
+	for ((x = 0); (x < width); ++x ) {
+		spriteRun *p = (spriteRun *)&ptr[ BigShort(ptr[(x + 1)]) / 2];
 
-		while( p->Topy != 0xFFFF ) {
-			for( i = BigShort( p->Topy ) / 2; i < BigShort( p->Boty ) / 2; ++i ) {
-				*(buffer + (i * 128 + x + noffset) * 4 + 0) = macPalette[ uncompr[ BigShort( p->Shape ) + BigShort( p->Topy ) / 2 + (i - BigShort( p->Topy ) / 2) ] * 3 + 0 ];
-				*(buffer + (i * 128 + x + noffset) * 4 + 1) = macPalette[ uncompr[ BigShort( p->Shape ) + BigShort( p->Topy ) / 2 + (i - BigShort( p->Topy ) / 2) ] * 3 + 1 ];
-				*(buffer + (i * 128 + x + noffset) * 4 + 2) = macPalette[ uncompr[ BigShort( p->Shape ) + BigShort( p->Topy ) / 2 + (i - BigShort( p->Topy ) / 2) ] * 3 + 2 ];
-				*(buffer + (i * 128 + x + noffset) * 4 + 3) = 255;
+		while (p->Topy != 0xFFFF) {
+			for ((i = (BigShort(p->Topy) / 2)); (i < (BigShort(p->Boty) / 2)); ++i) {
+				*(buffer + (((i * 128) + x + noffset) * 4) + 0) =
+				(macPalette[(((uncompr[(BigShort(p->Shape) +
+										(BigShort(p->Topy) / 2) +
+										(i - BigShort(p->Topy) / 2))])
+							  * 3) + 0)]);
+				*(buffer + (((i * 128) + x + noffset) * 4) + 1) =
+				(macPalette[(((uncompr[(BigShort(p->Shape) +
+										(BigShort(p->Topy) / 2) +
+										(i - BigShort(p->Topy) / 2))])
+							  * 3) + 1)]);
+				*(buffer + (((i * 128) + x + noffset) * 4) + 2) =
+				(macPalette[(((uncompr[(BigShort(p->Shape) +
+										(BigShort(p->Topy) / 2) +
+										(i - BigShort(p->Topy) / 2))])
+							  * 3) + 2)]);
+				*(buffer + (((i * 128) + x + noffset) * 4) + 3) = 255;
 			}
 			p++;
 		}
 	}
 
 
-	WriteTGA( filename, 32, 128, 128, buffer, 0, 1 );
+	WriteTGA(filename, 32, 128, 128, buffer, 0, 1);
 
-	MM_FREE( buffer );
-    MM_FREE( uncompr );
-	MM_FREE( ptrResource );
+	MM_FREE(buffer);
+    MM_FREE(uncompr);
+	MM_FREE(ptrResource);
 }
 
 
@@ -719,7 +732,7 @@ PRIVATE W8 *DecodeItem( W8 *data, W8 *pal )
  Notes:
 -----------------------------------------------------------------------------
 */
-PRIVATE void RipItems( void )
+PRIVATE void RipItems(void)
 {
 	W8 *ptrResource;
 	W8 *ptrDst;
@@ -729,7 +742,7 @@ PRIVATE void RipItems( void )
 	W32 junk;
 	W32 uncomprLength;
 	int i;
-	char name[ 256 ];
+	char name[256];
 	W16 *ptrShape1;
 	W8 *ptrShape2;
 	W16 width, height;
@@ -737,55 +750,52 @@ PRIVATE void RipItems( void )
 	W32 length = 67453L;
 
 
-	ptrResource = (PW8)getResourceBlock( offset, length, &junk );
+	ptrResource = (PW8)getResourceBlock(offset, length, &junk);
 
-	uncomprLength = BigLong( *((PW32)ptrResource) );
-	gameItems = (W8 **)MM_MALLOC( uncomprLength );
+	uncomprLength = BigLong(*((PW32)ptrResource));
+	gameItems = (W8 **)MM_MALLOC(uncomprLength);
 
-	Decode_LZSS( (PW8)gameItems, ptrResource+4, uncomprLength );
+	Decode_LZSS((PW8)gameItems, (ptrResource + 4), uncomprLength);
 
-	MM_FREE( ptrResource );
+	MM_FREE(ptrResource);
 
 	ptrLong = (PW32)gameItems;
 	ptrDst = (PW8)gameItems;
-	for( i = 0; i < 47; ++i )
-	{
-		uncomprLength = BigLong( ptrLong[ i ] );
-		gameItems[ i ] = ptrDst + uncomprLength;
+	for ((i = 0); (i < 47); ++i ) {
+		uncomprLength = BigLong(ptrLong[i]);
+		gameItems[i] = (ptrDst + uncomprLength);
 	}
 
-	for( i = 0 ; i < 6 * 4 ; ++i )
-	{
-		cs_snprintf( name, sizeof( name ), "%s/weapon%.2d.tga", DIRPATHPICS, i );
-		buffer = DecodeItem( gameItems[ 12 + i ], macPalette );
-		WriteTGA( name, 32, 128, 128, buffer, 0, 1 );
+	for ((i = 0); (i < (6 * 4)); ++i) {
+		cs_snprintf(name, sizeof(name), "%s/weapon%.2d.tga", DIRPATHPICS, i);
+		buffer = DecodeItem(gameItems[(12 + i)], macPalette);
+		WriteTGA(name, 32, 128, 128, buffer, 0, 1);
 
-		MM_FREE( buffer );
+		MM_FREE(buffer);
 	}
 
-	for( i = 0 ; i < 47 ; ++i )
-	{
-		ptrShape1 = (PW16)gameItems[ i ];
-		width = BigShort( ptrShape1[ 0 ] );
-		height = BigShort( ptrShape1[ 1 ] );
-		ptrShape2 = (PW8)&ptrShape1[ 2 ];
+	for ((i = 0); (i < 47); ++i) {
+		ptrShape1 = (PW16)gameItems[i];
+		width = (W16)BigShort(ptrShape1[0]);
+		height = (W16)BigShort(ptrShape1[1]);
+		ptrShape2 = (PW8)&ptrShape1[2];
 
-		buffer = MM_MALLOC( width * height * 3 );
+		buffer = MM_MALLOC(width * height * 3);
 
-		ConvertPaletteToRGB( buffer, ptrShape2, width * height, macPalette );
+		ConvertPaletteToRGB(buffer, ptrShape2, (width * height), macPalette);
 
-		cs_snprintf( name, sizeof( name ), "%s/%.2d.tga", DIRPATHPICS, i );
-		WriteTGA( name, 24, width, height, buffer, 0, 1 );
+		cs_snprintf(name, sizeof(name), "%s/%.2d.tga", DIRPATHPICS, i);
+		WriteTGA(name, 24, width, height, buffer, 0, 1);
 
-		MM_FREE( buffer );
+		MM_FREE(buffer);
 
 		/* Skip over weapon frames */
-		if( 11 == i ) {
+		if (11 == i) {
 			i = 35;
 		}
 	}
 
-	MM_FREE( gameItems );
+	MM_FREE(gameItems);
 }
 
 /*******************************************************************

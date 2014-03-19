@@ -56,11 +56,11 @@
 
 #define TGA_HEADER_SIZE		18
 
-PRIVATE W8 *p_buf;	/* current pointer to tga data block */
+PRIVATE W8 *p_buf;	/* current pointer to tga data block (unused?) */
 
 
  /* TRUEVISION-XFILE magic signature string */
-static W8 magic[ 18 ] =
+static W8 magic[18] =
 {
   0x54, 0x52, 0x55, 0x45, 0x56, 0x49, 0x53, 0x49, 0x4f,
   0x4e, 0x2d, 0x58, 0x46, 0x49, 0x4c, 0x45, 0x2e, 0x0
@@ -131,19 +131,19 @@ PRIVATE void upsample(W8 *dest, W8 *src,
 {
 	W32 x;
 
-	for( x = 0 ; x < width ; ++x ) {
+	for ((x = 0); (x < width); ++x) {
 		dest[0] =  ((src[1] << 1) & 0xf8);
 		dest[0] += (dest[0] >> 5);
 
-		dest[1] =  ((src[0] & 0xe0) >> 2) + ((src[1] & 0x03) << 6);
+		dest[1] =  (W8)(((src[0] & 0xe0) >> 2) + ((src[1] & 0x03) << 6));
 		dest[1] += (dest[1] >> 5);
 
 		dest[2] =  ((src[0] << 3) & 0xf8);
 		dest[2] += (dest[2] >> 5);
 
-		switch( alphaBits ) {
+		switch (alphaBits) {
 			case 1:
-				dest[ 3 ] = (src[ 1 ] & 0x80) ? 0 : 255;
+				dest[3] = ((src[1] & 0x80) ? 0 : 255);
 				dest += 4;
 				break;
 
@@ -271,7 +271,9 @@ PUBLIC void LoadTGA( const char *filename, W8 **pic, W16 *width, W16 *height, W1
 	int i;
 	SW32 datalength;
 	filehandle_t *hFile;
-
+	struct _TGA the_TGA;
+	/* use tga_error_strings[] global variable in this file: */
+	the_TGA.error_string = tga_error_strings[0];
 
 
 	*pic = NULL;
@@ -338,8 +340,7 @@ PUBLIC void LoadTGA( const char *filename, W8 **pic, W16 *width, W16 *height, W1
 	targa_header.idLength = header[ 0 ];
 	targa_header.colorMapType = header[ 1 ];
 
-	switch( header[ 2 ] )
-    {
+	switch (header[2]) {
 		case 1:
 		  targa_header.imageType = TGA_TYPE_MAPPED;
 		  targa_header.imageCompression = TGA_COMP_NONE;
@@ -556,24 +557,24 @@ TGALOADFAILED:
  Notes:
 -----------------------------------------------------------------------------
 */
-PRIVATE void rle_write( FILE   *fp,
-						W8	*buffer,
-						W32	width,
-						W32	bytes )
+PRIVATE void rle_write(FILE *fp, W8 *buffer, W32 width, W32 bytes)
 {
-	SW32    repeat = 0;
-	SW32    direct = 0;
-	W8	 *from   = buffer;
-	W32    x;
+	SW32    repeat;
+	SW32    direct;
+	W8		*from;
+	W32		x;
 
-	for( x = 1 ; x < width ; ++x )
-	{
-		if( memcmp( buffer, buffer + bytes, bytes ) ) {
+	repeat = 0;
+	direct = 0;
+	from = buffer;
+
+	for ((x = 1); (x < width); ++x ) {
+		if (memcmp(buffer, (buffer + bytes), bytes)) {
 			/* next pixel is different */
-			if( repeat ) {
-				putc( 128 + repeat, fp );
-				fwrite( from, bytes, 1, fp );
-				from = buffer + bytes; /* point to first different pixel */
+			if (repeat) {
+				putc((int)(128 + repeat), fp);
+				fwrite(from, bytes, 1, fp);
+				from = (buffer + bytes); /* point to first different pixel */
 				repeat = 0;
 				direct = 0;
 			} else {
@@ -581,9 +582,9 @@ PRIVATE void rle_write( FILE   *fp,
 			}
 		} else {
 			/* next pixel is the same */
-			if( direct ) {
-				putc( direct - 1, fp );
-				fwrite( from, bytes, direct, fp );
+			if (direct) {
+				putc((int)(direct - 1), fp);
+				fwrite(from, bytes, (size_t)direct, fp);
 				from = buffer; /* point to first identical pixel */
 				direct = 0;
 				repeat = 1;
@@ -592,15 +593,15 @@ PRIVATE void rle_write( FILE   *fp,
 			}
 		}
 
-		if( repeat == 128 ) {
-			putc( 255, fp );
-			fwrite( from, bytes, 1, fp );
-			from = buffer + bytes;
+		if (repeat == 128) {
+			putc(255, fp);
+			fwrite(from, bytes, 1, fp);
+			from = (buffer + bytes);
 			direct = 0;
 			repeat = 0;
-		} else if( direct == 128 ) {
-			putc( 127, fp );
-			fwrite( from, bytes, direct, fp );
+		} else if (direct == 128) {
+			putc(127, fp);
+			fwrite(from, bytes, (size_t)direct, fp);
 			from = buffer + bytes;
 			direct = 0;
 			repeat = 0;
@@ -609,12 +610,12 @@ PRIVATE void rle_write( FILE   *fp,
 		buffer += bytes;
     }
 
-	if( repeat > 0 ) {
-		putc( 128 + repeat, fp );
+	if (repeat > 0) {
+		putc((int)(128 + repeat), fp);
 		fwrite( from, bytes, 1, fp );
 	} else {
-		putc( direct, fp );
-		fwrite( from, bytes, direct + 1, fp );
+		putc((int)direct, fp);
+		fwrite(from, bytes, (size_t)(direct + 1), fp);
 	}
 }
 
@@ -653,73 +654,72 @@ PUBLIC W8 loaders_WriteTGA(const char *filename, W16 bpp, W16 width, W16 height,
 {
     W16	i, x, y, BytesPerPixel;
 	W8	*scanline;
-	W8 header[ 18 ];
+	W8 header[18];
 	FILE *filestream;
-	W8 *ptr = (PW8) Data;
+	W8 *ptr = (PW8)Data;
 	W8 temp;
 
-	BytesPerPixel = bpp >> 3;
+	BytesPerPixel = (bpp >> 3);
 
-	filestream = fopen( filename, "wb" );
-    if( filestream == NULL ) {
-		Com_DPrintf( "Could not open file (%s) for write!\n", filename );
+	filestream = fopen(filename, "wb");
+    if (filestream == NULL) {
+		Com_DPrintf("Could not open file (%s) for write!\n", filename);
 		return 0;
 	}
 
-	memset( header, 0, 18 );
-    header[2] = rle ? 10 : 2;
+	memset(header, 0, 18);
+    header[2] = (rle ? 10 : 2);
 
-    header[12] = width & 255;	/* width low */
-    header[13] = width >> 8;	/* width high */
+    header[12] = (width & 255);	/* width low */
+    header[13] = (width >> 8);	/* width high */
 
-    header[14] = height & 255;	/* height low */
-    header[15] = height >> 8;	/* height high */
+    header[14] = (height & 255); /* height low */
+    header[15] = (height >> 8);	/* height high */
 
-    header[16] = bpp & 255;	/* pixel size */
+    header[16] = (bpp & 255);	/* pixel size */
 
-    if( upsideDown ) {
-		header[17] |= 1 << 5; /* Image Descriptor */
+    if (upsideDown) {
+		header[17] |= (1 << 5); /* Image Descriptor */
     }
 
 
-	fwrite( header, sizeof( W8 ), sizeof( header ), filestream  );
+	fwrite(header, sizeof(W8), sizeof(header), filestream);
 
 
-	scanline = (PW8) MM_MALLOC( width * BytesPerPixel );
-    if( scanline == NULL ) {
-		fclose( filestream );
+	scanline = (PW8)MM_MALLOC(width * BytesPerPixel);
+    if (scanline == NULL) {
+		fclose(filestream);
 
 		return 0;
 	}
 
-	for( y = 0; y < height; ++y ) {
+	for ((y = 0); (y < height); ++y) {
 		W32 k = 0;
 
-		for( i = 0; i < (width * BytesPerPixel); ++i )
-		{
-			scanline[ k++ ] = ptr[ (height - y - 1) * width * BytesPerPixel + i ];
+		for ((i = 0); (i < (width * BytesPerPixel)); ++i) {
+			scanline[k++] = ptr[((height - y - 1) * width * BytesPerPixel + i)];
 		}
 
 
-		if( bpp == 24 || bpp == 32 ) {
+		if ((bpp == 24) || (bpp == 32)) {
 			/* swap rgb to bgr */
-			for( x = 0; x < (width * BytesPerPixel); x += BytesPerPixel ) {
-				temp = scanline[ x ];
-				scanline[ x ] = scanline[ x + 2 ];
-				scanline[ x + 2 ] = temp;
+			for ((x = 0); (x < (width * BytesPerPixel)); x += BytesPerPixel) {
+				temp = scanline[x];
+				scanline[x] = scanline[(x + 2)];
+				scanline[(x + 2)] = temp;
 			}
 		}
 
-		if( rle ) {
-			rle_write( filestream, scanline, width, BytesPerPixel );
+		if (rle) {
+			rle_write(filestream, scanline, width, BytesPerPixel);
 		} else {
-			fwrite( scanline, sizeof( W8 ), width * BytesPerPixel, filestream );
+			fwrite(scanline, sizeof(W8), (width * BytesPerPixel), filestream);
 		}
 	}
 
-    MM_FREE( scanline );
+    MM_FREE(scanline);
 
-    fclose( filestream );
+    fclose(filestream);
 
 	return 1;
 }

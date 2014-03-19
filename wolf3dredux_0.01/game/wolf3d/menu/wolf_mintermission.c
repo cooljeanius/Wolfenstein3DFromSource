@@ -510,7 +510,7 @@ PRIVATE void M_Victory_Draw_PageTwo( void )
 
 PRIVATE W16 page = 0;
 
-PRIVATE void M_Victory_Text_Draw( void )
+PRIVATE void M_Victory_Text_Draw(void)
 {
 	if( page == 0 ) {
 		M_Victory_Draw_PageOne();
@@ -520,11 +520,12 @@ PRIVATE void M_Victory_Text_Draw( void )
 }
 
 
-PRIVATE char *M_Victory_Key( int key )
+PRIVATE char *M_Victory_Key(int key)
 {
-	if( nvictory ) {
+	if (nvictory) {
 		M_PopMenu();
-		M_PushMenu( M_Victory_Text_Draw, M_Victory_Key );
+		/* gosh, what an ugly cast: */
+		M_PushMenu(M_Victory_Text_Draw, (const char *(*)(int))M_Victory_Key);
 		nvictory = 0;
 		page = 0;
 		ClientStatic.state = ca_disconnected;

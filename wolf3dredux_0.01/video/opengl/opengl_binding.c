@@ -76,20 +76,19 @@ void *OpenGLLib;
 
 -----------------------------------------------------------------------------
 */
-PUBLIC void OpenGL_Shutdown( void )
+PUBLIC void OpenGL_Shutdown(void)
 {
 
 #ifdef _WIN32
-	if( hinstOpenGL )
-	{
-		FreeLibrary( hinstOpenGL );
+	if (hinstOpenGL) {
+		FreeLibrary(hinstOpenGL);
 		hinstOpenGL = NULL;
 	}
 
 	hinstOpenGL = NULL;
 #elif __unix__ || __APPLE__
-	if( OpenGLLib ) {
-		dlclose( OpenGLLib );
+	if (OpenGLLib) {
+		dlclose(OpenGLLib);
 		OpenGLLib = NULL;
 	}
 
@@ -481,12 +480,12 @@ PUBLIC void OpenGL_Shutdown( void )
 
 
 #ifdef _WIN32
-# define GPA( a ) GetProcAddress( hinstOpenGL, a )
+# define GPA(a) GetProcAddress(hinstOpenGL, a)
 #elif __unix__ || __APPLE__
-# define GPA( a ) dlsym( OpenGLLib, a )
-	void *pfwglGetProcAddress( const char *symbol ) {
-		if( OpenGLLib ) {
-			return GPA( symbol );
+# define GPA(a) dlsym(OpenGLLib, a)
+	void *pfwglGetProcAddress(const char *symbol) {
+		if (OpenGLLib) {
+			return GPA(symbol);
 		}
 
 		return NULL;
@@ -507,32 +506,34 @@ PUBLIC void OpenGL_Shutdown( void )
 
  Notes: This is responsible for binding our gl function pointers to
 		the appropriate OpenGL stuff. In Windows this means doing a
-		LoadLibrary and a bunch of calls to GetProcAddress. On other
+		LoadLibrary and a bunch of calls to GetProcAddress. On Unix-like
+		systems, like GNU/Linux, FreeBSD, and Darwin (i.e. OS X), this means
+		doing a call to dlopen() and a bunch of calls to dlsym(). On other
 		operating systems we need to do the right thing, whatever that
 		might be.
 
 -----------------------------------------------------------------------------
 */
-PUBLIC int OpenGL_Init( const char *dllname )
+PUBLIC int OpenGL_Init(const char *dllname)
 {
 #ifdef _WIN32
-	char buffer[ 1024 ], *ptr;
+	char buffer[1024], *ptr;
 
-	SearchPath( NULL, dllname, NULL, sizeof( buffer ) - 1, buffer, &ptr );
+	SearchPath(NULL, dllname, NULL, (sizeof(buffer) - 1), buffer, &ptr);
 
-	Com_Printf( "...calling LoadLibrary( %s ): ", buffer );
+	Com_Printf("...calling LoadLibrary( %s ): ", buffer);
 
-	if( ( hinstOpenGL = LoadLibrary( dllname ) ) == 0 ) {
+	if ((hinstOpenGL = LoadLibrary(dllname)) == 0) {
 		char *buf = NULL;
 
-		Com_Printf( "failed\n" );
+		Com_Printf("failed\n");
 
-		FormatMessage( FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM,
-						NULL, GetLastError(),
-						MAKELANGID( LANG_NEUTRAL, SUBLANG_DEFAULT ),
-						(LPTSTR) &buf, 0, NULL );
+		FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM,
+					  NULL, GetLastError(),
+					  MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
+					  (LPTSTR)&buf, 0, NULL);
 
-		Com_Printf( "%s\n", buf );
+		Com_Printf("%s\n", buf);
 
 		return 0;
 	}
@@ -589,19 +590,19 @@ PUBLIC int OpenGL_Init( const char *dllname )
 	 * it here, for debugging purposes. It may not quite look the same as what
 	 * is actually being used.
 	 * (e.g., there may be missing colons - see the TODO above) */
-	Com_Printf( "...calling dlopen( %s ) with searchpath %s: ", dllname, allcombinedloadpath );
+	Com_Printf("...calling dlopen( %s ) with searchpath %s: ", dllname, allcombinedloadpath);
 # else
-	Com_Printf( "...calling dlopen( %s ) with searchpath %s: ", dllname, loadpath );
+	Com_Printf("...calling dlopen( %s ) with searchpath %s: ", dllname, loadpath);
 # endif /* __APPLE__ */
 
-	if( ( OpenGLLib = dlopen( dllname, RTLD_LAZY | RTLD_GLOBAL ) ) == 0 ) {
-		Com_Printf( "failed;\n" );
+	if ((OpenGLLib = dlopen(dllname, RTLD_LAZY | RTLD_GLOBAL)) == 0) {
+		Com_Printf("failed;\n");
 
-		Com_Printf( "%s\n", dlerror() );
+		Com_Printf("%s\n", dlerror());
 
-		Com_Printf( "(try checking your LD_LIBRARY_PATH directories.)\n" );
+		Com_Printf("(try checking your LD_LIBRARY_PATH directories.)\n");
 # ifdef __APPLE__
-		Com_Printf( "(Apple users should try checking their DYLD_*_PATH directories as well.)\n" );
+		Com_Printf("(Apple users should try checking their DYLD_*_PATH directories as well.)\n");
 # endif /* __APPLE__ */
 
 		return 0;
@@ -971,19 +972,37 @@ PUBLIC int OpenGL_Init( const char *dllname )
 #elif __unix__ || __APPLE__
 /* __APPLE__ depends on tentative similar preprocessor macro check also existing
  * in "myopengl.h" */
-	if( ! (pfglXChooseVisual             =  GPA("glXChooseVisual")) ) return 0;
-	if( ! (pfglXCreateContext            =  GPA("glXCreateContext")) ) return 0;
-	if( ! (pfglXDestroyContext           =  GPA("glXDestroyContext")) ) return 0;
-	if( ! (pfglXMakeCurrent              =  GPA("glXMakeCurrent")) ) return 0;
-	if( ! (pfglXCopyContext              =  GPA("glXCopyContext")) ) return 0;
-	if( ! (pfglXSwapBuffers              =  GPA("glXSwapBuffers")) ) return 0;
+	if (!(pfglXChooseVisual =
+		  (XVisualInfo *(*)(Display *, int, int *))GPA("glXChooseVisual"))) {
+		return 0;
+	}
+	if (!(pfglXCreateContext =
+		  (GLXContext (*)(Display *, XVisualInfo *, GLXContext, int))GPA("glXCreateContext"))) {
+		return 0;
+	}
+	if (!(pfglXDestroyContext =
+		  (void (*)(Display *, GLXContext))GPA("glXDestroyContext"))) {
+		return 0;
+	}
+	if (!(pfglXMakeCurrent =
+		  (int (*)(Display *, GLXDrawable, GLXContext))GPA("glXMakeCurrent"))) {
+		return 0;
+	}
+	if (!(pfglXCopyContext =
+		  (void (*)(Display *, GLXContext, GLXContext, GLuint))GPA("glXCopyContext"))) {
+		return 0;
+	}
+	if (!(pfglXSwapBuffers =
+		  (void (*)(Display *, GLXDrawable))GPA("glXSwapBuffers"))) {
+		return 0;
+	}
 #elif __APPLE__
 # warning "Please define interface to OpenGL library for your platform!"
 #else
 # error "Please define interface to OpenGL library for your platform!"
 #endif /* platform check */
 
-	Com_Printf( "succeeded\n" );
+	Com_Printf("succeeded\n");
 
 	return 1;
 }

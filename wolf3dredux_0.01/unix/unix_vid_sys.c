@@ -123,14 +123,14 @@ vidmode_t vid_modes[] =
  Notes:
 -----------------------------------------------------------------------------
 */
-PUBLIC _boolean VID_GetModeInfo( int *width, int *height, int mode )
+PUBLIC _boolean VID_GetModeInfo(int *width, int *height, int mode)
 {
-	if( mode < 0 || mode >= VID_NUM_MODES ) {
+	if ((mode < 0) || ((unsigned long)(mode) >= VID_NUM_MODES)) {
 		return false;
 	}
 
-	*width  = vid_modes[ mode ].width;
-	*height = vid_modes[ mode ].height;
+	*width  = vid_modes[mode].width;
+	*height = vid_modes[mode].height;
 
 	return true;
 }
@@ -148,14 +148,14 @@ PUBLIC _boolean VID_GetModeInfo( int *width, int *height, int mode )
  Notes: Sets global variables [viddef.width] [viddef.height]
 -----------------------------------------------------------------------------
 */
-PUBLIC void VID_NewWindow( int width, int height )
+PUBLIC void VID_NewWindow(int width, int height)
 {
-	viddef.width  = width;
-	viddef.height = height;
+	viddef.width  = (unsigned int)width;
+	viddef.height = (unsigned int)height;
 
-#if 0
+#if 0 || __clang_analyzer__
 	ClientState.force_refdef = true; /* cannot use a paused refdef */
-#endif /* 0 */
+#endif /* 0 || __clang_analyzer__ */
 }
 
 
@@ -233,7 +233,7 @@ PUBLIC void Video_CheckChanges(void)
 			Com_Printf(" (this means that VID_LoadRefresh() failed)");
 
 			/* drop the console if we fail to load a refresh */
-			if ( ClientStatic.key_dest != key_console ) {
+			if (ClientStatic.key_dest != key_console) {
 				Con_ToggleConsole_f();
 			}
 		}

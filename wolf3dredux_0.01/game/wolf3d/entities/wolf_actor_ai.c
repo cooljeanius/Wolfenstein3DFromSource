@@ -331,17 +331,24 @@ PUBLIC void A_FirstSighting( entity_t *self )
 
 -----------------------------------------------------------------------------
 */
-PRIVATE void A_KillActor( entity_t *self )
+PRIVATE void A_KillActor(entity_t *self)
+/* entity_t is a struct typedef-ed in "wolf-actors.h" */
 {
-	int	tilex, tiley;
+	int	tilex, tiley; /* these are declared as "char" when they are used as
+					   * members in the typedef for the entity_t struct */
 
-	tilex = self->tilex = self->x >> TILESHIFT; /* drop item on center */
-	tiley = self->tiley = self->y >> TILESHIFT;
+	tilex = (self->x >> TILESHIFT); /* drop item on center */
+	tiley = (self->y >> TILESHIFT);
 
-	switch( self->type ) {
+	/* split into a separate assignment because it only needs to be casted to
+	 * 'char' when 'tilex' and 'tiley' refer to the members in 'self': */
+	self->tilex = (char)(self->x >> TILESHIFT); /* drop item on center */
+	self->tiley = (char)(self->y >> TILESHIFT);
+
+	switch (self->type) {
 		case en_guard:
-			PL_GivePoints( &Player, 100 );
-			Powerup_Spawn( tilex, tiley, pow_clip2, r_world );
+			PL_GivePoints(&Player, 100);
+			Powerup_Spawn(tilex, tiley, pow_clip2, r_world);
 			break;
 
 		case en_officer:
@@ -467,24 +474,21 @@ PUBLIC void A_DamageActor( entity_t *self, int damage )
 
 	self->health -= damage;
 
-	if( self->health <= 0 ) {
-		A_KillActor( self );
+	if (self->health <= 0) {
+		A_KillActor(self);
 	} else {
-		if( ! (self->flags & FL_ATTACKMODE) ) {
-			A_FirstSighting( self );		/* put into combat mode */
+		if(!(self->flags & FL_ATTACKMODE)) {
+			A_FirstSighting(self);		/* put into combat mode */
 		}
 
-		switch( self->type ) { /* dogs only have one hit point */
+		switch (self->type) { /* dogs only have one hit point */
 			case en_guard:
 			case en_officer:
 			case en_mutant:
 			case en_ss:
-				if( self->health & 1 )
-				{
+				if (self->health & 1) {
 					A_StateChange( self, st_pain );
-				}
-				else
-				{
+				} else {
 					A_StateChange( self, st_pain1 );
 				}
 				break;
@@ -510,10 +514,12 @@ PUBLIC void A_DamageActor( entity_t *self, int damage )
  Notes:
 -----------------------------------------------------------------------------
 */
-PUBLIC void A_MechaSound( entity_t *self )
+PUBLIC void A_MechaSound(entity_t *self)
 {
-	if( areabyplayer[ self->areanumber ] ) {
-		Sound_StartSound( NULL, 1, CHAN_VOICE, Sound_RegisterSound( "sfx/080.wav" ), 1, ATTN_NORM, 0 );
+	/* areabyplayer is declared in "../level/wolf_level.h": */
+	if (areabyplayer[(int)self->areanumber]) {
+		Sound_StartSound(NULL, 1, CHAN_VOICE, Sound_RegisterSound("sfx/080.wav"),
+						 1, ATTN_NORM, 0);
 	}
 }
 
@@ -528,9 +534,11 @@ PUBLIC void A_MechaSound( entity_t *self )
  Notes:
 -----------------------------------------------------------------------------
 */
-PUBLIC void A_Slurpie( entity_t *self )
+PUBLIC void A_Slurpie(entity_t *self)
 {
-	Sound_StartSound( NULL, 1, CHAN_VOICE, Sound_RegisterSound( "lsfx/061.wav" ), 1, ATTN_NORM, 0 );
+	/* TODO: use parameter 'self' */
+	Sound_StartSound(NULL, 1, CHAN_VOICE, Sound_RegisterSound("lsfx/061.wav"),
+					 1, ATTN_NORM, 0);
 }
 
 
@@ -601,9 +609,11 @@ PRIVATE int angel_temp = 0;
  Notes:
 -----------------------------------------------------------------------------
 */
-PUBLIC void A_Breathing( entity_t *self )
+PUBLIC void A_Breathing(entity_t *self)
 {
-	Sound_StartSound( NULL, 0, CHAN_VOICE, Sound_RegisterSound( "lsfx/080.wav" ), 1, ATTN_NORM, 0 );
+	/* TODO: use parameter 'self' */
+	Sound_StartSound(NULL, 0, CHAN_VOICE, Sound_RegisterSound("lsfx/080.wav"),
+					 1, ATTN_NORM, 0);
 }
 
 /*
@@ -617,8 +627,9 @@ PUBLIC void A_Breathing( entity_t *self )
  Notes:
 -----------------------------------------------------------------------------
 */
-PUBLIC void A_StartAttack( entity_t *self )
+PUBLIC void A_StartAttack(entity_t *self)
 {
+	/* TODO: use parameter 'self' */
 	angel_temp = 0;
 }
 
@@ -633,20 +644,20 @@ PUBLIC void A_StartAttack( entity_t *self )
  Notes:
 -----------------------------------------------------------------------------
 */
-PUBLIC void A_Relaunch( entity_t *self )
+PUBLIC void A_Relaunch(entity_t *self)
 {
-	if( ++angel_temp == 3 ) {
-		A_StateChange( self, st_pain );
+	if (++angel_temp == 3) {
+		A_StateChange(self, st_pain);
 		return;
 	}
 
-	if( US_RndT() & 1 ) {
-		A_StateChange( self, st_chase1 );
+	if (US_RndT() & 1) {
+		A_StateChange(self, st_chase1);
 		return;
 	}
 }
 
-extern void M_Intermission_f( void );
+extern void M_Intermission_f(void);
 
 
 
@@ -661,11 +672,12 @@ extern void M_Intermission_f( void );
  Notes:
 -----------------------------------------------------------------------------
 */
-PUBLIC void A_Victory( entity_t *self )
+PUBLIC void A_Victory(entity_t *self)
 {
+	/* TODO: use parameter 'self' */
 #if 0
-	playstate=ex_victory;
-	M_Victory_f();
+	playstate=ex_victory; /* undeclared */
+	M_Victory_f(); /* unimplemented */
 #endif /* 0 */
 
 	M_Intermission_f();
@@ -684,19 +696,19 @@ PUBLIC void A_Victory( entity_t *self )
 
 -----------------------------------------------------------------------------
 */
-PUBLIC void A_Dormant( entity_t *self )
+PUBLIC void A_Dormant(entity_t *self)
 {
 	int deltax, deltay;
 	int xl, xh, yl, yh, x, y, n;
 
-	deltax = self->x - Player.position.origin[ 0 ];
+	deltax = (int)(self->x - Player.position.origin[0]);
 
-	if( deltax < -MINACTORDIST || deltax > MINACTORDIST ) {
+	if ((deltax < -MINACTORDIST) || (deltax > MINACTORDIST)) {
 		goto moveok;
 	}
 
-	deltay = self->y - Player.position.origin[ 1 ];
-	if( deltay < -MINACTORDIST || deltay > MINACTORDIST ) {
+	deltay = (int)(self->y - Player.position.origin[1]);
+	if ((deltay < -MINACTORDIST) || (deltay > MINACTORDIST)) {
 		goto moveok;
 	}
 
@@ -732,7 +744,7 @@ moveok:
 }
 
 
-extern void M_Intermission_f( void );
+extern void M_Intermission_f(void);
 
 
 /*
@@ -746,8 +758,9 @@ extern void M_Intermission_f( void );
  Notes:
 -----------------------------------------------------------------------------
 */
-PUBLIC void A_StartDeathCam( entity_t *self )
+PUBLIC void A_StartDeathCam(entity_t *self)
 {
+	/* TODO: use parameter 'self' */
 	M_Intermission_f();
 }
 
@@ -820,15 +833,15 @@ PRIVATE _boolean ProjectileTryMove( entity_t *self, LevelData_t *lvl )
 	yh = (self->y + PROJSIZE) >> TILESHIFT;
 
 	/* Checking for solid walls: */
-	for( y = yl ; y <= yh ; ++y ) {
-		for( x = xl ; x <= xh ; ++x ) {
+	for ((y = yl); (y <= yh); ++y) {
+		for ((x = xl); (x <= xh); ++x) {
 /* FIXME: decide what to do with statics & Doors! */
-			if( lvl->tilemap[ x ][ y ] & (WALL_TILE | BLOCK_TILE) ) {
+			if (lvl->tilemap[x][y] & (WALL_TILE | BLOCK_TILE)) {
 				return false;
 			}
 
-			if( lvl->tilemap[ x ][ y ] & DOOR_TILE ) {
-				if( Door_Opened( &lvl->Doors, x, y ) != DOOR_FULLOPEN ) {
+			if (lvl->tilemap[x][y] & DOOR_TILE) {
+				if (Door_Opened(&lvl->Doors, x, y) != DOOR_FULLOPEN) {
 					return false;
 				}
 			}
@@ -851,7 +864,7 @@ PRIVATE _boolean ProjectileTryMove( entity_t *self, LevelData_t *lvl )
 
 -----------------------------------------------------------------------------
 */
-PUBLIC void T_Projectile( entity_t *self )
+PUBLIC void T_Projectile(entity_t *self)
 {
 	#define PROJECTILESIZE	0xC000
 
@@ -868,60 +881,65 @@ PUBLIC void T_Projectile( entity_t *self )
 
 	speed = self->speed * tics;
 
-	deltax = (int)(speed * cos( FINE2RAD( self->angle ) ));
-	deltay = (int)(speed * sin( FINE2RAD( self->angle ) ));
+	deltax = (int)(speed * cos(FINE2RAD(self->angle)));
+	deltay = (int)(speed * sin(FINE2RAD(self->angle)));
 
-	if( deltax > TILEGLOBAL ) {
+	if (deltax > TILEGLOBAL) {
 		deltax = TILEGLOBAL;
 	}
 
-	if( deltax < -TILEGLOBAL ) {
+	if (deltax < -TILEGLOBAL) {
 		deltax = -TILEGLOBAL; /* my */
 	}
 
-	if( deltay > TILEGLOBAL) {
+	if (deltay > TILEGLOBAL) {
 		deltay = TILEGLOBAL;
 	}
 
-	if( deltay < -TILEGLOBAL) {
+	if (deltay < -TILEGLOBAL) {
 		deltay = -TILEGLOBAL; /* my */
 	}
 
 	self->x += deltax;
 	self->y += deltay;
 
-	deltax = ABS( self->x-Player.position.origin[ 0 ] );
-	deltay = ABS( self->y-Player.position.origin[ 1 ] );
+	deltax = (int)ABS(self->x-Player.position.origin[0]);
+	deltay = (int)ABS(self->y-Player.position.origin[1]);
 
-	if( ! ProjectileTryMove( self, r_world ) ) {
-		if( self->type == en_rocket || self->type == en_hrocket ) { /* rocket ran into obstacle, draw explosion! */
-			if( g_version->value == SPEAROFDESTINY ) {
-				Sound_StartSound( NULL, 1, CHAN_WEAPON, Sound_RegisterSound( "lsfx/001.wav" ), 1, ATTN_NORM, 0 );
+	if (! ProjectileTryMove(self, r_world)) {
+		if ((self->type == en_rocket) || (self->type == en_hrocket)) {
+			/* rocket ran into obstacle, draw explosion! */
+			if (g_version->value == SPEAROFDESTINY) {
+				Sound_StartSound(NULL, 1, CHAN_WEAPON,
+								 Sound_RegisterSound("lsfx/001.wav"), 1,
+								 ATTN_NORM, 0);
 			} else {
-				Sound_StartSound( NULL, 1, CHAN_WEAPON, Sound_RegisterSound( "lsfx/086.wav" ), 1, ATTN_NORM, 0 );
+				Sound_StartSound(NULL, 1, CHAN_WEAPON,
+								 Sound_RegisterSound("lsfx/086.wav"), 1,
+								 ATTN_NORM, 0);
 			}
-			A_StateChange( self, st_die1 );
+			A_StateChange(self, st_die1);
 		} else {
-			A_StateChange( self, st_remove ); /* mark for removal */
+			A_StateChange(self, st_remove); /* mark for removal */
 		}
 		return;
 	}
 
-	if( deltax < PROJECTILESIZE && deltay < PROJECTILESIZE ) {
+	if ((deltax < PROJECTILESIZE) && (deltay < PROJECTILESIZE)) {
 		/* hit the player */
-		switch( self->type ) {
+		switch (self->type) {
 			case en_needle:
-				damage = (US_RndT() >> 3) + 20;
+				damage = (int)((US_RndT() >> 3) + 20);
 				break;
 
 			case en_rocket:
 			case en_hrocket:
 			case en_spark:
-				damage = (US_RndT()>>3) + 30;
+				damage = (int)((US_RndT()>>3) + 30);
 				break;
 
 			case en_fire:
-				damage = (US_RndT() >> 3);
+				damage = (int)(US_RndT() >> 3);
 				break;
 
 			default:
@@ -929,13 +947,13 @@ PUBLIC void T_Projectile( entity_t *self )
 				break;
 		}
 
-		PL_Damage( &Player, self, damage );
-		A_StateChange( self, st_remove ); /* mark for removal */
+		PL_Damage(&Player, self, damage);
+		A_StateChange(self, st_remove); /* mark for removal */
 		return;
 	}
 
-	self->tilex = self->x >> TILESHIFT;
-	self->tiley = self->y >> TILESHIFT;
+	self->tilex = (char)(self->x >> TILESHIFT);
+	self->tiley = (char)(self->y >> TILESHIFT);
 }
 
 /* EOF */

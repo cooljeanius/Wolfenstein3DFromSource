@@ -161,7 +161,8 @@ PUBLIC void PerpendicularVector( vec3_t dst, const vec3_t src )
  Notes:
 -----------------------------------------------------------------------------
 */
-PUBLIC void RotatePointAroundVector( vec3_t dst, const vec3_t dir, const vec3_t point, float degrees )
+PUBLIC void RotatePointAroundVector(vec3_t dst, const vec3_t dir,
+									const vec3_t point, float degrees)
 {
 	mat3_t	m;
 	mat3_t	im;
@@ -175,8 +176,8 @@ PUBLIC void RotatePointAroundVector( vec3_t dst, const vec3_t dir, const vec3_t 
 	vf[1] = dir[1];
 	vf[2] = dir[2];
 
-	PerpendicularVector( vr, dir );
-	vectorCrossProduct( vr, vf, vup );
+	PerpendicularVector(vr, dir);
+	vectorCrossProduct(vr, vf, vup);
 
 	m[0] = vr[0];
 	m[3] = vr[1];
@@ -190,7 +191,7 @@ PUBLIC void RotatePointAroundVector( vec3_t dst, const vec3_t dir, const vec3_t 
 	m[5] = vf[1];
 	m[8] = vf[2];
 
-	memcpy( im, m, sizeof( im ) );
+	memcpy(im, m, sizeof(im));
 
 	im[1] = m[3];
 	im[2] = m[6];
@@ -199,21 +200,21 @@ PUBLIC void RotatePointAroundVector( vec3_t dst, const vec3_t dir, const vec3_t 
 	im[6] = m[2];
 	im[7] = m[5];
 
-	memset( zrot, 0, sizeof( zrot ) );
+	memset(zrot, 0, sizeof(zrot));
 	zrot[0] = zrot[4] = zrot[8] = 1.0F;
 
-	rad = DEG2RAD( degrees );
-	zrot[0] = (float)cos( rad );
-	zrot[1] = (float)sin( rad );
-	zrot[3] = (float)-sin( rad );
-	zrot[4] = (float)cos( rad );
+	rad = (float)DEG2RAD(degrees);
+	zrot[0] = (float)cos(rad);
+	zrot[1] = (float)sin(rad);
+	zrot[3] = (float)-sin(rad);
+	zrot[4] = (float)cos(rad);
 
-	Matrix3x3Multiply( m, zrot, tmpmat );
-	Matrix3x3Multiply( tmpmat, im, rot );
+	Matrix3x3Multiply(m, zrot, tmpmat);
+	Matrix3x3Multiply(tmpmat, im, rot);
 
-	dst[0] = rot[0] * point[0] + rot[1] * point[1] + rot[2] * point[2];
-	dst[1] = rot[3] * point[0] + rot[4] * point[1] + rot[5] * point[2];
-	dst[2] = rot[6] * point[0] + rot[7] * point[1] + rot[8] * point[2];
+	dst[0] = (rot[0] * point[0]) + (rot[1] * point[1]) + (rot[2] * point[2]);
+	dst[1] = (rot[3] * point[0]) + (rot[4] * point[1]) + (rot[5] * point[2]);
+	dst[2] = (rot[6] * point[0]) + (rot[7] * point[1]) + (rot[8] * point[2]);
 }
 
 /*
@@ -289,39 +290,39 @@ PUBLIC void AddPointToBounds( vec3_t v, vec3_t mins, vec3_t maxs )
  Notes:
 -----------------------------------------------------------------------------
 */
-PUBLIC void AngleVectors( const vec3_t angles, vec3_t forward, vec3_t right, vec3_t up )
+PUBLIC void AngleVectors(const vec3_t angles, vec3_t forward, vec3_t right,
+						 vec3_t up)
 {
-	float		angle;
-	static float		sr, sp, sy, cr, cp, cy;
+	float			angle;
+	static float	sr, sp, sy, cr, cp, cy;
 	/* static to help MS compiler fp bugs */
 
-	angle = angles[YAW] * ( M_PI*2 / 360 );
-	sy = (float)sin( angle );
-	cy = (float)cos( angle );
-	angle = angles[PITCH] * ( M_PI*2 / 360 );
-	sp = (float)sin( angle );
-	cp = (float)cos( angle );
-	angle = angles[ROLL] * ( M_PI*2 / 360 );
-	sr = (float)sin( angle );
-	cr = (float)cos( angle );
+	angle = (float)(angles[YAW] * ((M_PI * 2) / 360));
+	sy = (float)sin(angle);
+	cy = (float)cos(angle);
+	angle = (float)(angles[PITCH] * ((M_PI * 2) / 360));
+	sp = (float)sin(angle);
+	cp = (float)cos(angle);
+	angle = (float)(angles[ROLL] * ((M_PI * 2) / 360));
+	sr = (float)sin(angle);
+	cr = (float)cos(angle);
 
-	if( forward ) {
-		forward[0] = cp*cy;
-		forward[1] = cp*sy;
+	if (forward) {
+		forward[0] = (cp * cy);
+		forward[1] = (cp * sy);
 		forward[2] = -sp;
 	}
 
-	if( right ) {
-		right[0] = (-1*sr*sp*cy+-1*cr*-sy);
-		right[1] = (-1*sr*sp*sy+-1*cr*cy);
-		right[2] = -1*sr*cp;
+	if (right) {
+		right[0] = ((-1 * sr * sp * cy) + (-1 * cr * -sy));
+		right[1] = ((-1 * sr * sp * sy) + (-1 * cr * cy));
+		right[2] = (-1 * sr * cp);
 	}
 
-	if( up )
-	{
-		up[0] = (cr*sp*cy+-sr*-sy);
-		up[1] = (cr*sp*sy+-sr*cy);
-		up[2] = cr*cp;
+	if (up) {
+		up[0] = ((cr * sp * cy) + (-sr * -sy));
+		up[1] = ((cr * sp * sy) + (-sr * cy));
+		up[2] = (cr * cp);
 	}
 }
 

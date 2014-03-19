@@ -14,6 +14,11 @@ AH_BOTTOM([
 ])
 AC_CONFIG_AUX_DIR([build-aux])
 AC_CONFIG_LIBOBJ_DIR([gnulib_replacement_funcs])
+if test "x${LIBOBJDIR}" = "x"; then
+  # automake implicit rules require the "/" at the end:
+  test -z "${LIBOBJDIR}" && export LIBOBJDIR="gnulib_replacement_funcs/"
+fi
+AC_SUBST([LIBOBJDIR])
 AC_CONFIG_MACRO_DIR([m4])
 AC_CANONICAL_TARGET
 AC_USE_SYSTEM_EXTENSIONS
@@ -26,6 +31,8 @@ AC_PROG_CXX
 AC_PROG_INSTALL
 AC_PROG_MKDIR_P
 AC_PATH_PROG([GLXINFO],[glxinfo])
+AC_PATH_PROG([SCAN_BUILD],[scan-build scan-build-mp-3.3])
+AC_PATH_PROG([LLVM_SYMBOLIZER],[llvm-symbolizer llvm-symbolizer-mp-3.3])
 LT_INIT([win32-dll dlopen])
 
 # Checks for libraries.
@@ -44,27 +51,22 @@ LIBS="${LIBS} ${MESA_LIBS}"
 ],[
 AC_MSG_WARN([mesa not found; if your system uses an alternate OpenGL interface, it will require manual setup])
 ])
-
+# simpler library checks:
 AC_CHECK_LIB([c],[printf])
-# FIXME: Replace `main' with a function in `-lX11':
-AC_CHECK_LIB([X11],[main])
-# FIXME: Replace `main' with a function in `-lXext':
+AC_CHECK_LIB([X11],[XCloseDisplay])
+# wolf3dredux does not actually use any symbols from `-lXext', so just
+# check for `main':
 AC_CHECK_LIB([Xext],[main])
-# FIXME: Replace `main' with a function in `-lXxf86dga':
-AC_CHECK_LIB([Xxf86dga],[main])
-# FIXME: Replace `main' with a function in `-lXxf86vm':
-AC_CHECK_LIB([Xxf86vm],[main])
+AC_CHECK_LIB([Xxf86dga],[XF86DGADirectVideo])
+AC_CHECK_LIB([Xxf86vm],[XF86VidModeGetAllModeLines])
 LT_LIB_M
 AC_CHECK_LIB([m],[sqrt])
+AC_SEARCH_LIBS([logerror],[m crlibm log gnu iberty])
 AC_CHECK_LIB([dl],[dlerror])
-# FIXME: Replace `main' with a function in `-logg':
-AC_CHECK_LIB([ogg],[main])
-# FIXME: Replace `main' with a function in `-lvorbis':
-AC_CHECK_LIB([vorbis],[main])
-# FIXME: Replace `main' with a function in `-lvorbisenc':
-AC_CHECK_LIB([vorbisenc],[main])
-# FIXME: Replace `main' with a function in `-lvorbisfile':
-AC_CHECK_LIB([vorbisfile],[main])
+AC_CHECK_LIB([ogg],[ogg_page_eos])
+AC_CHECK_LIB([vorbis],[vorbis_analysis])
+AC_CHECK_LIB([vorbisenc],[vorbis_encode_ctl])
+AC_CHECK_LIB([vorbisfile],[ov_clear])
 # Official vorbis macro:
 XIPH_PATH_VORBIS
 
@@ -92,11 +94,15 @@ if test "x" = "y"; then
   AC_PROG_RANLIB
 fi
 
-AC_CHECK_HEADERS([assert.h bits/libc-lock.h ctype.h errno.h fcntl.h \
-                  float.h libintl.h libio/iolibio.h libio/libioP.h \
-                  limits.h math.h mmsystem.h setjmp.h stdarg.h stddef.h \
-                  stdio.h sys/param.h sys/sysctl.h sys/time.h sys/timeb.h \
-                  sys/utsname.h wchar.h windows.h xlocale.h Xutil.h])
+AC_CHECK_HEADERS([assert.h bits/libc-lock.h ctype.h dmalloc.h \
+                  errno.h fcntl.h float.h libintl.h \
+                  libio/iolibio.h libio/libioP.h limits.h \
+                  mach/mach.h mach/vm_param.h malloc.h malloc/malloc.h \
+                  math.h mmsystem.h setjmp.h stdarg.h stddef.h stdio.h \
+                  sys/gmon.h sys/malloc.h sys/mount.h sys/param.h \
+                  sys/socket.h sys/sysctl.h sys/syslimits.h sys/time.h \
+                  sys/timeb.h sys/utsname.h sys/vmmeter.h \
+                  wchar.h windef.h windows.h xlocale.h Xutil.h])
 AC_CHECK_HEADERS([X11/extensions/xf86dga.h],[],[
   AC_CHECK_HEADERS([X11/extensions/Xxf86dga.h])
 ])
@@ -105,45 +111,63 @@ AC_CHECK_HEADERS([X11/extensions/xf86vmode.h],[],[
 ])
 
 # Checks for typedefs, structures, and compiler characteristics.
+AC_SYS_LARGEFILE
 AC_C_CHAR_UNSIGNED
 AC_C_CONST
 AC_C_BIGENDIAN
 AC_C_INLINE
 AC_C_PROTOTYPES
+AC_C_RESTRICT
 AC_C_VOLATILE
+AC_TYPE_OFF_T
 AC_TYPE_SIZE_T
 AC_TYPE_UID_T
 AC_TYPE_INTMAX_T
 AC_TYPE_UINTMAX_T
+AC_CHECK_MEMBERS([struct stat.st_blksize])
+AC_STRUCT_ST_BLOCKS
 AC_STRUCT_TIMEZONE dnl# also checks struct tm
 AC_CHECK_TYPE([long long])
 AC_CHECK_TYPE([unsigned long long])
-AC_CHECK_TYPES([time_t, __darwin_time_t])
+AC_CHECK_TYPES([time_t, __darwin_time_t, malloc_zone_t])
 AC_CHECK_MEMBERS([struct timeval.tv_sec])
-AC_CHECK_SIZEOF([long])
+AC_CHECK_SIZEOF([short],[2])
+AC_CHECK_ALIGNOF([short])
+AC_CHECK_SIZEOF([long],[8])
 AC_CHECK_ALIGNOF([long])
-AC_CHECK_SIZEOF([int])
+AC_CHECK_SIZEOF([int],[4])
 AC_CHECK_ALIGNOF([int])
-AC_CHECK_SIZEOF([unsigned int])
+AC_CHECK_SIZEOF([unsigned int],[4])
 AC_CHECK_ALIGNOF([unsigned int])
+AC_CHECK_SIZEOF([unsigned long],[8])
+AC_CHECK_ALIGNOF([unsigned long])
 
 # Checks for library functions.
+AM_WITH_DMALLOC
 AC_FUNC_ALLOCA
 AC_FUNC_ERROR_AT_LINE
+AC_FUNC_LSTAT
 AC_FUNC_MALLOC
 AC_FUNC_MMAP
 AC_FUNC_REALLOC
+AC_FUNC_STAT
 AC_FUNC_STRERROR_R
 AC_FUNC_STRNLEN
-AC_CHECK_FUNCS([atoi dlsym fabs floor fwrite getcwd gettimeofday \
+AC_CHECK_FUNCS([atoi dlsym dmalloc_malloc fabs floor ftell fwrite \
+                getcwd gettimeofday \
                 glXChooseVisual glXCreateContext glXMakeCurrent \
-                memchr memcmp memcpy memmove memset mkdir pow putc qsort \
-                rmdir sqrt sqrtf stpcpy strcat strcpy strdup strerror \
-                strlen strncat strncpy strrchr strstr strtok \
-                uname unlink])
+                malloc_good_size malloc_size malloc_create_zone \
+                malloc_destroy_zone malloc_default_zone \
+                malloc_zone_from_ptr malloc_zone_malloc \
+                malloc_zone_calloc malloc_zone_valloc malloc_zone_realloc \
+                malloc_zone_memalign malloc_zone_free memchr memcmp \
+                memcpy memmove memset mkdir pow posix_memalign putc \
+                qsort rmdir sqrt sqrtf stpcpy strcat strcpy strdup \
+                strerror strlen strncat strncpy strrchr strstr strtok \
+                sysconf sysctl sysctlbyname sysctlnametomib uname unlink])
 AC_REPLACE_FUNCS([strnlen1])
 AC_LIBOBJ([progname])
 
 # Output
-AC_CONFIG_FILES([Makefile])
+AC_CONFIG_FILES([Makefile gnulib_replacement_funcs/Makefile])
 AC_OUTPUT

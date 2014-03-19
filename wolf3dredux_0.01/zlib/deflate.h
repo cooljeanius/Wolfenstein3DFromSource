@@ -4,8 +4,8 @@
  */
 
 /* WARNING: this file should *not* be used by applications. It is
-   part of the implementation of the compression library and is
-   subject to change. Applications should only use zlib.h.
+ * part of the implementation of the compression library and is
+ * subject to change. Applications should only use zlib.h.
  */
 
 /* @(#) $Id$ */
@@ -16,12 +16,12 @@
 #include "zutil.h"
 
 /* define NO_GZIP when compiling if you want to disable gzip header and
-   trailer creation by deflate().  NO_GZIP would be used to avoid linking in
-   the crc code when it is not needed.  For shared libraries, gzip encoding
-   should be left enabled. */
+ * trailer creation by deflate().  NO_GZIP would be used to avoid linking in
+ * the crc code when it is not needed.  For shared libraries, gzip encoding
+ * should be left enabled. */
 #ifndef NO_GZIP
 #  define GZIP
-#endif
+#endif /* !NO_GZIP */
 
 /* ===========================================================================
  * Internal compression state.
@@ -182,7 +182,7 @@ typedef struct internal_state {
     int nice_match; /* Stop searching when current match exceeds this */
 
                 /* used by trees.c: */
-    /* Didn't use ct_data typedef below to supress compiler warning */
+    /* Did NOT use ct_data typedef below to supress compiler warning */
     struct ct_data_s dyn_ltree[HEAP_SIZE];   /* literal and length tree */
     struct ct_data_s dyn_dtree[2*D_CODES+1]; /* distance tree */
     struct ct_data_s bl_tree[2*BL_CODES+1];  /* Huffman tree for bit lengths */
@@ -224,7 +224,7 @@ typedef struct internal_state {
      *     a highly compressible string table.) Smaller buffer sizes give
      *     fast adaptation but have of course the overhead of transmitting
      *     trees more frequently.
-     *   - I can't count above 4
+     *   - I cannot count above 4
      */
 
     uInt last_lit;      /* running index in l_buf */
@@ -243,14 +243,14 @@ typedef struct internal_state {
 #ifdef DEBUG
     ulg compressed_len; /* total bit length of compressed file mod 2^32 */
     ulg bits_sent;      /* bit length of compressed data sent mod 2^32 */
-#endif
+#endif /* DEBUG */
 
     ush bi_buf;
     /* Output buffer. bits are inserted starting at the bottom (least
      * significant bits).
      */
     int bi_valid;
-    /* Number of valid bits in bi_buf.  All bits above the last valid bit
+    /* Number of valid bits in bi_buf. All bits above the last valid bit
      * are always zero.
      */
 
@@ -297,7 +297,7 @@ void _tr_stored_block OF((deflate_state *s, charf *buf, ulg stored_len,
 #else
   extern const uch _length_code[];
   extern const uch _dist_code[];
-#endif
+#endif /* GEN_TREES_H || !STDC */
 
 # define _tr_tally_lit(s, c, flush) \
   { uch cc = (c); \
@@ -306,6 +306,7 @@ void _tr_stored_block OF((deflate_state *s, charf *buf, ulg stored_len,
     s->dyn_ltree[cc].Freq++; \
     flush = (s->last_lit == s->lit_bufsize-1); \
    }
+/* TODO: are these the right types to use here? In this def that is: */
 # define _tr_tally_dist(s, distance, length, flush) \
   { uch len = (length); \
     ush dist = (distance); \
@@ -316,10 +317,10 @@ void _tr_stored_block OF((deflate_state *s, charf *buf, ulg stored_len,
     s->dyn_dtree[d_code(dist)].Freq++; \
     flush = (s->last_lit == s->lit_bufsize-1); \
   }
-#else
+#else /* DEBUG: */
 # define _tr_tally_lit(s, c, flush) flush = _tr_tally(s, 0, c)
 # define _tr_tally_dist(s, distance, length, flush) \
               flush = _tr_tally(s, distance, length)
-#endif
+#endif /* !DEBUG */
 
 #endif /* DEFLATE_H */

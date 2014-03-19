@@ -73,7 +73,7 @@ PUBLIC float _sqrtf( float x )
 */
 #if __i386__
 
-PUBLIC float _3DNow_Sqrt( float x )
+PUBLIC float _3DNow_Sqrt(float x)
 {
 	float	root = 0.f;
 
@@ -87,6 +87,11 @@ PUBLIC float _3DNow_Sqrt( float x )
 		pfmul		mm0, mm1
 		movd		root, mm0
 		femms
+	}
+# else
+	/* dummy condition to use 'x': */
+	if (x == 0) {
+		;
 	}
 # endif /* _MSC_VER || __WATCOMC__ */
 
@@ -104,7 +109,7 @@ PUBLIC float _3DNow_Sqrt( float x )
  Notes:
 -----------------------------------------------------------------------------
 */
-float _SSE_Sqrt( float x )
+float _SSE_Sqrt(float x)
 {
 	float	root = 0.f;
 
@@ -114,6 +119,11 @@ float _SSE_Sqrt( float x )
 	{
 		sqrtss		xmm0, x
 		movss		root, xmm0
+	}
+# else
+	/* dummy condition to use 'x': */
+	if (x == 0) {
+		;
 	}
 # endif /* _MSC_VER || __WATCOMC__ */
 

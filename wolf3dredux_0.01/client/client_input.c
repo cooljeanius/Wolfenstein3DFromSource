@@ -356,30 +356,31 @@ PRIVATE void Client_AdjustAngles( void )
 
 -----------------------------------------------------------------------------
 */
-PRIVATE void Client_BaseMove( usercmd_t *cmd )
+PRIVATE void Client_BaseMove(usercmd_t *cmd)
 {
-	ClientState.viewangles[ YAW ] = 0;
+	ClientState.viewangles[YAW] = 0;
 
 	Client_AdjustAngles();
 
-	memset( cmd, 0, sizeof( usercmd_t ) );
+	memset(cmd, 0, sizeof(usercmd_t));
 
-	vectorCopy( ClientState.viewangles, cmd->angles );
-	if( in_strafe.state & 1 ) {
-		cmd->sidemove += (cl_sidespeed->value * Client_KeyState( &in_right ));
-		cmd->sidemove -= (cl_sidespeed->value * Client_KeyState( &in_left ));
+	vectorCopy(ClientState.viewangles, cmd->angles); /* FIXME */
+	if (in_strafe.state & 1) {
+		cmd->sidemove += (cl_sidespeed->value * Client_KeyState(&in_right));
+		cmd->sidemove -= (cl_sidespeed->value * Client_KeyState(&in_left));
 	}
 
-	cmd->sidemove += (cl_sidespeed->value * Client_KeyState( &in_moveright ));
-	cmd->sidemove -= (cl_sidespeed->value * Client_KeyState( &in_moveleft ));
+	cmd->sidemove += (cl_sidespeed->value * Client_KeyState(&in_moveright));
+	cmd->sidemove -= (cl_sidespeed->value * Client_KeyState(&in_moveleft));
 
-	cmd->forwardmove += (cl_forwardspeed->value * Client_KeyState( &in_forward ));
-	cmd->forwardmove -= (cl_forwardspeed->value * Client_KeyState( &in_back ));
+	cmd->forwardmove += (cl_forwardspeed->value * Client_KeyState(&in_forward));
+	cmd->forwardmove -= (cl_forwardspeed->value * Client_KeyState(&in_back));
 
 /*
  * adjust for speed key / running
  */
-	if( (in_speed.state & 1) ^ (int)(cl_run->value) ) {
+	/* TODO: check to see if "^" is being used for blocks syntax: */
+	if ((in_speed.state & 1) ^ (int)(cl_run->value)) {
 		cmd->forwardmove *= 1.5;
 		cmd->sidemove *= 1.5;
 		cmd->upmove *= 1.5;

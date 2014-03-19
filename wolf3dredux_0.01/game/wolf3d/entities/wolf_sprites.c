@@ -102,25 +102,25 @@ PUBLIC void Sprite_RemoveSprite( int sprite_id )
  Notes:
 -----------------------------------------------------------------------------
 */
-PUBLIC int Sprite_GetNewSprite( void )
+PUBLIC int Sprite_GetNewSprite(void)
 {
 	W32 n;
 	sprite_t* sprt;
 
-	for( n = 0, sprt = Spr_Sprites ; n < n_of_sprt ; ++n, ++sprt ) {
-		if( sprt->flags & SPRT_REMOVE ) {
+	for ((n = 0), (sprt = Spr_Sprites); (n < n_of_sprt); ++n, ++sprt) {
+		if (sprt->flags & SPRT_REMOVE) {
 			/* free spot: clear it first */
-			memset( sprt, 0, sizeof( sprite_t ) );
-			return n;
+			memset(sprt, 0, sizeof(sprite_t));
+			return (int)n;
 		}
 	}
 
-	if( n_of_sprt >= MAX_SPRITES ) {
-		Com_Printf( "Warning n_of_sprt == MAX_SPRITES\n" );
+	if (n_of_sprt >= MAX_SPRITES) {
+		Com_Printf("Warning: n_of_sprt == MAX_SPRITES\n");
 		return -1;
 	}
 
-	return n_of_sprt++;
+	return (int)(n_of_sprt++);
 }
 
 
@@ -237,7 +237,7 @@ PRIVATE int Sprite_cmpVis( const void *elem1, const void *elem2 )
 	Called only by client.
 -----------------------------------------------------------------------------
 */
-PUBLIC int Sprite_CreateVisList( void )
+PUBLIC int Sprite_CreateVisList(void)
 {
 	W32 tx, ty, n, num_visible;
 	visobj_t *visptr;
@@ -246,33 +246,36 @@ PUBLIC int Sprite_CreateVisList( void )
 	visptr = vislist;
 	num_visible = 0;
 
-	for( n = 0, sprt = Spr_Sprites; n < n_of_sprt; ++n, ++sprt ) {
-		if( sprt->flags & SPRT_REMOVE ) {
+	for ((n = 0), (sprt = Spr_Sprites); (n < n_of_sprt); ++n, ++sprt) {
+		if (sprt->flags & SPRT_REMOVE) {
 			continue;
 		}
 
-		tx = sprt->tilex;
-		ty = sprt->tiley;
+		tx = (W32)(sprt->tilex);
+		ty = (W32)(sprt->tiley);
 
-		if( tx > 63 ) {
+		if (tx > 63) {
 			tx = 63;
 		}
-		if( ty > 63 ) {
+		if (ty > 63) {
 			ty = 63;
 		}
 
 	/* can be in any of 4 surrounding tiles; not 9 - see definition of tilex & tiley */
-		if (tile_visible[ tx ][ ty ] || tile_visible[ tx + 1 ][ ty ] ||
-			tile_visible[ tx ][ ty + 1 ] || tile_visible[ tx + 1 ][ ty + 1 ] ) {
+		if (tile_visible[tx][ty] || tile_visible[(tx + 1)][ty] ||
+			tile_visible[tx][(ty + 1)] || tile_visible[(tx + 1)][(ty + 1)]) {
 			/* player spotted it */
-			visptr->dist = LineLen2Point( sprt->x - Player.position.origin[ 0 ],
-										  sprt->y-Player.position.origin[ 1 ],
-                                          Player.position.angle ); /*FIXME viewport*/
+			visptr->dist = LineLen2Point((int)((int)sprt->x -
+											   Player.position.origin[0]),
+										 (int)((int)sprt->y -
+											   Player.position.origin[1]),
+										 Player.position.angle);
+			/* FIXME: viewport (?) */
 			visptr->x = sprt->x;
 			visptr->y = sprt->y;
 			visptr->ang = sprt->ang;
-			visptr->tex = sprt->tex[ 0 ]; /*FIXME!*/
-			if( ++num_visible > MAXVISABLE ) {
+			visptr->tex = sprt->tex[0]; /* FIXME! (?) */
+			if (++num_visible > MAXVISABLE) {
 				break; /* vislist full */
 			}
 
@@ -281,11 +284,11 @@ PUBLIC int Sprite_CreateVisList( void )
 	}
 
 	/* sorting list */
-	if( num_visible ) { /* do not sort if no entries */
-		qsort( vislist, num_visible, sizeof( visobj_t ), Sprite_cmpVis );
+	if (num_visible) { /* do not sort if no entries */
+		qsort(vislist, num_visible, sizeof(visobj_t), Sprite_cmpVis);
 	}
 
-	return num_visible;
+	return (int)num_visible;
 }
 
 /* EOF */

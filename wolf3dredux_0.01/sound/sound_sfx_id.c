@@ -80,7 +80,8 @@ void Sound_SoundList_f( void )
 
 -----------------------------------------------------------------------------
 */
-PRIVATE void Sound_UploadSound( W8 *data, int sample_size, int channels, sfx_t *sfx )
+PRIVATE void Sound_UploadSound(W8 *data, int sample_size, int channels,
+							   sfx_t *sfx)
 {
 	int	size;
 
@@ -88,14 +89,14 @@ PRIVATE void Sound_UploadSound( W8 *data, int sample_size, int channels, sfx_t *
 	size = sfx->samples * sample_size * channels;
 
 	/* Set buffer format */
-	if( sample_size == 2 ) {
-		if( channels == 2 ) {
+	if (sample_size == 2) {
+		if (channels == 2) {
 			sfx->format = AL_FORMAT_STEREO16;
 		} else {
 			sfx->format = AL_FORMAT_MONO16;
 		}
 	} else {
-		if( channels == 2 ) {
+		if (channels == 2) {
 			sfx->format = AL_FORMAT_STEREO8;
 		} else {
 			sfx->format = AL_FORMAT_MONO8;
@@ -103,8 +104,9 @@ PRIVATE void Sound_UploadSound( W8 *data, int sample_size, int channels, sfx_t *
 	}
 
 	/* Upload the sound */
-	pfalGenBuffers( 1, &sfx->bufferNum );
-	pfalBufferData( sfx->bufferNum, sfx->format, data, size, sfx->rate );
+	pfalGenBuffers(1, &sfx->bufferNum);
+	pfalBufferData(sfx->bufferNum, (ALenum)sfx->format, data, (ALsizei)size,
+				   (ALsizei)sfx->rate);
 }
 
 /*
@@ -119,39 +121,39 @@ PRIVATE void Sound_UploadSound( W8 *data, int sample_size, int channels, sfx_t *
 
 -----------------------------------------------------------------------------
 */
-PUBLIC _boolean Sound_LoadSound( sfx_t *sfx )
+PUBLIC _boolean Sound_LoadSound(sfx_t *sfx)
 {
-    char		name[ MAX_GAMEPATH ];
+    char		name[MAX_GAMEPATH];
 	W8		*data;
 	soundInfo_t	info;
 
-	if( sfx->name[ 0 ] == '*' ) {
+	if (sfx->name[0] == '*') {
 		return false;
 	}
 
 	/* See if still in memory */
-	if( sfx->loaded ) {
+	if (sfx->loaded) {
 		return true;
 	}
 
-	my_strlcpy( name, sfx->name, sizeof( name ) );
+	my_strlcpy(name, sfx->name, sizeof(name));
 
 
-	if( ! LoadWavInfo( name, &data, &info ) ) {
+	if (! LoadWavInfo(name, &data, &info)) {
 		sfx->defaulted = true;
 
-		Com_Printf( "Could not find sound (%s)\n", name );
+		Com_Printf("Could not find sound (%s)\n", name);
 
 		return false;
 	}
 
 	sfx->loaded = true;
-	sfx->samples = info.samples;
-	sfx->rate = info.sample_rate;
+	sfx->samples = (int)(info.samples);
+	sfx->rate = (int)(info.sample_rate);
 
-	Sound_UploadSound( data, info.sample_size, info.channels, sfx );
+	Sound_UploadSound(data, (int)info.sample_size, (int)info.channels, sfx);
 
-	Z_Free( data );
+	Z_Free(data);
 
 	return true;
 }
@@ -168,90 +170,136 @@ PUBLIC _boolean Sound_LoadSound( sfx_t *sfx )
 
 -----------------------------------------------------------------------------
 */
-PUBLIC sfx_t *Sound_FindSound( const char *name )
+PUBLIC sfx_t *Sound_FindSound(const char *name)
 {
 	sfx_t		*sfx;
 	unsigned	hashKey;
 
-	if( ! name || ! name[ 0 ] ) {
-		Com_Printf( "Sound_FindSound: NULL sound name\n" );
+	if (! name || ! name[0]) {
+		Com_Printf("Sound_FindSound(): NULL sound name\n");
 
 		return NULL;
 	}
 
-	if( strlen( name ) >= MAX_GAMEPATH ) {
-		Com_Printf( "Sound_FindSound: sound name exceeds MAX_GAMEPATH\n");
+	if (strlen(name) >= MAX_GAMEPATH) {
+		Com_Printf( "Sound_FindSound(): sound name exceeds MAX_GAMEPATH\n");
 
 		return NULL;
 	}
 
 	/* See if already loaded */
-	hashKey = (my_strhash( name ) % SFX_HASHSIZE);
+	hashKey = (unsigned int)(my_strhash(name) % SFX_HASHSIZE);
 
-	for( sfx = s_sfxHash[ hashKey ] ; sfx ; sfx = sfx->nextHash ) {
-		if( ! my_stricmp( sfx->name, name ) ) {
+	for ((sfx = s_sfxHash[hashKey]); sfx; (sfx = sfx->nextHash)) {
+		if (! my_stricmp(sfx->name, name)) {
 			return sfx;
 		}
 	}
 
 	/* Create a new sfx_t */
-	if( s_numSfx == MAX_SFX ) {
-		Com_Printf( "Sound_FindSound: MAX_SFX hit\n" );
+	if (s_numSfx == MAX_SFX) {
+		Com_Printf("Sound_FindSound: MAX_SFX hit\n");
 
 		return NULL;
 	}
 
-	s_sfx[ s_numSfx++ ] = sfx = Z_Malloc( sizeof( sfx_t ) );
+	s_sfx[s_numSfx++] = sfx = Z_Malloc(sizeof(sfx_t));
 
-	my_strlcpy( sfx->name, name, sizeof( sfx->name ) );
+	my_strlcpy(sfx->name, name, sizeof(sfx->name));
 
 	/* Add to hash table */
-	sfx->nextHash = s_sfxHash[ hashKey ];
-	s_sfxHash[ hashKey ] = sfx;
+	sfx->nextHash = s_sfxHash[hashKey];
+	s_sfxHash[hashKey] = sfx;
 
 	return sfx;
 }
 
+/*
+ -----------------------------------------------------------------------------
+ Function: Sound_BeginRegistration
 
-PUBLIC void Sound_BeginRegistration( void )
+ Parameters: Nothing.
+
+ Returns: Nothing.
+
+ Notes:
+
+ -----------------------------------------------------------------------------
+ */
+PUBLIC void Sound_BeginRegistration(void)
 {
 	s_registration_sequence++;
 	s_registering = true;
 }
 
-PUBLIC sfx_t *Sound_RegisterSound( const char *name )
+/*
+ -----------------------------------------------------------------------------
+ Function: Sound_RegisterSound
+
+ Parameters: name -[in]: string representing...?
+
+ Returns:
+
+ Notes:
+
+ -----------------------------------------------------------------------------
+ */
+PUBLIC sfx_t *Sound_RegisterSound(const char *name)
 {
 	sfx_t	*sfx;
 
-	if( ! sound_initialized ) {
+	if (! sound_initialized) {
 		return NULL;
 	}
 
 	if( g_version->value == 1 ) {
-		char tempname[ 256 ];
+		char tempname[256];
 
-		my_snprintf( tempname, sizeof( tempname ), "sod%s", name );
+		my_snprintf(tempname, sizeof(tempname), "sod%s", name);
 
-		sfx = Sound_FindSound( tempname );
+		sfx = Sound_FindSound(tempname);
 	} else {
-		sfx = Sound_FindSound( name );
+		sfx = Sound_FindSound(name);
 	}
 
-	if( ! s_registering ) {
-		Sound_LoadSound( sfx );
+	if (! s_registering) {
+		Sound_LoadSound(sfx);
 	}
 
 	return sfx;
 }
 
+/*
+ -----------------------------------------------------------------------------
+ Function: Sound_EndRegistration
+
+ Parameters: Nothing.
+
+ Returns: Nothing.
+
+ Notes:
+
+ -----------------------------------------------------------------------------
+ */
 PUBLIC void Sound_EndRegistration( void )
 {
 
 	s_registering = false;
 }
 
+/*
+ -----------------------------------------------------------------------------
+ Function: Sound_FreeSounds
 
-void Sound_FreeSounds( void )
+ Parameters: Nothing.
+
+ Returns: Nothing.
+
+ Notes:
+
+ -----------------------------------------------------------------------------
+ */
+void Sound_FreeSounds(void)
 {
 	sfx_t	*sfx;
 	int		i;

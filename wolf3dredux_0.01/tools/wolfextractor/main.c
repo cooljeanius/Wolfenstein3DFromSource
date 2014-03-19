@@ -221,10 +221,10 @@ void CheckForDataFiles( W16 *Wolf_Ext )
 
 -----------------------------------------------------------------------------
 */
-#ifndef main
-int main( int argc, char *argv[] )
+#ifndef main /* this ifdef is bad */
+int main(int argc, char *argv[])
 #else
-int wolfextractor_main( int argc, char *argv[] )
+int wolfextractor_main(int argc, char *argv[])
 #endif /* !main */
 {
 	W16 Wolf_Ext = 0;	/* bit 0 high -WL1 extension
@@ -240,9 +240,11 @@ int wolfextractor_main( int argc, char *argv[] )
 #if 0 || 1
 	extern char gamepal[];
 
-	int test = 0x32 * 3;
+	int test;
+	test = (0x32 * 3);
 	printf("running gamepal startup test first...\n");
-	printf( "%d, %d, %d\n", gamepal[ test ]<<2, gamepal[ test+1 ]<<2, gamepal[ test+2 ]<<2 );
+	printf("%d, %d, %d\n", gamepal[test]<<2, gamepal[(test + 1)] << 2,
+		   gamepal[(test + 2)] << 2);
 # ifdef RETURN_EARLY
 	return 0;
 # else
@@ -250,119 +252,121 @@ int wolfextractor_main( int argc, char *argv[] )
 # endif /* RETURN_EARLY */
 #endif /* 0 || 1 */
 
-	printf( "\nWolfExtractor %s %s\n", BUILDSTRING, CPUSTRING );
-	printf( "running executable path %s with %i argument(s)\n", argv[0], argc );
-	printf( "Version %s built on %s at %s\n\n", APP_VERSION, __DATE__, __TIME__ );
+	printf("\nWolfExtractor %s %s\n", BUILDSTRING, CPUSTRING);
+	printf("running executable path %s with %i argument(s)\n", argv[0], argc);
+	printf("Version %s built on %s at %s\n\n", APP_VERSION, __DATE__, __TIME__);
 
 	getcwd(currentdir, MAXPATHLEN);
 
-	if( ! FS_ChangeCurrentDirectory( BASEDIR ) ) {
-		printf( "Unable to change into directory (%s)\n", BASEDIR );
-		printf( "(this would be coming from %s)\n", currentdir);
+	if (! FS_ChangeCurrentDirectory(BASEDIR)) {
+		printf("Unable to change into directory (%s)\n", BASEDIR);
+		printf("(this would be coming from %s)\n", currentdir);
 
 		return 1;
 	}
 
 
-    CheckForDataFiles( &Wolf_Ext );
-    if( ! Wolf_Ext ) {
-        printf( "No Wolfenstein data files found!\n" );
+    CheckForDataFiles(&Wolf_Ext);
+    if (! Wolf_Ext) {
+        printf("No Wolfenstein data files found!\n");
 
         return 1;
     }
 
     InitLUTs(); /* This is for hq2x */
 
-	if( Wolf_Ext & WL1_PAK ) {
-		printf( "\nFound Wolfenstein 3-D demo data files\n" );
+	if (Wolf_Ext & WL1_PAK) {
+		printf("\nFound Wolfenstein 3-D demo data files\n");
 
 		retval = 0;
 
-		retval += LumpExtractor( WL1_FEXT+1, WL1_LATCHPICS_LUMP_END+5, WL1_PAK );
-		retval += PExtractor( WL1_FEXT+1, WL1_PAK );
-		retval += AudioRipper( WL1_FEXT+1, 87, 174, WL1_PAK );
-		retval += MapRipper( WL1_FEXT+1, WL1_PAK );
+		retval += LumpExtractor((WL1_FEXT + 1), (WL1_LATCHPICS_LUMP_END + 5),
+								WL1_PAK);
+		retval += PExtractor((WL1_FEXT + 1), WL1_PAK);
+		retval += AudioRipper((WL1_FEXT + 1), 87, 174, WL1_PAK);
+		retval += MapRipper((WL1_FEXT + 1), WL1_PAK);
 
-		if( retval != 4 ) {
-			printf( "\nAn Error Has Occurred, exiting!\n" );
+		if (retval != 4) {
+			printf("\nAn Error Has Occurred, exiting!\n");
 
 			return 1;
 		}
 
-		PAK_builder( "wolf_demo.pak", WL1_PAK );
+		PAK_builder("wolf_demo.pak", WL1_PAK);
     }
 
 
-    if( Wolf_Ext & WL6_PAK ) {
-		printf( "\nFound Wolfenstein 3-D data files\n" );
+    if (Wolf_Ext & WL6_PAK) {
+		printf("\nFound Wolfenstein 3-D data files here, trying to extract them...\n");
 
 		retval = 0;
 
-		retval += LumpExtractor( WL6_FEXT+1, WL6_LATCHPICS_LUMP_END, WL6_PAK );
-		retval += PExtractor( WL6_FEXT+1, WL6_PAK );
-		retval += AudioRipper( WL6_FEXT+1, 87, 174, WL6_PAK );
-		retval += MapRipper( WL6_FEXT+1, WL6_PAK );
+		retval += LumpExtractor((WL6_FEXT + 1), WL6_LATCHPICS_LUMP_END,
+								WL6_PAK);
+		retval += PExtractor((WL6_FEXT + 1), WL6_PAK );
+		retval += AudioRipper((WL6_FEXT + 1), 87, 174, WL6_PAK);
+		retval += MapRipper((WL6_FEXT + 1), WL6_PAK);
 
-		if( retval != 4 ) {
-			printf( "\nAn Error Has Occurred, exiting!\n" );
+		if (retval != 4) {
+			printf("\nAn Error Has Occurred, exiting!\n");
 
 			return 1;
 		}
 
-		PAK_builder( "wolf.pak", WL6_PAK );
+		PAK_builder("wolf.pak", WL6_PAK);
     }
 
-	if( Wolf_Ext & SDM_PAK ) {
-		printf( "\nFound Spear of Destiny demo data files\n" );
+	if (Wolf_Ext & SDM_PAK) {
+		printf("\nFound Spear of Destiny demo data files\n");
 
 		retval = 0;
 
-		retval += LumpExtractor( SDM_FEXT+1, 127, SDM_PAK );
-		retval += PExtractor( SDM_FEXT+1, SDM_PAK );
-		retval += AudioRipper( SDM_FEXT+1, 81, 162, SDM_PAK );
-		retval += MapRipper( SDM_FEXT+1, SDM_PAK );
+		retval += LumpExtractor((SDM_FEXT + 1), 127, SDM_PAK);
+		retval += PExtractor((SDM_FEXT + 1), SDM_PAK);
+		retval += AudioRipper((SDM_FEXT + 1), 81, 162, SDM_PAK);
+		retval += MapRipper((SDM_FEXT + 1), SDM_PAK);
 
-		if( retval != 4 ) {
-			printf( "\nAn Error Has Occurred, exiting!\n" );
+		if (retval != 4) {
+			printf("\nAn Error Has Occurred, exiting!\n");
 
 			return 1;
 		}
 
-		return retval;
+		return (int)retval;
 
-		PAK_builder( "spear_demo.pak", SDM_PAK );
+		PAK_builder("spear_demo.pak", SDM_PAK);
     }
 
-	if( Wolf_Ext & SOD_PAK ) {
-		printf( "\nFound Spear of Destiny data files\n" );
+	if (Wolf_Ext & SOD_PAK) {
+		printf("\nFound Spear of Destiny data files\n");
 
 		retval = 0;
 
-		retval += LumpExtractor( SOD_FEXT+1, 149, SOD_PAK );
-		retval += PExtractor( SOD_FEXT+1, SOD_PAK );
-		retval += AudioRipper( SOD_FEXT+1, 81, 162, SOD_PAK );
-		retval += MapRipper( SOD_FEXT+1, SOD_PAK );
+		retval += LumpExtractor((SOD_FEXT + 1), 149, SOD_PAK);
+		retval += PExtractor((SOD_FEXT + 1), SOD_PAK);
+		retval += AudioRipper((SOD_FEXT + 1), 81, 162, SOD_PAK);
+		retval += MapRipper((SOD_FEXT + 1), SOD_PAK);
 
-		if( retval != 4 ) {
-			printf( "\nAn Error Has Occurred, exiting!\n" );
+		if (retval != 4) {
+			printf("\nAn Error Has Occurred, exiting!\n");
 
 			return 1;
 		}
 
-		PAK_builder( "spear.pak", SOD_PAK );
+		PAK_builder("spear.pak", SOD_PAK);
     }
 
-	if( Wolf_Ext & MAC_PAK ) {
-		printf( "\nFound Macintosh binary file\n" );
+	if (Wolf_Ext & MAC_PAK) {
+		printf("\nFound Macintosh binary file\n");
 
 		ripMac();
 
-#if 0
-		PAK_builder( "mac.pak", MAC_PAK );
-#endif /* 0 */
+#if 0 || __clang_analyzer__ || __MACOS_CLASSIC__
+		PAK_builder("mac.pak", MAC_PAK);
+#endif /* 0 || __clang_analyzer__ || __MACOS_CLASSIC__ */
     }
 
-	deleteCacheDirectories( Wolf_Ext );
+	deleteCacheDirectories(Wolf_Ext);
 
 	return 0;
 }

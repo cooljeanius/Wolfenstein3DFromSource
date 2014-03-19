@@ -53,39 +53,40 @@ _boolean stdin_active = true;
 cvar_t *nostdout;
 
 
-extern void KBD_Update( void );
+extern void KBD_Update(void);
 
-#ifndef Sys_Error
-void Sys_Error( const char *format, ... )
+#ifndef Sys_Error /* this ifdef is bad */
+void Sys_Error(const char *format, ...)
 #else
-void unix_Sys_Error( const char *format, ... )
+void unix_Sys_Error(const char *format, ...)
 #endif /* !Sys_Error */
 {
     va_list     argptr;
-    char        string[ 1024 ];
+    char        string[1024];
 
 /* change stdin to non blocking */
-    fcntl( 0, F_SETFL, fcntl (0, F_GETFL, 0) & ~FNDELAY );
+    fcntl(0, F_SETFL, fcntl (0, F_GETFL, 0) & ~FNDELAY );
 
 
 	Client_Shutdown();
 
-    va_start( argptr, format );
-    (void)vsnprintf( string, sizeof( string ), format, argptr );
-    va_end( argptr );
+    va_start(argptr, format);
+    (void)vsnprintf(string, sizeof(string), format, argptr);
+    va_end(argptr);
 
-	fprintf( stderr, "Error: %s\n", string );
+	fprintf(stderr, "Error: %s\n", string);
 
-	_exit( 1 );
+	_exit(1);
 
 }
 
+/* quit */
 void Sys_Quit (void)
 {
 	Client_Shutdown();
 
-    fcntl( 0, F_SETFL, fcntl (0, F_GETFL, 0) & ~FNDELAY );
-	_exit( 0 );
+    fcntl(0, F_SETFL, fcntl(0, F_GETFL, 0) & ~FNDELAY);
+	_exit(0);
 }
 
 /*
@@ -117,7 +118,7 @@ void Sys_SendKeyEvents (void)
         Caller is responsible for freeing data.
 -----------------------------------------------------------------------------
 */
-char *Sys_GetClipboardData( void )
+char *Sys_GetClipboardData(void)
 {
 	return NULL;
 }
@@ -137,39 +138,39 @@ char *Sys_GetClipboardData( void )
 			3.  Enter application loop.
 -----------------------------------------------------------------------------
 */
-#ifndef main
-int main( int argc, char *argv[] )
+#ifndef main /* this ifdef is bad */
+int main(int argc, char *argv[])
 #else
-int unix_main( int argc, char *argv[] )
+int unix_main(int argc, char *argv[])
 #endif /* !main */
 {
 	int 	time, oldtime, newtime;
 
 	/* go back to real user for config loads */
 	saved_euid = geteuid();
-	seteuid( getuid() );
+	seteuid(getuid());
 
-	common_Init( argc, argv );
+	common_Init(argc, argv);
 
-	fcntl( 0, F_SETFL, fcntl (0, F_GETFL, 0) | FNDELAY );
+	fcntl(0, F_SETFL, (fcntl(0, F_GETFL, 0) | FNDELAY));
 
-	nostdout = Cvar_Get( "nostdout", "0", CVAR_INIT );
-	if( ! nostdout->value ) {
-		fcntl( 0, F_SETFL, fcntl (0, F_GETFL, 0) | FNDELAY );
+	nostdout = Cvar_Get("nostdout", "0", CVAR_INIT);
+	if (! nostdout->value) {
+		fcntl(0, F_SETFL, (fcntl (0, F_GETFL, 0) | FNDELAY));
 	}
 
-    oldtime = Sys_Milliseconds();
-    while( 1 ) {
+    oldtime = (int)Sys_Milliseconds();
+    while (1) {
 		KBD_Update();
 
 		/* find time spent rendering last frame */
 		do {
-			newtime = Sys_Milliseconds();
+			newtime = (int)Sys_Milliseconds();
 			time = newtime - oldtime;
 
-		} while( time < 1 );
+		} while (time < 1);
 
-        common_Frame( time );
+        common_Frame(time);
 		oldtime = newtime;
     }
 

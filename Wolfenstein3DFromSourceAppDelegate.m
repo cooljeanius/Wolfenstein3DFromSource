@@ -17,7 +17,10 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
 	/* Insert code here to initialize your application */
-	/* (make sure that it uses the "aNotification" parameter) */
+	/* dummy condition to use the 'aNotification' parameter: */
+	if (aNotification) {
+		;
+	}
 }
 
 @end

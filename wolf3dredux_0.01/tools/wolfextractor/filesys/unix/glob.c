@@ -95,7 +95,7 @@ static int glob_pattern_p(char *pattern)
  */
 
 /* TODO: put this function in a shared library */
-#ifndef glob_match
+#ifndef glob_match /* this ifdef is bad */
 int glob_match(char *pattern, char *text)
 #else
 int wolfextractor_glob_match(char *pattern, char *text)
@@ -106,6 +106,11 @@ int wolfextractor_glob_match(char *pattern, char *text)
 	int has_globbing_chars;
 
 	has_globbing_chars = glob_pattern_p("*p");
+
+	/* dummy condition to use this variable: */
+	if (has_globbing_chars == 0) {
+		;
+	}
 
 	while ((c = *p++) != '\0')
 		switch (c) {

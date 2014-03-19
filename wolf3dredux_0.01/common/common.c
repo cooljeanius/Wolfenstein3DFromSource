@@ -102,7 +102,7 @@ CLIENT / SERVER interactions
 static int	rd_target;
 static char	*rd_buffer;
 static int	rd_buffersize;
-static void	(*rd_flush)( int target, char *buffer );
+static void	(*rd_flush)(int target, char *buffer); /* yikes */
 
 
 /*
@@ -117,16 +117,17 @@ static void	(*rd_flush)( int target, char *buffer );
 
 -----------------------------------------------------------------------------
 */
-PUBLIC void Com_BeginRedirect( int target, char *buffer, int buffersize, void (*flush) )
+PUBLIC void Com_BeginRedirect(int target, char *buffer, int buffersize,
+							  void (*flush))
 {
-	if( ! target || ! buffer || ! buffersize || ! flush ) {
+	if (! target || ! buffer || ! buffersize || ! flush) {
 		return;
 	}
 
 	rd_target = target;
 	rd_buffer = buffer;
 	rd_buffersize = buffersize;
-	rd_flush = flush; /* this seems dangerous... */
+	rd_flush = (void (*)(int, char *))flush; /* this cast seems dangerous... */
 
 	*rd_buffer = 0;
 }

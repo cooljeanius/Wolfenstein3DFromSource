@@ -129,21 +129,22 @@ PRIVATE void Intro_CreditsPage_Draw( void )
 
 typedef	struct
 {
-	char	name[ MAX_HIGHNAME + 1 ];
+	char	name[MAX_HIGHNAME + 1];
 	W32		score;
 	W16		completed, episode;
 
 } HighScore_t;
 
-PRIVATE HighScore_t	Scores[ MAX_SCORES ] =
+PRIVATE HighScore_t	Scores[MAX_SCORES] =
 {
-	{ "id software-'92",10000, 1 },
-	{ "Adrian Carmack",	10000, 1 },
-	{ "John Carmack",	10000, 1 },
-	{ "Kevin Cloud",	10000, 1 },
-	{ "Tom Hall",		10000, 1 },
-	{ "John Romero",	10000, 1 },
-	{ "Jay Wilbur",		10000, 1 }
+	/* values for "episode" field are guesses: */
+	{ "id software-'92",10000, 1, 1 },
+	{ "Adrian Carmack",	10000, 1, 1 },
+	{ "John Carmack",	10000, 1, 1 },
+	{ "Kevin Cloud",	10000, 1, 1 },
+	{ "Tom Hall",		10000, 1, 1 },
+	{ "John Romero",	10000, 1, 1 },
+	{ "Jay Wilbur",		10000, 1, 1 }
 };
 
 PRIVATE void Intro_HighScore_Draw( void )
