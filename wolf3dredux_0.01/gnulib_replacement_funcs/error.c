@@ -13,9 +13,10 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>. */
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
-/* Written by David MacKenzie <djm@gnu.ai.mit.edu>.  */
+/* Written by David MacKenzie <djm@gnu.ai.mit.edu>. */
 
 #if !_LIBC
 # include <config.h>
@@ -124,9 +125,9 @@ extern char *program_name;
 #  ifdef __inline__
 #   define INLINECALL __inline__
 #  else
-#   ifdef __NO_INLINE__
+#   if defined(__NO_INLINE__) && defined(__GNUC__) && !defined(__STDC__)
 #    warning "INLINECALL will be unavailable when using the '-ansi' compiler flag"
-#   endif /* __NO_INLINE__ */
+#   endif /* __NO_INLINE__ && __GNUC__ && !__STDC__ */
 #   define INLINECALL /* nothing */
 #  endif /* __inline__ */
 # else

@@ -185,25 +185,32 @@ PRIVATE W8 PML_OpenPageFile( const char *extension )
 
 -----------------------------------------------------------------------------
 */
-PRIVATE void PML_ReadFromFile( W8 *buf, SW32 offset, W16 length )
+PRIVATE void PML_ReadFromFile(W8 *buf, SW32 offset, W16 length)
 {
-	if( ! buf ) {
-		printf( "[PML_ReadFromFile]: NULL pointer\n" );
+	if (! buf) {
+		printf("[PML_ReadFromFile]: NULL pointer\n");
 		return;
 	}
 
-	if( ! offset ) {
-		printf( "[PML_ReadFromFile]: Zero offset\n" );
+	if (buf == NULL) {
+		printf("[PML_ReadFromFile]: buf is null\n");
 		return;
 	}
 
-	if( fseek( PageFile, offset, SEEK_SET ) ) {
-		printf( "[PML_ReadFromFile]: Seek failed\n" );
+	if (! offset) {
+		printf("[PML_ReadFromFile]: Zero offset\n");
 		return;
 	}
 
-	if( ! fread( buf, 1, length, PageFile ) ) {
-		printf( "[PML_ReadFromFile]: Read failed\n" );
+	if (fseek(PageFile, offset, SEEK_SET)) {
+		printf("[PML_ReadFromFile]: Seek failed with offset '%lu'\n",
+			   offset);
+		return;
+	}
+
+	if (! fread(buf, 1, length, PageFile)) {
+		printf("[PML_ReadFromFile]: Reading file using buf '%s' and length '%i' failed\n",
+			   buf, length);
 		return;
 	}
 }
@@ -222,29 +229,29 @@ PRIVATE void PML_ReadFromFile( W8 *buf, SW32 offset, W16 length )
 
 -----------------------------------------------------------------------------
 */
-PRIVATE void *PML_LoadPage( W32 pagenum, W16 *clength )
+PRIVATE void *PML_LoadPage(W32 pagenum, W16 *clength)
 {
     W8 *addr;
     PageList_t *page;
 
-    page = &PMPages[ pagenum ];
-	if( page->length == 0 ) {
+    page = &PMPages[pagenum];
+	if (page->length == 0) {
 		return NULL;
 	}
 
     *clength = page->length;
 
-    addr = MM_MALLOC( page->length );
-	if( addr == NULL ) {
+    addr = MM_MALLOC(page->length);
+	if (addr == NULL) {
 		return NULL;
 	}
 
-    PML_ReadFromFile( addr, page->offset, page->length );
+    PML_ReadFromFile(addr, (SW32)page->offset, page->length);
 
     return addr;
 }
 
-extern void ReduxAlphaChannel_hq2x( W8 *data, W32 width, W32 height );
+extern void ReduxAlphaChannel_hq2x(W8 *data, W32 width, W32 height);
 
 /*
 -----------------------------------------------------------------------------
@@ -262,7 +269,7 @@ extern void ReduxAlphaChannel_hq2x( W8 *data, W32 width, W32 height );
 -----------------------------------------------------------------------------
 */
 PRIVATE W8 PML_SaveGFXPage(W32 nPage, const char *filename, W8 *buffer,
-						   W8 *buffer2, _boolean iswall, W32 GunFlash )
+						   W8 *buffer2, _boolean iswall, W32 GunFlash)
 {
 	W16 x, y, i;
 	W8 *data;
@@ -272,236 +279,272 @@ PRIVATE W8 PML_SaveGFXPage(W32 nPage, const char *filename, W8 *buffer,
 	W8 r,g,b;
 	W16 clength; /* Chunk length */
 
-	data = (PW8)PML_LoadPage( nPage, &clength );
-	if( data == NULL ) {
+	/* dummy condition to use GunFlash parameter: */
+	if (GunFlash == 0) {
+		;
+	}
+
+	data = (PW8)PML_LoadPage(nPage, &clength);
+	if (data == NULL) {
         return 0;
     }
 
-    if( nPage < PMSpriteStart ) {
-	   for( x = 0; x < 64; ++x ) {
-            for( y = 0; y < 64; ++y ) {
-                temp = ( data[ (x<<6)+y ] ) * 3;
+    if (nPage < PMSpriteStart) {
+	   for ((x = 0); (x < 64); ++x) {
+            for ((y = 0); (y < 64); ++y) {
+                temp = ((data[((x << 6) + y)]) * 3);
 
-                ptr = buffer + ( ( (y << 6) + x ) * 2 );
+                ptr = (buffer + (((y << 6) + x) * 2));
 
-                r = gamepal[ temp ] >> 1;
-                g = gamepal[ temp+1 ];
-                b = gamepal[ temp+2 ] >> 1;
+                r = (W8)(gamepal[temp] >> 1);
+                g = (W8)(gamepal[(temp + 1)]);
+                b = (W8)(gamepal[(temp + 2)] >> 1);
 
-                rgb = (b << 11) | (g << 5) | r;
-                ptr[ 0 ] = rgb & 0xff;
-                ptr[ 1 ] = rgb >> 8;
+                rgb = (W16)((b << 11) | (g << 5) | r);
+                ptr[0] = (rgb & 0xff);
+                ptr[1] = (rgb >> 8);
             }
         }
-    } else if( nPage >= PMSpriteStart && nPage < PMSoundStart ) {
+    } else if ((nPage >= PMSpriteStart) && (nPage < PMSoundStart)) {
         W16 *cmdptr;
-        short *linecmds;
+#if defined(SIZEOF_SHORT) && defined(SIZEOF_INT)
+# if (SIZEOF_INT) > (SIZEOF_SHORT)
+		int *linecmds;
+# else
+        short *linecmds; /* this is a bad size to use */
+# endif /* SIZEOF_INT > SIZEOF_SHORT */
+#else
+		short *linecmds; /* this is a bad size to use */
+#endif /* SIZEOF_SHORT && SIZEOF_INT */
         t_compshape *shape;
 
-#if 0
-		memset( buffer, 0, (64*64*2) );
-#endif /* 0 */
+#ifdef ALIGNOF_SHORT
+# if (ALIGNOF_SHORT == 0) || (ALIGNOF_SHORT != 2)
+		printf("PML_SaveGFXPage(): linecmds might be misaligned; offsetof 'short' is '%i'...\n",
+			   (int)(ALIGNOF_SHORT));
+# endif /* (ALIGNOF_SHORT == 0) || (ALIGNOF_SHORT != 2) */
+#endif /* ALIGNOF_SHORT */
+
+#ifdef ALIGNOF_INT
+# if (ALIGNOF_INT == 0) || (ALIGNOF_INT != 4)
+		printf("PML_SaveGFXPage(): linecmds might be misaligned; offsetof 'int' is '%i'...\n",
+			   (int)(ALIGNOF_INT));
+# endif /* (ALIGNOF_INT == 0) || (ALIGNOF_INT != 4) */
+#endif /* ALIGNOF_INT */
+
+#if 0 || __clang_analyzer__ || 1
+		memset(buffer, 0, (64 * 64 * 2)); /* (64 * 64 * 2) = 8192 */
+#endif /* 0 || __clang_analyzer__ || 1 */
 
         /* all transparent at the beginning */
-        for( x = 0; x < (64*64*2); x += 2 ) {
-			ptr = buffer + x;
+        for ((x = 0); (x < (64 * 64 * 2)); (x += 2)) {
+			ptr = (buffer + x);
 
 			r = 31;
 			g = 0;
 			b = 31;
 
-			rgb = (b << 11) | (g << 5) | r;
-			ptr[ 0 ] = rgb & 0xff;
-			ptr[ 1 ] = rgb >> 8;
+			rgb = (W16)((b << 11) | (g << 5) | r);
+			ptr[0] = (rgb & 0xff);
+			ptr[1] = (rgb >> 8);
 		}
 
         shape = (t_compshape *)data;
 
         cmdptr = shape->dataofs;
-        for( x = shape->leftpix; x <= shape->rightpix; ++x ) {
-            linecmds = (short *)( data + *cmdptr++ );
-            for( ; *linecmds; linecmds += 3 ) {
-                i = linecmds[ 2 ] / 2 + linecmds[ 1 ];
-                for( y = linecmds[ 2 ] / 2; y < linecmds[ 0 ] / 2; ++y, ++i ) {
-				    temp = ( data[ i ] ) * 3;
+        for ((x = shape->leftpix); (x <= shape->rightpix); ++x) {
+            linecmds = (int *)(data + *cmdptr++);
+			/* one of clang's sanitizers throws a runtime error around here */
+            for ((i = 0); (*linecmds); (linecmds += (short)(3))) {
+				/* dummy condition to use 'i': */
+				if (i == 0) {
+					;
+				}
+                i = (W16)((linecmds[2] / 2) + linecmds[1]);
+                for ((y = (W16)(linecmds[2] / 2)); (y < (linecmds[0] / 2));
+					 ++y, ++i) {
+				    temp = ((data[i]) * 3);
 
-                    ptr = buffer + ( (y * 64 + x) * 2 );
+                    ptr = (buffer + (((y * 64) + x) * 2));
 
-                    r = gamepal[ temp ] >> 1;
-                    g = gamepal[ temp+1 ];
-                    b = gamepal[ temp+2 ] >> 1;
+                    r = (W8)(gamepal[temp] >> 1);
+                    g = (W8)(gamepal[(temp + 1)]);
+                    b = (W8)(gamepal[(temp + 2)] >> 1);
 
-                    rgb = (b << 11) | (g << 5) | r;
-                    ptr[ 0 ] = rgb & 0xff;
-                    ptr[ 1 ] = rgb >> 8;
+                    rgb = (W16)((b << 11) | (g << 5) | r);
+					if (ptr) {
+						ptr[0] = (rgb & 0xff); /* bad access here... */
+						ptr[1] = (rgb >> 8);
+					}
                 }
             }
         }
     } else {
-        MM_FREE( data );
-        printf( "Out of bounds page number passed into PML_SavePage()!\n" );
+        MM_FREE(data);
+        printf("Out of bounds page number passed into PML_SavePage()!\n");
         return 0;
     }
 
 
-	MM_FREE( data );
+	MM_FREE(data);
 
-    hq2x_32( buffer, buffer2, 64, 64, 128*4 );
+    hq2x_32(buffer, buffer2, 64, 64, (128 * 4)); /* (128 * 4) = 512 */
 
-	if( iswall ) {
-		extern void RGB32toRGB24( const W8 *src, W8 *dest, size_t size );
-
-		RGB32toRGB24( buffer2, buffer2, 128*128*4 );
-		WriteTGA( filename, 24, 128, 128, buffer2, 0, 1 );
+	if (iswall) {
+		/* wtf is the prototype doing here in the middle of another function? */
+		extern void RGB32toRGB24(const W8 *src, W8 *dest, size_t size);
+		/* I mean, I get that it is right before it is used, but still... */
+		RGB32toRGB24(buffer2, buffer2, (128 * 128 * 4));
+		/* (128 * 128 * 4) = 65536 */
+		WriteTGA(filename, 24, 128, 128, buffer2, 0, 1);
 	} else {
-        ReduxAlphaChannel_hq2x( buffer2, 128, 128 );
+        ReduxAlphaChannel_hq2x(buffer2, 128, 128);
 
 		/* Mod alpha channel for gun flash */
-#if 0 || defined MOD_ALPHA_CHANNEL_FOR_GUN_FLASH
-		if( GunFlash && GunFlash != 521 ) {
-			for( i = 200 ; i < (128*128) ; ++i ) {
-				ptr = buffer2 + i * 4;
+#if 0 || defined MOD_ALPHA_CHANNEL_FOR_GUN_FLASH || __clang_analyzer__
+		if (GunFlash && (GunFlash != 521)) {
+			for ((i = 200); (i < (128 * 128)); ++i) {
+				ptr = (buffer2 + (i * 4));
 
-				if( ptr[ 0 ] > 135 &&
-					ptr[ 1 ] >= 0 &&
-					ptr[ 2 ] >= 0 &&
-					ptr[ 1 ] < 63 &&
-					ptr[ 2 ] < 63 ) {
-					ptr[ 3 ] = 103;
+				if ((ptr[0] > 135) &&
+					(ptr[1] >= 0) &&
+					(ptr[2] >= 0) &&
+					(ptr[1] < 63) &&
+					(ptr[2] < 63)) {
+					ptr[3] = 103;
 				}
 
 
-				if( ptr[ 0 ] < 250 &&
-					ptr[ 1 ] > 59 &&
-					ptr[ 2 ] > 59 &&
-					ptr[ 0 ] > 227 &&
-					ptr[ 1 ] < 185 &&
-					ptr[ 2 ] < 185 ) {
-					ptr[ 3 ] = 103;
+				if ((ptr[0] < 250) &&
+					(ptr[1] > 59) &&
+					(ptr[2] > 59) &&
+					(ptr[0] > 227) &&
+					(ptr[1] < 185) &&
+					(ptr[2] < 185)) {
+					ptr[3] = 103;
 				}
 
-
-				if( ptr[ 0 ] > 233 &&
-					ptr[ 1 ] < 253 &&
-					ptr[ 2 ] > 75 &&
-					ptr[ 0 ] < 250 &&
-					ptr[ 1 ] > 185 &&
-					ptr[ 2 ] < 172 ) {
-					ptr[ 3 ] = 103;
+				/* TODO: continue adding the extra parentheses (from here on) */
+				if (ptr[0] > 233 &&
+					ptr[1] < 253 &&
+					ptr[2] > 75 &&
+					ptr[0] < 250 &&
+					ptr[1] > 185 &&
+					ptr[2] < 172 ) {
+					ptr[3] = 103;
 				}
 
-				if( ptr[ 0 ] > 0 &&
-					ptr[ 1 ] == 0 &&
-					ptr[ 2 ] >= 0 &&
-					ptr[ 2 ] < 34 ) {
-					ptr[ 3 ] = 103;
+				if (ptr[0] > 0 &&
+					ptr[1] == 0 &&
+					ptr[2] >= 0 &&
+					ptr[2] < 34 ) {
+					ptr[3] = 103;
 				}
 
-				if( ptr[ 0 ] == 248 &&
-					ptr[ 1 ] < 253 &&
-					ptr[ 2 ] < 241 &&
-					ptr[ 1 ] > 190 &&
-					ptr[ 2 ] > 174 ) {
-					ptr[ 3 ] = 103;
+				if (ptr[0] == 248 &&
+					ptr[1] < 253 &&
+					ptr[2] < 241 &&
+					ptr[1] > 190 &&
+					ptr[2] > 174 ) {
+					ptr[3] = 103;
 				}
 
-				if( ptr[ 0 ] == 248 &&
-					ptr[ 1 ] == 252 &&
-					ptr[ 2 ] == 248 &&
-					i < (110 * 110) )
-				{
-					ptr[ 3 ] = 103;
+				if (ptr[0] == 248 &&
+					ptr[1] == 252 &&
+					ptr[2] == 248 &&
+					i < (110 * 110)) { /* (110 * 110) = 12100 */
+					ptr[3] = 103;
 				}
 
 			} /* end of for-loop */
 
 
-			if( GunFlash == 526 ) {
-				buffer2[ (92 * 128 * 4) + (62 * 4) + 3 ] = 103;
-				buffer2[ (92 * 128 * 4) + (67 * 4) + 3 ] = 103;
+			if (GunFlash == 526) {
+				buffer2[(92 * 128 * 4) + (62 * 4) + 3] = 103;
+				buffer2[(92 * 128 * 4) + (67 * 4) + 3] = 103;
 
-				buffer2[ (94 * 128 * 4) + (70 * 4) + 3 ] = 103;
-				buffer2[ (95 * 128 * 4) + (59 * 4) + 3 ] = 103;
-				buffer2[ (95 * 128 * 4) + (70 * 4) + 3 ] = 103;
+				buffer2[(94 * 128 * 4) + (70 * 4) + 3] = 103;
+				buffer2[(95 * 128 * 4) + (59 * 4) + 3] = 103;
+				buffer2[(95 * 128 * 4) + (70 * 4) + 3] = 103;
 
-				buffer2[ (120 * 128 * 4) + (52 * 4) + 3 ] = 255;
-				buffer2[ (120 * 128 * 4) + (53 * 4) + 3 ] = 255;
-				buffer2[ (121 * 128 * 4) + (53 * 4) + 3 ] = 255;
-			} else if( GunFlash == 532 ) {
-				buffer2[ (87 * 128 * 4) + (58 * 4) + 3 ] = 255;
+				buffer2[(120 * 128 * 4) + (52 * 4) + 3] = 255;
+				buffer2[(120 * 128 * 4) + (53 * 4) + 3] = 255;
+				buffer2[(121 * 128 * 4) + (53 * 4) + 3] = 255;
+			} else if (GunFlash == 532) {
+				buffer2[(87 * 128 * 4) + (58 * 4) + 3] = 255;
 
-				buffer2[ (86 * 128 * 4) + (66 * 4) + 3 ] = 255;
-				buffer2[ (86 * 128 * 4) + (67 * 4) + 3 ] = 255;
-				buffer2[ (86 * 128 * 4) + (68 * 4) + 3 ] = 255;
+				buffer2[(86 * 128 * 4) + (66 * 4) + 3] = 255;
+				buffer2[(86 * 128 * 4) + (67 * 4) + 3] = 255;
+				buffer2[(86 * 128 * 4) + (68 * 4) + 3] = 255;
 
-				buffer2[ (87 * 128 * 4) + (66 * 4) + 3 ] = 255;
-				buffer2[ (87 * 128 * 4) + (67 * 4) + 3 ] = 255;
-				buffer2[ (87 * 128 * 4) + (68 * 4) + 3 ] = 255;
-			} else if( GunFlash == 531 ) {
-				buffer2[ (90 * 128 * 4) + (50 * 4) + 3 ] = 103;
-				buffer2[ (91 * 128 * 4) + (48 * 4) + 3 ] = 103;
+				buffer2[(87 * 128 * 4) + (66 * 4) + 3] = 255;
+				buffer2[(87 * 128 * 4) + (67 * 4) + 3] = 255;
+				buffer2[(87 * 128 * 4) + (68 * 4) + 3] = 255;
+			} else if (GunFlash == 531) {
+				buffer2[(90 * 128 * 4) + (50 * 4) + 3] = 103;
+				buffer2[(91 * 128 * 4) + (48 * 4) + 3] = 103;
 
-				buffer2[ (90 * 128 * 4) + (79 * 4) + 3 ] = 103;
-				buffer2[ (91 * 128 * 4) + (81 * 4) + 3 ] = 103;
-				buffer2[ (93 * 128 * 4) + (82 * 4) + 3 ] = 103;
+				buffer2[(90 * 128 * 4) + (79 * 4) + 3] = 103;
+				buffer2[(91 * 128 * 4) + (81 * 4) + 3] = 103;
+				buffer2[(93 * 128 * 4) + (82 * 4) + 3] = 103;
 			}
 
-		} else if( GunFlash && GunFlash == 521 ) {
-			for( i = 200 ; i < (128*128) ; ++i ) {
-				ptr = buffer2 + i * 4;
+		} else if (GunFlash && (GunFlash == 521)) {
+			for ((i = 200); (i < (128 * 128)); ++i) {
+				ptr = (buffer2 + (i * 4));
 
-				if( ptr[ 0 ] > 135 &&
-					ptr[ 1 ] >= 0 &&
-					ptr[ 2 ] >= 0 &&
-					ptr[ 1 ] < 63 &&
-					ptr[ 2 ] < 63 ) {
-					ptr[ 3 ] = 103;
+				if (ptr[0] > 135 &&
+					ptr[1] >= 0 &&
+					ptr[2] >= 0 &&
+					ptr[1] < 63 &&
+					ptr[2] < 63 ) {
+					ptr[3] = 103;
 				}
 
-				if( ptr[ 0 ] == 248 &&
-					ptr[ 1 ] >= 70 &&
-					ptr[ 2 ] >= 70 &&
-					ptr[ 1 ] < 157 &&
-					ptr[ 2 ] < 153 &&
-					ptr[ 2 ] != 96 ) {
-					ptr[ 3 ] = 103;
+				if (ptr[0] == 248 &&
+					ptr[1] >= 70 &&
+					ptr[2] >= 70 &&
+					ptr[1] < 157 &&
+					ptr[2] < 153 &&
+					ptr[2] != 96 ) {
+					ptr[3] = 103;
 				}
 
-				if( ptr[ 0 ] < 249 &&
-					ptr[ 1 ] > 230 &&
-					ptr[ 2 ] > 79 &&
-					ptr[ 0 ] > 237 &&
-					ptr[ 1 ] < 253 &&
-					ptr[ 2 ] < 92 ) {
-					ptr[ 3 ] = 103;
+				if (ptr[0] < 249 &&
+					ptr[1] > 230 &&
+					ptr[2] > 79 &&
+					ptr[0] > 237 &&
+					ptr[1] < 253 &&
+					ptr[2] < 92 ) {
+					ptr[3] = 103;
 				}
 
-				if( ptr[ 0 ] == 236 &&
-					ptr[ 1 ] == 80 &&
-					ptr[ 2 ] == 77 ) {
-					ptr[ 3 ] = 103;
+				if (ptr[0] == 236 &&
+					ptr[1] == 80 &&
+					ptr[2] == 77 ) {
+					ptr[3] = 103;
 				}
 
-				if( ptr[ 0 ] == 247 &&
-					ptr[ 1 ] == 136 &&
-					ptr[ 2 ] == 133 ) {
-					ptr[ 3 ] = 103;
+				if (ptr[0] == 247 &&
+					ptr[1] == 136 &&
+					ptr[2] == 133 ) {
+					ptr[3] = 103;
 				}
 
-				if( ptr[ 0 ] == 248 &&
-					ptr[ 1 ] == 100 &&
-					ptr[ 2 ] == 96 ) {
-					ptr[ 3 ] = 103;
+				if (ptr[0] == 248 &&
+					ptr[1] == 100 &&
+					ptr[2] == 96 ) {
+					ptr[3] = 103;
 				}
 			}
 		}
-#endif /* 0 || MOD_ALPHA_CHANNEL_FOR_GUN_FLASH */
+#endif /* 0 || MOD_ALPHA_CHANNEL_FOR_GUN_FLASH || __clang_analyzer__ */
 
-		WriteTGA( filename, 32, 128, 128, buffer2, 0, 1 );
+		WriteTGA(filename, 32, 128, 128, buffer2, 0, 1);
 	}
 
     return 1;
-}
+} /* end of PML_Save_GFXPage() (phew, that was a long function!) */
 
 /*
 -----------------------------------------------------------------------------
@@ -586,16 +629,16 @@ PRIVATE void PML_Shutdown()
  Parameters: extension -[in] Ponter to string with file extenion of data
 							files.
 
- Returns: Nothing.
+ Returns: Nothing (really? looks like a boolean to me...).
 
  Notes:
 
 -----------------------------------------------------------------------------
 */
-PUBLIC _boolean PExtractor( const char *extension, W16 version )
+PUBLIC _boolean PExtractor(const char *extension, W16 version)
 {
     W32 i, j;
-    char filename[ 256 ];
+    char filename[256];
     W8 *buffer, *buffer2;
 	W32 Flash;
 
@@ -604,40 +647,45 @@ PUBLIC _boolean PExtractor( const char *extension, W16 version )
  * Setup
  */
 
-	if( 0 == FS_Mkdir( GFXWALLDIR ) ) {
-		printf( "[%s] Could not create directory (%s)!\n", "PExtractor", GFXWALLDIR );
+	if (0 == FS_Mkdir(GFXWALLDIR)) {
+		printf("[%s] Could not create directory (%s)!\n", "PExtractor",
+			   GFXWALLDIR);
 
 		return false;
 	}
 
-	if( version == SOD_PAK || version == SDM_PAK ) {
-		if( 0 == FS_Mkdir( SODGFXSPRITEDIR ) ) {
-			printf( "[%s] Could not create directory (%s)!\n", "PExtractor", GFXSPRITEDIR );
+	if ((version == SOD_PAK) || (version == SDM_PAK)) {
+		if (0 == FS_Mkdir(SODGFXSPRITEDIR)) {
+			printf("[%s] Could not create directory (%s)!\n", "PExtractor",
+				   GFXSPRITEDIR );
 
 			return false;
 		}
 
-		if( 0 == FS_Mkdir( SODSFXDIR ) ) {
-			printf( "[%s] Could not create directory (%s)!\n", "PExtractor", SODSFXDIR );
+		if (0 == FS_Mkdir(SODSFXDIR)) {
+			printf("[%s] Could not create directory (%s)!\n", "PExtractor",
+				   SODSFXDIR);
 
 			return false;
 		}
 	} else {
-		if( 0 == FS_Mkdir( GFXSPRITEDIR ) ) {
-			printf( "[%s] Could not create directory (%s)!\n", "PExtractor", GFXSPRITEDIR );
+		if (0 == FS_Mkdir(GFXSPRITEDIR)) {
+			printf("[%s] Could not create directory (%s)!\n", "PExtractor",
+				   GFXSPRITEDIR);
 
 			return false;
 		}
 
-		if( 0 == FS_Mkdir( SFXDIR ) ) {
-			printf( "[%s] Could not create directory (%s)!\n", "PExtractor", SFXDIR );
+		if (0 == FS_Mkdir(SFXDIR)) {
+			printf("[%s] Could not create directory (%s)!\n", "PExtractor",
+				   SFXDIR);
 
 			return false;
 		}
 	}
 
 
-    if( ! PML_OpenPageFile( extension ) ) {
+    if (! PML_OpenPageFile(extension)) {
 		PML_Shutdown();
 
 		return false;
@@ -647,16 +695,16 @@ PUBLIC _boolean PExtractor( const char *extension, W16 version )
  * Allocate buffers
  */
 
-	buffer = MM_MALLOC( 64 * 64 * 2 );
-	if( buffer == NULL ) {
+	buffer = MM_MALLOC((size_t)(64 * 64 * 2)); /* (64 * 64 * 2) = 8192 */
+	if (buffer == NULL) {
 		PML_Shutdown();
 
 		return false;
 	}
 
-    buffer2 = MM_MALLOC( 128 * 128 * 4 );
-	if( buffer2 == NULL ) {
-		MM_FREE( buffer );
+    buffer2 = MM_MALLOC((size_t)(128 * 128 * 4)); /* (128 * 128 * 4) = 65536 */
+	if (buffer2 == NULL) {
+		MM_FREE(buffer);
 		PML_Shutdown();
 
 		return false;
@@ -666,114 +714,117 @@ PUBLIC _boolean PExtractor( const char *extension, W16 version )
  * Decode Page data
  */
 
-	printf( "Decoding Page Data...\n" );
+	printf("PExtractor(): attempting to decode Page Data...\n");
 
-	for( i = 0, j = 0; i < PMSpriteStart; ++i, ++j ) {
+	for ((i = 0), (j = 0); (i < PMSpriteStart); ++i, ++j ) {
 		/* Hacks */
-		if( version == WL6_PAK || version == WL1_PAK ) {
-			if( 98 == j ) {
+		if ((version == WL6_PAK) || (version == WL1_PAK)) {
+			if (98 == j) {
 				/* huh? */
 				j = 126;
 			}
 		}
 
-		cs_snprintf( filename, sizeof( filename ), "%s/%.3d.tga", GFXWALLDIR, j );
+		cs_snprintf(filename, sizeof(filename), "%s/%.3d.tga", GFXWALLDIR, j);
 
-		PML_SaveGFXPage( i, filename, buffer, buffer2, 1, 0  );
+		PML_SaveGFXPage(i, filename, buffer, buffer2, 1, 0);
 	}
 
-    for( i = PMSpriteStart, j = 0; i < PMSoundStart; ++i, ++j ) {
+    for((i = PMSpriteStart), (j = 0); (i < PMSoundStart); ++i, ++j ) {
 		/* Hacks (need documentation) */
 		if( version == WL1_PAK ) {
-			if( j == 50 ) {
+			if (j == 50) {
 				j = 54;
 			}
 
-			if( j == 191 ) {
+			if (j == 191) {
 				j = 300;
 				i += 109;
 			}
 
-			if( j == 311 ) {
+			if (j == 311) {
 				j = 431;
 				i += 101;
 			}
 
-			if( j == 439 ) {
+			if (j == 439) {
 				j = 514;
 			}
 		}
 
-		if( version == WL6_PAK ) {
-			if( j == 50 ) {
+		if (version == WL6_PAK) {
+			if (j == 50) {
 				j = 54;
 			}
 
-			if( j == 389 ) {
+			if (j == 389) {
 				j = 408;
 			}
 
-			if( j == 439 ) {
+			if (j == 439) {
 				j = 514;
 			}
 		}
 
-		if( version == SDM_PAK ) {
-			if( j == 401 ) {
+		if (version == SDM_PAK) {
+			if (j == 401) {
 				j = 514;
 			}
 		}
 
-		if( version == SOD_PAK ) {
-			if( j == 292 ) {
+		if (version == SOD_PAK) {
+			if (j == 292) {
 				j = 374;
 			}
 
-			if( j == 408 ) {
+			if (j == 408) {
 				j = 439;
 			}
 		}
 
 		if( version == SOD_PAK || version == SDM_PAK ) {
-			cs_snprintf( filename, sizeof( filename ), "%s/%.3d.tga", SODGFXSPRITEDIR, j );
+			cs_snprintf(filename, sizeof(filename), "%s/%.3d.tga",
+						SODGFXSPRITEDIR, j);
 		} else {
-			cs_snprintf( filename, sizeof( filename ), "%s/%.3d.tga", GFXSPRITEDIR, j );
+			cs_snprintf(filename, sizeof(filename), "%s/%.3d.tga",
+						GFXSPRITEDIR, j);
 		}
 
 
-		if( j == 531 ||
-			j == 532 ||
-			j == 526 ||
-			j == 521 ) {
+		if ((j == 531) ||
+			(j == 532) ||
+			(j == 526) ||
+			(j == 521)) {
 			Flash = j;
 		} else {
 			Flash = 0;
 		}
 
 
-        PML_SaveGFXPage( i, filename, buffer, buffer2, 0, Flash );
+        PML_SaveGFXPage(i, filename, buffer, buffer2, 0, Flash);
     }
 
-    for( i = PMSoundStart, j = 0; i < PMNumBlocks-1; ++i, ++j ) {
+    for ((i = PMSoundStart), (j = 0); (i < (PMNumBlocks - 1)); ++i, ++j) {
 		if( version == SOD_PAK || version == SDM_PAK ) {
-			cs_snprintf( filename, sizeof( filename ), "%s/%.3d.wav", SODSFXDIR, j );
+			cs_snprintf(filename, sizeof(filename), "%s/%.3d.wav", SODSFXDIR, j);
 		} else {
-			cs_snprintf( filename, sizeof( filename ), "%s/%.3d.wav", SFXDIR, j );
+			cs_snprintf(filename, sizeof(filename), "%s/%.3d.wav", SFXDIR, j);
 		}
 
-        PML_SaveSoundPage( i, filename, buffer2, 128 * 128 * 4  );
+        PML_SaveSoundPage(i, filename, buffer2, (128 * 128 * 4));
+		/* (128 * 128 * 4) = 65536 */
     }
 
 /*
  * Shutdown
  */
 
-    MM_FREE( buffer );
-    MM_FREE( buffer2 );
+    MM_FREE(buffer);
+    MM_FREE(buffer2);
 
     PML_Shutdown();
 
 	return true;
-}
+} /* end of PExtractor() (another long one!) */
 
 /* EOF */

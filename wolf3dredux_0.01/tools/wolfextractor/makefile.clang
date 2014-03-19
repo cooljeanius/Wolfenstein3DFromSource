@@ -1,0 +1,208 @@
+#
+# Project: Wolfenstein 3-D Redux
+#
+# Program: wolfextractor
+#
+
+COMPILER = /opt/local/libexec/llvm-3.3/bin/clang
+DIAGFLAGS = -fcolor-diagnostics -fdiagnostics-print-source-range-info -fdiagnostics-show-note-include-stack -fdiagnostics-show-option
+WARNFLAGS = -Wall -Wno-trigraphs -Wmissing-field-initializers -Wmissing-prototypes -Wreturn-type -Wmissing-braces -Wparentheses -Wswitch -Wunused-function -Wunused-label -Wunused-parameter -Wunused-variable -Wshorten-64-to-32 -Wimplicit
+# (cannot sanitize both thread and address at the same time)
+SANFLAGS = -fsanitize=bounds -fsanitize=undefined
+OPTFLAGS = -g -gdwarf-2 -ggdb -O1 -msse3 -mssse3 -msse4.2 -msse4.2 
+CFLAGS = -c -x c $(OPTFLAGS) -std=gnu99 $(WARNFLAGS) -fasm-blocks -fexceptions -fno-common -fno-limit-debug-info -fno-omit-frame-pointer -fpascal-strings -funroll-loops -ffast-math -mfix-and-continue $(DIAGFLAGS) $(SANFLAGS)
+CPPFLAGS = -I/opt/local/include
+OLD_LDFLAGS = -s
+LIBS = -lvorbis -lvorbisenc -logg -lm
+LDFLAGS = -L/opt/local/lib $(SANFLAGS)
+ODIR = Release
+                                                                                
+EXEBASE = wolfextractor
+EXE = $(ODIR)/$(EXEBASE)
+
+DO_CC = $(COMPILER) $(CFLAGS) ${CPPFLAGS} -o $@ -c $<
+
+SCAN_BUILD = /opt/local/libexec/llvm-3.3/libexec/scan-build/scan-build
+SCAN_BUILD_CHECKERS = -enable-checker alpha.core.CastSize -enable-checker alpha.core.CastToStruct -enable-checker alpha.core.FixedAddr -enable-checker alpha.core.PointerArithm -enable-checker alpha.core.PointerSub -enable-checker alpha.core.SizeofPtr -enable-checker alpha.security.ArrayBound -enable-checker alpha.security.ArrayBoundV2 -enable-checker alpha.security.MallocOverflow -enable-checker alpha.security.ReturnPtrRange -enable-checker alpha.unix.MallocWithAnnotations -enable-checker alpha.unix.SimpleStream -enable-checker alpha.unix.Stream -enable-checker alpha.unix.cstring.BufferOverlap -enable-checker alpha.unix.cstring.NotNullTerminated -enable-checker alpha.unix.cstring.OutOfBounds -enable-checker security.insecureAPI.rand -enable-checker security.insecureAPI.strcpy -enable-checker security.insecureAPI.vfork -enable-checker llvm.Conventions -enable-checker debug.ConfigDumper -enable-checker alpha.deadcode.UnreachableCode -enable-checker security.FloatLoopCounter -enable-checker debug.Stats
+
+all: $(EXE)
+
+analyze: clean makefile.clang
+	$(SCAN_BUILD) -analyze-headers -stats --use-analyzer=$(COMPILER) $(SCAN_BUILD_CHECKERS) -v -v -v -plist-html -o scan_build_output make -f makefile.clang
+
+clean:
+	rm -f $(ODIR)/*.o $(EXE)
+	rm -f string/*.o
+	rm -f string/test_com_string
+	rm -f Debug/*/*.o
+	rm -f Debug/tools/wolfextractor/*/*.o
+	rm -f Debug/tools/wolfextractor/*/*/*.o
+.PHONY: clean
+
+
+PROGRAM_FILES = $(ODIR)/adlib.o \
+		$(ODIR)/fmopl.o \
+		$(ODIR)/arch.o \
+		$(ODIR)/file.o \
+		$(ODIR)/unix_file.o \
+		$(ODIR)/glob.o \
+		$(ODIR)/com_string.o \
+		$(ODIR)/tga.o \
+		$(ODIR)/wav.o \
+		$(ODIR)/memory.o \
+		$(ODIR)/mac.o \
+		$(ODIR)/wl6_name.o \
+		$(ODIR)/wolf_aud.o \
+		$(ODIR)/wolf_gfx.o \
+		$(ODIR)/wolf_map.o \
+		$(ODIR)/wolf_pal.o \
+		$(ODIR)/wolf_pm.o \
+		$(ODIR)/zipfile.o \
+		$(ODIR)/adler32.o \
+		$(ODIR)/compress.o \
+		$(ODIR)/crc32.o \
+		$(ODIR)/deflate.o \
+		$(ODIR)/trees.o \
+		$(ODIR)/zutil.o \
+		$(ODIR)/hq2x.o \
+		$(ODIR)/pak.o \
+		$(ODIR)/vorbisenc_inter.o \
+		$(ODIR)/main.o
+
+
+
+$(EXE): $(PROGRAM_FILES) 
+	${COMPILER} -o $(EXE) $(PROGRAM_FILES) ${LDFLAGS} $(LIBS)
+	dsymutil $(EXE)
+
+
+
+#==========================================================================
+#	Build
+#==========================================================================
+   
+										
+
+#
+#	adlib/
+#
+$(ODIR)/adlib.o : adlib/adlib.c 
+	$(DO_CC)
+
+$(ODIR)/fmopl.o : adlib/fmopl.c 
+	$(DO_CC)
+
+#
+#	common/
+#
+$(ODIR)/arch.o : ../../common/arch.c 
+	$(DO_CC)
+
+#
+#	filesys/
+#
+$(ODIR)/file.o : filesys/file.c 
+	$(DO_CC)
+
+#
+#	filesys/unix/
+#
+$(ODIR)/unix_file.o : filesys/unix/unix_file.c 
+	$(DO_CC)
+
+$(ODIR)/glob.o : filesys/unix/glob.c 
+	$(DO_CC)
+
+#
+#	loaders/
+#
+$(ODIR)/tga.o : loaders/tga.c 
+	$(DO_CC)
+
+$(ODIR)/wav.o : loaders/wav.c 
+	$(DO_CC)
+
+#
+#	mac/
+#
+$(ODIR)/mac.o : mac/mac.c 
+	$(DO_CC)
+
+#
+#	memory/
+#
+$(ODIR)/memory.o : memory/memory.c 
+	$(DO_CC)
+
+#
+#	string/
+#
+$(ODIR)/com_string.o : string/com_string.c 
+	$(DO_CC)
+
+#
+#	wolf/
+#
+$(ODIR)/wl6_name.o : wolf/wl6_name.c 
+	$(DO_CC)
+
+$(ODIR)/wolf_aud.o : wolf/wolf_aud.c 
+	$(DO_CC)
+
+$(ODIR)/wolf_gfx.o : wolf/wolf_gfx.c 
+	$(DO_CC)
+
+$(ODIR)/wolf_map.o : wolf/wolf_map.c 
+	$(DO_CC)
+
+$(ODIR)/wolf_pal.o : wolf/wolf_pal.c 
+	$(DO_CC)
+
+$(ODIR)/wolf_pm.o : wolf/wolf_pm.c 
+	$(DO_CC)
+
+#
+#	zip/
+#
+$(ODIR)/zipfile.o : zip/zipfile.c 
+	$(DO_CC)
+
+#
+#	zlib/
+#
+$(ODIR)/adler32.o : ../../zlib/adler32.c 
+	$(DO_CC)
+
+$(ODIR)/compress.o : ../../zlib/compress.c 
+	$(DO_CC)
+
+$(ODIR)/crc32.o : ../../zlib/crc32.c 
+	$(DO_CC)
+
+$(ODIR)/deflate.o : ../../zlib/deflate.c 
+	$(DO_CC)
+
+$(ODIR)/trees.o : ../../zlib/trees.c 
+	$(DO_CC)
+
+$(ODIR)/zutil.o : ../../zlib/zutil.c 
+	$(DO_CC)
+
+#
+#
+#
+$(ODIR)/hq2x.o : hq2x.c 
+	$(DO_CC)
+
+$(ODIR)/pak.o : pak.c 
+	$(DO_CC)
+
+$(ODIR)/vorbisenc_inter.o : vorbisenc_inter.c
+	$(DO_CC)
+
+$(ODIR)/main.o : main.c 
+	$(DO_CC)
+
+
+
+

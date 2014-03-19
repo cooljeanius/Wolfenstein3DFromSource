@@ -363,7 +363,7 @@ PRIVATE W8 CAL_SetupMapFile( const char *extension )
 
 	fread( &RLEWtag, 2, 1, handle );
 
-	for( TotalMaps = 0 ; TotalMaps < length ; ++TotalMaps ) {
+	for ((TotalMaps = 0); ((long)TotalMaps < length); ++TotalMaps) {
 		fread( &headeroffsets[ TotalMaps ], 4, 1, handle );
 		if( ! headeroffsets[ TotalMaps ] ) {
 			break;
@@ -423,13 +423,15 @@ PRIVATE void CAL_ShutdownMapFile( void )
  Notes:
 -----------------------------------------------------------------------------
 */
-PRIVATE W8 CA_CacheMap( W32 ChunkOffset, W32 Chunklength, const char *filename, W32 index )
+/* TODO: use a different parameter name for 'index': */
+PRIVATE W8 CA_CacheMap(W32 ChunkOffset, W32 Chunklength, const char *filename,
+					   W32 index)
 {
-	W32 offset[ 3 ];
-	W32 offsetin[ 3 ];
+	W32 offset[3];
+	W32 offsetin[3];
 	W32 temp;
-	W16 length[ 3 ];
-	W8 sig[ 5 ];
+	W16 length[3];
+	W8 sig[5];
 	W16 w, h;
 	W8 *data;
 	W32 ceiling;
@@ -437,53 +439,68 @@ PRIVATE W8 CA_CacheMap( W32 ChunkOffset, W32 Chunklength, const char *filename, 
 	FILE *fout;
 	float ftime;
 	char *stime;
-	char name[ 32 ];
-	char musicName[ 64 ];
+	char name[32];
+	char musicName[64];
 	extern char gamepal[];
 	SW32 jmp;
 
-	if( gameversion == SOD_PAK ) {
-		temp = (vgaCeilingSOD[ index ] & 0xff) * 3;
-		ceiling = ( (gamepal[ temp ] << 2)  << 16 ) | ( (gamepal[ temp+1 ] << 2 ) << 8) | (gamepal[ temp+2 ]<<2);
-
-		temp = 0x19 * 3;
-		floor = ( (gamepal[ temp ] << 2)  << 16 ) | ( (gamepal[ temp+1 ] << 2 ) << 8) | (gamepal[ temp+2 ]<<2);
-
-		ftime = parTimesSOD[ index ].time;
-		stime = parTimesSOD[ index ].timestr;
-
-		cs_snprintf( musicName, sizeof( musicName ), "music/%s.ogg", GetMusicFileName_SOD( SOD_songs[ index ] ) );
-	} else {
-		temp = (vgaCeilingWL6[ index ] & 0xff) * 3;
-		ceiling = ( (gamepal[ temp ] << 2)  << 16 ) | ( (gamepal[ temp+1 ] << 2 ) << 8) | (gamepal[ temp+2 ]<<2);
-
-		temp = 0x19 * 3;
-		floor = ( (gamepal[ temp ] << 2)  << 16 ) | ( (gamepal[ temp+1 ] << 2 ) << 8) | (gamepal[ temp+2 ]<<2);
-
-		ftime = parTimesWL6[ index ].time;
-		stime = parTimesWL6[ index ].timestr;
-
-		cs_snprintf( musicName, sizeof( musicName ), "music/%s.ogg", GetMusicFileName_WL6( WL6_songs[ index ] ) );
+	/* dummy condition to use 'Chunklength' parameter: */
+	if (Chunklength == 0) {
+		;
 	}
 
-	fout = fopen( filename, "wb");
-	if( NULL == fout ) {
+	if (gameversion == SOD_PAK) {
+		temp = (vgaCeilingSOD[index] & 0xff) * 3;
+		ceiling = ((W32)((gamepal[temp] << 2) << 16) |
+				   ((W32)(gamepal[(temp + 1)] << 2) << 8) |
+				   (W32)(gamepal[(temp + 2)] << 2));
+
+		temp = (0x19 * 3);
+		floor = ((W32)((gamepal[temp] << 2) << 16) |
+				 ((W32)(gamepal[(temp + 1)] << 2) << 8) |
+				 (W32)(gamepal[(temp + 2)] << 2));
+
+		ftime = parTimesSOD[index].time;
+		stime = parTimesSOD[index].timestr;
+
+		cs_snprintf(musicName, sizeof(musicName), "music/%s.ogg",
+					GetMusicFileName_SOD(SOD_songs[index]));
+	} else {
+		temp = ((vgaCeilingWL6[index] & 0xff) * 3);
+		ceiling = ((W32)((gamepal[temp] << 2)  << 16) |
+				   ((W32)(gamepal[(temp + 1)] << 2) << 8) |
+				   (W32)(gamepal[(temp + 2)] << 2));
+
+		temp = (0x19 * 3);
+		floor = ((W32)((gamepal[temp] << 2)  << 16) |
+				 ((W32)(gamepal[(temp + 1)] << 2) << 8) |
+				 (W32)(gamepal[(temp + 2)] << 2));
+
+		ftime = parTimesWL6[index].time;
+		stime = parTimesWL6[index].timestr;
+
+		cs_snprintf(musicName, sizeof(musicName), "music/%s.ogg",
+					GetMusicFileName_WL6(WL6_songs[index]));
+	}
+
+	fout = fopen(filename, "wb");
+	if (NULL == fout) {
 		return 0;
 	}
 
 
-	fseek( maphandle, ChunkOffset, SEEK_SET );
+	fseek(maphandle, (long)ChunkOffset, SEEK_SET);
 
 
-	fread( &offsetin, sizeof( W32 ), 3, maphandle );
-	fread( &length, sizeof( W16 ), 3, maphandle );
+	fread(&offsetin, sizeof(W32), 3, maphandle);
+	fread(&length, sizeof(W16), 3, maphandle);
 
-	fread( &w, sizeof( W16 ), 1, maphandle );
-	fread( &h, sizeof( W16 ), 1, maphandle );
+	fread(&w, sizeof(W16), 1, maphandle);
+	fread(&h, sizeof(W16), 1, maphandle);
 
 
-	fread( name, sizeof( W8 ), 16, maphandle );
-	fread( sig, sizeof( W8 ), 4, maphandle );
+	fread(name, sizeof(W8), 16, maphandle);
+	fread(sig, sizeof(W8), 4, maphandle);
 
 /*
  * Output header
@@ -549,40 +566,42 @@ PRIVATE W8 CA_CacheMap( W32 ChunkOffset, W32 Chunklength, const char *filename, 
 		return 0;
 	}
 
-	offset[ 0 ] = ftell( fout );
+	offset[0] = (W32)(ftell(fout));
 
-	fseek( maphandle, offsetin[ 0 ], SEEK_SET );
-	fread( data, 1, length[ 0 ], maphandle );
+	fseek(maphandle, (long)(offsetin[0]), SEEK_SET);
+	fread(data, 1, length[0], maphandle);
 
-	fwrite( data, 1, length[ 0 ], fout );
+	fwrite(data, 1, length[0], fout);
 
 
-	data = MM_REALLOC( data, length[ 1 ] );
-	if( data == NULL ) {
+	data = MM_REALLOC(data, length[1]);
+	if (data == NULL) {
+		printf("CA_CacheMap(): realloced null data, returning 0...\n");
 		return 0;
 	}
 
-	offset[ 1 ] = ftell( fout );
+	offset[1] = (W32)(ftell(fout));
 
-	fseek( maphandle, offsetin[ 1 ], SEEK_SET );
-	fread( data, 1, length[ 1 ], maphandle );
+	fseek(maphandle, (long)(offsetin[1]), SEEK_SET);
+	fread(data, 1, length[1], maphandle);
 
-	fwrite( data, 1, length[ 1 ], fout );
+	fwrite(data, 1, length[1], fout);
 
 
-	data = MM_REALLOC( data, length[ 2 ] );
+	data = MM_REALLOC(data, length[2]);
 	if( data == NULL ) {
+		printf("CA_CacheMap(): realloced null data, returning 0...\n");
 		return 0;
 	}
 
-	offset[ 2 ] = ftell( fout );
+	offset[2] = (W32)(ftell(fout));
 
-	fseek( maphandle, offsetin[ 2 ], SEEK_SET );
-	fread( data, 1, length[ 2 ], maphandle );
+	fseek(maphandle, (long)(offsetin[2]), SEEK_SET);
+	fread(data, 1, length[2], maphandle);
 
-	fwrite( data, 1, length[ 2 ], fout );
+	fwrite(data, 1, length[2], fout);
 
-	MM_FREE( data );
+	MM_FREE(data);
 
 
 	fseek( fout, jmp, SEEK_SET );

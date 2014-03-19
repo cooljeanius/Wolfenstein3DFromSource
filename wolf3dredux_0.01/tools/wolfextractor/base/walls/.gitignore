@@ -1,0 +1,4 @@
+!.
+
+# binary images are bad to keep in revision control; extract them yourself:
+*.tga

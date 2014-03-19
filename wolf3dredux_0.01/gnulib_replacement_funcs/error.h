@@ -14,7 +14,8 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>. */
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 #ifndef _ERROR_H
 #define _ERROR_H 1
@@ -37,8 +38,8 @@ extern "C" {
 
 /* Print a message with 'fprintf (stderr, FORMAT, ...)';
  * if ERRNUM is nonzero, follow it with ": " and strerror (ERRNUM).
- * If STATUS is nonzero, terminate the program with 'exit (STATUS)'.  */
-
+ * If STATUS is nonzero, terminate the program with 'exit (STATUS)'.
+ */
 extern void error (int __status, int __errnum, const char *__format, ...)
      _GL_ATTRIBUTE_FORMAT ((__printf__, 3, 4));
 

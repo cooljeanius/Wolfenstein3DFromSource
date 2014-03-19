@@ -34,7 +34,7 @@ extern size_t strnlen1 (const char *string, size_t maxlen)
   _GL_ATTRIBUTE_PURE
 #endif /* GL_ATTRIBUTE_PURE */
 	;
-
+/* that was ugly */
 
 #ifdef __cplusplus
 }

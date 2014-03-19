@@ -1,0 +1,23 @@
+# How can these two have the same value and different summaries?
+0x7fff5fbfede0 = VGAGRAPH.WL6
+*86 'V'
+0x7fff5fbfede0 = VGAGRAPH
+*86 'V'
+0x7fff5fbfede0 = VGAG
+*86 'V'
+
+(actually some other strings, too)
+
+# the other two things that changed (that I noticed) when this did were
+# 'buffer' and 'times_memory_malloc_was_called':
+buffer: 0xfc000000f8 -> 0x10021e000
+buffer (decimal): 1082331758840 -> 4297187328
+buffer (ASCII): ü -> (nothing)
+buffer (binary) orig:
+0000 0000 0000 0000 0000 0000 1111 1100
+0000 0000 0000 0000 0000 0000 1111 1000
+buffer (binary) new:
+0000 0000 0000 0000 0000 0000 0000 0001
+0000 0000 0010 0001 1110 0000 0000 0000
+
+times_memory_malloc_was_called: 3 -> 4

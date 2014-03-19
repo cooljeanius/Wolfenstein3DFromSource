@@ -70,15 +70,15 @@ PRIVATE W32 *audiostarts;
  Notes:
 -----------------------------------------------------------------------------
 */
-PRIVATE W8 CAL_SetupAudioFile( const char *fextension )
+PRIVATE W8 CAL_SetupAudioFile(const char *fextension)
 {
 	FILE *handle;
 	SW32 length;
 	W32 count;
-	char fname[ 13 ];
+	char fname[13]; /* unlucky! */
 
-	if( ! fextension || ! *fextension ) {
-		printf( "NULL extension passed into CAL_SetupAudioFile!\n" );
+	if (! fextension || ! *fextension) {
+		printf("NULL extension passed into CAL_SetupAudioFile!\n");
 
 		return 0;
 	}
@@ -86,52 +86,52 @@ PRIVATE W8 CAL_SetupAudioFile( const char *fextension )
 /*
  * load audiohed.XXX (offsets and lengths for audio file)
  */
-	cs_strlcpy( fname, AHEADFNAME, sizeof( fname ) );
-	cs_strlcat( fname, fextension, sizeof( fname ) );
+	cs_strlcpy(fname, AHEADFNAME, sizeof(fname));
+	cs_strlcat(fname, fextension, sizeof(fname));
 
-    handle = fopen( cs_strupr( fname ), "rb" );
-	if( handle == NULL ) {
-		handle = fopen( cs_strlwr( fname ), "rb" );
+    handle = fopen(cs_strupr(fname), "rb");
+	if (handle == NULL) {
+		handle = fopen(cs_strlwr(fname), "rb");
 
-		if( handle == NULL ) {
-			printf( "Can not open file (%s) for read!\n", fname );
+		if (handle == NULL) {
+			printf("Cannot open file (%s) for read!\n", fname);
 			return 0;
 		}
     }
 
-	length = FS_FileLength( handle );
-	if( length < 4 ) {
-		fclose( handle );
-		printf( "Incorrect audio header size on file: %s\n", fname );
+	length = FS_FileLength(handle);
+	if (length < 4) {
+		fclose(handle);
+		printf("Incorrect audio header size on file: %s\n", fname);
 		return 0;
 	}
 
-	audiostarts = (PW32) MM_MALLOC( length );
-	if( audiostarts == NULL ) {
+	audiostarts = (PW32)MM_MALLOC((size_t)length);
+	if (audiostarts == NULL) {
 		return 0;
 	}
 
-	count = fread( audiostarts, sizeof( W32 ), length >> 2, handle );
-	if( count != (W32)(length >> 2) ) {
-        fclose( handle );
-        printf( "[Error]: Read error on file: (%s)", fname  );
+	count = fread(audiostarts, sizeof(W32), (size_t)(length >> 2), handle);
+	if (count != (W32)(length >> 2)) {
+        fclose(handle);
+        printf("[Error]: Read error on file: (%s)", fname);
 		return 0;
 	}
 
 
-	fclose( handle );
+	fclose(handle);
 
 /*
  * open the Audio data file
  */
-	cs_strlcpy( fname, AUDIOFNAME, sizeof( fname ) );
-	cs_strlcat( fname, fextension, sizeof( fname ) );
+	cs_strlcpy(fname, AUDIOFNAME, sizeof(fname));
+	cs_strlcat(fname, fextension, sizeof(fname));
 
-	audiohandle = fopen( cs_strupr( fname ), "rb" );
-	if( audiohandle == NULL ) {
-		audiohandle = fopen( cs_strlwr( fname ), "rb" );
-		if( audiohandle == NULL ) {
-			printf( "Could not open file (%s) for read!\n", fname );
+	audiohandle = fopen(cs_strupr(fname), "rb");
+	if (audiohandle == NULL) {
+		audiohandle = fopen(cs_strlwr(fname), "rb");
+		if (audiohandle == NULL) {
+			printf("Could not open file (%s) for read!\n", fname);
 			return 0;
 		}
     }
@@ -151,7 +151,7 @@ PRIVATE W8 CAL_SetupAudioFile( const char *fextension )
  Notes:
 -----------------------------------------------------------------------------
 */
-PRIVATE W8 CA_CacheAudioChunk( W32 chunk, W8 *BuffChunk )
+PRIVATE W8 CA_CacheAudioChunk(W32 chunk, W8 *BuffChunk)
 {
 	W32	pos, length, count;
 
@@ -159,23 +159,23 @@ PRIVATE W8 CA_CacheAudioChunk( W32 chunk, W8 *BuffChunk )
 /*
  * load the chunk into a buffer
  */
-	pos = audiostarts[ chunk ];
-	length = audiostarts[ chunk+1 ] - pos;
-	if( length < 1 || length > MAX_CHUNK_SIZE ) {
-		printf( "[CA_CacheAudioChunk]: Chunk length not valid\n" );
+	pos = audiostarts[chunk];
+	length = (audiostarts[(chunk + 1)] - pos);
+	if ((length < 1) || (length > MAX_CHUNK_SIZE)) {
+		printf("[CA_CacheAudioChunk]: Chunk length not valid\n");
 		return 0;
 	}
 
 
-	if( fseek( audiohandle, pos, SEEK_SET ) != 0 ) {
-		printf( "[CA_CacheAudioChunk]: Could not seek!\n" );
+	if (fseek(audiohandle, (long)pos, SEEK_SET) != 0) {
+		printf("[CA_CacheAudioChunk]: Could not seek!\n");
 		return 0;
 	}
 
 
-	count = fread( BuffChunk, 1, length, audiohandle );
-	if( count != length ) {
-		printf( "[CA_CacheAudioChunk]: Read error!\n" );
+	count = fread(BuffChunk, 1, length, audiohandle);
+	if (count != length) {
+		printf("[CA_CacheAudioChunk]: Read error!\n");
 		return 0;
 	}
 
@@ -234,66 +234,66 @@ extern int vorbis_encode( const char *filename, void *data, W32 size,
 #define NCH 1		/* channels */
 #define BPS 16		/* bit per second */
 
-PRIVATE void CA_SaveMusicChunk( W32 chunk, const char *filename )
+PRIVATE void CA_SaveMusicChunk(W32 chunk, const char *filename)
 {
 	W8 *data, *BuffWav;
 	W32 pos, length, uncompr_length;
 	W32 len;
 
 
-	pos = audiostarts[ chunk ];
-	length = audiostarts[ chunk+1 ] - pos;
+	pos = audiostarts[chunk];
+	length = (audiostarts[(chunk + 1)] - pos);
 
-	data = MM_MALLOC( length );
-	if( data == NULL ) {
+	data = MM_MALLOC(length);
+	if (data == NULL) {
 		return;
 	}
 
-	if( fseek( audiohandle, pos, SEEK_SET ) != 0 ) {
-		printf( "[CA_SaveMusicChunk]: Could not seek!\n" );
+	if (fseek(audiohandle, (long)pos, SEEK_SET) != 0) {
+		printf("[CA_SaveMusicChunk]: Could not seek!\n");
 
-		MM_FREE( data );
-
-		return;
-	}
-
-	if( fread( data, 1, length, audiohandle ) != length ) {
-		printf( "[CA_SaveMusicChunk]: Read error!\n" );
-
-		MM_FREE( data );
+		MM_FREE(data);
 
 		return;
 	}
 
+	if (fread(data, 1, length, audiohandle) != length) {
+		printf("[CA_SaveMusicChunk]: Read error!\n");
 
-	uncompr_length = ADLIB_getLength( data );
-	if( uncompr_length == 1 ) {
-		MM_FREE( data );
+		MM_FREE(data);
 
 		return;
 	}
 
 
-	ADLIB_LoadMusic( data );
-
-	BuffWav = MM_MALLOC( uncompr_length * 64 * 2 );
-	if( BuffWav == NULL ) {
-		MM_FREE( data );
+	uncompr_length = ADLIB_getLength(data);
+	if (uncompr_length == 1) {
+		MM_FREE(data);
 
 		return;
 	}
 
-	len = ADLIB_UpdateMusic( uncompr_length, BuffWav );
+
+	ADLIB_LoadMusic(data);
+
+	BuffWav = MM_MALLOC(uncompr_length * 64 * 2);
+	if (BuffWav == NULL) {
+		MM_FREE(data);
+
+		return;
+	}
+
+	len = ADLIB_UpdateMusic(uncompr_length, BuffWav);
 
 
 #if 1
-	vorbis_encode( filename, BuffWav, len, 1, 16, 44100, 0, 0, 0 );
+	vorbis_encode(filename, BuffWav, len, 1, 16, 44100, 0, 0, 0);
 #else
-	write_wav( filename, BuffWav, len, 1, 44100, 2  );
+	write_wav(filename, BuffWav, len, 1, 44100, 2);
 #endif /* 1 */
 
-	MM_FREE( BuffWav );
-	MM_FREE( data );
+	MM_FREE(BuffWav);
+	MM_FREE(data);
 }
 
 /*
