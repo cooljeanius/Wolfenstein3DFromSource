@@ -1,0 +1,4 @@
+!.
+# make sure these are present:
+!WriteTGA_minimal.c
+!WriteTGA_minimal.h
