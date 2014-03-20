@@ -400,7 +400,10 @@ void GLimp_Shutdown(void)
 
 _boolean GLimp_Init(void *hinstance, void *wndproc)
 {
-	/* TODO: use parameters */
+	/* dummy condition to use parameters: */
+	if (hinstance == wndproc) {
+		;
+	}
 	InitSig();
 
 	return true;

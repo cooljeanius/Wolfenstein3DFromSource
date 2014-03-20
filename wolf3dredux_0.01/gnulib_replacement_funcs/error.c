@@ -173,11 +173,11 @@ flush_stdout (void)
   stdout_fd = fileno (stdout);
 # endif /* GNULIB_FREOPEN_SAFER */
   /* POSIX states that fflush (stdout) after fclose is unspecified; it
-     is safe in glibc, but not on all other platforms.  fflush (NULL)
-     is always defined, but too draconian.  */
+   * is safe in glibc, but not on all other platforms. fflush(NULL)
+   * is always defined, but too draconian.  */
   if (0 <= stdout_fd && is_open (stdout_fd))
 #endif /* !_LIBC */
-    fflush (stdout);
+    fflush(stdout);
 }
 
 static void
@@ -219,7 +219,7 @@ error_tail (int status, int errnum, const char *message, va_list args)
 #if _LIBC
   if (_IO_fwide (stderr, 0) > 0) {
 # define ALLOCA_LIMIT 2000
-      size_t len = strlen (message) + 1;
+      size_t len = (strlen(message) + 1);
       wchar_t *wmessage = NULL;
       mbstate_t st;
       size_t res;
@@ -227,70 +227,70 @@ error_tail (int status, int errnum, const char *message, va_list args)
       bool use_malloc = false;
 
       while (1) {
-          if (__libc_use_alloca (len * sizeof (wchar_t))) {
-            wmessage = (wchar_t *) alloca (len * sizeof (wchar_t));
+          if (__libc_use_alloca(len * sizeof(wchar_t))) {
+            wmessage = (wchar_t *)alloca(len * sizeof(wchar_t));
           } else {
               if (!use_malloc) {
 				  wmessage = NULL;
 			  }
 
-              wchar_t *p = (wchar_t *) realloc (wmessage,
-                                                len * sizeof (wchar_t));
+              wchar_t *p = (wchar_t *)realloc(wmessage,
+											  (len * sizeof(wchar_t)));
               if (p == NULL) {
                   free (wmessage);
-                  fputws_unlocked (L"out of memory\n", stderr);
+                  fputws_unlocked(L"out of memory\n", stderr);
                   return;
 			  }
               wmessage = p;
               use_malloc = true;
             }
 
-          memset (&st, '\0', sizeof (st));
+          memset(&st, '\0', sizeof (st));
           tmp = message;
 
-          res = mbsrtowcs (wmessage, &tmp, len, &st);
+          res = mbsrtowcs(wmessage, &tmp, len, &st);
           if (res != len) {
 			  break;
 		  }
 
-          if (__builtin_expect (len >= SIZE_MAX / 2, 0)) {
+          if (__builtin_expect(len >= (SIZE_MAX / 2), 0)) {
               /* This really should not happen if everything is fine.  */
-              res = (size_t) -1;
+              res = (size_t)-1;
               break;
 		  }
 
           len *= 2;
         }
 
-      if (res == (size_t) -1) {
+      if (res == (size_t)-1) {
           /* The string cannot be converted.  */
           if (use_malloc) {
-              free (wmessage);
+              free(wmessage);
               use_malloc = false;
 		  }
-          wmessage = (wchar_t *) L"???";
+          wmessage = (wchar_t *)L"???";
 	  }
 
-      __vfwprintf (stderr, wmessage, args);
+      __vfwprintf(stderr, wmessage, args);
 
 		if (use_malloc) {
 			free (wmessage);
 		}
     } else
 #endif
-    vfprintf (stderr, message, args);
-  va_end (args);
+    vfprintf(stderr, message, args);
+  va_end(args);
 
   ++error_message_count;
 	if (errnum) {
 		print_errno_message (errnum);
 	}
 #if _LIBC
-  __fxprintf (NULL, "\n");
+  __fxprintf(NULL, "\n");
 #else
-  putc ('\n', stderr);
+  putc('\n', stderr);
 #endif /* _LIBC */
-  fflush (stderr);
+  fflush(stderr);
 	if (status) {
 		exit (status);
 	}
@@ -302,7 +302,7 @@ error_tail (int status, int errnum, const char *message, va_list args)
  * If ERRNUM is nonzero, print its corresponding system error message.
  * Exit with status STATUS if it is nonzero.  */
 void
-error (int status, int errnum, const char *message, ...)
+error(int status, int errnum, const char *message, ...)
 {
   va_list args;
 
@@ -310,11 +310,10 @@ error (int status, int errnum, const char *message, ...)
   /* We do not want this call to be cut short by a thread
    * cancellation. Therefore disable cancellation for now. */
   int state = PTHREAD_CANCEL_ENABLE;
-  __libc_ptf_call (pthread_setcancelstate, (PTHREAD_CANCEL_DISABLE, &state),
-                   0);
+  __libc_ptf_call (pthread_setcancelstate, (PTHREAD_CANCEL_DISABLE, &state), 0);
 #endif /* _LIBC && __libc_ptf_call */
 
-  flush_stdout ();
+  flush_stdout();
 #ifdef _LIBC
   _IO_flockfile (stderr);
 #endif /* _LIBC */
@@ -328,13 +327,13 @@ error (int status, int errnum, const char *message, ...)
 #endif /* _LIBC */
     }
 
-  va_start (args, message);
-  error_tail (status, errnum, message, args);
+  va_start(args, message);
+  error_tail(status, errnum, message, args);
 
 #ifdef _LIBC
-  _IO_funlockfile (stderr);
+  _IO_funlockfile(stderr);
 # ifdef __libc_ptf_call
-  __libc_ptf_call (pthread_setcancelstate, (state, NULL), 0);
+  __libc_ptf_call(pthread_setcancelstate, (state, NULL), 0);
 # endif /* __libc_ptf_call */
 #endif /* _LIBC */
 }
@@ -344,8 +343,8 @@ error (int status, int errnum, const char *message, ...)
 int error_one_per_line;
 
 void
-error_at_line (int status, int errnum, const char *file_name,
-               unsigned int line_number, const char *message, ...)
+error_at_line(int status, int errnum, const char *file_name,
+			  unsigned int line_number, const char *message, ...)
 {
   va_list args;
 
@@ -353,54 +352,55 @@ error_at_line (int status, int errnum, const char *file_name,
       static const char *old_file_name;
       static unsigned int old_line_number;
 
-      if (old_line_number == line_number
-          && (file_name == old_file_name
-              || strcmp (old_file_name, file_name) == 0)) {
+      if ((old_line_number == line_number)
+          && ((file_name == old_file_name)
+              || (strcmp(old_file_name, file_name) == 0))) {
 			  /* Simply return and print nothing.  */
 			  return;
 		  }
 
       old_file_name = file_name;
       old_line_number = line_number;
-    }
+  }
 
 #if defined _LIBC && defined __libc_ptf_call
   /* We do not want this call to be cut short by a thread
    * cancellation. Therefore disable cancellation for now. */
   int state = PTHREAD_CANCEL_ENABLE;
-  __libc_ptf_call (pthread_setcancelstate, (PTHREAD_CANCEL_DISABLE, &state),
-                   0);
+  __libc_ptf_call(pthread_setcancelstate, (PTHREAD_CANCEL_DISABLE, &state), 0);
 #endif /* _LIBC && __libc_ptf_call */
 
-  flush_stdout ();
+  flush_stdout();
 #ifdef _LIBC
-  _IO_flockfile (stderr);
+  _IO_flockfile(stderr);
 #endif /* _LIBC */
 	if (error_print_progname) {
 		(*error_print_progname) ();
 	} else {
 #if _LIBC
-      __fxprintf (NULL, "%s:", program_name);
+      __fxprintf(NULL, "%s:", program_name);
 #else
-      fprintf (stderr, "%s:", program_name);
+      fprintf(stderr, "%s:", program_name);
 #endif /* _LIBC */
     }
 
 #if _LIBC
-  __fxprintf (NULL, file_name != NULL ? "%s:%d: " : " ",
-              file_name, line_number);
+  __fxprintf(NULL, ((file_name != NULL) ? "%s:%d: " : " "),
+			 file_name, line_number);
 #else
-  fprintf (stderr, file_name != NULL ? "%s:%d: " : " ",
-           file_name, line_number);
+  fprintf(stderr, ((file_name != NULL) ? "%s:%d: " : " "),
+		  file_name, line_number);
+	/* 'file_name' should be used by the format string in the first part of the
+	 * string, NOT the empty second part... */
 #endif /* _LIBC */
 
-  va_start (args, message);
-  error_tail (status, errnum, message, args);
+  va_start(args, message);
+  error_tail(status, errnum, message, args);
 
 #ifdef _LIBC
-  _IO_funlockfile (stderr);
+  _IO_funlockfile(stderr);
 # ifdef __libc_ptf_call
-  __libc_ptf_call (pthread_setcancelstate, (state, NULL), 0);
+  __libc_ptf_call(pthread_setcancelstate, (state, NULL), 0);
 # endif /* __libc_ptf_call */
 #endif /* _LIBC */
 }
@@ -409,8 +409,8 @@ error_at_line (int status, int errnum, const char *file_name,
 /* Make the weak alias.  */
 # undef error
 # undef error_at_line
-weak_alias (__error, error)
-weak_alias (__error_at_line, error_at_line)
+weak_alias(__error, error)
+weak_alias(__error_at_line, error_at_line)
 #endif /* _LIBC */
 
 /* EOF */

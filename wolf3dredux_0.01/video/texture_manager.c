@@ -843,10 +843,12 @@ get_scaled_row( double              **src,
 		} else if( old_width > new_width ) {
 			shrink_line( src[3], row, bytes, old_width, new_width );
 		} else { /* no scaling needed */
-			memcpy(src[3], row, sizeof(double) * new_width * bytes);
+			memcpy(src[3], row,
+				   (sizeof(double) * (unsigned long)new_width * (unsigned long)bytes));
 		}
 	} else {
-		memcpy(src[3], src[2], sizeof( double ) * new_width * bytes);
+		memcpy(src[3], src[2],
+			   (sizeof(double) * (unsigned long)new_width * (unsigned long)bytes));
 	}
 }
 
@@ -876,8 +878,8 @@ scale_region_no_resample(W8 *in, int inwidth, int inheight,
 
 
 	/*  the data pointers...  */
-	x_src_offsets = (int *)MM_MALLOC((size_t)(sizeof(int) * width * bytes));
-	y_src_offsets = (int *)MM_MALLOC((size_t)(sizeof(int) * height));
+	x_src_offsets = (int *)MM_MALLOC((size_t)(sizeof(int) * (unsigned long)width * (unsigned long)bytes));
+	y_src_offsets = (int *)MM_MALLOC((size_t)(sizeof(int) * (unsigned long)height));
 	src  = (unsigned char *)MM_MALLOC((size_t)(orig_width * bytes));
 	dest = (unsigned char *)MM_MALLOC((size_t)(width * bytes));
 
@@ -981,7 +983,7 @@ PUBLIC void TM_ResampleTexture(W8 *in, int inwidth, int inheight, W8 *out,
 
 	/* the data pointers...  */
 	for ((i = 0); (i < 4); ++i ) {
-		src[i] = (double *)MM_MALLOC((size_t)(sizeof(double) * width * bytes));
+		src[i] = (double *)MM_MALLOC((size_t)(sizeof(double) * (unsigned long)width * (unsigned long)bytes));
 	}
 
 	dest = (PW8)MM_MALLOC((size_t)(width * bytes));
@@ -990,11 +992,11 @@ PUBLIC void TM_ResampleTexture(W8 *in, int inwidth, int inheight, W8 *out,
 
 	/* offset the row pointer by 2*bytes so the range of the array
 	 * is [-2*bytes] to [(orig_width + 2)*bytes] */
-	row = (double *)MM_MALLOC((size_t)(sizeof(double) * (orig_width + (2 * 2)) *
-									   bytes));
+	row = (double *)MM_MALLOC((size_t)(sizeof(double) * (unsigned long)(orig_width + (2 * 2)) *
+									   (unsigned long)bytes));
 	row += (bytes * 2);
 
-	accum = (double *)MM_MALLOC((size_t)(sizeof(double) * width * bytes));
+	accum = (double *)MM_MALLOC((size_t)(sizeof(double) * (unsigned long)width * (unsigned long)bytes));
 
 
 	/*  Scale the selected region  */
@@ -1005,7 +1007,8 @@ PUBLIC void TM_ResampleTexture(W8 *in, int inwidth, int inheight, W8 *out,
 			double       frac;
 			const double inv_ratio = (1.0 / y_rat);
 
-			if (y == 0) { /* load the first row if this is the first time through */
+			if (y == 0) {
+				/* load the first row if this is the first time through */
 				get_scaled_row(&src[0], 0, width, row, src_tmp, in,
 							   orig_width, orig_height, bytes);
 			}
@@ -1065,7 +1068,7 @@ PUBLIC void TM_ResampleTexture(W8 *in, int inwidth, int inheight, W8 *out,
         } else { /* height == orig_height */
 			get_scaled_row(&src[0], y, width, row, src_tmp, in,
 						   orig_width, orig_height, bytes);
-			memcpy(accum, src[3], (sizeof(double) * width * bytes));
+			memcpy(accum, src[3], (sizeof(double) * (unsigned long)width * (unsigned long)bytes));
         }
 
 		if (pixel_region_has_alpha(bytes)) {
@@ -1168,7 +1171,7 @@ PUBLIC _boolean TM_MipMap( PW8 in, W16 *width, W16 *height, W16 bytes )
 	if (*height < 2) {
 		new_height = 1;
 	} else {
-		new_height = *height >> 1;
+		new_height = (*height >> 1);
 	}
 
 	TM_ResampleTexture(in, *width, *height, in, new_width, new_height,
@@ -1192,41 +1195,39 @@ PUBLIC _boolean TM_MipMap( PW8 in, W16 *width, W16 *height, W16 bytes )
  Notes: Generates default texture.
 -----------------------------------------------------------------------------
 */
-PUBLIC void TM_Init( void )
+PUBLIC void TM_Init(void)
 {
 	W8 *ptr;
 	W8 *data;
 	int x, y;
 
-
-    memset( _texWalls, 0, sizeof( _texWalls ) );
-    memset( _texSprites, 0, sizeof( _texSprites ) );
+    memset(_texWalls, 0, sizeof(_texWalls));
+    memset(_texSprites, 0, sizeof(_texSprites));
 
 	texture_registration_sequence = 1;
 
 /* create a checkerboard texture */
-	data = MM_MALLOC( 16 * 16 * 4 );
-	for( y = 0; y < 16; ++y ) {
-		for( x = 0; x < 16; ++x ) {
-			ptr = &data[ (y * 16 + x) * 4 ];
-			if( (y < 8) ^ (x < 8) ) {
-				ptr[ 0 ] = ptr[ 1 ] = ptr[ 2 ] = 0x00;
-				ptr[ 3 ] = 0xFF;
+	data = MM_MALLOC(16 * 16 * 4);
+	for ((y = 0); (y < 16); ++y) {
+		for ((x = 0); (x < 16); ++x) {
+			ptr = &data[((y * 16 + x) * 4)];
+			if ((y < 8) ^ (x < 8)) {
+				ptr[0] = ptr[1] = ptr[2] = 0x00;
+				ptr[3] = 0xFF;
 			} else {
-				ptr[ 0 ] = ptr[ 1 ] = ptr[ 2 ] = 0xFF;
-				ptr[ 3 ] = 0xFF;
+				ptr[0] = ptr[1] = ptr[2] = 0xFF;
+				ptr[3] = 0xFF;
 			}
 		}
 	}
 
-	r_notexture = TM_LoadTexture( "***r_notexture***", data, 16, 16, TT_Pic, 4 );
+	r_notexture = TM_LoadTexture("***r_notexture***", data, 16, 16, TT_Pic, 4);
 
-	MM_FREE( data );
+	MM_FREE(data);
 
-
-	Cmd_AddCommand( "listTextures", TM_TextureList_f );
-
+	Cmd_AddCommand("listTextures", TM_TextureList_f );
 }
+
 
 /*
 -----------------------------------------------------------------------------
@@ -1256,7 +1257,7 @@ PUBLIC void TM_Shutdown(void)
 
 
     for ((i = 0); (i < 768); i++) {
-        tex =  &_texSprites[ i ];
+        tex =  &_texSprites[i];
 
 		if (! tex->registration_sequence) {
 			continue;		/* free image_t slot */

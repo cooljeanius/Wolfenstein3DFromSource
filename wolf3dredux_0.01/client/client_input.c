@@ -364,7 +364,16 @@ PRIVATE void Client_BaseMove(usercmd_t *cmd)
 
 	memset(cmd, 0, sizeof(usercmd_t));
 
-	vectorCopy(ClientState.viewangles, cmd->angles); /* FIXME */
+#if defined(vectorCopy) && 0
+	/* casting the first argument here to silence warnings leads to errors: */
+	vectorCopy(ClientState.viewangles, cmd->angles); /* FIXME (?) */
+#else
+	/* for some reason casting only works when the define is expanded: */
+	((cmd->angles)[0] = (short)(ClientState.viewangles)[0],
+	 (cmd->angles)[1] = (short)(ClientState.viewangles)[1],
+	 (cmd->angles)[2] = (short)(ClientState.viewangles)[2]);
+#endif /* vectorCopy && 0 */
+
 	if (in_strafe.state & 1) {
 		cmd->sidemove += (cl_sidespeed->value * Client_KeyState(&in_right));
 		cmd->sidemove -= (cl_sidespeed->value * Client_KeyState(&in_left));
