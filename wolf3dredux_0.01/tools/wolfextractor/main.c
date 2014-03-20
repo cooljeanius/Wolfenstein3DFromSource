@@ -256,7 +256,7 @@ int wolfextractor_main(int argc, char *argv[])
 	printf("running executable path %s with %i argument(s)\n", argv[0], argc);
 	printf("Version %s built on %s at %s\n\n", APP_VERSION, __DATE__, __TIME__);
 
-	getcwd(currentdir, MAXPATHLEN);
+	getcwd(currentdir, (size_t)MAXPATHLEN);
 
 	if (! FS_ChangeCurrentDirectory(BASEDIR)) {
 		printf("Unable to change into directory (%s)\n", BASEDIR);
@@ -301,9 +301,9 @@ int wolfextractor_main(int argc, char *argv[])
 
 		retval = 0;
 
-		retval += LumpExtractor((WL6_FEXT + 1), WL6_LATCHPICS_LUMP_END,
-								WL6_PAK);
-		retval += PExtractor((WL6_FEXT + 1), WL6_PAK );
+		retval += LumpExtractor((const char *)(WL6_FEXT + 1),
+								(W32)WL6_LATCHPICS_LUMP_END, (W16)WL6_PAK);
+		retval += PExtractor((const char *)(WL6_FEXT + 1), (W16)WL6_PAK);
 		retval += AudioRipper((WL6_FEXT + 1), 87, 174, WL6_PAK);
 		retval += MapRipper((WL6_FEXT + 1), WL6_PAK);
 

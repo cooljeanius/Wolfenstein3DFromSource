@@ -262,15 +262,15 @@ int ZEXPORT deflateInit2_(strm, level, method, windowBits, memLevel, strategy,
         windowBits -= 16;
     }
 #endif /* GZIP */
-    if (memLevel < 1 || memLevel > MAX_MEM_LEVEL || method != Z_DEFLATED ||
-        windowBits < 8 || windowBits > 15 || level < 0 || level > 9 ||
-        strategy < 0 || strategy > Z_RLE) {
+    if ((memLevel < 1) || (memLevel > MAX_MEM_LEVEL) || (method != Z_DEFLATED)
+		|| (windowBits < 8) || (windowBits > 15) || (level < 0) || (level > 9)
+		|| (strategy < 0) || (strategy > Z_RLE)) {
         return Z_STREAM_ERROR;
     }
     if (windowBits == 8) {
 		windowBits = 9;  /* until 256-byte window bug fixed */
 	}
-    s = (deflate_state *)ZALLOC(strm, 1, sizeof(deflate_state));
+    s = (deflate_state *)ZALLOC(strm, 1, (uInt)sizeof(deflate_state));
     if (s == Z_NULL) {
 		return Z_MEM_ERROR;
 	}
@@ -287,25 +287,25 @@ int ZEXPORT deflateInit2_(strm, level, method, windowBits, memLevel, strategy,
     s->hash_mask = (s->hash_size - 1);
     s->hash_shift = ((s->hash_bits + MIN_MATCH - 1) / MIN_MATCH);
 
-    s->window = (Bytef *)ZALLOC(strm, s->w_size, (2 * sizeof(Byte)));
-    s->prev   =  (Posf *)ZALLOC(strm, s->w_size, sizeof(Pos));
-    s->head   =  (Posf *)ZALLOC(strm, s->hash_size, sizeof(Pos));
+    s->window = (Bytef *)ZALLOC(strm, s->w_size, (uInt)(2 * sizeof(Byte)));
+    s->prev = (Posf *)ZALLOC(strm, s->w_size, (uInt)sizeof(Pos));
+    s->head = (Posf *)ZALLOC(strm, s->hash_size, (uInt)sizeof(Pos));
 
     s->lit_bufsize = (1 << (memLevel + 6)); /* 16K elements by default */
 
-    overlay = (ushf *)ZALLOC(strm, s->lit_bufsize, (sizeof(ush) + 2));
+    overlay = (ushf *)ZALLOC(strm, s->lit_bufsize, (uInt)(sizeof(ush) + 2));
     s->pending_buf = (uchf *)overlay;
     s->pending_buf_size = ((ulg)s->lit_bufsize * (sizeof(ush) + 2L));
 
-    if (s->window == Z_NULL || s->prev == Z_NULL || s->head == Z_NULL ||
-        s->pending_buf == Z_NULL) {
+    if ((s->window == Z_NULL) || (s->prev == Z_NULL) || (s->head == Z_NULL) ||
+        (s->pending_buf == Z_NULL)) {
         s->status = FINISH_STATE;
         strm->msg = (char*)ERR_MSG(Z_MEM_ERROR);
         deflateEnd (strm);
         return Z_MEM_ERROR;
     }
-    s->d_buf = overlay + s->lit_bufsize/sizeof(ush);
-    s->l_buf = s->pending_buf + (1+sizeof(ush))*s->lit_bufsize;
+    s->d_buf = (ushf*)(overlay + (s->lit_bufsize / sizeof(ush)));
+    s->l_buf = (s->pending_buf + ((1 + sizeof(ush)) * s->lit_bufsize));
 
     s->level = level;
     s->strategy = strategy;
@@ -344,7 +344,7 @@ int ZEXPORT deflateSetDictionary (strm, dictionary, dictLength)
         dictionary += dictLength - length; /* use the tail of the dictionary */
 #endif /* !USE_DICT_HEAD */
     }
-    zmemcpy(s->window, dictionary, length);
+    zmemcpy(s->window, dictionary, (size_t)length);
     s->strstart = length;
     s->block_start = (long)length;
 
@@ -533,11 +533,11 @@ local void flush_pending(strm)
 		return;
 	}
 
-    zmemcpy(strm->next_out, strm->state->pending_out, len);
+    zmemcpy(strm->next_out, strm->state->pending_out, (size_t)len);
     strm->next_out  += len;
     strm->state->pending_out  += len;
     strm->total_out += len;
-    strm->avail_out  -= len;
+    strm->avail_out -= len;
     strm->state->pending -= len;
     if (strm->state->pending == 0) {
         strm->state->pending_out = strm->state->pending_buf;
@@ -762,7 +762,7 @@ int ZEXPORT deflateCopy (dest, source)
     ushf *overlay;
 
 
-    if (source == Z_NULL || dest == Z_NULL || source->state == Z_NULL) {
+    if ((source == Z_NULL) || (dest == Z_NULL) || (source->state == Z_NULL)) {
         return Z_STREAM_ERROR;
     }
 
@@ -770,32 +770,35 @@ int ZEXPORT deflateCopy (dest, source)
 
     *dest = *source;
 
-    ds = (deflate_state *) ZALLOC(dest, 1, sizeof(deflate_state));
-    if (ds == Z_NULL) return Z_MEM_ERROR;
-    dest->state = (struct internal_state FAR *) ds;
+    ds = (deflate_state *)ZALLOC(dest, 1, (uInt)sizeof(deflate_state));
+    if (ds == Z_NULL) {
+		return Z_MEM_ERROR;
+	}
+    dest->state = (struct internal_state FAR *)ds;
     *ds = *ss;
     ds->strm = dest;
 
-    ds->window = (Bytef *) ZALLOC(dest, ds->w_size, 2*sizeof(Byte));
-    ds->prev   = (Posf *)  ZALLOC(dest, ds->w_size, sizeof(Pos));
-    ds->head   = (Posf *)  ZALLOC(dest, ds->hash_size, sizeof(Pos));
-    overlay = (ushf *) ZALLOC(dest, ds->lit_bufsize, sizeof(ush)+2);
+    ds->window = (Bytef *)ZALLOC(dest, ds->w_size, (uInt)(2 * sizeof(Byte)));
+    ds->prev = (Posf *)ZALLOC(dest, ds->w_size, (uInt)sizeof(Pos));
+    ds->head = (Posf *)ZALLOC(dest, ds->hash_size, (uInt)sizeof(Pos));
+    overlay = (ushf *)ZALLOC(dest, ds->lit_bufsize, (uInt)(sizeof(ush) + 2));
     ds->pending_buf = (uchf *) overlay;
 
-    if (ds->window == Z_NULL || ds->prev == Z_NULL || ds->head == Z_NULL ||
-        ds->pending_buf == Z_NULL) {
+    if ((ds->window == Z_NULL) || (ds->prev == Z_NULL) || (ds->head == Z_NULL)
+		|| (ds->pending_buf == Z_NULL)) {
         deflateEnd (dest);
         return Z_MEM_ERROR;
     }
     /* following zmemcpy do not work for 16-bit MSDOS */
-    zmemcpy(ds->window, ss->window, ds->w_size * 2 * sizeof(Byte));
-    zmemcpy(ds->prev, ss->prev, ds->w_size * sizeof(Pos));
-    zmemcpy(ds->head, ss->head, ds->hash_size * sizeof(Pos));
-    zmemcpy(ds->pending_buf, ss->pending_buf, (uInt)ds->pending_buf_size);
+    zmemcpy(ds->window, ss->window, (ds->w_size * 2 * sizeof(Byte)));
+    zmemcpy(ds->prev, ss->prev, (ds->w_size * sizeof(Pos)));
+    zmemcpy(ds->head, ss->head, (ds->hash_size * sizeof(Pos)));
+    zmemcpy(ds->pending_buf, ss->pending_buf,
+			(size_t)(uInt)ds->pending_buf_size);
 
     ds->pending_out = ds->pending_buf + (ss->pending_out - ss->pending_buf);
-    ds->d_buf = overlay + ds->lit_bufsize/sizeof(ush);
-    ds->l_buf = ds->pending_buf + (1+sizeof(ush))*ds->lit_bufsize;
+    ds->d_buf = (ushf*)(overlay + (ds->lit_bufsize / sizeof(ush)));
+    ds->l_buf = (ds->pending_buf + ((1 + sizeof(ush)) * ds->lit_bufsize));
 
     ds->l_desc.dyn_tree = ds->dyn_ltree;
     ds->d_desc.dyn_tree = ds->dyn_dtree;
@@ -819,8 +822,12 @@ local int read_buf(strm, buf, size)
 {
     unsigned len = strm->avail_in;
 
-    if (len > size) len = size;
-    if (len == 0) return 0;
+    if (len > size) {
+		len = size;
+	}
+    if (len == 0) {
+		return 0;
+	}
 
     strm->avail_in  -= len;
 
@@ -832,7 +839,7 @@ local int read_buf(strm, buf, size)
         strm->adler = crc32(strm->adler, strm->next_in, len);
     }
 #endif /* GZIP */
-    zmemcpy(buf, strm->next_in, len);
+    zmemcpy(buf, strm->next_in, (size_t)len);
     strm->next_in  += len;
     strm->total_in += len;
 
@@ -1162,9 +1169,9 @@ local void fill_window(s)
         /* If the window is almost full and there is insufficient lookahead,
          * move the upper half to the lower one to make room in the upper half.
          */
-        if (s->strstart >= wsize+MAX_DIST(s)) {
+        if (s->strstart >= (wsize + MAX_DIST(s))) {
 
-            zmemcpy(s->window, s->window+wsize, (unsigned)wsize);
+            zmemcpy(s->window, (s->window + wsize), (size_t)(unsigned)wsize);
             s->match_start -= wsize;
             s->strstart    -= wsize; /* we now have strstart >= MAX_DIST */
             s->block_start -= (long) wsize;

@@ -14,9 +14,9 @@
 
 @SET_MAKE@
 
-# Since we (used to) leave AM_INIT_AUTOMAKE out of configure.ac, this
-# (only) exists to make sure that m4 macros are handled properly.
-# The real makefile is still handwritten (as makefile.orig).
+# Since we used to leave AM_INIT_AUTOMAKE out of configure.ac, this used to
+# only exists to make sure that m4 macros are handled properly.
+# The old makefile is still handwritten (as makefile.orig).
 
 VPATH = @srcdir@
 am__is_gnu_make = test -n '$(MAKEFILE_LIST)' && test -n '$(MAKELEVEL)'
@@ -470,18 +470,20 @@ ACLOCAL_AMFLAGS = -I m4 --install
 #
 # Program: wolf3dredux
 #
-COMPILER = @CC@
+
 #TODO: have autoconf check that all flags are supported:
-AM_CFLAGS = -Wall -ffast-math -funroll-loops
-NON_AM_CFLAGS = -c
+AM_WARNFLAGS = -Wall -Wmissing-field-initializers -Wmissing-prototypes -Wimplicit -Wreturn-type -Wmissing-braces -Wparentheses -Wswitch -Wunknown-pragmas -Wsign-compare -Wnewline-eof -Wno-unused -Wno-trigraphs
+AM_CFLAGS = $(AM_WARNFLAGS) -ffast-math -funroll-loops
 AM_CPPFLAGS = -I. -I/usr/X11R6/include
-OLD_LDFLAGS_UNUSED = -s
-XLDFLAGS = -L/usr/X11R6/lib @LIBS@
-VORBISFLAGS = @VORBIS_LIBS@
-ODIR = Release
+@WOLF_OLD_BUILD_TRUE@COMPILER = @CC@
+@WOLF_OLD_BUILD_TRUE@NON_AM_CFLAGS = -c
+@WOLF_OLD_BUILD_TRUE@OLD_LDFLAGS_UNUSED = -s
+@WOLF_OLD_BUILD_TRUE@XLDFLAGS = -L/usr/X11R6/lib @LIBS@
+@WOLF_OLD_BUILD_TRUE@VORBISFLAGS = @VORBIS_LIBS@
+@WOLF_OLD_BUILD_TRUE@ODIR = Release
+@WOLF_OLD_BUILD_TRUE@EXEBASE = wolf3dredux
+@WOLF_OLD_BUILD_TRUE@EXE = $(ODIR)/$(EXEBASE)
 SUBDIRS = $(LIBOBJDIR) .
-EXEBASE = wolf3dredux
-EXE = $(ODIR)/$(EXEBASE)
 wolf3dredux_SOURCES = client/client_input.c \
                       client/client_main.c \
                       client/client_screen.c \
@@ -577,95 +579,95 @@ signon_SOURCES = tools/signon/wolf_pal.c \
                  tools/signon/main.c \
                  tools/signon/WriteTGA_minimal.c
 
-DO_CC = $(COMPILER) $(CFLAGS) $(AM_CFLAGS) $(AM_CPPFLAGS) ${CPPFLAGS} -o $@ -c $<
-PROGRAM_OBJS = $(ODIR)/client_input.o \
-		$(ODIR)/client_main.o \
-		$(ODIR)/client_screen.o \
-		$(ODIR)/console.o \
-		$(ODIR)/keys.o \
-		$(ODIR)/menu_conf.o \
-		$(ODIR)/arch.o \
-		$(ODIR)/cmd.o \
-		$(ODIR)/common.o \
-		$(ODIR)/cvar.o \
-		$(ODIR)/share.o \
-		$(ODIR)/ttree.o \
-		$(ODIR)/cpuid.o \
-		$(ODIR)/fileio.o \
-		$(ODIR)/files.o \
-		$(ODIR)/filestring.o \
-		$(ODIR)/zippak.o \
-		$(ODIR)/unix_file.o \
-		$(ODIR)/glob.o \
-		$(ODIR)/in_view.o \
-		$(ODIR)/unix_keys.o \
-		$(ODIR)/unix_mouse.o \
-		$(ODIR)/unix_joystick.o \
-		$(ODIR)/system.o \
-		$(ODIR)/unix_system.o \
-		$(ODIR)/unix_timer.o \
-		$(ODIR)/font_manager.o \
-		$(ODIR)/tga.o \
-		$(ODIR)/wav.o \
-		$(ODIR)/angle.o \
-		$(ODIR)/math.o \
-		$(ODIR)/matrix.o \
-		$(ODIR)/random_number.o \
-		$(ODIR)/vector.o \
-		$(ODIR)/memory.o \
-		$(ODIR)/zmem.o \
-		$(ODIR)/script.o \
-		$(ODIR)/sound.o \
-		$(ODIR)/sound_sfx_id.o \
-		$(ODIR)/sound_stream.o \
-		$(ODIR)/openal_binding.o \
-		$(ODIR)/openal_main.o \
-		$(ODIR)/com_string.o \
-		$(ODIR)/unix_main.o \
-		$(ODIR)/unix_vid_sys.o \
-		$(ODIR)/texture_manager.o \
-		$(ODIR)/opengl_binding.o \
-		$(ODIR)/opengl_draw.o \
-		$(ODIR)/opengl_extension.o \
-		$(ODIR)/opengl_main.o \
-		$(ODIR)/opengl_texture.o \
-		$(ODIR)/openglw_imp.o \
-		$(ODIR)/adler32.o \
-		$(ODIR)/crc32.o \
-		$(ODIR)/inffast.o \
-		$(ODIR)/inflate.o \
-		$(ODIR)/inftrees.o \
-		$(ODIR)/zutil.o \
-		$(ODIR)/wolf_powerups.o \
-		$(ODIR)/wolf_sprites.o \
-		$(ODIR)/wolf_bj.o \
-		$(ODIR)/wolf_main.o \
-		$(ODIR)/wolf_client_main.o \
-		$(ODIR)/wolf_sv_ccmds.o \
-		$(ODIR)/wolf_common.o \
-		$(ODIR)/wolf_actor_ai.o \
-		$(ODIR)/wolf_actors.o \
-		$(ODIR)/wolf_ai_com.o \
-		$(ODIR)/wolf_player.o \
-		$(ODIR)/wolf_weapon.o \
-		$(ODIR)/wolf_areas.o \
-		$(ODIR)/wolf_doors.o \
-		$(ODIR)/wolf_level.o \
-		$(ODIR)/wolf_pushwalls.o \
-		$(ODIR)/wolf_math.o \
-		$(ODIR)/wolf_mcredits.o \
-		$(ODIR)/wolf_menu.o \
-		$(ODIR)/wolf_mintermission.o \
-		$(ODIR)/wolf_mintro.o \
-		$(ODIR)/wolf_mnewgame.o \
-		$(ODIR)/wolf_moptions.o \
-		$(ODIR)/wolf_mquit.o \
-		$(ODIR)/wolf_msound.o \
-		$(ODIR)/wolf_mvideo.o \
-		$(ODIR)/episode.o \
-		$(ODIR)/wolf_raycast.o \
-		$(ODIR)/wolf_renderer.o \
-		$(ODIR)/wolf_opengl.o
+@WOLF_OLD_BUILD_TRUE@DO_CC = $(COMPILER) $(CFLAGS) $(AM_CFLAGS) $(AM_CPPFLAGS) ${CPPFLAGS} -o $@ -c $<
+@WOLF_OLD_BUILD_TRUE@PROGRAM_OBJS = $(ODIR)/client_input.o \
+@WOLF_OLD_BUILD_TRUE@		$(ODIR)/client_main.o \
+@WOLF_OLD_BUILD_TRUE@		$(ODIR)/client_screen.o \
+@WOLF_OLD_BUILD_TRUE@		$(ODIR)/console.o \
+@WOLF_OLD_BUILD_TRUE@		$(ODIR)/keys.o \
+@WOLF_OLD_BUILD_TRUE@		$(ODIR)/menu_conf.o \
+@WOLF_OLD_BUILD_TRUE@		$(ODIR)/arch.o \
+@WOLF_OLD_BUILD_TRUE@		$(ODIR)/cmd.o \
+@WOLF_OLD_BUILD_TRUE@		$(ODIR)/common.o \
+@WOLF_OLD_BUILD_TRUE@		$(ODIR)/cvar.o \
+@WOLF_OLD_BUILD_TRUE@		$(ODIR)/share.o \
+@WOLF_OLD_BUILD_TRUE@		$(ODIR)/ttree.o \
+@WOLF_OLD_BUILD_TRUE@		$(ODIR)/cpuid.o \
+@WOLF_OLD_BUILD_TRUE@		$(ODIR)/fileio.o \
+@WOLF_OLD_BUILD_TRUE@		$(ODIR)/files.o \
+@WOLF_OLD_BUILD_TRUE@		$(ODIR)/filestring.o \
+@WOLF_OLD_BUILD_TRUE@		$(ODIR)/zippak.o \
+@WOLF_OLD_BUILD_TRUE@		$(ODIR)/unix_file.o \
+@WOLF_OLD_BUILD_TRUE@		$(ODIR)/glob.o \
+@WOLF_OLD_BUILD_TRUE@		$(ODIR)/in_view.o \
+@WOLF_OLD_BUILD_TRUE@		$(ODIR)/unix_keys.o \
+@WOLF_OLD_BUILD_TRUE@		$(ODIR)/unix_mouse.o \
+@WOLF_OLD_BUILD_TRUE@		$(ODIR)/unix_joystick.o \
+@WOLF_OLD_BUILD_TRUE@		$(ODIR)/system.o \
+@WOLF_OLD_BUILD_TRUE@		$(ODIR)/unix_system.o \
+@WOLF_OLD_BUILD_TRUE@		$(ODIR)/unix_timer.o \
+@WOLF_OLD_BUILD_TRUE@		$(ODIR)/font_manager.o \
+@WOLF_OLD_BUILD_TRUE@		$(ODIR)/tga.o \
+@WOLF_OLD_BUILD_TRUE@		$(ODIR)/wav.o \
+@WOLF_OLD_BUILD_TRUE@		$(ODIR)/angle.o \
+@WOLF_OLD_BUILD_TRUE@		$(ODIR)/math.o \
+@WOLF_OLD_BUILD_TRUE@		$(ODIR)/matrix.o \
+@WOLF_OLD_BUILD_TRUE@		$(ODIR)/random_number.o \
+@WOLF_OLD_BUILD_TRUE@		$(ODIR)/vector.o \
+@WOLF_OLD_BUILD_TRUE@		$(ODIR)/memory.o \
+@WOLF_OLD_BUILD_TRUE@		$(ODIR)/zmem.o \
+@WOLF_OLD_BUILD_TRUE@		$(ODIR)/script.o \
+@WOLF_OLD_BUILD_TRUE@		$(ODIR)/sound.o \
+@WOLF_OLD_BUILD_TRUE@		$(ODIR)/sound_sfx_id.o \
+@WOLF_OLD_BUILD_TRUE@		$(ODIR)/sound_stream.o \
+@WOLF_OLD_BUILD_TRUE@		$(ODIR)/openal_binding.o \
+@WOLF_OLD_BUILD_TRUE@		$(ODIR)/openal_main.o \
+@WOLF_OLD_BUILD_TRUE@		$(ODIR)/com_string.o \
+@WOLF_OLD_BUILD_TRUE@		$(ODIR)/unix_main.o \
+@WOLF_OLD_BUILD_TRUE@		$(ODIR)/unix_vid_sys.o \
+@WOLF_OLD_BUILD_TRUE@		$(ODIR)/texture_manager.o \
+@WOLF_OLD_BUILD_TRUE@		$(ODIR)/opengl_binding.o \
+@WOLF_OLD_BUILD_TRUE@		$(ODIR)/opengl_draw.o \
+@WOLF_OLD_BUILD_TRUE@		$(ODIR)/opengl_extension.o \
+@WOLF_OLD_BUILD_TRUE@		$(ODIR)/opengl_main.o \
+@WOLF_OLD_BUILD_TRUE@		$(ODIR)/opengl_texture.o \
+@WOLF_OLD_BUILD_TRUE@		$(ODIR)/openglw_imp.o \
+@WOLF_OLD_BUILD_TRUE@		$(ODIR)/adler32.o \
+@WOLF_OLD_BUILD_TRUE@		$(ODIR)/crc32.o \
+@WOLF_OLD_BUILD_TRUE@		$(ODIR)/inffast.o \
+@WOLF_OLD_BUILD_TRUE@		$(ODIR)/inflate.o \
+@WOLF_OLD_BUILD_TRUE@		$(ODIR)/inftrees.o \
+@WOLF_OLD_BUILD_TRUE@		$(ODIR)/zutil.o \
+@WOLF_OLD_BUILD_TRUE@		$(ODIR)/wolf_powerups.o \
+@WOLF_OLD_BUILD_TRUE@		$(ODIR)/wolf_sprites.o \
+@WOLF_OLD_BUILD_TRUE@		$(ODIR)/wolf_bj.o \
+@WOLF_OLD_BUILD_TRUE@		$(ODIR)/wolf_main.o \
+@WOLF_OLD_BUILD_TRUE@		$(ODIR)/wolf_client_main.o \
+@WOLF_OLD_BUILD_TRUE@		$(ODIR)/wolf_sv_ccmds.o \
+@WOLF_OLD_BUILD_TRUE@		$(ODIR)/wolf_common.o \
+@WOLF_OLD_BUILD_TRUE@		$(ODIR)/wolf_actor_ai.o \
+@WOLF_OLD_BUILD_TRUE@		$(ODIR)/wolf_actors.o \
+@WOLF_OLD_BUILD_TRUE@		$(ODIR)/wolf_ai_com.o \
+@WOLF_OLD_BUILD_TRUE@		$(ODIR)/wolf_player.o \
+@WOLF_OLD_BUILD_TRUE@		$(ODIR)/wolf_weapon.o \
+@WOLF_OLD_BUILD_TRUE@		$(ODIR)/wolf_areas.o \
+@WOLF_OLD_BUILD_TRUE@		$(ODIR)/wolf_doors.o \
+@WOLF_OLD_BUILD_TRUE@		$(ODIR)/wolf_level.o \
+@WOLF_OLD_BUILD_TRUE@		$(ODIR)/wolf_pushwalls.o \
+@WOLF_OLD_BUILD_TRUE@		$(ODIR)/wolf_math.o \
+@WOLF_OLD_BUILD_TRUE@		$(ODIR)/wolf_mcredits.o \
+@WOLF_OLD_BUILD_TRUE@		$(ODIR)/wolf_menu.o \
+@WOLF_OLD_BUILD_TRUE@		$(ODIR)/wolf_mintermission.o \
+@WOLF_OLD_BUILD_TRUE@		$(ODIR)/wolf_mintro.o \
+@WOLF_OLD_BUILD_TRUE@		$(ODIR)/wolf_mnewgame.o \
+@WOLF_OLD_BUILD_TRUE@		$(ODIR)/wolf_moptions.o \
+@WOLF_OLD_BUILD_TRUE@		$(ODIR)/wolf_mquit.o \
+@WOLF_OLD_BUILD_TRUE@		$(ODIR)/wolf_msound.o \
+@WOLF_OLD_BUILD_TRUE@		$(ODIR)/wolf_mvideo.o \
+@WOLF_OLD_BUILD_TRUE@		$(ODIR)/episode.o \
+@WOLF_OLD_BUILD_TRUE@		$(ODIR)/wolf_raycast.o \
+@WOLF_OLD_BUILD_TRUE@		$(ODIR)/wolf_renderer.o \
+@WOLF_OLD_BUILD_TRUE@		$(ODIR)/wolf_opengl.o
 
 DISTCLEANFILES = *~
 all: config.h
@@ -1794,6 +1796,7 @@ distclean-generic:
 maintainer-clean-generic:
 	@echo "This command is intended for maintainers to use"
 	@echo "it deletes files that may require special tools to rebuild."
+@WOLF_OLD_BUILD_FALSE@clean-local:
 clean: clean-recursive
 
 clean-am: clean-binPROGRAMS clean-generic clean-libtool clean-local \
@@ -1890,12 +1893,12 @@ uninstall-am: uninstall-binPROGRAMS
 	tags tags-am uninstall uninstall-am uninstall-binPROGRAMS
 
 
-all: config.h all-recursive $(EXE)
+@WOLF_OLD_BUILD_TRUE@all: config.h all-recursive $(EXE)
 
 # Leave out the ALLOCA obj, because its header requires special
 # modification that comes by actually using gnulib properly
-$(EXE): $(PROGRAM_OBJS) $(LIBOBJS)
-	${COMPILER} -o $(EXE) $(PROGRAM_OBJS) $(LIBOBJS) ${LDFLAGS} $(XLDFLAGS) $(VORBISFLAGS) -lm 
+@WOLF_OLD_BUILD_TRUE@$(EXE): $(PROGRAM_OBJS) $(LIBOBJS)
+@WOLF_OLD_BUILD_TRUE@	${COMPILER} -o $(EXE) $(PROGRAM_OBJS) $(LIBOBJS) ${LDFLAGS} $(XLDFLAGS) $(VORBISFLAGS) -lm 
 
 #==========================================================================
 #	Build
@@ -1904,398 +1907,396 @@ $(EXE): $(PROGRAM_OBJS) $(LIBOBJS)
 #
 #	client/ 
 #
-$(ODIR)/client_input.o : client/client_input.c 
-	$(DO_CC)
+@WOLF_OLD_BUILD_TRUE@$(ODIR)/client_input.o : client/client_input.c 
+@WOLF_OLD_BUILD_TRUE@	$(DO_CC)
 
-$(ODIR)/client_main.o : client/client_main.c 
-	$(DO_CC)
+@WOLF_OLD_BUILD_TRUE@$(ODIR)/client_main.o : client/client_main.c 
+@WOLF_OLD_BUILD_TRUE@	$(DO_CC)
 
-$(ODIR)/client_screen.o : client/client_screen.c 
-	$(DO_CC)
+@WOLF_OLD_BUILD_TRUE@$(ODIR)/client_screen.o : client/client_screen.c 
+@WOLF_OLD_BUILD_TRUE@	$(DO_CC)
 
-$(ODIR)/console.o : client/console.c 
-	$(DO_CC)
+@WOLF_OLD_BUILD_TRUE@$(ODIR)/console.o : client/console.c 
+@WOLF_OLD_BUILD_TRUE@	$(DO_CC)
 
-$(ODIR)/keys.o : client/keys.c 
-	$(DO_CC)
+@WOLF_OLD_BUILD_TRUE@$(ODIR)/keys.o : client/keys.c 
+@WOLF_OLD_BUILD_TRUE@	$(DO_CC)
 
-$(ODIR)/menu_conf.o : client/menu_conf.c 
-	$(DO_CC)
+@WOLF_OLD_BUILD_TRUE@$(ODIR)/menu_conf.o : client/menu_conf.c 
+@WOLF_OLD_BUILD_TRUE@	$(DO_CC)
 
 #
 #	common/ 
 #
-$(ODIR)/arch.o : common/arch.c 
-	$(DO_CC)
+@WOLF_OLD_BUILD_TRUE@$(ODIR)/arch.o : common/arch.c 
+@WOLF_OLD_BUILD_TRUE@	$(DO_CC)
 
-$(ODIR)/cmd.o : common/cmd.c 
-	$(DO_CC)
+@WOLF_OLD_BUILD_TRUE@$(ODIR)/cmd.o : common/cmd.c 
+@WOLF_OLD_BUILD_TRUE@	$(DO_CC)
 
-$(ODIR)/common.o : common/common.c 
-	$(DO_CC)
+@WOLF_OLD_BUILD_TRUE@$(ODIR)/common.o : common/common.c 
+@WOLF_OLD_BUILD_TRUE@	$(DO_CC)
 
-$(ODIR)/cvar.o : common/cvar.c 
-	$(DO_CC)
+@WOLF_OLD_BUILD_TRUE@$(ODIR)/cvar.o : common/cvar.c 
+@WOLF_OLD_BUILD_TRUE@	$(DO_CC)
 
-$(ODIR)/share.o : common/share.c 
-	$(DO_CC)
+@WOLF_OLD_BUILD_TRUE@$(ODIR)/share.o : common/share.c 
+@WOLF_OLD_BUILD_TRUE@	$(DO_CC)
 
-$(ODIR)/ttree.o : common/ttree.c 
-	$(DO_CC)
+@WOLF_OLD_BUILD_TRUE@$(ODIR)/ttree.o : common/ttree.c 
+@WOLF_OLD_BUILD_TRUE@	$(DO_CC)
 
 #
 #	device/CPU/ 
 #
-$(ODIR)/cpuid.o : device/cpu/cpuid.c 
-	$(DO_CC)
+@WOLF_OLD_BUILD_TRUE@$(ODIR)/cpuid.o : device/cpu/cpuid.c 
+@WOLF_OLD_BUILD_TRUE@	$(DO_CC)
 
 #
 #	device/filesys/ 
 #
-$(ODIR)/fileio.o : device/filesys/fileio.c 
-	$(DO_CC)
+@WOLF_OLD_BUILD_TRUE@$(ODIR)/fileio.o : device/filesys/fileio.c 
+@WOLF_OLD_BUILD_TRUE@	$(DO_CC)
 
-$(ODIR)/files.o : device/filesys/files.c 
-	$(DO_CC)
+@WOLF_OLD_BUILD_TRUE@$(ODIR)/files.o : device/filesys/files.c 
+@WOLF_OLD_BUILD_TRUE@	$(DO_CC)
 
-$(ODIR)/filestring.o : device/filesys/filestring.c 
-	$(DO_CC)
+@WOLF_OLD_BUILD_TRUE@$(ODIR)/filestring.o : device/filesys/filestring.c 
+@WOLF_OLD_BUILD_TRUE@	$(DO_CC)
 
-$(ODIR)/zippak.o : device/filesys/zippak.c 
-	$(DO_CC)
+@WOLF_OLD_BUILD_TRUE@$(ODIR)/zippak.o : device/filesys/zippak.c 
+@WOLF_OLD_BUILD_TRUE@	$(DO_CC)
 
-$(ODIR)/unix_file.o : device/filesys/unix/unix_file.c 
-	$(DO_CC)
+@WOLF_OLD_BUILD_TRUE@$(ODIR)/unix_file.o : device/filesys/unix/unix_file.c 
+@WOLF_OLD_BUILD_TRUE@	$(DO_CC)
 
-$(ODIR)/glob.o : device/filesys/unix/glob.c
-	$(DO_CC)
+@WOLF_OLD_BUILD_TRUE@$(ODIR)/glob.o : device/filesys/unix/glob.c
+@WOLF_OLD_BUILD_TRUE@	$(DO_CC)
 
 #
 #	device/input/
 #
-$(ODIR)/in_view.o : device/input/in_view.c 
-	$(DO_CC)
+@WOLF_OLD_BUILD_TRUE@$(ODIR)/in_view.o : device/input/in_view.c 
+@WOLF_OLD_BUILD_TRUE@	$(DO_CC)
 
-$(ODIR)/unix_keys.o : device/input/unix/unix_keys.c 
-	$(DO_CC)
+@WOLF_OLD_BUILD_TRUE@$(ODIR)/unix_keys.o : device/input/unix/unix_keys.c 
+@WOLF_OLD_BUILD_TRUE@	$(DO_CC)
 
-$(ODIR)/unix_mouse.o : device/input/unix/unix_mouse.c 
-	$(DO_CC)
+@WOLF_OLD_BUILD_TRUE@$(ODIR)/unix_mouse.o : device/input/unix/unix_mouse.c 
+@WOLF_OLD_BUILD_TRUE@	$(DO_CC)
 
-$(ODIR)/unix_joystick.o : device/input/unix/unix_joystick.c 
-	$(DO_CC)
+@WOLF_OLD_BUILD_TRUE@$(ODIR)/unix_joystick.o : device/input/unix/unix_joystick.c 
+@WOLF_OLD_BUILD_TRUE@	$(DO_CC)
 
 #
 #	device/system/
 #
-$(ODIR)/system.o : device/system/system.c 
-	$(DO_CC)
+@WOLF_OLD_BUILD_TRUE@$(ODIR)/system.o : device/system/system.c 
+@WOLF_OLD_BUILD_TRUE@	$(DO_CC)
 
-$(ODIR)/unix_system.o : device/system/unix/unix_system.c 
-	$(DO_CC)
+@WOLF_OLD_BUILD_TRUE@$(ODIR)/unix_system.o : device/system/unix/unix_system.c 
+@WOLF_OLD_BUILD_TRUE@	$(DO_CC)
 
 #
 #	device/timer/
 #
-$(ODIR)/unix_timer.o : device/timer/unix/unix_timer.c 
-	$(DO_CC)
+@WOLF_OLD_BUILD_TRUE@$(ODIR)/unix_timer.o : device/timer/unix/unix_timer.c 
+@WOLF_OLD_BUILD_TRUE@	$(DO_CC)
 
 #
 #	font/
 #
-$(ODIR)/font_manager.o : font/font_manager.c 
-	$(DO_CC)
+@WOLF_OLD_BUILD_TRUE@$(ODIR)/font_manager.o : font/font_manager.c 
+@WOLF_OLD_BUILD_TRUE@	$(DO_CC)
 
 #
 #	gnulib_replacement_funcs/
 #
-$(ODIR)/error.o : gnulib_replacement_funcs/error.c 
-	$(DO_CC)
+@WOLF_OLD_BUILD_TRUE@$(ODIR)/error.o : gnulib_replacement_funcs/error.c 
+@WOLF_OLD_BUILD_TRUE@	$(DO_CC)
 
-$(ODIR)/progname.o : gnulib_replacement_funcs/progname.c 
-	$(DO_CC)
+@WOLF_OLD_BUILD_TRUE@$(ODIR)/progname.o : gnulib_replacement_funcs/progname.c 
+@WOLF_OLD_BUILD_TRUE@	$(DO_CC)
 
-error.o: $(ODIR)/error.o $(ODIR)/progname.o
-	test -e $(ODIR)/error.o && cp -v $(ODIR)/error.o .
+@WOLF_OLD_BUILD_TRUE@error.o: $(ODIR)/error.o $(ODIR)/progname.o
+@WOLF_OLD_BUILD_TRUE@	test -e $(ODIR)/error.o && cp -v $(ODIR)/error.o .
 
-progname.o: $(ODIR)/progname.o
-	test -e $(ODIR)/progname.o && cp -v $(ODIR)/progname.o .
+@WOLF_OLD_BUILD_TRUE@progname.o: $(ODIR)/progname.o
+@WOLF_OLD_BUILD_TRUE@	test -e $(ODIR)/progname.o && cp -v $(ODIR)/progname.o .
 
-$(ODIR)/lstat.o : gnulib_replacement_funcs/lstat.c
-	$(DO_CC)
+@WOLF_OLD_BUILD_TRUE@$(ODIR)/lstat.o : gnulib_replacement_funcs/lstat.c
+@WOLF_OLD_BUILD_TRUE@	$(DO_CC)
 
-lstat.o: $(ODIR)/lstat.o
-	test -e $(ODIR)/lstat.o && cp -v $(ODIR)/lstat.o .
+@WOLF_OLD_BUILD_TRUE@lstat.o: $(ODIR)/lstat.o
+@WOLF_OLD_BUILD_TRUE@	test -e $(ODIR)/lstat.o && cp -v $(ODIR)/lstat.o .
 
-$(ODIR)/strnlen.o : gnulib_replacement_funcs/strnlen.c 
-	$(DO_CC)
+@WOLF_OLD_BUILD_TRUE@$(ODIR)/strnlen.o : gnulib_replacement_funcs/strnlen.c 
+@WOLF_OLD_BUILD_TRUE@	$(DO_CC)
 
-$(ODIR)/strnlen1.o : gnulib_replacement_funcs/strnlen1.c 
-	$(DO_CC)
+@WOLF_OLD_BUILD_TRUE@$(ODIR)/strnlen1.o : gnulib_replacement_funcs/strnlen1.c 
+@WOLF_OLD_BUILD_TRUE@	$(DO_CC)
 
-strnlen.o: $(ODIR)/strnlen.o $(ODIR)/strnlen1.o
-	test -e $(ODIR)/strnlen.o && cp -v $(ODIR)/strnlen.o .
+@WOLF_OLD_BUILD_TRUE@strnlen.o: $(ODIR)/strnlen.o $(ODIR)/strnlen1.o
+@WOLF_OLD_BUILD_TRUE@	test -e $(ODIR)/strnlen.o && cp -v $(ODIR)/strnlen.o .
 
-strnlen1.o: $(ODIR)/strnlen1.o
-	test -e $(ODIR)/strnlen1.o && cp -v $(ODIR)/strnlen1.o .
+@WOLF_OLD_BUILD_TRUE@strnlen1.o: $(ODIR)/strnlen1.o
+@WOLF_OLD_BUILD_TRUE@	test -e $(ODIR)/strnlen1.o && cp -v $(ODIR)/strnlen1.o .
 
 #
 #	loaders/
 #
-$(ODIR)/tga.o : loaders/tga.c 
-	$(DO_CC)
+@WOLF_OLD_BUILD_TRUE@$(ODIR)/tga.o : loaders/tga.c 
+@WOLF_OLD_BUILD_TRUE@	$(DO_CC)
 
-$(ODIR)/wav.o : loaders/wav.c 
-	$(DO_CC)
+@WOLF_OLD_BUILD_TRUE@$(ODIR)/wav.o : loaders/wav.c 
+@WOLF_OLD_BUILD_TRUE@	$(DO_CC)
 
 #
 #	math/
 #
-$(ODIR)/angle.o : math/angle.c 
-	$(DO_CC)
+@WOLF_OLD_BUILD_TRUE@$(ODIR)/angle.o : math/angle.c 
+@WOLF_OLD_BUILD_TRUE@	$(DO_CC)
 
-$(ODIR)/math.o : math/math.c 
-	$(DO_CC)
+@WOLF_OLD_BUILD_TRUE@$(ODIR)/math.o : math/math.c 
+@WOLF_OLD_BUILD_TRUE@	$(DO_CC)
 
-$(ODIR)/matrix.o : math/matrix.c 
-	$(DO_CC)
+@WOLF_OLD_BUILD_TRUE@$(ODIR)/matrix.o : math/matrix.c 
+@WOLF_OLD_BUILD_TRUE@	$(DO_CC)
 
-$(ODIR)/random_number.o : math/random_number.c 
-	$(DO_CC)
+@WOLF_OLD_BUILD_TRUE@$(ODIR)/random_number.o : math/random_number.c 
+@WOLF_OLD_BUILD_TRUE@	$(DO_CC)
 
-$(ODIR)/vector.o : math/vector.c 
-	$(DO_CC)
+@WOLF_OLD_BUILD_TRUE@$(ODIR)/vector.o : math/vector.c 
+@WOLF_OLD_BUILD_TRUE@	$(DO_CC)
 
 #
 #	memory/
 #
-$(ODIR)/memory.o : memory/memory.c 
-	$(DO_CC)
+@WOLF_OLD_BUILD_TRUE@$(ODIR)/memory.o : memory/memory.c 
+@WOLF_OLD_BUILD_TRUE@	$(DO_CC)
 
-$(ODIR)/zmem.o : memory/zmem.c 
-	$(DO_CC)
+@WOLF_OLD_BUILD_TRUE@$(ODIR)/zmem.o : memory/zmem.c 
+@WOLF_OLD_BUILD_TRUE@	$(DO_CC)
 
 #
 #	script/
 #
-$(ODIR)/script.o : script/script.c 
-	$(DO_CC)
+@WOLF_OLD_BUILD_TRUE@$(ODIR)/script.o : script/script.c 
+@WOLF_OLD_BUILD_TRUE@	$(DO_CC)
 
 #
 #	sound/
 #
-$(ODIR)/sound.o : sound/sound.c 
-	$(DO_CC)
+@WOLF_OLD_BUILD_TRUE@$(ODIR)/sound.o : sound/sound.c 
+@WOLF_OLD_BUILD_TRUE@	$(DO_CC)
 
-$(ODIR)/sound_sfx_id.o : sound/sound_sfx_id.c 
-	$(DO_CC)
+@WOLF_OLD_BUILD_TRUE@$(ODIR)/sound_sfx_id.o : sound/sound_sfx_id.c 
+@WOLF_OLD_BUILD_TRUE@	$(DO_CC)
 
-$(ODIR)/sound_stream.o : sound/sound_stream.c 
-	$(DO_CC)
+@WOLF_OLD_BUILD_TRUE@$(ODIR)/sound_stream.o : sound/sound_stream.c 
+@WOLF_OLD_BUILD_TRUE@	$(DO_CC)
 
-$(ODIR)/openal_binding.o : sound/openal/openal_binding.c 
-	$(DO_CC)
+@WOLF_OLD_BUILD_TRUE@$(ODIR)/openal_binding.o : sound/openal/openal_binding.c 
+@WOLF_OLD_BUILD_TRUE@	$(DO_CC)
 
-$(ODIR)/openal_main.o : sound/openal/openal_main.c 
-	$(DO_CC)
+@WOLF_OLD_BUILD_TRUE@$(ODIR)/openal_main.o : sound/openal/openal_main.c 
+@WOLF_OLD_BUILD_TRUE@	$(DO_CC)
 
 #
 #	string/
 #
-$(ODIR)/com_string.o : string/com_string.c 
-	$(DO_CC)
+@WOLF_OLD_BUILD_TRUE@$(ODIR)/com_string.o : string/com_string.c 
+@WOLF_OLD_BUILD_TRUE@	$(DO_CC)
 
 #
 #	unix/
 #
-$(ODIR)/unix_main.o : unix/unix_main.c 
-	$(DO_CC)
+@WOLF_OLD_BUILD_TRUE@$(ODIR)/unix_main.o : unix/unix_main.c 
+@WOLF_OLD_BUILD_TRUE@	$(DO_CC)
 
-$(ODIR)/unix_vid_sys.o : unix/unix_vid_sys.c 
-	$(DO_CC)
+@WOLF_OLD_BUILD_TRUE@$(ODIR)/unix_vid_sys.o : unix/unix_vid_sys.c 
+@WOLF_OLD_BUILD_TRUE@	$(DO_CC)
 
 #
 #	video/
 #
-$(ODIR)/texture_manager.o : video/texture_manager.c 
-	$(DO_CC)
+@WOLF_OLD_BUILD_TRUE@$(ODIR)/texture_manager.o : video/texture_manager.c 
+@WOLF_OLD_BUILD_TRUE@	$(DO_CC)
 
 #
 #	video/opengl/
 #
-$(ODIR)/opengl_binding.o : video/opengl/opengl_binding.c
-	$(DO_CC)
+@WOLF_OLD_BUILD_TRUE@$(ODIR)/opengl_binding.o : video/opengl/opengl_binding.c
+@WOLF_OLD_BUILD_TRUE@	$(DO_CC)
 
-$(ODIR)/opengl_draw.o : video/opengl/opengl_draw.c 
-	$(DO_CC)
+@WOLF_OLD_BUILD_TRUE@$(ODIR)/opengl_draw.o : video/opengl/opengl_draw.c 
+@WOLF_OLD_BUILD_TRUE@	$(DO_CC)
 
-$(ODIR)/opengl_extension.o : video/opengl/opengl_extension.c 
-	$(DO_CC)
+@WOLF_OLD_BUILD_TRUE@$(ODIR)/opengl_extension.o : video/opengl/opengl_extension.c 
+@WOLF_OLD_BUILD_TRUE@	$(DO_CC)
 
-$(ODIR)/opengl_main.o : video/opengl/opengl_main.c 
-	$(DO_CC)
+@WOLF_OLD_BUILD_TRUE@$(ODIR)/opengl_main.o : video/opengl/opengl_main.c 
+@WOLF_OLD_BUILD_TRUE@	$(DO_CC)
 
-$(ODIR)/opengl_texture.o : video/opengl/opengl_texture.c 
-	$(DO_CC)
+@WOLF_OLD_BUILD_TRUE@$(ODIR)/opengl_texture.o : video/opengl/opengl_texture.c 
+@WOLF_OLD_BUILD_TRUE@	$(DO_CC)
 
 # this file seems not to exist yet?
-$(ODIR)/opengl_interface.o : video/opengl/unix/opengl_interface.c 
-	$(DO_CC)
+@WOLF_OLD_BUILD_TRUE@$(ODIR)/opengl_interface.o : video/opengl/unix/opengl_interface.c 
+@WOLF_OLD_BUILD_TRUE@	$(DO_CC)
 
 #
 #	video/opengl/unix/
 #
-$(ODIR)/openglw_imp.o : video/opengl/unix/openglw_imp.c 
-	$(DO_CC)
+@WOLF_OLD_BUILD_TRUE@$(ODIR)/openglw_imp.o : video/opengl/unix/openglw_imp.c 
+@WOLF_OLD_BUILD_TRUE@	$(DO_CC)
 
 #
 #	zlib/
 #
-$(ODIR)/adler32.o : zlib/adler32.c 
-	$(DO_CC)
+@WOLF_OLD_BUILD_TRUE@$(ODIR)/adler32.o : zlib/adler32.c 
+@WOLF_OLD_BUILD_TRUE@	$(DO_CC)
 
-$(ODIR)/crc32.o : zlib/crc32.c 
-	$(DO_CC)
+@WOLF_OLD_BUILD_TRUE@$(ODIR)/crc32.o : zlib/crc32.c 
+@WOLF_OLD_BUILD_TRUE@	$(DO_CC)
 
-$(ODIR)/inffast.o : zlib/inffast.c 
-	$(DO_CC)
+@WOLF_OLD_BUILD_TRUE@$(ODIR)/inffast.o : zlib/inffast.c 
+@WOLF_OLD_BUILD_TRUE@	$(DO_CC)
 
-$(ODIR)/inflate.o : zlib/inflate.c 
-	$(DO_CC)
+@WOLF_OLD_BUILD_TRUE@$(ODIR)/inflate.o : zlib/inflate.c 
+@WOLF_OLD_BUILD_TRUE@	$(DO_CC)
 
-$(ODIR)/inftrees.o : zlib/inftrees.c 
-	$(DO_CC)
+@WOLF_OLD_BUILD_TRUE@$(ODIR)/inftrees.o : zlib/inftrees.c 
+@WOLF_OLD_BUILD_TRUE@	$(DO_CC)
 
-$(ODIR)/zutil.o : zlib/zutil.c 
-	$(DO_CC)
+@WOLF_OLD_BUILD_TRUE@$(ODIR)/zutil.o : zlib/zutil.c 
+@WOLF_OLD_BUILD_TRUE@	$(DO_CC)
 
-$(ODIR)/wolf_main.o : game/wolf3d/wolf_main.c 
-	$(DO_CC)
+@WOLF_OLD_BUILD_TRUE@$(ODIR)/wolf_main.o : game/wolf3d/wolf_main.c 
+@WOLF_OLD_BUILD_TRUE@	$(DO_CC)
 
 #
 #	game/wolf3d/client/
 #
-$(ODIR)/wolf_client_main.o : game/wolf3d/client/wolf_client_main.c 
-	$(DO_CC)
+@WOLF_OLD_BUILD_TRUE@$(ODIR)/wolf_client_main.o : game/wolf3d/client/wolf_client_main.c 
+@WOLF_OLD_BUILD_TRUE@	$(DO_CC)
 
-$(ODIR)/wolf_sv_ccmds.o : game/wolf3d/client/wolf_sv_ccmds.c 
-	$(DO_CC)
+@WOLF_OLD_BUILD_TRUE@$(ODIR)/wolf_sv_ccmds.o : game/wolf3d/client/wolf_sv_ccmds.c 
+@WOLF_OLD_BUILD_TRUE@	$(DO_CC)
 
 #
 #	game/wolf3d/common/
 #
-$(ODIR)/wolf_common.o : game/wolf3d/common/wolf_common.c 
-	$(DO_CC)
+@WOLF_OLD_BUILD_TRUE@$(ODIR)/wolf_common.o : game/wolf3d/common/wolf_common.c 
+@WOLF_OLD_BUILD_TRUE@	$(DO_CC)
 
 #
 #	game/wolf3d/entities/
 #
-$(ODIR)/wolf_actor_ai.o : game/wolf3d/entities/wolf_actor_ai.c 
-	$(DO_CC)
+@WOLF_OLD_BUILD_TRUE@$(ODIR)/wolf_actor_ai.o : game/wolf3d/entities/wolf_actor_ai.c 
+@WOLF_OLD_BUILD_TRUE@	$(DO_CC)
 
-$(ODIR)/wolf_actors.o : game/wolf3d/entities/wolf_actors.c 
-	$(DO_CC)
+@WOLF_OLD_BUILD_TRUE@$(ODIR)/wolf_actors.o : game/wolf3d/entities/wolf_actors.c 
+@WOLF_OLD_BUILD_TRUE@	$(DO_CC)
 
-$(ODIR)/wolf_ai_com.o : game/wolf3d/entities/wolf_ai_com.c 
-	$(DO_CC)
+@WOLF_OLD_BUILD_TRUE@$(ODIR)/wolf_ai_com.o : game/wolf3d/entities/wolf_ai_com.c 
+@WOLF_OLD_BUILD_TRUE@	$(DO_CC)
 
-$(ODIR)/wolf_bj.o : game/wolf3d/entities/wolf_bj.c 
-	$(DO_CC)
+@WOLF_OLD_BUILD_TRUE@$(ODIR)/wolf_bj.o : game/wolf3d/entities/wolf_bj.c 
+@WOLF_OLD_BUILD_TRUE@	$(DO_CC)
 
-$(ODIR)/wolf_player.o : game/wolf3d/entities/wolf_player.c 
-	$(DO_CC)
+@WOLF_OLD_BUILD_TRUE@$(ODIR)/wolf_player.o : game/wolf3d/entities/wolf_player.c 
+@WOLF_OLD_BUILD_TRUE@	$(DO_CC)
 
-$(ODIR)/wolf_powerups.o : game/wolf3d/entities/wolf_powerups.c 
-	$(DO_CC)
+@WOLF_OLD_BUILD_TRUE@$(ODIR)/wolf_powerups.o : game/wolf3d/entities/wolf_powerups.c 
+@WOLF_OLD_BUILD_TRUE@	$(DO_CC)
 
-$(ODIR)/wolf_sprites.o : game/wolf3d/entities/wolf_sprites.c 
-	$(DO_CC)
+@WOLF_OLD_BUILD_TRUE@$(ODIR)/wolf_sprites.o : game/wolf3d/entities/wolf_sprites.c 
+@WOLF_OLD_BUILD_TRUE@	$(DO_CC)
 
-$(ODIR)/wolf_weapon.o : game/wolf3d/entities/wolf_weapon.c 
-	$(DO_CC)
+@WOLF_OLD_BUILD_TRUE@$(ODIR)/wolf_weapon.o : game/wolf3d/entities/wolf_weapon.c 
+@WOLF_OLD_BUILD_TRUE@	$(DO_CC)
 
 #
 #	game/wolf3d/level/
 #
-$(ODIR)/wolf_areas.o : game/wolf3d/level/wolf_areas.c 
-	$(DO_CC)
+@WOLF_OLD_BUILD_TRUE@$(ODIR)/wolf_areas.o : game/wolf3d/level/wolf_areas.c 
+@WOLF_OLD_BUILD_TRUE@	$(DO_CC)
 
-$(ODIR)/wolf_doors.o : game/wolf3d/level/wolf_doors.c 
-	$(DO_CC)
+@WOLF_OLD_BUILD_TRUE@$(ODIR)/wolf_doors.o : game/wolf3d/level/wolf_doors.c 
+@WOLF_OLD_BUILD_TRUE@	$(DO_CC)
 
-$(ODIR)/wolf_level.o : game/wolf3d/level/wolf_level.c 
-	$(DO_CC)
+@WOLF_OLD_BUILD_TRUE@$(ODIR)/wolf_level.o : game/wolf3d/level/wolf_level.c 
+@WOLF_OLD_BUILD_TRUE@	$(DO_CC)
 
-$(ODIR)/wolf_pushwalls.o : game/wolf3d/level/wolf_pushwalls.c 
-	$(DO_CC)
+@WOLF_OLD_BUILD_TRUE@$(ODIR)/wolf_pushwalls.o : game/wolf3d/level/wolf_pushwalls.c 
+@WOLF_OLD_BUILD_TRUE@	$(DO_CC)
 
 #
 #	game/wolf3d/math/
 #
-$(ODIR)/wolf_math.o : game/wolf3d/math/wolf_math.c 
-	$(DO_CC)
+@WOLF_OLD_BUILD_TRUE@$(ODIR)/wolf_math.o : game/wolf3d/math/wolf_math.c 
+@WOLF_OLD_BUILD_TRUE@	$(DO_CC)
 
 #
 #	game/wolf3d/menu/
 #
-$(ODIR)/wolf_mcredits.o : game/wolf3d/menu/wolf_mcredits.c 
-	$(DO_CC)
+@WOLF_OLD_BUILD_TRUE@$(ODIR)/wolf_mcredits.o : game/wolf3d/menu/wolf_mcredits.c 
+@WOLF_OLD_BUILD_TRUE@	$(DO_CC)
 
-$(ODIR)/wolf_menu.o : game/wolf3d/menu/wolf_menu.c 
-	$(DO_CC)
+@WOLF_OLD_BUILD_TRUE@$(ODIR)/wolf_menu.o : game/wolf3d/menu/wolf_menu.c 
+@WOLF_OLD_BUILD_TRUE@	$(DO_CC)
 
-$(ODIR)/wolf_mintermission.o : game/wolf3d/menu/wolf_mintermission.c 
-	$(DO_CC)
+@WOLF_OLD_BUILD_TRUE@$(ODIR)/wolf_mintermission.o : game/wolf3d/menu/wolf_mintermission.c 
+@WOLF_OLD_BUILD_TRUE@	$(DO_CC)
 
-$(ODIR)/wolf_mintro.o : game/wolf3d/menu/wolf_mintro.c 
-	$(DO_CC)
+@WOLF_OLD_BUILD_TRUE@$(ODIR)/wolf_mintro.o : game/wolf3d/menu/wolf_mintro.c 
+@WOLF_OLD_BUILD_TRUE@	$(DO_CC)
 
-$(ODIR)/wolf_mnewgame.o : game/wolf3d/menu/wolf_mnewgame.c 
-	$(DO_CC)
+@WOLF_OLD_BUILD_TRUE@$(ODIR)/wolf_mnewgame.o : game/wolf3d/menu/wolf_mnewgame.c 
+@WOLF_OLD_BUILD_TRUE@	$(DO_CC)
 
-$(ODIR)/wolf_moptions.o : game/wolf3d/menu/wolf_moptions.c 
-	$(DO_CC)
+@WOLF_OLD_BUILD_TRUE@$(ODIR)/wolf_moptions.o : game/wolf3d/menu/wolf_moptions.c 
+@WOLF_OLD_BUILD_TRUE@	$(DO_CC)
 
-$(ODIR)/wolf_mquit.o : game/wolf3d/menu/wolf_mquit.c 
-	$(DO_CC)
+@WOLF_OLD_BUILD_TRUE@$(ODIR)/wolf_mquit.o : game/wolf3d/menu/wolf_mquit.c 
+@WOLF_OLD_BUILD_TRUE@	$(DO_CC)
 
-$(ODIR)/wolf_msound.o : game/wolf3d/menu/wolf_msound.c 
-	$(DO_CC)
+@WOLF_OLD_BUILD_TRUE@$(ODIR)/wolf_msound.o : game/wolf3d/menu/wolf_msound.c 
+@WOLF_OLD_BUILD_TRUE@	$(DO_CC)
 
-$(ODIR)/wolf_mvideo.o : game/wolf3d/menu/wolf_mvideo.c 
-	$(DO_CC)
+@WOLF_OLD_BUILD_TRUE@$(ODIR)/wolf_mvideo.o : game/wolf3d/menu/wolf_mvideo.c 
+@WOLF_OLD_BUILD_TRUE@	$(DO_CC)
 
 #
 #	game/wolf3d/script/
 #
-$(ODIR)/episode.o : game/wolf3d/script/episode.c
-	$(DO_CC)
+@WOLF_OLD_BUILD_TRUE@$(ODIR)/episode.o : game/wolf3d/script/episode.c
+@WOLF_OLD_BUILD_TRUE@	$(DO_CC)
 
 #
 #	game/wolf3d/video/
 #
-$(ODIR)/wolf_raycast.o : game/wolf3d/video/wolf_raycast.c 
-	$(DO_CC)
+@WOLF_OLD_BUILD_TRUE@$(ODIR)/wolf_raycast.o : game/wolf3d/video/wolf_raycast.c 
+@WOLF_OLD_BUILD_TRUE@	$(DO_CC)
 
-$(ODIR)/wolf_renderer.o : game/wolf3d/video/wolf_renderer.c 
-	$(DO_CC)
+@WOLF_OLD_BUILD_TRUE@$(ODIR)/wolf_renderer.o : game/wolf3d/video/wolf_renderer.c 
+@WOLF_OLD_BUILD_TRUE@	$(DO_CC)
 
 #
 #	game/wolf3d/video/opengl/
 #
-$(ODIR)/wolf_opengl.o : game/wolf3d/video/opengl/wolf_opengl.c 
-	$(DO_CC)
+@WOLF_OLD_BUILD_TRUE@$(ODIR)/wolf_opengl.o : game/wolf3d/video/opengl/wolf_opengl.c 
+@WOLF_OLD_BUILD_TRUE@	$(DO_CC)
 
 #==========================================================================
 #	Misc
 #==========================================================================
-clean-local:
-	rm -f *.o $(ODIR)/*.o $(EXE)
-.PHONY: clean-local
+@WOLF_OLD_BUILD_TRUE@clean-local:
+@WOLF_OLD_BUILD_TRUE@	rm -f *.o $(ODIR)/*.o $(EXE)
 
 distclean-local:
 	rm -rf autom4te.cache || rmdir autom4te.cache
-.PHONY: distclean-local
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

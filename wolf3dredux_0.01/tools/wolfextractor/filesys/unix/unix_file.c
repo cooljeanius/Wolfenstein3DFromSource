@@ -45,9 +45,9 @@
 #include "glob.h"
 #include "../file.h"
 
-PRIVATE	char	findbase[ 128 ];
-PRIVATE	char	findpath[ 128 ];
-PRIVATE	char	findpattern[ 128 ];
+PRIVATE	char	findbase[128];
+PRIVATE	char	findpath[128];
+PRIVATE	char	findpattern[128];
 PRIVATE	DIR     *fdir;
 
 
@@ -60,14 +60,16 @@ PRIVATE	DIR     *fdir;
 
  Returns: On success nonzero, otherwise zero.
 
- Notes:
+ Notes: Basically a simple wrapper around mkdir() for now.
 -----------------------------------------------------------------------------
 */
-PUBLIC W8 FS_Mkdir( const char *dirname )
+PUBLIC W8 FS_Mkdir(const char *dirname)
 {
-	int ret_val = mkdir( dirname, S_IRUSR | S_IWUSR | S_IXUSR );
+	int ret_val;
 
-	if( ret_val == -1 && errno == EEXIST ) {
+	ret_val = mkdir(dirname, (mode_t)(S_IRUSR | S_IWUSR | S_IXUSR));
+
+	if ((ret_val == -1) && (errno == EEXIST)) {
 		return 1;
 	}
 

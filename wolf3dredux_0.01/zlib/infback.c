@@ -49,7 +49,7 @@ int stream_size;
 		strm->zfree = zcfree;
 	}
     state = (struct inflate_state FAR *)ZALLOC(strm, 1,
-                                               sizeof(struct inflate_state));
+                                               (uInt)sizeof(struct inflate_state));
     if (state == Z_NULL) {
 		return Z_MEM_ERROR;
 	}
@@ -336,9 +336,13 @@ void FAR *out_desc;
                 copy = state->length;
                 PULL();
                 ROOM();
-                if (copy > have) copy = have;
-                if (copy > left) copy = left;
-                zmemcpy(put, next, copy);
+                if (copy > have) {
+					copy = have;
+				}
+                if (copy > left) {
+					copy = left;
+				}
+                zmemcpy(put, next, (size_t)copy);
                 have -= copy;
                 next += copy;
                 left -= copy;

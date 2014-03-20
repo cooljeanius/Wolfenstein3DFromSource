@@ -685,6 +685,8 @@ CXXDEPMODE
 ac_ct_CXX
 CXXFLAGS
 CXX
+WOLF_OLD_BUILD_FALSE
+WOLF_OLD_BUILD_TRUE
 MAINT
 MAINTAINER_MODE_FALSE
 MAINTAINER_MODE_TRUE
@@ -792,6 +794,7 @@ enable_option_checking
 enable_dependency_tracking
 enable_silent_rules
 enable_maintainer_mode
+enable_old_style_build
 enable_shared
 enable_static
 with_pic
@@ -1458,6 +1461,8 @@ Optional Features:
   --enable-maintainer-mode
                           enable make rules and dependencies not useful (and
                           sometimes confusing) to the casual installer
+  --enable-old-style-build
+                          also run the pre-automake build rules when building
   --enable-shared[=PKGS]  build shared libraries [default=yes]
   --enable-static[=PKGS]  build static libraries [default=yes]
   --enable-fast-install[=PKGS]
@@ -5017,6 +5022,33 @@ fi
 
   MAINT=$MAINTAINER_MODE_TRUE
 
+
+
+# Check whether --enable-old-style-build was given.
+if test "${enable_old_style_build+set}" = set; then :
+  enableval=$enable_old_style_build; DO_WOLF_OLD_BUILD=${enableval}
+else
+  DO_WOLF_OLD_BULD=no
+fi
+
+
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking whether to use pre-automake build rules" >&5
+$as_echo_n "checking whether to use pre-automake build rules... " >&6; }
+if test "x${DO_WOLF_OLD_BUILD}" = "xyes"; then
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: yes" >&5
+$as_echo "yes" >&6; }
+else
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+fi
+
+ if test "x${DO_WOLF_OLD_BUILD}" = "xyes"; then
+  WOLF_OLD_BUILD_TRUE=
+  WOLF_OLD_BUILD_FALSE='#'
+else
+  WOLF_OLD_BUILD_TRUE='#'
+  WOLF_OLD_BUILD_FALSE=
+fi
 
 
 # Checks for programs.
@@ -21072,6 +21104,10 @@ fi
 
 if test -z "${MAINTAINER_MODE_TRUE}" && test -z "${MAINTAINER_MODE_FALSE}"; then
   as_fn_error $? "conditional \"MAINTAINER_MODE\" was never defined.
+Usually this means the macro was only invoked conditionally." "$LINENO" 5
+fi
+if test -z "${WOLF_OLD_BUILD_TRUE}" && test -z "${WOLF_OLD_BUILD_FALSE}"; then
+  as_fn_error $? "conditional \"WOLF_OLD_BUILD\" was never defined.
 Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
 if test -z "${am__fastdepCXX_TRUE}" && test -z "${am__fastdepCXX_FALSE}"; then

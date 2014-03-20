@@ -192,10 +192,10 @@ PUBLIC void Cbuf_InsertText( char *text )
 
 -----------------------------------------------------------------------------
 */
-PUBLIC void Cbuf_CopyToDefer( void )
+PUBLIC void Cbuf_CopyToDefer(void)
 {
-	memcpy( defer_text_buf, cmd_text_buf, cmd_text.cursize );
-	defer_text_buf[ cmd_text.cursize ] = 0;
+	memcpy(defer_text_buf, cmd_text_buf, (size_t)cmd_text.cursize);
+	defer_text_buf[cmd_text.cursize] = 0;
 	cmd_text.cursize = 0;
 }
 
@@ -292,35 +292,35 @@ PUBLIC void Cbuf_Execute( void )
 				quotes++;
 			}
 
-			if( !(quotes & 1) &&  text[ i ] == ';' ) {
+			if (!(quotes & 1) && (text[i] == ';')) {
 				break;	/* do NOT break if inside a quoted string */
 			}
 
-			if( text[ i ] == '\n' || text[ i ] == '#' ) {
+			if ((text[i] == '\n') || (text[i] == '#')) {
 				break; /* break on a newline or a hash mark */
 			}
 		}
 
 
-		memcpy( line, text, i );
-		line[ i ] = '\0';	/* NUL-terminate string */
+		memcpy(line, text, (size_t)i);
+		line[i] = '\0';	/* NUL-terminate string */
 
 /* delete the text from the command buffer and move remaining commands down
  * this is necessary because commands (exec, alias) can insert data at the
  * beginning of the text buffer */
 
-		if( i == cmd_text.cursize ) {
+		if (i == cmd_text.cursize) {
 			cmd_text.cursize = 0;
 		} else {
 			i++;
 			cmd_text.cursize -= i;
-			memmove( text, text+i, cmd_text.cursize );
+			memmove(text, (text + i), (size_t)(cmd_text.cursize));
 		}
 
 		/* execute the command line */
-		Cmd_ExecuteString( line );
+		Cmd_ExecuteString(line);
 
-		if( cmd_wait ) {
+		if (cmd_wait) {
 			/* skip out while text still remains in buffer, leaving it
 			 * for next frame */
 			cmd_wait = false;
@@ -485,38 +485,38 @@ PUBLIC _boolean Cbuf_AddLateCommands( void )
 
 -----------------------------------------------------------------------------
 */
-PRIVATE void Cmd_Exec_f( void )
+PRIVATE void Cmd_Exec_f(void)
 {
 	filehandle_t *hfile;
 	char	*f2;
 	int		len;
 
-	if( Cmd_Argc () != 2 ) {
-		Com_Printf( "exec <filename> : execute a script file\n" );
+	if (Cmd_Argc () != 2) {
+		Com_Printf("exec <filename> : execute a script file\n");
 		return;
 	}
 
-	hfile = FS_OpenFile( Cmd_Argv( 1 ), FA_FILE_FLAG_LOAD );
-	if( ! hfile ) {
-		Com_Printf( "could NOT exec %s\n", Cmd_Argv( 1 ) );
+	hfile = FS_OpenFile(Cmd_Argv(1), FA_FILE_FLAG_LOAD);
+	if (! hfile) {
+		Com_Printf("could NOT exec %s\n", Cmd_Argv(1));
 
 		return;
 	}
 
-	len = (int)FS_GetFileSize( hfile );
+	len = (int)FS_GetFileSize(hfile);
 
-	Com_Printf( "execing %s\n", Cmd_Argv( 1 ) );
+	Com_Printf("execing %s\n", Cmd_Argv(1));
 
 	/* the file does NOT have a trailing 0, so we need to copy it off */
-	f2 = Z_Malloc( (size_t)(len + 1) );
-	memcpy( f2, hfile->filedata, len );
-	f2[ len ] = 0;
+	f2 = Z_Malloc((size_t)(len + 1));
+	memcpy(f2, hfile->filedata, (size_t)len);
+	f2[len] = 0;
 
-	Cbuf_InsertText( f2 );
+	Cbuf_InsertText(f2);
 
-	Z_Free( f2 );
+	Z_Free(f2);
 
-	FS_CloseFile( hfile );
+	FS_CloseFile(hfile);
 }
 
 
@@ -532,15 +532,15 @@ PRIVATE void Cmd_Exec_f( void )
 
 -----------------------------------------------------------------------------
 */
-PRIVATE void Cmd_Echo_f( void )
+PRIVATE void Cmd_Echo_f(void)
 {
 	int	i;
 
-	for( i = 1 ; i < Cmd_Argc() ; ++i ) {
-		Com_Printf( "%s ",Cmd_Argv( i ) );
+	for ((i = 1); (i < Cmd_Argc()); ++i) {
+		Com_Printf("%s ", Cmd_Argv(i));
 	}
 
-	Com_Printf( "\n" );
+	Com_Printf("\n");
 }
 
 
@@ -744,33 +744,35 @@ PRIVATE char *Cmd_MacroExpandString( char *text )
 			continue;
 		}
 
-		token = Cvar_VariableString (token);
+		token = Cvar_VariableString(token);
 
 		j = (int)strlen(token);
 		len += j;
 		if (len >= MAX_STRING_CHARS) {
-			Com_Printf ("Expanded line exceeded %i chars, discarded.\n", MAX_STRING_CHARS);
+			Com_Printf ("Expanded line exceeded %i chars, discarded.\n",
+						MAX_STRING_CHARS);
 			return NULL;
 		}
 
-		strncpy( temporary, scan, i );
-		my_strlcpy((temporary + i), token, (sizeof(temporary) - (unsigned long)i));
+		strncpy(temporary, scan, (size_t)i);
+		my_strlcpy((temporary + i), token,
+				   (sizeof(temporary) - (unsigned long)i));
 		/* is order of parentheses in 3rd parameter correct here? */
 		my_strlcpy((temporary + i + j), start,
 				   (sizeof(temporary) - (unsigned long)i - (unsigned long)j));
 
-		my_strlcpy( expanded, temporary, sizeof( expanded ) );
+		my_strlcpy(expanded, temporary, sizeof(expanded));
 		scan = expanded;
 		i--;
 
-		if( ++count == 100 ) {
-			Com_Printf( "Macro expansion loop, discarded.\n" );
+		if (++count == 100) {
+			Com_Printf("Macro expansion loop, discarded.\n");
 			return NULL;
 		}
 	}
 
-	if( inquote ) {
-		Com_Printf( "Line has unmatched quote, discarded.\n" );
+	if (inquote) {
+		Com_Printf("Line has unmatched quote, discarded.\n");
 		return NULL;
 	}
 

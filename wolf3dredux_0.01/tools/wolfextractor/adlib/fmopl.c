@@ -597,7 +597,7 @@ static void init_timetables(FM_OPL *OPL, int ARRATE, int DRRATE)
 }
 
 /* ---------- generic table initialize ---------- */
-static int OPLOpenTable( void )
+static int OPLOpenTable(void)
 {
 	int s,t;
 	double rate;
@@ -605,32 +605,34 @@ static int OPLOpenTable( void )
 	double pom;
 
 	/* allocate dynamic tables */
-	if( (TL_TABLE = (INT32*)malloc(TL_MAX*2*sizeof(INT32))) == NULL) {
+	if ((TL_TABLE = (INT32*)malloc(TL_MAX * 2 * sizeof(INT32))) == NULL) {
 		return 0;
 	}
-	if( (SIN_TABLE = (INT32**)malloc(SIN_ENT*4 *sizeof(INT32 *))) == NULL) {
+	if ((SIN_TABLE = (INT32**)malloc(SIN_ENT * 4 * sizeof(INT32 *))) == NULL) {
 		free(TL_TABLE);
 		return 0;
 	}
-	if( (AMS_TABLE = (INT32*)malloc(AMS_ENT*2 *sizeof(INT32))) == NULL) {
+	if ((AMS_TABLE = (INT32*)malloc(AMS_ENT * 2 * sizeof(INT32))) == NULL) {
 		free(TL_TABLE);
 		free(SIN_TABLE);
 		return 0;
 	}
-	if( (VIB_TABLE = (INT32*)malloc(VIB_ENT*2 *sizeof(INT32))) == NULL) {
+	if ((VIB_TABLE = (INT32*)malloc(VIB_ENT * 2 * sizeof(INT32))) == NULL) {
 		free(TL_TABLE);
 		free(SIN_TABLE);
 		free(AMS_TABLE);
 		return 0;
 	}
 	/* make total level table */
-	for (t = 0;t < EG_ENT-1 ;t++) {
-		rate = ((1<<TL_BITS)-1)/pow(10,EG_STEP*t/20);	/* dB -> voltage */
-		TL_TABLE[       t] =  (int)rate;
-		TL_TABLE[TL_MAX+t] = -TL_TABLE[t];
-#if 0
-		LOG(LOG_INF,("TotalLevel(%3d) = %x\n",t,TL_TABLE[t]));
-#endif /* 0 */
+	for ((t = 0); (t < EG_ENT - 1); t++) {
+		/* dB -> voltage: */
+		rate = ((1 << TL_BITS) - 1) / pow((double)10,
+										  (double)(EG_STEP * t / 20));
+		TL_TABLE[t] = (int)rate;
+		TL_TABLE[(TL_MAX + t)] = -TL_TABLE[t];
+#if defined(LOG) && defined(LOG_INF) && (defined(logerror) || defined(HAVE_LOG_ERROR))
+		LOG(LOG_INF,("TotalLevel(%3d) = %x\n", t, TL_TABLE[t]));
+#endif /* LOG && LOG_INF && (logerror || HAVE_LOG_ERROR) */
 	}
 	/* fill volume off area */
 	for ( t = EG_ENT-1; t < TL_MAX ;t++){
@@ -649,9 +651,9 @@ static int OPLOpenTable( void )
 		SIN_TABLE[          s] = SIN_TABLE[SIN_ENT/2-s] = &TL_TABLE[j];
         /* degree 180 - 270    , degree 360 - 270 : minus section */
 		SIN_TABLE[SIN_ENT/2+s] = SIN_TABLE[SIN_ENT  -s] = &TL_TABLE[TL_MAX+j];
-#if 0
+#if defined(LOG) && defined(LOG_INF) && (defined(logerror) || defined(HAVE_LOG_ERROR))
 		LOG(LOG_INF,("sin(%3d) = %f:%f db\n",s,pom,(double)j * EG_STEP));
-#endif /* 0 */
+#endif /* LOG && LOG_INF && (logerror || HAVE_LOG_ERROR) */
 	}
 	for (s = 0;s < SIN_ENT;s++) {
 		SIN_TABLE[SIN_ENT*1+s] = s<(SIN_ENT/2) ? SIN_TABLE[s] : &TL_TABLE[EG_ENT];
@@ -660,12 +662,16 @@ static int OPLOpenTable( void )
 	}
 
 	/* envelope counter -> envelope output table */
-	for (i=0; i<EG_ENT; i++) {
+	for ((i = 0); i<EG_ENT; i++) {
 		/* ATTACK curve */
-		pom = pow( ((double)(EG_ENT-1-i)/EG_ENT) , 8 ) * EG_ENT;
-		/* if( pom >= EG_ENT ) pom = EG_ENT-1; */
+		pom = (pow(((double)(EG_ENT-1-i)/EG_ENT), (double)8) * EG_ENT);
+#if 0
+		if (pom >= EG_ENT) {
+			pom = (EG_ENT - 1);
+		}
+#endif /* 0 */
 		ENV_CURVE[i] = (int)pom;
-		/* DECAY ,RELEASE curve */
+		/* DECAY, RELEASE curve */
 		ENV_CURVE[(EG_DST>>ENV_BITS)+i]= i;
 	}
 	/* off */
@@ -1048,7 +1054,7 @@ FM_OPL *OPLCreate(int type, int clock, int rate)
 	}
 	/* allocate OPL state space */
 	state_size  = sizeof(FM_OPL);
-	state_size += (sizeof(OPL_CH) * (unsigned long)max_ch);
+	state_size += (int)(sizeof(OPL_CH) * (unsigned long)max_ch);
 
 	/* allocate memory block */
 	ptr = (char*)malloc((size_t)state_size);
@@ -1056,7 +1062,7 @@ FM_OPL *OPLCreate(int type, int clock, int rate)
 		return NULL;
 	}
 	/* clear */
-	memset(ptr,0,state_size);
+	memset(ptr, 0, (size_t)state_size);
 
 	OPL        = (FM_OPL *)ptr;
 	ptr += sizeof(FM_OPL);

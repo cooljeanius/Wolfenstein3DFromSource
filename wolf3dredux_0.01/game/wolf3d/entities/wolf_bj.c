@@ -114,7 +114,7 @@ void T_BJJump(entity_t *Guard)
 -----------------------------------------------------------------------------
  Function: T_BJYell
 
- Parameters:
+ Parameters: (unused?)
 
  Returns: Nothing.
 
@@ -126,7 +126,7 @@ void T_BJYell(entity_t *Guard)
 {
 	/* TODO: use parameter 'Guard' */
 	Sound_StartSound(NULL, 0, CHAN_VOICE, Sound_RegisterSound("sfx/082.wav"),
-					 1, ATTN_NORM, 0);
+					 (float)1.0, (float)ATTN_NORM, 0);
 }
 
 /*

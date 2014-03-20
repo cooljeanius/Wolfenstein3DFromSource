@@ -62,14 +62,16 @@ PRIVATE	DIR     *fdir;
 
  Returns: On success nonzero, otherwise zero.
 
- Notes:
+ Notes: basically a simple wrapper around mkdir() for now.
 -----------------------------------------------------------------------------
 */
-PUBLIC W8 FS_CreateDirectory( const char *dirname )
+PUBLIC W8 FS_CreateDirectory(const char *dirname)
 {
-	int ret_val = mkdir( dirname, S_IRUSR | S_IWUSR | S_IXUSR );
+	int ret_val;
 
-	if( ret_val == -1 && errno == EEXIST ) {
+	ret_val = mkdir(dirname, (mode_t)(S_IRUSR | S_IWUSR | S_IXUSR));
+
+	if ((ret_val == -1) && (errno == EEXIST)) {
 		return 1;
 	}
 

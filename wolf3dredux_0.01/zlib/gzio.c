@@ -132,21 +132,27 @@ local gzFile gz_open (path, mode, fd)
 
     s->mode = '\0';
     do {
-        if (*p == 'r') s->mode = 'r';
-        if (*p == 'w' || *p == 'a') s->mode = 'w';
-        if (*p >= '0' && *p <= '9') {
-            level = *p - '0';
+        if (*p == 'r') {
+			s->mode = 'r';
+		}
+        if ((*p == 'w') || (*p == 'a')) {
+			s->mode = 'w';
+		}
+        if ((*p >= '0') && (*p <= '9')) {
+            level = (*p - '0');
         } else if (*p == 'f') {
-          strategy = Z_FILTERED;
+			strategy = Z_FILTERED;
         } else if (*p == 'h') {
-          strategy = Z_HUFFMAN_ONLY;
+			strategy = Z_HUFFMAN_ONLY;
         } else if (*p == 'R') {
-          strategy = Z_RLE;
+			strategy = Z_RLE;
         } else {
             *m++ = *p; /* copy the mode */
         }
-    } while (*p++ && m != fmode + sizeof(fmode));
-    if (s->mode == '\0') return destroy(s), (gzFile)Z_NULL;
+    } while (*p++ && (m != (fmode + sizeof(fmode))));
+    if (s->mode == '\0') {
+		return destroy(s), (gzFile)Z_NULL;
+	}
 
     if (s->mode == 'w') {
 #ifdef NO_GZCOMPRESS
@@ -156,13 +162,13 @@ local gzFile gz_open (path, mode, fd)
                            Z_DEFLATED, -MAX_WBITS, DEF_MEM_LEVEL, strategy);
         /* windowBits is passed < 0 to suppress zlib header */
 
-        s->stream.next_out = s->outbuf = (Byte*)ALLOC(Z_BUFSIZE);
-#endif
+        s->stream.next_out = s->outbuf = (Byte*)ALLOC((size_t)Z_BUFSIZE);
+#endif /* NO_GZCOMPRESS */
         if (err != Z_OK || s->outbuf == Z_NULL) {
             return destroy(s), (gzFile)Z_NULL;
         }
     } else {
-        s->stream.next_in  = s->inbuf = (Byte*)ALLOC(Z_BUFSIZE);
+        s->stream.next_in  = s->inbuf = (Byte*)ALLOC((size_t)Z_BUFSIZE);
 
         err = inflateInit2(&(s->stream), -MAX_WBITS);
         /* windowBits is passed < 0 to tell that there is no zlib header.
@@ -247,13 +253,15 @@ int ZEXPORT gzsetparams (file, level, strategy)
 {
     gz_stream *s = (gz_stream*)file;
 
-    if (s == NULL || s->mode != 'w') return Z_STREAM_ERROR;
+    if ((s == NULL) || (s->mode != 'w')) {
+		return Z_STREAM_ERROR;
+	}
 
     /* Make room to allow flushing */
     if (s->stream.avail_out == 0) {
-
         s->stream.next_out = s->outbuf;
-        if (fwrite(s->outbuf, 1, Z_BUFSIZE, s->file) != Z_BUFSIZE) {
+        if (fwrite(s->outbuf, (size_t)1, (size_t)Z_BUFSIZE,
+				   s->file) != Z_BUFSIZE) {
             s->z_err = Z_ERRNO;
         }
         s->stream.avail_out = Z_BUFSIZE;
@@ -275,7 +283,8 @@ local int get_byte(s)
 	}
     if (s->stream.avail_in == 0) {
         errno = 0;
-        s->stream.avail_in = (uInt)fread(s->inbuf, 1, Z_BUFSIZE, s->file);
+        s->stream.avail_in = (uInt)fread(s->inbuf, (size_t)1,
+										 (size_t)Z_BUFSIZE, s->file);
         if (s->stream.avail_in == 0) {
             s->z_eof = 1;
             if (ferror(s->file)) {
@@ -307,16 +316,17 @@ local void check_header(s)
     int c;
 
     /* Assure two bytes in the buffer so we can peek ahead -- handle case
-       where first byte of header is at the end of the buffer after the last
-       gzip segment */
+     * where first byte of header is at the end of the buffer after the last
+     * gzip segment */
     len = s->stream.avail_in;
     if (len < 2) {
         if (len) {
 			s->inbuf[0] = s->stream.next_in[0];
 		}
         errno = 0;
-        len = (uInt)fread(s->inbuf + len, 1, Z_BUFSIZE >> len, s->file);
-        if (len == 0 && ferror(s->file)) {
+        len = (uInt)fread((s->inbuf + len), (size_t)1,
+						  (size_t)(Z_BUFSIZE >> len), s->file);
+        if ((len == 0) && ferror(s->file)) {
 			s->z_err = Z_ERRNO;
 		}
         s->stream.avail_in += len;
@@ -417,11 +427,11 @@ int ZEXPORT gzread (file, buf, len)
     Bytef *start = (Bytef*)buf; /* starting point for crc computation */
     Byte  *next_out; /* == stream.next_out but not forced far (for MSDOS) */
 
-    if (s == NULL || s->mode != 'r') {
+    if ((s == NULL) || (s->mode != 'r')) {
 		return Z_STREAM_ERROR;
 	}
 
-    if (s->z_err == Z_DATA_ERROR || s->z_err == Z_ERRNO) {
+    if ((s->z_err == Z_DATA_ERROR) || (s->z_err == Z_ERRNO)) {
 		return -1;
 	}
     if (s->z_err == Z_STREAM_END) {
@@ -432,7 +442,7 @@ int ZEXPORT gzread (file, buf, len)
     s->stream.next_out = (Bytef*)buf;
     s->stream.avail_out = len;
 
-    if (s->stream.avail_out && s->back != EOF) {
+    if (s->stream.avail_out && (s->back != EOF)) {
         *next_out++ = (Byte)s->back;
         s->stream.next_out++;
         s->stream.avail_out--;
@@ -445,13 +455,14 @@ int ZEXPORT gzread (file, buf, len)
     }
 
     while (s->stream.avail_out != 0) {
-
         if (s->transparent) {
             /* Copy first the lookahead bytes: */
             uInt n = s->stream.avail_in;
-            if (n > s->stream.avail_out) n = s->stream.avail_out;
+            if (n > s->stream.avail_out) {
+				n = s->stream.avail_out;
+			}
             if (n > 0) {
-                zmemcpy(s->stream.next_out, s->stream.next_in, n);
+                zmemcpy(s->stream.next_out, s->stream.next_in, (size_t)n);
                 next_out += n;
                 s->stream.next_out = next_out;
                 s->stream.next_in   += n;
@@ -459,19 +470,22 @@ int ZEXPORT gzread (file, buf, len)
                 s->stream.avail_in  -= n;
             }
             if (s->stream.avail_out > 0) {
-                s->stream.avail_out -= fread(next_out, 1, s->stream.avail_out,
-                                             s->file);
+                s->stream.avail_out -= fread(next_out, (size_t)1,
+											 (size_t)s->stream.avail_out,
+                                             (FILE *)s->file);
             }
             len -= s->stream.avail_out;
             s->in  += len;
             s->out += len;
-            if (len == 0) s->z_eof = 1;
+            if (len == 0) {
+				s->z_eof = 1;
+			}
             return (int)len;
         }
-        if (s->stream.avail_in == 0 && !s->z_eof) {
-
+        if ((s->stream.avail_in == 0) && !s->z_eof) {
             errno = 0;
-            s->stream.avail_in = (uInt)fread(s->inbuf, 1, Z_BUFSIZE, s->file);
+            s->stream.avail_in = (uInt)fread(s->inbuf, (size_t)1,
+											 (size_t)Z_BUFSIZE, s->file);
             if (s->stream.avail_in == 0) {
                 s->z_eof = 1;
                 if (ferror(s->file)) {
@@ -586,17 +600,18 @@ int ZEXPORT gzwrite (file, buf, len)
 {
     gz_stream *s = (gz_stream*)file;
 
-    if (s == NULL || s->mode != 'w') return Z_STREAM_ERROR;
+    if ((s == NULL) || (s->mode != 'w')) {
+		return Z_STREAM_ERROR;
+	}
 
     s->stream.next_in = (Bytef*)buf;
     s->stream.avail_in = len;
 
     while (s->stream.avail_in != 0) {
-
         if (s->stream.avail_out == 0) {
-
             s->stream.next_out = s->outbuf;
-            if (fwrite(s->outbuf, 1, Z_BUFSIZE, s->file) != Z_BUFSIZE) {
+            if (fwrite(s->outbuf, (size_t)1, (size_t)Z_BUFSIZE,
+					   s->file) != Z_BUFSIZE) {
                 s->z_err = Z_ERRNO;
                 break;
             }
@@ -741,7 +756,8 @@ local int do_flush (file, flush)
         len = Z_BUFSIZE - s->stream.avail_out;
 
         if (len != 0) {
-            if ((uInt)fwrite(s->outbuf, 1, len, s->file) != len) {
+            if ((uInt)fwrite(s->outbuf, (size_t)1, (size_t)len,
+							 s->file) != len) {
                 s->z_err = Z_ERRNO;
                 return Z_ERRNO;
             }
@@ -812,11 +828,11 @@ z_off_t ZEXPORT gzseek (file, offset, whence)
 
         /* At this point, offset is the number of zero bytes to write. */
         if (s->inbuf == Z_NULL) {
-            s->inbuf = (Byte*)ALLOC(Z_BUFSIZE); /* for seeking */
+            s->inbuf = (Byte*)ALLOC((size_t)Z_BUFSIZE); /* for seeking */
             if (s->inbuf == Z_NULL) {
 				return -1L;
 			}
-            zmemzero(s->inbuf, Z_BUFSIZE);
+            zmemzero(s->inbuf, (size_t)Z_BUFSIZE);
         }
         while (offset > 0)  {
             uInt size = Z_BUFSIZE;
@@ -866,7 +882,7 @@ z_off_t ZEXPORT gzseek (file, offset, whence)
     /* offset is now the number of bytes to skip. */
 
     if (offset != 0 && s->outbuf == Z_NULL) {
-        s->outbuf = (Byte*)ALLOC(Z_BUFSIZE);
+        s->outbuf = (Byte*)ALLOC((size_t)Z_BUFSIZE);
         if (s->outbuf == Z_NULL) {
 			return -1L;
 		}

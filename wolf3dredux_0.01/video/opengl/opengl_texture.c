@@ -277,7 +277,7 @@ PUBLIC _boolean R_UploadTexture(texture_t *tex, PW8 data)
 	}
 #endif /* (0 || 1) || __clang_analyzer__ */
 	if ((scaled_width == tex->width) && (scaled_height == tex->height)) {
-		memcpy(scaled, data, (tex->width * tex->height * tex->bytes));
+		memcpy(scaled, data, (size_t)(tex->width * tex->height * tex->bytes));
 	} else {
 		TM_ResampleTexture(data, tex->width, tex->height, scaled, scaled_width,
 						   scaled_height, (W8)tex->bytes, INTERPOLATION_NONE);

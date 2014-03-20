@@ -185,9 +185,9 @@ PRIVATE void Con_ToggleChat_f( void )
 	Zero sets con.text memory block.
 -----------------------------------------------------------------------------
 */
-PRIVATE void Con_Clear_f( void )
+PRIVATE void Con_Clear_f(void)
 {
-	memset( con.text, ' ', CON_TEXTSIZE );
+	memset(con.text, ' ', (size_t)CON_TEXTSIZE);
 }
 
 
@@ -341,17 +341,17 @@ PUBLIC void Con_CheckResize( void )
 	int		i, j, width, oldwidth, oldtotallines, numlines, numchars;
 	char	tbuf[ CON_TEXTSIZE ];
 
-	width = (viddef.width >> 3) - 2;
+	width = ((viddef.width >> 3) - 2);
 
-	if( width == con.linewidth ) {
+	if (width == con.linewidth) {
 		return;
 	}
 
-	if( width < 1 ) { /* video has NOT been initialized yet */
+	if (width < 1) { /* video has NOT been initialized yet */
 		width = 38;
 		con.linewidth = width;
-		con.totallines = CON_TEXTSIZE / con.linewidth;
-		memset( con.text, ' ', CON_TEXTSIZE );
+		con.totallines = (CON_TEXTSIZE / con.linewidth);
+		memset(con.text, ' ', (size_t)CON_TEXTSIZE);
 	} else {
 		oldwidth = con.linewidth;
 		con.linewidth = width;
@@ -359,24 +359,24 @@ PUBLIC void Con_CheckResize( void )
 		con.totallines = CON_TEXTSIZE / con.linewidth;
 		numlines = oldtotallines;
 
-		if( con.totallines < numlines ) {
+		if (con.totallines < numlines) {
 			numlines = con.totallines;
 		}
 
 		numchars = oldwidth;
 
-		if( con.linewidth < numchars ) {
+		if (con.linewidth < numchars) {
 			numchars = con.linewidth;
 		}
 
-		memcpy( tbuf, con.text, CON_TEXTSIZE );
-		memset( con.text, ' ', CON_TEXTSIZE );
+		memcpy(tbuf, con.text, (size_t)CON_TEXTSIZE);
+		memset(con.text, ' ', (size_t)CON_TEXTSIZE);
 
-		for( i = 0; i < numlines; ++i ) {
-			for( j = 0; j < numchars; ++j ) {
-				con.text[(con.totallines - 1 - i) * con.linewidth + j] =
-						tbuf[((con.current - i + oldtotallines) %
-							  oldtotallines) * oldwidth + j];
+		for ((i = 0); (i < numlines); ++i) {
+			for ((j = 0); (j < numchars); ++j ) {
+				con.text[(((con.totallines - 1 - i) * con.linewidth) + j)] =
+						tbuf[((((con.current - i + oldtotallines) %
+							  oldtotallines) * oldwidth) + j)];
 			}
 		}
 
@@ -434,15 +434,15 @@ PUBLIC void Con_Init(void)
 
 -----------------------------------------------------------------------------
 */
-PRIVATE void Con_Linefeed( void )
+PRIVATE void Con_Linefeed(void)
 {
 	con.x = 0;
-	if( con.display == con.current ) {
+	if (con.display == con.current) {
 		con.display++;
 	}
 	con.current++;
-	memset( &con.text[ (con.current % con.totallines) * con.linewidth ]
-		, ' ', con.linewidth );
+	memset(&con.text[((con.current % con.totallines) * con.linewidth)], ' ',
+		   (size_t)con.linewidth);
 }
 
 /*
@@ -550,21 +550,22 @@ PUBLIC void Con_Print( char *txt )
  Notes:
 -----------------------------------------------------------------------------
 */
-PUBLIC void Con_CenteredPrint( const char *text )
+PUBLIC void Con_CenteredPrint(const char *text)
 {
 	int		length;
-	char	buffer[ 1024 ];
+	char	buffer[1024];
 
-	length = (int)strlen( text );
-	length = ( con.linewidth - length ) >> 1;
-	if( length < 0 ) {
+	length = (int)strlen(text);
+	length = ((con.linewidth - length) >> 1);
+	if (length < 0) {
 		length = 0;
 	}
 
-	memset( buffer, ' ', length );
-	my_strlcpy( buffer + length, text, (size_t)((int)sizeof(buffer) - (int)length) );
-	my_strlcat( buffer, "\n", sizeof( buffer ) );
-	Con_Print( buffer );
+	memset(buffer, ' ', (size_t)length);
+	my_strlcpy((buffer + length), text,
+			   (size_t)((int)sizeof(buffer) - (int)length));
+	my_strlcat(buffer, "\n", sizeof(buffer));
+	Con_Print(buffer);
 }
 
 
@@ -747,14 +748,14 @@ PUBLIC void Con_DrawNotify( void )
  Notes:
 -----------------------------------------------------------------------------
 */
-PUBLIC void Con_DrawConsole( float frac )
+PUBLIC void Con_DrawConsole(float frac)
 {
 	int				i, x, y;
 	int				rows;
 	char			*text;
 	int				row;
 	W32				lines;
-	char			version[ 64 ];
+	char			version[64];
 #if 0
 	int w, h;
 #endif /* 0 */

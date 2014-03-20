@@ -61,7 +61,8 @@
 /* dos time start date is January 1, 1980 */
 #define DOSTIME_STARTDATE         0x00210000L
 
-#define DOSTIME( y, c, d, h, m, s ) ( ((y) < 1980) ? DOSTIME_STARTDATE : (((W32)(y) - 1980) << 25) | ((W32)(c) << 21) | ((W32)(d) << 16) |  ((W32)(h) << 11) | ((W32)(m) << 5) | ((W32)(s) >> 1) )
+#define DOSTIME( y, c, d, h, m, s ) \
+(((y) < 1980) ? DOSTIME_STARTDATE : (((W32)(y) - 1980) << 25) | ((W32)(c) << 21) | ((W32)(d) << 16) | ((W32)(h) << 11) | ((W32)(m) << 5) | ((W32)(s) >> 1))
 
 
 /*
@@ -78,7 +79,7 @@
  Notes:
 -----------------------------------------------------------------------------
 */
-PUBLIC W32 UnixTimeToDosTime( time_t *t )
+PUBLIC W32 UnixTimeToDosTime(time_t *t)
 {
   time_t t_even;
   struct tm *s;
@@ -106,18 +107,18 @@ PUBLIC W32 UnixTimeToDosTime( time_t *t )
  *******************************************************************/
 
 /* TODO: put this function in a shared library */
-#ifndef FS_SkipPath
-PUBLIC char *FS_SkipPath( char *pathname )
+#ifndef FS_SkipPath /* this ifdef is bad */
+PUBLIC char *FS_SkipPath(char *pathname)
 #else
-PUBLIC char *file_FS_SkipPath( char *pathname )
+PUBLIC char *file_FS_SkipPath(char *pathname)
 #endif /* !FS_SkipPath */
 {
 	char	*last;
 
 	last = pathname;
-	while( *pathname ) {
-		if( *pathname == '/' ) {
-			last = pathname + 1;
+	while (*pathname) {
+		if (*pathname == '/') {
+			last = (pathname + 1);
 		}
 		pathname++;
 	}
@@ -126,21 +127,21 @@ PUBLIC char *file_FS_SkipPath( char *pathname )
 }
 
 
-PUBLIC void FS_StripExtension( char *in, char *out )
+PUBLIC void FS_StripExtension(char *in, char *out)
 {
-	while (*in && *in != '.') {
+	while (*in && (*in != '.')) {
 		*out++ = *in++;
 	}
 	*out = 0;
 }
 
 
-PUBLIC char *FS_FileExtension( char *in )
+PUBLIC char *FS_FileExtension(char *in)
 {
-	static char exten[ 8 ];
+	static char exten[8];
 	int		i;
 
-	while (*in && *in != '.') {
+	while (*in && (*in != '.')) {
 		in++;
 	}
 
@@ -149,7 +150,7 @@ PUBLIC char *FS_FileExtension( char *in )
 	}
 
 	in++;
-	for (i=0 ; i<7 && *in ; i++,in++) {
+	for ((i = 0); (i < 7) && *in; i++, in++) {
 		exten[i] = *in;
 	}
 
@@ -158,42 +159,42 @@ PUBLIC char *FS_FileExtension( char *in )
 }
 
 
-PUBLIC void FS_FileBase( char *in, char *out )
+PUBLIC void FS_FileBase(char *in, char *out)
 {
 	char *s, *s2;
 
-	s = in + strlen( in ) - 1;
+	s = (in + strlen(in) - 1);
 
-	while( s != in && *s != '.' ) {
+	while ((s != in) && (*s != '.')) {
 		s--;
 	}
 
-	for( s2 = s ; s2 != in && *s2 != '/' ; s2-- ) {
+	for ((s2 = s); (s2 != in) && (*s2 != '/'); s2--) {
 		;
 		/* do nothing (?) */
 	}
 
-	if( s - s2 < 2 ) {
-		out[ 0 ] = 0;
+	if ((s - s2) < 2) {
+		out[0] = 0;
 	} else {
 		s--;
-		strncpy( out, s2 + 1, s - s2 );
-		out[ s - s2 ] = 0;
+		strncpy(out, (s2 + 1), (size_t)(s - s2));
+		out[(s - s2)] = 0;
 	}
 }
 
 
-PUBLIC void FS_FilePath( char *in, char *out )
+PUBLIC void FS_FilePath(char *in, char *out)
 {
 	char *s;
 
-	s = in + strlen(in) - 1;
+	s = (in + strlen(in) - 1);
 
-	while (s != in && *s != '/') {
+	while ((s != in) && (*s != '/')) {
 		s--;
 	}
 
-	strncpy (out,in, s-in);
+	strncpy(out, in, (size_t)(s - in));
 	out[s-in] = '\0';
 }
 
@@ -218,16 +219,16 @@ PUBLIC void FS_FilePath( char *in, char *out )
  Notes:
 -----------------------------------------------------------------------------
 */
-PUBLIC SW32 FS_FileLength( FILE *filestream )
+PUBLIC SW32 FS_FileLength(FILE *filestream)
 {
 	SW32	pos;
 	SW32	end;
 
-	pos = ftell( filestream );
-	fseek( filestream, 0, SEEK_END );
+	pos = ftell(filestream);
+	fseek(filestream, (size_t)0, SEEK_END);
 
-	end = ftell( filestream );
-	fseek( filestream, pos, SEEK_SET );
+	end = ftell(filestream);
+	fseek(filestream, pos, SEEK_SET);
 
 	return end;
 }
@@ -264,7 +265,7 @@ PUBLIC void FS_Read(void *buffer, int len, FILE *f)
 		if (block > MAX_READ) {
 			block = MAX_READ;
 		}
-		read = (int)(fread(buf, 1, (size_t)(block), f));
+		read = (int)(fread(buf, (size_t)1, (size_t)(block), f));
 		if (read == 0) {
 			/* we might have been trying to read from a CD */
 			if (! tries) {
@@ -296,15 +297,14 @@ PUBLIC void FS_Read(void *buffer, int len, FILE *f)
 */
 PUBLIC SW32 FS_FOpenFile( const char *filename, FILE **file )
 {
-	*file = fopen( filename, "rb" );
-	if( ! *file )
-	{
+	*file = fopen(filename, "rb");
+	if (! *file) {
 		*file = NULL;
 
 		return -1;
 	}
 
-	return FS_FileLength( *file );
+	return FS_FileLength(*file);
 
 }
 
@@ -360,12 +360,12 @@ PUBLIC SW32 FS_LoadFile(const char *path, void **buffer)
 
  Returns: Nothing.
 
- Notes:
+ Notes: Basically a simple wrapper around MM_FREE() for now.
 -----------------------------------------------------------------------------
 */
-PUBLIC void FS_FreeFile( void *buffer )
+PUBLIC void FS_FreeFile(void *buffer)
 {
-	MM_FREE( buffer );
+	MM_FREE(buffer);
 }
 
 /* EOF */

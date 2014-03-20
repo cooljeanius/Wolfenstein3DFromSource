@@ -69,7 +69,7 @@ PUBLIC void Client_Screen_RunConsole(void)
 {
 	/* decide on the height of the console */
 	if (ClientStatic.key_dest == key_console) {
-		scr_conlines = 0.5;		/* half screen */
+		scr_conlines = (float)0.5;		/* half screen */
 	} else {
 		scr_conlines = 0;		/* none visible */
 	}
@@ -107,20 +107,20 @@ PUBLIC void Client_Screen_DrawConsole(void)
 	if ((ClientStatic.state == ca_disconnected) ||
 		(ClientStatic.state == ca_connecting)) {
 		/* forced full screen console */
-		Con_DrawConsole(1.0);
+		Con_DrawConsole((float)1.0);
 		return;
 	}
 
 	if (ClientStatic.state != ca_active /*|| ! ClientState.refresh_prepped*/) {
 		/* connected, but cannot render */
-		Con_DrawConsole(0.5);
-		R_Draw_Fill(0, (viddef.height >> 1), (int)viddef.width,
-					(viddef.height >> 1), colourBlack);
+		Con_DrawConsole((float)0.5);
+		R_Draw_Fill(0, (int)(viddef.height >> 1), (int)viddef.width,
+					(int)(viddef.height >> 1), colourBlack);
 		return;
 	}
 
-	if( scr_con_current ) {
-		Con_DrawConsole( scr_con_current );
+	if (scr_con_current) {
+		Con_DrawConsole((float)scr_con_current);
 	} else {
 		if ((ClientStatic.key_dest == key_game) ||
 			(ClientStatic.key_dest == key_message)) {

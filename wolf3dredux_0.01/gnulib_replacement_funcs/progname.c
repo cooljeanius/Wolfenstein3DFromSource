@@ -54,17 +54,18 @@ set_program_name (const char *argv0)
   /* Sanity check.  POSIX requires the invoking process to pass a non-NULL
    * argv[0].  */
   if (argv0 == NULL) {
-      /* It is a bug in the invoking program. Help diagnosing it.  */
-      fputs ("A NULL argv[0] was passed through an exec system call.\n",
-             stderr);
-      abort ();
+      /* It is a bug in the invoking program. Help diagnosing it. */
+      fputs("A NULL argv[0] was passed through an exec system call.\n",
+			stderr);
+      abort();
   }
 
-  slash = strrchr (argv0, '/');
+  slash = strrchr(argv0, '/');
   base = (slash != NULL ? slash + 1 : argv0);
-  if (base - argv0 >= 7 && strncmp (base - 7, "/.libs/", 7) == 0) {
+  if (((base - argv0) >= 7) &&
+	  (strncmp((base - 7), "/.libs/", (size_t)7) == 0)) {
       argv0 = base;
-      if (strncmp (base, "lt-", 3) == 0) {
+      if (strncmp (base, "lt-", (size_t)3) == 0) {
           argv0 = base + 3;
           /* On glibc systems, remove the "lt-" prefix from the variable
            * program_invocation_short_name.  */

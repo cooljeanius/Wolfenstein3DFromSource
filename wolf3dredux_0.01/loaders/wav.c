@@ -173,7 +173,7 @@ PRIVATE void DumpChunks(void)
 	str[4] = 0;
 	iff_pdata = iff_data;
 	do {
-		memcpy(str, iff_pdata, 4);
+		memcpy(str, iff_pdata, (size_t)4);
 		iff_pdata += 4;
 		iff_chunk_len = Wav_GetLittleLong();
 		Com_Printf("0x%x : %s (%d)\n", (int)(iff_pdata - 4), str,

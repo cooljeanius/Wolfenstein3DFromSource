@@ -25,6 +25,22 @@ AC_USE_SYSTEM_EXTENSIONS
 AM_INIT_AUTOMAKE([foreign subdir-objects])
 AM_MAINTAINER_MODE
 
+AC_ARG_ENABLE([old-style-build],
+              [AS_HELP_STRING([--enable-old-style-build],
+                               [also run the pre-automake build rules when
+                                building])],
+              [DO_WOLF_OLD_BUILD=${enableval}],
+              [DO_WOLF_OLD_BULD=no])
+
+AC_MSG_CHECKING([whether to use pre-automake build rules])
+if test "x${DO_WOLF_OLD_BUILD}" = "xyes"; then
+  AC_MSG_RESULT([yes])
+else
+  AC_MSG_RESULT([no])
+fi
+
+AM_CONDITIONAL([WOLF_OLD_BUILD],[test "x${DO_WOLF_OLD_BUILD}" = "xyes"])
+
 # Checks for programs.
 AC_PROG_CPP
 AC_PROG_CXX
@@ -94,7 +110,7 @@ if test "x" = "y"; then
   AC_PROG_RANLIB
 fi
 
-AC_CHECK_HEADERS([assert.h bits/libc-lock.h ctype.h dmalloc.h \
+AC_CHECK_HEADERS([alloc.h assert.h bits/libc-lock.h ctype.h dmalloc.h \
                   errno.h fcntl.h float.h libintl.h \
                   libio/iolibio.h libio/libioP.h limits.h \
                   mach/mach.h mach/vm_param.h malloc.h malloc/malloc.h \
@@ -102,7 +118,7 @@ AC_CHECK_HEADERS([assert.h bits/libc-lock.h ctype.h dmalloc.h \
                   sys/gmon.h sys/malloc.h sys/mount.h sys/param.h \
                   sys/socket.h sys/sysctl.h sys/syslimits.h sys/time.h \
                   sys/timeb.h sys/utsname.h sys/vmmeter.h \
-                  wchar.h windef.h windows.h xlocale.h Xutil.h])
+                  unix.h wchar.h windef.h windows.h xlocale.h Xutil.h])
 AC_CHECK_HEADERS([X11/extensions/xf86dga.h],[],[
   AC_CHECK_HEADERS([X11/extensions/Xxf86dga.h])
 ])

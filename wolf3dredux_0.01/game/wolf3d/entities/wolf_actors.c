@@ -144,10 +144,11 @@ PRIVATE int DoGuard( entity_t *ent ) /* FIXME: revise! */
  Notes:
 -----------------------------------------------------------------------------
 */
-PRIVATE void RemoveActor( entity_t *actor )
+PRIVATE void RemoveActor(entity_t *actor)
 {
-	Sprite_RemoveSprite( actor->sprite );
-	memmove( actor, actor+1, (int)(&Guards[ NumGuards ]) - (int)(actor+1) );
+	Sprite_RemoveSprite(actor->sprite);
+	memmove((void *)actor, (const void *)(actor + 1),
+			(size_t)((int)(&Guards[NumGuards]) - (int)(actor + 1)));
 	NumGuards--;
 }
 

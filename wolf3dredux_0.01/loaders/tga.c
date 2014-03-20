@@ -246,19 +246,21 @@ PRIVATE void read_line(filehandle_t	*fp,
 		flip_line( buffer, info );
 	}
 
-	if( info->imageType == TGA_TYPE_COLOR ) {
+	if (info->imageType == TGA_TYPE_COLOR) {
 		if( info->bpp == 16 || info->bpp == 15 ) {
-			upsample( row, buffer, info->width, info->bytes, info->alphaBits );
+			upsample(row, buffer, info->width, info->bytes, info->alphaBits);
 		} else {
-			bgr2rgb( row, buffer, info->width, info->bytes, info->bytes == 4 ? 1 : 0 );
+			bgr2rgb(row, buffer, info->width, info->bytes,
+					(info->bytes == 4 ? 1 : 0));
 		}
 	} else {
-		memcpy( row, buffer, info->width * info->bpp );
+		memcpy(row, buffer, (size_t)(info->width * info->bpp));
 	}
 }
 
 
-PUBLIC void LoadTGA( const char *filename, W8 **pic, W16 *width, W16 *height, W16 *bytes )
+PUBLIC void LoadTGA(const char *filename, W8 **pic, W16 *width, W16 *height,
+					W16 *bytes)
 {
 	TargaHeader		targa_header;
 	W8    header[ 18 ];
@@ -328,8 +330,7 @@ PUBLIC void LoadTGA( const char *filename, W8 **pic, W16 *width, W16 *height, W1
 	}
 
 	if( FS_FileSeek( hFile, 0, SEEK_SET ) ||
-		FS_ReadFile( header, sizeof( header ), 1, hFile ) != 1 )
-	{
+		FS_ReadFile( header, sizeof( header ), 1, hFile ) != 1 ) {
 		Com_Printf( "Cannot read header from (%s)\n", filename );
 
 		goto TGALOADFAILED;
@@ -667,7 +668,7 @@ PUBLIC W8 loaders_WriteTGA(const char *filename, W16 bpp, W16 width, W16 height,
 		return 0;
 	}
 
-	memset(header, 0, 18);
+	memset(header, 0, (size_t)18);
     header[2] = (rle ? 10 : 2);
 
     header[12] = (width & 255);	/* width low */

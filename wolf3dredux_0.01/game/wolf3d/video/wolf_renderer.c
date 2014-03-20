@@ -290,39 +290,40 @@ W32 intensity = 0;
 
 -----------------------------------------------------------------------------
 */
-PUBLIC void R_DrawWorld( void )
+PUBLIC void R_DrawWorld(void)
 {
 	placeonplane_t viewport;
 
-#if 0
-	if( ClientStatic.key_dest != key_game )	{
+#if 0 || __clang_analyzer__
+	if (ClientStatic.key_dest != key_game) {
 		return;
 	}
-#endif /* 0 */
+#endif /* 0 || __clang_analyzer__ */
 
 /* initializing */
 	viewport = Player.position;
 
 
-	R_DrawBackGnd( r_world->floorColour, r_world->ceilingColour );
+	R_DrawBackGnd(r_world->floorColour, r_world->ceilingColour);
 
-	R_SetGL3D( viewport );
+	R_SetGL3D(viewport);
 
-	R_RayCast( viewport, r_world );
+	R_RayCast(viewport, r_world);
 	R_DrawSprites();
 
 
 	R_SetGL2D();	/* restore 2D back */
 
 	if( Player.playstate == ex_dead ) {
-		R_DrawBox( 0, 0, (int)viddef.width, (int)viddef.height, (0xFF << 24) | (W8)intensity );
-		if( ++intensity >= 240 ) {
+		R_DrawBox(0, 0, (int)viddef.width, (int)viddef.height,
+				  (W32)((0xFF << 24) | (W8)intensity));
+		if (++intensity >= 240) {
 			intensity = 0;
-			if( ! PL_Reborn( &Player ) ) {
+			if (! PL_Reborn(&Player)) {
 				M_Menu_Main_f();
 				ClientStatic.state = ca_disconnected;
 			} else {
-				PL_Spawn( r_world->pSpawn, r_world ); /* Spawn Player */
+				PL_Spawn(r_world->pSpawn, r_world); /* Spawn Player */
 			}
 
 		}

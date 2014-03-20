@@ -122,7 +122,7 @@ PUBLIC void *wolfextractor_Memory_malloc(size_t size)
 	mib[0] = CTL_HW;
 	mib[1] = HW_PHYSMEM;
 	len = sizeof(value);
-	sysctl(mib, 2, &value, &len, NULL, 0);
+	sysctl(mib, 2, &value, &len, NULL, (size_t)0);
 
 	uvalue = (unsigned)abs(value);
 

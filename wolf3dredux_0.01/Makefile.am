@@ -1,6 +1,6 @@
-# Since we (used to) leave AM_INIT_AUTOMAKE out of configure.ac, this
-# (only) exists to make sure that m4 macros are handled properly.
-# The real makefile is still handwritten (as makefile.orig).
+# Since we used to leave AM_INIT_AUTOMAKE out of configure.ac, this used to
+# only exists to make sure that m4 macros are handled properly.
+# The old makefile is still handwritten (as makefile.orig).
 
 ACLOCAL_AMFLAGS = -I m4 --install
 
@@ -10,23 +10,26 @@ ACLOCAL_AMFLAGS = -I m4 --install
 # Program: wolf3dredux
 #
 
-COMPILER = @CC@
 #TODO: have autoconf check that all flags are supported:
-AM_CFLAGS = -Wall -ffast-math -funroll-loops
-NON_AM_CFLAGS = -c
+AM_WARNFLAGS = -Wall -Wmissing-field-initializers -Wmissing-prototypes -Wimplicit -Wreturn-type -Wmissing-braces -Wparentheses -Wswitch -Wunknown-pragmas -Wsign-compare -Wnewline-eof -Wno-unused -Wno-trigraphs
+AM_CFLAGS = $(AM_WARNFLAGS) -ffast-math -funroll-loops
 AM_CPPFLAGS = -I. -I/usr/X11R6/include
+
+if WOLF_OLD_BUILD
+COMPILER = @CC@
+NON_AM_CFLAGS = -c
 OLD_LDFLAGS_UNUSED =  -s
 XLDFLAGS = -L/usr/X11R6/lib @LIBS@
 VORBISFLAGS = @VORBIS_LIBS@
-
 ODIR = Release
+EXEBASE = wolf3dredux
+EXE = $(ODIR)/$(EXEBASE)
+endif
+
 ## should contain a "/" at the end:
 LIBOBJDIR = @LIBOBJDIR@
 
 SUBDIRS = $(LIBOBJDIR) .
-                                                                                
-EXEBASE = wolf3dredux
-EXE = $(ODIR)/$(EXEBASE)
 
 bin_PROGRAMS = wolf3dredux
 
@@ -118,6 +121,7 @@ wolf3dredux_SOURCES = client/client_input.c \
                       game/wolf3d/video/wolf_raycast.c \
                       game/wolf3d/video/wolf_renderer.c \
                       game/wolf3d/video/opengl/wolf_opengl.c
+
 wolf3dredux_LDADD = $(LIBOBJDIR)libgnu.a
 
 noinst_PROGRAMS = gamepal signon
@@ -127,8 +131,8 @@ signon_SOURCES = tools/signon/wolf_pal.c \
                  tools/signon/main.c \
                  tools/signon/WriteTGA_minimal.c
 
+if WOLF_OLD_BUILD
 DO_CC = $(COMPILER) $(CFLAGS) $(AM_CFLAGS) $(AM_CPPFLAGS) ${CPPFLAGS} -o $@ -c $<
-	
 
 PROGRAM_OBJS =  $(ODIR)/client_input.o \
 		$(ODIR)/client_main.o \
@@ -632,10 +636,9 @@ $(ODIR)/wolf_opengl.o : game/wolf3d/video/opengl/wolf_opengl.c
 #==========================================================================
 clean-local:
 	rm -f *.o $(ODIR)/*.o $(EXE)
-.PHONY: clean-local
+endif
 
 DISTCLEANFILES = *~
 
 distclean-local:
 	rm -rf autom4te.cache || rmdir autom4te.cache
-.PHONY: distclean-local

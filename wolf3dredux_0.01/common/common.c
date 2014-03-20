@@ -465,13 +465,13 @@ PUBLIC void *SZ_GetSpace( sizebuf_t *buf, int length )
 
  Returns: Nothing.
 
- Notes:
+ Notes: Basically a simple wrapper around memcpy() for now.
 
 -----------------------------------------------------------------------------
 */
-PUBLIC void SZ_Write( sizebuf_t *buf, void *data, int length )
+PUBLIC void SZ_Write(sizebuf_t *buf, void *data, int length)
 {
-	memcpy( SZ_GetSpace( buf, length ), data, length );
+	memcpy(SZ_GetSpace(buf, length), data, (size_t)length);
 }
 
 /*
@@ -486,20 +486,22 @@ PUBLIC void SZ_Write( sizebuf_t *buf, void *data, int length )
 
 -----------------------------------------------------------------------------
 */
-PUBLIC void SZ_Print( sizebuf_t *buf, W8 *data )
+PUBLIC void SZ_Print(sizebuf_t *buf, W8 *data)
 {
 	int		len;
 
 	len = (int)(strlen((const char*)data) + 1);
 
 	if (buf->cursize) {
-		if( buf->data[ buf->cursize - 1 ] ) {
-			memcpy( (PW8)SZ_GetSpace( buf, len ), data, len ); /* no trailing 0 */
+		if (buf->data[(buf->cursize - 1)]) {
+			memcpy((PW8)SZ_GetSpace(buf, len), data, (size_t)len);
+			/* no trailing 0 */
 		} else {
-			memcpy( (PW8)SZ_GetSpace( buf, len - 1 ) - 1, data, len ); /* write over trailing 0 */
+			memcpy(((PW8)SZ_GetSpace(buf, (len - 1)) - 1), data, (size_t)len);
+			/* write over trailing 0 */
 		}
 	} else {
-		memcpy( (PW8)SZ_GetSpace( buf, len ),data,len );
+		memcpy((PW8)SZ_GetSpace(buf, len), data, (size_t)len);
 	}
 }
 

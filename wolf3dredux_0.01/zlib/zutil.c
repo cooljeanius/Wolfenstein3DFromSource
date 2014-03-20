@@ -296,24 +296,28 @@ void  zcfree (voidpf opaque, voidpf ptr)
 extern voidp  malloc OF((uInt size));
 extern voidp  calloc OF((uInt items, uInt size));
 extern void   free   OF((voidpf ptr));
-#endif
+#endif /* !STDC */
 
-voidpf zcalloc (opaque, items, size)
+voidpf zcalloc(opaque, items, size)
     voidpf opaque;
     unsigned items;
     unsigned size;
 {
-    if (opaque) items += size - size; /* make compiler happy */
-    return sizeof(uInt) > 2 ? (voidpf)malloc(items * size) :
-                              (voidpf)calloc(items, size);
+    if (opaque) {
+		items += (size - size); /* make compiler happy */
+	}
+    return sizeof(uInt) > 2 ? (voidpf)malloc((size_t)(items * size)) :
+                              (voidpf)calloc((size_t)items, (size_t)size);
 }
 
-void  zcfree (opaque, ptr)
+void  zcfree(opaque, ptr)
     voidpf opaque;
     voidpf ptr;
 {
     free(ptr);
-    if (opaque) return; /* make compiler happy */
+    if (opaque) {
+		return; /* make compiler happy */
+	}
 }
 
 #endif /* MY_ZCALLOC */

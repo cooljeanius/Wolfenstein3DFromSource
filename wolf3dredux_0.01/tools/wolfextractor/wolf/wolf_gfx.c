@@ -294,7 +294,7 @@ PRIVATE W8 CAL_SetupGrFile(const char *extension)
 		}
 	}
 
-	fread(grhuffman, sizeof(grhuffman), 1, handle);
+	fread(grhuffman, sizeof(grhuffman), (size_t)1, handle);
 	fclose(handle);
 
 /*
@@ -311,12 +311,13 @@ PRIVATE W8 CAL_SetupGrFile(const char *extension)
 		}
 	}
 
-	grstarts = MM_MALLOC((NUMCHUNKS + 1) * FILEPOSSIZE);
+	grstarts = MM_MALLOC((size_t)((NUMCHUNKS + 1) * FILEPOSSIZE));
 	if (grstarts == NULL) {
 		return 0;
 	}
 
-	fread(grstarts, sizeof(long), ((NUMCHUNKS + 1) * FILEPOSSIZE), handle);
+	fread(grstarts, sizeof(long), (size_t)((NUMCHUNKS + 1) * FILEPOSSIZE),
+		  handle);
 
 	fclose(handle);
 
@@ -364,7 +365,7 @@ PRIVATE W8 CAL_SetupGrFile(const char *extension)
 		printf("CAL_SetupGrFile(): Reading 1 object '%lu' bytes long from '%s'...\n",
 			   chunkcomplen, grnameofhandle);
 	}
-	fread(compseg, (size_t)chunkcomplen, 1, grhandle);
+	fread(compseg, (size_t)chunkcomplen, (size_t)1, grhandle);
 
 	CAL_HuffExpand(compseg, (PW8)pictable,
 				   (NUMPICS * sizeof(pictabletype)),
@@ -600,7 +601,7 @@ PRIVATE void CA_CacheGrChunk(W32 chunk, W16 version)
 			/* FIXME: filename is truncated? */
 		}
 		/* read the 'grhandle' file and store it to 'buffer': */
-		fread(buffer, 1, (size_t)compressed, grhandle);
+		fread(buffer, (size_t)1, (size_t)compressed, grhandle);
 		/* TODO: make sure that we do not go past EOF! */
 		if (grnameofhandle == NULL) {
 			printf("CA_CacheGrChunk(): position in file 'grhandle' is '%li'\n",
@@ -1004,8 +1005,8 @@ STATUSBARHACK:
 	picnum = (chunknum - STARTPICS);
 
 	pic = grsegs[chunknum];
-	width = pictable[picnum].width;
-	height= pictable[picnum].height;
+	width = (W16)pictable[picnum].width;
+	height = (W16)pictable[picnum].height;
 
 
     linewidth = (width / 4);
@@ -1035,10 +1036,11 @@ STATUSBARHACK:
 /*
  *	Hacks to reassemble images
  */
-	if( version & WL1_PAK ) {
-		if( chunknum == WL1_STATUSBARPIC ) {
-			memcpy( buffer2, buffer, width * height * 2 ); /* Save Status bar pic */
-			CA_CacheGrChunk( WL1_NOKEYPIC, version ); /* cache NOKEYPIC */
+	if (version & WL1_PAK) {
+		if (chunknum == WL1_STATUSBARPIC) {
+			/* Save Status bar pic: */
+			memcpy(buffer2, buffer, (size_t)(width * height * 2));
+			CA_CacheGrChunk(WL1_NOKEYPIC, version); /* cache NOKEYPIC */
 			chunknum = WL1_NOKEYPIC;
 
 			goto STATUSBARHACK;
@@ -1066,28 +1068,33 @@ STATUSBARHACK:
 			return;
 		} else if( chunknum == WL1_NOKEYPIC ) {
 			chunknum = WL1_STATUSBARPIC;
-			MergePics( buffer, buffer2, width, height, 2, 320, 240, 4 );
-			MergePics( buffer, buffer2, width, height, 2, 320, 240, 4+height );
+			MergePics(buffer, buffer2, (W16)width, (W16)height, (W16)2,
+					  (W16)320, (W32)240, (W32)4);
+			MergePics(buffer, buffer2, (W16)width, (W16)height, (W16)2,
+					  (W16)320, (W32)240, (W32)(4 + height));
 
-			memcpy( buffer, buffer2, 320 * 40 * 2 );
-			width = 320;
-			height = 40;
-		} else if( chunknum == WL1_L_COLONPIC ) {
-			memset( buffer2, 0, 256*64*2 );
+			memcpy(buffer, buffer2, (size_t)(320 * 40 * 2));
+			width = (W16)320;
+			height = (W16)40;
+		} else if (chunknum == WL1_L_COLONPIC) {
+			memset(buffer2, 0, (size_t)(256 * 64 * 2));
 
-			MergePics( buffer, buffer2, width, height, 2, 256, 160, 16 );
+			MergePics(buffer, buffer2, (W16)width, (W16)height, (W16)2,
+					  (W16)256, (W32)160, (W32)16);
 
 			return;
-		} else if( chunknum == WL1_L_EXPOINTPIC ) {
-			MergePics( buffer, buffer2, width, height, 2, 256, 16, 0 );
+		} else if (chunknum == WL1_L_EXPOINTPIC) {
+			MergePics(buffer, buffer2, (W16)width, (W16)height, (W16)2,
+					  (W16)256, (W32)16, (W32)0);
 
 			return;
 		} else if( chunknum == WL1_L_APOSTROPHEPIC ) {
 			/* "W16 i;" is already available, from the beginning of the func */
 
-			MergePics( buffer, buffer2, width, height, 2, 256, 112, 0 );
+			MergePics(buffer, buffer2, (W16)width, (W16)height, (W16)2,
+					  (W16)256, (W32)112, (W32)0);
 
-			memcpy( buffer, buffer2, 256 * 64 * 2 );
+			memcpy(buffer, buffer2, (size_t)(256 * 64 * 2));
 
 
 			for( i = 0 ; i < 256 * 64 * 2 ; i += 2 ) {
@@ -1122,12 +1129,12 @@ STATUSBARHACK:
 
 			MergePics( buffer, buffer2, width, height, 2, 90, offset, 0 );
 
-			memcpy( buffer, buffer2, 90 * height * 2 );
+			memcpy(buffer, buffer2, (size_t)(90 * height * 2));
 
-			for( i = 0 ; i < 90 * 16 * 2 ; i += 2 ) {
-				if( ! (i % 9) && i != 0 ) {
-					buffer[ i - 2 ] = 0;
-					buffer[ i - 1 ] = 160;
+			for ((i = 0); (i < (90 * 16 * 2)); (i += 2)) {
+				if (! (i % 9) && (i != 0)) {
+					buffer[(i - 2)] = 0;
+					buffer[(i - 1)] = 160;
 				}
 			}
 
@@ -1159,59 +1166,59 @@ STATUSBARHACK:
 			MergeImages( buffer, 2, 24, 7, 3, 1, 0,
 						 buffer2, 2, 24, 7, 3, 16, height-3 );
 
-			memcpy( buffer, buffer2, 24 * 32 * 2 );
+			memcpy(buffer, buffer2, (size_t)(24 * 32 * 2));
 
 
-			buffer[ (30 * 24 * 2) + (3 * 2) ] = 73;
-			buffer[ (30 * 24 * 2) + (3 * 2) + 1 ] = 74;
+			buffer[(30 * 24 * 2) + (3 * 2) ] = 73;
+			buffer[(30 * 24 * 2) + (3 * 2) + 1 ] = 74;
 
-			buffer[ (31 * 24 * 2) + (3 * 2) ] = 73;
-			buffer[ (31 * 24 * 2) + (3 * 2) + 1 ] = 74;
-
-
-			buffer[ (29 * 24 * 2) + (23 * 2) ] = 73;
-			buffer[ (29 * 24 * 2) + (23 * 2) + 1 ] = 74;
-
-			buffer[ (30 * 24 * 2) + (23 * 2) ] = 73;
-			buffer[ (30 * 24 * 2) + (23 * 2) + 1 ] = 74;
-
-			buffer[ (31 * 24 * 2) + (23 * 2) ] = 73;
-			buffer[ (31 * 24 * 2) + (23 * 2) + 1 ] = 74;
+			buffer[(31 * 24 * 2) + (3 * 2) ] = 73;
+			buffer[(31 * 24 * 2) + (3 * 2) + 1 ] = 74;
 
 
-			buffer[ (29 * 24 * 2) + (19 * 2) ] = 255;
-			buffer[ (29 * 24 * 2) + (19 * 2) + 1 ] = 100;
+			buffer[(29 * 24 * 2) + (23 * 2) ] = 73;
+			buffer[(29 * 24 * 2) + (23 * 2) + 1 ] = 74;
 
-			buffer[ (30 * 24 * 2) + (19 * 2) ] = 63;
-			buffer[ (30 * 24 * 2) + (19 * 2) + 1 ] = 117;
+			buffer[(30 * 24 * 2) + (23 * 2) ] = 73;
+			buffer[(30 * 24 * 2) + (23 * 2) + 1 ] = 74;
 
-			buffer[ (31 * 24 * 2) + (19 * 2) ] = 52;
-			buffer[ (31 * 24 * 2) + (19 * 2) + 1 ] = 59;
-
-
-			buffer[ (30 * 24 * 2) + (7 * 2) ] = 19;
-			buffer[ (30 * 24 * 2) + (7 * 2) + 1 ] = 59;
-
-			buffer[ (31 * 24 * 2) + (7 * 2) ] = 19;
-			buffer[ (31 * 24 * 2) + (7 * 2) + 1 ] = 59;
+			buffer[(31 * 24 * 2) + (23 * 2) ] = 73;
+			buffer[(31 * 24 * 2) + (23 * 2) + 1 ] = 74;
 
 
-			buffer[ (30 * 24 * 2) + (11 * 2) ] = 91;
-			buffer[ (30 * 24 * 2) + (11 * 2) + 1 ] = 84;
+			buffer[(29 * 24 * 2) + (19 * 2) ] = 255;
+			buffer[(29 * 24 * 2) + (19 * 2) + 1 ] = 100;
 
-			buffer[ (31 * 24 * 2) + (11 * 2) ] = 190;
-			buffer[ (31 * 24 * 2) + (11 * 2) + 1 ] = 92;
+			buffer[(30 * 24 * 2) + (19 * 2) ] = 63;
+			buffer[(30 * 24 * 2) + (19 * 2) + 1 ] = 117;
+
+			buffer[(31 * 24 * 2) + (19 * 2) ] = 52;
+			buffer[(31 * 24 * 2) + (19 * 2) + 1 ] = 59;
 
 
-			buffer[ (30 * 24 * 2) + (15 * 2) ] = 249;
-			buffer[ (30 * 24 * 2) + (15 * 2) + 1 ] = 75;
+			buffer[(30 * 24 * 2) + (7 * 2) ] = 19;
+			buffer[(30 * 24 * 2) + (7 * 2) + 1 ] = 59;
 
-			buffer[ (31 * 24 * 2) + (15 * 2) ] = 190;
-			buffer[ (31 * 24 * 2) + (15 * 2) + 1 ] = 92;
+			buffer[(31 * 24 * 2) + (7 * 2) ] = 19;
+			buffer[(31 * 24 * 2) + (7 * 2) + 1 ] = 59;
+
+
+			buffer[(30 * 24 * 2) + (11 * 2) ] = 91;
+			buffer[(30 * 24 * 2) + (11 * 2) + 1 ] = 84;
+
+			buffer[(31 * 24 * 2) + (11 * 2) ] = 190;
+			buffer[(31 * 24 * 2) + (11 * 2) + 1 ] = 92;
+
+
+			buffer[(30 * 24 * 2) + (15 * 2) ] = 249;
+			buffer[(30 * 24 * 2) + (15 * 2) + 1 ] = 75;
+
+			buffer[(31 * 24 * 2) + (15 * 2) ] = 190;
+			buffer[(31 * 24 * 2) + (15 * 2) + 1 ] = 92;
 		}
 	} else if( version & WL6_PAK ) {
 		if( chunknum == STATUSBARPIC ) {
-			memcpy( buffer2, buffer, width * height * 2 ); /* Save Status bar pic */
+			memcpy(buffer2, buffer, (size_t)(width * height * 2)); /* Save Status bar pic */
 			CA_CacheGrChunk( NOKEYPIC, version ); /* cache NOKEYPIC */
 			chunknum = NOKEYPIC;
 
@@ -1243,11 +1250,11 @@ STATUSBARHACK:
 			MergePics( buffer, buffer2, width, height, 2, 320, 240, 4 );
 			MergePics( buffer, buffer2, width, height, 2, 320, 240, 4+height );
 
-			memcpy( buffer, buffer2, 320 * 40 * 2 );
+			memcpy(buffer, buffer2, (size_t)(320 * 40 * 2));
 			width = 320;
 			height = 40;
 		} else if( chunknum == L_COLONPIC ) {
-			memset( buffer2, 0, 256*64*2 );
+			memset( buffer2, 0, (size_t)(256 * 64 * 2));
 
 			MergePics( buffer, buffer2, width, height, 2, 256, 160, 16 );
 
@@ -1261,12 +1268,12 @@ STATUSBARHACK:
 
 			MergePics( buffer, buffer2, width, height, 2, 256, 112, 0 );
 
-			memcpy( buffer, buffer2, 256 * 64 * 2 );
+			memcpy(buffer, buffer2, (size_t)(256 * 64 * 2));
 
 
-			for( i = 0 ; i < 256 * 64 * 2 ; i += 2 ) {
-				if( buffer[ i ] == 0 && buffer[ i + 1 ] == 0 ) {
-					 buffer[ i + 1 ] = 66;
+			for ((i = 0); (i < (256 * 64 * 2)); (i += 2)) {
+				if ((buffer[i] == 0) && (buffer[(i + 1)] == 0)) {
+					 buffer[(i + 1)] = 66;
 				}
 			}
 
@@ -1296,12 +1303,12 @@ STATUSBARHACK:
 
 			MergePics( buffer, buffer2, width, height, 2, 90, offset, 0 );
 
-			memcpy( buffer, buffer2, 90 * height * 2 );
+			memcpy(buffer, buffer2, (size_t)(90 * height * 2));
 
-			for( i = 0 ; i < 90 * 16 * 2 ; i += 2 ) {
-				if( ! (i % 9) && i != 0 ) {
-					buffer[ i - 2 ] = 0;
-					buffer[ i - 1 ] = 160;
+			for ((i = 0); (i < (90 * 16 * 2)); (i += 2)) {
+				if (! (i % 9) && (i != 0)) {
+					buffer[(i - 2)] = 0;
+					buffer[(i - 1)] = 160;
 				}
 			}
 
@@ -1323,21 +1330,21 @@ STATUSBARHACK:
 		}
 	} else if( version & SDM_PAK ) {
 		if( chunknum == SDM_STATUSBARPIC ) {
-			memcpy( buffer2, buffer, width * height * 2 ); /* Save Status bar pic */
+			memcpy(buffer2, buffer, (size_t)(width * height * 2)); /* Save Status bar pic */
 			CA_CacheGrChunk( SDM_NOKEYPIC, version ); /* cache SOD_NOKEYPIC */
 			chunknum = SDM_NOKEYPIC;
 
 			goto STATUSBARHACK;
 		} else if( chunknum == SDM_NOKEYPIC ) {
 			chunknum = SDM_STATUSBARPIC;
-			MergePics( buffer, buffer2, width, height, 2, 320, 240, 4 );
-			MergePics( buffer, buffer2, width, height, 2, 320, 240, 4+height );
+			MergePics(buffer, buffer2, width, height, 2, 320, 240, 4);
+			MergePics(buffer, buffer2, width, height, 2, 320, 240, (4 + height));
 
-			memcpy( buffer, buffer2, 320 * 40 * 2 );
+			memcpy(buffer, buffer2, (size_t)(320 * 40 * 2));
 			width = 320;
 			height = 40;
-		} else if( chunknum == SDM_L_COLONPIC ) {
-			memset( buffer2, 0, 256*64*2 );
+		} else if (chunknum == SDM_L_COLONPIC) {
+			memset(buffer2, 0, (size_t)(256 * 64 * 2));
 
 			MergePics( buffer, buffer2, width, height, 2, 256, 160, 16 );
 
@@ -1352,19 +1359,19 @@ STATUSBARHACK:
 
 			MergePics( buffer, buffer2, width, height, 2, 256, 112, 0 );
 
-			memcpy( buffer, buffer2, 256 * 64 * 2 );
+			memcpy(buffer, buffer2, (size_t)(256 * 64 * 2));
 
 
-			for( i = 0 ; i < 256 * 64 * 2 ; i += 2 ) {
-				if( buffer[ i ] == 0 && buffer[ i + 1 ] == 0 ) {
-					 buffer[ i + 1 ] = 66;
+			for ((i = 0); (i < (256 * 64 * 2)); (i += 2)) {
+				if ((buffer[i] == 0) && (buffer[(i + 1)] == 0)) {
+					 buffer[(i + 1)] = 66;
 				}
 			}
 
 			offset = 0;
 			width = 256;
 			height = 64;
-		} else if( chunknum == SDM_L_PERCENTPIC ) {
+		} else if (chunknum == SDM_L_PERCENTPIC) {
 			offset = 16; /* this is for L_APIC... */
 
 			MergePics( buffer, buffer2, width, height, 2, 256, 80, 0 );
@@ -1387,12 +1394,12 @@ STATUSBARHACK:
 
 			MergePics( buffer, buffer2, width, height, 2, 90, offset, 0 );
 
-			memcpy( buffer, buffer2, 90 * height * 2 );
+			memcpy(buffer, buffer2, (size_t)(90 * height * 2));
 
-			for( i = 0 ; i < 90 * 16 * 2 ; i += 2 ) {
-				if( ! (i % 9) && i != 0 ) {
-					buffer[ i - 2 ] = 0;
-					buffer[ i - 1 ] = 160;
+			for ((i = 0); (i < (90 * 16 * 2)); (i += 2)) {
+				if (! (i % 9) && (i != 0)) {
+					buffer[(i - 2)] = 0;
+					buffer[(i - 1)] = 160;
 				}
 			}
 
@@ -1405,40 +1412,41 @@ STATUSBARHACK:
 
 			offset += width;
 
-			if( offset >= 256 ) {
+			if (offset >= 256) {
 				offset = 0;
 				yoffset += 16;
 			}
 
 			return;
-		} else if( chunknum == SDM_TITLE1PIC ) {
-			memcpy( buffer2+offset, buffer, (width*height*2) );
-			offset += width*height*2;
+		} else if (chunknum == SDM_TITLE1PIC) {
+			memcpy((buffer2+offset), buffer, (size_t)(width * height * 2));
+			offset += (width * height * 2);
 
 			return;
-		} else if( chunknum == SDM_TITLE2PIC ) {
-			memcpy( buffer2+offset, buffer, (width*height*2) );
-			memcpy( buffer, buffer2, 320*200*2 );
+		} else if (chunknum == SDM_TITLE2PIC) {
+			memcpy((buffer2 + offset), buffer, (size_t)(width * height * 2));
+			memcpy(buffer, buffer2, (size_t)(320 * 200 * 2));
 			height = 200;
 			offset = 0;
 		}
-    } else if( version & SOD_PAK ) {
-		if( chunknum == SOD_STATUSBARPIC ) {
-			memcpy( buffer2, buffer, width * height * 2 ); /* Save Status bar pic */
+    } else if (version & SOD_PAK) {
+		if (chunknum == SOD_STATUSBARPIC) {
+			/* Save Status bar pic: */
+			memcpy(buffer2, buffer, (size_t)(width * height * 2));
 			CA_CacheGrChunk( SOD_NOKEYPIC, version ); /* cache SOD_NOKEYPIC */
 			chunknum = SOD_NOKEYPIC;
 
 			goto STATUSBARHACK;
 		} else if( chunknum == SOD_NOKEYPIC ) {
 			chunknum = SOD_STATUSBARPIC;
-			MergePics( buffer, buffer2, width, height, 2, 320, 240, 4 );
-			MergePics( buffer, buffer2, width, height, 2, 320, 240, 4+height );
+			MergePics(buffer, buffer2, width, height, 2, 320, 240, 4);
+			MergePics(buffer, buffer2, width, height, 2, 320, 240, (4 + height));
 
-			memcpy( buffer, buffer2, 320 * 40 * 2 );
+			memcpy( buffer, buffer2, (size_t)(320 * 40 * 2));
 			width = 320;
 			height = 40;
 		} else if( chunknum == SOD_L_COLONPIC ) {
-			memset( buffer2, 0, 256*64*2 );
+			memset( buffer2, 0, (size_t)(256 * 64 * 2));
 
 			MergePics( buffer, buffer2, width, height, 2, 256, 160, 16 );
 
@@ -1453,11 +1461,11 @@ STATUSBARHACK:
 
 			MergePics( buffer, buffer2, width, height, 2, 256, 112, 0 );
 
-			memcpy( buffer, buffer2, 256 * 64 * 2 );
+			memcpy(buffer, buffer2, (size_t)(256 * 64 * 2));
 
-			for( i = 0 ; i < 256 * 64 * 2 ; i += 2 ) {
-				if( buffer[ i ] == 0 && buffer[ i + 1 ] == 0 ) {
-					 buffer[ i + 1 ] = 66;
+			for ((i = 0); (i < (256 * 64 * 2)); (i += 2)) {
+				if ((buffer[i] == 0) && (buffer[(i + 1)] == 0)) {
+					 buffer[(i + 1)] = 66;
 				}
 			}
 
@@ -1485,23 +1493,23 @@ STATUSBARHACK:
 		} else if( chunknum == SOD_N_9PIC ) {
 			W32 i; /* different than original "i" */
 
-			MergePics( buffer, buffer2, width, height, 2, 90, offset, 0 );
+			MergePics(buffer, buffer2, width, height, 2, 90, offset, 0);
 
-			memcpy( buffer, buffer2, 90 * height * 2 );
+			memcpy(buffer, buffer2, (size_t)(90 * height * 2));
 
-			for( i = 0 ; i < 90 * 16 * 2 ; i += 2 ) {
-				if( ! (i % 9) && i != 0 ) {
-					buffer[ i - 2 ] = 0;
-					buffer[ i - 1 ] = 160;
+			for ((i = 0); (i < (90 * 16 * 2)); (i += 2)) {
+				if (! (i % 9) && (i != 0)) {
+					buffer[(i - 2)] = 0;
+					buffer[(i - 1)] = 160;
 				}
 			}
 
 			width = 90;
 			offset = 0;
-		} else if( chunknum >= SOD_L_APIC && chunknum <= SOD_L_ZPIC ) {
+		} else if ((chunknum >= SOD_L_APIC) && (chunknum <= SOD_L_ZPIC)) {
 			static W32 yoffset = 32;
 
-			MergePics( buffer, buffer2, width, height, 2, 256, offset, yoffset );
+			MergePics(buffer, buffer2, width, height, 2, 256, offset, yoffset);
 
 			offset += width;
 
@@ -1512,23 +1520,23 @@ STATUSBARHACK:
 
 			return;
 		} else if( chunknum == SOD_IDGUYS1PIC ) {
-			memcpy( buffer2+offset, buffer, (width*height*2) );
+			memcpy((buffer2 + offset), buffer, (size_t)(width * height * 2));
 			offset += width*height*2;
 
 			return;
 		} else if( chunknum == SOD_IDGUYS2PIC ) {
-			memcpy( buffer2+offset, buffer, (width*height*2) );
-			memcpy( buffer, buffer2, 320*200*2 );
+			memcpy((buffer2 + offset), buffer, (size_t)(width * height * 2));
+			memcpy(buffer, buffer2, (size_t)(320 * 200 * 2));
 			height = 200;
 			offset = 0;
-		} else if( chunknum == SOD_TITLE1PIC ) {
-			memcpy( buffer2+offset, buffer, (width*height*2) );
+		} else if (chunknum == SOD_TITLE1PIC) {
+			memcpy((buffer2+offset), buffer, (size_t)(width * height * 2));
 			offset += width*height*2;
 
 			return;
-		} else if( chunknum == SOD_TITLE2PIC ) {
-			memcpy( buffer2+offset, buffer, (width*height*2) );
-			memcpy( buffer, buffer2, 320*200*2 );
+		} else if (chunknum == SOD_TITLE2PIC) {
+			memcpy((buffer2 + offset), buffer, (size_t)(width * height * 2));
+			memcpy(buffer, buffer2, (size_t)(320 * 200 * 2));
 			height = 200;
 			offset = 0;
 		}

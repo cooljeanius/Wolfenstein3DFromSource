@@ -893,10 +893,10 @@ PUBLIC void Key_Init( void )
 	Should NOT be called during an interrupt!
 -----------------------------------------------------------------------------
 */
-PUBLIC void Key_Event( int key, _boolean down, unsigned time )
+PUBLIC void Key_Event(int key, _boolean down, unsigned time)
 {
         char    *kb;
-        char    cmd[ 1024 ];
+        char    cmd[1024];
 
         /* hack for modal presses */
         if (key_waiting == -1) {
@@ -1076,19 +1076,19 @@ PUBLIC void Key_Event( int key, _boolean down, unsigned time )
 
 -----------------------------------------------------------------------------
 */
-PUBLIC void Key_ClearStates( void )
+PUBLIC void Key_ClearStates(void)
 {
 	int i;
 
 	anykeydown = false;
 
-	for( i = 0 ; i < 256 ; ++i ) {
-		if( keydown[ i ] || key_repeats[ i ] ) {
-			Key_Event( i, false, 0 );
+	for ((i = 0); (i < 256); ++i) {
+		if (keydown[i] || key_repeats[i]) {
+			Key_Event(i, (_boolean)false, 0);
 		}
 
-		keydown[ i ] = 0;
-		key_repeats[ i ] = 0;
+		keydown[i] = 0;
+		key_repeats[i] = 0;
 	}
 }
 

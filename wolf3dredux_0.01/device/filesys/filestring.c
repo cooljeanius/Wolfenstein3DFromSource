@@ -50,51 +50,70 @@
 
 -----------------------------------------------------------------------------
 */
-PUBLIC void FS_CreatePath( char *path )
+PUBLIC void FS_CreatePath(char *path)
 {
 	char	*ofs;
 
-	for( ofs = path + 1; *ofs; ofs++ )
-	{
-		if( *ofs == '/' )
-		{	/* create the directory */
+	for ((ofs = (path + 1)); *ofs; ofs++) {
+		if (*ofs == '/') {
+			/* create the directory */
 			*ofs = '\0';
-			FS_CreateDirectory( path );
+			FS_CreateDirectory(path);
 			*ofs = '/';
 		}
 	}
 
 }
 
-PUBLIC void FS_FilePath( char *in, char *out )
+/*
+ -----------------------------------------------------------------------------
+ Function: FS_FilePath
+
+ Parameters:
+
+ Returns: Nothing.
+
+ Notes:
+ -----------------------------------------------------------------------------
+ */
+PUBLIC void FS_FilePath(char *in, char *out)
 {
 	char *s;
 
-	s = in + strlen( in ) - 1;
+	s = (in + strlen(in) - 1);
 
-	while( s != in && *s != '/' )
-	{
+	while ((s != in) && (*s != '/')) {
 		s--;
 	}
 
-	strncpy( out, in, s-in );
-	out[ s - in ] = '\0'; /* NUL-terminate string. */
+	strncpy(out, in, (size_t)(s - in));
+	out[(s - in)] = '\0'; /* NUL-terminate string. */
 }
 
-#ifndef FS_SkipPath
-PUBLIC char *FS_SkipPath( char *pathname )
+/*
+ -----------------------------------------------------------------------------
+ Function: FS_SkipPath
+
+ Parameters:
+
+ Returns:
+
+ Notes:
+ -----------------------------------------------------------------------------
+ */
+/* TODO: put this function in an actual shared library: */
+#ifndef FS_SkipPath /* this ifdef is bad */
+PUBLIC char *FS_SkipPath(char *pathname)
 #else
-PUBLIC char *filestring_FS_SkipPath( char *pathname )
+PUBLIC char *filestring_FS_SkipPath(char *pathname)
 #endif /* !FS_SkipPath */
 {
 	char	*last;
 
 	last = pathname;
-	while( *pathname )
-	{
-		if( *pathname == '/' )
-		{
-			last = pathname + 1;
+	while (*pathname) {
+		if (*pathname == '/') {
+			last = (pathname + 1);
 		}
 		pathname++;
 	}
@@ -102,67 +121,92 @@ PUBLIC char *filestring_FS_SkipPath( char *pathname )
 	return last;
 }
 
-PUBLIC void FS_StripExtension( char *in, char *out )
+/*
+ -----------------------------------------------------------------------------
+ Function: FS_StripExtension
+
+ Parameters:
+
+ Returns: Nothing.
+
+ Notes:
+ -----------------------------------------------------------------------------
+ */
+PUBLIC void FS_StripExtension(char *in, char *out)
 {
-	while( *in && *in != '.' )
-	{
+	while (*in && (*in != '.')) {
 		*out++ = *in++;
 	}
 
 	*out = '\0'; /* NUL-terminate string. */
 }
 
-PUBLIC char *FS_FileExtension( char *in )
+/*
+ -----------------------------------------------------------------------------
+ Function: FS_FileExtension
+
+ Parameters:
+
+ Returns:
+
+ Notes:
+ -----------------------------------------------------------------------------
+ */
+PUBLIC char *FS_FileExtension(char *in)
 {
-	static char exten[ 8 ];
+	static char exten[8];
 	int		i;
 
-	while( *in && *in != '.' )
-	{
+	while (*in && (*in != '.')) {
 		in++;
 	}
 
-	if( ! *in )
-	{
+	if (! *in) {
 		return "";
 	}
 
 	in++;
-	for( i = 0 ; i < 7 && *in ; i++, in++ )
-	{
-		exten[ i ] = *in;
+	for ((i = 0); ((i < 7) && *in); i++, in++) {
+		exten[i] = *in;
 	}
 
-	exten[ i ] = '\0'; /* NUL-terminate string. */
+	exten[i] = '\0'; /* NUL-terminate string. */
 
 	return exten;
 }
 
-PUBLIC void FS_FileBase( char *in, char *out )
+/*
+ -----------------------------------------------------------------------------
+ Function: FS_FileBase
+
+ Parameters:
+
+ Returns: Nothing.
+
+ Notes:
+ -----------------------------------------------------------------------------
+ */
+PUBLIC void FS_FileBase(char *in, char *out)
 {
 	char *s, *s2;
 
-	s = in + strlen( in ) - 1;
+	s = (in + strlen(in) - 1);
 
-	while( s != in && *s != '.' )
-	{
+	while ((s != in) && (*s != '.')) {
 		s--;
 	}
 
-	for( s2 = s ; s2 != in && *s2 != '/' ; s2-- )
-	{
+	for ((s2 = s); ((s2 != in) && (*s2 != '/')); s2--) {
 		;
+		/* do nothing? */
 	}
 
-	if( s - s2 < 2 )
-	{
-		out[ 0 ] = '\0'; /* NUL-terminate string. */
-	}
-	else
-	{
+	if ((s - s2) < 2) {
+		out[0] = '\0'; /* NUL-terminate string. */
+	} else {
 		s--;
-		strncpy( out, s2 + 1, s - s2 );
-		out[ s - s2 ] = '\0'; /* NUL-terminate string. */
+		strncpy(out, (s2 + 1), (size_t)(s - s2));
+		out[(s - s2)] = '\0'; /* NUL-terminate string. */
 	}
 }
 

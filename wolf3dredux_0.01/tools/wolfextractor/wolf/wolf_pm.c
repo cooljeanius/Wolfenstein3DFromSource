@@ -333,7 +333,7 @@ PRIVATE W8 PML_SaveGFXPage(W32 nPage, const char *filename, W8 *buffer,
 #endif /* ALIGNOF_INT */
 
 #if 0 || __clang_analyzer__ || 1
-		memset(buffer, 0, (64 * 64 * 2)); /* (64 * 64 * 2) = 8192 */
+		memset(buffer, 0, (size_t)(64 * 64 * 2)); /* (64 * 64 * 2) = 8192 */
 #endif /* 0 || __clang_analyzer__ || 1 */
 
         /* all transparent at the beginning */
@@ -561,38 +561,37 @@ PRIVATE W8 PML_SaveGFXPage(W32 nPage, const char *filename, W8 *buffer,
 
 -----------------------------------------------------------------------------
 */
-PRIVATE W8 PML_SaveSoundPage( W32 nPage, char *filename,
-							  W8 *buffer,
-							  W32 size )
+PRIVATE W8 PML_SaveSoundPage(W32 nPage, char *filename, W8 *buffer, W32 size)
 {
     static W16 totallength = 0;
     W8 *data;
     W16 clength; /* Chunk length */
 
-    if( nPage < PMSoundStart || nPage > PMNumBlocks ) {
-        printf( "Out of bounds page number passed into PML_SaveSound()!\n" );
+    if ((nPage < PMSoundStart) || (nPage > PMNumBlocks)) {
+        printf("Out of bounds page number passed into PML_SaveSound()!\n");
         return 1;
     }
 
-    data = (PW8) PML_LoadPage( nPage, &clength );
+    data = (PW8)PML_LoadPage(nPage, &clength);
 	if( data == NULL ) {
         return 1;
     }
 
-    if( totallength > size ) {
+    if (totallength > size) {
         printf( "[wolf_pmc] Buffer not large enough!\n" );
         return 2;
     }
 
-    memcpy( buffer + totallength, data, clength );
+    memcpy((buffer + totallength), data, (size_t)clength);
 
     totallength += clength;
-    if( clength < 4096 ) {
-        write_wav( filename, buffer, totallength, 1, SAMPLERATE, 1 );
+    if (clength < 4096) {
+        write_wav(filename, buffer, (W32)totallength, (W16)1,
+				  (W32)SAMPLERATE, (W16)1);
         totallength = 0;
     }
 
-    MM_FREE( data );
+    MM_FREE(data);
 
     return 0;
 }
@@ -642,11 +641,9 @@ PUBLIC _boolean PExtractor(const char *extension, W16 version)
     W8 *buffer, *buffer2;
 	W32 Flash;
 
-
 /*
  * Setup
  */
-
 	if (0 == FS_Mkdir(GFXWALLDIR)) {
 		printf("[%s] Could not create directory (%s)!\n", "PExtractor",
 			   GFXWALLDIR);
@@ -694,7 +691,6 @@ PUBLIC _boolean PExtractor(const char *extension, W16 version)
 /*
  * Allocate buffers
  */
-
 	buffer = MM_MALLOC((size_t)(64 * 64 * 2)); /* (64 * 64 * 2) = 8192 */
 	if (buffer == NULL) {
 		PML_Shutdown();
@@ -713,7 +709,6 @@ PUBLIC _boolean PExtractor(const char *extension, W16 version)
 /*
  * Decode Page data
  */
-
 	printf("PExtractor(): attempting to decode Page Data...\n");
 
 	for ((i = 0), (j = 0); (i < PMSpriteStart); ++i, ++j ) {
@@ -727,7 +722,7 @@ PUBLIC _boolean PExtractor(const char *extension, W16 version)
 
 		cs_snprintf(filename, sizeof(filename), "%s/%.3d.tga", GFXWALLDIR, j);
 
-		PML_SaveGFXPage(i, filename, buffer, buffer2, 1, 0);
+		PML_SaveGFXPage(i, filename, buffer, buffer2, (_boolean)1, (W32)0);
 	}
 
     for((i = PMSpriteStart), (j = 0); (i < PMSoundStart); ++i, ++j ) {
@@ -818,7 +813,6 @@ PUBLIC _boolean PExtractor(const char *extension, W16 version)
 /*
  * Shutdown
  */
-
     MM_FREE(buffer);
     MM_FREE(buffer2);
 

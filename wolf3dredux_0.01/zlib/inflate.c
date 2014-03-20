@@ -88,15 +88,15 @@
 #ifdef MAKEFIXED
 #  ifndef BUILDFIXED
 #    define BUILDFIXED
-#  endif
-#endif
+#  endif /* !BUILDFIXED */
+#endif /* MAKEFIXED */
 
 /* function prototypes */
 local void fixedtables OF((struct inflate_state FAR *state));
 local int updatewindow OF((z_streamp strm, unsigned out));
 #ifdef BUILDFIXED
    void makefixed OF((void));
-#endif
+#endif /* BUILDFIXED */
 local unsigned syncsearch OF((unsigned FAR *have, unsigned char FAR *buf,
                               unsigned len));
 
@@ -141,7 +141,7 @@ int stream_size;
     }
     if (strm->zfree == (free_func)0) strm->zfree = zcfree;
     state = (struct inflate_state FAR *)
-            ZALLOC(strm, 1, sizeof(struct inflate_state));
+            ZALLOC(strm, 1, (uInt)sizeof(struct inflate_state));
     if (state == Z_NULL) return Z_MEM_ERROR;
     Tracev((stderr, "inflate: allocated\n"));
     strm->state = (voidpf)state;
@@ -153,7 +153,7 @@ int stream_size;
         state->wrap = (windowBits >> 4) + 1;
 #ifdef GUNZIP
         if (windowBits < 48) windowBits &= 15;
-#endif
+#endif /* GUNZIP */
     }
     if (windowBits < 8 || windowBits > 15) {
         ZFREE(strm, state);
@@ -174,14 +174,14 @@ int stream_size;
 }
 
 /*
-   Return state with length and distance decoding tables and index sizes set to
-   fixed code decoding.  Normally this returns fixed tables from inffixed.h.
-   If BUILDFIXED is defined, then instead this routine builds the tables the
-   first time it's called, and returns those tables the first time and
-   thereafter.  This reduces the size of the code by about 2K bytes, in
-   exchange for a little execution time.  However, BUILDFIXED should not be
-   used for threaded applications, since the rewriting of the tables and virgin
-   may not be thread-safe.
+ * Return state with length and distance decoding tables and index sizes set to
+ * fixed code decoding.  Normally this returns fixed tables from inffixed.h.
+ * If BUILDFIXED is defined, then instead this routine builds the tables the
+ * first time it is called, and returns those tables the first time and
+ * thereafter.  This reduces the size of the code by about 2K bytes, in
+ * exchange for a little execution time.  However, BUILDFIXED should not be
+ * used for threaded applications, since the rewriting of the tables and virgin
+ * may not be thread-safe.
  */
 local void fixedtables(state)
 struct inflate_state FAR *state;
@@ -198,10 +198,18 @@ struct inflate_state FAR *state;
 
         /* literal/length table */
         sym = 0;
-        while (sym < 144) state->lens[sym++] = 8;
-        while (sym < 256) state->lens[sym++] = 9;
-        while (sym < 280) state->lens[sym++] = 7;
-        while (sym < 288) state->lens[sym++] = 8;
+        while (sym < 144) {
+			state->lens[sym++] = 8;
+		}
+        while (sym < 256) {
+			state->lens[sym++] = 9;
+		}
+        while (sym < 280) {
+			state->lens[sym++] = 7;
+		}
+        while (sym < 288) {
+			state->lens[sym++] = 8;
+		}
         next = fixed;
         lenfix = next;
         bits = 9;
@@ -209,7 +217,9 @@ struct inflate_state FAR *state;
 
         /* distance table */
         sym = 0;
-        while (sym < 32) state->lens[sym++] = 5;
+        while (sym < 32) {
+			state->lens[sym++] = 5;
+		}
         distfix = next;
         bits = 5;
         inflate_table(DISTS, state->lens, 32, &(next), &(bits), state->work);
@@ -230,22 +240,22 @@ struct inflate_state FAR *state;
 #include <stdio.h>
 
 /*
-   Write out the inffixed.h that is #include'd above.  Defining MAKEFIXED also
-   defines BUILDFIXED, so the tables are built on the fly.  makefixed() writes
-   those tables to stdout, which would be piped to inffixed.h.  A small program
-   can simply call makefixed to do this:
-
-    void makefixed(void);
-
-    int main(void)
-    {
-        makefixed();
-        return 0;
-    }
-
-   Then that can be linked with zlib built with MAKEFIXED defined and run:
-
-    a.out > inffixed.h
+ * Write out the inffixed.h that is #include'd above.  Defining MAKEFIXED also
+ * defines BUILDFIXED, so the tables are built on the fly.  makefixed() writes
+ * those tables to stdout, which would be piped to inffixed.h.  A small program
+ * can simply call makefixed to do this:
+ *
+ *  void makefixed(void);
+ *
+ *  int main(void)
+ *  {
+ *      makefixed();
+ *      return 0;
+ *  }
+ *
+ * Then that can be linked with zlib built with MAKEFIXED defined and run:
+ *
+ *  a.out > inffixed.h
  */
 void makefixed()
 {
@@ -266,10 +276,14 @@ void makefixed()
     printf("    static const code lenfix[%u] = {", size);
     low = 0;
     for (;;) {
-        if ((low % 7) == 0) printf("\n        ");
+        if ((low % 7) == 0) {
+			printf("\n        ");
+		}
         printf("{%u,%u,%d}", state.lencode[low].op, state.lencode[low].bits,
                state.lencode[low].val);
-        if (++low == size) break;
+        if (++low == size) {
+			break;
+		}
         putchar(',');
     }
     puts("\n    };");
@@ -277,10 +291,14 @@ void makefixed()
     printf("\n    static const code distfix[%u] = {", size);
     low = 0;
     for (;;) {
-        if ((low % 6) == 0) printf("\n        ");
+        if ((low % 6) == 0) {
+			printf("\n        ");
+		}
         printf("{%u,%u,%d}", state.distcode[low].op, state.distcode[low].bits,
                state.distcode[low].val);
-        if (++low == size) break;
+        if (++low == size) {
+			break;
+		}
         putchar(',');
     }
     puts("\n    };");
@@ -288,18 +306,18 @@ void makefixed()
 #endif /* MAKEFIXED */
 
 /*
-   Update the window with the last wsize (normally 32K) bytes written before
-   returning.  If window does not exist yet, create it.  This is only called
-   when a window is already in use, or when output has been written during this
-   inflate call, but the end of the deflate stream has not been reached yet.
-   It is also called to create a window for dictionary data when a dictionary
-   is loaded.
-
-   Providing output buffers larger than 32K to inflate() should provide a speed
-   advantage, since only the last 32K of output is copied to the sliding window
-   upon return from inflate(), and since all distances after the first 32K of
-   output will fall in the output data, making match copies simpler and faster.
-   The advantage may be dependent on the size of the processor's data caches.
+ * Update the window with the last wsize (normally 32K) bytes written before
+ * returning.  If window does not exist yet, create it.  This is only called
+ * when a window is already in use, or when output has been written during this
+ * inflate call, but the end of the deflate stream has not been reached yet.
+ * It is also called to create a window for dictionary data when a dictionary
+ * is loaded.
+ *
+ * Providing output buffers larger than 32K to inflate() should provide a speed
+ * advantage, since only the last 32K of output is copied to the sliding window
+ * upon return from inflate(), and since all distances after the first 32K of
+ * output will fall in the output data, making match copies simpler and faster.
+ * The advantage may be dependent on the size of the processor's data caches.
  */
 local int updatewindow(strm, out)
 z_streamp strm;
@@ -310,12 +328,14 @@ unsigned out;
 
     state = (struct inflate_state FAR *)strm->state;
 
-    /* if it hasn't been done already, allocate space for the window */
+    /* if it has NOT been done already, allocate space for the window */
     if (state->window == Z_NULL) {
         state->window = (unsigned char FAR *)
-                        ZALLOC(strm, 1U << state->wbits,
-                               sizeof(unsigned char));
-        if (state->window == Z_NULL) return 1;
+                        ZALLOC(strm, (1U << state->wbits),
+                               (uInt)sizeof(unsigned char));
+        if (state->window == Z_NULL) {
+			return 1;
+		}
     }
 
     /* if window not in use yet, initialize */
@@ -328,17 +348,21 @@ unsigned out;
     /* copy state->wsize or less output bytes into the circular window */
     copy = out - strm->avail_out;
     if (copy >= state->wsize) {
-        zmemcpy(state->window, strm->next_out - state->wsize, state->wsize);
+        zmemcpy(state->window, (strm->next_out - state->wsize),
+				(size_t)state->wsize);
         state->write = 0;
         state->whave = state->wsize;
     }
     else {
-        dist = state->wsize - state->write;
-        if (dist > copy) dist = copy;
-        zmemcpy(state->window + state->write, strm->next_out - copy, dist);
+        dist = (state->wsize - state->write);
+        if (dist > copy) {
+			dist = copy;
+		}
+        zmemcpy((state->window + state->write), (strm->next_out - copy),
+				(size_t)dist);
         copy -= dist;
         if (copy) {
-            zmemcpy(state->window, strm->next_out - copy, copy);
+            zmemcpy(state->window, (strm->next_out - copy), (size_t)copy);
             state->write = copy;
             state->whave = state->wsize;
         }
@@ -359,7 +383,7 @@ unsigned out;
     (state->flags ? crc32(check, buf, len) : adler32(check, buf, len))
 #else
 #  define UPDATE(check, buf, len) adler32(check, buf, len)
-#endif
+#endif /* GUNZIP */
 
 /* check macros for header crc */
 #ifdef GUNZIP
@@ -378,7 +402,7 @@ unsigned out;
         hbuf[3] = (unsigned char)((word) >> 24); \
         check = crc32(check, hbuf, 4); \
     } while (0)
-#endif
+#endif /* GUNZIP */
 
 /* Load registers with state in inflate() for speed */
 #define LOAD() \
@@ -760,10 +784,16 @@ int flush;
         case COPY:
             copy = state->length;
             if (copy) {
-                if (copy > have) copy = have;
-                if (copy > left) copy = left;
-                if (copy == 0) goto inf_leave;
-                zmemcpy(put, next, copy);
+                if (copy > have) {
+					copy = have;
+				}
+                if (copy > left) {
+					copy = left;
+				}
+                if (copy == 0) {
+					goto inf_leave;
+				}
+                zmemcpy(put, next, (size_t)copy);
                 have -= copy;
                 next += copy;
                 left -= copy;
@@ -1117,7 +1147,9 @@ uInt dictLength;
     /* check for correct dictionary id */
     id = adler32(0L, Z_NULL, 0);
     id = adler32(id, dictionary, dictLength);
-    if (id != state->check) return Z_DATA_ERROR;
+    if (id != state->check) {
+		return Z_DATA_ERROR;
+	}
 
     /* copy dictionary to window */
     if (updatewindow(strm, strm->avail_out)) {
@@ -1125,13 +1157,13 @@ uInt dictLength;
         return Z_MEM_ERROR;
     }
     if (dictLength > state->wsize) {
-        zmemcpy(state->window, dictionary + dictLength - state->wsize,
-                state->wsize);
+        zmemcpy(state->window, (dictionary + dictLength - state->wsize),
+                (size_t)state->wsize);
         state->whave = state->wsize;
     }
     else {
-        zmemcpy(state->window + state->wsize - dictLength, dictionary,
-                dictLength);
+        zmemcpy((state->window + state->wsize - dictLength), dictionary,
+                (size_t)dictLength);
         state->whave = dictLength;
     }
     state->havedict = 1;
@@ -1250,12 +1282,12 @@ z_streamp source;
 
     /* allocate space */
     copy = (struct inflate_state FAR *)
-           ZALLOC(source, 1, sizeof(struct inflate_state));
+           ZALLOC(source, 1, (uInt)sizeof(struct inflate_state));
     if (copy == Z_NULL) return Z_MEM_ERROR;
     window = Z_NULL;
     if (state->window != Z_NULL) {
         window = (unsigned char FAR *)
-                 ZALLOC(source, 1U << state->wbits, sizeof(unsigned char));
+                 ZALLOC(source, 1U << state->wbits, (uInt)sizeof(unsigned char));
         if (window == Z_NULL) {
             ZFREE(source, copy);
             return Z_MEM_ERROR;
@@ -1269,7 +1301,7 @@ z_streamp source;
     copy->distcode = copy->codes + (state->distcode - state->codes);
     copy->next = copy->codes + (state->next - state->codes);
     if (window != Z_NULL) {
-        zmemcpy(window, state->window, 1U << state->wbits);
+        zmemcpy(window, state->window, (size_t)(1U << state->wbits));
 	}
     copy->window = window;
     dest->state = (voidpf)copy;

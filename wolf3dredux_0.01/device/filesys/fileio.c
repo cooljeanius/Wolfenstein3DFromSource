@@ -89,19 +89,19 @@ PUBLIC void *FS_GetLoadedFilePointer( filehandle_t *fhandle, W32 origin )
  Notes:
 -----------------------------------------------------------------------------
 */
-PUBLIC SW32 FS_GetFileSize( filehandle_t *fhandle )
+PUBLIC SW32 FS_GetFileSize(filehandle_t *fhandle)
 {
 	SW32	pos;
 	SW32	end;
 
-	if( fhandle->bLoaded ) {
+	if (fhandle->bLoaded) {
 		return (SW32)(fhandle->filesize);
 	}
 
-	pos = ftell( fhandle->hFile );
-	fseek( fhandle->hFile, 0, SEEK_END );
+	pos = ftell(fhandle->hFile);
+	fseek(fhandle->hFile, (size_t)0, SEEK_END);
 	end = ftell( fhandle->hFile );
-	fseek( fhandle->hFile, pos, SEEK_SET );
+	fseek(fhandle->hFile, pos, SEEK_SET);
 
 	return end;
 }
@@ -244,23 +244,23 @@ PRIVATE _boolean LoadCompressedFile( filehandle_t *hFile, packfile_t *pakfiles )
 	W8 *buf;
 	z_stream d_stream; /* decompression stream */
 
-	buf = Z_Malloc( pakfiles->filelength + 2 );
+	buf = Z_Malloc(pakfiles->filelength + 2);
 
 	/* Zlib expects the 2 byte head that the inflate method adds. */
-	buf[ 0 ] = 120;
-	buf[ 1 ] = 156;
-	read = fread( buf+2, 1, pakfiles->filelength, hFile->hFile );
-	if( read != pakfiles->filelength ) {
-		fclose( hFile->hFile );
-		Z_Free( buf );
+	buf[0] = 120;
+	buf[1] = 156;
+	read = fread((buf + 2), (size_t)1, pakfiles->filelength, hFile->hFile);
+	if (read != pakfiles->filelength) {
+		fclose(hFile->hFile);
+		Z_Free(buf);
 
 		return false;
 	}
 
-	fclose( hFile->hFile );
+	fclose(hFile->hFile);
 	hFile->hFile = NULL;
 
-	uncompr = Z_Malloc( pakfiles->uncompressed_length );
+	uncompr = Z_Malloc(pakfiles->uncompressed_length);
 
 	d_stream.zalloc = (alloc_func)0;
 	d_stream.zfree = (free_func)0;
@@ -334,7 +334,7 @@ PRIVATE _boolean LoadFile( filehandle_t *hFile )
 	hFile->filesize = (W32)FS_GetFileSize(hFile);
 	hFile->filedata = Z_Malloc(hFile->filesize);
 
-	read = fread(hFile->filedata, 1, hFile->filesize, hFile->hFile);
+	read = fread(hFile->filedata, (size_t)1, hFile->filesize, hFile->hFile);
 	if (read != hFile->filesize) {
 		fclose( hFile->hFile );
 
@@ -346,8 +346,8 @@ PRIVATE _boolean LoadFile( filehandle_t *hFile )
 	hFile->hFile = NULL;
 
 	/* align our file data pointers */
-	hFile->ptrStart =  hFile->ptrCurrent = (PW8)hFile->filedata;
-	hFile->ptrEnd =  (PW8)hFile->filedata + hFile->filesize;
+	hFile->ptrStart = hFile->ptrCurrent = (PW8)hFile->filedata;
+	hFile->ptrEnd = ((PW8)hFile->filedata + hFile->filesize);
 
 	hFile->bLoaded = true;
 

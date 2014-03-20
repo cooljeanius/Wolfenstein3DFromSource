@@ -78,9 +78,8 @@ typedef struct
 -----------------------------------------------------------------------------
 */
 void
-write_wav( const char *filename, void *data, W32 size,
-            W16 channels, W32 sample_rate,
-            W16 sample_size  )
+write_wav(const char *filename, void *data, W32 size, W16 channels,
+		  W32 sample_rate, W16 sample_size)
 {
     wavheader_t header;
     FILE *handle;

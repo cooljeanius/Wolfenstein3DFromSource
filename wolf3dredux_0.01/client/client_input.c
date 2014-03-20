@@ -238,44 +238,46 @@ void IN_Impulse( void )	{ in_impulse = atoi( Cmd_Argv( 1 ) ); }
 
 -----------------------------------------------------------------------------
 */
-PRIVATE float Client_KeyState( kbutton_t *key )
+PRIVATE float Client_KeyState(kbutton_t *key)
 {
-	float val=0;
+	float val;
 	_boolean impulsedown, impulseup, down;
 
-	impulsedown = key->state & 2;
-	impulseup = key->state & 4;
-	down = key->state & 1;
+	val = 0;
 
-	if( impulsedown && ! impulseup ) {
-		if( down ) {
-			val = 0.5; /* pressed and held this frame */
+	impulsedown = (key->state & 2);
+	impulseup = (key->state & 4);
+	down = (key->state & 1);
+
+	if (impulsedown && ! impulseup) {
+		if (down) {
+			val = (float)0.5; /* pressed and held this frame */
 		} else {
 			val = 0;
 		}
 	}
 
-	if( impulseup && ! impulsedown ) {
-		if( down ) {
+	if (impulseup && ! impulsedown) {
+		if (down) {
 			val = 0;
 		} else {
 			val = 0;	/* released this frame */
 		}
 	}
 
-	if( ! impulsedown && ! impulseup ) {
+	if (! impulsedown && ! impulseup) {
 		if( down ) {
-			val = 1.0;	/* held the entire frame */
+			val = (float)1.0;	/* held the entire frame */
 		} else {
 			val = 0;	/* up the entire frame */
 		}
 	}
 
-	if( impulsedown && impulseup ) {
-		if( down ) {
-			val = 0.75;	/* released and re-pressed this frame */
+	if (impulsedown && impulseup) {
+		if (down) {
+			val = (float)0.75;	/* released and re-pressed this frame */
 		} else {
-			val = 0.25;	/* pressed and released this frame */
+			val = (float)0.25;	/* pressed and released this frame */
 		}
 	}
 

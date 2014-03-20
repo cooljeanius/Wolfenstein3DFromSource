@@ -88,7 +88,7 @@ PRIVATE void M_Credits_MenuDraw(void)
 		R_Draw_Fill(0, 0, (int)viddef.width, (int)viddef.height, bgcolour);
 	}
 
-	Font_SetSize(FONT0, 1);
+	Font_SetSize(FONT0, (W16)1);
 	Font_SetColour(FONT0, colourWhite);
 
 /*

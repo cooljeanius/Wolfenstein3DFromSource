@@ -169,12 +169,12 @@ PUBLIC size_t cs_strlcat(char *dest, const char *source, size_t nMaxLength)
  Notes:
 -----------------------------------------------------------------------------
 */
-PUBLIC int cs_strnicmp( const char *string1, const char *string2, size_t count )
+PUBLIC int cs_strnicmp(const char *string1, const char *string2, size_t count)
 {
 	char c1, c2;
 
-	if( ! string1 || ! *string1 ||
-	    ! string2 || ! *string2 ) {
+	if (! string1 || ! *string1 ||
+	    ! string2 || ! *string2) {
 		return -1;
 	}
 
@@ -182,17 +182,17 @@ PUBLIC int cs_strnicmp( const char *string1, const char *string2, size_t count )
 		c1 = *string1++;
 		c2 = *string2++;
 
-		if( ! count-- ) {
+		if (! count--) {
 			return 0;		/* strings are equal until end point */
 		}
 
-		if( c1 != c2 ) {
-			if( TOUPPER( c1 ) != TOUPPER( c2 ) ) { /* Uppercase compare */
+		if (c1 != c2) {
+			if (TOUPPER(c1) != TOUPPER(c2)) { /* Uppercase compare */
 				return -1;	/* strings are not equal */
 			}
 		}
 
-	} while( c1 );
+	} while (c1);
 
 	return 0;		/* strings are equal */
 }
@@ -210,9 +210,9 @@ PUBLIC int cs_strnicmp( const char *string1, const char *string2, size_t count )
 		Calls cs_strnicmp, where count is 99999
 -----------------------------------------------------------------------------
 */
-PUBLIC int cs_stricmp( const char *string1, const char *string2 )
+PUBLIC int cs_stricmp(const char *string1, const char *string2)
 {
-	return cs_strnicmp( string1, string2, 99999 );
+	return cs_strnicmp(string1, string2, (size_t)99999);
 }
 
 /*
@@ -370,13 +370,15 @@ PUBLIC char *cs_CopyString(const char *in)
 {
 	char *out;
 #  ifndef PATH_MAX
-#   warning "com_string.c expects PATH_MAX to be defined."
+#   ifdef __GNUC__
+#    warning "com_string.c expects PATH_MAX to be defined."
+#   endif /* __GNUC__ */
 #  endif /* !PATH_MAX */
 	char new_in[PATH_MAX];
 
 	/* strcpy() SIGBUS-es on Darwin due to its implementation. */
 	/* Try using strncpy() instead (works for me at least) */
-	out = strncpy(new_in, in, PATH_MAX);
+	out = strncpy(new_in, in, (size_t)PATH_MAX);
 	return out;
 }
 

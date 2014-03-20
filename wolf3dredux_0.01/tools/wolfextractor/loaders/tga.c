@@ -69,7 +69,7 @@ PRIVATE void rle_write(FILE   *fp,
 			/* next pixel is different */
 			if (repeat) {
 				putc((int)(128 + repeat), fp);
-				fwrite(from, bytes, 1, fp);
+				fwrite(from, bytes, (size_t)1, fp);
 				from = (buffer + bytes); /* point to first different pixel */
 				repeat = 0;
 				direct = 0;
@@ -91,7 +91,7 @@ PRIVATE void rle_write(FILE   *fp,
 
 		if (repeat == 128) {
 			putc(255, fp);
-			fwrite(from, bytes, 1, fp);
+			fwrite(from, bytes, (size_t)1, fp);
 			from = (buffer + bytes);
 			direct = 0;
 			repeat = 0;
@@ -108,7 +108,7 @@ PRIVATE void rle_write(FILE   *fp,
 
 	if (repeat > 0) {
 		putc((int)(128 + repeat), fp);
-		fwrite(from, bytes, 1, fp);
+		fwrite(from, bytes, (size_t)1, fp);
 	} else {
 		putc((int)direct, fp);
 		fwrite(from, bytes, (size_t)(direct + 1), fp);
@@ -152,8 +152,10 @@ PUBLIC W8 wolfextractor_WriteTGA(const char *filename, W16 bpp, W16 width,
 	W8	*scanline;
 	W8 header[18];
 	FILE *filestream;
-	W8 *ptr = (PW8)Data;
+	W8 *ptr;
 	W8 temp;
+
+	ptr = (PW8)Data;
 
 	BytesPerPixel = (bpp >> 3);
 
@@ -163,7 +165,7 @@ PUBLIC W8 wolfextractor_WriteTGA(const char *filename, W16 bpp, W16 width,
 		return 0;
 	}
 
-	memset(header, 0, 18);
+	memset(header, 0, (size_t)18);
     header[2] = (rle ? 10 : 2);
 
     header[12] = (width & 255);	/* width low */
@@ -206,9 +208,10 @@ PUBLIC W8 wolfextractor_WriteTGA(const char *filename, W16 bpp, W16 width,
 		}
 
 		if (rle) {
-			rle_write(filestream, scanline, width, BytesPerPixel);
+			rle_write(filestream, scanline, (W32)width, (W32)BytesPerPixel);
 		} else {
-			fwrite(scanline, sizeof(W8), (width * BytesPerPixel), filestream);
+			fwrite(scanline, sizeof(W8), (size_t)(width * BytesPerPixel),
+				   filestream);
 		}
 	}
 

@@ -93,14 +93,14 @@ PRIVATE W8 *getResourceBlock(W32 offset, W32 length, W32 *glen)
 		return NULL;
 	}
 
-	if (fread(buf, 1, length, fResHandle) != length) {
+	if (fread(buf, (size_t)1, length, fResHandle) != length) {
 		printf("getResourceBlock(): read error on resource file\n");
 
 		return NULL;
 	}
 
-	if (fread( glen, 1, 4, fResHandle) != 4) {
-		printf("getResourceBlock(): read error on resource file\n" );
+	if (fread(glen, (size_t)1, (size_t)4, fResHandle) != 4) {
+		printf("getResourceBlock(): read error on resource file\n");
 
 		return NULL;
 	}
@@ -189,14 +189,14 @@ PRIVATE void Decode_LZSS( W8 *dst, const W8 *src, W32 Length )
  Notes:
 -----------------------------------------------------------------------------
 */
-PRIVATE void ConvertPaletteToRGB( W8 *dst, W8 *src, W32 length, W8 *palette )
+PRIVATE void ConvertPaletteToRGB(W8 *dst, W8 *src, W32 length, W8 *palette)
 {
 	W32 i;
 
-	for( i = 0 ; i < length ; ++i ) {
-		dst[ i * 3 ]		= palette[ src[ i ] * 3 ];
-		dst[ i * 3 + 1 ]	= palette[ src[ i ] * 3 + 1 ];
-		dst[ i * 3 + 2 ]	= palette[ src[ i ] * 3 + 2 ];
+	for ((i = 0); (i < length); ++i ) {
+		dst[(i * 3)]		= palette[(src[i] * 3)];
+		dst[((i * 3) + 1)]	= palette[((src[i] * 3) + 1)];
+		dst[((i * 3) + 2)]	= palette[((src[i] * 3) + 2)];
 	}
 }
 
@@ -233,23 +233,23 @@ PRIVATE void DecodeBJMapImage( W32 offset, W32 length )
 {
 	W8 *ptrResource;
 	W8 *buffer;
-	char filename[ 32 ];
+	char filename[32];
 	W32 junk;
 
-	ptrResource = (PW8)getResourceBlock( offset, length, &junk );
-	if( ! ptrResource ) {
+	ptrResource = (PW8)getResourceBlock(offset, length, &junk);
+	if (! ptrResource) {
 		return;
 	}
 
-	buffer = (PW8) MM_MALLOC( 16 * 16 * 3 );
+	buffer = (PW8)MM_MALLOC((size_t)(16 * 16 * 3));
 
-	ConvertPaletteToRGB( buffer, ptrResource, 16 * 16, macPalette );
+	ConvertPaletteToRGB(buffer, ptrResource, (W32)(16 * 16), macPalette);
 
-	cs_snprintf( filename, sizeof( filename ), "%s/bjautomap.tga", DIRPATHPICS );
+	cs_snprintf(filename, sizeof(filename), "%s/bjautomap.tga", DIRPATHPICS);
 
-	WriteTGA( filename, 24, 16, 16, buffer, 0, 1 );
+	WriteTGA(filename, 24, 16, 16, buffer, 0, 1);
 
-	MM_FREE( buffer );
+	MM_FREE(buffer);
 
 }
 
@@ -277,14 +277,14 @@ PRIVATE void DecodeBJIntermImages(W32 offset, W32 length)
 
 	MM_FREE(ptrResource);
 
-	memcpy(indexs, uncompr, 12);
+	memcpy(indexs, uncompr, (size_t)12);
 
 	indexs[0] = BigLong(indexs[0]);
 	indexs[1] = BigLong(indexs[1]);
 	indexs[2] = BigLong(indexs[2]);
 
 
-	buffer = MM_MALLOC(256 * 256 * 3);
+	buffer = MM_MALLOC((size_t)(256 * 256 * 3));
 	for ((i = 0); (i < 3); ++i) {
 		ptr = (PW16)&uncompr[indexs[i]];
 		width = BigShort(ptr[0]);
@@ -568,8 +568,8 @@ PRIVATE void DecodeSprite(W32 offset, W32 length, W32 *retval,
 	Decode_LZSS(uncompr, ptrResource+2, uncomprLength);
 
 
-	buffer = (W8 *)MM_MALLOC(128 * 128 * 4);
-	memset(buffer, 0, (128 * 128 * 4));
+	buffer = (W8 *)MM_MALLOC((size_t)(128 * 128 * 4));
+	memset(buffer, 0, (size_t)(128 * 128 * 4));
 
 
 	ptr = (PW16)uncompr;
@@ -677,45 +677,42 @@ PRIVATE void RipSprites( void )
  Notes:
 -----------------------------------------------------------------------------
 */
-PRIVATE W8 *DecodeItem( W8 *data, W8 *pal )
+PRIVATE W8 *DecodeItem(W8 *data, W8 *pal)
 {
 	W8 *buffer, *mask, *ptr;
 	int x, y, w, h;
 
-	buffer = (W8 *)MM_MALLOC( 128 * 128 * 4 );
+	buffer = (W8 *)MM_MALLOC((size_t)(128 * 128 * 4));
 
-	memset( buffer, 0, 128 * 128 * 4 );
+	memset(buffer, 0, (size_t)(128 * 128 * 4));
 
-	x = data[ 0 ] << 8 | data[ 1 ];
-	y = data[ 2 ] << 8 | data[ 3 ];
-	w = data[ 4 ] << 8 | data[ 5 ];
-	h = data[ 6 ] << 8 | data[ 7 ];
+	x = data[0] << 8 | data[1];
+	y = data[2] << 8 | data[3];
+	w = data[4] << 8 | data[5];
+	h = data[6] << 8 | data[7];
 
 	data += 8;
-	mask = data + w * h;
-	ptr = buffer + 512 * y + x * 4;
+	mask = (data + (w * h));
+	ptr = (buffer + (512 * y) + (x * 4));
 
-	do
-	{
+	do {
 		int w2 = w;
-		do
-		{
-			if( *mask == 0 )
-			{
-				ptr[ 0 ] = pal[ data[ 0 ] * 3 ];
-				ptr[ 1 ] = pal[ data[ 0 ] * 3 + 1 ];
-				ptr[ 2 ] = pal[ data[ 0 ] * 3 + 2 ];
-				ptr[ 3 ] = 255;
+		do {
+			if (*mask == 0) {
+				ptr[0] = pal[(data[0] * 3)];
+				ptr[1] = pal[((data[0] * 3) + 1)];
+				ptr[2] = pal[((data[0] * 3) + 2)];
+				ptr[3] = 255;
 			}
 			ptr += 4;
 			data++;
 			mask++;
 
-		} while( --w2 );
+		} while (--w2);
 
-		ptr += 4 * (128 - w);
+		ptr += (4 * (128 - w));
 
-	} while( --h );
+	} while (--h);
 
 	return buffer;
 }

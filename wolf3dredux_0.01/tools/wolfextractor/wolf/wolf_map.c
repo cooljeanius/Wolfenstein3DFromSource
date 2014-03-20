@@ -616,8 +616,7 @@ PRIVATE W8 CA_CacheMap(W32 ChunkOffset, W32 Chunklength, const char *filename,
 	fwrite( &temp, sizeof( W32 ), 1, fout );	/* Offset Three */
 
 
-	fclose( fout );
-
+	fclose(fout);
 
 	return 1;
 }

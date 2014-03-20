@@ -195,7 +195,7 @@ local void send_bits(s, value, length)
     int length; /* number of bits */
 {
     Tracevv((stderr," l %2d v %4x ", length, value));
-    Assert(length > 0 && length <= 15, "invalid length");
+    Assert((length > 0) && (length <= 15), "invalid length");
     s->bits_sent += (ulg)length;
 
     /* If not enough room in bi_buf, use (valid) bits from bi_buf and
@@ -206,7 +206,7 @@ local void send_bits(s, value, length)
         s->bi_buf |= (value << s->bi_valid);
         put_short(s, s->bi_buf);
         s->bi_buf = ((ush)value >> (Buf_size - (unsigned long)(s->bi_valid)));
-        s->bi_valid += ((unsigned long)(length) - Buf_size);
+        s->bi_valid += (int)((unsigned long)(length) - (int)Buf_size);
     } else {
         s->bi_buf |= (value << s->bi_valid);
         s->bi_valid += length;

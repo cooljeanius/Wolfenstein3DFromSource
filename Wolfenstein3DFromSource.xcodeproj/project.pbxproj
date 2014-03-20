@@ -2096,10 +2096,7 @@
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_WARN_UNINITIALIZED_AUTOS = NO;
-				"GCC_WARN_UNINITIALIZED_AUTOS[arch=i386]" = YES;
 				INSTALL_PATH = /usr/local/bin;
-				ONLY_ACTIVE_ARCH = NO;
 				PREBINDING = NO;
 				PRODUCT_NAME = gamepal;
 			};
@@ -2130,9 +2127,7 @@
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
-				"GCC_WARN_UNINITIALIZED_AUTOS[arch=i386]" = YES;
 				INSTALL_PATH = /usr/local/bin;
-				ONLY_ACTIVE_ARCH = NO;
 				PREBINDING = NO;
 				PRODUCT_NAME = signon;
 			};
@@ -2189,7 +2184,6 @@
 					"DEBUG=1",
 					"PARANOID=1",
 				);
-				"GCC_WARN_UNINITIALIZED_AUTOS[arch=i386]" = YES;
 				INSTALL_PATH = /usr/local/bin;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2197,7 +2191,6 @@
 				);
 				MallocStackLogging = 1;
 				MallocStackLoggingNoCompact = 1;
-				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"-lvorbis",
 					"-lvorbisenc",
@@ -2274,6 +2267,7 @@
 					"DEBUG=1",
 					"DEBUG_MEMORY=0",
 				);
+				GCC_VERSION = "";
 				INFOPLIST_FILE = "Wolfenstein3DFromSource-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
 				PRODUCT_NAME = Wolfenstein3DFromSource;
@@ -2320,7 +2314,6 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Wolfenstein3DFromSource_Prefix.pch;
 				GCC_UNROLL_LOOPS = YES;
-				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_GLOBAL_CONSTRUCTORS = YES;
 				GCC_WARN_ABOUT_MISSING_FIELD_INITIALIZERS = YES;
@@ -2380,6 +2373,7 @@
 				WARNING_CFLAGS = (
 					"-Wimplicit",
 					"-Wall",
+					"-Wno-unused",
 				);
 			};
 			name = Debug;

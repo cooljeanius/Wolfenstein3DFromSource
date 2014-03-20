@@ -650,16 +650,16 @@ PUBLIC _boolean userinfo_modified;
 
 -----------------------------------------------------------------------------
 */
-PRIVATE char *Cvar_BitInfo( int bit )
+PRIVATE char *Cvar_BitInfo(int bit)
 {
 	return NULL;
 #if 0
-	static char	info[ MAX_INFO_STRING ];
+	static char	info[MAX_INFO_STRING];
 	cvar_t	*var;
 
 	info[0] = 0;
 
-	for (var = cvar_vars ; var ; var = var->next) {
+	for ((var = cvar_vars); var ; (var = var->next)) {
 		if (var->flags & bit) {
 			Info_SetValueForKey (info, var->name, var->string);
 		}
