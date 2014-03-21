@@ -70,26 +70,26 @@ W16 numSoundDevices, numDefaultSoundDevice;
  Notes:
 -----------------------------------------------------------------------------
 */
-PRIVATE void Sound_Device_getDeviceList( void )
+PRIVATE void Sound_Device_getDeviceList(void)
 {
-	char deviceName[ 256 ];
+	char deviceName[256];
 
-	my_strlcpy( deviceName, s_device->string, sizeof( deviceName ) );
-	if( pfalcIsExtensionPresent( NULL, (ALubyte*)"ALC_ENUMERATION_EXT") == AL_TRUE ) {
+	my_strlcpy(deviceName, s_device->string, sizeof(deviceName));
+	if( pfalcIsExtensionPresent(NULL, (ALubyte*)"ALC_ENUMERATION_EXT") == AL_TRUE) {
 		/* try out enumeration extension */
-		deviceList = (char *)pfalcGetString( NULL, ALC_DEVICE_SPECIFIER );
-		for( numSoundDevices = 0 ; numSoundDevices < 12 ; ++numSoundDevices ) {
-			sound_devices[ numSoundDevices ] = NULL;
+		deviceList = (char *)pfalcGetString(NULL, ALC_DEVICE_SPECIFIER);
+		for ((numSoundDevices = 0); (numSoundDevices < 12); ++numSoundDevices) {
+			sound_devices[numSoundDevices] = NULL;
 		}
 
-		for( numSoundDevices = 0 ; numSoundDevices < 12 ; ++numSoundDevices ) {
-			sound_devices[ numSoundDevices ] = deviceList;
-			if( strcmp( sound_devices[ numSoundDevices ], deviceName ) == 0 ) {
+		for ((numSoundDevices = 0); (numSoundDevices < 12); ++numSoundDevices) {
+			sound_devices[numSoundDevices] = deviceList;
+			if (strcmp(sound_devices[numSoundDevices], deviceName) == 0) {
 				numDefaultSoundDevice = numSoundDevices;
 			}
-			deviceList += strlen( deviceList );
-			if( deviceList[ 0 ] == 0 ) {
-				if( deviceList[ 1 ] == 0 ) {
+			deviceList += strlen(deviceList);
+			if (deviceList[0] == 0) {
+				if (deviceList[1] == 0) {
 					break;
 				} else {
 					deviceList += 1;
@@ -110,13 +110,13 @@ PRIVATE void Sound_Device_getDeviceList( void )
 
  Returns: Nothing.
 
- Notes:
+ Notes: Just a few calls to Cvar_Get() so far...
 -----------------------------------------------------------------------------
 */
-PRIVATE void Sound_Device_Register( void )
+PRIVATE void Sound_Device_Register(void)
 {
-	s_driver = Cvar_Get( "s_driver", OPENAL_DLL_NAME, CVAR_ARCHIVE );
-	s_device = Cvar_Get( "s_device", "", CVAR_LATCH | CVAR_ARCHIVE );
+	s_driver = Cvar_Get("s_driver", OPENAL_DLL_NAME, CVAR_ARCHIVE);
+	s_device = Cvar_Get("s_device", "", (CVAR_LATCH | CVAR_ARCHIVE));
 }
 
 /*
@@ -134,10 +134,10 @@ PUBLIC _boolean Sound_Device_Setup(void)
 {
 	Com_Printf("...Initializing OpenAL subsystem\n");
 
-	Sound_Device_Register();
+	Sound_Device_Register(); /* Just a few calls to Cvar_Get() so far... */
 
 	/* Initialize our OpenAL dynamic bindings */
-	if (! OpenAL_Init( s_driver->string)) {
+	if (! OpenAL_Init(s_driver->string)) {
 		Com_Printf("[%s]: Dynamic binding of (%s) failed\n", "openal_main.c",
 				   s_driver->string);
 
@@ -148,6 +148,7 @@ PUBLIC _boolean Sound_Device_Setup(void)
 	Sound_Device_getDeviceList();
 
 
+	/* entry point into OpenAL itself: */
 	Device = (pfalcOpenDevice((const ALCubyte *)((s_device->string[0]) ?
 												 s_device->string : NULL)));
 	if (Device == NULL) {
@@ -157,19 +158,19 @@ PUBLIC _boolean Sound_Device_Setup(void)
 	}
 
 	/* Create context(s) */
-	Context = pfalcCreateContext( Device, NULL );
+	Context = pfalcCreateContext(Device, NULL);
 	if (Context == NULL) {
-		Com_Printf( "Failed to initialize OpenAL\n" );
+		Com_Printf("Failed to initialize OpenAL\n");
 
 		goto failed;
 	}
 
 
 	/* Set active context */
-	pfalcGetError( Device );
-	pfalcMakeContextCurrent( Context );
-	if( pfalcGetError( Device ) != ALC_NO_ERROR ) {
-		Com_Printf( "Failed to Make Context Current\n" );
+	pfalcGetError(Device);
+	pfalcMakeContextCurrent(Context);
+	if (pfalcGetError(Device) != ALC_NO_ERROR) {
+		Com_Printf("Failed to Make Context Current\n");
 
 		goto failed;
 	}
@@ -182,13 +183,13 @@ failed:
 
 	OpenAL_Shutdown();
 
-	if( Context ) {
-		pfalcDestroyContext( Context );
+	if (Context) {
+		pfalcDestroyContext(Context);
 		Context = NULL;
 	}
 
-	if( Device ) {
-		pfalcCloseDevice( Device );
+	if (Device) {
+		pfalcCloseDevice(Device);
 		Device = NULL;
 	}
 

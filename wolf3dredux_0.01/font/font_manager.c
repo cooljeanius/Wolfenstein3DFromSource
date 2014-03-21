@@ -170,12 +170,12 @@ font_t *createFont( const char *filename )
 	return temp_font;
 }
 
-void Font_Init( void )
+void Font_Init(void)
 {
 	W32 i;
 
-	for( i = 0 ; i < MAX_FONTS ; ++i ) {
-		myfonts[ i ] = NULL;
+	for ((i = 0); (i < MAX_FONTS); ++i) {
+		myfonts[i] = NULL;
 	}
 
 	(void)createFont("pics/font1.tga");

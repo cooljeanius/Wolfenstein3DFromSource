@@ -179,7 +179,7 @@ PUBLIC void Client_Quit_f( void )
 
 -------------------------------------------------------------------------------
 */
-PRIVATE void Client_InitLocal( void )
+PRIVATE void Client_InitLocal(void)
 {
 	ClientStatic.state = ca_disconnected;
 	ClientStatic.realtime = (int)Sys_Milliseconds();

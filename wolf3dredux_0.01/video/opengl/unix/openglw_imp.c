@@ -134,30 +134,29 @@ PRIVATE char *signal_ErrorString( int sig )
 	}
 
 	return "";
-
 }
 
 
 
-PRIVATE void signal_handler( int sig )
+PRIVATE void signal_handler(int sig)
 {
-	printf( "Received signal (%s), exiting...\n", signal_ErrorString( sig ) );
+	printf("Received signal (%s), exiting...\n", signal_ErrorString(sig));
 	GLimp_Shutdown();
-	_exit( 0 );
+	_exit(0);
 }
 
-
-PRIVATE void InitSig( void )
+/* just a bunch of calls to signal() so far: */
+PRIVATE void InitSig(void)
 {
-	signal( SIGHUP, signal_handler );
-	signal( SIGQUIT, signal_handler );
-	signal( SIGILL, signal_handler );
-	signal( SIGTRAP, signal_handler );
-	signal( SIGIOT, signal_handler );
-	signal( SIGBUS, signal_handler );
-	signal( SIGFPE, signal_handler );
-	signal( SIGSEGV, signal_handler );
-	signal( SIGTERM, signal_handler );
+	signal(SIGHUP, signal_handler);
+	signal(SIGQUIT, signal_handler);
+	signal(SIGILL, signal_handler);
+	signal(SIGTRAP, signal_handler);
+	signal(SIGIOT, signal_handler);
+	signal(SIGBUS, signal_handler);
+	signal(SIGFPE, signal_handler);
+	signal(SIGSEGV, signal_handler);
+	signal(SIGTERM, signal_handler);
 }
 
 
@@ -404,6 +403,7 @@ _boolean GLimp_Init(void *hinstance, void *wndproc)
 	if (hinstance == wndproc) {
 		;
 	}
+	/* just a bunch of calls to signal() so far: */
 	InitSig();
 
 	return true;

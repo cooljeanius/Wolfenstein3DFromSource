@@ -179,30 +179,34 @@ typedef W32 COLOURVAL, *PCOLOURVAL;  /* Represents a 32-bit colour value. */
 
 typedef W8 _boolean;
 
+/* TODO: fix conflicts with system definitions of 'true' and 'false': */
 # if !defined false && !defined true
 enum { false = 0,
 	   true = 1 };
 # endif /* !false && !true */
 
 
-# define ShortSwap( x )  ( ( (((W16) (x)) & 0x00FF) << 8 ) | ( (((W16) (x))& 0xFF00) >> 8) )
-# define LongSwap( x )   ( ( ((W32) (x)) & 0xFF000000) >> 24 ) | ( ((( (W32) (x) ) & 0xFF0000) >> 8)  ) | ( ((( (W32) (x) ) & 0xFF00) << 8 ) ) | ( (( (W32) (x) ) & 0xFF) << 24 )
+# define ShortSwap(x)  \
+(((((W16)(x)) & 0x00FF) << 8) | ((((W16)(x)) & 0xFF00) >> 8))
+# define LongSwap(x)   \
+((((W32)(x)) & 0xFF000000) >> 24) | (((((W32)(x)) & 0xFF0000) >> 8)) | (((((W32)(x)) & 0xFF00) << 8)) | ((((W32)(x)) & 0xFF) << 24)
 
 
-# if defined(__i386__) || defined(_M_IX86) || defined __LITTLE_ENDIAN__ /* Little endian */
-#  define BigShort( x )           ShortSwap( x )
-#  define LittleShort( x )        ( x )
-#  define BigLong( x )            LongSwap( x )
-#  define LittleLong( x )         ( x )
-#  define BigFloat( x )           FloatSwap( x )
-#  define LittleFloat( x )        ( x )
-# else /* Big endian */
-#  define BigShort( x )           ( x )
-#  define LittleShort( x )        ShortSwap( x )
-#  define BigLong( x )            ( x )
-#  define LittleLong( x )         LongSwap( x )
-#  define BigFloat( x )           ( x )
-#  define LittleFloat( x )        FloatSwap( x )
+# if defined(__i386__) || defined(_M_IX86) || defined __LITTLE_ENDIAN__
+/* Little endian: */
+#  define BigShort(x)           ShortSwap(x)
+#  define LittleShort(x)        (x)
+#  define BigLong(x)            LongSwap(x)
+#  define LittleLong(x)         (x)
+#  define BigFloat(x)           FloatSwap(x)
+#  define LittleFloat(x)        (x)
+# else /* Big endian: */
+#  define BigShort(x)           (x)
+#  define LittleShort(x)        ShortSwap(x)
+#  define BigLong(x)            (x)
+#  define LittleLong(x)         LongSwap(x)
+#  define BigFloat(x)           (x)
+#  define LittleFloat(x)        FloatSwap(x)
 # endif /* endianness check */
 
 #endif /* __ARCH_H__ */

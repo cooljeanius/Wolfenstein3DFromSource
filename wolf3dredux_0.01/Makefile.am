@@ -11,9 +11,31 @@ ACLOCAL_AMFLAGS = -I m4 --install
 #
 
 #TODO: have autoconf check that all flags are supported:
-AM_WARNFLAGS = -Wall -Wmissing-field-initializers -Wmissing-prototypes -Wimplicit -Wreturn-type -Wmissing-braces -Wparentheses -Wswitch -Wunknown-pragmas -Wsign-compare -Wno-unused -Wno-trigraphs
-AM_CFLAGS = $(AM_WARNFLAGS) -ffast-math -funroll-loops
+WARNFLAGS_COMMON = -Wall -Wmissing-field-initializers -Wmissing-prototypes -Wimplicit -Wreturn-type -Wmissing-braces -Wparentheses -Wswitch -Wno-unused -Wno-trigraphs
+AM_WARNFLAGS = $(WARNFLAGS_COMMON) -Wsign-compare -Wunknown-pragmas
+CFLAGS_COMMON = -ffast-math -funroll-loops
+AM_CFLAGS = $(AM_WARNFLAGS) $(CFLAGS_COMMON)
 AM_CPPFLAGS = -I. -I/usr/X11R6/include
+
+GLXINFO = @GLXINFO@
+SCAN_BUILD = @SCAN_BUILD@
+LLVM_SYMBOLIZER = @LLVM_SYMBOLIZER@
+ASAN_SYMBOLIZER_PATH = $(LLVM_SYMBOLIZER)
+
+if CLANG_RULES
+COMPILER = /opt/local/libexec/llvm-3.3/bin/clang
+DIAGFLAGS = -fcolor-diagnostics -fdiagnostics-print-source-range-info -fdiagnostics-show-note-include-stack -fdiagnostics-show-option
+WARNFLAGS = $(WARNFLAGS_COMMON) -Wunused-function -Wunused-label -Wunused-parameter -Wunused-variable -Wshorten-64-to-32
+# (cannot sanitize both thread and address at the same time)
+SANFLAGS = -fsanitize=bounds -fsanitize=undefined
+OPTFLAGS = -g -gdwarf-2 -ggdb -O1 -msse3 -mssse3 -msse4.2 -msse4.2 
+CLANG_CFLAGS = $(OPTFLAGS) -std=gnu99 $(WARNFLAGS) -fasm-blocks -fexceptions -fno-common -fno-limit-debug-info -fno-omit-frame-pointer -fpascal-strings $(CFLAGS_COMMON) -mfix-and-continue $(DIAGFLAGS) $(SANFLAGS)
+AM_CLANG_CPPFLAGS = -I/opt/local/include
+# need to link with sanitizer flags, too, to get necessary symbols:
+AM_CLANG_LINKFLAGS = -L/opt/local/lib $(SANFLAGS) -v -exported_symbols_list ../Wolfenstein3DFromSource.exp
+SCAN_BUILD_CHECKERS = -enable-checker alpha.core.CastSize -enable-checker alpha.core.CastToStruct -enable-checker alpha.core.FixedAddr -enable-checker alpha.core.PointerArithm -enable-checker alpha.core.PointerSub -enable-checker alpha.core.SizeofPtr -enable-checker alpha.security.ArrayBound -enable-checker alpha.security.ArrayBoundV2 -enable-checker alpha.security.MallocOverflow -enable-checker alpha.security.ReturnPtrRange -enable-checker alpha.unix.MallocWithAnnotations -enable-checker alpha.unix.SimpleStream -enable-checker alpha.unix.Stream -enable-checker alpha.unix.cstring.BufferOverlap -enable-checker alpha.unix.cstring.NotNullTerminated -enable-checker alpha.unix.cstring.OutOfBounds -enable-checker security.insecureAPI.rand -enable-checker security.insecureAPI.strcpy -enable-checker security.insecureAPI.vfork -enable-checker llvm.Conventions -enable-checker debug.ConfigDumper -enable-checker alpha.deadcode.UnreachableCode -enable-checker security.FloatLoopCounter -enable-checker debug.Stats
+endif
+## (end CLANG_RULES)
 
 if WOLF_OLD_BUILD
 COMPILER = @CC@
@@ -25,6 +47,7 @@ ODIR = Release
 EXEBASE = wolf3dredux
 EXE = $(ODIR)/$(EXEBASE)
 endif
+## (end WOLF_OLD_BUILD)
 
 ## should contain a "/" at the end:
 LIBOBJDIR = @LIBOBJDIR@
@@ -123,6 +146,7 @@ wolf3dredux_SOURCES = client/client_input.c \
                       game/wolf3d/video/opengl/wolf_opengl.c
 
 wolf3dredux_LDADD = $(LIBOBJDIR)libgnu.a
+EXTRA_wolf3dredux_DEPENDENCIES = $(LIBOBJDIR)libgnu.a
 
 noinst_PROGRAMS = gamepal signon
 
@@ -132,7 +156,7 @@ signon_SOURCES = tools/signon/wolf_pal.c \
                  tools/signon/WriteTGA_minimal.c
 
 XSyms.txt: wolf3dredux
-	for Xlib in `otool -L wolf3dredux | grep -i libX | cut -d\( -f1 | tr -d [:blank:] | xargs basename | cut -d. -f1`; do nm -m wolf3dredux | grep $${Xlib}; done | tee XSyms.txt
+	for Xlib in `$(OTOOL) -L wolf3dredux | $(GREP) -i libX | cut -d\( -f1 | tr -d [:blank:] | xargs basename | cut -d. -f1`; do $(NM) -m wolf3dredux | $(GREP) $${Xlib}; done | tee XSyms.txt
 
 if WOLF_OLD_BUILD
 DO_CC = $(COMPILER) $(CFLAGS) $(AM_CFLAGS) $(AM_CPPFLAGS) ${CPPFLAGS} -o $@ -c $<
@@ -640,6 +664,17 @@ $(ODIR)/wolf_opengl.o : game/wolf3d/video/opengl/wolf_opengl.c
 clean-local:
 	rm -f *.o $(ODIR)/*.o $(EXE)
 endif
+## (end WOLF_OLD_BUILD)
+
+if CLANG_RULES
+analyze: clean ../Wolfenstein3DFromSource.exp
+	$(SCAN_BUILD) -analyze-headers -stats --use-analyzer=$(COMPILER) $(SCAN_BUILD_CHECKERS) -v -v -v -plist-html -o scan_build_output $(MAKE) CFLAGS="$(CLANG_CFLAGS)" CPPFLAGS="$(AM_CLANG_CPPFLAGS)" LDFLAGS="$(AM_CLANG_LINKFLAGS)"
+else
+## (not CLANG_RULES)
+analyze:
+	@echo "you must configure with CC set to a compiler that is clang to be able to use this target."
+endif
+## (end CLANG_RULES)
 
 DISTCLEANFILES = *~
 

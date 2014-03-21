@@ -27,13 +27,13 @@
 #ifndef __SYSTEM_H__
 #define __SYSTEM_H__
 
-extern void Sys_OS_Init( void );
-extern void Sys_Information( void );
+extern void Sys_OS_Init(void);
+extern void Sys_Information(void);
 
 /* These are implemented in either unix_system.c or win_system.c, depending
  * on platform: */
-extern void Print_OS_Info( void );
-extern void Print_Memory_Stats( void );
+extern void Print_OS_Info(void);
+extern void Print_Memory_Stats(void);
 
 #endif /* __SYSTEM_H__ */
 

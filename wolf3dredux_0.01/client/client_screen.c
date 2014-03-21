@@ -194,7 +194,7 @@ PUBLIC void SCR_DirtyScreen(void)
 
  Returns: Nothing.
 
- Notes:
+ Notes: Does not do much yet...
 
 -----------------------------------------------------------------------------
 */

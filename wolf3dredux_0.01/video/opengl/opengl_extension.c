@@ -1461,11 +1461,11 @@ PUBLIC void GL_ConfigExtensions(const char *glext)
 	GLint ntext;
 
 
-	memset( &gl_ext, 0, sizeof( GL_Extensions ) );
+	memset(&gl_ext, 0, sizeof(GL_Extensions));
 
-	gl_ext.ARBMultiTexture = ConfigARBMultiTexture( glext );
-	if( gl_ext.ARBMultiTexture ) {
-		pfglGetIntegerv( GL_MAX_TEXTURE_UNITS_ARB, &ntext );
+	gl_ext.ARBMultiTexture = ConfigARBMultiTexture(glext);
+	if (gl_ext.ARBMultiTexture) {
+		pfglGetIntegerv(GL_MAX_TEXTURE_UNITS_ARB, &ntext);
 
 		/* There could be more than MY_MAX_ARB_TEXTURESTAGES, but we only
 		 * require MY_MAX_ARB_TEXTURESTAGES texture stages so take min. */
@@ -1484,44 +1484,44 @@ PUBLIC void GL_ConfigExtensions(const char *glext)
 	}
 
 
-	gl_ext.EXTTextureEnvCombine = CheckEXTTextureEnvCombine( glext );
+	gl_ext.EXTTextureEnvCombine = CheckEXTTextureEnvCombine(glext);
 
 
-	gl_ext.ARBTextureCompression = ConfigARBTextureCompression( glext );
+	gl_ext.ARBTextureCompression = ConfigARBTextureCompression(glext);
 
 
 	gl_ext.EXTTextureCompressionS3TC = (gl_ext.ARBTextureCompression &&
 										CheckEXTTextureCompressionS3TC(glext));
 
-	gl_ext.ARBTextureCubeMap = CheckARBTextureCubeMap( glext );
+	gl_ext.ARBTextureCubeMap = CheckARBTextureCubeMap(glext);
 
 
-	gl_ext.EXTSecondaryColor = ConfigEXTSecondaryColor( glext );
+	gl_ext.EXTSecondaryColor = ConfigEXTSecondaryColor(glext);
 
 
-	gl_ext.EXTBlendColor = ConfigEXTBlendColor( glext );
+	gl_ext.EXTBlendColor = ConfigEXTBlendColor(glext);
 
 
 	/* nVidia extensions
 	 * ----------------- */
 
 
-	gl_ext.NVVertexArrayRange = ConfigNVVertexArrayRange( glext );
+	gl_ext.NVVertexArrayRange = ConfigNVVertexArrayRange(glext);
 #ifdef GL_MAX_VERTEX_ARRAY_RANGE_ELEMENT_NV
-	if( gl_ext.NVVertexArrayRange ) {
+	if (gl_ext.NVVertexArrayRange) {
 		GLint nverts;
-		pfglGetIntegerv( (GLenum)GL_MAX_VERTEX_ARRAY_RANGE_ELEMENT_NV, &nverts );
+		pfglGetIntegerv((GLenum)GL_MAX_VERTEX_ARRAY_RANGE_ELEMENT_NV, &nverts);
 		gl_ext.NVVertexArrayRangeMaxVertex = nverts;
 	}
 #endif /* GL_MAX_VERTEX_ARRAY_RANGE_ELEMENT_NV */
 
 
-	gl_ext.EXTVertexWeighting = ConfigEXTVertexWeighting( glext );
+	gl_ext.EXTVertexWeighting = ConfigEXTVertexWeighting(glext);
 
 
-	gl_ext.NVVertexArrayRange2 = CheckNVVertexArrayRange2( glext );
+	gl_ext.NVVertexArrayRange2 = CheckNVVertexArrayRange2(glext);
 #if defined(GL_VERTEX_ARRAY_RANGE_WITHOUT_FLUSH_NV) && defined(GL_VERTEX_ARRAY_RANGE_NV)
-	if( gl_ext.NVVertexArrayRange2 ) {
+	if (gl_ext.NVVertexArrayRange2) {
 		/* VBHard swap without flush of the VAR. */
 		gl_ext.NVStateVARWithoutFlush = GL_VERTEX_ARRAY_RANGE_WITHOUT_FLUSH_NV;
 	} else {
@@ -1530,13 +1530,13 @@ PUBLIC void GL_ConfigExtensions(const char *glext)
 	}
 #endif /* GL_VERTEX_ARRAY_RANGE_WITHOUT_FLUSH_NV && GL_VERTEX_ARRAY_RANGE_NV */
 
-	gl_ext.NVTextureEnvCombine4 = CheckNVTextureEnvCombine4( glext );
+	gl_ext.NVTextureEnvCombine4 = CheckNVTextureEnvCombine4(glext);
 
 
-	if( ! gl_ext.DisableHardwareVertexProgram ) {
-		gl_ext.NVVertexProgram = ConfigNVVertexProgram( glext );
-		gl_ext.EXTVertexShader = ConfigEXTVertexShader( glext );
-		gl_ext.ARBVertexProgram= ConfigARBVertexProgram( glext );
+	if (! gl_ext.DisableHardwareVertexProgram) {
+		gl_ext.NVVertexProgram = ConfigNVVertexProgram(glext);
+		gl_ext.EXTVertexShader = ConfigEXTVertexShader(glext);
+		gl_ext.ARBVertexProgram= ConfigARBVertexProgram(glext);
 	} else {
 		gl_ext.NVVertexProgram = false;
 		gl_ext.EXTVertexShader = false;
@@ -1544,8 +1544,8 @@ PUBLIC void GL_ConfigExtensions(const char *glext)
 	}
 
 
-	gl_ext.NVTextureShader = CheckNVTextureShader( glext );
-	if( gl_ext.NVVertexProgram && ! gl_ext.NVTextureShader ) {
+	gl_ext.NVTextureShader = CheckNVTextureShader(glext);
+	if (gl_ext.NVVertexProgram && ! gl_ext.NVTextureShader) {
 		/* if GL_NV_texture_shader is not here,
 		 * then we are not on a GeForce3. */
 		gl_ext.NVVertexProgramEmulated = true;
@@ -1555,18 +1555,18 @@ PUBLIC void GL_ConfigExtensions(const char *glext)
 	/* ATI extensions
 	 * -------------- */
 
-	gl_ext.ATIVertexArrayObject = ConfigATIVertexArrayObject( glext );
-	gl_ext.ATIMapObjectBuffer = ConfigATIMapObjectBuffer( glext );
+	gl_ext.ATIVertexArrayObject = ConfigATIVertexArrayObject(glext);
+	gl_ext.ATIMapObjectBuffer = ConfigATIMapObjectBuffer(glext);
 
 
-	gl_ext.ATITextureEnvCombine3 = CheckATITextureEnvCombine3( glext );
+	gl_ext.ATITextureEnvCombine3 = CheckATITextureEnvCombine3(glext);
 
-	gl_ext.ATIXTextureEnvRoute = CheckATIXTextureEnvRoute( glext );
+	gl_ext.ATIXTextureEnvRoute = CheckATIXTextureEnvRoute(glext);
 
-	gl_ext.ATIEnvMapBumpMap = ConfigATIEnvMapBumpMap( glext );
+	gl_ext.ATIEnvMapBumpMap = ConfigATIEnvMapBumpMap(glext);
 
 #if 0
-	gl_ext.ATIFragmentShader = setupATIFragmentShader( glext );
+	gl_ext.ATIFragmentShader = setupATIFragmentShader(glext);
 #endif /* 0 */
 
 

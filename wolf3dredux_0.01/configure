@@ -676,6 +676,9 @@ LIBTOOL
 OBJDUMP
 DLLTOOL
 AS
+CLANG_RULES_FALSE
+CLANG_RULES_TRUE
+wolf_cv_clang
 LLVM_SYMBOLIZER
 SCAN_BUILD
 GLXINFO
@@ -5589,7 +5592,8 @@ else
   ;;
   *)
   as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
-for as_dir in $PATH
+as_dummy="${PATH}:/opt/local/bin"
+for as_dir in $as_dummy
 do
   IFS=$as_save_IFS
   test -z "$as_dir" && as_dir=.
@@ -5603,6 +5607,7 @@ done
   done
 IFS=$as_save_IFS
 
+  test -z "$ac_cv_path_GLXINFO" && ac_cv_path_GLXINFO=":"
   ;;
 esac
 fi
@@ -5614,6 +5619,7 @@ else
   { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
 $as_echo "no" >&6; }
 fi
+
 
 
 # Extract the first word of "scan-build scan-build-mp-3.3", so it can be a program name with args.
@@ -5629,7 +5635,8 @@ else
   ;;
   *)
   as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
-for as_dir in $PATH
+as_dummy="${PATH}:/opt/local/bin:/opt/local/libexec/llvm-3.3/bin:/opt/local/libexec/llvm-3.3/libexec/scan-buid"
+for as_dir in $as_dummy
 do
   IFS=$as_save_IFS
   test -z "$as_dir" && as_dir=.
@@ -5643,6 +5650,7 @@ done
   done
 IFS=$as_save_IFS
 
+  test -z "$ac_cv_path_SCAN_BUILD" && ac_cv_path_SCAN_BUILD=":"
   ;;
 esac
 fi
@@ -5654,6 +5662,7 @@ else
   { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
 $as_echo "no" >&6; }
 fi
+
 
 
 # Extract the first word of "llvm-symbolizer llvm-symbolizer-mp-3.3", so it can be a program name with args.
@@ -5669,7 +5678,8 @@ else
   ;;
   *)
   as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
-for as_dir in $PATH
+as_dummy="${PATH}:/opt/local/bin:/opt/local/libexec/llvm-3.3/bin"
+for as_dir in $as_dummy
 do
   IFS=$as_save_IFS
   test -z "$as_dir" && as_dir=.
@@ -5683,6 +5693,7 @@ done
   done
 IFS=$as_save_IFS
 
+  test -z "$ac_cv_path_LLVM_SYMBOLIZER" && ac_cv_path_LLVM_SYMBOLIZER=":"
   ;;
 esac
 fi
@@ -5696,6 +5707,50 @@ $as_echo "no" >&6; }
 fi
 
 
+
+
+# check for clang taken from the emacs configure script:
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking whether the compiler is actually clang" >&5
+$as_echo_n "checking whether the compiler is actually clang... " >&6; }
+if ${wolf_cv_clang+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+	  #ifndef __clang__
+	    #error "not clang"
+	  #endif /* !__clang__ */
+
+int
+main ()
+{
+
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_c_try_compile "$LINENO"; then :
+  wolf_cv_clang=yes
+else
+  wolf_cv_clang=no
+fi
+rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
+
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $wolf_cv_clang" >&5
+$as_echo "$wolf_cv_clang" >&6; }
+
+ if test "x${wolf_cv_clang}" = "xyes"; then
+  CLANG_RULES_TRUE=
+  CLANG_RULES_FALSE='#'
+else
+  CLANG_RULES_TRUE='#'
+  CLANG_RULES_FALSE=
+fi
+
+
+# libtool
 case `pwd` in
   *\ * | *\	*)
     { $as_echo "$as_me:${as_lineno-$LINENO}: WARNING: Libtool does not cope well with whitespace in \`pwd\`" >&5
@@ -18580,8 +18635,8 @@ for ac_header in alloc.h assert.h bits/libc-lock.h ctype.h dmalloc.h \
                   errno.h fcntl.h float.h libintl.h \
                   libio/iolibio.h libio/libioP.h limits.h \
                   mach/mach.h mach/vm_param.h malloc.h malloc/malloc.h \
-                  math.h mmsystem.h setjmp.h stdarg.h stddef.h stdio.h \
-                  sys/gmon.h sys/malloc.h sys/mount.h sys/param.h \
+                  math.h mmsystem.h setjmp.h signal.h stdarg.h stddef.h \
+                  stdio.h sys/gmon.h sys/malloc.h sys/mount.h sys/param.h \
                   sys/socket.h sys/sysctl.h sys/syslimits.h sys/time.h \
                   sys/timeb.h sys/utsname.h sys/vmmeter.h \
                   unix.h wchar.h windef.h windows.h xlocale.h Xutil.h
@@ -20055,6 +20110,29 @@ cat >>confdefs.h <<_ACEOF
 _ACEOF
 
 
+ac_fn_c_check_decl "$LINENO" "true" "ac_cv_have_decl_true" "$ac_includes_default"
+if test "x$ac_cv_have_decl_true" = xyes; then :
+  ac_have_decl=1
+else
+  ac_have_decl=0
+fi
+
+cat >>confdefs.h <<_ACEOF
+#define HAVE_DECL_TRUE $ac_have_decl
+_ACEOF
+
+ac_fn_c_check_decl "$LINENO" "false" "ac_cv_have_decl_false" "$ac_includes_default"
+if test "x$ac_cv_have_decl_false" = xyes; then :
+  ac_have_decl=1
+else
+  ac_have_decl=0
+fi
+
+cat >>confdefs.h <<_ACEOF
+#define HAVE_DECL_FALSE $ac_have_decl
+_ACEOF
+
+
 
 # Checks for library functions.
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking if malloc debugging is wanted" >&5
@@ -20922,7 +21000,7 @@ test $ac_cv_func_strnlen_working = no && case " $LIBOBJS " in
 esac
 
 
-for ac_func in atoi dlsym dmalloc_malloc fabs floor ftell fwrite \
+for ac_func in atoi atof dlsym dmalloc_malloc fabs floor ftell fwrite \
                 getcwd gettimeofday \
                 glXChooseVisual glXCreateContext glXMakeCurrent \
                 malloc_good_size malloc_size malloc_create_zone \
@@ -20931,7 +21009,7 @@ for ac_func in atoi dlsym dmalloc_malloc fabs floor ftell fwrite \
                 malloc_zone_calloc malloc_zone_valloc malloc_zone_realloc \
                 malloc_zone_memalign malloc_zone_free memchr memcmp \
                 memcpy memmove memset mkdir pow posix_memalign putc \
-                qsort rmdir sqrt sqrtf stpcpy strcat strcpy strdup \
+                qsort rmdir signal sqrt sqrtf stpcpy strcat strcpy strdup \
                 strerror strlen strncat strncpy strrchr strstr strtok \
                 sysconf sysctl sysctlbyname sysctlnametomib uname unlink
 do :
@@ -21112,6 +21190,10 @@ Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
 if test -z "${am__fastdepCXX_TRUE}" && test -z "${am__fastdepCXX_FALSE}"; then
   as_fn_error $? "conditional \"am__fastdepCXX\" was never defined.
+Usually this means the macro was only invoked conditionally." "$LINENO" 5
+fi
+if test -z "${CLANG_RULES_TRUE}" && test -z "${CLANG_RULES_FALSE}"; then
+  as_fn_error $? "conditional \"CLANG_RULES\" was never defined.
 Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
 

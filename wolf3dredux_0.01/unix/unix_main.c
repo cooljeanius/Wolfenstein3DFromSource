@@ -39,6 +39,10 @@
 #include <unistd.h>
 #include <fcntl.h>
 
+#if defined(__APPLE__) && defined(__OBJC__) && defined(__GNUC__)
+# import <Cocoa/Cocoa.h>
+#endif /* __APPLE__ && __OBJC__ && __GNUC__ */
+
 #include "../common/arch.h"
 #include "../common/common.h"
 #include "../memory/memory.h"
@@ -81,7 +85,7 @@ void unix_Sys_Error(const char *format, ...)
 }
 
 /* quit */
-void Sys_Quit (void)
+void Sys_Quit(void)
 {
 	Client_Shutdown();
 
@@ -100,7 +104,7 @@ void Sys_Quit (void)
  Notes: Send Key_Event calls.
 -----------------------------------------------------------------------------
 */
-void Sys_SendKeyEvents (void)
+void Sys_SendKeyEvents(void)
 {
 	/* grab frame time */
 	sys_frame_time = Sys_Milliseconds();
@@ -144,19 +148,21 @@ int main(int argc, char *argv[])
 int unix_main(int argc, char *argv[])
 #endif /* !main */
 {
-	int 	time, oldtime, newtime;
+	int main_time, oldtime, newtime; /* 'time' was renamed to 'main_time' to
+									  * avoid shadowing a global declaration */
 
 	/* go back to real user for config loads */
 	saved_euid = geteuid();
 	seteuid(getuid());
 
+	/* this is where most of the stuff actually gets init-ed: */
 	common_Init(argc, argv);
 
 	fcntl(0, F_SETFL, (fcntl(0, F_GETFL, 0) | FNDELAY));
 
 	nostdout = Cvar_Get("nostdout", "0", CVAR_INIT);
 	if (! nostdout->value) {
-		fcntl(0, F_SETFL, (fcntl (0, F_GETFL, 0) | FNDELAY));
+		fcntl(0, F_SETFL, (fcntl(0, F_GETFL, 0) | FNDELAY));
 	}
 
     oldtime = (int)Sys_Milliseconds();
@@ -166,16 +172,21 @@ int unix_main(int argc, char *argv[])
 		/* find time spent rendering last frame */
 		do {
 			newtime = (int)Sys_Milliseconds();
-			time = newtime - oldtime;
+			main_time = (newtime - oldtime);
 
-		} while (time < 1);
+		} while (main_time < 1);
 
-        common_Frame(time);
+        common_Frame(main_time);
 		oldtime = newtime;
     }
 
 /* Should never get here! */
+#if defined(__APPLE__) && defined(__OBJC__) && defined(__GNUC__)
+	/* (same conditions for import-ing <Cocoa/Cocoa.h> above) */
+	return NSApplicationMain(argc,  (const char **)argv);
+#else
 	return 0;
+#endif /* __APPLE__ && __OBJC__ && __GNUC__ */
 }
 
 #endif /* !_UNIX_MAIN_C */

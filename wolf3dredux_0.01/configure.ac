@@ -46,9 +46,31 @@ AC_PROG_CPP
 AC_PROG_CXX
 AC_PROG_INSTALL
 AC_PROG_MKDIR_P
-AC_PATH_PROG([GLXINFO],[glxinfo])
-AC_PATH_PROG([SCAN_BUILD],[scan-build scan-build-mp-3.3])
-AC_PATH_PROG([LLVM_SYMBOLIZER],[llvm-symbolizer llvm-symbolizer-mp-3.3])
+AC_PATH_PROG([GLXINFO],[glxinfo],[:],[${PATH}:/opt/local/bin])
+AC_SUBST([GLXINFO])
+AC_PATH_PROG([SCAN_BUILD],[scan-build scan-build-mp-3.3],[:],
+             [${PATH}:/opt/local/bin:/opt/local/libexec/llvm-3.3/bin:/opt/local/libexec/llvm-3.3/libexec/scan-buid])
+AC_SUBST([SCAN_BUILD])
+AC_PATH_PROG([LLVM_SYMBOLIZER],
+             [llvm-symbolizer llvm-symbolizer-mp-3.3],[:],
+             [${PATH}:/opt/local/bin:/opt/local/libexec/llvm-3.3/bin])
+AC_SUBST([LLVM_SYMBOLIZER])
+
+# check for clang taken from the emacs configure script:
+AC_CACHE_CHECK([whether the compiler is actually clang],[wolf_cv_clang],
+  [AC_COMPILE_IFELSE(
+     [AC_LANG_PROGRAM([[
+	  #ifndef __clang__
+	    #error "not clang"
+	  #endif /* !__clang__ */
+        ]])],
+     [wolf_cv_clang=yes],
+     [wolf_cv_clang=no])
+])
+AC_SUBST([wolf_cv_clang])
+AM_CONDITIONAL([CLANG_RULES],[test "x${wolf_cv_clang}" = "xyes"])
+
+# libtool
 LT_INIT([win32-dll dlopen])
 
 # Checks for libraries.
@@ -114,8 +136,8 @@ AC_CHECK_HEADERS([alloc.h assert.h bits/libc-lock.h ctype.h dmalloc.h \
                   errno.h fcntl.h float.h libintl.h \
                   libio/iolibio.h libio/libioP.h limits.h \
                   mach/mach.h mach/vm_param.h malloc.h malloc/malloc.h \
-                  math.h mmsystem.h setjmp.h stdarg.h stddef.h stdio.h \
-                  sys/gmon.h sys/malloc.h sys/mount.h sys/param.h \
+                  math.h mmsystem.h setjmp.h signal.h stdarg.h stddef.h \
+                  stdio.h sys/gmon.h sys/malloc.h sys/mount.h sys/param.h \
                   sys/socket.h sys/sysctl.h sys/syslimits.h sys/time.h \
                   sys/timeb.h sys/utsname.h sys/vmmeter.h \
                   unix.h wchar.h windef.h windows.h xlocale.h Xutil.h])
@@ -157,6 +179,7 @@ AC_CHECK_SIZEOF([long],[8])
 AC_CHECK_ALIGNOF([long])
 AC_CHECK_SIZEOF([unsigned long],[8])
 AC_CHECK_ALIGNOF([unsigned long])
+AC_CHECK_DECLS_ONCE([true, false])
 
 # Checks for library functions.
 AM_WITH_DMALLOC
@@ -169,7 +192,7 @@ AC_FUNC_REALLOC
 AC_FUNC_STAT
 AC_FUNC_STRERROR_R
 AC_FUNC_STRNLEN
-AC_CHECK_FUNCS([atoi dlsym dmalloc_malloc fabs floor ftell fwrite \
+AC_CHECK_FUNCS([atoi atof dlsym dmalloc_malloc fabs floor ftell fwrite \
                 getcwd gettimeofday \
                 glXChooseVisual glXCreateContext glXMakeCurrent \
                 malloc_good_size malloc_size malloc_create_zone \
@@ -178,7 +201,7 @@ AC_CHECK_FUNCS([atoi dlsym dmalloc_malloc fabs floor ftell fwrite \
                 malloc_zone_calloc malloc_zone_valloc malloc_zone_realloc \
                 malloc_zone_memalign malloc_zone_free memchr memcmp \
                 memcpy memmove memset mkdir pow posix_memalign putc \
-                qsort rmdir sqrt sqrtf stpcpy strcat strcpy strdup \
+                qsort rmdir signal sqrt sqrtf stpcpy strcat strcpy strdup \
                 strerror strlen strncat strncpy strrchr strstr strtok \
                 sysconf sysctl sysctlbyname sysctlnametomib uname unlink])
 AC_REPLACE_FUNCS([strnlen1])

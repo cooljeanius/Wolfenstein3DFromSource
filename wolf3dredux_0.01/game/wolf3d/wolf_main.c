@@ -49,16 +49,16 @@ char *spritelocation = WL6SPRITESDIRNAME;
 
  Returns: Nothing.
 
- Notes:
+ Notes: Simply calls memset() for the 'levelstate' global variable.
 
 -----------------------------------------------------------------------------
 */
-PUBLIC void Game_Reset( void )
+PUBLIC void Game_Reset(void)
 {
-	memset( &levelstate, 0, sizeof( levelstate ) );
+	memset(&levelstate, 0, sizeof(levelstate));
 }
 
-extern void Map_f( void );
+extern void Map_f(void);
 
 
 /*
@@ -73,39 +73,40 @@ extern void Map_f( void );
 
 -----------------------------------------------------------------------------
 */
-PUBLIC void Game_Init( void )
+PUBLIC void Game_Init(void)
 {
-	Com_Printf( "\n------ Game Init ------\n" );
+	Com_Printf("\n------ Game Init ------\n");
 
-#if 0
+#if defined(sv_cheats)
 	/* noset vars */
-	dedicated = Cvar_Get( "dedicated", "0", CVAR_NOSET );
+	dedicated = Cvar_Get("dedicated", "0", CVAR_NOSET);
 
 	/* latched vars */
-	sv_cheats = Cvar_Get( "cheats", "0", CVAR_SERVERINFO |CVAR_LATCH );
-#endif /* 0 */
+	/* 'sv_cheats' is undeclared */
+	sv_cheats = Cvar_Get("cheats", "0", (CVAR_SERVERINFO | CVAR_LATCH));
+#endif /* sv_cheats */
 
 
-	episode = Cvar_Get( "episode", "0", CVAR_LATCH );
-	skill = Cvar_Get( "skill", "1", CVAR_LATCH );
-	g_version = Cvar_Get( "g_version", "0", CVAR_ARCHIVE | CVAR_LATCH );
-#if 0
-	maxentities = Cvar_Get( "maxentities", "1024", CVAR_LATCH );
-#endif /* 0 */
+	episode = Cvar_Get("episode", "0", CVAR_LATCH);
+	skill = Cvar_Get("skill", "1", CVAR_LATCH);
+	g_version = Cvar_Get("g_version", "0", (CVAR_ARCHIVE | CVAR_LATCH));
+#if 0 || __clang_analyzer__
+	maxentities = Cvar_Get("maxentities", "1024", CVAR_LATCH);
+#endif /* 0 || __clang_analyzer__ */
 
 
 	/* dm map list */
-	Cmd_AddCommand( "map", Map_f );
+	Cmd_AddCommand("map", Map_f);
 
 #if 0
 	/* items */
-	InitItems();
+	InitItems(); /* unimplemented */
 #endif /* 0 */
 
-	G_Build_Tables();
+	G_Build_Tables(); /* turn on random number generators */
 
 #if 0
-	Lvl_Init();
+	Lvl_Init(); /* unimplemented */
 #endif /* 0 */
 	Powerup_Reset();
 	Sprite_Reset();
@@ -117,14 +118,13 @@ PUBLIC void Game_Init( void )
 /*
  *	Init Scripts
  */
-	if( ! episode_init( "script/episode.scp" ) ) {
-		Com_Printf( "error parsing script (episode.scp)\n" );
+	if (! episode_init("script/episode.scp")) {
+		Com_Printf("error parsing script (episode.scp)\n");
 	}
 
-
-	Com_Printf( "\n-----------------------\n" );
-
+	Com_Printf("\n-----------------------\n");
 }
+
 
 /*
 -----------------------------------------------------------------------------
@@ -138,17 +138,17 @@ PUBLIC void Game_Init( void )
 
 -----------------------------------------------------------------------------
 */
-PUBLIC void Game_Shutdown( void )
+PUBLIC void Game_Shutdown(void)
 {
-	Com_Printf( "==== Game Shutdown ====\n" );
+	Com_Printf("==== Game Shutdown ====\n");
 
 /*
  *	Shutdown Scripts
  */
 	episode_shutdown();
 
-	Z_FreeTags( TAG_LEVEL );
-	Z_FreeTags( TAG_GAME );
+	Z_FreeTags(TAG_LEVEL);
+	Z_FreeTags(TAG_GAME);
 }
 
 /* EOF */

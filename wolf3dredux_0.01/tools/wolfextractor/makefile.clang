@@ -14,6 +14,7 @@ CFLAGS = -c -x c $(OPTFLAGS) -std=gnu99 $(WARNFLAGS) -fasm-blocks -fexceptions -
 CPPFLAGS = -I/opt/local/include
 OLD_LDFLAGS = -s
 LIBS = -lvorbis -lvorbisenc -logg -lm
+# need to link with sanitizer flags, too, to get necessary symbols:
 LDFLAGS = -L/opt/local/lib $(SANFLAGS)
 ODIR = Release
                                                                                 
@@ -29,6 +30,7 @@ all: $(EXE)
 
 analyze: clean makefile.clang
 	$(SCAN_BUILD) -analyze-headers -stats --use-analyzer=$(COMPILER) $(SCAN_BUILD_CHECKERS) -v -v -v -plist-html -o scan_build_output make -f makefile.clang
+.PHONY: analyze
 
 clean:
 	rm -f $(ODIR)/*.o $(EXE)

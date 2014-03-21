@@ -818,20 +818,20 @@ extern void Sound_SoundList_f(void);
 
  Returns: Nothing.
 
- Notes:
+ Notes: Just a bunch of calls to Cvar_Get() so far...
  -----------------------------------------------------------------------------
  */
 PRIVATE void Sound_Register(void)
 {
 	s_initSound = Cvar_Get("s_initSound", "1", CVAR_INIT);
-	s_masterVolume	= Cvar_Get("s_masterVolume", "1.0", CVAR_ARCHIVE);
-	s_sfxVolume		= Cvar_Get("s_sfxVolume", "1.0", CVAR_ARCHIVE);
-	s_musicVolume	= Cvar_Get("s_musicVolume", "1.0", CVAR_ARCHIVE);
-	s_minDistance	= Cvar_Get("s_minDistance", "0.0", CVAR_ARCHIVE);
-	s_maxDistance	= Cvar_Get("s_maxDistance", "1.0", CVAR_ARCHIVE);
+	s_masterVolume = Cvar_Get("s_masterVolume", "1.0", CVAR_ARCHIVE);
+	s_sfxVolume = Cvar_Get("s_sfxVolume", "1.0", CVAR_ARCHIVE);
+	s_musicVolume = Cvar_Get("s_musicVolume", "1.0", CVAR_ARCHIVE);
+	s_minDistance = Cvar_Get("s_minDistance", "0.0", CVAR_ARCHIVE);
+	s_maxDistance = Cvar_Get("s_maxDistance", "1.0", CVAR_ARCHIVE);
 	s_rolloffFactor = Cvar_Get("s_rolloffFactor", "1.0", CVAR_ARCHIVE);
 	s_dopplerFactor = Cvar_Get("s_dopplerFactor", "1.0", CVAR_ARCHIVE);
-	s_dopplerVelocity = Cvar_Get( "s_dopplerVelocity", "0.0", CVAR_ARCHIVE);
+	s_dopplerVelocity = Cvar_Get("s_dopplerVelocity", "0.0", CVAR_ARCHIVE);
 
 	Cmd_AddCommand("play", Sound_Play_f);
 	Cmd_AddCommand("stopsound", Sound_StopSound_f);
@@ -855,7 +855,7 @@ PUBLIC void Sound_Init(void)
 	Com_Printf("\n------- Sound Initialization -------\n");
 
 
-	Sound_Register();
+	Sound_Register(); /* just a bunch of calls to Cvar_Get() so far... */
 
 
 	if (! Sound_Device_Setup()) {

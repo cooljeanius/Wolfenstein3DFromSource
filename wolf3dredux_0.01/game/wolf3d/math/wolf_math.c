@@ -77,12 +77,12 @@ int dir4angle[5]={ANG_0, ANG_90, ANG_180, ANG_270, ANG_0};
 
  Returns: 1.
 
- Notes:
+ Notes: Simply calls US_InitRndT() and does nothing with it, apparently...
 -----------------------------------------------------------------------------
 */
-PUBLIC int G_Build_Tables( void )
+PUBLIC int G_Build_Tables(void)
 {
-	US_InitRndT( 1 ); /* random number generators */
+	US_InitRndT(1); /* turn on random number generators */
 
 	return 1;
 }

@@ -145,7 +145,7 @@ PUBLIC void install_grabs(void)
 				 None,
 				 CurrentTime);
 
-	if( in_dgamouse->value ) {
+	if (in_dgamouse->value) {
 		int MajorVersion, MinorVersion;
 
 		if (! XF86DGAQueryVersion(display, &MajorVersion, &MinorVersion)) {
@@ -275,7 +275,7 @@ PUBLIC void IN_StartupMouse(void)
 	/* mouse variables */
 	m_filter = Cvar_Get("m_filter", "0", 0);
     in_mouse = Cvar_Get("in_mouse", "1", CVAR_ARCHIVE);
-    in_dgamouse = Cvar_Get( "in_dgamouse", "1", CVAR_ARCHIVE);
+    in_dgamouse = Cvar_Get("in_dgamouse", "1", CVAR_ARCHIVE);
 	freelook = Cvar_Get("freelook", "0", 0);
 	lookstrafe = Cvar_Get("lookstrafe", "0", 0);
 	sensitivity = Cvar_Get("m_sensitivity", "3", 0);

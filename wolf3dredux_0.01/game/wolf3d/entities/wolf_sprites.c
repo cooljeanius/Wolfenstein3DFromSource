@@ -64,10 +64,10 @@ static W32 n_of_sprt;
  Notes: Called only when client must reconnect will not set remove flag!
 -----------------------------------------------------------------------------
 */
-PUBLIC void Sprite_Reset( void )
+PUBLIC void Sprite_Reset(void)
 {
 	n_of_sprt = 0;
-	memset( Spr_Sprites, 0, sizeof( Spr_Sprites ) );
+	memset(Spr_Sprites, 0, sizeof(Spr_Sprites));
 }
 
 /*

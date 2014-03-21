@@ -34,12 +34,12 @@
 #include "../../common/arch.h"
 
 /* prototypes for functions from openal_binding.c: */
-extern _boolean OpenAL_Init( const char *dllname );
-extern void OpenAL_Shutdown( void );
+extern _boolean OpenAL_Init(const char *dllname);
+extern void OpenAL_Shutdown(void);
 
 /* prototypes for functions from openal_main.c: */
-extern _boolean Sound_Device_Setup( void );
-extern void Sound_Device_Shutdown( void );
+extern _boolean Sound_Device_Setup(void);
+extern void Sound_Device_Shutdown(void);
 
 /* typedefs: */
 typedef ALCAPI ALCvoid (ALCAPIENTRY * ALCCLOSEDEVICE)(ALCdevice *pDevice);

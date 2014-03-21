@@ -372,10 +372,10 @@ PRIVATE _boolean LoadFile( filehandle_t *hFile )
 
 -----------------------------------------------------------------------------
 */
-PUBLIC filehandle_t *FS_OpenFile( const char *filename, W32 FlagsAndAttributes )
+PUBLIC filehandle_t *FS_OpenFile(const char *filename, W32 FlagsAndAttributes)
 {
 	searchpath_t	*search;
-	char			netpath[ MAX_OSPATH ];
+	char			netpath[MAX_OSPATH];
 	pack_t			*pak;
 	packfile_t		*pakfiles;
 	filelink_t		*link;
@@ -387,22 +387,22 @@ PUBLIC filehandle_t *FS_OpenFile( const char *filename, W32 FlagsAndAttributes )
 	memset(hFile, 0, sizeof(filehandle_t));
 
 	/* check for links first */
-	for (link = fs_links ; link ; link = link->next) {
+	for ((link = fs_links); link; (link = link->next)) {
 		if (! strncmp(filename, link->from, (size_t)link->fromlength)) {
 			my_snprintf(netpath, sizeof(netpath), "%s%s", link->to,
 						(filename + link->fromlength));
 			hFile->hFile = fopen(netpath, "rb");
 			if (! hFile->hFile) {
-				FS_CloseFile( hFile );
+				FS_CloseFile(hFile);
 
 				return NULL;
 			}
 
 			Com_DPrintf("link file: %s\n", netpath);
 
-			if( FlagsAndAttributes & FA_FILE_FLAG_LOAD ) {
-				if( ! LoadFile( hFile ) ) {
-					FS_CloseFile( hFile );
+			if (FlagsAndAttributes & FA_FILE_FLAG_LOAD) {
+				if (! LoadFile(hFile)) {
+					FS_CloseFile(hFile);
 
 					return NULL;
 				}
@@ -416,15 +416,15 @@ PUBLIC filehandle_t *FS_OpenFile( const char *filename, W32 FlagsAndAttributes )
 /*
  *	Check for the file in the directory tree
  */
-	my_snprintf( netpath, sizeof( netpath ), "%s/%s", FS_Gamedir(), filename );
+	my_snprintf(netpath, sizeof(netpath), "%s/%s", FS_Gamedir(), filename);
 
-	hFile->hFile = fopen( netpath, "rb" );
-	if( hFile->hFile ) {
-		Com_DPrintf( "[FS_OpenFile]: %s\n", netpath );
+	hFile->hFile = fopen(netpath, "rb");
+	if (hFile->hFile) {
+		Com_DPrintf("[FS_OpenFile]: %s\n", netpath);
 
-		if( FlagsAndAttributes & FA_FILE_FLAG_LOAD ) {
-			if( ! LoadFile( hFile ) ) {
-				FS_CloseFile( hFile );
+		if (FlagsAndAttributes & FA_FILE_FLAG_LOAD) {
+			if (! LoadFile(hFile)) {
+				FS_CloseFile(hFile);
 
 				return NULL;
 			}
@@ -437,17 +437,17 @@ PUBLIC filehandle_t *FS_OpenFile( const char *filename, W32 FlagsAndAttributes )
 /*
  * search through the path, one element at a time
  */
-	hashid = my_strhash( filename );
-	for( search = fs_searchpaths ; search ; search = search->next ) {
+	hashid = my_strhash(filename);
+	for ((search = fs_searchpaths); search; (search = search->next)) {
 		/* is the element a pak file? */
-		if( search->pack ) {
+		if (search->pack) {
 			/* look through all the pak file elements */
 			pak = search->pack;
-			for( pakfiles = pak->files ; pakfiles ; pakfiles = pakfiles->next ) {
-				if( pakfiles->hashid == hashid ) {	/* found it! */
+			for ((pakfiles = pak->files); pakfiles; (pakfiles = pakfiles->next)) {
+				if (pakfiles->hashid == hashid) {	/* found it! */
 					hFile->filesize = pakfiles->uncompressed_length;
 
-					Com_DPrintf( "PackFile: %s : %s\n", pak->filename, filename );
+					Com_DPrintf("PackFile: %s : %s\n", pak->filename, filename);
 
 					/* open a new file handle on the pakfile */
 					hFile->hFile = fopen(pak->filename, "rb");

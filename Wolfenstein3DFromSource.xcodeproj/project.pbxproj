@@ -110,7 +110,7 @@
 		7B0AFC681470CE6300165517 /* VGAGRAPH.WL6 in Resources */ = {isa = PBXBuildFile; fileRef = 7B0AFB961470CE6200165517 /* VGAGRAPH.WL6 */; };
 		7B0AFC691470CE6300165517 /* VGAHEAD.WL6 in Resources */ = {isa = PBXBuildFile; fileRef = 7B0AFB971470CE6200165517 /* VGAHEAD.WL6 */; };
 		7B0AFC6A1470CE6300165517 /* VSWAP.WL6 in Resources */ = {isa = PBXBuildFile; fileRef = 7B0AFB981470CE6200165517 /* VSWAP.WL6 */; };
-		7B0AFC831470CE6300165517 /* unix_main.c in Sources */ = {isa = PBXBuildFile; fileRef = 7B0AFBC61470CE6300165517 /* unix_main.c */; };
+		7B0AFC831470CE6300165517 /* unix_main.c in Sources */ = {isa = PBXBuildFile; fileRef = 7B0AFBC61470CE6300165517 /* unix_main.c */; settings = {COMPILER_FLAGS = "-x objective-c"; }; };
 		7B0AFC841470CE6300165517 /* unix_vid_sys.c in Sources */ = {isa = PBXBuildFile; fileRef = 7B0AFBC71470CE6300165517 /* unix_vid_sys.c */; };
 		7B0AFC851470CE6300165517 /* opengl_binding.c in Sources */ = {isa = PBXBuildFile; fileRef = 7B0AFBCC1470CE6300165517 /* opengl_binding.c */; };
 		7B0AFC861470CE6300165517 /* opengl_draw.c in Sources */ = {isa = PBXBuildFile; fileRef = 7B0AFBCE1470CE6300165517 /* opengl_draw.c */; };
@@ -136,6 +136,7 @@
 		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
+		A5457AF418DC92EB00FBCD8F /* wolf3dEpisode1_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = A5457AF318DC92EB00FBCD8F /* wolf3dEpisode1_icon.png */; };
 		A5475D3618D37D4800FE1646 /* wolf_client.h in Headers */ = {isa = PBXBuildFile; fileRef = A5475D3518D37D4800FE1646 /* wolf_client.h */; };
 		A54761A018D4B24D00FE1646 /* libdmalloc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A547619F18D4B24D00FE1646 /* libdmalloc.a */; settings = {ATTRIBUTES = (Weak, ); }; };
 		A54766E118D7D34C00FE1646 /* vorbisenc_inter.h in Headers */ = {isa = PBXBuildFile; fileRef = A54766E018D7D34C00FE1646 /* vorbisenc_inter.h */; };
@@ -555,7 +556,7 @@
 		7B0AFBC11470CE6300165517 /* wolfextractor.vcproj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = wolfextractor.vcproj; sourceTree = "<group>"; };
 		7B0AFBC31470CE6300165517 /* zip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zip.h; sourceTree = "<group>"; };
 		7B0AFBC41470CE6300165517 /* zipfile.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = zipfile.c; sourceTree = "<group>"; };
-		7B0AFBC61470CE6300165517 /* unix_main.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = unix_main.c; sourceTree = "<group>"; };
+		7B0AFBC61470CE6300165517 /* unix_main.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.objc; fileEncoding = 4; path = unix_main.c; sourceTree = "<group>"; };
 		7B0AFBC71470CE6300165517 /* unix_vid_sys.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = unix_vid_sys.c; sourceTree = "<group>"; };
 		7B0AFBCA1470CE6300165517 /* myopengl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = myopengl.h; sourceTree = "<group>"; };
 		7B0AFBCB1470CE6300165517 /* myopengl_extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = myopengl_extension.h; sourceTree = "<group>"; };
@@ -616,6 +617,8 @@
 		7B0AFCBA1470CF7400165517 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = /System/Library/Frameworks/OpenGL.framework; sourceTree = "<absolute>"; };
 		8D1107310486CEB800E47090 /* Wolfenstein3DFromSource-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Wolfenstein3DFromSource-Info.plist"; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* Wolfenstein3DFromSource.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Wolfenstein3DFromSource.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A5457AF318DC92EB00FBCD8F /* wolf3dEpisode1_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = wolf3dEpisode1_icon.png; path = Resources/wolf3dEpisode1_icon.png; sourceTree = "<group>"; };
+		A5457AFF18DC97D300FBCD8F /* Wolfenstein3DFromSource.exp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.exports; path = Wolfenstein3DFromSource.exp; sourceTree = "<group>"; };
 		A5475D3518D37D4800FE1646 /* wolf_client.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = wolf_client.h; sourceTree = "<group>"; };
 		A547619F18D4B24D00FE1646 /* libdmalloc.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libdmalloc.a; path = /opt/local/lib/libdmalloc.a; sourceTree = "<absolute>"; };
 		A54766E018D7D34C00FE1646 /* vorbisenc_inter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = vorbisenc_inter.h; sourceTree = "<group>"; };
@@ -766,6 +769,7 @@
 			children = (
 				256AC3F00F4B6AF500CF3369 /* Wolfenstein3DFromSource_Prefix.pch */,
 				29B97316FDCFA39411CA2CEA /* main.m */,
+				A5457AFF18DC97D300FBCD8F /* Wolfenstein3DFromSource.exp */,
 			);
 			name = "Other Sources";
 			sourceTree = "<group>";
@@ -775,6 +779,7 @@
 			children = (
 				A547743918DBD0CE00FE1646 /* POSITYPE-idSettler10v2.otf */,
 				A547741B18DBCF0000FE1646 /* Default.png */,
+				A5457AF318DC92EB00FBCD8F /* wolf3dEpisode1_icon.png */,
 				A547741D18DBCF0700FE1646 /* wolf3d_icon.png */,
 				A547741F18DBCF0D00FE1646 /* wolf3dlite_icon.png */,
 				A547716518DB7FCC00FE1646 /* wondering.caf */,
@@ -1893,6 +1898,7 @@
 				A547741E18DBCF0700FE1646 /* wolf3d_icon.png in Resources */,
 				A547742018DBCF0D00FE1646 /* wolf3dlite_icon.png in Resources */,
 				A547743A18DBD0CE00FE1646 /* POSITYPE-idSettler10v2.otf in Resources */,
+				A5457AF418DC92EB00FBCD8F /* wolf3dEpisode1_icon.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2308,6 +2314,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				COPY_PHASE_STRIP = NO;
+				EXPORTED_SYMBOLS_FILE = Wolfenstein3DFromSource.exp;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
@@ -2321,9 +2328,9 @@
 					"DEBUG=1",
 					"DEBUG_MEMORY=0",
 				);
-				GCC_VERSION = "";
 				INFOPLIST_FILE = "Wolfenstein3DFromSource-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
+				PRESERVE_DEAD_CODE_INITS_AND_TERMS = YES;
 				PRODUCT_NAME = Wolfenstein3DFromSource;
 			};
 			name = Debug;
@@ -2368,6 +2375,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Wolfenstein3DFromSource_Prefix.pch;
 				GCC_UNROLL_LOOPS = YES;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_GLOBAL_CONSTRUCTORS = YES;
 				GCC_WARN_ABOUT_MISSING_FIELD_INITIALIZERS = YES;

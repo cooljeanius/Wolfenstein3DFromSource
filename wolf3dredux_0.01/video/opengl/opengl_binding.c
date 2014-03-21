@@ -97,373 +97,373 @@ PUBLIC void OpenGL_Shutdown(void)
 # error "Please define interface to OpenGL library for your platform!"
 #endif /* platform check */
 
-	pfglAccum                     = NULL;
-	pfglAlphaFunc                 = NULL;
-	pfglAreTexturesResident       = NULL;
-	pfglArrayElement              = NULL;
-	pfglBegin                     = NULL;
-	pfglBindTexture               = NULL;
-	pfglBitmap                    = NULL;
-	pfglBlendFunc                 = NULL;
-	pfglCallList                  = NULL;
-	pfglCallLists                 = NULL;
-	pfglClear                     = NULL;
-	pfglClearAccum                = NULL;
-	pfglClearColor                = NULL;
-	pfglClearDepth                = NULL;
-	pfglClearIndex                = NULL;
-	pfglClearStencil              = NULL;
-	pfglClipPlane                 = NULL;
-	pfglColor3b                   = NULL;
-	pfglColor3bv                  = NULL;
-	pfglColor3d                   = NULL;
-	pfglColor3dv                  = NULL;
-	pfglColor3f                   = NULL;
-	pfglColor3fv                  = NULL;
-	pfglColor3i                   = NULL;
-	pfglColor3iv                  = NULL;
-	pfglColor3s                   = NULL;
-	pfglColor3sv                  = NULL;
-	pfglColor3ub                  = NULL;
-	pfglColor3ubv                 = NULL;
-	pfglColor3ui                  = NULL;
-	pfglColor3uiv                 = NULL;
-	pfglColor3us                  = NULL;
-	pfglColor3usv                 = NULL;
-	pfglColor4b                   = NULL;
-	pfglColor4bv                  = NULL;
-	pfglColor4d                   = NULL;
-	pfglColor4dv                  = NULL;
-	pfglColor4f                   = NULL;
-	pfglColor4fv                  = NULL;
-	pfglColor4i                   = NULL;
-	pfglColor4iv                  = NULL;
-	pfglColor4s                   = NULL;
-	pfglColor4sv                  = NULL;
-	pfglColor4ub                  = NULL;
-	pfglColor4ubv                 = NULL;
-	pfglColor4ui                  = NULL;
-	pfglColor4uiv                 = NULL;
-	pfglColor4us                  = NULL;
-	pfglColor4usv                 = NULL;
-	pfglColorMask                 = NULL;
-	pfglColorMaterial             = NULL;
-	pfglColorPointer              = NULL;
-	pfglCopyPixels                = NULL;
-	pfglCopyTexImage1D            = NULL;
-	pfglCopyTexImage2D            = NULL;
-	pfglCopyTexSubImage1D         = NULL;
-	pfglCopyTexSubImage2D         = NULL;
-	pfglCullFace                  = NULL;
-	pfglDeleteLists               = NULL;
-	pfglDeleteTextures            = NULL;
-	pfglDepthFunc                 = NULL;
-	pfglDepthMask                 = NULL;
-	pfglDepthRange                = NULL;
-	pfglDisable                   = NULL;
-	pfglDisableClientState        = NULL;
-	pfglDrawArrays                = NULL;
-	pfglDrawBuffer                = NULL;
-	pfglDrawElements              = NULL;
-	pfglDrawPixels                = NULL;
-	pfglEdgeFlag                  = NULL;
-	pfglEdgeFlagPointer           = NULL;
-	pfglEdgeFlagv                 = NULL;
-	pfglEnable                    = NULL;
-	pfglEnableClientState         = NULL;
-	pfglEnd                       = NULL;
-	pfglEndList                   = NULL;
-	pfglEvalCoord1d               = NULL;
-	pfglEvalCoord1dv              = NULL;
-	pfglEvalCoord1f               = NULL;
-	pfglEvalCoord1fv              = NULL;
-	pfglEvalCoord2d               = NULL;
-	pfglEvalCoord2dv              = NULL;
-	pfglEvalCoord2f               = NULL;
-	pfglEvalCoord2fv              = NULL;
-	pfglEvalMesh1                 = NULL;
-	pfglEvalMesh2                 = NULL;
-	pfglEvalPoint1                = NULL;
-	pfglEvalPoint2                = NULL;
-	pfglFeedbackBuffer            = NULL;
-	pfglFinish                    = NULL;
-	pfglFlush                     = NULL;
-	pfglFogf                      = NULL;
-	pfglFogfv                     = NULL;
-	pfglFogi                      = NULL;
-	pfglFogiv                     = NULL;
-	pfglFrontFace                 = NULL;
-	pfglFrustum                   = NULL;
-	pfglGenLists                  = NULL;
-	pfglGenTextures               = NULL;
-	pfglGetBooleanv               = NULL;
-	pfglGetClipPlane              = NULL;
-	pfglGetDoublev                = NULL;
-	pfglGetError                  = NULL;
-	pfglGetFloatv                 = NULL;
-	pfglGetIntegerv               = NULL;
-	pfglGetLightfv                = NULL;
-	pfglGetLightiv                = NULL;
-	pfglGetMapdv                  = NULL;
-	pfglGetMapfv                  = NULL;
-	pfglGetMapiv                  = NULL;
-	pfglGetMaterialfv             = NULL;
-	pfglGetMaterialiv             = NULL;
-	pfglGetPixelMapfv             = NULL;
-	pfglGetPixelMapuiv            = NULL;
-	pfglGetPixelMapusv            = NULL;
-	pfglGetPointerv               = NULL;
-	pfglGetPolygonStipple         = NULL;
-	pfglGetString                 = NULL;
-	pfglGetTexEnvfv               = NULL;
-	pfglGetTexEnviv               = NULL;
-	pfglGetTexGendv               = NULL;
-	pfglGetTexGenfv               = NULL;
-	pfglGetTexGeniv               = NULL;
-	pfglGetTexImage               = NULL;
-	pfglGetTexParameterfv         = NULL;
-	pfglGetTexParameteriv         = NULL;
-	pfglHint                      = NULL;
-	pfglIndexMask                 = NULL;
-	pfglIndexPointer              = NULL;
-	pfglIndexd                    = NULL;
-	pfglIndexdv                   = NULL;
-	pfglIndexf                    = NULL;
-	pfglIndexfv                   = NULL;
-	pfglIndexi                    = NULL;
-	pfglIndexiv                   = NULL;
-	pfglIndexs                    = NULL;
-	pfglIndexsv                   = NULL;
-	pfglIndexub                   = NULL;
-	pfglIndexubv                  = NULL;
-	pfglInitNames                 = NULL;
-	pfglInterleavedArrays         = NULL;
-	pfglIsEnabled                 = NULL;
-	pfglIsList                    = NULL;
-	pfglIsTexture                 = NULL;
-	pfglLightModelf               = NULL;
-	pfglLightModelfv              = NULL;
-	pfglLightModeli               = NULL;
-	pfglLightModeliv              = NULL;
-	pfglLightf                    = NULL;
-	pfglLightfv                   = NULL;
-	pfglLighti                    = NULL;
-	pfglLightiv                   = NULL;
-	pfglLineStipple               = NULL;
-	pfglLineWidth                 = NULL;
-	pfglListBase                  = NULL;
-	pfglLoadIdentity              = NULL;
-	pfglLoadMatrixd               = NULL;
-	pfglLoadMatrixf               = NULL;
-	pfglLoadName                  = NULL;
-	pfglLogicOp                   = NULL;
-	pfglMap1d                     = NULL;
-	pfglMap1f                     = NULL;
-	pfglMap2d                     = NULL;
-	pfglMap2f                     = NULL;
-	pfglMapGrid1d                 = NULL;
-	pfglMapGrid1f                 = NULL;
-	pfglMapGrid2d                 = NULL;
-	pfglMapGrid2f                 = NULL;
-	pfglMaterialf                 = NULL;
-	pfglMaterialfv                = NULL;
-	pfglMateriali                 = NULL;
-	pfglMaterialiv                = NULL;
-	pfglMatrixMode                = NULL;
-	pfglMultMatrixd               = NULL;
-	pfglMultMatrixf               = NULL;
-	pfglNewList                   = NULL;
-	pfglNormal3b                  = NULL;
-	pfglNormal3bv                 = NULL;
-	pfglNormal3d                  = NULL;
-	pfglNormal3dv                 = NULL;
-	pfglNormal3f                  = NULL;
-	pfglNormal3fv                 = NULL;
-	pfglNormal3i                  = NULL;
-	pfglNormal3iv                 = NULL;
-	pfglNormal3s                  = NULL;
-	pfglNormal3sv                 = NULL;
-	pfglNormalPointer             = NULL;
-	pfglOrtho                     = NULL;
-	pfglPassThrough               = NULL;
-	pfglPixelMapfv                = NULL;
-	pfglPixelMapuiv               = NULL;
-	pfglPixelMapusv               = NULL;
-	pfglPixelStoref               = NULL;
-	pfglPixelStorei               = NULL;
-	pfglPixelTransferf            = NULL;
-	pfglPixelTransferi            = NULL;
-	pfglPixelZoom                 = NULL;
-	pfglPointSize                 = NULL;
-	pfglPolygonMode               = NULL;
-	pfglPolygonOffset             = NULL;
-	pfglPolygonStipple            = NULL;
-	pfglPopAttrib                 = NULL;
-	pfglPopClientAttrib           = NULL;
-	pfglPopMatrix                 = NULL;
-	pfglPopName                   = NULL;
-	pfglPrioritizeTextures        = NULL;
-	pfglPushAttrib                = NULL;
-	pfglPushClientAttrib          = NULL;
-	pfglPushMatrix                = NULL;
-	pfglPushName                  = NULL;
-	pfglRasterPos2d               = NULL;
-	pfglRasterPos2dv              = NULL;
-	pfglRasterPos2f               = NULL;
-	pfglRasterPos2fv              = NULL;
-	pfglRasterPos2i               = NULL;
-	pfglRasterPos2iv              = NULL;
-	pfglRasterPos2s               = NULL;
-	pfglRasterPos2sv              = NULL;
-	pfglRasterPos3d               = NULL;
-	pfglRasterPos3dv              = NULL;
-	pfglRasterPos3f               = NULL;
-	pfglRasterPos3fv              = NULL;
-	pfglRasterPos3i               = NULL;
-	pfglRasterPos3iv              = NULL;
-	pfglRasterPos3s               = NULL;
-	pfglRasterPos3sv              = NULL;
-	pfglRasterPos4d               = NULL;
-	pfglRasterPos4dv              = NULL;
-	pfglRasterPos4f               = NULL;
-	pfglRasterPos4fv              = NULL;
-	pfglRasterPos4i               = NULL;
-	pfglRasterPos4iv              = NULL;
-	pfglRasterPos4s               = NULL;
-	pfglRasterPos4sv              = NULL;
-	pfglReadBuffer                = NULL;
-	pfglReadPixels                = NULL;
-	pfglRectd                     = NULL;
-	pfglRectdv                    = NULL;
-	pfglRectf                     = NULL;
-	pfglRectfv                    = NULL;
-	pfglRecti                     = NULL;
-	pfglRectiv                    = NULL;
-	pfglRects                     = NULL;
-	pfglRectsv                    = NULL;
-	pfglRenderMode                = NULL;
-	pfglRotated                   = NULL;
-	pfglRotatef                   = NULL;
-	pfglScaled                    = NULL;
-	pfglScalef                    = NULL;
-	pfglScissor                   = NULL;
-	pfglSelectBuffer              = NULL;
-	pfglShadeModel                = NULL;
-	pfglStencilFunc               = NULL;
-	pfglStencilMask               = NULL;
-	pfglStencilOp                 = NULL;
-	pfglTexCoord1d                = NULL;
-	pfglTexCoord1dv               = NULL;
-	pfglTexCoord1f                = NULL;
-	pfglTexCoord1fv               = NULL;
-	pfglTexCoord1i                = NULL;
-	pfglTexCoord1iv               = NULL;
-	pfglTexCoord1s                = NULL;
-	pfglTexCoord1sv               = NULL;
-	pfglTexCoord2d                = NULL;
-	pfglTexCoord2dv               = NULL;
-	pfglTexCoord2f                = NULL;
-	pfglTexCoord2fv               = NULL;
-	pfglTexCoord2i                = NULL;
-	pfglTexCoord2iv               = NULL;
-	pfglTexCoord2s                = NULL;
-	pfglTexCoord2sv               = NULL;
-	pfglTexCoord3d                = NULL;
-	pfglTexCoord3dv               = NULL;
-	pfglTexCoord3f                = NULL;
-	pfglTexCoord3fv               = NULL;
-	pfglTexCoord3i                = NULL;
-	pfglTexCoord3iv               = NULL;
-	pfglTexCoord3s                = NULL;
-	pfglTexCoord3sv               = NULL;
-	pfglTexCoord4d                = NULL;
-	pfglTexCoord4dv               = NULL;
-	pfglTexCoord4f                = NULL;
-	pfglTexCoord4fv               = NULL;
-	pfglTexCoord4i                = NULL;
-	pfglTexCoord4iv               = NULL;
-	pfglTexCoord4s                = NULL;
-	pfglTexCoord4sv               = NULL;
-	pfglTexCoordPointer           = NULL;
-	pfglTexEnvf                   = NULL;
-	pfglTexEnvfv                  = NULL;
-	pfglTexEnvi                   = NULL;
-	pfglTexEnviv                  = NULL;
-	pfglTexGend                   = NULL;
-	pfglTexGendv                  = NULL;
-	pfglTexGenf                   = NULL;
-	pfglTexGenfv                  = NULL;
-	pfglTexGeni                   = NULL;
-	pfglTexGeniv                  = NULL;
-	pfglTexImage1D                = NULL;
-	pfglTexImage2D                = NULL;
-	pfglTexParameterf             = NULL;
-	pfglTexParameterfv            = NULL;
-	pfglTexParameteri             = NULL;
-	pfglTexParameteriv            = NULL;
-	pfglTexSubImage1D             = NULL;
-	pfglTexSubImage2D             = NULL;
-	pfglTranslated                = NULL;
-	pfglTranslatef                = NULL;
-	pfglVertex2d                  = NULL;
-	pfglVertex2dv                 = NULL;
-	pfglVertex2f                  = NULL;
-	pfglVertex2fv                 = NULL;
-	pfglVertex2i                  = NULL;
-	pfglVertex2iv                 = NULL;
-	pfglVertex2s                  = NULL;
-	pfglVertex2sv                 = NULL;
-	pfglVertex3d                  = NULL;
-	pfglVertex3dv                 = NULL;
-	pfglVertex3f                  = NULL;
-	pfglVertex3fv                 = NULL;
-	pfglVertex3i                  = NULL;
-	pfglVertex3iv                 = NULL;
-	pfglVertex3s                  = NULL;
-	pfglVertex3sv                 = NULL;
-	pfglVertex4d                  = NULL;
-	pfglVertex4dv                 = NULL;
-	pfglVertex4f                  = NULL;
-	pfglVertex4fv                 = NULL;
-	pfglVertex4i                  = NULL;
-	pfglVertex4iv                 = NULL;
-	pfglVertex4s                  = NULL;
-	pfglVertex4sv                 = NULL;
-	pfglVertexPointer             = NULL;
-	pfglViewport                  = NULL;
+	pfglAccum = NULL;
+	pfglAlphaFunc = NULL;
+	pfglAreTexturesResident = NULL;
+	pfglArrayElement = NULL;
+	pfglBegin = NULL;
+	pfglBindTexture = NULL;
+	pfglBitmap = NULL;
+	pfglBlendFunc = NULL;
+	pfglCallList = NULL;
+	pfglCallLists = NULL;
+	pfglClear = NULL;
+	pfglClearAccum = NULL;
+	pfglClearColor = NULL;
+	pfglClearDepth = NULL;
+	pfglClearIndex = NULL;
+	pfglClearStencil = NULL;
+	pfglClipPlane = NULL;
+	pfglColor3b = NULL;
+	pfglColor3bv = NULL;
+	pfglColor3d = NULL;
+	pfglColor3dv = NULL;
+	pfglColor3f = NULL;
+	pfglColor3fv = NULL;
+	pfglColor3i = NULL;
+	pfglColor3iv = NULL;
+	pfglColor3s = NULL;
+	pfglColor3sv = NULL;
+	pfglColor3ub = NULL;
+	pfglColor3ubv = NULL;
+	pfglColor3ui = NULL;
+	pfglColor3uiv = NULL;
+	pfglColor3us = NULL;
+	pfglColor3usv = NULL;
+	pfglColor4b = NULL;
+	pfglColor4bv = NULL;
+	pfglColor4d = NULL;
+	pfglColor4dv = NULL;
+	pfglColor4f = NULL;
+	pfglColor4fv = NULL;
+	pfglColor4i = NULL;
+	pfglColor4iv = NULL;
+	pfglColor4s = NULL;
+	pfglColor4sv = NULL;
+	pfglColor4ub = NULL;
+	pfglColor4ubv = NULL;
+	pfglColor4ui = NULL;
+	pfglColor4uiv = NULL;
+	pfglColor4us = NULL;
+	pfglColor4usv = NULL;
+	pfglColorMask = NULL;
+	pfglColorMaterial = NULL;
+	pfglColorPointer = NULL;
+	pfglCopyPixels = NULL;
+	pfglCopyTexImage1D = NULL;
+	pfglCopyTexImage2D = NULL;
+	pfglCopyTexSubImage1D = NULL;
+	pfglCopyTexSubImage2D = NULL;
+	pfglCullFace = NULL;
+	pfglDeleteLists = NULL;
+	pfglDeleteTextures = NULL;
+	pfglDepthFunc = NULL;
+	pfglDepthMask = NULL;
+	pfglDepthRange = NULL;
+	pfglDisable = NULL;
+	pfglDisableClientState = NULL;
+	pfglDrawArrays = NULL;
+	pfglDrawBuffer = NULL;
+	pfglDrawElements = NULL;
+	pfglDrawPixels = NULL;
+	pfglEdgeFlag = NULL;
+	pfglEdgeFlagPointer = NULL;
+	pfglEdgeFlagv = NULL;
+	pfglEnable = NULL;
+	pfglEnableClientState = NULL;
+	pfglEnd = NULL;
+	pfglEndList = NULL;
+	pfglEvalCoord1d = NULL;
+	pfglEvalCoord1dv = NULL;
+	pfglEvalCoord1f = NULL;
+	pfglEvalCoord1fv = NULL;
+	pfglEvalCoord2d = NULL;
+	pfglEvalCoord2dv = NULL;
+	pfglEvalCoord2f = NULL;
+	pfglEvalCoord2fv = NULL;
+	pfglEvalMesh1 = NULL;
+	pfglEvalMesh2 = NULL;
+	pfglEvalPoint1 = NULL;
+	pfglEvalPoint2 = NULL;
+	pfglFeedbackBuffer = NULL;
+	pfglFinish = NULL;
+	pfglFlush = NULL;
+	pfglFogf = NULL;
+	pfglFogfv = NULL;
+	pfglFogi = NULL;
+	pfglFogiv = NULL;
+	pfglFrontFace = NULL;
+	pfglFrustum = NULL;
+	pfglGenLists = NULL;
+	pfglGenTextures = NULL;
+	pfglGetBooleanv = NULL;
+	pfglGetClipPlane = NULL;
+	pfglGetDoublev = NULL;
+	pfglGetError = NULL;
+	pfglGetFloatv = NULL;
+	pfglGetIntegerv = NULL;
+	pfglGetLightfv = NULL;
+	pfglGetLightiv = NULL;
+	pfglGetMapdv = NULL;
+	pfglGetMapfv = NULL;
+	pfglGetMapiv = NULL;
+	pfglGetMaterialfv = NULL;
+	pfglGetMaterialiv = NULL;
+	pfglGetPixelMapfv = NULL;
+	pfglGetPixelMapuiv = NULL;
+	pfglGetPixelMapusv = NULL;
+	pfglGetPointerv = NULL;
+	pfglGetPolygonStipple = NULL;
+	pfglGetString = NULL;
+	pfglGetTexEnvfv = NULL;
+	pfglGetTexEnviv = NULL;
+	pfglGetTexGendv = NULL;
+	pfglGetTexGenfv = NULL;
+	pfglGetTexGeniv = NULL;
+	pfglGetTexImage = NULL;
+	pfglGetTexParameterfv = NULL;
+	pfglGetTexParameteriv = NULL;
+	pfglHint = NULL;
+	pfglIndexMask = NULL;
+	pfglIndexPointer = NULL;
+	pfglIndexd = NULL;
+	pfglIndexdv = NULL;
+	pfglIndexf = NULL;
+	pfglIndexfv = NULL;
+	pfglIndexi = NULL;
+	pfglIndexiv = NULL;
+	pfglIndexs = NULL;
+	pfglIndexsv = NULL;
+	pfglIndexub = NULL;
+	pfglIndexubv = NULL;
+	pfglInitNames = NULL;
+	pfglInterleavedArrays = NULL;
+	pfglIsEnabled = NULL;
+	pfglIsList = NULL;
+	pfglIsTexture = NULL;
+	pfglLightModelf = NULL;
+	pfglLightModelfv = NULL;
+	pfglLightModeli = NULL;
+	pfglLightModeliv = NULL;
+	pfglLightf = NULL;
+	pfglLightfv = NULL;
+	pfglLighti = NULL;
+	pfglLightiv = NULL;
+	pfglLineStipple = NULL;
+	pfglLineWidth = NULL;
+	pfglListBase = NULL;
+	pfglLoadIdentity = NULL;
+	pfglLoadMatrixd = NULL;
+	pfglLoadMatrixf = NULL;
+	pfglLoadName = NULL;
+	pfglLogicOp = NULL;
+	pfglMap1d = NULL;
+	pfglMap1f = NULL;
+	pfglMap2d = NULL;
+	pfglMap2f = NULL;
+	pfglMapGrid1d = NULL;
+	pfglMapGrid1f = NULL;
+	pfglMapGrid2d = NULL;
+	pfglMapGrid2f = NULL;
+	pfglMaterialf = NULL;
+	pfglMaterialfv = NULL;
+	pfglMateriali = NULL;
+	pfglMaterialiv = NULL;
+	pfglMatrixMode = NULL;
+	pfglMultMatrixd = NULL;
+	pfglMultMatrixf = NULL;
+	pfglNewList = NULL;
+	pfglNormal3b = NULL;
+	pfglNormal3bv = NULL;
+	pfglNormal3d = NULL;
+	pfglNormal3dv = NULL;
+	pfglNormal3f = NULL;
+	pfglNormal3fv = NULL;
+	pfglNormal3i = NULL;
+	pfglNormal3iv = NULL;
+	pfglNormal3s = NULL;
+	pfglNormal3sv = NULL;
+	pfglNormalPointer = NULL;
+	pfglOrtho = NULL;
+	pfglPassThrough = NULL;
+	pfglPixelMapfv = NULL;
+	pfglPixelMapuiv = NULL;
+	pfglPixelMapusv = NULL;
+	pfglPixelStoref = NULL;
+	pfglPixelStorei = NULL;
+	pfglPixelTransferf = NULL;
+	pfglPixelTransferi = NULL;
+	pfglPixelZoom = NULL;
+	pfglPointSize = NULL;
+	pfglPolygonMode = NULL;
+	pfglPolygonOffset = NULL;
+	pfglPolygonStipple = NULL;
+	pfglPopAttrib = NULL;
+	pfglPopClientAttrib = NULL;
+	pfglPopMatrix = NULL;
+	pfglPopName = NULL;
+	pfglPrioritizeTextures = NULL;
+	pfglPushAttrib = NULL;
+	pfglPushClientAttrib = NULL;
+	pfglPushMatrix = NULL;
+	pfglPushName = NULL;
+	pfglRasterPos2d = NULL;
+	pfglRasterPos2dv = NULL;
+	pfglRasterPos2f = NULL;
+	pfglRasterPos2fv = NULL;
+	pfglRasterPos2i = NULL;
+	pfglRasterPos2iv = NULL;
+	pfglRasterPos2s = NULL;
+	pfglRasterPos2sv = NULL;
+	pfglRasterPos3d = NULL;
+	pfglRasterPos3dv = NULL;
+	pfglRasterPos3f = NULL;
+	pfglRasterPos3fv = NULL;
+	pfglRasterPos3i = NULL;
+	pfglRasterPos3iv = NULL;
+	pfglRasterPos3s = NULL;
+	pfglRasterPos3sv = NULL;
+	pfglRasterPos4d = NULL;
+	pfglRasterPos4dv = NULL;
+	pfglRasterPos4f = NULL;
+	pfglRasterPos4fv = NULL;
+	pfglRasterPos4i = NULL;
+	pfglRasterPos4iv = NULL;
+	pfglRasterPos4s = NULL;
+	pfglRasterPos4sv = NULL;
+	pfglReadBuffer = NULL;
+	pfglReadPixels = NULL;
+	pfglRectd = NULL;
+	pfglRectdv = NULL;
+	pfglRectf = NULL;
+	pfglRectfv = NULL;
+	pfglRecti = NULL;
+	pfglRectiv = NULL;
+	pfglRects = NULL;
+	pfglRectsv = NULL;
+	pfglRenderMode = NULL;
+	pfglRotated = NULL;
+	pfglRotatef = NULL;
+	pfglScaled = NULL;
+	pfglScalef = NULL;
+	pfglScissor = NULL;
+	pfglSelectBuffer = NULL;
+	pfglShadeModel = NULL;
+	pfglStencilFunc = NULL;
+	pfglStencilMask = NULL;
+	pfglStencilOp = NULL;
+	pfglTexCoord1d = NULL;
+	pfglTexCoord1dv = NULL;
+	pfglTexCoord1f = NULL;
+	pfglTexCoord1fv = NULL;
+	pfglTexCoord1i = NULL;
+	pfglTexCoord1iv = NULL;
+	pfglTexCoord1s = NULL;
+	pfglTexCoord1sv = NULL;
+	pfglTexCoord2d = NULL;
+	pfglTexCoord2dv = NULL;
+	pfglTexCoord2f = NULL;
+	pfglTexCoord2fv = NULL;
+	pfglTexCoord2i = NULL;
+	pfglTexCoord2iv = NULL;
+	pfglTexCoord2s = NULL;
+	pfglTexCoord2sv = NULL;
+	pfglTexCoord3d = NULL;
+	pfglTexCoord3dv = NULL;
+	pfglTexCoord3f = NULL;
+	pfglTexCoord3fv = NULL;
+	pfglTexCoord3i = NULL;
+	pfglTexCoord3iv = NULL;
+	pfglTexCoord3s = NULL;
+	pfglTexCoord3sv = NULL;
+	pfglTexCoord4d = NULL;
+	pfglTexCoord4dv = NULL;
+	pfglTexCoord4f = NULL;
+	pfglTexCoord4fv = NULL;
+	pfglTexCoord4i = NULL;
+	pfglTexCoord4iv = NULL;
+	pfglTexCoord4s = NULL;
+	pfglTexCoord4sv = NULL;
+	pfglTexCoordPointer = NULL;
+	pfglTexEnvf = NULL;
+	pfglTexEnvfv = NULL;
+	pfglTexEnvi = NULL;
+	pfglTexEnviv = NULL;
+	pfglTexGend = NULL;
+	pfglTexGendv = NULL;
+	pfglTexGenf = NULL;
+	pfglTexGenfv = NULL;
+	pfglTexGeni = NULL;
+	pfglTexGeniv = NULL;
+	pfglTexImage1D = NULL;
+	pfglTexImage2D = NULL;
+	pfglTexParameterf = NULL;
+	pfglTexParameterfv = NULL;
+	pfglTexParameteri = NULL;
+	pfglTexParameteriv = NULL;
+	pfglTexSubImage1D = NULL;
+	pfglTexSubImage2D = NULL;
+	pfglTranslated = NULL;
+	pfglTranslatef = NULL;
+	pfglVertex2d = NULL;
+	pfglVertex2dv = NULL;
+	pfglVertex2f = NULL;
+	pfglVertex2fv = NULL;
+	pfglVertex2i = NULL;
+	pfglVertex2iv = NULL;
+	pfglVertex2s = NULL;
+	pfglVertex2sv = NULL;
+	pfglVertex3d = NULL;
+	pfglVertex3dv = NULL;
+	pfglVertex3f = NULL;
+	pfglVertex3fv = NULL;
+	pfglVertex3i = NULL;
+	pfglVertex3iv = NULL;
+	pfglVertex3s = NULL;
+	pfglVertex3sv = NULL;
+	pfglVertex4d = NULL;
+	pfglVertex4dv = NULL;
+	pfglVertex4f = NULL;
+	pfglVertex4fv = NULL;
+	pfglVertex4i = NULL;
+	pfglVertex4iv = NULL;
+	pfglVertex4s = NULL;
+	pfglVertex4sv = NULL;
+	pfglVertexPointer = NULL;
+	pfglViewport = NULL;
 
 #ifdef _WIN32
-	pfwglCopyContext              = NULL;
-	pfwglCreateContext            = NULL;
-	pfwglCreateLayerContext       = NULL;
-	pfwglDeleteContext            = NULL;
-	pfwglDescribeLayerPlane       = NULL;
-	pfwglGetCurrentContext        = NULL;
-	pfwglGetCurrentDC             = NULL;
-	pfwglGetLayerPaletteEntries   = NULL;
-	pfwglGetProcAddress           = NULL;
-	pfwglMakeCurrent              = NULL;
-	pfwglRealizeLayerPalette      = NULL;
-	pfwglSetLayerPaletteEntries   = NULL;
-	pfwglShareLists               = NULL;
-	pfwglSwapLayerBuffers         = NULL;
-	pfwglUseFontBitmaps           = NULL;
-	pfwglUseFontOutlines          = NULL;
+	pfwglCopyContext = NULL;
+	pfwglCreateContext = NULL;
+	pfwglCreateLayerContext = NULL;
+	pfwglDeleteContext = NULL;
+	pfwglDescribeLayerPlane = NULL;
+	pfwglGetCurrentContext = NULL;
+	pfwglGetCurrentDC = NULL;
+	pfwglGetLayerPaletteEntries = NULL;
+	pfwglGetProcAddress = NULL;
+	pfwglMakeCurrent = NULL;
+	pfwglRealizeLayerPalette = NULL;
+	pfwglSetLayerPaletteEntries = NULL;
+	pfwglShareLists = NULL;
+	pfwglSwapLayerBuffers = NULL;
+	pfwglUseFontBitmaps = NULL;
+	pfwglUseFontOutlines = NULL;
 
-	pfwglChoosePixelFormat        = NULL;
-	pfwglDescribePixelFormat      = NULL;
-	pfwglGetPixelFormat           = NULL;
-	pfwglSetPixelFormat           = NULL;
-	pfwglSwapBuffers              = NULL;
+	pfwglChoosePixelFormat = NULL;
+	pfwglDescribePixelFormat = NULL;
+	pfwglGetPixelFormat = NULL;
+	pfwglSetPixelFormat = NULL;
+	pfwglSwapBuffers = NULL;
 #elif __unix__ || __APPLE__
 /* __APPLE__ depends on tentative similar preprocessor macro check also existing
  * in "myopengl.h" */
-	pfglXChooseVisual             = NULL;
-	pfglXCreateContext            = NULL;
-	pfglXDestroyContext           = NULL;
-	pfglXMakeCurrent              = NULL;
-	pfglXCopyContext              = NULL;
-	pfglXSwapBuffers              = NULL;
+	pfglXChooseVisual = NULL;
+	pfglXCreateContext = NULL;
+	pfglXDestroyContext = NULL;
+	pfglXMakeCurrent = NULL;
+	pfglXCopyContext = NULL;
+	pfglXSwapBuffers = NULL;
 #elif __APPLE__
 # warning "Please define interface to OpenGL library for your platform!"
 #else
@@ -474,7 +474,7 @@ PUBLIC void OpenGL_Shutdown(void)
 /*
  *	Extensions
  */
-	pfglMultiTexCoord2fARB		  = NULL;
+	pfglMultiTexCoord2fARB		 = NULL;
 
 }
 
@@ -521,7 +521,7 @@ PUBLIC int OpenGL_Init(const char *dllname)
 
 	SearchPath(NULL, dllname, NULL, (sizeof(buffer) - 1), buffer, &ptr);
 
-	Com_Printf("...calling LoadLibrary( %s ): ", buffer);
+	Com_Printf("...calling LoadLibrary(%s): ", buffer);
 
 	if ((hinstOpenGL = LoadLibrary(dllname)) == 0) {
 		char *buf = NULL;
@@ -590,13 +590,13 @@ PUBLIC int OpenGL_Init(const char *dllname)
 	 * it here, for debugging purposes. It may not quite look the same as what
 	 * is actually being used.
 	 * (e.g., there may be missing colons - see the TODO above) */
-	Com_Printf("...calling dlopen( %s ) with searchpath %s: ", dllname, allcombinedloadpath);
+	Com_Printf("...calling dlopen(%s) with searchpath %s: ", dllname, allcombinedloadpath);
 # else
-	Com_Printf("...calling dlopen( %s ) with searchpath %s: ", dllname, loadpath);
+	Com_Printf("...calling dlopen(%s) with searchpath %s: ", dllname, loadpath);
 # endif /* __APPLE__ */
 
-	if ((OpenGLLib = dlopen(dllname, RTLD_LAZY | RTLD_GLOBAL)) == 0) {
-		Com_Printf("failed;\n");
+	if ((OpenGLLib = dlopen(dllname, (RTLD_LAZY | RTLD_GLOBAL))) == 0) {
+		Com_Printf(" failed;\n");
 
 		Com_Printf("%s\n", dlerror());
 
@@ -606,403 +606,1476 @@ PUBLIC int OpenGL_Init(const char *dllname)
 # endif /* __APPLE__ */
 
 		return 0;
+	} else {
+		Com_Printf(" ...dlopen()-ed successfully, at least, and... ");
 	}
+
 #else
 # error "Please define interface to OpenGL library for your platform!"
 #endif /* platform check */
 
-	if( ! (pfglAccum                     = (GLACCUM)GPA( "glAccum" )) ) return 0;
-	if( ! (pfglAlphaFunc                 = (GLALPHAFUNC)GPA( "glAlphaFunc" )) ) return 0;
-	if( ! (pfglAreTexturesResident       = (GLARETEXTURESRESIDENT)GPA( "glAreTexturesResident" )) ) return 0;
-	if( ! (pfglArrayElement              = (GLARRAYELEMENT)GPA( "glArrayElement" )) ) return 0;
-	if( ! (pfglBegin                     = (GLBEGIN)GPA( "glBegin" )) ) return 0;
-	if( ! (pfglBindTexture               = (GLBINDTEXTURE)GPA( "glBindTexture" )) ) return 0;
-	if( ! (pfglBitmap                    = (GLBITMAP)GPA( "glBitmap" )) ) return 0;
-	if( ! (pfglBlendFunc                 = (GLBLENDFUNC)GPA( "glBlendFunc" )) ) return 0;
-	if( ! (pfglCallList                  = (GLCALLLIST)GPA( "glCallList" )) ) return 0;
-	if( ! (pfglCallLists                 = (GLCALLLISTS)GPA( "glCallLists" )) ) return 0;
-	if( ! (pfglClear                     = (GLCLEAR)GPA( "glClear" )) ) return 0;
-	if( ! (pfglClearAccum                = (GLCLEARACCUM)GPA( "glClearAccum" )) ) return 0;
-	if( ! (pfglClearColor                = (GLCLEARCOLOR)GPA( "glClearColor" )) ) return 0;
-	if( ! (pfglClearDepth                = (GLCLEARDEPTH)GPA( "glClearDepth" )) ) return 0;
-	if( ! (pfglClearIndex                = (GLCLEARINDEX)GPA( "glClearIndex" )) ) return 0;
-	if( ! (pfglClearStencil              = (GLCLEARSTENCIL)GPA( "glClearStencil" )) ) return 0;
-	if( ! (pfglClipPlane                 = (GLCLIPPLANE)GPA( "glClipPlane" )) ) return 0;
-	if( ! (pfglColor3b                   = (GLCOLOR3B)GPA( "glColor3b" )) ) return 0;
-	if( ! (pfglColor3bv                  = (GLCOLOR3BV)GPA( "glColor3bv" )) ) return 0;
-	if( ! (pfglColor3d                   = (GLCOLOR3D)GPA( "glColor3d" )) ) return 0;
-	if( ! (pfglColor3dv                  = (GLCOLOR3DV)GPA( "glColor3dv" )) ) return 0;
-	if( ! (pfglColor3f                   = (GLCOLOR3F)GPA( "glColor3f" )) ) return 0;
-	if( ! (pfglColor3fv                  = (GLCOLOR3FV)GPA( "glColor3fv" )) ) return 0;
-	if( ! (pfglColor3i                   = (GLCOLOR3I)GPA( "glColor3i" )) ) return 0;
-	if( ! (pfglColor3iv                  = (GLCOLOR3IV)GPA( "glColor3iv" )) ) return 0;
-	if( ! (pfglColor3s                   = (GLCOLOR3S)GPA( "glColor3s" )) ) return 0;
-	if( ! (pfglColor3sv                  = (GLCOLOR3SV)GPA( "glColor3sv" )) ) return 0;
-	if( ! (pfglColor3ub                  = (GLCOLOR3UB)GPA( "glColor3ub" )) ) return 0;
-	if( ! (pfglColor3ubv                 = (GLCOLOR3UBV)GPA( "glColor3ubv" )) ) return 0;
-	if( ! (pfglColor3ui                  = (GLCOLOR3UI)GPA( "glColor3ui" )) ) return 0;
-	if( ! (pfglColor3uiv                 = (GLCOLOR3UIV)GPA( "glColor3uiv" )) ) return 0;
-	if( ! (pfglColor3us                  = (GLCOLOR3US)GPA( "glColor3us" )) ) return 0;
-	if( ! (pfglColor3usv                 = (GLCOLOR3USV)GPA( "glColor3usv" )) ) return 0;
-	if( ! (pfglColor4b                   = (GLCOLOR4B)GPA( "glColor4b" )) ) return 0;
-	if( ! (pfglColor4bv                  = (GLCOLOR4BV)GPA( "glColor4bv" )) ) return 0;
-	if( ! (pfglColor4d                   = (GLCOLOR4D)GPA( "glColor4d" )) ) return 0;
-	if( ! (pfglColor4dv                  = (GLCOLOR4DV)GPA( "glColor4dv" )) ) return 0;
-	if( ! (pfglColor4f                   = (GLCOLOR4F)GPA( "glColor4f" )) ) return 0;
-	if( ! (pfglColor4fv                  = (GLCOLOR4FV)GPA( "glColor4fv" )) ) return 0;
-	if( ! (pfglColor4i                   = (GLCOLOR4I)GPA( "glColor4i" )) ) return 0;
-	if( ! (pfglColor4iv                  = (GLCOLOR4IV)GPA( "glColor4iv" )) ) return 0;
-	if( ! (pfglColor4s                   = (GLCOLOR4S)GPA( "glColor4s" )) ) return 0;
-	if( ! (pfglColor4sv                  = (GLCOLOR4SV)GPA( "glColor4sv" )) ) return 0;
-	if( ! (pfglColor4ub                  = (GLCOLOR4UB)GPA( "glColor4ub" )) ) return 0;
-	if( ! (pfglColor4ubv                 = (GLCOLOR4UBV)GPA( "glColor4ubv" )) ) return 0;
-	if( ! (pfglColor4ui                  = (GLCOLOR4UI)GPA( "glColor4ui" )) ) return 0;
-	if( ! (pfglColor4uiv                 = (GLCOLOR4UIV)GPA( "glColor4uiv" )) ) return 0;
-	if( ! (pfglColor4us                  = (GLCOLOR4US)GPA( "glColor4us" )) ) return 0;
-	if( ! (pfglColor4usv                 = (GLCOLOR4USV)GPA( "glColor4usv" )) ) return 0;
-	if( ! (pfglColorMask                 = (GLCOLORMASK)GPA( "glColorMask" )) ) return 0;
-	if( ! (pfglColorMaterial             = (GLCOLORMATERIAL)GPA( "glColorMaterial" )) ) return 0;
-	if( ! (pfglColorPointer              = (GLCOLORPOINTER)GPA( "glColorPointer" )) ) return 0;
-	if( ! (pfglCopyPixels                = (GLCOPYPIXELS)GPA( "glCopyPixels" )) ) return 0;
-	if( ! (pfglCopyTexImage1D            = (GLCOPYTEXIMAGE1D)GPA( "glCopyTexImage1D" )) ) return 0;
-	if( ! (pfglCopyTexImage2D            = (GLCOPYTEXIMAGE2D)GPA( "glCopyTexImage2D" )) ) return 0;
-	if( ! (pfglCopyTexSubImage1D         = (GLCOPYTEXSUBIMAGE1D)GPA( "glCopyTexSubImage1D" )) ) return 0;
-	if( ! (pfglCopyTexSubImage2D         = (GLCOPYTEXSUBIMAGE2D)GPA( "glCopyTexSubImage2D" )) ) return 0;
-	if( ! (pfglCullFace                  = (GLCULLFACE)GPA( "glCullFace" )) ) return 0;
-	if( ! (pfglDeleteLists               = (GLDELETELISTS)GPA( "glDeleteLists" )) ) return 0;
-	if( ! (pfglDeleteTextures            = (GLDELETETEXTURES)GPA( "glDeleteTextures" )) ) return 0;
-	if( ! (pfglDepthFunc                 = (GLDEPTHFUNC)GPA( "glDepthFunc" )) ) return 0;
-	if( ! (pfglDepthMask                 = (GLDEPTHMASK)GPA( "glDepthMask" )) ) return 0;
-	if( ! (pfglDepthRange                = (GLDEPTHRANGE)GPA( "glDepthRange" )) ) return 0;
-	if( ! (pfglDisable                   = (GLDISABLE)GPA( "glDisable" )) ) return 0;
-	if( ! (pfglDisableClientState        = (GLDISABLECLIENTSTATE)GPA( "glDisableClientState" )) ) return 0;
-	if( ! (pfglDrawArrays                = (GLDRAWARRAYS)GPA( "glDrawArrays" )) ) return 0;
-	if( ! (pfglDrawBuffer                = (GLDRAWBUFFER)GPA( "glDrawBuffer" )) ) return 0;
-	if( ! (pfglDrawElements              = (GLDRAWELEMENTS)GPA( "glDrawElements" )) ) return 0;
-	if( ! (pfglDrawPixels                = (GLDRAWPIXELS)GPA( "glDrawPixels" )) ) return 0;
-	if( ! (pfglEdgeFlag                  = (GLEDGEFLAG)GPA( "glEdgeFlag" )) ) return 0;
-	if( ! (pfglEdgeFlagPointer           = (GLEDGEFLAGPOINTER)GPA( "glEdgeFlagPointer" )) ) return 0;
-	if( ! (pfglEdgeFlagv                 = (GLEDGEFLAGV)GPA( "glEdgeFlagv" )) ) return 0;
-	if( ! (pfglEnable                    = (GLENABLE)GPA( "glEnable" )) ) return 0;
-	if( ! (pfglEnableClientState		 = (GLENABLECLIENTSTATE)GPA( "glEnableClientState" )) ) return 0;
-	if( ! (pfglEnd                       = (GLEND)GPA( "glEnd" )) ) return 0;
-	if( ! (pfglEndList                   = (GLENDLIST)GPA( "glEndList" )) ) return 0;
-	if( ! (pfglEvalCoord1d				 = (GLEVALCOORD1D)GPA( "glEvalCoord1d" )) ) return 0;
-	if( ! (pfglEvalCoord1dv              = (GLEVALCOORD1DV)GPA( "glEvalCoord1dv" )) ) return 0;
-	if( ! (pfglEvalCoord1f               = (GLEVALCOORD1F)GPA( "glEvalCoord1f" )) ) return 0;
-	if( ! (pfglEvalCoord1fv              = (GLEVALCOORD1FV)GPA( "glEvalCoord1fv" )) ) return 0;
-	if( ! (pfglEvalCoord2d               = (GLEVALCOORD2D)GPA( "glEvalCoord2d" )) ) return 0;
-	if( ! (pfglEvalCoord2dv              = (GLEVALCOORD2DV)GPA( "glEvalCoord2dv" )) ) return 0;
-	if( ! (pfglEvalCoord2f               = (GLEVALCOORD2F)GPA( "glEvalCoord2f" )) ) return 0;
-	if( ! (pfglEvalCoord2fv              = (GLEVALCOORD2FV)GPA( "glEvalCoord2fv" )) ) return 0;
-	if( ! (pfglEvalMesh1                 = (GLEVALMESH1)GPA( "glEvalMesh1" )) ) return 0;
-	if( ! (pfglEvalMesh2                 = (GLEVALMESH2)GPA( "glEvalMesh2" )) ) return 0;
-	if( ! (pfglEvalPoint1                = (GLEVALPOINT1)GPA( "glEvalPoint1" )) ) return 0;
-	if( ! (pfglEvalPoint2                = (GLEVALPOINT2)GPA( "glEvalPoint2" )) ) return 0;
-	if( ! (pfglFeedbackBuffer            = (GLFEEDBACKBUFFER)GPA( "glFeedbackBuffer" )) ) return 0;
-	if( ! (pfglFinish                    = (GLFINISH)GPA( "glFinish" )) ) return 0;
-	if( ! (pfglFlush                     = (GLFLUSH)GPA( "glFlush" )) ) return 0;
-	if( ! (pfglFogf                      = (GLFOGF)GPA( "glFogf" )) ) return 0;
-	if( ! (pfglFogfv                     = (GLFOGFV)GPA( "glFogfv" )) ) return 0;
-	if( ! (pfglFogi                      = (GLFOGI)GPA( "glFogi" )) ) return 0;
-	if( ! (pfglFogiv                     = (GLFOGIV)GPA( "glFogiv" )) ) return 0;
-	if( ! (pfglFrontFace                 = (GLFRONTFACE)GPA( "glFrontFace" )) ) return 0;
-	if( ! (pfglFrustum                   = (GLFRUSTUM)GPA( "glFrustum" )) ) return 0;
-	if( ! (pfglGenLists                  = (GLGENLISTS)GPA( "glGenLists" )) ) return 0;
-	if( ! (pfglGenTextures               = (GLGENTEXTURES)GPA( "glGenTextures" )) ) return 0;
-	if( ! (pfglGetBooleanv               = (GLGETBOOLEANV)GPA( "glGetBooleanv" )) ) return 0;
-	if( ! (pfglGetClipPlane              = (GLGETCLIPPLANE)GPA( "glGetClipPlane" )) ) return 0;
-	if( ! (pfglGetDoublev                = (GLGETDOUBLEV)GPA( "glGetDoublev" )) ) return 0;
-	if( ! (pfglGetError                  = (GLGETERROR)GPA( "glGetError" )) ) return 0;
-	if( ! (pfglGetFloatv                 = (GLGETFLOATV)GPA( "glGetFloatv" )) ) return 0;
-	if( ! (pfglGetIntegerv               = (GLGETINTEGERV)GPA( "glGetIntegerv" )) ) return 0;
-	if( ! (pfglGetLightfv                = (GLGETLIGHTFV)GPA( "glGetLightfv" )) ) return 0;
-	if( ! (pfglGetLightiv                = (GLGETLIGHTIV)GPA( "glGetLightiv" )) ) return 0;
-	if( ! (pfglGetMapdv                  = (GLGETMAPDV)GPA( "glGetMapdv" )) ) return 0;
-	if( ! (pfglGetMapfv                  = (GLGETMAPFV)GPA( "glGetMapfv" )) ) return 0;
-	if( ! (pfglGetMapiv                  = (GLGETMAPIV)GPA( "glGetMapiv" )) ) return 0;
-	if( ! (pfglGetMaterialfv             = (GLGETMATERIALFV)GPA( "glGetMaterialfv" )) ) return 0;
-	if( ! (pfglGetMaterialiv             = (GLGETMATERIALIV)GPA( "glGetMaterialiv" )) ) return 0;
-	if( ! (pfglGetPixelMapfv             = (GLGETPIXELMAPFV)GPA( "glGetPixelMapfv" )) ) return 0;
-	if( ! (pfglGetPixelMapuiv            = (GLGETPIXELMAPUIV)GPA( "glGetPixelMapuiv" )) ) return 0;
-	if( ! (pfglGetPixelMapusv            = (GLGETPIXELMAPUSV)GPA( "glGetPixelMapusv" )) ) return 0;
-	if( ! (pfglGetPointerv               = (GLGETPOINTERV)GPA( "glGetPointerv" )) ) return 0;
-	if( ! (pfglGetPolygonStipple         = (GLGETPOLYGONSTIPPLE)GPA( "glGetPolygonStipple" )) ) return 0;
-	if( ! (pfglGetString                 = (GLGETSTRING)GPA( "glGetString" )) ) return 0;
-	if( ! (pfglGetTexEnvfv               = (GLGETTEXENVFV)GPA( "glGetTexEnvfv" )) ) return 0;
-	if( ! (pfglGetTexEnviv               = (GLGETTEXENVIV)GPA( "glGetTexEnviv" )) ) return 0;
-	if( ! (pfglGetTexGendv               = (GLGETTEXGENDV)GPA( "glGetTexGendv" )) ) return 0;
-	if( ! (pfglGetTexGenfv               = (GLGETTEXGENFV)GPA( "glGetTexGenfv" )) ) return 0;
-	if( ! (pfglGetTexGeniv               = (GLGETTEXGENIV)GPA( "glGetTexGeniv" )) ) return 0;
-	if( ! (pfglGetTexImage               = (GLGETTEXIMAGE)GPA( "glGetTexImage" )) ) return 0;
-	if( ! (pfglGetTexParameterfv         = (GLGETTEXPARAMETERFV)GPA( "glGetTexParameterfv" )) ) return 0;
-	if( ! (pfglGetTexParameteriv         = (GLGETTEXPARAMETERIV)GPA( "glGetTexParameteriv" )) ) return 0;
-	if( ! (pfglHint                      = (GLHINT)GPA( "glHint" )) ) return 0;
-	if( ! (pfglIndexMask                 = (GLINDEXMASK)GPA( "glIndexMask" )) ) return 0;
-	if( ! (pfglIndexPointer              = (GLINDEXPOINTER)GPA( "glIndexPointer" )) ) return 0;
-	if( ! (pfglIndexd                    = (GLINDEXD)GPA( "glIndexd" )) ) return 0;
-	if( ! (pfglIndexdv                   = (GLINDEXDV)GPA( "glIndexdv" )) ) return 0;
-	if( ! (pfglIndexf                    = (GLINDEXF)GPA( "glIndexf" )) ) return 0;
-	if( ! (pfglIndexfv                   = (GLINDEXFV)GPA( "glIndexfv" )) ) return 0;
-	if( ! (pfglIndexi                    = (GLINDEXI)GPA( "glIndexi" )) ) return 0;
-	if( ! (pfglIndexiv                   = (GLINDEXIV)GPA( "glIndexiv" )) ) return 0;
-	if( ! (pfglIndexs                    = (GLINDEXS)GPA( "glIndexs" )) ) return 0;
-	if( ! (pfglIndexsv                   = (GLINDEXSV)GPA( "glIndexsv" )) ) return 0;
-	if( ! (pfglIndexub                   = (GLINDEXUB)GPA( "glIndexub" )) ) return 0;
-	if( ! (pfglIndexubv                  = (GLINDEXUBV)GPA( "glIndexubv" )) ) return 0;
-	if( ! (pfglInitNames                 = (GLINITNAMES)GPA( "glInitNames" )) ) return 0;
-	if( ! (pfglInterleavedArrays         = (GLINTERLEAVEDARRAYS)GPA( "glInterleavedArrays" )) ) return 0;
-	if( ! (pfglIsEnabled                 = (GLISENABLED)GPA( "glIsEnabled" )) ) return 0;
-	if( ! (pfglIsList                    = (GLISLIST)GPA( "glIsList" )) ) return 0;
-	if( ! (pfglIsTexture                 = (GLISTEXTURE)GPA( "glIsTexture" )) ) return 0;
-	if( ! (pfglLightModelf               = (GLLIGHTMODELF)GPA( "glLightModelf" )) ) return 0;
-	if( ! (pfglLightModelfv              = (GLLIGHTMODELFV)GPA( "glLightModelfv" )) ) return 0;
-	if( ! (pfglLightModeli               = (GLLIGHTMODELI)GPA( "glLightModeli" )) ) return 0;
-	if( ! (pfglLightModeliv              = (GLLIGHTMODELIV)GPA( "glLightModeliv" )) ) return 0;
-	if( ! (pfglLightf                    = (GLLIGHTF)GPA( "glLightf" )) ) return 0;
-	if( ! (pfglLightfv                   = (GLLIGHTFV)GPA( "glLightfv" )) ) return 0;
-	if( ! (pfglLighti                    = (GLLIGHTI)GPA( "glLighti" )) ) return 0;
-	if( ! (pfglLightiv                   = (GLLIGHTIV)GPA( "glLightiv" )) ) return 0;
-	if( ! (pfglLineStipple               = (GLLINESTIPPLE)GPA( "glLineStipple" )) ) return 0;
-	if( ! (pfglLineWidth                 = (GLLINEWIDTH)GPA( "glLineWidth" )) ) return 0;
-	if( ! (pfglListBase                  = (GLLISTBASE)GPA( "glListBase" )) ) return 0;
-	if( ! (pfglLoadIdentity              = (GLLOADIDENTITY)GPA( "glLoadIdentity" )) ) return 0;
-	if( ! (pfglLoadMatrixd               = (GLLOADMATRIXD)GPA( "glLoadMatrixd" )) ) return 0;
-	if( ! (pfglLoadMatrixf               = (GLLOADMATRIXF)GPA( "glLoadMatrixf" )) ) return 0;
-	if( ! (pfglLoadName                  = (GLLOADNAME)GPA( "glLoadName" )) ) return 0;
-	if( ! (pfglLogicOp                   = (GLLOGICOP)GPA( "glLogicOp" )) ) return 0;
-	if( ! (pfglMap1d                     = (GLMAP1D)GPA( "glMap1d" )) ) return 0;
-	if( ! (pfglMap1f                     = (GLMAP1F)GPA( "glMap1f" )) ) return 0;
-	if( ! (pfglMap2d                     = (GLMAP2D)GPA( "glMap2d" )) ) return 0;
-	if( ! (pfglMap2f                     = (GLMAP2F)GPA( "glMap2f" )) ) return 0;
-	if( ! (pfglMapGrid1d                 = (GLMAPGRID1D)GPA( "glMapGrid1d" )) ) return 0;
-	if( ! (pfglMapGrid1f                 = (GLMAPGRID1F)GPA( "glMapGrid1f" )) ) return 0;
-	if( ! (pfglMapGrid2d                 = (GLMAPGRID2D)GPA( "glMapGrid2d" )) ) return 0;
-	if( ! (pfglMapGrid2f                 = (GLMAPGRID2F)GPA( "glMapGrid2f" )) ) return 0;
-	if( ! (pfglMaterialf                 = (GLMATERIALF)GPA( "glMaterialf" )) ) return 0;
-	if( ! (pfglMaterialfv                = (GLMATERIALFV)GPA( "glMaterialfv" )) ) return 0;
-	if( ! (pfglMateriali                 = (GLMATERIALI)GPA( "glMateriali" )) ) return 0;
-	if( ! (pfglMaterialiv                = (GLMATERIALIV)GPA( "glMaterialiv" )) ) return 0;
-	if( ! (pfglMatrixMode                = (GLMATRIXMODE)GPA( "glMatrixMode" )) ) return 0;
-	if( ! (pfglMultMatrixd               = (GLMULTMATRIXD)GPA( "glMultMatrixd" )) ) return 0;
-	if( ! (pfglMultMatrixf               = (GLMULTMATRIXF)GPA( "glMultMatrixf" )) ) return 0;
-	if( ! (pfglNewList                   = (GLNEWLIST)GPA( "glNewList" )) ) return 0;
-	if( ! (pfglNormal3b                  = (GLNORMAL3B)GPA( "glNormal3b" )) ) return 0;
-	if( ! (pfglNormal3bv                 = (GLNORMAL3BV)GPA( "glNormal3bv" )) ) return 0;
-	if( ! (pfglNormal3d                  = (GLNORMAL3D)GPA( "glNormal3d" )) ) return 0;
-	if( ! (pfglNormal3dv                 = (GLNORMAL3DV)GPA( "glNormal3dv" )) ) return 0;
-	if( ! (pfglNormal3f                  = (GLNORMAL3F)GPA( "glNormal3f" )) ) return 0;
-	if( ! (pfglNormal3fv                 = (GLNORMAL3FV)GPA( "glNormal3fv" )) ) return 0;
-	if( ! (pfglNormal3i                  = (GLNORMAL3I)GPA( "glNormal3i" )) ) return 0;
-	if( ! (pfglNormal3iv                 = (GLNORMAL3IV)GPA( "glNormal3iv" )) ) return 0;
-	if( ! (pfglNormal3s                  = (GLNORMAL3S)GPA( "glNormal3s" )) ) return 0;
-	if( ! (pfglNormal3sv                 = (GLNORMAL3SV)GPA( "glNormal3sv" )) ) return 0;
-	if( ! (pfglNormalPointer             = (GLNORMALPOINTER)GPA( "glNormalPointer" )) ) return 0;
-	if( ! (pfglOrtho                     = (GLORTHO)GPA( "glOrtho" )) ) return 0;
-	if( ! (pfglPassThrough               = (GLPASSTHROUGH)GPA( "glPassThrough" )) ) return 0;
-	if( ! (pfglPixelMapfv                = (GLPIXELMAPFV)GPA( "glPixelMapfv" )) ) return 0;
-	if( ! (pfglPixelMapuiv               = (GLPIXELMAPUIV)GPA( "glPixelMapuiv" )) ) return 0;
-	if( ! (pfglPixelMapusv               = (GLPIXELMAPUSV)GPA( "glPixelMapusv" )) ) return 0;
-	if( ! (pfglPixelStoref               = (GLPIXELSTOREF)GPA( "glPixelStoref" )) ) return 0;
-	if( ! (pfglPixelStorei               = (GLPIXELSTOREI)GPA( "glPixelStorei" )) ) return 0;
-	if( ! (pfglPixelTransferf            = (GLPIXELTRANSFERF)GPA( "glPixelTransferf" )) ) return 0;
-	if( ! (pfglPixelTransferi            = (GLPIXELTRANSFERI)GPA( "glPixelTransferi" )) ) return 0;
-	if( ! (pfglPixelZoom                 = (GLPIXELZOOM)GPA( "glPixelZoom" )) ) return 0;
-	if( ! (pfglPointSize                 = (GLPOINTSIZE)GPA( "glPointSize" )) ) return 0;
-	if( ! (pfglPolygonMode               = (GLPOLYGONMODE)GPA( "glPolygonMode" )) ) return 0;
-	if( ! (pfglPolygonOffset             = (GLPOLYGONOFFSET)GPA( "glPolygonOffset" )) ) return 0;
-	if( ! (pfglPolygonStipple            = (GLPOLYGONSTIPPLE)GPA( "glPolygonStipple" )) ) return 0;
-	if( ! (pfglPopAttrib                 = (GLPOPATTRIB)GPA( "glPopAttrib" )) ) return 0;
-	if( ! (pfglPopClientAttrib           = (GLPOPCLIENTATTRIB)GPA( "glPopClientAttrib" )) ) return 0;
-	if( ! (pfglPopMatrix                 = (GLPOPMATRIX)GPA( "glPopMatrix" )) ) return 0;
-	if( ! (pfglPopName                   = (GLPOPNAME)GPA( "glPopName" )) ) return 0;
-	if( ! (pfglPrioritizeTextures        = (GLPRIORITIZETEXTURES)GPA( "glPrioritizeTextures" )) ) return 0;
-	if( ! (pfglPushAttrib                = (GLPUSHATTRIB)GPA( "glPushAttrib" )) ) return 0;
-	if( ! (pfglPushClientAttrib          = (GLPUSHCLIENTATTRIB)GPA( "glPushClientAttrib" )) ) return 0;
-	if( ! (pfglPushMatrix                = (GLPUSHMATRIX)GPA( "glPushMatrix" )) ) return 0;
-	if( ! (pfglPushName                  = (GLPUSHNAME)GPA( "glPushName" )) ) return 0;
-	if( ! (pfglRasterPos2d               = (GLRASTERPOS2D)GPA( "glRasterPos2d" )) ) return 0;
-	if( ! (pfglRasterPos2dv              = (GLRASTERPOS2DV)GPA( "glRasterPos2dv" )) ) return 0;
-	if( ! (pfglRasterPos2f               = (GLRASTERPOS2F)GPA( "glRasterPos2f" )) ) return 0;
-	if( ! (pfglRasterPos2fv              = (GLRASTERPOS2FV)GPA( "glRasterPos2fv" )) ) return 0;
-	if( ! (pfglRasterPos2i               = (GLRASTERPOS2I)GPA( "glRasterPos2i" )) ) return 0;
-	if( ! (pfglRasterPos2iv              = (GLRASTERPOS2IV)GPA( "glRasterPos2iv" )) ) return 0;
-	if( ! (pfglRasterPos2s               = (GLRASTERPOS2S)GPA( "glRasterPos2s" )) ) return 0;
-	if( ! (pfglRasterPos2sv              = (GLRASTERPOS2SV)GPA( "glRasterPos2sv" )) ) return 0;
-	if( ! (pfglRasterPos3d               = (GLRASTERPOS3D)GPA( "glRasterPos3d" )) ) return 0;
-	if( ! (pfglRasterPos3dv              = (GLRASTERPOS3DV)GPA( "glRasterPos3dv" )) ) return 0;
-	if( ! (pfglRasterPos3f               = (GLRASTERPOS3F)GPA( "glRasterPos3f" )) ) return 0;
-	if( ! (pfglRasterPos3fv              = (GLRASTERPOS3FV)GPA( "glRasterPos3fv" )) ) return 0;
-	if( ! (pfglRasterPos3i               = (GLRASTERPOS3I)GPA( "glRasterPos3i" )) ) return 0;
-	if( ! (pfglRasterPos3iv              = (GLRASTERPOS3IV)GPA( "glRasterPos3iv" )) ) return 0;
-	if( ! (pfglRasterPos3s               = (GLRASTERPOS3S)GPA( "glRasterPos3s" )) ) return 0;
-	if( ! (pfglRasterPos3sv              = (GLRASTERPOS3SV)GPA( "glRasterPos3sv" )) ) return 0;
-	if( ! (pfglRasterPos4d               = (GLRASTERPOS4D)GPA( "glRasterPos4d" )) ) return 0;
-	if( ! (pfglRasterPos4dv              = (GLRASTERPOS4DV)GPA( "glRasterPos4dv" )) ) return 0;
-	if( ! (pfglRasterPos4f               = (GLRASTERPOS4F)GPA( "glRasterPos4f" )) ) return 0;
-	if( ! (pfglRasterPos4fv              = (GLRASTERPOS4FV)GPA( "glRasterPos4fv" )) ) return 0;
-	if( ! (pfglRasterPos4i               = (GLRASTERPOS4I)GPA( "glRasterPos4i" )) ) return 0;
-	if( ! (pfglRasterPos4iv              = (GLRASTERPOS4IV)GPA( "glRasterPos4iv" )) ) return 0;
-	if( ! (pfglRasterPos4s               = (GLRASTERPOS4S)GPA( "glRasterPos4s" )) ) return 0;
-	if( ! (pfglRasterPos4sv              = (GLRASTERPOS4SV)GPA( "glRasterPos4sv" )) ) return 0;
-	if( ! (pfglReadBuffer                = (GLREADBUFFER)GPA( "glReadBuffer" )) ) return 0;
-	if( ! (pfglReadPixels                = (GLREADPIXELS)GPA( "glReadPixels" )) ) return 0;
-	if( ! (pfglRectd                     = (GLRECTD)GPA( "glRectd" )) ) return 0;
-	if( ! (pfglRectdv                    = (GLRECTDV)GPA( "glRectdv" )) ) return 0;
-	if( ! (pfglRectf                     = (GLRECTF)GPA( "glRectf" )) ) return 0;
-	if( ! (pfglRectfv                    = (GLRECTFV)GPA( "glRectfv" )) ) return 0;
-	if( ! (pfglRecti                     = (GLRECTI)GPA( "glRecti" )) ) return 0;
-	if( ! (pfglRectiv                    = (GLRECTIV)GPA( "glRectiv" )) ) return 0;
-	if( ! (pfglRects                     = (GLRECTS)GPA( "glRects" )) ) return 0;
-	if( ! (pfglRectsv                    = (GLRECTSV)GPA( "glRectsv" )) ) return 0;
-	if( ! (pfglRenderMode                = (GLRENDERMODE)GPA( "glRenderMode" )) ) return 0;
-	if( ! (pfglRotated                   = (GLROTATED)GPA( "glRotated" )) ) return 0;
-	if( ! (pfglRotatef                   = (GLROTATEF)GPA( "glRotatef" )) ) return 0;
-	if( ! (pfglScaled                    = (GLSCALED)GPA( "glScaled" )) ) return 0;
-	if( ! (pfglScalef                    = (GLSCALEF)GPA( "glScalef" )) ) return 0;
-	if( ! (pfglScissor                   = (GLSCISSOR)GPA( "glScissor" )) ) return 0;
-	if( ! (pfglSelectBuffer              = (GLSELECTBUFFER)GPA( "glSelectBuffer" )) ) return 0;
-	if( ! (pfglShadeModel                = (GLSHADEMODEL)GPA( "glShadeModel" )) ) return 0;
-	if( ! (pfglStencilFunc               = (GLSTENCILFUNC)GPA( "glStencilFunc" )) ) return 0;
-	if( ! (pfglStencilMask               = (GLSTENCILMASK)GPA( "glStencilMask" )) ) return 0;
-	if( ! (pfglStencilOp                 = (GLSTENCILOP)GPA( "glStencilOp" )) ) return 0;
-	if( ! (pfglTexCoord1d                = (GLTEXCOORD1D)GPA( "glTexCoord1d" )) ) return 0;
-	if( ! (pfglTexCoord1dv               = (GLTEXCOORD1DV)GPA( "glTexCoord1dv" )) ) return 0;
-	if( ! (pfglTexCoord1f                = (GLTEXCOORD1F)GPA( "glTexCoord1f" )) ) return 0;
-	if( ! (pfglTexCoord1fv               = (GLTEXCOORD1FV)GPA( "glTexCoord1fv" )) ) return 0;
-	if( ! (pfglTexCoord1i                = (GLTEXCOORD1I)GPA( "glTexCoord1i" )) ) return 0;
-	if( ! (pfglTexCoord1iv               = (GLTEXCOORD1IV)GPA( "glTexCoord1iv" )) ) return 0;
-	if( ! (pfglTexCoord1s                = (GLTEXCOORD1S)GPA( "glTexCoord1s" )) ) return 0;
-	if( ! (pfglTexCoord1sv               = (GLTEXCOORD1SV)GPA( "glTexCoord1sv" )) ) return 0;
-	if( ! (pfglTexCoord2d                = (GLTEXCOORD2D)GPA( "glTexCoord2d" )) ) return 0;
-	if( ! (pfglTexCoord2dv               = (GLTEXCOORD2DV)GPA( "glTexCoord2dv" )) ) return 0;
-	if( ! (pfglTexCoord2f                = (GLTEXCOORD2F)GPA( "glTexCoord2f" )) ) return 0;
-	if( ! (pfglTexCoord2fv               = (GLTEXCOORD2FV)GPA( "glTexCoord2fv" )) ) return 0;
-	if( ! (pfglTexCoord2i                = (GLTEXCOORD2I)GPA( "glTexCoord2i" )) ) return 0;
-	if( ! (pfglTexCoord2iv               = (GLTEXCOORD2IV)GPA( "glTexCoord2iv" )) ) return 0;
-	if( ! (pfglTexCoord2s                = (GLTEXCOORD2S)GPA( "glTexCoord2s" )) ) return 0;
-	if( ! (pfglTexCoord2sv               = (GLTEXCOORD2SV)GPA( "glTexCoord2sv" )) ) return 0;
-	if( ! (pfglTexCoord3d                = (GLTEXCOORD3D)GPA( "glTexCoord3d" )) ) return 0;
-	if( ! (pfglTexCoord3dv               = (GLTEXCOORD3DV)GPA( "glTexCoord3dv" )) ) return 0;
-	if( ! (pfglTexCoord3f                = (GLTEXCOORD3F)GPA( "glTexCoord3f" )) ) return 0;
-	if( ! (pfglTexCoord3fv               = (GLTEXCOORD3FV)GPA( "glTexCoord3fv" )) ) return 0;
-	if( ! (pfglTexCoord3i                = (GLTEXCOORD3I)GPA( "glTexCoord3i" )) ) return 0;
-	if( ! (pfglTexCoord3iv               = (GLTEXCOORD3IV)GPA( "glTexCoord3iv" )) ) return 0;
-	if( ! (pfglTexCoord3s                = (GLTEXCOORD3S)GPA( "glTexCoord3s" )) ) return 0;
-	if( ! (pfglTexCoord3sv               = (GLTEXCOORD3SV)GPA( "glTexCoord3sv" )) ) return 0;
-	if( ! (pfglTexCoord4d                = (GLTEXCOORD4D)GPA( "glTexCoord4d" )) ) return 0;
-	if( ! (pfglTexCoord4dv               = (GLTEXCOORD4DV)GPA( "glTexCoord4dv" )) ) return 0;
-	if( ! (pfglTexCoord4f                = (GLTEXCOORD4F)GPA( "glTexCoord4f" )) ) return 0;
-	if( ! (pfglTexCoord4fv               = (GLTEXCOORD4FV)GPA( "glTexCoord4fv" )) ) return 0;
-	if( ! (pfglTexCoord4i                = (GLTEXCOORD4I)GPA( "glTexCoord4i" )) ) return 0;
-	if( ! (pfglTexCoord4iv               = (GLTEXCOORD4IV)GPA( "glTexCoord4iv" )) ) return 0;
-	if( ! (pfglTexCoord4s                = (GLTEXCOORD4S)GPA( "glTexCoord4s" )) ) return 0;
-	if( ! (pfglTexCoord4sv               = (GLTEXCOORD4SV)GPA( "glTexCoord4sv" )) ) return 0;
-	if( ! (pfglTexCoordPointer           = (GLTEXCOORDPOINTER)GPA( "glTexCoordPointer" )) ) return 0;
-	if( ! (pfglTexEnvf                   = (GLTEXENVF)GPA( "glTexEnvf" )) ) return 0;
-	if( ! (pfglTexEnvfv                  = (GLTEXENVFV)GPA( "glTexEnvfv" )) ) return 0;
-	if( ! (pfglTexEnvi                   = (GLTEXENVI)GPA( "glTexEnvi" )) ) return 0;
-	if( ! (pfglTexEnviv                  = (GLTEXENVIV)GPA( "glTexEnviv" )) ) return 0;
-	if( ! (pfglTexGend                   = (GLTEXGEND)GPA( "glTexGend" )) ) return 0;
-	if( ! (pfglTexGendv                  = (GLTEXGENDV)GPA( "glTexGendv" )) ) return 0;
-	if( ! (pfglTexGenf                   = (GLTEXGENF)GPA( "glTexGenf" )) ) return 0;
-	if( ! (pfglTexGenfv                  = (GLTEXGENFV)GPA( "glTexGenfv" )) ) return 0;
-	if( ! (pfglTexGeni                   = (GLTEXGENI)GPA( "glTexGeni" )) ) return 0;
-	if( ! (pfglTexGeniv                  = (GLTEXGENIV)GPA( "glTexGeniv" )) ) return 0;
-	if( ! (pfglTexImage1D                = (GLTEXIMAGE1D)GPA( "glTexImage1D" )) ) return 0;
-	if( ! (pfglTexImage2D                = (GLTEXIMAGE2D)GPA( "glTexImage2D" )) ) return 0;
-	if( ! (pfglTexParameterf             = (GLTEXPARAMETERF)GPA( "glTexParameterf" )) ) return 0;
-	if( ! (pfglTexParameterfv            = (GLTEXPARAMETERFV)GPA( "glTexParameterfv" )) ) return 0;
-	if( ! (pfglTexParameteri             = (GLTEXPARAMETERI)GPA( "glTexParameteri" )) ) return 0;
-	if( ! (pfglTexParameteriv            = (GLTEXPARAMETERIV)GPA( "glTexParameteriv" )) ) return 0;
-	if( ! (pfglTexSubImage1D             = (GLTEXSUBIMAGE1D)GPA( "glTexSubImage1D" )) ) return 0;
-	if( ! (pfglTexSubImage2D             = (GLTEXSUBIMAGE2D)GPA( "glTexSubImage2D" )) ) return 0;
-	if( ! (pfglTranslated                = (GLTRANSLATED)GPA( "glTranslated" )) ) return 0;
-	if( ! (pfglTranslatef                = (GLTRANSLATEF)GPA( "glTranslatef" )) ) return 0;
-	if( ! (pfglVertex2d                  = (GLVERTEX2D)GPA( "glVertex2d" )) ) return 0;
-	if( ! (pfglVertex2dv                 = (GLVERTEX2DV)GPA( "glVertex2dv" )) ) return 0;
-	if( ! (pfglVertex2f                  = (GLVERTEX2F)GPA( "glVertex2f" )) ) return 0;
-	if( ! (pfglVertex2fv                 = (GLVERTEX2FV)GPA( "glVertex2fv" )) ) return 0;
-	if( ! (pfglVertex2i                  = (GLVERTEX2I)GPA( "glVertex2i" )) ) return 0;
-	if( ! (pfglVertex2iv                 = (GLVERTEX2IV)GPA( "glVertex2iv" )) ) return 0;
-	if( ! (pfglVertex2s                  = (GLVERTEX2S)GPA( "glVertex2s" )) ) return 0;
-	if( ! (pfglVertex2sv                 = (GLVERTEX2SV)GPA( "glVertex2sv" )) ) return 0;
-	if( ! (pfglVertex3d                  = (GLVERTEX3D)GPA( "glVertex3d" )) ) return 0;
-	if( ! (pfglVertex3dv                 = (GLVERTEX3DV)GPA( "glVertex3dv" )) ) return 0;
-	if( ! (pfglVertex3f                  = (GLVERTEX3F)GPA( "glVertex3f" )) ) return 0;
-	if( ! (pfglVertex3fv                 = (GLVERTEX3FV)GPA( "glVertex3fv" )) ) return 0;
-	if( ! (pfglVertex3i                  = (GLVERTEX3I)GPA( "glVertex3i" )) ) return 0;
-	if( ! (pfglVertex3iv                 = (GLVERTEX3IV)GPA( "glVertex3iv" )) ) return 0;
-	if( ! (pfglVertex3s                  = (GLVERTEX3S)GPA( "glVertex3s" )) ) return 0;
-	if( ! (pfglVertex3sv                 = (GLVERTEX3SV)GPA( "glVertex3sv" )) ) return 0;
-	if( ! (pfglVertex4d                  = (GLVERTEX4D)GPA( "glVertex4d" )) ) return 0;
-	if( ! (pfglVertex4dv                 = (GLVERTEX4DV)GPA( "glVertex4dv" )) ) return 0;
-	if( ! (pfglVertex4f                  = (GLVERTEX4F)GPA( "glVertex4f" )) ) return 0;
-	if( ! (pfglVertex4fv                 = (GLVERTEX4FV)GPA( "glVertex4fv" )) ) return 0;
-	if( ! (pfglVertex4i                  = (GLVERTEX4I)GPA( "glVertex4i" )) ) return 0;
-	if( ! (pfglVertex4iv                 = (GLVERTEX4IV)GPA( "glVertex4iv" )) ) return 0;
-	if( ! (pfglVertex4s                  = (GLVERTEX4S)GPA( "glVertex4s" )) ) return 0;
-	if( ! (pfglVertex4sv                 = (GLVERTEX4SV)GPA( "glVertex4sv" )) ) return 0;
-	if( ! (pfglVertexPointer             = (GLVERTEXPOINTER)GPA( "glVertexPointer" )) ) return 0;
-	if( ! (pfglViewport                  = (GLVIEWPORT)GPA( "glViewport" )) ) return 0;
+	if (!(pfglAccum = (GLACCUM)GPA("glAccum"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglAlphaFunc = (GLALPHAFUNC)GPA("glAlphaFunc"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglAreTexturesResident = (GLARETEXTURESRESIDENT)GPA("glAreTexturesResident"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglArrayElement = (GLARRAYELEMENT)GPA("glArrayElement"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglBegin = (GLBEGIN)GPA("glBegin"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglBindTexture = (GLBINDTEXTURE)GPA("glBindTexture"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglBitmap = (GLBITMAP)GPA("glBitmap"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglBlendFunc = (GLBLENDFUNC)GPA("glBlendFunc"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglCallList = (GLCALLLIST)GPA("glCallList"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglCallLists = (GLCALLLISTS)GPA("glCallLists"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglClear = (GLCLEAR)GPA("glClear"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglClearAccum = (GLCLEARACCUM)GPA("glClearAccum"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglClearColor = (GLCLEARCOLOR)GPA("glClearColor"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglClearDepth = (GLCLEARDEPTH)GPA("glClearDepth"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglClearIndex = (GLCLEARINDEX)GPA("glClearIndex"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglClearStencil = (GLCLEARSTENCIL)GPA("glClearStencil"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglClipPlane = (GLCLIPPLANE)GPA("glClipPlane"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglColor3b = (GLCOLOR3B)GPA("glColor3b"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglColor3bv = (GLCOLOR3BV)GPA("glColor3bv"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglColor3d = (GLCOLOR3D)GPA("glColor3d"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglColor3dv = (GLCOLOR3DV)GPA("glColor3dv"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglColor3f = (GLCOLOR3F)GPA("glColor3f"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglColor3fv = (GLCOLOR3FV)GPA("glColor3fv"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglColor3i = (GLCOLOR3I)GPA("glColor3i"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglColor3iv = (GLCOLOR3IV)GPA("glColor3iv"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglColor3s = (GLCOLOR3S)GPA("glColor3s"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglColor3sv = (GLCOLOR3SV)GPA("glColor3sv"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglColor3ub = (GLCOLOR3UB)GPA("glColor3ub"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglColor3ubv = (GLCOLOR3UBV)GPA("glColor3ubv"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglColor3ui = (GLCOLOR3UI)GPA("glColor3ui"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglColor3uiv = (GLCOLOR3UIV)GPA("glColor3uiv"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglColor3us = (GLCOLOR3US)GPA("glColor3us"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglColor3usv = (GLCOLOR3USV)GPA("glColor3usv"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglColor4b = (GLCOLOR4B)GPA("glColor4b"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglColor4bv = (GLCOLOR4BV)GPA("glColor4bv"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglColor4d = (GLCOLOR4D)GPA("glColor4d"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglColor4dv = (GLCOLOR4DV)GPA("glColor4dv"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglColor4f = (GLCOLOR4F)GPA("glColor4f"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglColor4fv = (GLCOLOR4FV)GPA("glColor4fv"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglColor4i = (GLCOLOR4I)GPA("glColor4i"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglColor4iv = (GLCOLOR4IV)GPA("glColor4iv"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglColor4s = (GLCOLOR4S)GPA("glColor4s"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglColor4sv = (GLCOLOR4SV)GPA("glColor4sv"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglColor4ub = (GLCOLOR4UB)GPA("glColor4ub"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglColor4ubv = (GLCOLOR4UBV)GPA("glColor4ubv"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglColor4ui = (GLCOLOR4UI)GPA("glColor4ui"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglColor4uiv = (GLCOLOR4UIV)GPA("glColor4uiv"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglColor4us = (GLCOLOR4US)GPA("glColor4us"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglColor4usv = (GLCOLOR4USV)GPA("glColor4usv"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglColorMask = (GLCOLORMASK)GPA("glColorMask"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglColorMaterial = (GLCOLORMATERIAL)GPA("glColorMaterial"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglColorPointer = (GLCOLORPOINTER)GPA("glColorPointer"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglCopyPixels = (GLCOPYPIXELS)GPA("glCopyPixels"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglCopyTexImage1D = (GLCOPYTEXIMAGE1D)GPA("glCopyTexImage1D"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglCopyTexImage2D = (GLCOPYTEXIMAGE2D)GPA("glCopyTexImage2D"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglCopyTexSubImage1D = (GLCOPYTEXSUBIMAGE1D)GPA("glCopyTexSubImage1D"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglCopyTexSubImage2D = (GLCOPYTEXSUBIMAGE2D)GPA("glCopyTexSubImage2D"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglCullFace = (GLCULLFACE)GPA("glCullFace"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglDeleteLists = (GLDELETELISTS)GPA("glDeleteLists"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglDeleteTextures = (GLDELETETEXTURES)GPA("glDeleteTextures"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglDepthFunc = (GLDEPTHFUNC)GPA("glDepthFunc"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglDepthMask = (GLDEPTHMASK)GPA("glDepthMask"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglDepthRange = (GLDEPTHRANGE)GPA("glDepthRange"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglDisable = (GLDISABLE)GPA("glDisable"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglDisableClientState = (GLDISABLECLIENTSTATE)GPA("glDisableClientState"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglDrawArrays = (GLDRAWARRAYS)GPA("glDrawArrays"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglDrawBuffer = (GLDRAWBUFFER)GPA("glDrawBuffer"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglDrawElements = (GLDRAWELEMENTS)GPA("glDrawElements"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglDrawPixels = (GLDRAWPIXELS)GPA("glDrawPixels"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglEdgeFlag = (GLEDGEFLAG)GPA("glEdgeFlag"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglEdgeFlagPointer = (GLEDGEFLAGPOINTER)GPA("glEdgeFlagPointer"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglEdgeFlagv = (GLEDGEFLAGV)GPA("glEdgeFlagv"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglEnable = (GLENABLE)GPA("glEnable"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglEnableClientState	= (GLENABLECLIENTSTATE)GPA("glEnableClientState"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglEnd = (GLEND)GPA("glEnd"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglEndList = (GLENDLIST)GPA("glEndList"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglEvalCoord1d = (GLEVALCOORD1D)GPA("glEvalCoord1d"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglEvalCoord1dv = (GLEVALCOORD1DV)GPA("glEvalCoord1dv"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglEvalCoord1f = (GLEVALCOORD1F)GPA("glEvalCoord1f"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglEvalCoord1fv = (GLEVALCOORD1FV)GPA("glEvalCoord1fv"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglEvalCoord2d = (GLEVALCOORD2D)GPA("glEvalCoord2d"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglEvalCoord2dv = (GLEVALCOORD2DV)GPA("glEvalCoord2dv"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglEvalCoord2f = (GLEVALCOORD2F)GPA("glEvalCoord2f"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglEvalCoord2fv = (GLEVALCOORD2FV)GPA("glEvalCoord2fv"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglEvalMesh1 = (GLEVALMESH1)GPA("glEvalMesh1"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglEvalMesh2 = (GLEVALMESH2)GPA("glEvalMesh2"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglEvalPoint1 = (GLEVALPOINT1)GPA("glEvalPoint1"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglEvalPoint2 = (GLEVALPOINT2)GPA("glEvalPoint2"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglFeedbackBuffer = (GLFEEDBACKBUFFER)GPA("glFeedbackBuffer"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglFinish = (GLFINISH)GPA("glFinish"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglFlush = (GLFLUSH)GPA("glFlush"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglFogf = (GLFOGF)GPA("glFogf"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglFogfv = (GLFOGFV)GPA("glFogfv"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglFogi = (GLFOGI)GPA("glFogi"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglFogiv = (GLFOGIV)GPA("glFogiv"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglFrontFace = (GLFRONTFACE)GPA("glFrontFace"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglFrustum = (GLFRUSTUM)GPA("glFrustum"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglGenLists = (GLGENLISTS)GPA("glGenLists"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglGenTextures = (GLGENTEXTURES)GPA("glGenTextures"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglGetBooleanv = (GLGETBOOLEANV)GPA("glGetBooleanv"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglGetClipPlane = (GLGETCLIPPLANE)GPA("glGetClipPlane"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglGetDoublev = (GLGETDOUBLEV)GPA("glGetDoublev"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglGetError = (GLGETERROR)GPA("glGetError"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglGetFloatv = (GLGETFLOATV)GPA("glGetFloatv"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglGetIntegerv = (GLGETINTEGERV)GPA("glGetIntegerv"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglGetLightfv = (GLGETLIGHTFV)GPA("glGetLightfv"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglGetLightiv = (GLGETLIGHTIV)GPA("glGetLightiv"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglGetMapdv = (GLGETMAPDV)GPA("glGetMapdv"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglGetMapfv = (GLGETMAPFV)GPA("glGetMapfv"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglGetMapiv = (GLGETMAPIV)GPA("glGetMapiv"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglGetMaterialfv = (GLGETMATERIALFV)GPA("glGetMaterialfv"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglGetMaterialiv = (GLGETMATERIALIV)GPA("glGetMaterialiv"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglGetPixelMapfv = (GLGETPIXELMAPFV)GPA("glGetPixelMapfv"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglGetPixelMapuiv = (GLGETPIXELMAPUIV)GPA("glGetPixelMapuiv"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglGetPixelMapusv = (GLGETPIXELMAPUSV)GPA("glGetPixelMapusv"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglGetPointerv = (GLGETPOINTERV)GPA("glGetPointerv"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglGetPolygonStipple = (GLGETPOLYGONSTIPPLE)GPA("glGetPolygonStipple"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglGetString = (GLGETSTRING)GPA("glGetString"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglGetTexEnvfv = (GLGETTEXENVFV)GPA("glGetTexEnvfv"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglGetTexEnviv = (GLGETTEXENVIV)GPA("glGetTexEnviv"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglGetTexGendv = (GLGETTEXGENDV)GPA("glGetTexGendv"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglGetTexGenfv = (GLGETTEXGENFV)GPA("glGetTexGenfv"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglGetTexGeniv = (GLGETTEXGENIV)GPA("glGetTexGeniv"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglGetTexImage = (GLGETTEXIMAGE)GPA("glGetTexImage"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglGetTexParameterfv = (GLGETTEXPARAMETERFV)GPA("glGetTexParameterfv"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglGetTexParameteriv = (GLGETTEXPARAMETERIV)GPA("glGetTexParameteriv"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglHint = (GLHINT)GPA("glHint"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglIndexMask = (GLINDEXMASK)GPA("glIndexMask"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglIndexPointer = (GLINDEXPOINTER)GPA("glIndexPointer"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglIndexd = (GLINDEXD)GPA("glIndexd"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglIndexdv = (GLINDEXDV)GPA("glIndexdv"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglIndexf = (GLINDEXF)GPA("glIndexf"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglIndexfv = (GLINDEXFV)GPA("glIndexfv"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglIndexi = (GLINDEXI)GPA("glIndexi"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglIndexiv = (GLINDEXIV)GPA("glIndexiv"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglIndexs = (GLINDEXS)GPA("glIndexs"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglIndexsv = (GLINDEXSV)GPA("glIndexsv"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglIndexub = (GLINDEXUB)GPA("glIndexub"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglIndexubv = (GLINDEXUBV)GPA("glIndexubv"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglInitNames = (GLINITNAMES)GPA("glInitNames"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglInterleavedArrays = (GLINTERLEAVEDARRAYS)GPA("glInterleavedArrays"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglIsEnabled = (GLISENABLED)GPA("glIsEnabled"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglIsList = (GLISLIST)GPA("glIsList"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglIsTexture = (GLISTEXTURE)GPA("glIsTexture"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglLightModelf = (GLLIGHTMODELF)GPA("glLightModelf"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglLightModelfv = (GLLIGHTMODELFV)GPA("glLightModelfv"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglLightModeli = (GLLIGHTMODELI)GPA("glLightModeli"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglLightModeliv = (GLLIGHTMODELIV)GPA("glLightModeliv"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglLightf = (GLLIGHTF)GPA("glLightf"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglLightfv = (GLLIGHTFV)GPA("glLightfv"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglLighti = (GLLIGHTI)GPA("glLighti"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglLightiv = (GLLIGHTIV)GPA("glLightiv"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglLineStipple = (GLLINESTIPPLE)GPA("glLineStipple"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglLineWidth = (GLLINEWIDTH)GPA("glLineWidth"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglListBase = (GLLISTBASE)GPA("glListBase"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglLoadIdentity = (GLLOADIDENTITY)GPA("glLoadIdentity"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglLoadMatrixd = (GLLOADMATRIXD)GPA("glLoadMatrixd"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglLoadMatrixf = (GLLOADMATRIXF)GPA("glLoadMatrixf"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglLoadName = (GLLOADNAME)GPA("glLoadName"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglLogicOp = (GLLOGICOP)GPA("glLogicOp"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglMap1d = (GLMAP1D)GPA("glMap1d"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglMap1f = (GLMAP1F)GPA("glMap1f"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglMap2d = (GLMAP2D)GPA("glMap2d"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglMap2f = (GLMAP2F)GPA("glMap2f"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglMapGrid1d = (GLMAPGRID1D)GPA("glMapGrid1d"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglMapGrid1f = (GLMAPGRID1F)GPA("glMapGrid1f"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglMapGrid2d = (GLMAPGRID2D)GPA("glMapGrid2d"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglMapGrid2f = (GLMAPGRID2F)GPA("glMapGrid2f"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglMaterialf = (GLMATERIALF)GPA("glMaterialf"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglMaterialfv = (GLMATERIALFV)GPA("glMaterialfv"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglMateriali = (GLMATERIALI)GPA("glMateriali"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglMaterialiv = (GLMATERIALIV)GPA("glMaterialiv"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglMatrixMode = (GLMATRIXMODE)GPA("glMatrixMode"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglMultMatrixd = (GLMULTMATRIXD)GPA("glMultMatrixd"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglMultMatrixf = (GLMULTMATRIXF)GPA("glMultMatrixf"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglNewList = (GLNEWLIST)GPA("glNewList"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglNormal3b = (GLNORMAL3B)GPA("glNormal3b"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglNormal3bv = (GLNORMAL3BV)GPA("glNormal3bv"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglNormal3d = (GLNORMAL3D)GPA("glNormal3d"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglNormal3dv = (GLNORMAL3DV)GPA("glNormal3dv"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglNormal3f = (GLNORMAL3F)GPA("glNormal3f"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglNormal3fv = (GLNORMAL3FV)GPA("glNormal3fv"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglNormal3i = (GLNORMAL3I)GPA("glNormal3i"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglNormal3iv = (GLNORMAL3IV)GPA("glNormal3iv"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglNormal3s = (GLNORMAL3S)GPA("glNormal3s"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglNormal3sv = (GLNORMAL3SV)GPA("glNormal3sv"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglNormalPointer = (GLNORMALPOINTER)GPA("glNormalPointer"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglOrtho = (GLORTHO)GPA("glOrtho"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglPassThrough = (GLPASSTHROUGH)GPA("glPassThrough"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglPixelMapfv = (GLPIXELMAPFV)GPA("glPixelMapfv"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglPixelMapuiv = (GLPIXELMAPUIV)GPA("glPixelMapuiv"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglPixelMapusv = (GLPIXELMAPUSV)GPA("glPixelMapusv"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglPixelStoref = (GLPIXELSTOREF)GPA("glPixelStoref"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglPixelStorei = (GLPIXELSTOREI)GPA("glPixelStorei"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglPixelTransferf = (GLPIXELTRANSFERF)GPA("glPixelTransferf"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglPixelTransferi = (GLPIXELTRANSFERI)GPA("glPixelTransferi"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglPixelZoom = (GLPIXELZOOM)GPA("glPixelZoom"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglPointSize = (GLPOINTSIZE)GPA("glPointSize"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglPolygonMode = (GLPOLYGONMODE)GPA("glPolygonMode"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglPolygonOffset = (GLPOLYGONOFFSET)GPA("glPolygonOffset"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglPolygonStipple = (GLPOLYGONSTIPPLE)GPA("glPolygonStipple"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglPopAttrib = (GLPOPATTRIB)GPA("glPopAttrib"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglPopClientAttrib = (GLPOPCLIENTATTRIB)GPA("glPopClientAttrib"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglPopMatrix = (GLPOPMATRIX)GPA("glPopMatrix"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglPopName = (GLPOPNAME)GPA("glPopName"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglPrioritizeTextures = (GLPRIORITIZETEXTURES)GPA("glPrioritizeTextures"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglPushAttrib = (GLPUSHATTRIB)GPA("glPushAttrib"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglPushClientAttrib = (GLPUSHCLIENTATTRIB)GPA("glPushClientAttrib"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglPushMatrix = (GLPUSHMATRIX)GPA("glPushMatrix"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglPushName = (GLPUSHNAME)GPA("glPushName"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglRasterPos2d = (GLRASTERPOS2D)GPA("glRasterPos2d"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglRasterPos2dv = (GLRASTERPOS2DV)GPA("glRasterPos2dv"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglRasterPos2f = (GLRASTERPOS2F)GPA("glRasterPos2f"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglRasterPos2fv = (GLRASTERPOS2FV)GPA("glRasterPos2fv"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglRasterPos2i = (GLRASTERPOS2I)GPA("glRasterPos2i"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglRasterPos2iv = (GLRASTERPOS2IV)GPA("glRasterPos2iv"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglRasterPos2s = (GLRASTERPOS2S)GPA("glRasterPos2s"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglRasterPos2sv = (GLRASTERPOS2SV)GPA("glRasterPos2sv"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglRasterPos3d = (GLRASTERPOS3D)GPA("glRasterPos3d"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglRasterPos3dv = (GLRASTERPOS3DV)GPA("glRasterPos3dv"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglRasterPos3f = (GLRASTERPOS3F)GPA("glRasterPos3f"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglRasterPos3fv = (GLRASTERPOS3FV)GPA("glRasterPos3fv"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglRasterPos3i = (GLRASTERPOS3I)GPA("glRasterPos3i"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglRasterPos3iv = (GLRASTERPOS3IV)GPA("glRasterPos3iv"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglRasterPos3s = (GLRASTERPOS3S)GPA("glRasterPos3s"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglRasterPos3sv = (GLRASTERPOS3SV)GPA("glRasterPos3sv"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglRasterPos4d = (GLRASTERPOS4D)GPA("glRasterPos4d"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglRasterPos4dv = (GLRASTERPOS4DV)GPA("glRasterPos4dv"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglRasterPos4f = (GLRASTERPOS4F)GPA("glRasterPos4f"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglRasterPos4fv = (GLRASTERPOS4FV)GPA("glRasterPos4fv"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglRasterPos4i = (GLRASTERPOS4I)GPA("glRasterPos4i"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglRasterPos4iv = (GLRASTERPOS4IV)GPA("glRasterPos4iv"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglRasterPos4s = (GLRASTERPOS4S)GPA("glRasterPos4s"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglRasterPos4sv = (GLRASTERPOS4SV)GPA("glRasterPos4sv"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglReadBuffer = (GLREADBUFFER)GPA("glReadBuffer"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglReadPixels = (GLREADPIXELS)GPA("glReadPixels"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglRectd = (GLRECTD)GPA("glRectd"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglRectdv = (GLRECTDV)GPA("glRectdv"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglRectf = (GLRECTF)GPA("glRectf"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglRectfv = (GLRECTFV)GPA("glRectfv"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglRecti = (GLRECTI)GPA("glRecti"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglRectiv = (GLRECTIV)GPA("glRectiv"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglRects = (GLRECTS)GPA("glRects"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglRectsv = (GLRECTSV)GPA("glRectsv"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglRenderMode = (GLRENDERMODE)GPA("glRenderMode"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglRotated = (GLROTATED)GPA("glRotated"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglRotatef = (GLROTATEF)GPA("glRotatef"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglScaled = (GLSCALED)GPA("glScaled"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglScalef = (GLSCALEF)GPA("glScalef"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglScissor = (GLSCISSOR)GPA("glScissor"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglSelectBuffer = (GLSELECTBUFFER)GPA("glSelectBuffer"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglShadeModel = (GLSHADEMODEL)GPA("glShadeModel"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglStencilFunc = (GLSTENCILFUNC)GPA("glStencilFunc"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglStencilMask = (GLSTENCILMASK)GPA("glStencilMask"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglStencilOp = (GLSTENCILOP)GPA("glStencilOp"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglTexCoord1d = (GLTEXCOORD1D)GPA("glTexCoord1d"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglTexCoord1dv = (GLTEXCOORD1DV)GPA("glTexCoord1dv"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglTexCoord1f = (GLTEXCOORD1F)GPA("glTexCoord1f"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglTexCoord1fv = (GLTEXCOORD1FV)GPA("glTexCoord1fv"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglTexCoord1i = (GLTEXCOORD1I)GPA("glTexCoord1i"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglTexCoord1iv = (GLTEXCOORD1IV)GPA("glTexCoord1iv"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglTexCoord1s = (GLTEXCOORD1S)GPA("glTexCoord1s"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglTexCoord1sv = (GLTEXCOORD1SV)GPA("glTexCoord1sv"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglTexCoord2d = (GLTEXCOORD2D)GPA("glTexCoord2d"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglTexCoord2dv = (GLTEXCOORD2DV)GPA("glTexCoord2dv"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglTexCoord2f = (GLTEXCOORD2F)GPA("glTexCoord2f"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglTexCoord2fv = (GLTEXCOORD2FV)GPA("glTexCoord2fv"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglTexCoord2i = (GLTEXCOORD2I)GPA("glTexCoord2i"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglTexCoord2iv = (GLTEXCOORD2IV)GPA("glTexCoord2iv"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglTexCoord2s = (GLTEXCOORD2S)GPA("glTexCoord2s"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglTexCoord2sv = (GLTEXCOORD2SV)GPA("glTexCoord2sv"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglTexCoord3d = (GLTEXCOORD3D)GPA("glTexCoord3d"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglTexCoord3dv = (GLTEXCOORD3DV)GPA("glTexCoord3dv"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglTexCoord3f = (GLTEXCOORD3F)GPA("glTexCoord3f"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglTexCoord3fv = (GLTEXCOORD3FV)GPA("glTexCoord3fv"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglTexCoord3i = (GLTEXCOORD3I)GPA("glTexCoord3i"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglTexCoord3iv = (GLTEXCOORD3IV)GPA("glTexCoord3iv"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglTexCoord3s = (GLTEXCOORD3S)GPA("glTexCoord3s"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglTexCoord3sv = (GLTEXCOORD3SV)GPA("glTexCoord3sv"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglTexCoord4d = (GLTEXCOORD4D)GPA("glTexCoord4d"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglTexCoord4dv = (GLTEXCOORD4DV)GPA("glTexCoord4dv"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglTexCoord4f = (GLTEXCOORD4F)GPA("glTexCoord4f"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglTexCoord4fv = (GLTEXCOORD4FV)GPA("glTexCoord4fv"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglTexCoord4i = (GLTEXCOORD4I)GPA("glTexCoord4i"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglTexCoord4iv = (GLTEXCOORD4IV)GPA("glTexCoord4iv"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglTexCoord4s = (GLTEXCOORD4S)GPA("glTexCoord4s"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglTexCoord4sv = (GLTEXCOORD4SV)GPA("glTexCoord4sv"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglTexCoordPointer = (GLTEXCOORDPOINTER)GPA("glTexCoordPointer"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglTexEnvf = (GLTEXENVF)GPA("glTexEnvf"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglTexEnvfv = (GLTEXENVFV)GPA("glTexEnvfv"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglTexEnvi = (GLTEXENVI)GPA("glTexEnvi"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglTexEnviv = (GLTEXENVIV)GPA("glTexEnviv"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglTexGend = (GLTEXGEND)GPA("glTexGend"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglTexGendv = (GLTEXGENDV)GPA("glTexGendv"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglTexGenf = (GLTEXGENF)GPA("glTexGenf"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglTexGenfv = (GLTEXGENFV)GPA("glTexGenfv"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglTexGeni = (GLTEXGENI)GPA("glTexGeni"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglTexGeniv = (GLTEXGENIV)GPA("glTexGeniv"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglTexImage1D = (GLTEXIMAGE1D)GPA("glTexImage1D"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglTexImage2D = (GLTEXIMAGE2D)GPA("glTexImage2D"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglTexParameterf = (GLTEXPARAMETERF)GPA("glTexParameterf"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglTexParameterfv = (GLTEXPARAMETERFV)GPA("glTexParameterfv"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglTexParameteri = (GLTEXPARAMETERI)GPA("glTexParameteri"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglTexParameteriv = (GLTEXPARAMETERIV)GPA("glTexParameteriv"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglTexSubImage1D = (GLTEXSUBIMAGE1D)GPA("glTexSubImage1D"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglTexSubImage2D = (GLTEXSUBIMAGE2D)GPA("glTexSubImage2D"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglTranslated = (GLTRANSLATED)GPA("glTranslated"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglTranslatef = (GLTRANSLATEF)GPA("glTranslatef"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglVertex2d = (GLVERTEX2D)GPA("glVertex2d"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglVertex2dv = (GLVERTEX2DV)GPA("glVertex2dv"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglVertex2f = (GLVERTEX2F)GPA("glVertex2f"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglVertex2fv = (GLVERTEX2FV)GPA("glVertex2fv"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglVertex2i = (GLVERTEX2I)GPA("glVertex2i"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglVertex2iv = (GLVERTEX2IV)GPA("glVertex2iv"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglVertex2s = (GLVERTEX2S)GPA("glVertex2s"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglVertex2sv = (GLVERTEX2SV)GPA("glVertex2sv"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglVertex3d = (GLVERTEX3D)GPA("glVertex3d"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglVertex3dv = (GLVERTEX3DV)GPA("glVertex3dv"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglVertex3f = (GLVERTEX3F)GPA("glVertex3f"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglVertex3fv = (GLVERTEX3FV)GPA("glVertex3fv"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglVertex3i = (GLVERTEX3I)GPA("glVertex3i"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglVertex3iv = (GLVERTEX3IV)GPA("glVertex3iv"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglVertex3s = (GLVERTEX3S)GPA("glVertex3s"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglVertex3sv = (GLVERTEX3SV)GPA("glVertex3sv"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglVertex4d = (GLVERTEX4D)GPA("glVertex4d"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglVertex4dv = (GLVERTEX4DV)GPA("glVertex4dv"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglVertex4f = (GLVERTEX4F)GPA("glVertex4f"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglVertex4fv = (GLVERTEX4FV)GPA("glVertex4fv"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglVertex4i = (GLVERTEX4I)GPA("glVertex4i"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglVertex4iv = (GLVERTEX4IV)GPA("glVertex4iv"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglVertex4s = (GLVERTEX4S)GPA("glVertex4s"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglVertex4sv = (GLVERTEX4SV)GPA("glVertex4sv"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglVertexPointer = (GLVERTEXPOINTER)GPA("glVertexPointer"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfglViewport = (GLVIEWPORT)GPA("glViewport"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
 
 #ifdef _WIN32
-	if( ! (pfwglCopyContext              = (WGLCOPYCONTEXT)GPA( "wglCopyContext" )) ) return 0;
-	if( ! (pfwglCreateContext            = (WGLCREATECONTEXT)GPA( "wglCreateContext" )) ) return 0;
-	if( ! (pfwglCreateLayerContext       = (WGLCREATELAYERCONTEXT)GPA( "wglCreateLayerContext" )) ) return 0;
-	if( ! (pfwglDeleteContext            = (WGLDELETECONTEXT)GPA( "wglDeleteContext" )) ) return 0;
-	if( ! (pfwglDescribeLayerPlane       = (WGLDESCRIBELAYERPLANE)GPA( "wglDescribeLayerPlane" )) ) return 0;
-	if( ! (pfwglGetCurrentContext        = (WGLGETCURRENTCONTEXT)GPA( "wglGetCurrentContext" )) ) return 0;
-	if( ! (pfwglGetCurrentDC             = (WGLGETCURRENTDC)GPA( "wglGetCurrentDC" )) ) return 0;
-	if( ! (pfwglGetLayerPaletteEntries   = (WGLGETLAYERPALETTEENTRIES)GPA( "wglGetLayerPaletteEntries" )) ) return 0;
-	if( ! (pfwglGetProcAddress           = (WGLGETPROCADDRESS)GPA( "wglGetProcAddress" )) ) return 0;
-	if( ! (pfwglMakeCurrent              = (WGLMAKECURRENT)GPA( "wglMakeCurrent" )) ) return 0;
-	if( ! (pfwglRealizeLayerPalette      = (WGLREALIZELAYERPALETTE)GPA( "wglRealizeLayerPalette" )) ) return 0;
-	if( ! (pfwglSetLayerPaletteEntries   = (WGLSETLAYERPALETTEENTRIES)GPA( "wglSetLayerPaletteEntries" )) ) return 0;
-	if( ! (pfwglShareLists               = (WGLSHARELISTS)GPA( "wglShareLists" )) ) return 0;
-	if( ! (pfwglSwapLayerBuffers         = (WGLSWAPLAYERBUFFERS)GPA( "wglSwapLayerBuffers" )) ) return 0;
-	if( ! (pfwglUseFontBitmaps           = (WGLUSEFONTBITMAPS)GPA( "wglUseFontBitmapsA" )) ) return 0;
-	if( ! (pfwglUseFontOutlines          = (WGLUSEFONTOUTLINES)GPA( "wglUseFontOutlinesA" )) ) return 0;
-
-	if( ! (pfwglChoosePixelFormat        = (WGLCHOOSEPIXELFORMAT)GPA( "wglChoosePixelFormat" )) ) return 0;
-	if( ! (pfwglDescribePixelFormat      = (WGLDESCRIBEPIXELFORMAT)GPA( "wglDescribePixelFormat" )) ) return 0;
-	if( ! (pfwglGetPixelFormat           = (WGLGETPIXELFORMAT)GPA( "wglGetPixelFormat" )) ) return 0;
-	if( ! (pfwglSetPixelFormat           = (WGLSETPIXELFORMAT)GPA( "wglSetPixelFormat" )) ) return 0;
-	if( ! (pfwglSwapBuffers              = (WGLSWAPBUFFERS)GPA( "wglSwapBuffers" )) ) return 0;
+	if (!(pfwglCopyContext = (WGLCOPYCONTEXT)GPA("wglCopyContext"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfwglCreateContext = (WGLCREATECONTEXT)GPA("wglCreateContext"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfwglCreateLayerContext = (WGLCREATELAYERCONTEXT)GPA("wglCreateLayerContext"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfwglDeleteContext = (WGLDELETECONTEXT)GPA("wglDeleteContext"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfwglDescribeLayerPlane = (WGLDESCRIBELAYERPLANE)GPA("wglDescribeLayerPlane"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfwglGetCurrentContext = (WGLGETCURRENTCONTEXT)GPA("wglGetCurrentContext"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfwglGetCurrentDC = (WGLGETCURRENTDC)GPA("wglGetCurrentDC"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfwglGetLayerPaletteEntries = (WGLGETLAYERPALETTEENTRIES)GPA("wglGetLayerPaletteEntries"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfwglGetProcAddress = (WGLGETPROCADDRESS)GPA("wglGetProcAddress"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfwglMakeCurrent = (WGLMAKECURRENT)GPA("wglMakeCurrent"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfwglRealizeLayerPalette = (WGLREALIZELAYERPALETTE)GPA("wglRealizeLayerPalette"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfwglSetLayerPaletteEntries = (WGLSETLAYERPALETTEENTRIES)GPA("wglSetLayerPaletteEntries"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfwglShareLists = (WGLSHARELISTS)GPA("wglShareLists"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfwglSwapLayerBuffers = (WGLSWAPLAYERBUFFERS)GPA("wglSwapLayerBuffers"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfwglUseFontBitmaps = (WGLUSEFONTBITMAPS)GPA("wglUseFontBitmapsA"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfwglUseFontOutlines = (WGLUSEFONTOUTLINES)GPA("wglUseFontOutlinesA"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfwglChoosePixelFormat = (WGLCHOOSEPIXELFORMAT)GPA("wglChoosePixelFormat"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfwglDescribePixelFormat = (WGLDESCRIBEPIXELFORMAT)GPA("wglDescribePixelFormat"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfwglGetPixelFormat = (WGLGETPIXELFORMAT)GPA("wglGetPixelFormat"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfwglSetPixelFormat = (WGLSETPIXELFORMAT)GPA("wglSetPixelFormat"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
+	if (!(pfwglSwapBuffers = (WGLSWAPBUFFERS)GPA("wglSwapBuffers"))) {
+		Com_Printf(" ...failed. \n");
+		return 0;
+	}
 #elif __unix__ || __APPLE__
 /* __APPLE__ depends on tentative similar preprocessor macro check also existing
  * in "myopengl.h" */
 	if (!(pfglXChooseVisual =
 		  (XVisualInfo *(*)(Display *, int, int *))GPA("glXChooseVisual"))) {
+		Com_Printf(" ...failed. \n");
 		return 0;
 	}
 	if (!(pfglXCreateContext =
 		  (GLXContext (*)(Display *, XVisualInfo *, GLXContext, int))GPA("glXCreateContext"))) {
+		Com_Printf(" ...failed. \n");
 		return 0;
 	}
 	if (!(pfglXDestroyContext =
 		  (void (*)(Display *, GLXContext))GPA("glXDestroyContext"))) {
+		Com_Printf(" ...failed. \n");
 		return 0;
 	}
 	if (!(pfglXMakeCurrent =
 		  (int (*)(Display *, GLXDrawable, GLXContext))GPA("glXMakeCurrent"))) {
+		Com_Printf(" ...failed. \n");
 		return 0;
 	}
 	if (!(pfglXCopyContext =
 		  (void (*)(Display *, GLXContext, GLXContext, GLuint))GPA("glXCopyContext"))) {
+		Com_Printf(" ...failed. \n");
 		return 0;
 	}
 	if (!(pfglXSwapBuffers =
 		  (void (*)(Display *, GLXDrawable))GPA("glXSwapBuffers"))) {
+		Com_Printf(" ...failed. \n");
 		return 0;
 	}
 #elif __APPLE__
-# warning "Please define interface to OpenGL library for your platform!"
+# warning "Please define interface to the OpenGL library for your platform!"
 #else
 # error "Please define interface to OpenGL library for your platform!"
 #endif /* platform check */
 
-	Com_Printf("succeeded\n");
+	Com_Printf(" ...succeeded. \n");
 
 	return 1;
 }

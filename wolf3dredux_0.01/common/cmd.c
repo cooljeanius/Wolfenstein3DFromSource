@@ -105,13 +105,13 @@ PRIVATE W8	defer_text_buf[ 8192 ];
 
  Returns: Nothing.
 
- Notes: This must be called before using command buffer.
-
+ Notes: This must be called before using command buffer. It is basically a
+		simple wrapper around SZ_Init() for now.
 -----------------------------------------------------------------------------
 */
 PRIVATE void Cbuf_Init(void)
 {
-	SZ_Init(&cmd_text, cmd_text_buf, sizeof(cmd_text_buf));
+	SZ_Init(&cmd_text, (PW8)cmd_text_buf, (int)sizeof(cmd_text_buf));
 }
 
 
@@ -264,11 +264,11 @@ PUBLIC void Cbuf_ExecuteText( execwhen_t exec_when, char *text )
 
 -----------------------------------------------------------------------------
 */
-PUBLIC void Cbuf_Execute( void )
+PUBLIC void Cbuf_Execute(void)
 {
 	int		i;
 	char	*text;
-	char	line[ 1024 ];
+	char	line[1024];
 	int		quotes;
 
 	i = 0;
@@ -282,13 +282,13 @@ PUBLIC void Cbuf_Execute( void )
 
 	alias_count = 0;	/* do NOT allow infinite alias loops */
 
-	while( cmd_text.cursize ) {
+	while (cmd_text.cursize) {
 		/* find a \n or ; line break */
 		text = (char *)cmd_text.data;
 
 		quotes = 0;
-		for( i = 0; i < cmd_text.cursize; ++i ) {
-			if( text[ i ] == '"' ) {
+		for ((i = 0); (i < cmd_text.cursize); ++i) {
+			if (text[i] == '"') {
 				quotes++;
 			}
 
@@ -350,23 +350,23 @@ PUBLIC void Cbuf_Execute( void )
 		Other commands are added late, after all initialization is complete.
 -----------------------------------------------------------------------------
 */
-PUBLIC void Cbuf_AddEarlyCommands( _boolean clear )
+PUBLIC void Cbuf_AddEarlyCommands(_boolean clear)
 {
 	int		i;
 	char	*s;
 
-	for( i = 0; i < COM_Argc(); ++i ) {
-		s = COM_Argv( i );
+	for ((i = 0); (i < COM_Argc()); ++i) {
+		s = COM_Argv(i);
 
-		if( strcmp( s, "+set" ) ) {
+		if (strcmp(s, "+set")) {
 			continue;
 		}
 
-		Cbuf_AddText( va("set %s %s\n", COM_Argv(i+1), COM_Argv(i+2)));
-		if( clear ) {
-			COM_ClearArgv( i );
-			COM_ClearArgv( i+1 );
-			COM_ClearArgv( i+2 );
+		Cbuf_AddText(va("set %s %s\n", COM_Argv(i + 1), COM_Argv(i + 2)));
+		if (clear) {
+			COM_ClearArgv(i);
+			COM_ClearArgv(i + 1);
+			COM_ClearArgv(i + 2);
 		}
 		i += 2;
 	}
@@ -408,56 +408,56 @@ PUBLIC _boolean Cbuf_AddLateCommands( void )
 	/* build the combined string to parse from */
 	s = 0;
 	argc = COM_Argc();
-	for( i = 1; i < argc; ++i ) {
-		s += strlen( COM_Argv( i ) ) + 1;
+	for ((i = 1); (i < argc); ++i) {
+		s += (int)(strlen(COM_Argv(i)) + 1);
 	}
 
-	if( ! s ) {
+	if (! s) {
 		return false;
 	}
 
-	text = Z_Malloc( (size_t)(s + 1) );
-	text[ 0 ] = '\0';	/* Start with a NUL-terminated string. */
+	text = Z_Malloc((size_t)(s + 1));
+	text[0] = '\0';	/* Start with a NUL-terminated string. */
 
-	for( i = 1; i < argc; ++i ) {
-		my_strlcat( text, COM_Argv( i ), (size_t)s );
-		if( i != argc-1 ) {
-			my_strlcat( text, " ", (size_t)s );
+	for ((i = 1); (i < argc); ++i) {
+		my_strlcat(text, COM_Argv(i), (size_t)s);
+		if (i != (argc - 1)) {
+			my_strlcat(text, " ", (size_t)s);
 		}
 	}
 
 	/* pull out the commands */
-	build = Z_Malloc( (size_t)(s + 1) );
-	build[ 0 ] = '\0'; /* Start with a NUL-terminated string. */
+	build = Z_Malloc((size_t)(s + 1));
+	build[0] = '\0'; /* Start with a NUL-terminated string. */
 
-	for (i = 0; i < s-1; ++i) {
-		if (text[ i ] == '+') {
+	for ((i = 0); (i < (s - 1)); ++i) {
+		if (text[i] == '+') {
 			i++;
 
 			for ((j = i);
-				 ((text[ j ] != '+') && (text[ j ] != '-') && (text[ j ] != 0));
-				 j++) {
+				 ((text[j] != '+') && (text[j] != '-') && (text[j] != 0));
+				 (j++)) {
 				;
 				/* do nothing (?) */
 			}
 
-			c = text[ j ];
-			text[ j ] = 0;
+			c = text[j];
+			text[j] = 0;
 
-			my_strlcat( build, (text + i), (size_t)(s + 1) );
-			my_strlcat( build, "\n", (size_t)(s + 1) );
-			text[ j ] = c;
-			i = j - 1;
+			my_strlcat(build, (text + i), (size_t)(s + 1));
+			my_strlcat(build, "\n", (size_t)(s + 1));
+			text[j] = c;
+			i = (j - 1);
 		}
 	}
 
-	ret = (build[ 0 ] != 0);
-	if( ret ) {
-		Cbuf_AddText (build);
+	ret = (build[0] != 0);
+	if (ret) {
+		Cbuf_AddText(build);
 	}
 
-	Z_Free( text );
-	Z_Free( build );
+	Z_Free(text);
+	Z_Free(build);
 
 	return ret;
 }
@@ -491,12 +491,12 @@ PRIVATE void Cmd_Exec_f(void)
 	char	*f2;
 	int		len;
 
-	if (Cmd_Argc () != 2) {
+	if (Cmd_Argc() != 2) {
 		Com_Printf("exec <filename> : execute a script file\n");
 		return;
 	}
 
-	hfile = FS_OpenFile(Cmd_Argv(1), FA_FILE_FLAG_LOAD);
+	hfile = FS_OpenFile(Cmd_Argv(1), (W32)FA_FILE_FLAG_LOAD);
 	if (! hfile) {
 		Com_Printf("could NOT exec %s\n", Cmd_Argv(1));
 
@@ -793,7 +793,7 @@ PRIVATE char *Cmd_MacroExpandString( char *text )
 	$Cvars will be expanded unless they are in a quoted token
 -----------------------------------------------------------------------------
 */
-PUBLIC void Cmd_TokenizeString( char *text, _boolean macroExpand )
+PUBLIC void Cmd_TokenizeString(char *text, _boolean macroExpand)
 {
 	int		i;
 	char	*com_token;
@@ -807,47 +807,47 @@ PUBLIC void Cmd_TokenizeString( char *text, _boolean macroExpand )
 	}
 
 	/* clear the args from the last string */
-	for( i = 0 ; i < cmd_argc ; ++i ) {
-		Z_Free( cmd_argv[ i ] );
+	for ((i = 0); (i < cmd_argc); ++i) {
+		Z_Free(cmd_argv[i]);
 	}
 
 	cmd_argc = 0;
-	cmd_args[ 0 ] = 0;
+	cmd_args[0] = 0;
 
 	/* macro expand the text */
-	if( macroExpand ) {
-		text = Cmd_MacroExpandString( text );
+	if (macroExpand) {
+		text = Cmd_MacroExpandString(text);
 	}
 
-	if( ! text ) {
+	if (! text) {
 		return;
 	}
 
-	while( 1 ) {
+	while (1) {
 		/* skip whitespace up to a /n */
-		while( *text && *text <= ' ' && *text != '\n' ) {
+		while (*text && (*text <= ' ') && (*text != '\n')) {
 			text++;
 		}
 
-		if( *text == '\n' ) {
+		if (*text == '\n') {
 			/* a newline seperates commands in the buffer */
 			text++;
 			break;
 		}
 
-		if( ! *text ) {
+		if (! *text) {
 			return;
 		}
 
 		/* set cmd_args to everything after the first arg */
-		if( cmd_argc == 1 ) {
-			int		l;
+		if (cmd_argc == 1) {
+			int		l, tw;
 
-			my_strlcpy( cmd_args, text, sizeof( cmd_args ) - 1 );
+			my_strlcpy(cmd_args, text, (sizeof(cmd_args) - 1));
 
 			/* strip off any trailing whitespace */
-			l = (int)(strlen( cmd_args ) - 1);
-			for( ; l >= 0 ; --l ) {
+			tw = (int)(strlen(cmd_args) - 1);
+			for ((l = tw); (l >= 0); --l) {
 				if (cmd_args[l] <= ' ') {
 					cmd_args[l] = 0;
 				} else {
@@ -856,14 +856,14 @@ PUBLIC void Cmd_TokenizeString( char *text, _boolean macroExpand )
 			}
 		}
 
-		com_token = COM_Parse( &text );
-		if( ! text ) {
+		com_token = COM_Parse(&text);
+		if (! text) {
 			return;
 		}
 
-		if( cmd_argc < MAX_STRING_TOKENS ) {
-			cmd_argv[ cmd_argc ] = Z_Malloc( strlen( com_token ) + 1 );
-			my_strlcpy( cmd_argv[ cmd_argc ], com_token, strlen( com_token ) + 1 );
+		if (cmd_argc < MAX_STRING_TOKENS) {
+			cmd_argv[cmd_argc] = Z_Malloc(strlen(com_token) + 1);
+			my_strlcpy(cmd_argv[cmd_argc], com_token, (strlen(com_token) + 1));
 			cmd_argc++;
 		}
 	}
@@ -1056,27 +1056,27 @@ PUBLIC char *Cmd_CompleteCommand( char *partial )
 	FIXME: lookupnoadd the token to speed search?
 -----------------------------------------------------------------------------
 */
-PUBLIC void Cmd_ExecuteString( char *text )
+PUBLIC void Cmd_ExecuteString(char *text)
 {
 	cmd_function_t	*cmd;
 	cmdalias_t		*a;
 	W32	hashid;
 
-	Cmd_TokenizeString( text, true );
+	Cmd_TokenizeString(text, (_boolean)true);
 
 	/* execute the command line */
-	if( ! Cmd_Argc() ) {
+	if (! Cmd_Argc()) {
 		return;		/* no tokens */
 	}
 
-	hashid = my_strhash( cmd_argv[ 0 ] );
+	hashid = my_strhash(cmd_argv[0]);
 
 	/* check functions */
-	for( cmd = cmd_functions ; cmd ; cmd = cmd->next ) {
-		if( hashid == cmd->id ) {
-			if( ! cmd->function ) {
+	for ((cmd = cmd_functions); cmd; (cmd = cmd->next)) {
+		if (hashid == cmd->id) {
+			if (! cmd->function) {
 				/* forward to server command */
-				Cmd_ExecuteString( va( "cmd %s", text ) );
+				Cmd_ExecuteString(va("cmd %s", text));
 			} else {
 				cmd->function();
 			}
@@ -1086,25 +1086,25 @@ PUBLIC void Cmd_ExecuteString( char *text )
 	}
 
 	/* check alias */
-	for( a = cmd_alias ; a ; a = a->next ) {
-		if( ! my_stricmp( cmd_argv[ 0 ], a->name ) ) {
-			if( ++alias_count == ALIAS_LOOP_COUNT ) {
-				Com_Printf( "ALIAS_LOOP_COUNT\n" );
+	for ((a = cmd_alias); a; (a = a->next)) {
+		if (! my_stricmp(cmd_argv[0], a->name)) {
+			if (++alias_count == ALIAS_LOOP_COUNT) {
+				Com_Printf("ALIAS_LOOP_COUNT\n");
 				return;
 			}
-			Cbuf_InsertText( a->value );
+			Cbuf_InsertText(a->value);
 			return;
 		}
 	}
 
 	/* check cvars */
-	if( Cvar_Command() ) {
+	if (Cvar_Command()) {
 		return;
 	}
 
 #if 0
 	/* send it as a server command if we are connected */
-	Cmd_ForwardToServer();
+	Cmd_ForwardToServer(); /* unimplemented */
 #endif /* 0 */
 }
 
@@ -1119,16 +1119,16 @@ PUBLIC void Cmd_ExecuteString( char *text )
  Notes: List commands and total number of commands.
 -----------------------------------------------------------------------------
 */
-PRIVATE void Cmd_List_f( void )
+PRIVATE void Cmd_List_f(void)
 {
 	cmd_function_t	*cmd;
 	int				i = 0;
 
-	for( cmd = cmd_functions; cmd; cmd = cmd->next, ++i ) {
-		Com_Printf( "%s\n", cmd->name );
+	for ((cmd = cmd_functions); cmd; (cmd = cmd->next), ++i) {
+		Com_Printf("%s\n", cmd->name);
 	}
 
-	Com_Printf( "%i commands\n", i );
+	Com_Printf("%i commands\n", i);
 }
 
 /*

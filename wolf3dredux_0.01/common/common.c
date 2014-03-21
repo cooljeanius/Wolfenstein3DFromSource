@@ -711,7 +711,7 @@ PUBLIC void common_Init(int argc, char *argv[])
 	 * a basedir or cddir needs to be set before execing
 	 * config files, but we want other parms to override
 	 * the settings of the config files. */
-	Cbuf_AddEarlyCommands(false);
+	Cbuf_AddEarlyCommands((_boolean)false);
 	Cbuf_Execute();
 
 	FS_InitFilesystem();
@@ -719,37 +719,38 @@ PUBLIC void common_Init(int argc, char *argv[])
 	Cbuf_AddText("exec DEFAULT.CFG\n");
 	Cbuf_AddText("exec config.cfg\n");
 
-	Cbuf_AddEarlyCommands(true);
+	Cbuf_AddEarlyCommands((_boolean)true);
 	Cbuf_Execute();
 
 	/*
 	 * init commands and vars
 	 */
-    Cmd_AddCommand( "z_stats", Z_Stats_f );
-	Cmd_AddCommand( "error", Com_Error_f );
+    Cmd_AddCommand("z_stats", Z_Stats_f);
+	Cmd_AddCommand("error", Com_Error_f);
 
 #if 0
-	host_speeds = Cvar_Get( "host_speeds", "0", CVAR_INIT );
-	log_stats = Cvar_Get( "log_stats", "1", CVAR_INIT );
+	host_speeds = Cvar_Get("host_speeds", "0", CVAR_INIT);
+	log_stats = Cvar_Get("log_stats", "1", CVAR_INIT);
 #endif /* 0 */
-	developer = Cvar_Get( "developer", "0", CVAR_INIT );
+	developer = Cvar_Get("developer", "0", CVAR_INIT);
 #if 0
-	timescale = Cvar_Get( "timescale", "1", CVAR_INIT );
-	fixedtime = Cvar_Get( "fixedtime", "0", CVAR_INIT );
+	timescale = Cvar_Get("timescale", "1", CVAR_INIT);
+	fixedtime = Cvar_Get("fixedtime", "0", CVAR_INIT);
 #endif /* 0 */
-	logfile_active = Cvar_Get( "logfile", "2", CVAR_INIT );
+	logfile_active = Cvar_Get("logfile", "2", CVAR_INIT);
 #if 0
-	showtrace = Cvar_Get( "showtrace", "1", CVAR_INIT );
+	showtrace = Cvar_Get("showtrace", "1", CVAR_INIT);
 #endif /* 0 */
 
 #ifdef DEDICATED_ONLY
-	dedicated = Cvar_Get ( "dedicated", "1", CVAR_NOSET );
+	dedicated = Cvar_Get("dedicated", "1", CVAR_NOSET);
 #else
-	dedicated = Cvar_Get ( "dedicated", "0", CVAR_NOSET );
+	dedicated = Cvar_Get("dedicated", "0", CVAR_NOSET);
 #endif /* DEDICATED_ONLY */
 
-	s = va( "%s %s %s %s %s %s", APP_VERSION, RELEASENAME, CPUSTRING, __DATE__, __TIME__, BUILDSTRING );
-	Cvar_Get( "version", s, CVAR_SERVERINFO | CVAR_NOSET );
+	s = va("%s %s %s %s %s %s", APP_VERSION, RELEASENAME, CPUSTRING,
+		   __DATE__, __TIME__, BUILDSTRING);
+	Cvar_Get("version", s, (CVAR_SERVERINFO | CVAR_NOSET));
 
 	if (dedicated->value) {
 		Cmd_AddCommand("quit", Com_Quit);
@@ -765,7 +766,7 @@ PUBLIC void common_Init(int argc, char *argv[])
 /* add + commands from command line */
 	if (! Cbuf_AddLateCommands()) {
 		/* if the user did NOT give any commands, run default action */
-		Cbuf_AddText( "intro PC13\n" );	/* refer to default.cfg */
+		Cbuf_AddText("intro PC13\n");	/* refer to default.cfg */
 		Cbuf_Execute();
 	} else {
 		/* the user asked for something explicit
@@ -775,7 +776,7 @@ PUBLIC void common_Init(int argc, char *argv[])
 #endif /* 0 */
 	}
 
-	Com_Printf( "\n====== Application Initialized ======\n\n" );
+	Com_Printf("\n====== Application Initialized ======\n\n");
 
 }
 

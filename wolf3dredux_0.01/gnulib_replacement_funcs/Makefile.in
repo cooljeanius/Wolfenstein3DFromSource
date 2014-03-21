@@ -300,6 +300,7 @@ target_vendor = @target_vendor@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
+wolf_cv_clang = @wolf_cv_clang@
 noinst_LIBRARIES = libgnu.a
 libgnu_a_SOURCES = 
 libgnu_a_LIBADD = $(LIBOBJS)

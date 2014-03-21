@@ -51,14 +51,14 @@ player_t Player; /* player struct (pos, health etc...) */
 #define PLAYERSIZE	MINDIST	/* player radius */
 
 
-extern void M_Intermission_f( void );
+extern void M_Intermission_f(void);
 
 
 struct atkinf
 {
 	char tics, attack, frame; /* attack is 1 for gun, 2 for knife */
 
-} attackinfo[ 4 ][ 14 ] = /* 4 guns, 14 frames max for every gun! */
+} attackinfo[4][14] = /* 4 guns, 14 frames max for every gun! */
 {
 	{ {6,0,1},{6,2,2},{6,0,3},{6,-1,4} },
 	{ {6,0,1},{6,1,2},{6,0,3},{6,-1,4} },
@@ -529,13 +529,12 @@ PUBLIC void PL_Process(player_t *self, LevelData_t *lvl)
 
  Returns: Nothing.
 
- Notes:
-
+ Notes: Simply calls memset() for the 'Player' global variable.
 -----------------------------------------------------------------------------
 */
 PUBLIC void PL_Reset(void)
 {
-	memset( &Player, 0, sizeof( Player ) );
+	memset(&Player, 0, sizeof(Player));
 	Player.playstate = ex_notingame;
 }
 

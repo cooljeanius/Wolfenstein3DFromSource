@@ -125,8 +125,11 @@ extern cvar_t	*maxentities;
 
 extern int tics;
 
-
+#ifdef __private_extern__
+__private_extern__ W32 floornumber;
+#else
 W32 floornumber;
+#endif /* __private_extern__ */
 
 
 extern void Game_Init(void);

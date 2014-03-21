@@ -54,15 +54,18 @@ colour3_t colourLGray = { 192, 192, 192 };
 colour3_t colourDGray = { 140, 140, 140 };
 
 
-PRIVATE void Separator_Draw( menuseparator_s *s )
+PRIVATE void Separator_Draw(menuseparator_s *s)
 {
-	if ( s->generic.name ) {
-		Menu_DrawStringR2LDark( s->generic.fs, s->generic.x + s->generic.parent->x, s->generic.y + s->generic.parent->y, s->generic.name );
+	if (s->generic.name) {
+		Menu_DrawStringR2LDark(s->generic.fs,
+							   (s->generic.x + s->generic.parent->x),
+							   (s->generic.y + s->generic.parent->y),
+							   s->generic.name );
 	}
 }
 
-void DrawWindow( int x, int y, int w, int h,
-				 colour3_t bg, colour3_t act, colour3_t deact )
+void DrawWindow(int x, int y, int w, int h,
+				colour3_t bg, colour3_t act, colour3_t deact)
 {
 	R_Draw_Fill( x, y, w, h, bg );
 
@@ -80,7 +83,7 @@ void DrawWindow( int x, int y, int w, int h,
  *
  *******************************************************************/
 
-PRIVATE void Action_DoEnter( menuaction_s *a )
+PRIVATE void Action_DoEnter(menuaction_s *a)
 {
 	if( a->generic.callback ) {
 		a->generic.callback( a );
@@ -372,69 +375,73 @@ void Menu_Center( menuframework_s *menu )
 	menu->y = ( VID_HEIGHT - (unsigned int)height ) >> 1;
 }
 
-void Menu_Draw( menuframework_s *menu )
+void Menu_Draw(menuframework_s *menu)
 {
 	int i;
 	menucommon_s *item;
-	static const char ccursor[ 2 ] = { ' ', '>' };
+	static const char ccursor[2] = { ' ', '>' };
 
 	/*
 	** draw contents
 	*/
-	for ( i = 0; i < menu->nitems; ++i ) {
-		switch( ( ( menucommon_s * ) menu->items[i] )->type ) {
+	for ((i = 0); (i < menu->nitems); ++i ) {
+		switch (((menucommon_s *)menu->items[i])->type) {
 			case MTYPE_FIELD:
-				Field_Draw( ( menufield_s * ) menu->items[i] );
+				Field_Draw((menufield_s *)menu->items[i]);
 				break;
 
 			case MTYPE_SLIDER:
-				Slider_Draw( ( menuslider_s * ) menu->items[i] );
+				Slider_Draw((menuslider_s *)menu->items[i]);
 				break;
 
 			case MTYPE_LIST:
-				MenuList_Draw( ( menulist_s * ) menu->items[i] );
+				MenuList_Draw((menulist_s *)menu->items[i]);
 				break;
 
 			case MTYPE_SPINCONTROL:
-				SpinControl_Draw( ( menulist_s * ) menu->items[i] );
+				SpinControl_Draw((menulist_s *)menu->items[i]);
 				break;
 
 			case MTYPE_ACTION:
-				Action_Draw( ( menuaction_s * ) menu->items[i], i );
+				Action_Draw((menuaction_s *)menu->items[i], i);
 				break;
 
 			case MTYPE_SEPARATOR:
-				Separator_Draw( ( menuseparator_s * ) menu->items[i] );
+				Separator_Draw((menuseparator_s *) menu->items[i]);
 				break;
 
 		}
 	}
 
-	item = Menu_ItemAtCursor( menu );
+	item = Menu_ItemAtCursor(menu);
 
-	if ( item && item->cursordraw ) {
-		item->cursordraw( item );
-	} else if ( menu->cursordraw ) {
-		menu->cursordraw( menu );
-	} else if ( item && item->type != MTYPE_FIELD ) {
-		Font_SetColour( item->fs, *item->fontBaseColour );
+	if (item && item->cursordraw) {
+		item->cursordraw(item);
+	} else if (menu->cursordraw) {
+		menu->cursordraw(menu);
+	} else if (item && (item->type != MTYPE_FIELD)) {
+		Font_SetColour(item->fs, *item->fontBaseColour);
 
-		if ( item->flags & MF_LEFT_JUSTIFY ) {
+		if (item->flags & MF_LEFT_JUSTIFY) {
 #if 0
-			Draw_Char( menu->x + item->x - 24 + item->cursor_offset, menu->y + item->y,
-					   12 + ( ( int ) ( Sys_Milliseconds()/250 ) & 1 ) );
+			/* unimplemented: */
+			Draw_Char((menu->x + item->x - 24 + item->cursor_offset),
+					  (menu->y + item->y),
+					  (12 + ((int)(Sys_Milliseconds() / 250) & 1)));
 #endif /* 0 */
 			Font_put_character(item->fs,
-							   (menu->x + item->x - 24 + item->cursor_offset),
-							   (menu->y + item->y),
+							   (int)(menu->x + item->x - 24 + item->cursor_offset),
+							   (int)(menu->y + item->y),
 							   (W16)ccursor[(0 + ((int)(Sys_Milliseconds() / 250) & 1))]);
 		} else {
 #if 0
-			Draw_Char( menu->x + item->cursor_offset, menu->y + item->y,
-					   12 + ( ( int ) ( Sys_Milliseconds()/250 ) & 1 ) );
+			/* unimplemented: */
+			Draw_Char((menu->x + item->cursor_offset), (menu->y + item->y),
+					  (12 + ((int)(Sys_Milliseconds() / 250) & 1)));
 #endif /* 0 */
-			Font_put_character( item->fs, menu->x + item->cursor_offset, menu->y + item->y,
-							    (W16)ccursor[ 0 + ( (int)( Sys_Milliseconds() / 250 ) & 1 ) ] );
+			Font_put_character(item->fs, (int)(menu->x + item->cursor_offset),
+							   (int)(menu->y + item->y),
+							   (W16)ccursor[(0 + ((int)(Sys_Milliseconds() / 250 ) & 1))]);
 		}
 	}
 

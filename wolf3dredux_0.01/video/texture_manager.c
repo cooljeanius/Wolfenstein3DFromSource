@@ -1207,7 +1207,7 @@ PUBLIC void TM_Init(void)
 	texture_registration_sequence = 1;
 
 /* create a checkerboard texture */
-	data = MM_MALLOC(16 * 16 * 4);
+	data = MM_MALLOC((size_t)(16 * 16 * 4)); /* (16 * 16 * 4) = 1024 */
 	for ((y = 0); (y < 16); ++y) {
 		for ((x = 0); (x < 16); ++x) {
 			ptr = &data[((y * 16 + x) * 4)];
@@ -1225,7 +1225,7 @@ PUBLIC void TM_Init(void)
 
 	MM_FREE(data);
 
-	Cmd_AddCommand("listTextures", TM_TextureList_f );
+	Cmd_AddCommand("listTextures", TM_TextureList_f);
 }
 
 

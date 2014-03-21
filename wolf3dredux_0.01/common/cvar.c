@@ -55,17 +55,17 @@ cvar_t	*cvar_vars;
 
 -----------------------------------------------------------------------------
 */
-PRIVATE _boolean Cvar_InfoValidate( const char *string )
+PRIVATE _boolean Cvar_InfoValidate(const char *string)
 {
-	if( strstr( string, "\\" ) ) {
+	if (strstr(string, "\\")) {
 		return false;
 	}
 
-	if( strstr( string, "\"" ) ) {
+	if (strstr(string, "\"")) {
 		return false;
 	}
 
-	if( strstr( string, ";" ) ) {
+	if (strstr(string, ";")) {
 		return false;
 	}
 
@@ -84,15 +84,15 @@ PRIVATE _boolean Cvar_InfoValidate( const char *string )
 
 -----------------------------------------------------------------------------
 */
-PRIVATE cvar_t *Cvar_FindVar( const char *var_name )
+PRIVATE cvar_t *Cvar_FindVar(const char *var_name)
 {
 	cvar_t	*var;
 	W32 hashid;
 
-	hashid = my_strhash( var_name );
+	hashid = my_strhash(var_name);
 
-	for( var = cvar_vars ; var ; var = var->next ) {
-		if( hashid == var->id ) {
+	for ((var = cvar_vars); var ; (var = var->next)) {
+		if (hashid == var->id) {
 			return var;
 		}
 	}
@@ -112,16 +112,16 @@ PRIVATE cvar_t *Cvar_FindVar( const char *var_name )
 
 -----------------------------------------------------------------------------
 */
-PUBLIC float Cvar_VariableValue( const char *var_name )
+PUBLIC float Cvar_VariableValue(const char *var_name)
 {
 	cvar_t	*var;
 
-	var = Cvar_FindVar( var_name );
-	if( ! var ) {
+	var = Cvar_FindVar(var_name);
+	if (! var) {
 		return 0;
 	}
 
-	return (float)atof( var->string );
+	return (float)atof(var->string);
 }
 
 
@@ -137,12 +137,12 @@ PUBLIC float Cvar_VariableValue( const char *var_name )
 
 -----------------------------------------------------------------------------
 */
-PUBLIC char *Cvar_VariableString( const char *var_name )
+PUBLIC char *Cvar_VariableString(const char *var_name)
 {
 	cvar_t *var;
 
-	var = Cvar_FindVar( var_name );
-	if( ! var ) {
+	var = Cvar_FindVar(var_name);
+	if (! var) {
 		return "";
 	}
 
@@ -162,15 +162,15 @@ PUBLIC char *Cvar_VariableString( const char *var_name )
 
 -----------------------------------------------------------------------------
 */
-PUBLIC char *Cvar_CompleteVariable( const char *partial )
+PUBLIC char *Cvar_CompleteVariable(const char *partial)
 {
 	cvar_t	*cvar;
 	size_t	len;
 	W32 hashid;
 
-	len = strlen( partial );
+	len = strlen(partial);
 
-	if( ! len ) {
+	if (! len) {
 		return NULL;
 	}
 
@@ -306,8 +306,8 @@ PRIVATE cvar_t *Cvar_Set2( const char *var_name, const char *value, _boolean for
 			}
 
 			if( Com_ServerState() ) {
-				Com_Printf( "%s will be changed for next game.\n", var_name );
-				Com_Printf( " (this behavior had been commented out previously).\n" );
+				Com_Printf("%s will be changed for next game.\n", var_name);
+				Com_Printf(" (this behavior had been commented out previously).\n");
 				var->latched_string = cs_CopyString( value );
 			} else {
 				var->string = my_CopyString( value );
@@ -357,9 +357,9 @@ PRIVATE cvar_t *Cvar_Set2( const char *var_name, const char *value, _boolean for
 
 -----------------------------------------------------------------------------
 */
-PUBLIC cvar_t *Cvar_ForceSet( const char *var_name, const char *value )
+PUBLIC cvar_t *Cvar_ForceSet(const char *var_name, const char *value)
 {
-	return Cvar_Set2( var_name, value, true );
+	return Cvar_Set2(var_name, value, (_boolean)true);
 }
 
 /*
@@ -374,9 +374,9 @@ PUBLIC cvar_t *Cvar_ForceSet( const char *var_name, const char *value )
 
 -----------------------------------------------------------------------------
 */
-PUBLIC cvar_t *Cvar_Set( const char *var_name, const char *value )
+PUBLIC cvar_t *Cvar_Set(const char *var_name, const char *value)
 {
-	return Cvar_Set2( var_name, value, false );
+	return Cvar_Set2(var_name, value, (_boolean)false);
 }
 
 /*
@@ -562,20 +562,21 @@ PRIVATE void Cvar_Set_f( void )
 
 -----------------------------------------------------------------------------
 */
-PUBLIC void Cvar_WriteVariables( const char *path )
+PUBLIC void Cvar_WriteVariables(const char *path)
 {
 	cvar_t	*var;
 	char	buffer[1024];
 	FILE	*f;
 
-	f = fopen( path, "a" );
-	for( var = cvar_vars ; var ; var = var->next ) {
+	f = fopen(path, "a");
+	for ((var = cvar_vars); var; (var = var->next)) {
 		if( var->flags & CVAR_ARCHIVE ) {
-			my_snprintf( buffer, sizeof( buffer ), "set %s \"%s\"\n", var->name, var->string );
-			fprintf( f, "%s", buffer );
+			my_snprintf(buffer, sizeof(buffer), "set %s \"%s\"\n",
+						var->name, var->string);
+			fprintf(f, "%s", buffer);
 		}
 	}
-	fclose( f );
+	fclose(f);
 }
 
 /*
@@ -590,48 +591,46 @@ PUBLIC void Cvar_WriteVariables( const char *path )
 
 -----------------------------------------------------------------------------
 */
-PRIVATE void Cvar_List_f( void )
+PRIVATE void Cvar_List_f(void)
 {
 	cvar_t	*var;
 	int		i;
 
 	i = 0;
-	for( var = cvar_vars ; var ; var = var->next, ++i ) {
-		if( var->flags & CVAR_ARCHIVE ) {
-			Com_Printf ("*");
+	for ((var = cvar_vars); var; (var = var->next), ++i) {
+		if (var->flags & CVAR_ARCHIVE) {
+			Com_Printf("*");
 		} else {
-			Com_Printf (" ");
+			Com_Printf(" ");
 		}
 
 
-		if( var->flags & CVAR_USERINFO ) {
-			Com_Printf ("U");
+		if (var->flags & CVAR_USERINFO) {
+			Com_Printf("U");
 		} else {
-			Com_Printf (" ");
+			Com_Printf(" ");
 		}
 
 
 		if (var->flags & CVAR_SERVERINFO) {
-			Com_Printf ("S");
+			Com_Printf("S");
 		} else {
-			Com_Printf (" ");
+			Com_Printf(" ");
 		}
 
 
-		if( var->flags & CVAR_NOSET ) {
-			Com_Printf ("-");
-		}
-		else if (var->flags & CVAR_LATCH)
-		{
-			Com_Printf ("L");
+		if (var->flags & CVAR_NOSET) {
+			Com_Printf("-");
+		} else if (var->flags & CVAR_LATCH) {
+			Com_Printf("L");
 		} else {
-			Com_Printf (" ");
+			Com_Printf(" ");
 		}
 
-		Com_Printf (" %s \"%s\"\n", var->name, var->string);
+		Com_Printf(" %s \"%s\"\n", var->name, var->string);
 	}
 
-	Com_Printf ("%i cvars\n", i);
+	Com_Printf("%i cvars\n", i);
 }
 
 
@@ -644,7 +643,7 @@ PUBLIC _boolean userinfo_modified;
 
  Parameters:
 
- Returns:
+ Returns: NULL
 
  Notes:
 
@@ -653,26 +652,31 @@ PUBLIC _boolean userinfo_modified;
 PRIVATE char *Cvar_BitInfo(int bit)
 {
 	return NULL;
-#if 0
+#if defined(MAX_INFO_STRING) && defined(Info_SetValueForKey)
+	/* 'MAX_INFO_STRING' undeclared: */
 	static char	info[MAX_INFO_STRING];
 	cvar_t	*var;
 
 	info[0] = 0;
 
-	for ((var = cvar_vars); var ; (var = var->next)) {
+	for ((var = cvar_vars); var; (var = var->next)) {
 		if (var->flags & bit) {
-			Info_SetValueForKey (info, var->name, var->string);
+			/* unimplemented: */
+			Info_SetValueForKey(info, var->name, var->string);
 		}
 	}
 	return info;
 #else
+	static char* info[100];
+	info[0] = "0";
+	info[bit] = NULL;
 	/* we should have already returned, so this should all be NOTREACHED: */
 	if (bit == 0) { /* dummy condition to use "bit" parameter */
-		return (char*)bit;
+		return (char*)info[bit];
 	} else {
 		return NULL;
 	}
-#endif /* 0 */
+#endif /* MAX_INFO_STRING && Info_SetValueForKey */
 }
 
 
@@ -688,9 +692,9 @@ PRIVATE char *Cvar_BitInfo(int bit)
 
 -----------------------------------------------------------------------------
 */
-PUBLIC char *Cvar_Userinfo( void )
+PUBLIC char *Cvar_Userinfo(void)
 {
-	return Cvar_BitInfo( CVAR_USERINFO );
+	return Cvar_BitInfo(CVAR_USERINFO);
 }
 
 
@@ -706,9 +710,9 @@ PUBLIC char *Cvar_Userinfo( void )
 
 -----------------------------------------------------------------------------
 */
-PUBLIC char *Cvar_Serverinfo( void )
+PUBLIC char *Cvar_Serverinfo(void)
 {
-	return Cvar_BitInfo( CVAR_SERVERINFO );
+	return Cvar_BitInfo(CVAR_SERVERINFO);
 }
 
 
@@ -726,10 +730,10 @@ PUBLIC char *Cvar_Serverinfo( void )
 	Also to list all the cvar variables.
 -----------------------------------------------------------------------------
 */
-PUBLIC void Cvar_Init( void )
+PUBLIC void Cvar_Init(void)
 {
-	Cmd_AddCommand( "set", Cvar_Set_f );
-	Cmd_AddCommand( "listCvars", Cvar_List_f );
+	Cmd_AddCommand("set", Cvar_Set_f);
+	Cmd_AddCommand("listCvars", Cvar_List_f);
 }
 
 /* EOF */

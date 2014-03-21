@@ -294,71 +294,73 @@ PUBLIC void R_SetGL2D(void)
 
  Returns: Nothing.
 
- Notes:
+ Notes: Just a bunch of calls to Cvar_Get() to set various variables.
 -----------------------------------------------------------------------------
 */
-PRIVATE void R_Register( void )
+PRIVATE void R_Register(void)
 {
-	r_lefthand = Cvar_Get( "hand", "0", CVAR_USERINFO | CVAR_ARCHIVE );
-	r_norefresh = Cvar_Get ("r_norefresh", "0", CVAR_INIT);
-	r_novis = Cvar_Get ("r_novis", "0", CVAR_INIT);
-	r_nocull = Cvar_Get ("r_nocull", "0", CVAR_INIT);
-	r_speeds = Cvar_Get ("r_speeds", "0", CVAR_INIT);
+	r_lefthand = Cvar_Get("hand", "0", (CVAR_USERINFO | CVAR_ARCHIVE));
+	r_norefresh = Cvar_Get("r_norefresh", "0", CVAR_INIT);
+	r_novis = Cvar_Get("r_novis", "0", CVAR_INIT);
+	r_nocull = Cvar_Get("r_nocull", "0", CVAR_INIT);
+	r_speeds = Cvar_Get("r_speeds", "0", CVAR_INIT);
 
 
-	gl_nosubimage = Cvar_Get( "gl_nosubimage", "0", CVAR_INIT );
+	gl_nosubimage = Cvar_Get("gl_nosubimage", "0", CVAR_INIT);
 
 
-	gl_modulate = Cvar_Get ("gl_modulate", "1", CVAR_ARCHIVE );
-	gl_bitdepth = Cvar_Get( "gl_bitdepth", "0", CVAR_INIT );
-	gl_mode = Cvar_Get( "gl_mode", "0", CVAR_ARCHIVE );
-	gl_lightmap = Cvar_Get ("gl_lightmap", "0", CVAR_INIT);
+	gl_modulate = Cvar_Get("gl_modulate", "1", CVAR_ARCHIVE);
+	gl_bitdepth = Cvar_Get("gl_bitdepth", "0", CVAR_INIT);
+	gl_mode = Cvar_Get("gl_mode", "0", CVAR_ARCHIVE);
+	gl_lightmap = Cvar_Get("gl_lightmap", "0", CVAR_INIT);
 #if 0
-	gl_shadows = Cvar_Get ("gl_shadows", "0", CVAR_ARCHIVE );
+	gl_shadows = Cvar_Get("gl_shadows", "0", CVAR_ARCHIVE);
 #endif /* 0 */
-	gl_dynamic = Cvar_Get ("gl_dynamic", "1", CVAR_INIT);
-	gl_nobind = Cvar_Get ("gl_nobind", "0", CVAR_INIT);
-	gl_round_down = Cvar_Get ("gl_round_down", "1", CVAR_INIT);
-	gl_picmip = Cvar_Get ("gl_picmip", "0", CVAR_INIT);
-	gl_skymip = Cvar_Get ("gl_skymip", "0", CVAR_INIT);
-	gl_showtris = Cvar_Get( "gl_showtris", "0", CVAR_INIT );
-	gl_ztrick = Cvar_Get( "gl_ztrick", "0", CVAR_INIT );
-	gl_finish = Cvar_Get( "gl_finish", "0", CVAR_ARCHIVE );
-	gl_clear = Cvar_Get( "gl_clear", "0", CVAR_INIT );
-	gl_cull = Cvar_Get( "gl_cull", "1", CVAR_INIT );
-	gl_polyblend = Cvar_Get( "gl_polyblend", "1", CVAR_INIT );
-	gl_flashblend = Cvar_Get( "gl_flashblend", "0", CVAR_INIT );
-	gl_playermip = Cvar_Get( "gl_playermip", "0", CVAR_INIT );
-	gl_driver = Cvar_Get( "gl_driver", OPENGL_DLL_NAME, CVAR_ARCHIVE );
+	gl_dynamic = Cvar_Get("gl_dynamic", "1", CVAR_INIT);
+	gl_nobind = Cvar_Get("gl_nobind", "0", CVAR_INIT);
+	gl_round_down = Cvar_Get("gl_round_down", "1", CVAR_INIT);
+	gl_picmip = Cvar_Get("gl_picmip", "0", CVAR_INIT);
+	gl_skymip = Cvar_Get("gl_skymip", "0", CVAR_INIT);
+	gl_showtris = Cvar_Get("gl_showtris", "0", CVAR_INIT);
+	gl_ztrick = Cvar_Get("gl_ztrick", "0", CVAR_INIT);
+	gl_finish = Cvar_Get("gl_finish", "0", CVAR_ARCHIVE);
+	gl_clear = Cvar_Get("gl_clear", "0", CVAR_INIT);
+	gl_cull = Cvar_Get("gl_cull", "1", CVAR_INIT);
+	gl_polyblend = Cvar_Get("gl_polyblend", "1", CVAR_INIT);
+	gl_flashblend = Cvar_Get("gl_flashblend", "0", CVAR_INIT);
+	gl_playermip = Cvar_Get("gl_playermip", "0", CVAR_INIT);
+	gl_driver = Cvar_Get("gl_driver", OPENGL_DLL_NAME, CVAR_ARCHIVE);
 	/* OPENGL_DLL_NAME is defined in "../renderer.h" */
 #if 0
-	gl_texturemode = Cvar_Get( "gl_texturemode", "GL_LINEAR_MIPMAP_NEAREST", CVAR_ARCHIVE );
+	gl_texturemode = Cvar_Get("gl_texturemode", "GL_LINEAR_MIPMAP_NEAREST",
+							  CVAR_ARCHIVE);
 #endif /* 0 */
 
-	gl_vertex_arrays = Cvar_Get( "gl_vertex_arrays", "0", CVAR_ARCHIVE );
+	gl_vertex_arrays = Cvar_Get("gl_vertex_arrays", "0", CVAR_ARCHIVE);
 
-	gl_ext_swapinterval = Cvar_Get( "gl_ext_swapinterval", "1", CVAR_ARCHIVE );
-	gl_ext_palettedtexture = Cvar_Get( "gl_ext_palettedtexture", "1", CVAR_ARCHIVE );
-	gl_ext_multitexture = Cvar_Get( "gl_ext_multitexture", "1", CVAR_ARCHIVE );
-	gl_ext_pointparameters = Cvar_Get( "gl_ext_pointparameters", "1", CVAR_ARCHIVE );
-	gl_ext_compiled_vertex_array = Cvar_Get( "gl_ext_compiled_vertex_array", "1", CVAR_ARCHIVE );
+	gl_ext_swapinterval = Cvar_Get("gl_ext_swapinterval", "1", CVAR_ARCHIVE);
+	gl_ext_palettedtexture = Cvar_Get("gl_ext_palettedtexture", "1", CVAR_ARCHIVE);
+	gl_ext_multitexture = Cvar_Get("gl_ext_multitexture", "1", CVAR_ARCHIVE);
+	gl_ext_pointparameters = Cvar_Get("gl_ext_pointparameters", "1", CVAR_ARCHIVE);
+	gl_ext_compiled_vertex_array = Cvar_Get("gl_ext_compiled_vertex_array", "1",
+											CVAR_ARCHIVE);
 
-	gl_drawbuffer = Cvar_Get( "gl_drawbuffer", "GL_BACK", CVAR_INIT );
-	gl_swapinterval = Cvar_Get( "gl_swapinterval", "1", CVAR_ARCHIVE );
+	gl_drawbuffer = Cvar_Get("gl_drawbuffer", "GL_BACK", CVAR_INIT);
+	gl_swapinterval = Cvar_Get("gl_swapinterval", "1", CVAR_ARCHIVE);
 
 #if 0
-	gl_saturatelighting = Cvar_Get( "gl_saturatelighting", "0", CVAR_INIT );
+	gl_saturatelighting = Cvar_Get("gl_saturatelighting", "0", CVAR_INIT);
 #endif /* 0 */
 
-	r_fullscreen = Cvar_Get( "r_fullscreen", "0", CVAR_ARCHIVE );
-	vid_gamma = Cvar_Get( "vid_gamma", "1.0", CVAR_ARCHIVE );
-	r_ref = Cvar_Get( "r_ref", "soft", CVAR_ARCHIVE );
+	r_fullscreen = Cvar_Get("r_fullscreen", "0", CVAR_ARCHIVE);
+	vid_gamma = Cvar_Get("vid_gamma", "1.0", CVAR_ARCHIVE);
+	r_ref = Cvar_Get("r_ref", "soft", CVAR_ARCHIVE);
 
 
-	Cmd_AddCommand( "screenshot", R_ScreenShot_f );
-	Cmd_AddCommand( "r_strings", R_Strings_f );
-
+	Cmd_AddCommand( "screenshot", R_ScreenShot_f);
+	Cmd_AddCommand( "r_strings", R_Strings_f);
 }
+
 
 /*
 -----------------------------------------------------------------------------
@@ -430,15 +432,15 @@ PRIVATE _boolean R_SetMode(void)
 
  Parameters:
 
- Returns:
+ Returns: -1 if error, 1 if it makes it all the way to the end
 
  Notes:
 -----------------------------------------------------------------------------
 */
-PUBLIC int R_Init( void *hinstance, void *hWnd )
+PUBLIC int R_Init(void *hinstance, void *hWnd)
 {
-	char renderer_buffer[ 1000 ];
-	char vendor_buffer[ 1000 ];
+	char renderer_buffer[1000];
+	char vendor_buffer[1000];
 	int		err;
 	int		a, b;
 
@@ -450,14 +452,14 @@ PUBLIC int R_Init( void *hinstance, void *hWnd )
 	R_Register(); /* sets gl_driver, among other things */
 
 	/* Initialize our OpenGL dynamic bindings */
-	if( ! OpenGL_Init( gl_driver->string ) ) {
+	if (! OpenGL_Init(gl_driver->string)) {
 		OpenGL_Shutdown();
-		Com_Printf( "Dynamic binding of (%s) failed\n", gl_driver->string );
+		Com_Printf("Dynamic binding of (%s) failed\n", gl_driver->string);
 		return -1;
 	}
 
 	/* Initialize OS-specific parts of OpenGL */
-	if( ! GLimp_Init( hinstance, hWnd ) ) {
+	if (! GLimp_Init(hinstance, hWnd)) {
 		OpenGL_Shutdown();
 		return -1;
 	}
@@ -466,15 +468,15 @@ PUBLIC int R_Init( void *hinstance, void *hWnd )
 	gl_state.prev_mode = 0;
 
 	/* create the window and set up the context */
-	if( ! R_SetMode() ) {
+	if (! R_SetMode()) {
 		OpenGL_Shutdown();
-        Com_Printf( "R_Init() - could not R_SetMode()\n" );
+        Com_Printf("R_Init() - could not R_SetMode()\n");
 		return -1;
 	}
 
 	Video_MenuInit();
 
-	/* get various GL strings (TODO: check signedness) */
+	/* get various GL strings */
 	gl_config.vendor_string = (const char *)pfglGetString(GL_VENDOR);
 	Com_Printf("GL_VENDOR: %s\n", gl_config.vendor_string);
 
@@ -515,7 +517,7 @@ PUBLIC int R_Init( void *hinstance, void *hWnd )
 	}
 
 	if (! gl_ext.EXTTextureEnvCombine) {
-		Com_Printf("Missing Important GL extension: GL_EXT_texture_env_combine => All envcombine are setup to GL_MODULATE!");
+		Com_Printf("Missing Important GL extension: GL_EXT_texture_env_combine => All envcombine are setup to GL_MODULATE!\n");
 	}
 
 

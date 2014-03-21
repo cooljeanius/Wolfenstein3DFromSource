@@ -658,81 +658,115 @@ PRIVATE void Con_DrawInput( void )
  Notes:
 -----------------------------------------------------------------------------
 */
-PUBLIC void Con_DrawNotify( void )
+PUBLIC void Con_DrawNotify(void)
 {
 	int		x, v;
 	int		charwidth;
 	char	*text;
 	int		i;
 	int		time;
-#if 0
+#if 1
 	char	*s;
 	int		skip;
-#endif /* 0 */
+#endif /* 1 */
 	W16		size;
 
 
-	Font_SetSize( FONT1, 1 );
-	size = Font_GetSize( FONT1 );
+	Font_SetSize(FONT1, (W16)1);
+	size = Font_GetSize(FONT1);
 
-	Font_SetColour( FONT1, colourWhite );
+	Font_SetColour(FONT1, colourWhite);
 
 	v = 0;
-	for( i = con.current - NUM_CON_TIMES+1 ; i <= con.current ; ++i ) {
-		if( i < 0 ) {
+	for ((i = (con.current - NUM_CON_TIMES + 1)); (i <= con.current); ++i) {
+		if (i < 0) {
 			continue;
 		}
 		/* you would think that with a name like "FloatToInt", it would already
 		 * return an 'int' even without the cast, but nope: */
-		time = (int)FloatToInt( (float)(con.times[ i % NUM_CON_TIMES ]) );
-		if( time == 0 ) {
+		time = (int)FloatToInt((float)(con.times[(i % NUM_CON_TIMES)]));
+		if (time == 0) {
 			continue;
 		}
 
-		time = ClientStatic.realtime - time;
-		if( time > con_notifytime->value * 1000 ) {
+		time = (ClientStatic.realtime - time);
+		if (time > (con_notifytime->value * 1000)) {
 			continue;
 		}
 
-		text = con.text + (i % con.totallines) * con.linewidth;
+		text = (con.text + ((i % con.totallines) * con.linewidth));
 
 		charwidth = 0;
-		for( x = 0 ; x < con.linewidth ; ++x ) {
-			charwidth += Font_put_character( FONT1, charwidth, v, (W16)text[ x ] );
+		for ((x = 0); (x < con.linewidth); ++x) {
+			charwidth += Font_put_character(FONT1, (int)charwidth, (int)v,
+											(W16)text[x]);
 		}
 
 		v += size;
 	}
 
-	Font_SetSize( FONT1, 2 );
+	Font_SetSize(FONT1, (W16)2);
 
-#if 0
-	if( ClientStatic.key_dest == key_message ) {
-		if( chat_team ) {
-			DrawString( 8, v, "say_team:" );
+#if defined(chat_team) && defined(chat_buffer) && defined(chat_bufferlen)
+	if (ClientStatic.key_dest == key_message) {
+		/* 'chat_team' undeclared: */
+		if (chat_team) {
+			DrawString(8, v, "say_team:");
 			skip = 11;
 		} else {
-			DrawString( 8, v, "say:" );
+			DrawString(8, v, "say:");
 			skip = 5;
 		}
 
+		/* 'chat_buffer' undeclared: */
 		s = chat_buffer;
-		if (chat_bufferlen > (viddef.width>>3)-(skip+1))
-			s += chat_bufferlen - ((viddef.width>>3)-(skip+1));
+		/* 'chat_bufferlen' undeclared: */
+		if (chat_bufferlen > ((viddef.width >> 3) - (skip + 1))) {
+			s += (chat_bufferlen - ((viddef.width >> 3) - (skip + 1)));
+		}
 		x = 0;
-		while(s[x]) {
-			Font_put_character( FONT0, (x+skip)<<3, v, s[x]);
+		while (s[x]) {
+			Font_put_character(FONT0, (int)((x + skip) << 3), (int)v,
+							   (W16)s[x]);
 			x++;
 		}
-		Font_put_character( FONT0, (x + skip) << 3, v, 10 + ((ClientStatic.realtime >> 8) & 1) );
+		Font_put_character(FONT0, (int)((x + skip) << 3), (int)v,
+						   (W16)(10 + ((ClientStatic.realtime >> 8) & 1)));
 		v += 8;
 	}
 
-	if( v ) {
-		SCR_AddDirtyPoint( 0, 0 );
-		SCR_AddDirtyPoint( viddef.width - 1, v );
+	if (v) {
+		SCR_AddDirtyPoint(0, 0);
+		SCR_AddDirtyPoint((int)(viddef.width - 1), v);
 	}
-#endif /* 0 */
+#else /* do not have chat-related variables, so try to re-implement without: */
+	if (ClientStatic.key_dest == key_message) {
+		DrawString(8, v, "say:");
+		skip = 5;
+
+		s = NULL;
+		/* 'chat_bufferlen' undeclared: */
+		if (sizeof(s) > ((viddef.width >> 3) - (unsigned int)(skip + 1))) {
+			s += (sizeof(s) - ((viddef.width >> 3) - (unsigned int)(skip + 1)));
+		}
+		x = 0;
+		if (s != NULL) {
+			while (s[x]) {
+				Font_put_character(FONT0, (int)((x + skip) << 3), (int)v,
+								   (W16)s[x]);
+				x++;
+			}
+		}
+		Font_put_character(FONT0, (int)((x + skip) << 3), (int)v,
+						   (W16)(10 + ((ClientStatic.realtime >> 8) & 1)));
+		v += 8;
+	}
+
+	if (v) {
+		SCR_AddDirtyPoint(0, 0);
+		SCR_AddDirtyPoint((int)(viddef.width - 1), v);
+	}
+#endif /* chat_team && chat_buffer && chat_bufferlen */
 }
 
 
@@ -756,26 +790,32 @@ PUBLIC void Con_DrawConsole(float frac)
 	int				row;
 	W32				lines;
 	char			version[64];
-#if 0
-	int w, h;
-#endif /* 0 */
 	int heightfont, charwidth;
+#if 1
+	int w, h;
+	w = 0;
+	h = 0;
+	/* dummy condition to use 'w' and 'h': */
+	if ((w == 0) && (h == 0)) {
+		;
+	}
+#endif /* 1 */
 
 	/* you would think that with a name like "FloatToInt", it would already
 	 * return an 'int' even without the cast, but nope: */
 	/* also blech at having to double-cast... */
-	lines = (W32)(int)FloatToInt( (float)(viddef.height * frac) );
-	if( lines < 1 ) {
+	lines = (W32)(int)FloatToInt((float)(viddef.height * frac));
+	if (lines < 1) {
 		return;
 	}
 
 
-	Font_SetSize( FONT0, 1 );
-	Font_SetColour( FONT0, colourconLLGray  );
-	heightfont = Font_GetSize( FONT0 );
+	Font_SetSize(FONT0, (W16)1);
+	Font_SetColour(FONT0, colourconLLGray);
+	heightfont = Font_GetSize(FONT0);
 
 
-	if( lines > viddef.height ) {
+	if (lines > viddef.height) {
 		lines = viddef.height;
 	}
 
@@ -787,12 +827,12 @@ PUBLIC void Con_DrawConsole(float frac)
 	R_Draw_Fill(0, (int)(lines - 2), (int)(viddef.width), 2, colourconLGray);
 
 
-#if 0
-	SCR_AddDirtyPoint( 0, 0 );
-	SCR_AddDirtyPoint( viddef.width-1, lines-1 );
-#endif /* 0 */
+#if 0 || __clang_analyzer__
+	SCR_AddDirtyPoint(0, 0);
+	SCR_AddDirtyPoint((int)(viddef.width - 1), (int)(lines - 1));
+#endif /* 0 || __clang_analyzer__ */
 
-	my_snprintf(version, sizeof( version ), "v%s", APP_VERSION);
+	my_snprintf(version, sizeof(version), "v%s", APP_VERSION);
 	Font_SetColour(FONT0, colourGreen);
 	Font_put_lineR2L(FONT0, (int)(viddef.width - 20),
 					 (int)(lines - 2 - (unsigned long)heightfont), version);
@@ -804,20 +844,20 @@ PUBLIC void Con_DrawConsole(float frac)
 	con.vislines = (int)lines;
 
 #if 0
-	rows = (lines - 8) >> 3; /* rows of text to draw */
+	rows = (int)((lines - 8) >> 3); /* rows of text to draw */
 
-	y = lines - 24;
+	y = (int)(lines - 24);
 #else
-	rows = (int)(lines - 22) >> 3; /* rows of text to draw */
+	rows = ((int)(lines - 22) >> 3); /* rows of text to draw */
 
 	y = (int)(lines - 30);
 #endif /* 0 */
 
 	/* draw from the bottom up */
-	if( con.display != con.current ) {
+	if (con.display != con.current) {
 		/* draw arrows to show the buffer is backscrolled */
-		for( x = 0; x < con.linewidth; x += 4 ) {
-			Font_put_character( FONT0, (x+1) << 3, y, '^' );
+		for ((x = 0); (x < con.linewidth); (x += 4)) {
+			Font_put_character(FONT0, (int)((x + 1) << 3), (int)y, (W16)'^');
 		}
 
 		y -= heightfont;
@@ -825,27 +865,27 @@ PUBLIC void Con_DrawConsole(float frac)
 	}
 
 	row = con.display;
-	for( i = 0 ; i < rows ; ++i, y -= heightfont, --row ) {
-		if( row < 0 ) {
+	for ((i = 0); (i < rows); ++i, (y -= heightfont), --row) {
+		if (row < 0) {
 			break;
 		}
 
-		if( con.current - row >= con.totallines ) {
+		if ((con.current - row) >= con.totallines) {
 			break; /* past scrollback wrap point */
 		}
 
-		text = con.text + (row % con.totallines) * con.linewidth;
+		text = (con.text + ((row % con.totallines) * con.linewidth));
 
 		charwidth = 0;
-		for( x = 0; x < con.linewidth; ++x ) {
-			charwidth += Font_put_character( FONT0, charwidth, y, (W16)text[ x ] );
+		for ((x = 0); (x < con.linewidth); ++x) {
+			charwidth += Font_put_character(FONT0, charwidth, y, (W16)text[x]);
 		}
 	}
 
 	/* draw the input prompt, user text, and cursor if desired */
 	Con_DrawInput();
 
-	Font_SetSize( FONT0, 2 );
+	Font_SetSize(FONT0, (W16)2);
 }
 
 /* EOF */

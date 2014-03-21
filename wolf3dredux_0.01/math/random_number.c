@@ -65,18 +65,17 @@ W32 rndindex = 0;
 -----------------------------------------------------------------------------
  Function: US_InitRndT
 
- Parameters:
+ Parameters: An integer representing whether to randomize or not.
 
  Returns: Nothing.
 
- Notes:
-
+ Notes: Updates the global variable 'rndindex'
 -----------------------------------------------------------------------------
 */
-PUBLIC void US_InitRndT( int randomize )
+PUBLIC void US_InitRndT(int randomize)
 {
-  	if( randomize ) {
-  		rndindex = time( NULL ) & 0xFF;
+  	if (randomize) {
+  		rndindex = (time(NULL) & 0xFF);
 	} else {
 		rndindex = 0;
 	}

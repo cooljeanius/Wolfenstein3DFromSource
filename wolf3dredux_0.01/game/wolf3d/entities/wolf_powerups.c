@@ -157,16 +157,16 @@ PRIVATE powerup_t *Pow_AddNew( void )
 
  Returns: Nothing.
 
- Notes:
+ Notes: Removes all powerups set in the 'powerups' global variable
 
 -----------------------------------------------------------------------------
 */
-PUBLIC void Powerup_Reset( void )
+PUBLIC void Powerup_Reset(void)
 {
 	powerup_t *powerup = powerups;
 
-	while( powerup ) {
-		powerup = Pow_Remove( powerup );
+	while (powerup) {
+		powerup = Pow_Remove(powerup);
 	}
 
 	powerups = NULL;
