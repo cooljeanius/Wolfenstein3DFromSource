@@ -1,5 +1,3 @@
 !.
 
-# not sure if I am allowed to distribute the files I extracted from the
-# "lite" iPhone version, so gitignore them:
-*.wav
+# nvm

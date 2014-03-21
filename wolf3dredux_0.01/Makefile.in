@@ -1893,6 +1893,9 @@ uninstall-am: uninstall-binPROGRAMS
 	tags tags-am uninstall uninstall-am uninstall-binPROGRAMS
 
 
+XSyms.txt: wolf3dredux
+	for Xlib in `otool -L wolf3dredux | grep -i libX | cut -d\( -f1 | tr -d [:blank:] | xargs basename | cut -d. -f1`; do nm -m wolf3dredux | grep $${Xlib}; done | tee XSyms.txt
+
 @WOLF_OLD_BUILD_TRUE@all: config.h all-recursive $(EXE)
 
 # Leave out the ALLOCA obj, because its header requires special

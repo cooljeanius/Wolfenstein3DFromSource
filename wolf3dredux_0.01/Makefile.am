@@ -131,6 +131,9 @@ signon_SOURCES = tools/signon/wolf_pal.c \
                  tools/signon/main.c \
                  tools/signon/WriteTGA_minimal.c
 
+XSyms.txt: wolf3dredux
+	for Xlib in `otool -L wolf3dredux | grep -i libX | cut -d\( -f1 | tr -d [:blank:] | xargs basename | cut -d. -f1`; do nm -m wolf3dredux | grep $${Xlib}; done | tee XSyms.txt
+
 if WOLF_OLD_BUILD
 DO_CC = $(COMPILER) $(CFLAGS) $(AM_CFLAGS) $(AM_CPPFLAGS) ${CPPFLAGS} -o $@ -c $<
 
