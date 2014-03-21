@@ -2,3 +2,7 @@
 
 # binary images are bad to keep in revision control; extract them yourself:
 *.tga
+
+# The ones extracted from the "lite" iPhone version have a different file
+# extension:
+*.5551

@@ -1,0 +1,5 @@
+# All binary stuff, plus I am not sure of the legal status of distributing
+# it, even if it is from the free "lite" version, so gitignore it all:
+*.5551
+*.wav
+*.dat

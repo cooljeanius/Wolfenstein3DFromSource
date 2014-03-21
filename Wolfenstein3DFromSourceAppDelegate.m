@@ -20,6 +20,7 @@
 	/* dummy condition to use the 'aNotification' parameter: */
 	if (aNotification) {
 		;
+		/* (do nothing) */
 	}
 }
 

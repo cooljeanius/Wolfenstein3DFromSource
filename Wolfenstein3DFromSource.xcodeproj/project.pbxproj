@@ -179,6 +179,8 @@
 		A5476CDD18DA106100FE1646 /* wolf_pal.c in Sources */ = {isa = PBXBuildFile; fileRef = 7B0AFB871470CE6200165517 /* wolf_pal.c */; };
 		A5476D4418DA140000FE1646 /* WriteTGA_minimal.c in Sources */ = {isa = PBXBuildFile; fileRef = A5476D4318DA140000FE1646 /* WriteTGA_minimal.c */; };
 		A5476DCC18DA1D6700FE1646 /* WriteTGA_minimal.h in Headers */ = {isa = PBXBuildFile; fileRef = A5476D4218DA140000FE1646 /* WriteTGA_minimal.h */; };
+		A547716418DB76DF00FE1646 /* glext.h in Headers */ = {isa = PBXBuildFile; fileRef = A547716218DB76DF00FE1646 /* glext.h */; };
+		A547716618DB7FCC00FE1646 /* wondering.caf in Resources */ = {isa = PBXBuildFile; fileRef = A547716518DB7FCC00FE1646 /* wondering.caf */; };
 		A571EE6818C64A260037F031 /* strnlen.c in Sources */ = {isa = PBXBuildFile; fileRef = A571EE6418C64A260037F031 /* strnlen.c */; };
 		A571EE6918C64A260037F031 /* strnlen1.c in Sources */ = {isa = PBXBuildFile; fileRef = A571EE6518C64A260037F031 /* strnlen1.c */; };
 		A571EE6A18C64A260037F031 /* strnlen1.h in Headers */ = {isa = PBXBuildFile; fileRef = A571EE6618C64A260037F031 /* strnlen1.h */; };
@@ -340,10 +342,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		089C165DFE840E0CC02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		089C165DFE840E0CC02AAC07 /* InfoPlist.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = InfoPlist.strings; path = Resources/English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		13E42FB307B3F0F600E4EEF1 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
-		1DDD58150DA1D0A300B32029 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		1DDD58150DA1D0A300B32029 /* MainMenu.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = MainMenu.xib; path = Resources/English.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		256AC3D80F4B6AC300CF3369 /* Wolfenstein3DFromSourceAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Wolfenstein3DFromSourceAppDelegate.h; sourceTree = "<group>"; };
 		256AC3D90F4B6AC300CF3369 /* Wolfenstein3DFromSourceAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Wolfenstein3DFromSourceAppDelegate.m; sourceTree = "<group>"; };
 		256AC3F00F4B6AF500CF3369 /* Wolfenstein3DFromSource_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Wolfenstein3DFromSource_Prefix.pch; sourceTree = "<group>"; };
@@ -621,6 +623,9 @@
 		A5476CD818DA105800FE1646 /* signon */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = signon; sourceTree = BUILT_PRODUCTS_DIR; };
 		A5476D4218DA140000FE1646 /* WriteTGA_minimal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WriteTGA_minimal.h; sourceTree = "<group>"; };
 		A5476D4318DA140000FE1646 /* WriteTGA_minimal.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = WriteTGA_minimal.c; sourceTree = "<group>"; };
+		A547716118DB76DF00FE1646 /* gl.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = gl.xml; sourceTree = "<group>"; };
+		A547716218DB76DF00FE1646 /* glext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = glext.h; sourceTree = "<group>"; };
+		A547716518DB7FCC00FE1646 /* wondering.caf */ = {isa = PBXFileReference; lastKnownFileType = file; name = wondering.caf; path = Resources/wondering.caf; sourceTree = "<group>"; };
 		A571EC3D18C519C00037F031 /* test_com_string.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = test_com_string.c; sourceTree = "<group>"; };
 		A571EE6318C64A260037F031 /* README */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
 		A571EE6418C64A260037F031 /* strnlen.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = strnlen.c; sourceTree = "<group>"; };
@@ -742,6 +747,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				A547716518DB7FCC00FE1646 /* wondering.caf */,
 				8D1107310486CEB800E47090 /* Wolfenstein3DFromSource-Info.plist */,
 				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
 				1DDD58140DA1D0A300B32029 /* MainMenu.xib */,
@@ -1435,6 +1441,7 @@
 		7B0AFBC91470CE6300165517 /* opengl */ = {
 			isa = PBXGroup;
 			children = (
+				A547716018DB76DF00FE1646 /* GL */,
 				7B0AFBCA1470CE6300165517 /* myopengl.h */,
 				7B0AFBCB1470CE6300165517 /* myopengl_extension.h */,
 				7B0AFBCC1470CE6300165517 /* opengl_binding.c */,
@@ -1538,6 +1545,15 @@
 				7B0AFB551470CE6200165517 /* wav.h */,
 			);
 			name = wav;
+			sourceTree = "<group>";
+		};
+		A547716018DB76DF00FE1646 /* GL */ = {
+			isa = PBXGroup;
+			children = (
+				A547716118DB76DF00FE1646 /* gl.xml */,
+				A547716218DB76DF00FE1646 /* glext.h */,
+			);
+			path = GL;
 			sourceTree = "<group>";
 		};
 		A571EE6218C64A260037F031 /* gnulib_replacement_funcs */ = {
@@ -1715,6 +1731,7 @@
 				A5476C3118D9F20000FE1646 /* dosname.h in Headers */,
 				A5476C3318D9F20800FE1646 /* pathmax.h in Headers */,
 				A5476C3518D9F21400FE1646 /* verify.h in Headers */,
+				A547716418DB76DF00FE1646 /* glext.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1839,6 +1856,7 @@
 				7B0AFC681470CE6300165517 /* VGAGRAPH.WL6 in Resources */,
 				7B0AFC691470CE6300165517 /* VGAHEAD.WL6 in Resources */,
 				7B0AFC6A1470CE6300165517 /* VSWAP.WL6 in Resources */,
+				A547716618DB7FCC00FE1646 /* wondering.caf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2070,7 +2088,7 @@
 		089C165CFE840E0CC02AAC07 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
-				089C165DFE840E0CC02AAC07 /* English */,
+				089C165DFE840E0CC02AAC07 /* InfoPlist.strings */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -2078,7 +2096,7 @@
 		1DDD58140DA1D0A300B32029 /* MainMenu.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				1DDD58150DA1D0A300B32029 /* English */,
+				1DDD58150DA1D0A300B32029 /* MainMenu.xib */,
 			);
 			name = MainMenu.xib;
 			sourceTree = "<group>";

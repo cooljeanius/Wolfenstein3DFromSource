@@ -9,24 +9,74 @@
 	<key>CFBundleIconFile</key>
 	<string></string>
 	<key>CFBundleIdentifier</key>
-	<string>com.yourcompany.${PRODUCT_NAME:rfc1034identifier}</string>
+	<string>edu.gwu.${PRODUCT_NAME:rfc1034identifier}</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
 	<string>${PRODUCT_NAME}</string>
+	<key>bundleDisplayName</key>
+	<string>Wolf 3D</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.0</string>
+	<string>0.01</string>
 	<key>LSMinimumSystemVersion</key>
 	<string>${MACOSX_DEPLOYMENT_TARGET}</string>
 	<key>CFBundleVersion</key>
-	<string>1</string>
+	<string>0.01</string>
 	<key>NSMainNibFile</key>
 	<string>MainMenu</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
+	<key>genre</key>
+	<string>Games</string>
+	<key>subgenres</key>
+	<array>
+		<dict>
+			<key>genre</key>
+			<string>Action</string>
+			<key>genreId</key>
+			<integer>7001</integer>
+		</dict>
+	</array>
+	<key>genreId</key>
+	<integer>6014</integer>
+	<key>itemId</key>
+	<integer>313423706</integer>
+	<key>itemName</key>
+	<string>Wolfenstein 3D Classic</string>
+	<key>artistId</key>
+	<integer>309470481</integer>
+	<key>artistName</key>
+	<string>id Software</string>
+	<key>playlistArtistName</key>
+	<string>id Software</string>
+	<key>playlistName</key>
+	<string>Wolfenstein 3D Classic</string>
+	<key>s</key>
+	<integer>143441</integer>
+	<key>softwareVersionBundleId</key>
+	<string>com.idsoftware.wolf3d</string>
+	<key>softwareVersionExternalIdentifier</key>
+	<integer>4058732</integer>
+	<key>softwareVersionExternalIdentifiers</key>
+	<array>
+		<integer>1647021</integer>
+		<integer>3992344</integer>
+		<integer>4058732</integer>
+	</array>
+	<key>rating</key>
+	<dict>
+		<key>content</key>
+		<string>Frequent/Intense Cartoon or Fantasy Violence , Frequent/Intense Horror/Fear Themes and Infrequent/Mild Profanity or Crude Humor</string>
+		<key>label</key>
+		<string>12+</string>
+		<key>rank</key>
+		<integer>300</integer>
+		<key>system</key>
+		<string>itunes-games</string>
+	</dict>
 </dict>
 </plist>

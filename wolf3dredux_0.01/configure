@@ -18576,7 +18576,7 @@ fi
 
 fi
 
-for ac_header in assert.h bits/libc-lock.h ctype.h dmalloc.h \
+for ac_header in alloc.h assert.h bits/libc-lock.h ctype.h dmalloc.h \
                   errno.h fcntl.h float.h libintl.h \
                   libio/iolibio.h libio/libioP.h limits.h \
                   mach/mach.h mach/vm_param.h malloc.h malloc/malloc.h \
@@ -18584,7 +18584,7 @@ for ac_header in assert.h bits/libc-lock.h ctype.h dmalloc.h \
                   sys/gmon.h sys/malloc.h sys/mount.h sys/param.h \
                   sys/socket.h sys/sysctl.h sys/syslimits.h sys/time.h \
                   sys/timeb.h sys/utsname.h sys/vmmeter.h \
-                  wchar.h windef.h windows.h xlocale.h Xutil.h
+                  unix.h wchar.h windef.h windows.h xlocale.h Xutil.h
 do :
   as_ac_Header=`$as_echo "ac_cv_header_$ac_header" | $as_tr_sh`
 ac_fn_c_check_header_mongrel "$LINENO" "$ac_header" "$as_ac_Header" "$ac_includes_default"

@@ -1,1 +1,7 @@
 !.
+
+# not sure if I am allowed to distribute the files I extracted from the
+# "lite" iPhone version, so gitignore them:
+*.ogg
+# I suppose the text file is okay to keep though, as it is just for
+# reference...

@@ -6,9 +6,11 @@ buildable with Visual C++ 6.0 on Windows and gcc on Linux/FreeBSD.
 
 You will have to download the latest glext.h header from
 http://www.opengl.org/registry/
+(newest version as of Mar. 20, 2014 placed in video/opengl/GL just in case)
 
 You will also need the Ogg Vorbis Library.
 http://www.vorbis.com/
+(install with your favorite package manager)
 
 
 If you make modifications and you distribute the compiled version of your

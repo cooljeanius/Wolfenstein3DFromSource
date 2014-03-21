@@ -38,6 +38,9 @@
    */
 #undef HAVE_ALLOCA_H
 
+/* Define to 1 if you have the <alloc.h> header file. */
+#undef HAVE_ALLOC_H
+
 /* Define to 1 if you have the <assert.h> header file. */
 #undef HAVE_ASSERT_H
 
@@ -463,6 +466,9 @@
 
 /* Define to 1 if you have the <unistd.h> header file. */
 #undef HAVE_UNISTD_H
+
+/* Define to 1 if you have the <unix.h> header file. */
+#undef HAVE_UNIX_H
 
 /* Define to 1 if you have the `unlink' function. */
 #undef HAVE_UNLINK

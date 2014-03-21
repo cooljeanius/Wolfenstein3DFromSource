@@ -472,7 +472,7 @@ ACLOCAL_AMFLAGS = -I m4 --install
 #
 
 #TODO: have autoconf check that all flags are supported:
-AM_WARNFLAGS = -Wall -Wmissing-field-initializers -Wmissing-prototypes -Wimplicit -Wreturn-type -Wmissing-braces -Wparentheses -Wswitch -Wunknown-pragmas -Wsign-compare -Wnewline-eof -Wno-unused -Wno-trigraphs
+AM_WARNFLAGS = -Wall -Wmissing-field-initializers -Wmissing-prototypes -Wimplicit -Wreturn-type -Wmissing-braces -Wparentheses -Wswitch -Wunknown-pragmas -Wsign-compare -Wno-unused -Wno-trigraphs
 AM_CFLAGS = $(AM_WARNFLAGS) -ffast-math -funroll-loops
 AM_CPPFLAGS = -I. -I/usr/X11R6/include
 @WOLF_OLD_BUILD_TRUE@COMPILER = @CC@
