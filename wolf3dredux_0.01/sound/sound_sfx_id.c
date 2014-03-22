@@ -162,12 +162,11 @@ PUBLIC _boolean Sound_LoadSound(sfx_t *sfx)
 -----------------------------------------------------------------------------
  Function: Sound_FindSound -Load sound data.
 
- Parameters: sfx -[in] Pointer to valid sfx_t structure.
+ Parameters: sfx -[in] Pointer to valid sfx_t structure (wait really?).
 
- Returns: Nothing.
+ Returns: Nothing (really?)
 
  Notes:
-
 -----------------------------------------------------------------------------
 */
 PUBLIC sfx_t *Sound_FindSound(const char *name)
@@ -182,7 +181,7 @@ PUBLIC sfx_t *Sound_FindSound(const char *name)
 	}
 
 	if (strlen(name) >= MAX_GAMEPATH) {
-		Com_Printf( "Sound_FindSound(): sound name exceeds MAX_GAMEPATH\n");
+		Com_Printf("Sound_FindSound(): sound name exceeds MAX_GAMEPATH\n");
 
 		return NULL;
 	}
@@ -198,7 +197,7 @@ PUBLIC sfx_t *Sound_FindSound(const char *name)
 
 	/* Create a new sfx_t */
 	if (s_numSfx == MAX_SFX) {
-		Com_Printf("Sound_FindSound: MAX_SFX hit\n");
+		Com_Printf("Sound_FindSound(): MAX_SFX hit\n");
 
 		return NULL;
 	}
@@ -252,9 +251,10 @@ PUBLIC sfx_t *Sound_RegisterSound(const char *name)
 		return NULL;
 	}
 
-	if( g_version->value == 1 ) {
+	if (g_version->value == 1) {
 		char tempname[256];
 
+		/* "sod" == "Spear Of Destiny" (?) */
 		my_snprintf(tempname, sizeof(tempname), "sod%s", name);
 
 		sfx = Sound_FindSound(tempname);

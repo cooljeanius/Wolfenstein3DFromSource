@@ -648,12 +648,11 @@ PRIVATE void PL_notarget_f( void )
  Returns: Nothing.
 
  Notes:
-
 -----------------------------------------------------------------------------
 */
 PUBLIC void PL_Init(void)
 {
-	PL_Reset();
+	PL_Reset(); /* Simply calls memset() for the 'Player' global variable. */
 	PL_NewGame(&Player);
 
 	Cmd_AddCommand("god", Cmd_God_f);

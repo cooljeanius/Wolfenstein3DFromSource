@@ -1,5 +1,5 @@
 !.
 
-# not sure if I am allowed to distribute the files I extracted from the
-# "lite" iPhone version, so gitignore them:
+# No point in having them here as well, when they are already in
+# tools/wolfextractor/base/lsfx...
 *.ogg

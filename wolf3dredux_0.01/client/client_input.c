@@ -517,8 +517,7 @@ void IN_CenterView (void)
 
  Returns: Nothing.
 
- Notes:
-
+ Notes: Just a bunch of calls to Cmd_AddCommand() so far...
 -----------------------------------------------------------------------------
 */
 PUBLIC void Client_InitInput(void)

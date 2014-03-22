@@ -111,6 +111,7 @@ PRIVATE W8	defer_text_buf[ 8192 ];
 */
 PRIVATE void Cbuf_Init(void)
 {
+	/* Basically just calls memset() and stuff: */
 	SZ_Init(&cmd_text, (PW8)cmd_text_buf, (int)sizeof(cmd_text_buf));
 }
 
@@ -126,18 +127,18 @@ PRIVATE void Cbuf_Init(void)
  Notes:
 -----------------------------------------------------------------------------
 */
-PUBLIC void Cbuf_AddText( const char *text )
+PUBLIC void Cbuf_AddText(const char *text)
 {
 	W32	length;
 
-	length = (W32)strlen( text );
+	length = (W32)strlen(text);
 
 	if ((int)((W32)cmd_text.cursize + length) >= cmd_text.maxsize) {
-		Com_Printf( "Cbuf_AddText: overflow\n" );
+		Com_Printf("Cbuf_AddText: overflow\n");
 		return;
 	}
 
-	SZ_Write( &cmd_text, (void *)text, (int)length );
+	SZ_Write(&cmd_text, (void *)text, (int)length); /* i.e. memcpy */
 }
 
 /*
@@ -704,27 +705,28 @@ PUBLIC char *Cmd_Args( void )
 
 -----------------------------------------------------------------------------
 */
-PRIVATE char *Cmd_MacroExpandString( char *text )
+PRIVATE char *Cmd_MacroExpandString(char *text)
 {
 	int		i, j, count, len;
 	_boolean	inquote;
 	char	*scan;
-	static	char	expanded[ MAX_STRING_CHARS ];
+	static	char	expanded[MAX_STRING_CHARS];
 	char	temporary[MAX_STRING_CHARS];
 	char	*token, *start;
 
 	inquote = false;
 	scan = text;
 
-	len = (int)strlen( scan );
-	if( len >= MAX_STRING_CHARS ) {
-		Com_Printf( "Line exceeded %i chars, discarded.\n", MAX_STRING_CHARS );
+	len = (int)strlen(scan);
+	if (len >= MAX_STRING_CHARS) {
+		Com_Printf("Cmd_MacroExpandString(): Line exceeded maximum of '%i' chars, discarded.\n",
+				   MAX_STRING_CHARS);
 		return NULL;
 	}
 
 	count = 0;
 
-	for( i = 0 ; i < len ; ++i ) {
+	for ((i = 0); (i < len); ++i) {
 		if (scan[i] == '"') {
 			inquote ^= 1;
 		}
@@ -738,8 +740,8 @@ PRIVATE char *Cmd_MacroExpandString( char *text )
 		}
 
 		/* scan out the complete macro */
-		start = scan+i+1;
-		token = COM_Parse( &start );
+		start = (scan + i + 1);
+		token = COM_Parse(&start);
 		if (!start) {
 			continue;
 		}
@@ -749,8 +751,8 @@ PRIVATE char *Cmd_MacroExpandString( char *text )
 		j = (int)strlen(token);
 		len += j;
 		if (len >= MAX_STRING_CHARS) {
-			Com_Printf ("Expanded line exceeded %i chars, discarded.\n",
-						MAX_STRING_CHARS);
+			Com_Printf("Cmd_MacroExpandString(): Expanded line exceeded '%i' chars, discarded.\n",
+					   MAX_STRING_CHARS);
 			return NULL;
 		}
 
@@ -766,13 +768,13 @@ PRIVATE char *Cmd_MacroExpandString( char *text )
 		i--;
 
 		if (++count == 100) {
-			Com_Printf("Macro expansion loop, discarded.\n");
+			Com_Printf("Cmd_MacroExpandString(): Macro expansion loop, discarded.\n");
 			return NULL;
 		}
 	}
 
 	if (inquote) {
-		Com_Printf("Line has unmatched quote, discarded.\n");
+		Com_Printf("Cmd_MacroExpandString(): Line has unmatched quote, discarded.\n");
 		return NULL;
 	}
 
@@ -814,7 +816,7 @@ PUBLIC void Cmd_TokenizeString(char *text, _boolean macroExpand)
 	cmd_argc = 0;
 	cmd_args[0] = 0;
 
-	/* macro expand the text */
+	/* macro expand the text, if asked to: */
 	if (macroExpand) {
 		text = Cmd_MacroExpandString(text);
 	}
@@ -867,7 +869,6 @@ PUBLIC void Cmd_TokenizeString(char *text, _boolean macroExpand)
 			cmd_argc++;
 		}
 	}
-
 }
 
 
@@ -1062,6 +1063,7 @@ PUBLIC void Cmd_ExecuteString(char *text)
 	cmdalias_t		*a;
 	W32	hashid;
 
+	/* Need to parses the text into command line tokens before executing it: */
 	Cmd_TokenizeString(text, (_boolean)true);
 
 	/* execute the command line */
@@ -1144,7 +1146,7 @@ PRIVATE void Cmd_List_f(void)
 */
 PUBLIC void Cmd_Init(void)
 {
-	Cbuf_Init();
+	Cbuf_Init(); /* just calls SZ_Init */
 
 /*
  * register our commands

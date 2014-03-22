@@ -139,14 +139,14 @@ PRIVATE _boolean CompareAttributes( const char *path, W32 musthave, W32 canthave
  Parameters: path -[in] Pointer to a NUL-terminated string that specifies
                       a valid directory or path and file name.
 			musthave -[in] File or directory must have these attributes.
-			canthave- [in] File or directory can not have these attributes.
+			canthave -[in] File or directory can not have these attributes.
 
  Returns: On success string of file name or directory, otherwise NULL.
 
  Notes:
 -----------------------------------------------------------------------------
 */
-PUBLIC char *FS_FindFirst( const char *path, W32 musthave, W32 canthave )
+PUBLIC char *FS_FindFirst(const char *path, W32 musthave, W32 canthave)
 {
 	struct dirent *d;
 	char *p;
@@ -154,20 +154,21 @@ PUBLIC char *FS_FindFirst( const char *path, W32 musthave, W32 canthave )
 	p = ""; /* initialize */
 
 #if __clang_analyzer__
-	Com_DPrintf("FS_FindFirst( %s )\n", p);
+	Com_DPrintf("FS_FindFirst(%s)\n", p);
 #endif /* __clang_analyzer__ (hack) */
 
 	if (fdir) {
-		Com_Printf( "FS_FindFirst without close\n" );
+		Com_Printf("FS_FindFirst without close\n");
 
 		return NULL;
 	}
 
 	FS_FilePath((char *)path, findbase);
-	my_strlcpy(findpattern, (char *)FS_SkipPath((char *)path), sizeof(findpattern));
+	my_strlcpy(findpattern, (char *)FS_SkipPath((char *)path),
+			   sizeof(findpattern));
 
 	if (! *findbase) {
-		if ((fdir = opendir( "." )) == NULL) {
+		if ((fdir = opendir(".")) == NULL) {
 			return NULL;
 		}
 	} else {
@@ -240,13 +241,13 @@ PUBLIC char *FS_FindNext( W32 musthave, W32 canthave )
 
  Returns: Nothing.
 
- Notes:
+ Notes: Just a simple wrapper around closedir() for now...
 -----------------------------------------------------------------------------
 */
-PUBLIC void FS_FindClose( void )
+PUBLIC void FS_FindClose(void)
 {
-	if( fdir ) {
-		closedir( fdir );
+	if (fdir) {
+		closedir(fdir);
 	}
 
 	fdir = NULL;

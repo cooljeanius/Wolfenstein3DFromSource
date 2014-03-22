@@ -82,7 +82,7 @@ int dir4angle[5]={ANG_0, ANG_90, ANG_180, ANG_270, ANG_0};
 */
 PUBLIC int G_Build_Tables(void)
 {
-	US_InitRndT(1); /* turn on random number generators */
+	US_InitRndT(1); /* turn on random number generators (pretty simple) */
 
 	return 1;
 }

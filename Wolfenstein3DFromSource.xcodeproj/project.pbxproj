@@ -1916,7 +1916,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#!/bin/sh\n\nset -ex\n\necho \"printing environment...\"\n\nenv | uniq | sort | uniq\n\nexit 0\n";
+			shellScript = "#!/bin/sh\n\nset -ex\n\necho \"printing environment...\"\n\nenv | uniq | sort | uniq\n\nif test -d ${SRCROOT}/wolf3dredux_0.01/tools/wolfextractor/base; then\n  ln -svf ${SRCROOT}/wolf3dredux_0.01/tools/wolfextractor/base ${BUILT_PRODUCTS_DIR}\nelse\n  echo \"base cannot be symlinked into dir that Wolf3D will be run from\"\nfi\n\nexit 0\n";
 		};
 		A571F26D18C7060B0037F031 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;

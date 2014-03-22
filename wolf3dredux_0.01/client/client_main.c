@@ -185,7 +185,7 @@ PRIVATE void Client_InitLocal(void)
 	ClientStatic.realtime = (int)Sys_Milliseconds();
 
 
-	Client_InitInput();
+	Client_InitInput(); /* just a bunch of calls to Cmd_AddCommand() so far */
 
 
 /*
@@ -234,8 +234,8 @@ PRIVATE void Client_InitLocal(void)
  * register our commands
  */
 	Cmd_AddCommand("quit", Client_Quit_f);
-
 }
+
 
 /*
 -------------------------------------------------------------------------------
@@ -249,10 +249,10 @@ PRIVATE void Client_InitLocal(void)
 
 -------------------------------------------------------------------------------
 */
-PUBLIC void Client_Init( void )
+PUBLIC void Client_Init(void)
 {
 
-	if( dedicated->value ) {
+	if (dedicated->value) {
 		return; /* nothing running on the client */
 	}
 
@@ -271,12 +271,12 @@ PUBLIC void Client_Init( void )
 	Sound_Init(); /* sound must be initialized after window is created */
 #endif /* __unix__ */
 
-	Menu_Init();
+	Menu_Init(); /* just a bunch of calls to Cmd_AddCommand(), looks like... */
 
-	Client_Screen_Init();
+	Client_Screen_Init(); /* not worth setting a breakpoint on... */
 
 	Client_InitLocal();
-	IN_Init();
+	IN_Init(); /* 'IN' is short for 'Input'; initializes joystick and/or mouse */
 
 }
 

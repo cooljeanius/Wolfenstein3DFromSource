@@ -53,16 +53,16 @@ char	com_token[128];
 -----------------------------------------------------------------------------
 */
 /* prototype is in "common.h" */
-PUBLIC char *va( char *format, ... )
+PUBLIC char *va(char *format, ...)
 {
 	va_list	argptr;
-	static char	string[ 1024 ];
+	static char	string[1024];
 
-	va_start( argptr, format );
-	(void)vsnprintf( string, sizeof( string ), format, argptr );
-	va_end( argptr );
+	va_start(argptr, format);
+	(void)vsnprintf(string, sizeof(string), format, argptr);
+	va_end(argptr);
 
-	string[ sizeof( string ) - 1 ] = '\0';
+	string[(sizeof(string) - 1)] = '\0';
 
 	return string;
 }
@@ -82,7 +82,7 @@ PUBLIC char *va( char *format, ... )
 -----------------------------------------------------------------------------
 */
 /* prototype is in "common.h" */
-PUBLIC char *COM_Parse( char **data_p )
+PUBLIC char *COM_Parse(char **data_p)
 {
 	int		c;
 	int		len;
@@ -90,17 +90,17 @@ PUBLIC char *COM_Parse( char **data_p )
 
 	data = *data_p;
 	len = 0;
-	com_token[ 0 ] = 0;
+	com_token[0] = 0;
 
-	if( ! data ) {
+	if (! data) {
 		*data_p = NULL;
 		return "";
 	}
 
 /* skip whitespace */
 skipwhite:
-	while( (c = *data) <= ' ') {
-		if( c == 0 ) {
+	while ((c = *data) <= ' ') {
+		if (c == 0) {
 			*data_p = NULL;
 			return "";
 		}
@@ -108,25 +108,25 @@ skipwhite:
 	}
 
 /* skip "//" comments */
-	if( c == '/' && data[ 1 ] == '/' ) {
-		while( *data && *data != '\n' ) {
+	if ((c == '/') && (data[1] == '/')) {
+		while (*data && (*data != '\n')) {
 			data++;
 		}
 		goto skipwhite;
 	}
 
 /* handle quoted strings specially */
-	if( c == '\"' ) {
+	if (c == '\"') {
 		data++;
-		while( 1 ) {
+		while (1) {
 			c = *data++;
-			if( c == '\"' || ! c ) {
-				com_token[ len ] = 0;
+			if ((c == '\"') || ! c) {
+				com_token[len] = 0;
 				*data_p = data;
 				return com_token;
 			}
-			if( len < MAX_TOKEN_CHARS ) {
-				com_token[ len ] = (char)c;
+			if (len < MAX_TOKEN_CHARS) {
+				com_token[len] = (char)c;
 				len++;
 			}
 		}
@@ -134,22 +134,23 @@ skipwhite:
 
 /* parse a regular word */
 	do {
-		if( len < MAX_TOKEN_CHARS ) {
-			com_token[ len ] = (char)c;
+		if (len < MAX_TOKEN_CHARS) {
+			com_token[len] = (char)c;
 			len++;
 		}
 		data++;
 		c = *data;
 
-	} while( c > 32 );
+	} while (c > 32);
 
-	if( len == MAX_TOKEN_CHARS ) {
-#if 0
-		Com_Printf ("Token exceeded %i chars, discarded.\n", MAX_TOKEN_CHARS);
-#endif /* 0 */
+	if (len == MAX_TOKEN_CHARS) {
+#ifdef DEBUG
+		Com_Printf("COM_Parse(): Token exceeded '%i' chars, discarded.\n",
+				   MAX_TOKEN_CHARS);
+#endif /* DEBUG */
 		len = 0;
 	}
-	com_token[ len ] = 0;
+	com_token[len] = 0;
 
 	*data_p = data;
 
@@ -172,13 +173,12 @@ skipwhite:
 int	paged_total;
 
 /* prototype is in "common.h" */
-PUBLIC void Com_PageInMemory( PW8 buffer, int size )
+PUBLIC void Com_PageInMemory(PW8 buffer, int size)
 {
 	int		i;
 
-	for( i = size - 1 ; i > 0 ; i -= 4096 )
-	{
-		paged_total += buffer[ i ];
+	for ((i = (size - 1)); (i > 0); (i -= 4096)) {
+		paged_total += buffer[i];
 	}
 }
 

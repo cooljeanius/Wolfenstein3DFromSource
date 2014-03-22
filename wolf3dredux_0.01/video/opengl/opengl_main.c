@@ -389,24 +389,24 @@ PRIVATE _boolean R_SetMode(void)
 									  fullscreen)) == rserr_ok) {
 		gl_state.prev_mode = (int)FloatToInt((float)(gl_mode->value));
 	} else {
-		if( err == rserr_invalid_fullscreen ) {
+		if (err == rserr_invalid_fullscreen) {
 			Cvar_SetValue("r_fullscreen", 0);
 			r_fullscreen->modified = false;
 			Com_Printf("[R_SetMode()] -fullscreen unavailable in this mode\n");
 
-			if((err = (rserr_t)GLimp_SetMode((int*)&viddef.width,
-											 (int*)&viddef.height,
-											 (int)FloatToInt((float)(gl_mode->value)),
-											 false)) == rserr_ok) {
+			if ((err = (rserr_t)GLimp_SetMode((int*)&viddef.width,
+											  (int*)&viddef.height,
+											  (int)FloatToInt((float)(gl_mode->value)),
+											  false)) == rserr_ok) {
 				if (err == rserr_ok) {
 					Com_Printf("err is %s", err);
 				}
 				return true;
 			}
 		} else if (err == rserr_invalid_mode) {
-			Cvar_SetValue( "gl_mode", (float)gl_state.prev_mode );
+			Cvar_SetValue("gl_mode", (float)gl_state.prev_mode);
 			gl_mode->modified = false;
-			Com_Printf( "ref_gl::R_SetMode() - invalid mode\n" );
+			Com_Printf("ref_gl::R_SetMode() - invalid mode\n");
 		}
 
 		/* try setting it back to something safe */
@@ -467,7 +467,7 @@ PUBLIC int R_Init(void *hinstance, void *hWnd)
 	/* set our "safe" modes */
 	gl_state.prev_mode = 0;
 
-	/* create the window and set up the context */
+	/* create the (X) window and set up the context */
 	if (! R_SetMode()) {
 		OpenGL_Shutdown();
         Com_Printf("R_Init() - could not R_SetMode()\n");
@@ -535,7 +535,7 @@ PUBLIC int R_Init(void *hinstance, void *hWnd)
 
 	GL_SetDefaultState();
 
-	TM_Init();
+	TM_Init(); /* 'TM' stands for 'Texture Manager' (draws checkerboard) */
 	Font_Init();
 
 
@@ -615,7 +615,6 @@ PUBLIC void R_BeginFrame(void)
 /*
  * Go into 2D mode.
  */
-
 	R_SetGL2D();
 
 /*
@@ -635,7 +634,6 @@ PUBLIC void R_BeginFrame(void)
 /*
  * texturemode stuff
  */
-
 #if 0
 	if (gl_texturemode->modified) {
 		R_TextureMode(gl_texturemode->string); /* unimplemented */
@@ -669,6 +667,7 @@ PUBLIC void R_BeginFrame(void)
 */
 PUBLIC void R_EndFrame(void)
 {
+	/* has entry points to OpenGL in it: */
 	GLimp_EndFrame();
 }
 

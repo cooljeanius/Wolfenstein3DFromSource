@@ -58,7 +58,7 @@
 */
 PUBLIC void Sys_OS_Init(void)
 {
-	Com_Printf("Initializng OS specific things...\n");
+	Com_Printf("Sys_OS_Init(): Initializng OS specific things...\n");
 /* should something more actually go here? */
 }
 

@@ -136,10 +136,10 @@ AC_CHECK_HEADERS([alloc.h assert.h bits/libc-lock.h ctype.h dmalloc.h \
                   errno.h fcntl.h float.h libintl.h \
                   libio/iolibio.h libio/libioP.h limits.h \
                   mach/mach.h mach/vm_param.h malloc.h malloc/malloc.h \
-                  math.h mmsystem.h setjmp.h signal.h stdarg.h stddef.h \
-                  stdio.h sys/gmon.h sys/malloc.h sys/mount.h sys/param.h \
-                  sys/socket.h sys/sysctl.h sys/syslimits.h sys/time.h \
-                  sys/timeb.h sys/utsname.h sys/vmmeter.h \
+                  math.h mmsystem.h search.h setjmp.h signal.h stdarg.h \
+                  stddef.h stdio.h sys/gmon.h sys/malloc.h sys/mount.h \
+                  sys/param.h sys/socket.h sys/sysctl.h sys/syslimits.h \
+                  sys/time.h sys/timeb.h sys/utsname.h sys/vmmeter.h \
                   unix.h wchar.h windef.h windows.h xlocale.h Xutil.h])
 AC_CHECK_HEADERS([X11/extensions/xf86dga.h],[],[
   AC_CHECK_HEADERS([X11/extensions/Xxf86dga.h])

@@ -41,18 +41,26 @@ extern void OpenAL_Shutdown(void);
 extern _boolean Sound_Device_Setup(void);
 extern void Sound_Device_Shutdown(void);
 
-/* typedefs: */
+/* typedefs (?): */
 typedef ALCAPI ALCvoid (ALCAPIENTRY * ALCCLOSEDEVICE)(ALCdevice *pDevice);
-typedef ALCAPI ALCcontext*(ALCAPIENTRY * ALCCREATECONTEXT)(ALCdevice *device, const ALCint *attrList);
+typedef ALCAPI ALCcontext*(ALCAPIENTRY * ALCCREATECONTEXT)(ALCdevice *device,
+														   const ALCint *attrList);
 typedef ALCAPI ALCvoid (ALCAPIENTRY * ALCDESTROYCONTEXT)(ALCcontext *context);
 typedef ALCAPI ALCdevice* (ALCAPIENTRY * ALCGETCONTEXTSDEVICE)(ALCcontext *pContext);
 typedef ALCAPI ALCcontext * (ALCAPIENTRY * ALCGETCURRENTCONTEXT)(ALCvoid);
-typedef ALCAPI ALCenum (ALCAPIENTRY * ALCGETENUMVALUE)(ALCdevice *device, const ALCubyte *enumName);
+typedef ALCAPI ALCenum (ALCAPIENTRY * ALCGETENUMVALUE)(ALCdevice *device,
+													   const ALCubyte *enumName);
 typedef ALCAPI ALCenum (ALCAPIENTRY * ALCGETERROR)(ALCdevice *device);
-typedef ALCAPI ALCvoid (ALCAPIENTRY * ALCGETINTEGERV)(ALCdevice *device,ALCenum param,ALsizei size,ALCint *data);
-typedef ALCAPI ALCvoid *  (ALCAPIENTRY * ALCGETPROCADDRESS)(ALCdevice *device, const ALCubyte *funcName);
-typedef ALCAPI const ALCubyte* (ALCAPIENTRY * ALCGETSTRING)(ALCdevice *device,ALCenum param);
-typedef ALCAPI ALCboolean (ALCAPIENTRY * ALCISEXTENSIONPRESENT)(ALCdevice *device, const ALCubyte *extName);
+typedef ALCAPI ALCvoid (ALCAPIENTRY * ALCGETINTEGERV)(ALCdevice *device,
+													  ALCenum param,
+													  ALsizei size,
+													  ALCint *data);
+typedef ALCAPI ALCvoid *  (ALCAPIENTRY * ALCGETPROCADDRESS)(ALCdevice *device,
+															const ALCubyte *funcName);
+typedef ALCAPI const ALCubyte* (ALCAPIENTRY * ALCGETSTRING)(ALCdevice *device,
+															ALCenum param);
+typedef ALCAPI ALCboolean (ALCAPIENTRY * ALCISEXTENSIONPRESENT)(ALCdevice *device,
+																const ALCubyte *extName);
 typedef ALCAPI ALCboolean (ALCAPIENTRY * ALCMAKECONTEXTCURRENT)(ALCcontext *context);
 typedef ALCAPI ALCdevice* (ALCAPIENTRY * ALCOPENDEVICE)(const ALCubyte *deviceName);
 typedef ALCAPI ALCvoid (ALCAPIENTRY * ALCPROCESSCONTEXT)(ALCcontext *pContext);

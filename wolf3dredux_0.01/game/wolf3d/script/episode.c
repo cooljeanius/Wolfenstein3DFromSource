@@ -261,7 +261,7 @@ PUBLIC _boolean episode_init(const char *filename)
 		return false;
 	}
 
-	Com_Printf("Processing script (%s)\n", filename);
+	Com_Printf("episode_init(): Processing script (%s)\n", filename);
 
 	maptree = ternary_tree_init(10);
 
@@ -270,7 +270,7 @@ PUBLIC _boolean episode_init(const char *filename)
 	if (! script_Parse(filename, episode_tags,
 					   (sizeof(episode_tags) / sizeof(episode_tags[0])),
 					   TAG_LEVEL_SCP)) {
-		Com_Printf("Unable to open script (%s)\n", filename);
+		Com_Printf("episode_init(): Unable to open script (%s)\n", filename);
 
 		episode_shutdown();
 

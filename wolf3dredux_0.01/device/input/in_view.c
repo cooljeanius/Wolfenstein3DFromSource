@@ -81,7 +81,8 @@ void IN_Init(void)
 	v_centermove  = Cvar_Get("v_centermove", "0.15", 0);
 	v_centerspeed = Cvar_Get("v_centerspeed", "500", 0);
 
-	IN_StartupMouse(); /* has a lot of X11-specific calls in the Unix version */
+	IN_StartupMouse(); /* has a lot of X11-specific calls in the Unix version
+						* (well once it calls install_grabs() that is...) */
 	IN_StartupJoystick(); /* just a bunch of calls to Cvar_Get() so far... */
 }
 

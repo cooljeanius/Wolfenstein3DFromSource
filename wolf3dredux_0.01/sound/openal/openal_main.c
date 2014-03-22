@@ -75,7 +75,7 @@ PRIVATE void Sound_Device_getDeviceList(void)
 	char deviceName[256];
 
 	my_strlcpy(deviceName, s_device->string, sizeof(deviceName));
-	if( pfalcIsExtensionPresent(NULL, (ALubyte*)"ALC_ENUMERATION_EXT") == AL_TRUE) {
+	if (pfalcIsExtensionPresent(NULL, (ALubyte*)"ALC_ENUMERATION_EXT") == AL_TRUE) {
 		/* try out enumeration extension */
 		deviceList = (char *)pfalcGetString(NULL, ALC_DEVICE_SPECIFIER);
 		for ((numSoundDevices = 0); (numSoundDevices < 12); ++numSoundDevices) {
@@ -95,10 +95,9 @@ PRIVATE void Sound_Device_getDeviceList(void)
 					deviceList += 1;
 				}
 			}
-
-		} /* End for the "numSoundDevices = 0 ; numSoundDevices < 12 ; ++numSoundDevices" for-loop */
+ /* End for the "(numSoundDevices = 0); (numSoundDevices < 12); ++numSoundDevices" for-loop */
+		}
 	}
-
 }
 
 

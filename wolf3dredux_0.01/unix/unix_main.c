@@ -166,6 +166,7 @@ int unix_main(int argc, char *argv[])
 	}
 
     oldtime = (int)Sys_Milliseconds();
+	/* main application loop: */
     while (1) {
 		KBD_Update();
 
@@ -176,11 +177,14 @@ int unix_main(int argc, char *argv[])
 
 		} while (main_time < 1);
 
+		/* most of our time is spent in here: */
         common_Frame(main_time);
 		oldtime = newtime;
     }
 
-/* Should never get here! */
+/* Should never get here!
+ * (because the 'while' loop above should never break, unless the entire program
+ * is being skipped out of, via a call to _exit() or something...) */
 #if defined(__APPLE__) && defined(__OBJC__) && defined(__GNUC__)
 	/* (same conditions for import-ing <Cocoa/Cocoa.h> above) */
 	return NSApplicationMain(argc,  (const char **)argv);

@@ -63,7 +63,7 @@ colour3_t	colourWhite	= { 255, 255, 255 };
 
 
 int		com_argc;
-char	*com_argv[ MAX_NUM_ARGVS + 1 ];
+char	*com_argv[(MAX_NUM_ARGVS + 1)];
 
 
 jmp_buf abortframe;		/* an ERR_DROP occured, exit the entire frame */
@@ -73,7 +73,7 @@ FILE	*log_stats_file;
 
 cvar_t	*host_speeds;
 cvar_t	*log_stats;
-cvar_t	*developer;
+cvar_t	*developer; /* developers should set this... where though? */
 cvar_t	*timescale;
 cvar_t	*fixedtime;
 cvar_t	*logfile_active;	/* 1 = buffer log, 2 = flush after each print */
@@ -144,9 +144,9 @@ PUBLIC void Com_BeginRedirect(int target, char *buffer, int buffersize,
 
 -----------------------------------------------------------------------------
 */
-PUBLIC void Com_EndRedirect( void )
+PUBLIC void Com_EndRedirect(void)
 {
-	rd_flush( rd_target, rd_buffer );
+	rd_flush(rd_target, rd_buffer);
 
 	rd_target = 0;
 	rd_buffer = NULL;
@@ -167,27 +167,27 @@ PUBLIC void Com_EndRedirect( void )
 	to the apropriate place.
 -----------------------------------------------------------------------------
 */
-PUBLIC void Com_Printf( const char *fmt, ... )
+PUBLIC void Com_Printf(const char *fmt, ...)
 {
 	va_list		argptr;
-	static char	msg[ MAXPRINTMSG ];
+	static char	msg[MAXPRINTMSG];
 
-	va_start( argptr, fmt );
-	(void)vsnprintf( msg, sizeof( msg ), fmt, argptr );
-	va_end( argptr );
+	va_start(argptr, fmt);
+	(void)vsnprintf(msg, sizeof(msg), fmt, argptr);
+	va_end(argptr);
 
-	msg[ sizeof( msg ) - 1 ] = '\0';
+	msg[(sizeof(msg) - 1)] = '\0';
 
-	if( rd_target ) {
-		if( (int)((int)strlen(msg) + (int)strlen(rd_buffer)) > (rd_buffersize - 1) ) {
-			rd_flush( rd_target, rd_buffer );
+	if (rd_target) {
+		if ((int)((int)strlen(msg) + (int)strlen(rd_buffer)) > (rd_buffersize - 1)) {
+			rd_flush(rd_target, rd_buffer);
 			*rd_buffer = '\0';
 		}
-		my_strlcat( rd_buffer, msg, (size_t)rd_buffersize );
+		my_strlcat(rd_buffer, msg, (size_t)rd_buffersize);
 		return;
 	}
 
-	Con_Print( msg );
+	Con_Print(msg);
 
 #define ECHO_TO_DEBUGGING_CONSOLE 1
 #ifdef ECHO_TO_DEBUGGING_CONSOLE
@@ -196,28 +196,28 @@ PUBLIC void Com_Printf( const char *fmt, ... )
 #  define Sys_ConsoleOutput printf
 # endif /* !Sys_ConsoleOutput */
 	/* also echo to debugging console */
-	Sys_ConsoleOutput("%s", msg );
+	Sys_ConsoleOutput("%s", msg);
 	/* (was) potentially insecure, but that is because it is a dirty hack */
 #endif /* ECHO_TO_DEBUGGING_CONSOLE */
 
 	/* logfile */
-	if( logfile_active && logfile_active->value ) {
+	if (logfile_active && logfile_active->value) {
 		char name[ MAX_GAMEPATH ];
 
-		if( ! logfile ) {
-			my_snprintf( name, sizeof( name ), "%s/console.log", FS_Gamedir() );
-			if( logfile_active->value > 2 ) {
-				logfile = fopen( name, "a" );
+		if (! logfile) {
+			my_snprintf(name, sizeof(name), "%s/console.log", FS_Gamedir());
+			if (logfile_active->value > 2) {
+				logfile = fopen(name, "a");
 			} else {
-				logfile = fopen( name, "w" );
+				logfile = fopen(name, "w");
 			}
 		}
-		if( logfile ) {
-			fprintf( logfile, "%s", msg );
+		if (logfile) {
+			fprintf(logfile, "%s", msg);
 		}
 
-		if( logfile_active->value > 1 ) {
-			fflush( logfile );		/* force it to save every time */
+		if (logfile_active->value > 1) {
+			fflush(logfile);		/* force it to save every time */
 		}
 	}
 }
@@ -235,22 +235,22 @@ PUBLIC void Com_Printf( const char *fmt, ... )
 
 -----------------------------------------------------------------------------
 */
-PUBLIC void Com_DPrintf( const char *fmt, ... )
+PUBLIC void Com_DPrintf(const char *fmt, ...)
 {
 	va_list		argptr;
-	static char	msg[ MAXPRINTMSG ];
+	static char	msg[MAXPRINTMSG];
 
-	if( ! developer || ! developer->value ) {
+	if (! developer || ! developer->value) {
 		return;	/* do NOT confuse non-developers with techie stuff... */
 	}
 
-	va_start( argptr, fmt );
-	(void)vsnprintf( msg, sizeof( msg ), fmt, argptr );
-	va_end( argptr );
+	va_start(argptr, fmt);
+	(void)vsnprintf(msg, sizeof(msg), fmt, argptr );
+	va_end(argptr);
 
-	msg[ sizeof( msg ) - 1 ] = '\0';
+	msg[(sizeof(msg) - 1)] = '\0';
 
-	Com_Printf( "%s", msg );
+	Com_Printf("%s", msg);
 }
 
 
@@ -267,49 +267,50 @@ PUBLIC void Com_DPrintf( const char *fmt, ... )
 	do the apropriate things.
 -----------------------------------------------------------------------------
 */
-PUBLIC void Com_Error( int code, const char *fmt, ... )
+PUBLIC void Com_Error(int code, const char *fmt, ...)
 {
 	va_list		argptr;
-	static char		msg[ MAXPRINTMSG ];
+	static char		msg[MAXPRINTMSG];
 	static	_boolean	recursive;
 
-	if( recursive ) {
-		Sys_Error( "recursive error after: %s", msg );
+	if (recursive) {
+		Sys_Error("Com_Error(): recursive Sys_Error() after: %s", msg);
 	}
 
 	recursive = true;
 
-	va_start (argptr,fmt);
-	(void)vsnprintf( msg, sizeof( msg ), fmt, argptr );
-	va_end (argptr);
+	va_start(argptr,fmt);
+	(void)vsnprintf(msg, sizeof(msg), fmt, argptr);
+	va_end(argptr);
 
-	msg[ sizeof( msg ) - 1 ] = '\0';
+	msg[(sizeof(msg) - 1)] = '\0';
 
-	if( code == ERR_DISCONNECT ) {
+	if (code == ERR_DISCONNECT) {
 		Client_Drop();
 		recursive = false;
-		longjmp (abortframe, -1);
-	} else if( code == ERR_DROP ) {
-		Com_Printf( "********************\nERROR: %s\n********************\n", msg );
+		longjmp(abortframe, -1);
+	} else if (code == ERR_DROP) {
+		Com_Printf("********************\nERROR: %s\n********************\n",
+				   msg);
 #ifdef PRINT_DEBUG_MESSAGES
-		SV_Shutdown (va("Server crashed: %s\n", msg), false);
+		SV_Shutdown(va("Server crashed: %s\n", msg), false);
 #endif /* PRINT_DEBUG_MESSAGES */
-		Client_Drop ();
+		Client_Drop();
 		recursive = false;
-		longjmp( abortframe, -1 );
+		longjmp(abortframe, -1);
 	} else {
 #ifdef PRINT_DEBUG_MESSAGES
-		SV_Shutdown (va("Server fatal crashed: %s\n", msg), false);
+		SV_Shutdown(va("Server fatal crashed: %s\n", msg), false);
 #endif /* PRINT_DEBUG_MESSAGES */
 		Client_Shutdown();
 	}
 
-	if( logfile ) {
-		fclose( logfile );
+	if (logfile) {
+		fclose(logfile);
 		logfile = NULL;
 	}
 
-	Sys_Error( "%s", msg );
+	Sys_Error("%s", msg);
 }
 
 
@@ -327,24 +328,24 @@ PUBLIC void Com_Error( int code, const char *fmt, ... )
 	do the apropriate things.
 -----------------------------------------------------------------------------
 */
-PUBLIC void Com_Quit( void )
+PUBLIC void Com_Quit(void)
 {
-	extern void Game_Shutdown( void );
+	extern void Game_Shutdown(void);
 #if 0
 	SV_Shutdown ("Server quit\n", false);
 #endif /* 0 */
 
 	Game_Shutdown();
 
-	if( logfile ) {
-		fclose( logfile );
+	if (logfile) {
+		fclose(logfile);
 		logfile = NULL;
 	}
 
 
 	Sys_Quit();
-
 }
+
 
 /*
 -----------------------------------------------------------------------------
@@ -352,13 +353,12 @@ PUBLIC void Com_Quit( void )
 
  Parameters: Nothing.
 
- Returns:
+ Returns: An integer that is the value of the 'server_state' global variable.
 
- Notes:
-
+ Notes: Just returns the 'server_state' global variable.
 -----------------------------------------------------------------------------
 */
-PUBLIC int Com_ServerState( void )
+PUBLIC int Com_ServerState(void)
 {
 	return server_state;
 }
@@ -367,15 +367,14 @@ PUBLIC int Com_ServerState( void )
 -----------------------------------------------------------------------------
  Function: Com_SetServerState
 
- Parameters:
-
+ Parameters: state -[in]: an integer to assign to the 'server_state' global
+						  variable.
  Returns: Nothing.
 
  Notes:
-
 -----------------------------------------------------------------------------
 */
-PUBLIC void Com_SetServerState( int state )
+PUBLIC void Com_SetServerState(int state)
 {
 	server_state = state;
 }
@@ -392,8 +391,7 @@ PUBLIC void Com_SetServerState( int state )
 
  Returns: Nothing.
 
- Notes:
-
+ Notes: Basically just calls memset() and stuff...
 -----------------------------------------------------------------------------
 */
 PUBLIC void SZ_Init(sizebuf_t *buf, PW8 data, int length)
@@ -415,7 +413,7 @@ PUBLIC void SZ_Init(sizebuf_t *buf, PW8 data, int length)
 
 -----------------------------------------------------------------------------
 */
-PUBLIC void SZ_Clear( sizebuf_t *buf )
+PUBLIC void SZ_Clear(sizebuf_t *buf)
 {
 	buf->cursize = 0;
 	buf->overflowed = false;
@@ -433,25 +431,25 @@ PUBLIC void SZ_Clear( sizebuf_t *buf )
 
 -----------------------------------------------------------------------------
 */
-PUBLIC void *SZ_GetSpace( sizebuf_t *buf, int length )
+PUBLIC void *SZ_GetSpace(sizebuf_t *buf, int length)
 {
 	void	*data;
 
-	if( buf->cursize + length > buf->maxsize ) {
-		if( ! buf->allowoverflow ) {
-			Com_Error( ERR_FATAL, "SZ_GetSpace: overflow without allowoverflow set" );
+	if ((buf->cursize + length) > buf->maxsize) {
+		if (! buf->allowoverflow) {
+			Com_Error(ERR_FATAL, "SZ_GetSpace: overflow without allowoverflow set");
 		}
 
-		if( length > buf->maxsize ) {
-			Com_Error( ERR_FATAL, "SZ_GetSpace: %i is > full buffer size", length );
+		if (length > buf->maxsize) {
+			Com_Error(ERR_FATAL, "SZ_GetSpace: %i is > full buffer size", length);
 		}
 
-		Com_Printf( "SZ_GetSpace: overflow\n" );
-		SZ_Clear( buf );
+		Com_Printf("SZ_GetSpace: overflow\n");
+		SZ_Clear(buf);
 		buf->overflowed = true;
 	}
 
-	data = buf->data + buf->cursize;
+	data = (buf->data + buf->cursize);
 	buf->cursize += length;
 
 	return data;
@@ -523,12 +521,12 @@ PUBLIC void SZ_Print(sizebuf_t *buf, W8 *data)
 
 -----------------------------------------------------------------------------
 */
-PUBLIC int COM_CheckParm( char *parm )
+PUBLIC int COM_CheckParm(char *parm)
 {
 	int		i;
 
-	for( i = 1 ; i < com_argc ; ++i ) {
-		if( ! strcmp( parm, com_argv[ i ] ) ) {
+	for ((i = 1); (i < com_argc); ++i) {
+		if (! strcmp(parm, com_argv[i])) {
 			return i;
 		}
 	}
@@ -542,13 +540,13 @@ PUBLIC int COM_CheckParm( char *parm )
 
  Parameters: Nothing.
 
- Returns:
+ Returns: An integer that is the value of the 'com_argc' global variable.
 
  Notes:
 
 -----------------------------------------------------------------------------
 */
-PUBLIC int COM_Argc (void)
+PUBLIC int COM_Argc(void)
 {
 	return com_argc;
 }
@@ -565,9 +563,9 @@ PUBLIC int COM_Argc (void)
 
 -----------------------------------------------------------------------------
 */
-PUBLIC char *COM_Argv (int arg)
+PUBLIC char *COM_Argv(int arg)
 {
-	if (arg < 0 || arg >= com_argc || !com_argv[arg]) {
+	if ((arg < 0) || (arg >= com_argc) || !com_argv[arg]) {
 		return "";
 	}
 	return com_argv[arg];
@@ -585,13 +583,13 @@ PUBLIC char *COM_Argv (int arg)
 
 -----------------------------------------------------------------------------
 */
-PUBLIC void COM_ClearArgv( int arg )
+PUBLIC void COM_ClearArgv(int arg)
 {
-	if (arg < 0 || arg >= com_argc || !com_argv[arg]) {
+	if ((arg < 0) || (arg >= com_argc) || !com_argv[arg]) {
 		return;
 	}
 
-	com_argv[ arg ] = "";
+	com_argv[arg] = "";
 }
 
 
@@ -609,21 +607,21 @@ PUBLIC void COM_ClearArgv( int arg )
  Notes: Sets global variables com_argc and com_argv.
 -----------------------------------------------------------------------------
 */
-PUBLIC void COM_InitArgv( int argc, char *argv[] )
+PUBLIC void COM_InitArgv(int argc, char *argv[])
 {
 	int i;
 
-	if( argc > MAX_NUM_ARGVS ) {
+	if (argc > MAX_NUM_ARGVS) {
 		argc = MAX_NUM_ARGVS;
-		Com_DPrintf( "argc > MAX_NUM_ARGVS\n" );
+		Com_DPrintf("argc > MAX_NUM_ARGVS\n");
 	}
 
 	com_argc = argc;
-	for( i = 0; i < argc; ++i ) {
-		if( ! argv[ i ] || strlen( argv[ i ] ) >= MAX_TOKEN_CHARS ) {
-			com_argv[ i ] = "";
+	for ((i = 0); (i < argc); ++i) {
+		if (! argv[i] || strlen(argv[i]) >= MAX_TOKEN_CHARS) {
+			com_argv[i] = "";
 		} else {
-			com_argv[ i ] = argv[ i ];
+			com_argv[i] = argv[i];
 		}
 	}
 }
@@ -642,13 +640,13 @@ PUBLIC void COM_InitArgv( int argc, char *argv[] )
 
 -----------------------------------------------------------------------------
 */
-PUBLIC void COM_AddParm( char *parm )
+PUBLIC void COM_AddParm(char *parm)
 {
-	if( com_argc == MAX_NUM_ARGVS ) {
-		Com_Error( ERR_FATAL, "COM_AddParm: MAX_NUM_ARGS" );
+	if (com_argc == MAX_NUM_ARGVS) {
+		Com_Error(ERR_FATAL, "COM_AddParm: MAX_NUM_ARGS");
 	}
 
-	com_argv[ com_argc++ ] = parm;
+	com_argv[com_argc++] = parm;
 }
 
 /*
@@ -664,9 +662,9 @@ PUBLIC void COM_AddParm( char *parm )
 
 -----------------------------------------------------------------------------
 */
-PRIVATE void Com_Error_f (void)
+PRIVATE void Com_Error_f(void)
 {
-	Com_Error( ERR_FATAL, "%s", Cmd_Argv( 1 ) );
+	Com_Error(ERR_FATAL, "%s", Cmd_Argv(1));
 }
 
 
@@ -702,10 +700,10 @@ PUBLIC void common_Init(int argc, char *argv[])
 	 * cvar and command buffer management. */
 	COM_InitArgv(argc, argv);
 
-	Cmd_Init();
-	Cvar_Init();
+	Cmd_Init(); /* basically just calls Cbuf_Init() and registers some commands */
+	Cvar_Init(); /* just registers some commands, not worth stepping into... */
 
-	Key_Init();
+	Key_Init(); /* binds a bunch of keys */
 
 	/* We need to add the early commands twice, because
 	 * a basedir or cddir needs to be set before execing
@@ -714,13 +712,13 @@ PUBLIC void common_Init(int argc, char *argv[])
 	Cbuf_AddEarlyCommands((_boolean)false);
 	Cbuf_Execute();
 
-	FS_InitFilesystem();
+	FS_InitFilesystem(); /* finds out where "base" is located */
 
-	Cbuf_AddText("exec DEFAULT.CFG\n");
-	Cbuf_AddText("exec config.cfg\n");
+	Cbuf_AddText("exec DEFAULT.CFG\n"); /* the actual printing of this gets done later */
+	Cbuf_AddText("exec config.cfg\n"); /* same here */
 
 	Cbuf_AddEarlyCommands((_boolean)true);
-	Cbuf_Execute();
+	Cbuf_Execute(); /* this is where the exec-ing is actually attempted */
 
 	/*
 	 * init commands and vars
@@ -756,9 +754,9 @@ PUBLIC void common_Init(int argc, char *argv[])
 		Cmd_AddCommand("quit", Com_Quit);
 	}
 
-	Sys_OS_Init();
+	Sys_OS_Init(); /* just prints a message for now... */
 
-	Client_Init();
+	Client_Init(); /* calls a bunch of other functions */
 
 	Game_Init(); /* game and player init */
 

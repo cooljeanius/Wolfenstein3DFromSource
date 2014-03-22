@@ -136,6 +136,7 @@ PUBLIC void install_grabs(void)
 {
 	/* inviso cursor */
 	XDefineCursor(display, mainwin, CreateNullCursor(display, mainwin));
+	/* (CreateNullCursor() contains more X11-specific calls) */
 
 	XGrabPointer(display, mainwin,
 				 True,
@@ -150,7 +151,7 @@ PUBLIC void install_grabs(void)
 
 		if (! XF86DGAQueryVersion(display, &MajorVersion, &MinorVersion)) {
 			/* unable to query, probalby not supported */
-			Com_Printf("Failed to detect XF86DGA Mouse\n");
+			Com_Printf("install_grabs(): Failed to detect XF86DGA Mouse\n");
 			Cvar_Set("in_dgamouse", "0");
 		} else {
 			dgamouse = true;
@@ -293,7 +294,7 @@ PUBLIC void IN_StartupMouse(void)
 	mx = my = 0;
 	mouse_avail = true;
 
-	install_grabs();
+	install_grabs(); /* has a lot of X11-specific calls in the Unix version */
 }
 
 /*

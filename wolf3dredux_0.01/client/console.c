@@ -412,12 +412,12 @@ PUBLIC void Con_Init(void)
  */
 	con_notifytime = Cvar_Get("con_notifytime", "3", CVAR_INIT);
 
-	Cmd_AddCommand( "toggleconsole", Con_ToggleConsole_f );
-	Cmd_AddCommand( "togglechat", Con_ToggleChat_f );
-	Cmd_AddCommand( "messagemode", Con_MessageMode_f );
-	Cmd_AddCommand( "messagemode2", Con_MessageMode2_f );
-	Cmd_AddCommand( "clear", Con_Clear_f );
-	Cmd_AddCommand( "conDump", Con_Dump_f );
+	Cmd_AddCommand("toggleconsole", Con_ToggleConsole_f);
+	Cmd_AddCommand("togglechat", Con_ToggleChat_f);
+	Cmd_AddCommand("messagemode", Con_MessageMode_f);
+	Cmd_AddCommand("messagemode2", Con_MessageMode2_f);
+	Cmd_AddCommand("clear", Con_Clear_f);
+	Cmd_AddCommand("conDump", Con_Dump_f);
 
 	con.initialized = true;
 }

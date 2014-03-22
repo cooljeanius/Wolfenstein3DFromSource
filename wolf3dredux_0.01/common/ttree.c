@@ -549,7 +549,7 @@ PUBLIC void ternary_tree_cleanup( ttree_t *tst )
 	node_lines_t *next_line;
 
 
-	if( tst == NULL ) {
+	if (tst == NULL) {
 		return;
 	}
 
@@ -559,12 +559,12 @@ PUBLIC void ternary_tree_cleanup( ttree_t *tst )
 		current_line = next_line;
 		next_line = current_line->next;
 
-		MM_FREE( current_line->node_line );
-		MM_FREE( current_line );
+		MM_FREE(current_line->node_line);
+		MM_FREE(current_line);
 
-	} while( next_line != NULL );
+	} while (next_line != NULL);
 
-	MM_FREE( tst );
+	MM_FREE(tst);
 }
 
 /* EOF */

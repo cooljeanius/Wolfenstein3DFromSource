@@ -48,7 +48,6 @@ extern void R_DrawWorld(void);
  Returns: Nothing.
 
  Notes: Basically a simple wrapper around R_DrawWorld() for now.
-
 -----------------------------------------------------------------------------
 */
 PRIVATE void V_RenderView(void)
@@ -68,8 +67,7 @@ PRIVATE void V_RenderView(void)
 
  Returns: Nothing.
 
- Notes:
-
+ Notes: We need to do this often.
 -----------------------------------------------------------------------------
 */
 /* prototype moved to "wolf_client.h" */
@@ -78,14 +76,14 @@ PUBLIC void Client_Screen_UpdateScreen(void)
 	R_BeginFrame(); /********/
 
 
-		V_RenderView();
+		V_RenderView(); /* basically just calls R_DrawWorld(), assuming that
+						 * it does not return early... */
+		Client_Screen_DrawConsole(); /* not worth setting a breakpoint on */
 
-		Client_Screen_DrawConsole(); /* not worth breaking on */
-
-		M_Draw();
+		M_Draw(); /* might return early for the same reason as V_RenderView() */
 
 
-	R_EndFrame();
+	R_EndFrame(); /* just calls GLimp_EndFrame() */
 
 }
 
@@ -188,8 +186,7 @@ extern void M_Intermission_f(void);
 
  Returns: Nothing.
 
- Notes:
-
+ Notes: Basically the main loop for the client
 -----------------------------------------------------------------------------
 */
 PUBLIC void Client_Frame(int msec)
@@ -206,7 +203,7 @@ PUBLIC void Client_Frame(int msec)
 
 
 	/* let the mouse activate or deactivate */
-	IN_Frame();
+	IN_Frame(); /* (remember 'IN' is short for "Input") */
 
 	/* decide the simulation time */
 	ClientStatic.frametime = (extratime / 1000.0f);
@@ -233,7 +230,7 @@ PUBLIC void Client_Frame(int msec)
 
 	/* allow rendering change */
 	Video_CheckChanges();
-	/* TODO: handle errors thrown by Video_CheckChanges() */
+	/* TODO: actually handle errors thrown by Video_CheckChanges() decently */
 #if 0
 	if (! ClientState.refresh_prepped && (ClientStatic.state == ca_active)) {
 		Client_PrepRefresh(levelstate./**/); /* expected identifier */
@@ -242,7 +239,8 @@ PUBLIC void Client_Frame(int msec)
 
 	Sound_Update(vnull, vnull, vnull, vnull);
 
-	if ((ClientStatic.key_dest == key_game) && (ClientStatic.state == ca_active)) {
+	if ((ClientStatic.key_dest == key_game) &&
+		(ClientStatic.state == ca_active)) {
 		if (Player.playstate != ex_dead) {
             int tempFineAngle; /* unused (?) (was previously) */
 

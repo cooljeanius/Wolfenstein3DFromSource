@@ -513,9 +513,11 @@ PUBLIC void Sound_StartSound(const vec3_t position, int entNum, int entChannel,
 	ps = Sound_AllocPlaySound();
 	if (! ps) {
 		if (sfx->name[0] == '#') {
-			Com_DPrintf("Dropped sound %s\n", &sfx->name[1]);
+			Com_DPrintf("Sound_StartSound(): Dropped sound '%s'\n",
+						&sfx->name[1]);
 		} else {
-			Com_DPrintf("Dropped sound sound/%s\n", sfx->name);
+			Com_DPrintf("Sound_StartSound(): Dropped sound sound/%s\n",
+						sfx->name);
 		}
 
 		return;
@@ -527,14 +529,14 @@ PUBLIC void Sound_StartSound(const vec3_t position, int entNum, int entChannel,
 
 	if (position) {
 		ps->fixedPosition = true;
-		vectorCopy( position, ps->position );
+		vectorCopy(position, ps->position);
 	} else {
 		ps->fixedPosition = false;
 	}
 
 	ps->volume = volume;
 	ps->attenuation = attenuation;
-	ps->beginTime = ClientState.time + timeOfs;
+	ps->beginTime = (ClientState.time + timeOfs);
 
 	/* Sort into the pending playSounds list */
 	for ((sort = s_pendingPlaySounds.next);
@@ -573,10 +575,11 @@ PUBLIC void Sound_StartLocalSound(const char *filename)
 
 	sfx = Sound_RegisterSound(filename);
 	if (! sfx) {
-		Com_Printf("Sound_StartLocalSound: could not cache (%s)\n", filename);
+		Com_Printf("Sound_StartLocalSound(): could not cache (%s)\n", filename);
 		return;
 	}
 
+	/* non-"Local" version: */
 	Sound_StartSound(NULL, 0, 0, sfx, 1, ATTN_NONE, 0);
 }
 

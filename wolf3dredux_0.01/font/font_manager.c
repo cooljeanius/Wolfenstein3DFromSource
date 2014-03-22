@@ -52,7 +52,7 @@ PRIVATE W32 num_fonts = 0;
 /* typedef for string_seg_t has been moved to "font_manager.h" */
 
 /* prototype should be in "font_manager.h" */
-font_t *createFont( const char *filename )
+font_t *createFont(const char *filename)
 {
 	font_t *temp_font;
 	char *datname;
@@ -86,9 +86,10 @@ font_t *createFont( const char *filename )
 
 	my_strlcat(datname, ".dat", (strlen(filename) + 1));
 
-	fp = FS_OpenFile( datname, 0 );
+	fp = FS_OpenFile(datname, 0);
 	if (NULL == fp) {
-		Com_Printf("[createFont]: unable to open file (%s)\n", datname);
+		Com_Printf("[createFont]: unable to open file (%s); it seems to be NULL...\n",
+				   datname);
 
 		MM_FREE(datname);
 		Z_Free(temp_font);
@@ -100,7 +101,8 @@ font_t *createFont( const char *filename )
 
 	/* check header size */
 	if (size < 10) {
-		Com_Printf( "[createFont]: File (%s) has incorrect file length\n", datname);
+		Com_Printf("[createFont]: File (%s) has incorrect file length\n",
+				   datname);
 
 		MM_FREE(datname);
 		Z_Free(temp_font);
@@ -141,35 +143,36 @@ font_t *createFont( const char *filename )
 
 
 	temp_font->nSize = 2;
-	temp_font->colour[ 3 ] = 255;
+	temp_font->colour[3] = 255;
 
 	temp_font->hFrac = (float)(temp_font->nMaxHeight / (float)temp_font->texfont->height);
 	temp_font->wFrac = (float)(temp_font->nMaxWidth / (float)temp_font->texfont->width);
 
 
-	for( i = 0 ; i < MAX_FONTS ; ++i ) {
-		if( ! myfonts[ i ] ) {
+	for ((i = 0); (i < MAX_FONTS); ++i) {
+		if (! myfonts[i]) {
 			break;
 		}
 	}
 
-	if( i == (MAX_FONTS - 1) ) {
-		Com_Printf( "[createFont]: No more font slots open\n" );
+	if (i == (MAX_FONTS - 1)) {
+		Com_Printf("[createFont]: No more font slots open\n");
 
-		MM_FREE( datname );
-		Z_Free( temp_font );
+		MM_FREE(datname);
+		Z_Free(temp_font);
 
 		return NULL;
 	}
 
-	myfonts[ i ] = temp_font;
+	myfonts[i] = temp_font;
 
-	MM_FREE( datname );
+	MM_FREE(datname);
 
 
 	return temp_font;
 }
 
+/* calls createFont() for some images */
 void Font_Init(void)
 {
 	W32 i;
@@ -182,8 +185,8 @@ void Font_Init(void)
 
 
 	(void)createFont("pics/font2.tga");
-
 }
+
 
 void Font_Shutdown(void)
 {

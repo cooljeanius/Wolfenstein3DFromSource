@@ -50,7 +50,6 @@ char *spritelocation = WL6SPRITESDIRNAME;
  Returns: Nothing.
 
  Notes: Simply calls memset() for the 'levelstate' global variable.
-
 -----------------------------------------------------------------------------
 */
 PUBLIC void Game_Reset(void)
@@ -103,15 +102,15 @@ PUBLIC void Game_Init(void)
 	InitItems(); /* unimplemented */
 #endif /* 0 */
 
-	G_Build_Tables(); /* turn on random number generators */
+	G_Build_Tables(); /* turn on random number generators (pretty simple) */
 
 #if 0
 	Lvl_Init(); /* unimplemented */
 #endif /* 0 */
 	Powerup_Reset();
-	Sprite_Reset();
+	Sprite_Reset(); /* just calls memset() on the 'Spr_Sprites' global var. */
 
-	Game_Reset();
+	Game_Reset(); /* just calls memset() for the 'levelstate' global var. */
 	PL_Init();
 
 

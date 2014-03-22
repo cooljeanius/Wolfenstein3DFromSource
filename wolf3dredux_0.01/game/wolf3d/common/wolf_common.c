@@ -21,7 +21,7 @@
 #include "../../../common/common_utils.h"
 
 
-extern void Client_Frame( int msec );
+extern void Client_Frame(int msec);
 
 
 /*
@@ -32,21 +32,23 @@ extern void Client_Frame( int msec );
 
  Returns: Nothing
 
- Notes:
-
+ Notes: Wrapper around either Server_Frame() or Client_Frame(), depending on
+		the context
+		(right now there is no server context, so just use the client one)
 -----------------------------------------------------------------------------
 */
-PUBLIC void common_Frame( int msec );
+PUBLIC void common_Frame(int msec);
 /* TODO: put the prototype in a header */
-PUBLIC void common_Frame( int msec )
+PUBLIC void common_Frame(int msec)
 {
 	Cbuf_Execute();
 
 #if 0
-	Server_Frame( msec );
+	Server_Frame(msec);
 #endif /* 0 */
 
-	Client_Frame( msec );
+	/* client spends most of its time in here: */
+	Client_Frame(msec);
 }
 
 /* EOF */

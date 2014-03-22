@@ -769,8 +769,8 @@ PRIVATE void Key_Bindlist_f( void )
 	int i;
 
 	for( i = 0 ; i < 256 ; ++i ) {
-		if( keybindings[ i ] && keybindings[ i ][ 0 ] ) {
-			Com_Printf( "%s \"%s\"\n", Key_KeynumToString( i ), keybindings[ i ] );
+		if (keybindings[ i ] && keybindings[ i ][ 0 ] ) {
+			Com_Printf("%s \"%s\"\n", Key_KeynumToString(i), keybindings[i]);
 		}
 	}
 }
@@ -786,97 +786,99 @@ PRIVATE void Key_Bindlist_f( void )
  Notes:
 -----------------------------------------------------------------------------
 */
-PUBLIC void Key_Init( void )
+PUBLIC void Key_Init(void)
 {
-        int i;
+    int i;
 
-        for( i = 0; i < 32; ++i ) {
-			key_lines[ i ][ 0 ] = ']';
-			key_lines[ i ][ 1 ] = 0;
-        }
-        key_linepos = 1;
+    for ((i = 0); (i < 32); ++i) {
+		key_lines[i][0] = ']';
+		key_lines[i][1] = 0;
+    }
+    key_linepos = 1;
 
 /*
  * init ASCII characters in console mode
  */
-        for( i = 32; i < 128; ++i ) {
-			consolekeys[ i ] = true;
-        }
+    for ((i = 32); (i < 128); ++i) {
+		consolekeys[i] = true;
+    }
 
-        consolekeys[ K_ENTER ] = true;
-        consolekeys[ K_KP_ENTER ] = true;
-        consolekeys[ K_TAB ] = true;
-        consolekeys[ K_LEFTARROW ] = true;
-        consolekeys[ K_KP_LEFTARROW ] = true;
-        consolekeys[ K_RIGHTARROW ] = true;
-        consolekeys[ K_KP_RIGHTARROW ] = true;
-        consolekeys[ K_UPARROW ] = true;
-        consolekeys[ K_KP_UPARROW ] = true;
-        consolekeys[ K_DOWNARROW ] = true;
-        consolekeys[ K_KP_DOWNARROW ] = true;
-        consolekeys[ K_BACKSPACE ] = true;
-        consolekeys[ K_HOME ] = true;
-        consolekeys[ K_KP_HOME ] = true;
-        consolekeys[ K_END ] = true;
-        consolekeys[ K_KP_END ] = true;
-        consolekeys[ K_PGUP ] = true;
-        consolekeys[ K_KP_PGUP ] = true;
-        consolekeys[ K_PGDN ] = true;
-        consolekeys[ K_KP_PGDN ] = true;
-        consolekeys[ K_SHIFT ] = true;
-        consolekeys[ K_INS ] = true;
-        consolekeys[ K_KP_INS ] = true;
-        consolekeys[ K_KP_DEL ] = true;
-        consolekeys[ K_KP_SLASH ] = true;
-        consolekeys[ K_KP_PLUS ] = true;
-        consolekeys[ K_KP_MINUS ] = true;
-        consolekeys[ K_KP_5 ] = true;
+    consolekeys[K_ENTER] = true;
+    consolekeys[K_KP_ENTER] = true;
+    consolekeys[K_TAB] = true;
+    consolekeys[K_LEFTARROW] = true;
+    consolekeys[K_KP_LEFTARROW] = true;
+    consolekeys[K_RIGHTARROW] = true;
+    consolekeys[K_KP_RIGHTARROW] = true;
+    consolekeys[K_UPARROW] = true;
+    consolekeys[K_KP_UPARROW] = true;
+    consolekeys[K_DOWNARROW] = true;
+    consolekeys[K_KP_DOWNARROW] = true;
+    consolekeys[K_BACKSPACE] = true;
+    consolekeys[K_HOME] = true;
+    consolekeys[K_KP_HOME] = true;
+    consolekeys[K_END] = true;
+    consolekeys[K_KP_END] = true;
+    consolekeys[K_PGUP] = true;
+    consolekeys[K_KP_PGUP] = true;
+    consolekeys[K_PGDN] = true;
+    consolekeys[K_KP_PGDN] = true;
+    consolekeys[K_SHIFT] = true;
+    consolekeys[K_INS] = true;
+    consolekeys[K_KP_INS] = true;
+    consolekeys[K_KP_DEL] = true;
+    consolekeys[K_KP_SLASH] = true;
+    consolekeys[K_KP_PLUS] = true;
+    consolekeys[K_KP_MINUS] = true;
+    consolekeys[K_KP_5] = true;
 
-        consolekeys[ '`' ] = false;
-        consolekeys[ '~' ] = false;
+    consolekeys['`'] = false;
+    consolekeys['~'] = false;
 
-        for( i = 0; i < 256; ++i ) {
-                keyshift[ i ] = i;
-        }
+    for ((i = 0); (i < 256); ++i) {
+		keyshift[i] = i;
+    }
 
-        for( i = 'a'; i <= 'z'; ++i ) {
-                keyshift[ i ] = i - 'a' + 'A';
-        }
+    for ((i = 'a'); (i <= 'z'); ++i) {
+		keyshift[i] = (i - 'a' + 'A');
+    }
 
-        keyshift[ '1' ] = '!';
-        keyshift[ '2' ] = '@';
-        keyshift[ '3' ] = '#';
-        keyshift[ '4' ] = '$';
-        keyshift[ '5' ] = '%';
-        keyshift[ '6' ] = '^';
-        keyshift[ '7' ] = '&';
-        keyshift[ '8' ] = '*';
-        keyshift[ '9' ] = '(';
-        keyshift[ '0' ] = ')';
-        keyshift[ '-' ] = '_';
-        keyshift[ '=' ] = '+';
-        keyshift[ ',' ] = '<';
-        keyshift[ '.' ] = '>';
-        keyshift[ '/' ] = '?';
-        keyshift[ ';' ] = ':';
-        keyshift[ '\''] = '"';
-        keyshift[ '[' ] = '{';
-        keyshift[ ']' ] = '}';
-        keyshift[ '`' ] = '~';
-        keyshift[ '\\' ] = '|';
+    keyshift['1'] = '!';
+    keyshift['2'] = '@';
+    keyshift['3'] = '#';
+    keyshift['4'] = '$';
+    keyshift['5'] = '%';
+    keyshift['6'] = '^';
+    keyshift['7'] = '&';
+    keyshift['8'] = '*';
+    keyshift['9'] = '(';
+    keyshift['0'] = ')';
+    keyshift['-'] = '_';
+    keyshift['='] = '+';
+    keyshift[','] = '<';
+    keyshift['.'] = '>';
+    keyshift['/'] = '?';
+    keyshift[';'] = ':';
+    keyshift['\''] = '"';
+    keyshift['['] = '{';
+    keyshift[']'] = '}';
+    keyshift['`'] = '~';
+    keyshift['\\'] = '|';
 
-        menubound[ K_ESCAPE ] = true;
-        for( i = 0; i < 12; ++i ) {
-                menubound[ K_F1 + i ] = true;
-        }
+    menubound[K_ESCAPE] = true;
+
+    /* go through all 12 "Function" keys: */
+    for ((i = 0); (i < 12); ++i) {
+		menubound[(K_F1 + i)] = true;
+    }
 
 /*
  * register our functions
  */
-        Cmd_AddCommand( "bind",			Key_Bind_f );
-        Cmd_AddCommand( "unbind",       Key_Unbind_f );
-        Cmd_AddCommand( "unbindall",	Key_Unbindall_f );
-        Cmd_AddCommand( "listBinds",     Key_Bindlist_f );
+    Cmd_AddCommand("bind", Key_Bind_f);
+    Cmd_AddCommand("unbind", Key_Unbind_f);
+    Cmd_AddCommand("unbindall", Key_Unbindall_f);
+    Cmd_AddCommand("listBinds", Key_Bindlist_f);
 }
 
 

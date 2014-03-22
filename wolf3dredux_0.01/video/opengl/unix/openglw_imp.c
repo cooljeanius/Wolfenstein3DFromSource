@@ -420,12 +420,15 @@ void GLimp_BeginFrame(void)
 /* TODO: actually put something here? */
 }
 
+/* */
 void GLimp_EndFrame(void)
 {
+	/* entry points into OpenGL: */
 	pfglFlush();
 	pfglXSwapBuffers(display, mainwin);
 }
 
+/* */
 void GLimp_AppActivate(_boolean active)
 {
 	/* dummy condition to use parameter 'active': */
