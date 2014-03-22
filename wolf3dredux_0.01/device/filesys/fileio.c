@@ -205,23 +205,21 @@ PUBLIC SW32 FS_FileTell( filehandle_t *fhandle )
 
  Returns: Nothing.
 
- Notes: Closes a file stream that was returned by FS_FOpenFile.
-
+ Notes: Closes a file stream that was returned by FS_FOpenFile()
+		(which is different from "FS_OpenFile()" because it has an extra "F")
 -----------------------------------------------------------------------------
 */
-PUBLIC void FS_CloseFile( filehandle_t *fhandle )
+PUBLIC void FS_CloseFile(filehandle_t *fhandle)
 {
-	if(	fhandle->hFile )
-	{
-		fclose( fhandle->hFile );
+	if (fhandle->hFile) {
+		fclose(fhandle->hFile);
 	}
 
-	if( fhandle->filedata )
-	{
-		Z_Free( fhandle->filedata );
+	if(fhandle->filedata) {
+		Z_Free(fhandle->filedata);
 	}
 
-	Z_Free( fhandle );
+	Z_Free(fhandle);
 }
 
 /*
@@ -398,7 +396,7 @@ PUBLIC filehandle_t *FS_OpenFile(const char *filename, W32 FlagsAndAttributes)
 				return NULL;
 			}
 
-			Com_DPrintf("link file: %s\n", netpath);
+			Com_DPrintf("FS_OpenFile(): link file: '%s' \n", netpath);
 
 			if (FlagsAndAttributes & FA_FILE_FLAG_LOAD) {
 				if (! LoadFile(hFile)) {
@@ -417,6 +415,7 @@ PUBLIC filehandle_t *FS_OpenFile(const char *filename, W32 FlagsAndAttributes)
  *	Check for the file in the directory tree
  */
 	my_snprintf(netpath, sizeof(netpath), "%s/%s", FS_Gamedir(), filename);
+	/* FS_Gamedir() can only return 2 things; not worth stepping into */
 
 	hFile->hFile = fopen(netpath, "rb");
 	if (hFile->hFile) {
@@ -503,7 +502,7 @@ PUBLIC filehandle_t *FS_OpenFile(const char *filename, W32 FlagsAndAttributes)
 
 	Com_DPrintf("[FS_OpenFile]: Could not find (%s)\n", filename);
 
-	FS_CloseFile(hFile);
+	FS_CloseFile(hFile); /* end up here if file did not exist */
 
 	return NULL;
 }

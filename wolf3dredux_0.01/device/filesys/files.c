@@ -204,10 +204,10 @@ PRIVATE void FS_AddGameDirectory(const char *dir)
 
  Parameters: Nothing.
 
- Returns: String with the name of the root directory.
+ Returns: String with the name of the root directory (either the value of the
+		  'fs_gamedir' global variable, or the BASEDIRNAME define)
 
  Notes:
-
 -----------------------------------------------------------------------------
 */
 PUBLIC char *FS_Gamedir(void)

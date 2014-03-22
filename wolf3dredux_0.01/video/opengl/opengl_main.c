@@ -474,9 +474,9 @@ PUBLIC int R_Init(void *hinstance, void *hWnd)
 		return -1;
 	}
 
-	Video_MenuInit();
+	Video_MenuInit(); /* sets a bunch of values */
 
-	/* get various GL strings */
+	/* get various GL strings, and print them: */
 	gl_config.vendor_string = (const char *)pfglGetString(GL_VENDOR);
 	Com_Printf("GL_VENDOR: %s\n", gl_config.vendor_string);
 
@@ -533,10 +533,10 @@ PUBLIC int R_Init(void *hinstance, void *hWnd)
 	pfglGetIntegerv(GL_MAX_TEXTURE_SIZE, &glMaxTexSize);
 	Com_Printf("GL_MAX_TEXTURE_SIZE: %d\n", glMaxTexSize);
 
-	GL_SetDefaultState();
+	GL_SetDefaultState(); /* a bunch of calls to various pfgl funcs */
 
 	TM_Init(); /* 'TM' stands for 'Texture Manager' (draws checkerboard) */
-	Font_Init();
+	Font_Init(); /* calls createFont() for some images */
 
 
 	err = (int)pfglGetError();

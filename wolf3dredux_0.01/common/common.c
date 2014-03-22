@@ -765,7 +765,7 @@ PUBLIC void common_Init(int argc, char *argv[])
 	if (! Cbuf_AddLateCommands()) {
 		/* if the user did NOT give any commands, run default action */
 		Cbuf_AddText("intro PC13\n");	/* refer to default.cfg */
-		Cbuf_Execute();
+		Cbuf_Execute(); /* actually do it */
 	} else {
 		/* the user asked for something explicit
 		 * so drop the loading plaque */

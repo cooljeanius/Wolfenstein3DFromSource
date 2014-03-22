@@ -295,7 +295,7 @@ PUBLIC void FS_Read(void *buffer, int len, FILE *f)
  Notes:
 -----------------------------------------------------------------------------
 */
-PUBLIC SW32 FS_FOpenFile( const char *filename, FILE **file )
+PUBLIC SW32 FS_FOpenFile(const char *filename, FILE **file)
 {
 	*file = fopen(filename, "rb");
 	if (! *file) {

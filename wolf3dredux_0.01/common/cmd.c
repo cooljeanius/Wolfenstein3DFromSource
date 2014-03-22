@@ -36,8 +36,8 @@
 #include "../string/com_string.h"
 
 
-#if 0
-void Cmd_ForwardToServer( void );
+#if 0 /* no server yet: */
+void Cmd_ForwardToServer(void);
 #endif /* 0 */
 
 #define	MAX_ALIAS_NAME	32
@@ -45,7 +45,7 @@ void Cmd_ForwardToServer( void );
 typedef struct cmdalias_s
 {
 	struct	cmdalias_s	*next;
-	char	name[ MAX_ALIAS_NAME ];
+	char	name[MAX_ALIAS_NAME];
 	W32		id;
 	char	*value;
 
@@ -580,7 +580,7 @@ PRIVATE void Cmd_Alias_f( void )
 		return;
 	}
 
-	hashid = my_strhash( s );
+	hashid = my_strhash(s);
 
 	/* if the alias already exists, reuse it */
 	for( a = cmd_alias ; a ; a = a->next ) {
@@ -643,13 +643,13 @@ PRIVATE	cmd_function_t	*cmd_functions;		/* possible commands to execute */
 
  Parameters: Nothing.
 
- Returns: How many arguments are passed in.
+ Returns: An integer that is the value of the 'cmd_argc' global variable, which
+		  represents how many arguments are passed in.
 
  Notes:
-
 -----------------------------------------------------------------------------
 */
-PUBLIC int Cmd_Argc( void )
+PUBLIC int Cmd_Argc(void)
 {
 	return cmd_argc;
 }
@@ -667,13 +667,13 @@ PUBLIC int Cmd_Argc( void )
 
 -----------------------------------------------------------------------------
 */
-PUBLIC char *Cmd_Argv( int arg )
+PUBLIC char *Cmd_Argv(int arg)
 {
-	if( arg >= cmd_argc ) {
+	if (arg >= cmd_argc) {
 		return cmd_null_string;
 	}
 
-	return cmd_argv[ arg ];
+	return cmd_argv[arg];
 }
 
 /*
@@ -682,13 +682,14 @@ PUBLIC char *Cmd_Argv( int arg )
 
  Parameters: Nothing.
 
- Returns: A single string containing argv(1) to argv(argc()-1)
+ Returns: A single string that is the value of the 'cmd_args' global variable,
+		  which should contain argv(1) to argv((argc() - 1))
 
  Notes:
 
 -----------------------------------------------------------------------------
 */
-PUBLIC char *Cmd_Args( void )
+PUBLIC char *Cmd_Args(void)
 {
 	return cmd_args;
 }
@@ -819,6 +820,8 @@ PUBLIC void Cmd_TokenizeString(char *text, _boolean macroExpand)
 	/* macro expand the text, if asked to: */
 	if (macroExpand) {
 		text = Cmd_MacroExpandString(text);
+	} else {
+		Com_Printf("Cmd_TokenizeString(): not expanding macros in text because we were not asked to.\n");
 	}
 
 	if (! text) {
@@ -856,9 +859,18 @@ PUBLIC void Cmd_TokenizeString(char *text, _boolean macroExpand)
 					break;
 				}
 			}
+		} else {
+#ifdef DEBUG
+			Com_Printf("Cmd_TokenizeString(): 'cmd_argc' was not 1 (it was actually '%i').\n",
+					   cmd_argc);
+#else
+			;
+#endif /* DEBUG */
 		}
 
-		com_token = COM_Parse(&text);
+
+		/* parse 'com_token' out of 'text': */
+		com_token = COM_Parse(&text); /* not worth stepping into */
 		if (! text) {
 			return;
 		}
@@ -867,8 +879,11 @@ PUBLIC void Cmd_TokenizeString(char *text, _boolean macroExpand)
 			cmd_argv[cmd_argc] = Z_Malloc(strlen(com_token) + 1);
 			my_strlcpy(cmd_argv[cmd_argc], com_token, (strlen(com_token) + 1));
 			cmd_argc++;
+		} else {
+			Com_Printf("Cmd_TokenizeString(): 'cmd_argc' exceeded MAX_STRING_TOKENS (%i)\n",
+					   MAX_STRING_TOKENS);
 		}
-	}
+	} /* end of "while (1)" while-loop */
 }
 
 
@@ -1149,13 +1164,13 @@ PUBLIC void Cmd_Init(void)
 	Cbuf_Init(); /* just calls SZ_Init */
 
 /*
- * register our commands
+ * register our commands (the most basic ones at least):
  */
-	Cmd_AddCommand("listCmds",	Cmd_List_f);
-	Cmd_AddCommand("exec",		Cmd_Exec_f);
-	Cmd_AddCommand("echo",		Cmd_Echo_f);
-	Cmd_AddCommand("alias",		Cmd_Alias_f);
-	Cmd_AddCommand("wait",		Cmd_Wait_f);
+	Cmd_AddCommand("listCmds", Cmd_List_f);
+	Cmd_AddCommand("exec", Cmd_Exec_f);
+	Cmd_AddCommand("echo", Cmd_Echo_f);
+	Cmd_AddCommand("alias", Cmd_Alias_f);
+	Cmd_AddCommand("wait", Cmd_Wait_f);
 }
 
 /* EOF */

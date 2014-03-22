@@ -653,7 +653,7 @@ PRIVATE void PL_notarget_f( void )
 PUBLIC void PL_Init(void)
 {
 	PL_Reset(); /* Simply calls memset() for the 'Player' global variable. */
-	PL_NewGame(&Player);
+	PL_NewGame(&Player); /* Sets up the player for the new game */
 
 	Cmd_AddCommand("god", Cmd_God_f);
 	Cmd_AddCommand("notarget", PL_notarget_f);
@@ -885,19 +885,18 @@ PUBLIC void PL_GiveKey( player_t *self, int key )
  Returns: Nothing.
 
  Notes:
-
 -----------------------------------------------------------------------------
 */
-PUBLIC void PL_NewGame( player_t *self )
+PUBLIC void PL_NewGame(player_t *self)
 {
-	memset( self, 0, sizeof( player_t ) );
+	memset(self, 0, sizeof(player_t));
 
 	self->health = 100;
-	self->ammo[ AMMO_BULLETS ] = 8;
+	self->ammo[AMMO_BULLETS] = 8;
 	self->lives = 3;
 
 	self->weapon = self->pendingweapon = WEAPON_PISTOL;
-	self->items = ITEM_WEAPON_1 | ITEM_WEAPON_2;
+	self->items = (ITEM_WEAPON_1 | ITEM_WEAPON_2);
 	self->next_extra = EXTRAPOINTS;
 }
 

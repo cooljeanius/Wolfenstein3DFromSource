@@ -52,7 +52,7 @@ cvar_t		*con_notifytime;
 
 #define		MAXCMDLINE	256
 
-extern	char	key_lines[ 32 ][ MAXCMDLINE ];
+extern	char	key_lines[32][MAXCMDLINE];
 extern	int		edit_line;
 extern	int		key_linepos;
 
@@ -269,16 +269,15 @@ PRIVATE void Con_Dump_f( void )
 
  Returns: Nothing.
 
- Notes:
-
+ Notes: con.times is a global variable; this goes through each element in it.
 -----------------------------------------------------------------------------
 */
-PUBLIC void Con_ClearNotify( void )
+PUBLIC void Con_ClearNotify(void)
 {
 	int	i;
 
-	for( i = 0; i < NUM_CON_TIMES; ++i ) {
-		con.times[ i ] = 0;
+	for ((i = 0); (i < NUM_CON_TIMES); ++i) {
+		con.times[i] = 0;
 	}
 }
 
@@ -336,10 +335,10 @@ PRIVATE void Con_MessageMode2_f( void )
 
 -----------------------------------------------------------------------------
 */
-PUBLIC void Con_CheckResize( void )
+PUBLIC void Con_CheckResize(void)
 {
 	int		i, j, width, oldwidth, oldtotallines, numlines, numchars;
-	char	tbuf[ CON_TEXTSIZE ];
+	char	tbuf[CON_TEXTSIZE];
 
 	width = ((viddef.width >> 3) - 2);
 
@@ -356,7 +355,7 @@ PUBLIC void Con_CheckResize( void )
 		oldwidth = con.linewidth;
 		con.linewidth = width;
 		oldtotallines = con.totallines;
-		con.totallines = CON_TEXTSIZE / con.linewidth;
+		con.totallines = (CON_TEXTSIZE / con.linewidth);
 		numlines = oldtotallines;
 
 		if (con.totallines < numlines) {
@@ -403,6 +402,7 @@ PUBLIC void Con_Init(void)
 {
 	con.linewidth = -1;
 
+	/* If the line width has changed, reformat the buffer: */
 	Con_CheckResize();
 
 	Com_Printf("Console Initialized\n");

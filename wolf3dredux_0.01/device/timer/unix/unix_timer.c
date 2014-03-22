@@ -46,9 +46,9 @@ PUBLIC W32	curtime;
 
  Parameters: Nothing.
 
- Returns:
+ Returns: The current time.
 
- Notes:
+ Notes: Basically a simple wrapper around gettimeofday() for now...
 -----------------------------------------------------------------------------
 */
 /* prototype should be in "../timer.h" */

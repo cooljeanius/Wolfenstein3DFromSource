@@ -75,30 +75,29 @@ float ratio; /* viewport width/height */
 PUBLIC void GL_SetDefaultState(void)
 {
 
-	pfglClearColor( 1,0, 0.5 , 0.5 );
-	pfglCullFace( GL_FRONT );
-	pfglEnable( GL_TEXTURE_2D );
+	pfglClearColor(1,0, 0.5 , 0.5);
+	pfglCullFace(GL_FRONT);
+	pfglEnable(GL_TEXTURE_2D);
 
-	pfglEnable( GL_ALPHA_TEST );
-	pfglAlphaFunc( GL_GREATER, 0.666f );
+	pfglEnable(GL_ALPHA_TEST);
+	pfglAlphaFunc(GL_GREATER, 0.666f);
 
-	pfglDisable( GL_DEPTH_TEST );
-	pfglDisable( GL_CULL_FACE );
-	pfglDisable( GL_BLEND );
+	pfglDisable(GL_DEPTH_TEST);
+	pfglDisable(GL_CULL_FACE);
+	pfglDisable(GL_BLEND);
 
-	pfglColor4f( 1, 1, 1, 1 );
+	pfglColor4f(1, 1, 1, 1);
 
-	pfglPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
-	pfglShadeModel( GL_FLAT );
+	pfglPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	pfglShadeModel(GL_FLAT);
 
 
-	pfglBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
-
+	pfglBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 
 	GL_UpdateSwapInterval();
-
 }
+
 
 /*
 -----------------------------------------------------------------------------

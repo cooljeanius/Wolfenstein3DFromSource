@@ -41,6 +41,7 @@ PUBLIC void common_Frame(int msec);
 /* TODO: put the prototype in a header */
 PUBLIC void common_Frame(int msec)
 {
+	/* make sure anything left in the command line buffer has been executed: */
 	Cbuf_Execute();
 
 #if 0

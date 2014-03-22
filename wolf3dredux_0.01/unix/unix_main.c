@@ -27,6 +27,9 @@
  *	This code was derived from Quake II, and was originally
  *	written by Id Software, Inc.
  *
+ *  Some portions adapted from code from the open-source release of
+ *  Wolfenstein 3D for iOS, Copyright (C) 2009 Id Software, Inc.
+ *
  */
 
 #ifndef _UNIX_MAIN_C
@@ -36,11 +39,13 @@
 #include <stdarg.h>
 #include <stdio.h>
 #include <dlfcn.h>
-#include <unistd.h>
+/* <unistd.h> had been listed a second time here, but no need for duplicate
+ * includes... */
 #include <fcntl.h>
 
 #if defined(__APPLE__) && defined(__OBJC__) && defined(__GNUC__)
 # import <Cocoa/Cocoa.h>
+# include <string.h>
 #endif /* __APPLE__ && __OBJC__ && __GNUC__ */
 
 #include "../common/arch.h"
@@ -117,6 +122,7 @@ void Sys_SendKeyEvents(void)
  Parameters: Nothing.
 
  Returns: Pointer to a string on success, NULL otherwise.
+		  (Actually just NULL for now)
 
  Notes: Grabs text from clipboard.
         Caller is responsible for freeing data.
@@ -150,6 +156,21 @@ int unix_main(int argc, char *argv[])
 {
 	int main_time, oldtime, newtime; /* 'time' was renamed to 'main_time' to
 									  * avoid shadowing a global declaration */
+	int i, len;
+	/* basically a reimplementation of getcwd(): */
+	if (argc == 1) {
+    	char cwd[256];
+    	strcpy(cwd, argv[0]);
+    	len = (int)strlen(cwd);
+    	for (i = (len - 1); (i >= 0); i--) {
+    		if (cwd[i] == '/') {
+    			cwd[i] = 0;
+    			break;
+    		}
+    		cwd[i] = 0;
+    	}
+    	setenv("CWD", cwd, 1);
+    } /* end getcwd() reimplementation */
 
 	/* go back to real user for config loads */
 	saved_euid = geteuid();
@@ -177,18 +198,31 @@ int unix_main(int argc, char *argv[])
 
 		} while (main_time < 1);
 
-		/* most of our time is spent in here: */
+        /* most of our time is spent in here: */
         common_Frame(main_time);
-		oldtime = newtime;
+        oldtime = newtime;
+#ifdef DEBUG
+        if (getenv("SECRET_MAIN_LOOP_BREAKING_ENVVAR") != NULL) {
+			fprintf(stdout, "main(): You have set the secret environment variable; you must be a developer!\n");
+        	break;
+        }
+#endif /* DEBUG */
     }
 
 /* Should never get here!
  * (because the 'while' loop above should never break, unless the entire program
- * is being skipped out of, via a call to _exit() or something...) */
+ * is being skipped out of, via a call to _exit() or something...)
+ * (although there is now a secret environment variable that you can set to get
+ * here while compiling for debugging...) */
 #if defined(__APPLE__) && defined(__OBJC__) && defined(__GNUC__)
-	/* (same conditions for import-ing <Cocoa/Cocoa.h> above) */
-	return NSApplicationMain(argc,  (const char **)argv);
-#else
+    /* (same conditions for import-ing <Cocoa/Cocoa.h> above) */
+    int retval;
+    /* same code as from main.m (taken from Wolf3D-iOS): */
+    NSAutoreleasePool * pool = [[NSAutoreleasePool alloc] init];
+    retval = NSApplicationMain(argc, (const char **)argv);
+    [pool release];
+    return retval;
+#else /* not Objective C: */
 	return 0;
 #endif /* __APPLE__ && __OBJC__ && __GNUC__ */
 }

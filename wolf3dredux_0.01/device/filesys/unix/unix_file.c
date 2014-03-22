@@ -165,7 +165,7 @@ PUBLIC char *FS_FindFirst(const char *path, W32 musthave, W32 canthave)
 
 	FS_FilePath((char *)path, findbase);
 	my_strlcpy(findpattern, (char *)FS_SkipPath((char *)path),
-			   sizeof(findpattern));
+			   sizeof(findpattern)); /* FS_SkipPath() is not worth stepping into */
 
 	if (! *findbase) {
 		if ((fdir = opendir(".")) == NULL) {

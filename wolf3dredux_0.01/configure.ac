@@ -193,7 +193,7 @@ AC_FUNC_STAT
 AC_FUNC_STRERROR_R
 AC_FUNC_STRNLEN
 AC_CHECK_FUNCS([atoi atof dlsym dmalloc_malloc fabs floor ftell fwrite \
-                getcwd gettimeofday \
+                getcwd getenv gettimeofday \
                 glXChooseVisual glXCreateContext glXMakeCurrent \
                 malloc_good_size malloc_size malloc_create_zone \
                 malloc_destroy_zone malloc_default_zone \
@@ -201,9 +201,10 @@ AC_CHECK_FUNCS([atoi atof dlsym dmalloc_malloc fabs floor ftell fwrite \
                 malloc_zone_calloc malloc_zone_valloc malloc_zone_realloc \
                 malloc_zone_memalign malloc_zone_free memchr memcmp \
                 memcpy memmove memset mkdir pow posix_memalign putc \
-                qsort rmdir signal sqrt sqrtf stpcpy strcat strcpy strdup \
-                strerror strlen strncat strncpy strrchr strstr strtok \
-                sysconf sysctl sysctlbyname sysctlnametomib uname unlink])
+                qsort rmdir setenv signal sqrt sqrtf stpcpy strcat \
+                strcpy strdup strerror strlen strncat strncpy strrchr \
+                strstr strtok sysconf sysctl sysctlbyname sysctlnametomib \
+                uname unlink])
 AC_REPLACE_FUNCS([strnlen1])
 AC_LIBOBJ([progname])
 

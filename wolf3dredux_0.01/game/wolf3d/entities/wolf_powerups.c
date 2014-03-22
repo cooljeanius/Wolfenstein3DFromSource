@@ -158,7 +158,6 @@ PRIVATE powerup_t *Pow_AddNew( void )
  Returns: Nothing.
 
  Notes: Removes all powerups set in the 'powerups' global variable
-
 -----------------------------------------------------------------------------
 */
 PUBLIC void Powerup_Reset(void)

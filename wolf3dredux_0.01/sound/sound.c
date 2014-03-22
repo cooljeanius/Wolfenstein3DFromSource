@@ -868,9 +868,9 @@ PUBLIC void Sound_Init(void)
 
 	sound_initialized = true;
 
-	Sound_AllocChannels();
-	Sound_StopAllSounds();
-
+	Sound_AllocChannels(); /* not worth stepping into */
+	Sound_StopAllSounds(); /* clears all the playSounds, stops all the channels,
+							* and resets the frame count. */
 
 	Com_Printf("------------------------------------\n");
 }

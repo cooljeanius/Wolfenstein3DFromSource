@@ -267,6 +267,7 @@ PUBLIC _boolean episode_init(const char *filename)
 
 	startime = Sys_Milliseconds();
 
+	/* do actual parsing of script: */
 	if (! script_Parse(filename, episode_tags,
 					   (sizeof(episode_tags) / sizeof(episode_tags[0])),
 					   TAG_LEVEL_SCP)) {
@@ -279,8 +280,8 @@ PUBLIC _boolean episode_init(const char *filename)
 
 	endtime = Sys_Milliseconds();
 
-	Com_Printf("script parsed in %d ms\n", (endtime - startime));
-
+	Com_Printf("episode_init(): script parsed in '%d' ms\n",
+			   (endtime - startime));
 
 	currentMap = (mapLink_t *)ternary_tree_find((unsigned char *)currentepisode->rootMapDef,
 												maptree);
@@ -288,6 +289,7 @@ PUBLIC _boolean episode_init(const char *filename)
 	return true;
 }
 
+/* */
 PUBLIC void episode_shutdown(void)
 {
 	ternary_tree_cleanup(maptree);

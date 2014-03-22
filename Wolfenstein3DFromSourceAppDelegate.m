@@ -66,7 +66,8 @@ void vibrateDevice_type_alert(void) {
 	}
 
 	Sys_OS_Init();
-	Game_Init();
+	Game_Init(); /* this might have already been called if we got here from the
+				  * end of unix/unix_main.c... how to check? */
 }
 
 - (void)applicationWillResignActive:(NSApplication *)application {

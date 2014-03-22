@@ -17,6 +17,9 @@
  */
 
 #include <string.h>
+#ifndef setenv
+# include <unistd.h>
+#endif /* !setenv */
 
 
 #include "wolf_local.h"
@@ -107,21 +110,22 @@ PUBLIC void Game_Init(void)
 #if 0
 	Lvl_Init(); /* unimplemented */
 #endif /* 0 */
-	Powerup_Reset();
+	Powerup_Reset(); /* Removes all powerups set in the 'powerups' global var. */
 	Sprite_Reset(); /* just calls memset() on the 'Spr_Sprites' global var. */
 
 	Game_Reset(); /* just calls memset() for the 'levelstate' global var. */
-	PL_Init();
+	PL_Init(); /* 'PL' is short for "player" */
 
 
 /*
  *	Init Scripts
  */
 	if (! episode_init("script/episode.scp")) {
-		Com_Printf("error parsing script (episode.scp)\n");
+		Com_Printf("Game_Init(): error parsing script (episode.scp)\n");
 	}
 
 	Com_Printf("\n-----------------------\n");
+	setenv("GAME_INIT_HAS_RUN", "1", 0);
 }
 
 

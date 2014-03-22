@@ -176,7 +176,6 @@ PUBLIC void Client_Quit_f( void )
  Returns: Nothing.
 
  Notes:
-
 -------------------------------------------------------------------------------
 */
 PRIVATE void Client_InitLocal(void)
@@ -258,9 +257,9 @@ PUBLIC void Client_Init(void)
 
 	/* all archived variables will now be loaded */
 
-	Con_Init();
+	Con_Init(); /* "Con" is short for "Console" */
 
-	Sys_Information();
+	Sys_Information(); /* Prints CPU stats, Memory stats, and system name */
 
 	/* not sure which side of the ifdef __APPLE__ should go on? */
 #if defined __unix__
@@ -275,7 +274,7 @@ PUBLIC void Client_Init(void)
 
 	Client_Screen_Init(); /* not worth setting a breakpoint on... */
 
-	Client_InitLocal();
+	Client_InitLocal(); /* initializes client variables and commands */
 	IN_Init(); /* 'IN' is short for 'Input'; initializes joystick and/or mouse */
 
 }
