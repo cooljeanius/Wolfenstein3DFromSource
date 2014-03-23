@@ -133,12 +133,13 @@ PRIVATE void ResetDefaults(void *unused)
 /* is the 'unused' parameter really necessary? */
 PRIVATE void ApplyChanges(void *unused)
 {
-	float gamma; /* TODO: rename so it does not shadow the global 'gamma' decl */
+	float gamma_val;
+	/* 'gamma_val' used to be just 'gamma', but that shadowed a global decl */
 
 	/* Scale to a range of -1.f to 1.f */
-	gamma = (float)((s_brightness_slider.curvalue - 10.0) / 10.0);
+	gamma_val = (float)((s_brightness_slider.curvalue - 10.0) / 10.0);
 
-	Cvar_SetValue("vid_gamma", gamma);
+	Cvar_SetValue("vid_gamma", gamma_val);
 
 	Cvar_SetValue("gl_picmip", (3 - s_tq_slider.curvalue));
 	Cvar_SetValue("r_fullscreen", (float)s_fs_box.curvalue);

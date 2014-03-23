@@ -250,11 +250,21 @@ PRIVATE void x86_do_cpuid(W32 id, W32 *p)
 	: "=a" (p[0]), "=b" (p[1]), "=c" (p[2]), "=d" (p[3])
 	:  "0" (id)
 	);
-#  else
-	/* TODO: need to init p[0,1,2,3] here even in cases when the inline asm
-	 * is uncompilable... */
+#  else /* not clang: */
+#   if defined __GNUC__ && !defined(__STRICT_ANSI__) && !defined(__STDC__)
+#    warning "initializing p[0,1,2,3] to untested values"
+#   endif /* __GNUC__ && !__STRICT_ANSI__ && !__STDC__ */
+	if ((p == NULL) || (!p)) {
+		p[0,1,2,3] = 0;
+	}
 #  endif /* __i386__ */
 # endif /* __x86_64__ */
+#else /* Neither MSVC nor GCC: */
+	/* not sure if these values are correct: */
+	p[0] = 0;
+	p[1] = 0;
+	p[2] = 0;
+	p[3] = 0;
 #endif /* _MSC_VER || __GNUC__ */
 }
 
@@ -273,7 +283,7 @@ PRIVATE void x86_do_cpuid(W32 id, W32 *p)
         following PUSHFD, which will destroy the value of the ID bit.
 -----------------------------------------------------------------------------
 */
-PRIVATE _boolean x86_can_do_cpuid( void )
+PRIVATE _boolean x86_can_do_cpuid(void)
 {
 	_boolean result = false;
 #ifdef _MSC_VER
@@ -597,13 +607,17 @@ PRIVATE void x86_get_cpu_ProcessorName_LUT( cpu_info_struct *s )
 }; /* cpuname */
 
 
-	W32 regs[4];  /* TODO: initialize properly */
+	W32 regs[4];
 
+	/* not sure if these values are correct: */
+	regs[0] = 0;
+	regs[1] = 0; /* initialize here just in case the call to x86_do_cpuid()
+				  * below fails to initialize them */
 	W32 Type, Family, Model;
 
 	char *TempName;
 
-	x86_do_cpuid(1, regs);
+	x86_do_cpuid(1, regs); /* this should actually initialize 'regs' */
 
 
 	if (s->cpu_type == INTEL_X86) {

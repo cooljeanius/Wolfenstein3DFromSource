@@ -156,12 +156,17 @@ PRIVATE W8 *readInteger(W8 *in, SW32 *number, W32 *error)
 /* this function is unused, apparently: */
 PRIVATE W8 *readFloat(W8 *in, double *number, W32 *error)
 {
-	W8 *ptr = in;
-	double num = 0;
-	SW32 exp = 0; /* shadows a global decl of 'exp', apparently */
-	_boolean bError = false;
-	_boolean bNegative = false;
+	W8 *ptr;
+	double num;
+	SW32 exponent; /* used to be just 'exp', but that shadowed a global decl */
+	_boolean bError;
+	_boolean bNegative;
 
+	ptr = in;
+	num = 0;
+	exponent = 0;
+	bError = false;
+	bNegative = false;
 
 	if (*ptr == '-') {
 		bNegative = true;
@@ -183,7 +188,7 @@ PRIVATE W8 *readFloat(W8 *in, double *number, W32 *error)
 
 		while ((*ptr != ENDOFSTREAM) && ISNUMERIC(*ptr)) {
 			num = ((num * 10) + (double)(*ptr - '0'));
-			exp--;
+			exponent--;
 
 			ptr++;
 		}
@@ -196,7 +201,7 @@ PRIVATE W8 *readFloat(W8 *in, double *number, W32 *error)
 
 		ptr = readInteger(ptr, &expnumber, &errornum);
 
-		exp += expnumber;
+		exponent += expnumber;
 	}
 
 	if (bNegative) {
@@ -210,12 +215,13 @@ PRIVATE W8 *readFloat(W8 *in, double *number, W32 *error)
 		return (ptr);
 	}
 
-	*number = (num * pow((double)10.0, (double)exp));
+	*number = (num * pow((double)10.0, (double)exponent));
 	*error = 0;
 
 	return (ptr);
 }
 
+/* */
 PUBLIC W8 *script_ReadNumber(W8 *ptr, int numerictype, decimalType_t *nt)
 {
 	W8 *start;
@@ -223,8 +229,13 @@ PUBLIC W8 *script_ReadNumber(W8 *ptr, int numerictype, decimalType_t *nt)
 	W8 *buffer;
 	W32 size;
 	W32 error;
-	_boolean bDecimal = false;
-	_boolean bNegative = false;
+	_boolean bDecimal;
+	_boolean bNegative;
+
+	end = NULL;
+
+	bDecimal = false;
+	bNegative = false;
 
 
 	ptr = script_ignoreWhiteSpace(ptr);
@@ -288,6 +299,7 @@ PUBLIC W8 *script_ReadNumber(W8 *ptr, int numerictype, decimalType_t *nt)
 	return (ptr);
 }
 
+/* */
 PUBLIC W8 *script_lookforCharacter(W8 *ptr, char character, _boolean bNewline)
 {
 	while ((*ptr != ENDOFSTREAM) && (*ptr != character)) {

@@ -44,6 +44,8 @@ AM_CONDITIONAL([WOLF_OLD_BUILD],[test "x${DO_WOLF_OLD_BUILD}" = "xyes"])
 # Checks for programs.
 AC_PROG_CPP
 AC_PROG_CXX
+AC_PROG_OBJC
+AC_PROG_OBJCPP
 AC_PROG_INSTALL
 AC_PROG_MKDIR_P
 AC_PATH_PROG([GLXINFO],[glxinfo],[:],[${PATH}:/opt/local/bin])
@@ -109,6 +111,7 @@ AC_CHECK_LIB([vorbisfile],[ov_clear])
 XIPH_PATH_VORBIS
 
 # Checks for header files.
+AC_HEADER_DIRENT
 AC_HEADER_STAT
 AC_HEADER_STDBOOL dnl# also "_CHECK"s it
 AC_HEADER_TIME
@@ -157,17 +160,34 @@ AC_C_INLINE
 AC_C_PROTOTYPES
 AC_C_RESTRICT
 AC_C_VOLATILE
+dnl# begin what used to be AC\_TYPE\_SIGNAL
+AC_CACHE_CHECK([return type of signal handlers],[ac_cv_type_signal],
+               [AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[
+#include <sys/types.h>
+#include <signal.h>
+               ]],[[
+return *(signal (0, 0)) (0) == 1;
+               ]])],[ac_cv_type_signal=int],[ac_cv_type_signal=void])
+])
+AC_DEFINE_UNQUOTED([RETSIGTYPE],[${ac_cv_type_signal}],
+         [Define as the return type of signal handlers (`int' or `void').])
+dnl# end what used to be AC\_TYPE\_SIGNAL
+AC_TYPE_MODE_T
 AC_TYPE_OFF_T
 AC_TYPE_SIZE_T
 AC_TYPE_UID_T
+AC_TYPE_INT32_T
+AC_TYPE_INT64_T
 AC_TYPE_INTMAX_T
 AC_TYPE_UINTMAX_T
+AC_TYPE_UINT64_T
 AC_CHECK_MEMBERS([struct stat.st_blksize])
 AC_STRUCT_ST_BLOCKS
 AC_STRUCT_TIMEZONE dnl# also checks struct tm
 AC_CHECK_TYPE([long long])
 AC_CHECK_TYPE([unsigned long long])
 AC_CHECK_TYPES([time_t, __darwin_time_t, malloc_zone_t])
+AC_CHECK_TYPES([ptrdiff_t])
 AC_CHECK_MEMBERS([struct timeval.tv_sec])
 AC_CHECK_SIZEOF([short],[2])
 AC_CHECK_ALIGNOF([short])
@@ -184,14 +204,17 @@ AC_CHECK_DECLS_ONCE([true, false])
 # Checks for library functions.
 AM_WITH_DMALLOC
 AC_FUNC_ALLOCA
+AC_FUNC_CLOSEDIR_VOID
 AC_FUNC_ERROR_AT_LINE
 AC_FUNC_LSTAT
 AC_FUNC_MALLOC
+AC_FUNC_MEMCMP
 AC_FUNC_MMAP
 AC_FUNC_REALLOC
 AC_FUNC_STAT
 AC_FUNC_STRERROR_R
 AC_FUNC_STRNLEN
+AC_FUNC_VPRINTF
 AC_CHECK_FUNCS([atoi atof dlsym dmalloc_malloc fabs floor ftell fwrite \
                 getcwd getenv gettimeofday \
                 glXChooseVisual glXCreateContext glXMakeCurrent \

@@ -229,37 +229,38 @@ PUBLIC void R_DrawBox( int x, int y, int w, int h, W32 color )
 */
 PUBLIC void R_Draw_Wall(float x, float y, float z1, float z2, int type, int tex)
 {
-	float x1, x2, y1, y2; /* y1 has a global declaration apparently... */
+	float x1, x2, ycoord1, y2;
+	/* 'ycoord1' used to  be just 'y1', but that shadowed a global decl */
 	texture_t *twall;
 
 	x1 = 0; /* initialize, just in case */
 	x2 = 0; /* initialize, just in case */
-	y1 = 0; /* initialize, just in case */
+	ycoord1 = 0; /* initialize, just in case */
 	y2 = 0; /* initialize, just in case */
 
 	switch (type) {
 	/* X wall */
 		case dir4_east:
 			x1 = x2 = (x + 1);
-			y1 = (-1 - y);
+			ycoord1 = (-1 - y);
 			y2 = -y;
 			break;
 
 		case dir4_west:
 			x1 = x2 = x;
-			y1 = -y;
+			ycoord1 = -y;
 			y2 = (-1 - y);
 			break;
 
 	/* Y wall */
 		case dir4_north:
-			y1 = y2 = (-y - 1);
+			ycoord1 = y2 = (-y - 1);
 			x1 = x;
 			x2 = (x + 1);
 			break;
 
 		case dir4_south:
-			y1 = y2 = -y;
+			ycoord1 = y2 = -y;
 			x1 = (x + 1);
 			x2 = x;
 			break;
@@ -273,13 +274,13 @@ PUBLIC void R_Draw_Wall(float x, float y, float z1, float z2, int type, int tex)
 	pfglBegin(GL_QUADS);
 
 	pfglTexCoord2f((GLfloat)1.0, (GLfloat)0.0);
-	pfglVertex3f((GLfloat)x1, (GLfloat)z2, (GLfloat)y1);
+	pfglVertex3f((GLfloat)x1, (GLfloat)z2, (GLfloat)ycoord1);
 	pfglTexCoord2f((GLfloat)0.0, (GLfloat)0.0);
 	pfglVertex3f((GLfloat)x2, (GLfloat)z2, (GLfloat)y2);
 	pfglTexCoord2f((GLfloat)0.0, (GLfloat)1.0);
 	pfglVertex3f((GLfloat)x2, (GLfloat)z1, (GLfloat)y2);
 	pfglTexCoord2f((GLfloat)1.0, (GLfloat)1.0);
-	pfglVertex3f((GLfloat)x1, (GLfloat)z1, (GLfloat)y1);
+	pfglVertex3f((GLfloat)x1, (GLfloat)z1, (GLfloat)ycoord1);
 
 	pfglEnd();
 }
@@ -299,7 +300,8 @@ PUBLIC void R_Draw_Wall(float x, float y, float z1, float z2, int type, int tex)
 PUBLIC void R_Draw_Door(int x, int y, float z1, float z2, _boolean vertical,
 						_boolean backside, int tex, int amount)
 {
-	float x1, x2, y1, y2, amt;  /* y1 has a global declaration apparently... */
+	float x1, x2, ycoord1, y2, amt;
+	/* 'ycoord1' used to  be just 'y1', but that shadowed a global decl */
 	texture_t *twall;
 
 
@@ -312,15 +314,15 @@ PUBLIC void R_Draw_Door(int x, int y, float z1, float z2, _boolean vertical,
 
 	if (vertical) {
 		x1 = x2 = ((float)x + 0.5f);
-		y1 = -((float)y - amt);
+		ycoord1 = -((float)y - amt);
 		y2 = -((float)y - amt); /* -1 */
 		if (backside) {
-			y1 -= 1;
+			ycoord1 -= 1;
 		} else {
 			y2 -= 1;
 		}
 	} else {
-		y1 = y2 = (-(float)y - 0.5f);
+		ycoord1 = y2 = (-(float)y - 0.5f);
 		x1 = ((float)x + amt); /* +1 */
 		x2 = ((float)x + amt);
 		if (backside) {
@@ -338,13 +340,13 @@ PUBLIC void R_Draw_Door(int x, int y, float z1, float z2, _boolean vertical,
 	pfglBegin(GL_QUADS);
 
 	pfglTexCoord2f((GLfloat)(backside ? 0.0f : 1.0f), (GLfloat)0.0);
-	pfglVertex3f((GLfloat)x1, (GLfloat)z2, (GLfloat)y1);
+	pfglVertex3f((GLfloat)x1, (GLfloat)z2, (GLfloat)ycoord1);
 	pfglTexCoord2f((GLfloat)(backside ? 1.0f : 0.0f), (GLfloat)0.0);
 	pfglVertex3f((GLfloat)x2, (GLfloat)z2, (GLfloat)y2);
 	pfglTexCoord2f((GLfloat)(backside ? 1.0f : 0.0f), (GLfloat)1.0);
 	pfglVertex3f((GLfloat)x2, (GLfloat)z1, (GLfloat)y2);
 	pfglTexCoord2f((GLfloat)(backside ? 0.0f : 1.0f), (GLfloat)1.0);
-	pfglVertex3f((GLfloat)x1, (GLfloat)z1, (GLfloat)y1);
+	pfglVertex3f((GLfloat)x1, (GLfloat)z1, (GLfloat)ycoord1);
 
 	pfglEnd();
 }

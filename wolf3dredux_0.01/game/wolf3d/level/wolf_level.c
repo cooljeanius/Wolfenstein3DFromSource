@@ -890,7 +890,9 @@ PUBLIC LevelData_t *Level_LoadMap(const char *levelname)
 	W32	signature;
 	W16 *buffer, expanded;
 	W8	*data;
-	W32 ceiling, floor; /* 'floor' shadows a global declaration */
+	W32 ceiling;
+	/* this used to be just 'floor', but that shadowed a global declaration: */
+	W32 floor_of_level;
 	LevelData_t *newMap;
 	filehandle_t *fhandle;
 	W16 mapNameLength;
@@ -899,7 +901,8 @@ PUBLIC LevelData_t *Level_LoadMap(const char *levelname)
 	char *musicName;
 	SW32 filesize;
 
-	int x, y0, y, layer1, layer2, layer3; /* 'y0' shadows a global decl */
+	int x, ycoord0, y, layer1, layer2, layer3;
+	/* 'ycoord0' used to be just 'y0', but that shadowed a global declaration */
 
 	if (g_version->value == SPEAROFDESTINY) {
 		statinfo = static_sod;
@@ -946,7 +949,7 @@ PUBLIC LevelData_t *Level_LoadMap(const char *levelname)
 	FS_ReadFile(&h, (W32)2, (W32)1, fhandle);
 
 	FS_ReadFile(&ceiling, (W32)4, (W32)1, fhandle);
-	FS_ReadFile(&floor, (W32)4, (W32)1, fhandle);
+	FS_ReadFile(&floor_of_level, (W32)4, (W32)1, fhandle);
 
 
 	FS_ReadFile(&length, (W32)2, (W32)3, fhandle);
@@ -1057,14 +1060,14 @@ PUBLIC LevelData_t *Level_LoadMap(const char *levelname)
 	FS_CloseFile(fhandle);
 
 
-	for ((y0 = 0); (y0 < 64); ++y0) {
+	for ((ycoord0 = 0); (ycoord0 < 64); ++ycoord0) {
 		for ((x = 0); (x < 64); ++x ) {
-			y = (63 - y0);
+			y = (63 - ycoord0);
 			/* parentheses are not strictly needed, they are just there to clarify
 			 * the order of operations for those of us that forget it: */
-			layer1 = newMap->Plane1[((y0 * 64) + x)];
-			layer2 = newMap->Plane2[((y0 * 64) + x)];
-			layer3 = newMap->Plane3[((y0 * 64) + x)];
+			layer1 = newMap->Plane1[((ycoord0 * 64) + x)];
+			layer2 = newMap->Plane2[((ycoord0 * 64) + x)];
+			layer3 = newMap->Plane3[((ycoord0 * 64) + x)];
 			/* (multiplication goes first, correct?) */
 
 			/* if server, process obj layer! */
@@ -1121,9 +1124,9 @@ PUBLIC LevelData_t *Level_LoadMap(const char *levelname)
 	newMap->ceilingColour[0] = (W8)((ceiling >> 16) & 0xFF);
 	newMap->ceilingColour[1] = (W8)((ceiling >> 8) & 0xFF);
 	newMap->ceilingColour[2] = (W8)((ceiling) & 0xFF);
-	newMap->floorColour[0] = (W8)((floor >> 16) & 0xFF);
-	newMap->floorColour[1] = (W8)((floor >> 8) & 0xFF);
-	newMap->floorColour[2] = (W8)((floor) & 0xFF);
+	newMap->floorColour[0] = (W8)((floor_of_level >> 16) & 0xFF);
+	newMap->floorColour[1] = (W8)((floor_of_level >> 8) & 0xFF);
+	newMap->floorColour[2] = (W8)((floor_of_level) & 0xFF);
 
 	return newMap;
 
@@ -1216,7 +1219,8 @@ PUBLIC void Level_PrecacheTextures_Sound(LevelData_t *lvl)
 -----------------------------------------------------------------------------
  Function: Level_CheckLine
 
- Parameters: ('y1' shadows a global declaration)
+ Parameters: (the 'ycoord1' parameter used to be just 'y1', but that shadowed a
+			  global declaration...)
 
  Returns: true if a straight line between 2 points is unobstructed,
 			otherwise false.
@@ -1225,7 +1229,7 @@ PUBLIC void Level_PrecacheTextures_Sound(LevelData_t *lvl)
 
 -----------------------------------------------------------------------------
 */
-PUBLIC _boolean Level_CheckLine(SW32 x1, SW32 y1, SW32 x2, SW32 y2,
+PUBLIC _boolean Level_CheckLine(SW32 x1, SW32 ycoord1, SW32 x2, SW32 y2,
 								LevelData_t *lvl)
 {
 	SW32 xt1, yt1, xt2, yt2; /* tile positions */
@@ -1246,7 +1250,7 @@ PUBLIC _boolean Level_CheckLine(SW32 x1, SW32 y1, SW32 x2, SW32 y2,
 
 /* get start & end tiles */
 	xt1 = (x1 >> TILESHIFT);
-	yt1 = (y1 >> TILESHIFT);
+	yt1 = (ycoord1 >> TILESHIFT);
 
 	xt2 = (x2 >> TILESHIFT);
 	yt2 = (y2 >> TILESHIFT);
@@ -1255,7 +1259,7 @@ PUBLIC _boolean Level_CheckLine(SW32 x1, SW32 y1, SW32 x2, SW32 y2,
 	ydist = ABS(yt2 - yt1); /* Y distance in tiles */
 
 /* 1/256 tile precision (TILESHIFT is 16) */
-	(x1 >>= FRACBITS); (y1 >>= FRACBITS);
+	(x1 >>= FRACBITS); (ycoord1 >>= FRACBITS);
 	(x2 >>= FRACBITS); (y2 >>= FRACBITS);
 
 
@@ -1269,8 +1273,8 @@ PUBLIC _boolean Level_CheckLine(SW32 x1, SW32 y1, SW32 x2, SW32 y2,
 		}
 
 		deltafrac = ABS(x2 - x1);
-		ystep = (((y2 - y1) << FRACBITS) / deltafrac);
-		Frac = (y1 + ((ystep * partial) >> FRACBITS));
+		ystep = (((y2 - ycoord1) << FRACBITS) / deltafrac);
+		Frac = (ycoord1 + ((ystep * partial) >> FRACBITS));
 
 		x = (xt1 + xstep);
 		xt2 += xstep;
@@ -1303,14 +1307,14 @@ PUBLIC _boolean Level_CheckLine(SW32 x1, SW32 y1, SW32 x2, SW32 y2,
 
 	if (ydist) { /* always positive check only for 0 */
 		if (yt2 > yt1) {
-			partial = (256 - (y1 & 0xff));
+			partial = (256 - (ycoord1 & 0xff));
 			ystep = 1;
 		} else {
-			partial = (y1 & 0xff);
+			partial = (ycoord1 & 0xff);
 			ystep = -1;
 		}
 
-		deltafrac = ABS(y2 - y1);
+		deltafrac = ABS(y2 - ycoord1);
 		xstep = (((x2 - x1) << FRACBITS) / deltafrac);
 		Frac = (x1 + ((xstep * partial) >> FRACBITS));
 

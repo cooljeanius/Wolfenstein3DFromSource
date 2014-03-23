@@ -259,7 +259,8 @@ PRIVATE void R_DrawFlash(void)
 -----------------------------------------------------------------------------
  Function: R_DrawBackGnd -Renders the background floor / ceiling colours.
 
- Parameters: floor -[in] floor colour. (shadows global decl of 'floor')
+ Parameters: floor_col -[in] floor colour.
+			 (used to be just 'floor', but that shadowed global decl)
 			 ceiling -[in] ceiling colour.
 
  Returns: Nothing.
@@ -268,12 +269,12 @@ PRIVATE void R_DrawFlash(void)
 
 -----------------------------------------------------------------------------
 */
-PRIVATE void R_DrawBackGnd(colour3_t floor, colour3_t ceiling)
+PRIVATE void R_DrawBackGnd(colour3_t floor_col, colour3_t ceiling)
 {
 	R_Draw_Fill(0, 0, (int)viddef.width, ((int)viddef.height >> 1), ceiling);
 
 	R_Draw_Fill(0, (int)(viddef.height >> 1), (int)viddef.width,
-				(int)viddef.height, floor);
+				(int)viddef.height, floor_col);
 }
 
 
