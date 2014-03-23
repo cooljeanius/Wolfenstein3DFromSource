@@ -201,10 +201,14 @@ PUBLIC void R_Draw_Pic(int x, int y, const char *pic)
 
 	pfglBegin(GL_QUADS);
 
-	pfglTexCoord2f(0.0, 0.0); pfglVertex2i((x), (y));
-	pfglTexCoord2f(1.0, 0.0); pfglVertex2i((x + tex->width), (y));
-	pfglTexCoord2f(1.0, 1.0); pfglVertex2i((x + tex->width), (y + tex->height));
-	pfglTexCoord2f(0.0, 1.0); pfglVertex2i((x), (y + tex->height));
+	pfglTexCoord2f((GLfloat)0.0, (GLfloat)0.0);
+	pfglVertex2i((x), (y));
+	pfglTexCoord2f((GLfloat)1.0, (GLfloat)0.0);
+	pfglVertex2i((x + tex->width), (y));
+	pfglTexCoord2f((GLfloat)1.0, (GLfloat)1.0);
+	pfglVertex2i((x + tex->width), (y + tex->height));
+	pfglTexCoord2f((GLfloat)0.0, (GLfloat)1.0);
+	pfglVertex2i((x), (y + tex->height));
 
 	pfglEnd();
 

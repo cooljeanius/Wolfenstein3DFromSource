@@ -119,29 +119,29 @@ PRIVATE _boolean PL_ChangeWeapon(player_t *self, int weapon)
 
 -----------------------------------------------------------------------------
 */
-PRIVATE _boolean PL_Use( player_t *self, LevelData_t *lvl )
+PRIVATE _boolean PL_Use(player_t *self, LevelData_t *lvl)
 {
 	int x, y, dir; /* should "dir" really be an "int" instead of "dir4type"? */
 
-    dir = Get4dir( self->position.angle );
-	x = self->tilex + dx4dir[ dir ];
-	y = self->tiley + dy4dir[ dir ];
+    dir = Get4dir((float)self->position.angle);
+	x = self->tilex + dx4dir[dir];
+	y = self->tiley + dy4dir[dir];
 
-	if( lvl->tilemap[ x ][ y ] & DOOR_TILE ) {
-		return Door_TryUse(&lvl->Doors.DoorMap[ x ][ y ], (int)Player.items);
+	if (lvl->tilemap[x][y] & DOOR_TILE) {
+		return Door_TryUse(&lvl->Doors.DoorMap[x][y], (int)Player.items);
 	}
 
-	if( lvl->tilemap[ x ][ y ] & SECRET_TILE ) {
+	if (lvl->tilemap[x][y] & SECRET_TILE) {
 		return PushWall_Push(x, y, (dir4type)dir);
 	}
 
-	if( lvl->tilemap[ x ][ y ] & ELEVATOR_TILE ) {
+	if (lvl->tilemap[x][y] & ELEVATOR_TILE) {
 		int newtex;
 
-		switch( dir ) {
+		switch (dir) {
 			case dir4_east:
 			case dir4_west:
-				newtex = (lvl->wall_tex_x[ x ][ y ] += 2);
+				newtex = (lvl->wall_tex_x[x][y] += 2);
 				/* dummy to silence clang static analyzer warning about value
 				 * stored to 'newtex' never being read: */
 				if (newtex == 2) {
@@ -154,18 +154,21 @@ PRIVATE _boolean PL_Use( player_t *self, LevelData_t *lvl )
 				return false; /* do NOT allow to press elevator rails */
 		}
 
-		if( lvl->tilemap[ self->tilex ][ self->tiley ] & SECRETLEVEL_TILE ) {
+		if (lvl->tilemap[self->tilex][self->tiley] & SECRETLEVEL_TILE) {
 			self->playstate = ex_secretlevel;
 		} else {
 			self->playstate = ex_complete;
 		}
-		Sound_StartSound( NULL, 0, CHAN_BODY, Sound_RegisterSound( "lsfx/040.wav" ), 1, ATTN_NORM, 0 );
+		Sound_StartSound(NULL, 0, CHAN_BODY,
+						 Sound_RegisterSound("lsfx/040.wav"),
+						 (float)1.0, (float)ATTN_NORM, 0);
 
 		return true;
 	}
 
 #if 0
-	Sound_StartSound( NULL, 0, CHAN_BODY, Sound_RegisterSound( "lsfx/020.wav" ), 1, ATTN_NORM, 0 );
+	Sound_StartSound(NULL, 0, CHAN_BODY, Sound_RegisterSound("lsfx/020.wav"),
+					 (float)1.0, (float)ATTN_NORM, 0);
 #endif /* 0 */
 	return false;
 }
@@ -467,7 +470,8 @@ PUBLIC void PL_Process(player_t *self, LevelData_t *lvl)
 	PL_ControlMovement(self, lvl);
 
 	if (self->flags & PL_FLAG_ATTCK) {
-		PL_PlayerAttack(self, (ClientState.cmd.buttons & BUTTON_ATTACK));
+		PL_PlayerAttack(self,
+						(_boolean)(ClientState.cmd.buttons & BUTTON_ATTACK));
 	} else {
 		if (ClientState.cmd.buttons & BUTTON_USE) {
 			if(!(self->flags & PL_FLAG_REUSE) && PL_Use(self, lvl)) {
@@ -849,12 +853,12 @@ PUBLIC void PL_GiveLife( player_t *self )
 
 -----------------------------------------------------------------------------
 */
-PUBLIC void PL_GivePoints( player_t *self, W32 points )
+PUBLIC void PL_GivePoints(player_t *self, W32 points)
 {
-	self->score += points;
-	while( self->score >= self->next_extra ) {
+	self->score += (int)points;
+	while (self->score >= self->next_extra) {
 		self->next_extra += EXTRAPOINTS;
-		PL_GiveLife( self );
+		PL_GiveLife(self);
 	}
 }
 
@@ -870,7 +874,7 @@ PUBLIC void PL_GivePoints( player_t *self, W32 points )
 
 -----------------------------------------------------------------------------
 */
-PUBLIC void PL_GiveKey( player_t *self, int key )
+PUBLIC void PL_GiveKey(player_t *self, int key)
 {
 	self->items |= ITEM_KEY_1 << key;
 }

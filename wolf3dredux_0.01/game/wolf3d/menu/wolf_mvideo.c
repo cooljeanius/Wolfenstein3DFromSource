@@ -133,7 +133,7 @@ PRIVATE void ResetDefaults(void *unused)
 /* is the 'unused' parameter really necessary? */
 PRIVATE void ApplyChanges(void *unused)
 {
-	float gamma;
+	float gamma; /* TODO: rename so it does not shadow the global 'gamma' decl */
 
 	/* Scale to a range of -1.f to 1.f */
 	gamma = (float)((s_brightness_slider.curvalue - 10.0) / 10.0);
@@ -366,14 +366,16 @@ void Video_MenuDraw(void)
 		R_Draw_Tile(0, 0, (int)viddef.width, (int)viddef.height,
 					"pics/C_BACKDROPPIC.tga");
 
-		M_BannerString("Video Setup", 15);
-		M_DrawWindow(((viddef.width - 550) >> 1), ((viddef.height - 335) >> 1),
+		M_BannerString("Video Setup", (W16)15);
+		M_DrawWindow((int)((viddef.width - 550) >> 1),
+					 (int)((viddef.height - 335) >> 1),
 					 550, 335, sodbkgdcolour, sodbord2colour, soddeactive);
 	} else {
 		R_Draw_Fill(0, 0, (int)viddef.width, (int)viddef.height, bgcolour);
 
-		M_BannerString("Video Setup", 15);
-		M_DrawWindow(((viddef.width - 550) >> 1), ((viddef.height - 335) >> 1),
+		M_BannerString("Video Setup", (W16)15);
+		M_DrawWindow((int)((viddef.width - 550) >> 1),
+					 (int)((viddef.height - 335) >> 1),
 					 550, 335, bkgdcolour, bord2colour, deactive);
 	}
 

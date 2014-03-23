@@ -75,18 +75,18 @@ float ratio; /* viewport width/height */
 PUBLIC void GL_SetDefaultState(void)
 {
 
-	pfglClearColor(1,0, 0.5 , 0.5);
+	pfglClearColor((GLclampf)1, (GLclampf)0, (GLclampf)0.5, (GLclampf)0.5);
 	pfglCullFace(GL_FRONT);
 	pfglEnable(GL_TEXTURE_2D);
 
 	pfglEnable(GL_ALPHA_TEST);
-	pfglAlphaFunc(GL_GREATER, 0.666f);
+	pfglAlphaFunc((GLenum)GL_GREATER, (GLclampf)0.666f);
 
 	pfglDisable(GL_DEPTH_TEST);
 	pfglDisable(GL_CULL_FACE);
 	pfglDisable(GL_BLEND);
 
-	pfglColor4f(1, 1, 1, 1);
+	pfglColor4f((GLfloat)1, (GLfloat)1, (GLfloat)1, (GLfloat)1);
 
 	pfglPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	pfglShadeModel(GL_FLAT);
@@ -151,21 +151,22 @@ PUBLIC void R_SetGL3D(placeonplane_t viewport)
 	R_CheckFOV();
 
 
-	pfglMatrixMode( GL_PROJECTION );
+	pfglMatrixMode(GL_PROJECTION);
 	pfglLoadIdentity();
-	MYgluPerspective( cur_y_fov - 2.0f, ratio, 0.2f, 64.0f );
-	pfglMatrixMode( GL_MODELVIEW );
+	MYgluPerspective((cur_y_fov - 2.0f), ratio, 0.2f, 64.0f);
+	pfglMatrixMode(GL_MODELVIEW);
 	pfglLoadIdentity();
 
-    pfglRotatef( (GLfloat)( 90 - RAD2DEG( viewport.angle )), 0, 1, 0 );
-	pfglTranslatef((-viewport.origin[0] / FLOATTILE), 0,
-				   (viewport.origin[1] / FLOATTILE));
+    pfglRotatef((GLfloat)(90 - RAD2DEG(viewport.angle)), (GLfloat)0,
+				(GLfloat)1, (GLfloat)0);
+	pfglTranslatef((GLfloat)(-viewport.origin[0] / FLOATTILE), (GLfloat)0,
+				   (GLfloat)(viewport.origin[1] / FLOATTILE));
 
-	pfglCullFace( GL_BACK );
+	pfglCullFace(GL_BACK);
 
-	pfglEnable( GL_DEPTH_TEST );
-	pfglEnable( GL_CULL_FACE );
-	pfglEnable( GL_BLEND );
+	pfglEnable(GL_DEPTH_TEST);
+	pfglEnable(GL_CULL_FACE);
+	pfglEnable(GL_BLEND);
 
 }
 
@@ -236,7 +237,7 @@ PUBLIC void R_Draw_Wall(float x, float y, float z1, float z2, int type, int tex)
 	y1 = 0; /* initialize, just in case */
 	y2 = 0; /* initialize, just in case */
 
-	switch( type ) {
+	switch (type) {
 	/* X wall */
 		case dir4_east:
 			x1 = x2 = (x + 1);
@@ -271,10 +272,14 @@ PUBLIC void R_Draw_Wall(float x, float y, float z1, float z2, int type, int tex)
 
 	pfglBegin(GL_QUADS);
 
-	pfglTexCoord2f(1.0, 0.0); pfglVertex3f(x1, z2, y1);
-	pfglTexCoord2f(0.0, 0.0); pfglVertex3f(x2, z2, y2);
-	pfglTexCoord2f(0.0, 1.0); pfglVertex3f(x2, z1, y2);
-	pfglTexCoord2f(1.0, 1.0); pfglVertex3f(x1, z1, y1);
+	pfglTexCoord2f((GLfloat)1.0, (GLfloat)0.0);
+	pfglVertex3f((GLfloat)x1, (GLfloat)z2, (GLfloat)y1);
+	pfglTexCoord2f((GLfloat)0.0, (GLfloat)0.0);
+	pfglVertex3f((GLfloat)x2, (GLfloat)z2, (GLfloat)y2);
+	pfglTexCoord2f((GLfloat)0.0, (GLfloat)1.0);
+	pfglVertex3f((GLfloat)x2, (GLfloat)z1, (GLfloat)y2);
+	pfglTexCoord2f((GLfloat)1.0, (GLfloat)1.0);
+	pfglVertex3f((GLfloat)x1, (GLfloat)z1, (GLfloat)y1);
 
 	pfglEnd();
 }
@@ -294,7 +299,7 @@ PUBLIC void R_Draw_Wall(float x, float y, float z1, float z2, int type, int tex)
 PUBLIC void R_Draw_Door(int x, int y, float z1, float z2, _boolean vertical,
 						_boolean backside, int tex, int amount)
 {
-	float x1, x2, y1, y2, amt;
+	float x1, x2, y1, y2, amt;  /* y1 has a global declaration apparently... */
 	texture_t *twall;
 
 
@@ -332,10 +337,14 @@ PUBLIC void R_Draw_Door(int x, int y, float z1, float z2, _boolean vertical,
 
 	pfglBegin(GL_QUADS);
 
-	pfglTexCoord2f((backside ? 0.0f : 1.0f), 0.0); pfglVertex3f(x1, z2, y1);
-	pfglTexCoord2f((backside ? 1.0f : 0.0f), 0.0); pfglVertex3f(x2, z2, y2);
-	pfglTexCoord2f((backside ? 1.0f : 0.0f), 1.0); pfglVertex3f(x2, z1, y2);
-	pfglTexCoord2f((backside ? 0.0f : 1.0f), 1.0); pfglVertex3f(x1, z1, y1);
+	pfglTexCoord2f((GLfloat)(backside ? 0.0f : 1.0f), (GLfloat)0.0);
+	pfglVertex3f((GLfloat)x1, (GLfloat)z2, (GLfloat)y1);
+	pfglTexCoord2f((GLfloat)(backside ? 1.0f : 0.0f), (GLfloat)0.0);
+	pfglVertex3f((GLfloat)x2, (GLfloat)z2, (GLfloat)y2);
+	pfglTexCoord2f((GLfloat)(backside ? 1.0f : 0.0f), (GLfloat)1.0);
+	pfglVertex3f((GLfloat)x2, (GLfloat)z1, (GLfloat)y2);
+	pfglTexCoord2f((GLfloat)(backside ? 0.0f : 1.0f), (GLfloat)1.0);
+	pfglVertex3f((GLfloat)x1, (GLfloat)z1, (GLfloat)y1);
 
 	pfglEnd();
 }
@@ -392,10 +401,14 @@ PUBLIC void R_DrawSprites(void)
 		Ex += cosa; Ey += sina;
 		Dx -= cosa; Dy -= sina;
 
-		pfglTexCoord2f(0.0, 0.0); pfglVertex3f(Ex, UPPERZCOORD, -Ey);
-		pfglTexCoord2f(0.0, 1.0); pfglVertex3f(Ex, LOWERZCOORD, -Ey);
-		pfglTexCoord2f(1.0, 1.0); pfglVertex3f(Dx, LOWERZCOORD, -Dy);
-		pfglTexCoord2f(1.0, 0.0); pfglVertex3f(Dx, UPPERZCOORD, -Dy);
+		pfglTexCoord2f((GLfloat)0.0, (GLfloat)0.0);
+		pfglVertex3f((GLfloat)Ex, (GLfloat)UPPERZCOORD, (GLfloat)-Ey);
+		pfglTexCoord2f((GLfloat)0.0, (GLfloat)1.0);
+		pfglVertex3f((GLfloat)Ex, (GLfloat)LOWERZCOORD, (GLfloat)-Ey);
+		pfglTexCoord2f((GLfloat)1.0, (GLfloat)1.0);
+		pfglVertex3f((GLfloat)Dx, (GLfloat)LOWERZCOORD, (GLfloat)-Dy);
+		pfglTexCoord2f((GLfloat)1.0, (GLfloat)0.0);
+		pfglVertex3f((GLfloat)Dx, (GLfloat)UPPERZCOORD, (GLfloat)-Dy);
 
 		pfglEnd();
 	}

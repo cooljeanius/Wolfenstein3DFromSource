@@ -556,7 +556,7 @@ PUBLIC int OpenGL_Init(const char *dllname)
 	/* trying to concatenate a NULL string leads to errors, so make sure the
 	 * strings to avoid that: */
 	if ((applefallbackloadpath != NULL) && (appleloadpath != NULL)) {
-		if (strnlen1(applefallbackloadpath, PATH_MAX) >
+		if (strnlen1(applefallbackloadpath, (size_t)PATH_MAX) >
 			sizeof(appleloadpath) - strlen(appleloadpath)) {
 			Com_Printf("appleloadpath will be truncated in string concatenation.\n");
 		}
@@ -572,7 +572,7 @@ PUBLIC int OpenGL_Init(const char *dllname)
 
 	/* same reasoning as above for the checks against NULL: */
 	if ((applecombinedloadpath != NULL) && (loadpath != NULL)) {
-		if (strnlen1(applecombinedloadpath, PATH_MAX) >
+		if (strnlen1(applecombinedloadpath, (size_t)PATH_MAX) >
 			(sizeof(loadpath) - strlen(loadpath))) {
 			Com_Printf("loadpath will be truncated in string concatenation.\n");
 		}

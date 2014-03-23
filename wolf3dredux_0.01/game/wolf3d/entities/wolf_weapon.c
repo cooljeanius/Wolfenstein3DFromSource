@@ -73,8 +73,8 @@ PUBLIC void fire_hit(player_t *self)
 				continue;
 			}
 
-			if (! Level_CheckLine(Guards[n].x,
-								  Guards[n].y,
+			if (! Level_CheckLine((SW32)Guards[n].x,
+								  (SW32)Guards[n].y,
 								  Player.position.origin[0],
 								  Player.position.origin[1], r_world)) {
 				/* removed a commented-out condition here */
@@ -158,7 +158,7 @@ PUBLIC void fire_lead(player_t *self)
 				continue;
 			}
 
-			if (! Level_CheckLine(Guards[n].x, Guards[n].y,
+			if (! Level_CheckLine((SW32)Guards[n].x, (SW32)Guards[n].y,
 								  Player.position.origin[0],
 								  Player.position.origin[1], r_world)) {
 				/* removed a commented-out condition here */

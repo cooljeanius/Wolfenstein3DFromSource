@@ -28,14 +28,14 @@
 
 #include "vector.h"
 
-typedef float mat3_t[ 9 ];	/* 3x3 matrix */
-typedef float mat4_t[ 16 ];	/* 4x4 matrix */
+typedef float mat3_t[9];	/* 3x3 matrix */
+typedef float mat4_t[16];	/* 4x4 matrix */
 
-extern void Matrix3x3Multiply( mat3_t in1, mat3_t in2, mat3_t out ) ;
-extern void MatrixIdentity( mat4_t matrix );
-extern void MatrixInvert( mat4_t in, mat4_t out );
-extern void VectorMatrixMultiply( vec3_t vecIn, mat4_t m, vec3_t vecOut );
-extern void VectorMatrix3x3Multiply( vec3_t vecIn, mat4_t m, vec3_t vecOut );
+extern void Matrix3x3Multiply(mat3_t in1, mat3_t in2, mat3_t out) ;
+extern void MatrixIdentity(mat4_t matrix);
+extern void MatrixInvert(mat4_t in, mat4_t out);
+extern void VectorMatrixMultiply(vec3_t vecIn, mat4_t m, vec3_t vecOut);
+extern void VectorMatrix3x3Multiply(vec3_t vecIn, mat4_t m, vec3_t vecOut);
 
 
 #endif /* __MATRIX_H__ */

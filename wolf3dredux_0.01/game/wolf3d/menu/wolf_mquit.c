@@ -135,14 +135,15 @@ PRIVATE void M_Quit_Draw(void)
 		M_Main_Draw();
 	}
 
-	M_DrawWindow(((viddef.width - (unsigned int)(w + 10)) >> 1),
-				 ((viddef.height - (unsigned int)(h + 10)) >> 1),
+	M_DrawWindow((int)((viddef.width - (unsigned int)(w + 10)) >> 1),
+				 (int)((viddef.height - (unsigned int)(h + 10)) >> 1),
 				 (w + 10), (h + 10),
 				 textcolour, colourBlack, highlight);
 
 	Font_SetColour(FONT1, colourBlack);
-	Font_put_line(FONT1, (((viddef.width - (unsigned int)(w + 10)) >> 1) + 5),
-				  (((viddef.height - (unsigned int)(h + 10)) >> 1) + 5),
+	Font_put_line(FONT1,
+				  (int)(((viddef.width - (unsigned int)(w + 10)) >> 1) + 5),
+				  (int)(((viddef.height - (unsigned int)(h + 10)) >> 1) + 5),
 				  endStrings[menu_random]);
 }
 

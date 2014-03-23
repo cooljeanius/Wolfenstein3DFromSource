@@ -65,8 +65,8 @@ PUBLIC void R_RayCast(placeonplane_t viewport, LevelData_t *lvl)
     float tanfov2;
     float tanval;
 
-	tanfov2 = (float)(TanDgr(CalcFov(75, 640, 480) / 2.0) *
-					  ((float)640 / (float)480));
+	tanfov2 = (float)(TanDgr(CalcFov((float)75.0, (float)640.0, (float)480.0) / 2.0) *
+					  ((float)640.0 / (float)480.0));
 
 	memset(tile_visible, 0, sizeof(tile_visible)); /* clear tile visible flags */
 
@@ -103,32 +103,33 @@ PUBLIC void R_RayCast(placeonplane_t viewport, LevelData_t *lvl)
 /*
  * Rendering
  */
-	for( x = 0 ; x < 64; ++x ) {
-	    for( y = 0 ; y < 64; ++y ) {
-	        if( ! tile_visible[ x ][ y ] ) {
+	for ((x = 0); (x < 64); ++x) {
+	    for ((y = 0); (y < 64); ++y) {
+	        if (! tile_visible[x][y]) {
                 continue;
             }
 
             /* door */
-		    if( lvl->tilemap[ x ][ y ] & DOOR_TILE ) {
-			    if( lvl->Doors.DoorMap[ x ][ y ].action != dr_open ) {
+		    if (lvl->tilemap[x][y] & DOOR_TILE) {
+			    if (lvl->Doors.DoorMap[x][y].action != dr_open) {
 				    _boolean backside = false;
 
-				    if( lvl->Doors.DoorMap[ x ][ y ].vertical ) {
-                        if( x < vx ) {
+				    if (lvl->Doors.DoorMap[x][y].vertical) {
+                        if (x < vx) {
 					        backside = true;
 						}
 				    } else {
-                        if( y < vy ) {
+                        if (y < vy) {
 					        backside = true;
 						}
 				    }
 
-				    R_Draw_Door( x, y, LOWERZCOORD, UPPERZCOORD,
-							     lvl->Doors.DoorMap[ x ][ y ].vertical,
-							     backside,
-							     lvl->Doors.DoorMap[ x ][ y ].texture,
-							     Door_Opened( &lvl->Doors, x, y ) );
+				    R_Draw_Door((int)x, (int)y,
+								(float)LOWERZCOORD, (float)UPPERZCOORD,
+								(_boolean)lvl->Doors.DoorMap[x][y].vertical,
+								(_boolean)backside,
+								(int)lvl->Doors.DoorMap[x][y].texture,
+								(int)Door_Opened(&lvl->Doors, x, y));
 			    } /**/
 		    /* door sides */
 			    if( lvl->Doors.DoorMap[ x ][ y ].vertical ) {
@@ -217,51 +218,53 @@ int y_tile_step[4] = { 1,  1, -1, -1 };
 
 -----------------------------------------------------------------------------
 */
-PRIVATE _boolean R_TraceCheck( LevelData_t *lvl, int x, int y, int frac, int dfrac, _boolean vert, _boolean flip, r_trace_t *trace )
+PRIVATE _boolean R_TraceCheck(LevelData_t *lvl, int x, int y,
+							  int frac, int dfrac, _boolean vert, _boolean flip,
+							  r_trace_t *trace)
 {
-	if( lvl->tilemap[ x ][ y ] & WALL_TILE ) {
-		if( vert ) {
-			trace->x = (x << TILESHIFT) + (flip ? TILEGLOBAL : 0);
-			trace->y = (y << TILESHIFT) + frac;
+	if (lvl->tilemap[x][y] & WALL_TILE) {
+		if (vert) {
+			trace->x = ((x << TILESHIFT) + (flip ? TILEGLOBAL : 0));
+			trace->y = ((y << TILESHIFT) + frac);
 			trace->flags |= TRACE_HIT_VERT;
 		} else {
-			trace->x = (x << TILESHIFT) + frac;
-			trace->y = (y << TILESHIFT) + (flip ? TILEGLOBAL : 0);
+			trace->x = ((x << TILESHIFT) + frac);
+			trace->y = ((y << TILESHIFT) + (flip ? TILEGLOBAL : 0));
 			trace->flags &= ~TRACE_HIT_VERT;
 		}
 
 		return true; /* wall, stop tracing */
 	}
 
-	if( trace->tile_vis ) {
-		trace->tile_vis[ x ][ y ] = true; /* this tile is visible */
+	if (trace->tile_vis) {
+		trace->tile_vis[x][y] = true; /* this tile is visible */
 	}
 
 
-	if( lvl->tilemap[ x ][ y ] & DOOR_TILE &&
-		lvl->Doors.DoorMap[ x ][ y ].action != dr_open ) {
-		frac += dfrac >> 1;
-		if( POS2TILE( frac ) ) {
+	if ((lvl->tilemap[x][y] & DOOR_TILE) &&
+		(lvl->Doors.DoorMap[x][y].action != dr_open)) {
+		frac += (dfrac >> 1);
+		if (POS2TILE(frac)) {
 			return false;
         }
 
-		if( vert ) {
-			if( lvl->Doors.DoorMap[ x ][ y ].action != dr_closed &&
-				(frac >> 10) > DOOR_FULLOPEN - Door_Opened( &lvl->Doors, x, y ) ) {
+		if (vert) {
+			if ((lvl->Doors.DoorMap[x][y].action != dr_closed) &&
+				(frac >> 10) > (DOOR_FULLOPEN - Door_Opened(&lvl->Doors, x, y))) {
 				return false; /* opened enough */
 			}
 
-			trace->x = TILE2POS( x );
-			trace->y = (y << TILESHIFT) + frac;
+			trace->x = TILE2POS(x);
+			trace->y = ((y << TILESHIFT) + frac);
 			trace->flags |= TRACE_HIT_VERT;
 		} else {
-			if( lvl->Doors.DoorMap[ x ][ y ].action != dr_closed &&
-				(frac >> 10) < Door_Opened( &lvl->Doors, x, y ) ) {
+			if ((lvl->Doors.DoorMap[x][y].action != dr_closed) &&
+				(frac >> 10) < Door_Opened(&lvl->Doors, x, y)) {
 				return false; /* opened enough */
 			}
 
-			trace->y = TILE2POS( y );
-			trace->x = (x << TILESHIFT) + frac;
+			trace->y = TILE2POS(y);
+			trace->x = ((x << TILESHIFT) + frac);
 			trace->flags &= ~TRACE_HIT_VERT;
 		}
 		trace->flags |= TRACE_HIT_DOOR;
@@ -287,7 +290,7 @@ PRIVATE _boolean R_TraceCheck( LevelData_t *lvl, int x, int y, int frac, int dfr
 
 -----------------------------------------------------------------------------
 */
-PUBLIC void R_Trace( r_trace_t *trace, LevelData_t *lvl )
+PUBLIC void R_Trace(r_trace_t *trace, LevelData_t *lvl)
 {
 	int xtilestep, ytilestep;
 	int xstep, ystep;
@@ -297,28 +300,28 @@ PUBLIC void R_Trace( r_trace_t *trace, LevelData_t *lvl )
 	quadrant q;
 
 /* Setup for ray casting */
-    q = GetQuadrant( trace->angle );
+    q = GetQuadrant((float)trace->angle);
 
-	xtilestep = x_tile_step[ q ];
-	ytilestep = y_tile_step[ q ];
+	xtilestep = x_tile_step[q];
+	ytilestep = y_tile_step[q];
 
-	xtile = POS2TILE( trace->x ) + xtilestep;
-	ytile = POS2TILE( trace->y ) + ytilestep;
+	xtile = (POS2TILE(trace->x) + xtilestep);
+	ytile = (POS2TILE(trace->y) + ytilestep);
 
-	xstep = ytilestep * (int)(FLOATTILE / tan( trace->angle ));
-	ystep = xtilestep * (int)(FLOATTILE * tan( trace->angle ));
-
-
-    xintercept = (int)( ( ((ytilestep == -1 ? ytile+1 : ytile) << TILESHIFT) - trace->y ) / tan( trace->angle )) + trace->x;
-	yintercept = (int)( ( ((xtilestep == -1 ? xtile+1 : xtile) << TILESHIFT) - trace->x ) * tan( trace->angle )) + trace->y;
+	xstep = (ytilestep * (int)(FLOATTILE / tan(trace->angle)));
+	ystep = (xtilestep * (int)(FLOATTILE * tan(trace->angle)));
 
 
-	YmapPos = yintercept >> TILESHIFT; /* toXray */
-	XmapPos = xintercept >> TILESHIFT; /* toYray */
+    xintercept = (int)(((((ytilestep == -1) ? (ytile + 1) : ytile) << TILESHIFT) - trace->y) / tan(trace->angle)) + trace->x;
+	yintercept = (int)(((((xtilestep == -1) ? (xtile + 1) : xtile) << TILESHIFT) - trace->x) * tan(trace->angle)) + trace->y;
 
-	if( trace->tile_vis ) {
+
+	YmapPos = (yintercept >> TILESHIFT); /* toXray */
+	XmapPos = (xintercept >> TILESHIFT); /* toYray */
+
+	if (trace->tile_vis) {
 		/* this tile is visible */
-		trace->tile_vis[ POS2TILE( trace->x ) ][ POS2TILE( trace->y ) ] = true;
+		trace->tile_vis[POS2TILE(trace->x)][POS2TILE(trace->y)] = true;
 	}
 
 /*
@@ -328,37 +331,46 @@ PUBLIC void R_Trace( r_trace_t *trace, LevelData_t *lvl )
 /*
  * Vertical loop // an analogue for X-Ray
  */
-		while( ! (ytilestep == -1 && YmapPos <= ytile) && ! (ytilestep == 1 && YmapPos >= ytile) ) {
-			if( xtile < 0 || xtile >= 64 || YmapPos < 0 || YmapPos >= 64 ) {
+		while (!((ytilestep == -1) && (YmapPos <= ytile)) &&
+			   !((ytilestep == 1) && (YmapPos >= ytile))) {
+			if ((xtile < 0) || (xtile >= 64) || (YmapPos < 0) ||
+				(YmapPos >= 64)) {
 				return;
 			}
 
-			if( R_TraceCheck( lvl, xtile, YmapPos, yintercept % TILEGLOBAL, ystep, true, (_boolean)(xtilestep == -1), trace ) ) {
+			if (R_TraceCheck(lvl, (int)xtile, (int)YmapPos,
+							 (int)(yintercept % TILEGLOBAL), (int)ystep,
+							 (_boolean)true, (_boolean)(xtilestep == -1),
+							 trace)) {
 				return;
 			}
 
 		/* prepare for next step */
 			xtile += xtilestep;
 			yintercept += ystep;
-			YmapPos = yintercept >> TILESHIFT;
+			YmapPos = (yintercept >> TILESHIFT);
 		}
 
 /*
  * Horizontal loop // an anologue for Y-Ray
  */
-		while( ! (xtilestep == -1 && XmapPos <= xtile) && ! (xtilestep == 1 && XmapPos >= xtile) ) {
-			if( ytile < 0 || ytile >= 64 || XmapPos < 0 || XmapPos >= 64 ) {
+		while (!((xtilestep == -1) && (XmapPos <= xtile)) &&
+			   !((xtilestep == 1) && (XmapPos >= xtile))) {
+			if ((ytile < 0) || (ytile >= 64) || (XmapPos < 0) || (XmapPos >= 64)) {
 				return;
 			}
 
-			if( R_TraceCheck( lvl, XmapPos, ytile, xintercept % TILEGLOBAL, xstep, false, (_boolean)(ytilestep == -1), trace ) ) {
+			if (R_TraceCheck(lvl, (int)XmapPos, (int)ytile,
+							 (int)(xintercept % TILEGLOBAL), (int)xstep,
+							 (_boolean)false, (_boolean)(ytilestep == -1),
+							 trace)) {
 				return;
 			}
 
 		/* prepare for next step */
 			ytile += ytilestep;
 			xintercept += xstep;
-			XmapPos = xintercept >> TILESHIFT;
+			XmapPos = (xintercept >> TILESHIFT);
 		}
 
 	} /* end of "while (1)" while-loop */

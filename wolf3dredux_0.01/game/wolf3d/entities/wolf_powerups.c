@@ -53,7 +53,7 @@ typedef struct powerup_s
 powerup_t *powerups = NULL;
 
 
-int Pow_Texture[ pow_last ] =
+int Pow_Texture[pow_last] =
 {
 	SPR_STAT_34,	/* pow_gibs */
 	SPR_STAT_38,	/* pow_gibs2 */
@@ -94,28 +94,28 @@ int Pow_Texture[ pow_last ] =
 
 -----------------------------------------------------------------------------
 */
-PRIVATE powerup_t *Pow_Remove( powerup_t *powerup )
+PRIVATE powerup_t *Pow_Remove(powerup_t *powerup)
 {
 	powerup_t *next;
 
-	if( powerup == NULL ) {
+	if (powerup == NULL) {
 		return NULL;
 	}
 
-	if( powerup->prev ) {
+	if (powerup->prev) {
 		powerup->prev->next = powerup->next;
 	}
 
-	if( powerup->next ) {
+	if (powerup->next) {
 		powerup->next->prev = powerup->prev;
 	}
 
 	next = powerup->next;
-	if( powerups == powerup ) {
+	if (powerups == powerup) {
 		powerups = next; /*fuck!*/
 	}
 
-	MM_FREE( powerup );
+	MM_FREE(powerup);
 
 	return next;
 }
@@ -132,15 +132,15 @@ PRIVATE powerup_t *Pow_Remove( powerup_t *powerup )
 
 -----------------------------------------------------------------------------
 */
-PRIVATE powerup_t *Pow_AddNew( void )
+PRIVATE powerup_t *Pow_AddNew(void)
 {
 	powerup_t *newp;
 
-	newp = MM_MALLOC( sizeof( powerup_t ) );
+	newp = MM_MALLOC(sizeof(powerup_t));
 	newp->prev = NULL;
 	newp->next = powerups;
 
-	if( powerups ) {
+	if (powerups) {
 		powerups->prev = newp;
 	}
 
@@ -183,12 +183,11 @@ PUBLIC void Powerup_Reset(void)
 
 -----------------------------------------------------------------------------
 */
-PRIVATE int Pow_Give( pow_t type )
+PRIVATE int Pow_Give(pow_t type)
 {
 	static const char *keynames[] = { "gold", "silver", "?", "?" };
 
-	switch( type )
-	{
+	switch (type) {
 /*
  * Keys
  */
@@ -197,34 +196,44 @@ PRIVATE int Pow_Give( pow_t type )
 		case pow_key3:
 		case pow_key4:
 			type -= pow_key1;
-			PL_GiveKey( &Player, type );
-			Sound_StartSound( NULL, 0, CHAN_ITEM, Sound_RegisterSound( "lsfx/012.wav" ), 1, ATTN_NORM, 0 );
-			Com_Printf( "Picked up a %s key.\n", keynames[ type ] );
+			PL_GiveKey(&Player, (int)type);
+			Sound_StartSound(NULL, 0, CHAN_ITEM,
+							 Sound_RegisterSound("lsfx/012.wav"),
+							 (float)1.0, (float)ATTN_NORM, 0);
+			Com_Printf("Picked up a %s key.\n", keynames[type]);
 			break;
 /*
  * Treasure
  */
 		case pow_cross:
-			PL_GivePoints( &Player, 100 );
-			Sound_StartSound( NULL, 0, CHAN_ITEM, Sound_RegisterSound( "lsfx/035.wav" ), 1, ATTN_NORM, 0 );
+			PL_GivePoints(&Player, (W32)100);
+			Sound_StartSound(NULL, 0, CHAN_ITEM,
+							 Sound_RegisterSound("lsfx/035.wav"),
+							 (float)1.0, (float)ATTN_NORM, 0);
 			levelstate.found_treasure++;
 			break;
 
 		case pow_chalice:
-			PL_GivePoints( &Player, 500 );
-			Sound_StartSound( NULL, 0, CHAN_ITEM, Sound_RegisterSound( "lsfx/036.wav" ), 1, ATTN_NORM, 0 );
+			PL_GivePoints(&Player, (W32)500);
+			Sound_StartSound(NULL, 0, CHAN_ITEM,
+							 Sound_RegisterSound("lsfx/036.wav"),
+							 (float)1.0, (float)ATTN_NORM, 0);
 			levelstate.found_treasure++;
 			break;
 
 		case pow_bible:
-			PL_GivePoints( &Player, 1000 );
-			Sound_StartSound( NULL, 0, CHAN_ITEM, Sound_RegisterSound( "lsfx/037.wav" ), 1, ATTN_NORM, 0 );
+			PL_GivePoints(&Player, (W32)1000);
+			Sound_StartSound(NULL, 0, CHAN_ITEM,
+							 Sound_RegisterSound("lsfx/037.wav"),
+							 (float)1.0, (float)ATTN_NORM, 0);
 			levelstate.found_treasure++;
 			break;
 
 		case pow_crown:
-			PL_GivePoints( &Player, 5000 );
-			Sound_StartSound( NULL, 0, CHAN_ITEM, Sound_RegisterSound( "lsfx/045.wav" ), 1, ATTN_NORM, 0 );
+			PL_GivePoints(&Player, (W32)5000);
+			Sound_StartSound(NULL, 0, CHAN_ITEM,
+							 Sound_RegisterSound("lsfx/045.wav"),
+							 (float)1.0, (float)ATTN_NORM, 0);
 			levelstate.found_treasure++;
 			break;
 
@@ -232,28 +241,28 @@ PRIVATE int Pow_Give( pow_t type )
  * Health
  */
 		case pow_gibs:
-			if( ! PL_GiveHealth( &Player, 1, 11 ) ) {
+			if (! PL_GiveHealth( &Player, 1, 11 ) ) {
 				return 0;
 			}
 			Sound_StartSound( NULL, 0, CHAN_ITEM, Sound_RegisterSound( "lsfx/061.wav" ), 1, ATTN_NORM, 0 );
 			break;
 
 		case pow_alpo:
-			if( ! PL_GiveHealth( &Player, 4, 0 ) ) {
+			if (! PL_GiveHealth( &Player, 4, 0 ) ) {
 				return 0;
 			}
 			Sound_StartSound( NULL, 0, CHAN_ITEM, Sound_RegisterSound( "lsfx/033.wav" ), 1, ATTN_NORM, 0 );
 			break;
 
 		case pow_food:
-			if( ! PL_GiveHealth( &Player, 10, 0 ) ) {
+			if (! PL_GiveHealth( &Player, 10, 0 ) ) {
 				return 0;
 			}
 			Sound_StartSound( NULL, 0, CHAN_ITEM, Sound_RegisterSound( "lsfx/033.wav" ), 1, ATTN_NORM, 0 );
 			break;
 
 		case pow_firstaid:
-			if( ! PL_GiveHealth( &Player, 25, 0 ) ) {
+			if (! PL_GiveHealth( &Player, 25, 0 ) ) {
 				return 0;
 			}
 			Sound_StartSound( NULL, 0, CHAN_ITEM, Sound_RegisterSound( "lsfx/034.wav" ), 1, ATTN_NORM, 0 );
@@ -263,33 +272,33 @@ PRIVATE int Pow_Give( pow_t type )
  * Weapon & Ammo
  */
 		case pow_clip:
-			if( ! PL_GiveAmmo( &Player, AMMO_BULLETS, 8 ) ) {
+			if (! PL_GiveAmmo(&Player, AMMO_BULLETS, 8)) {
 				return 0;
 			}
 			Sound_StartSound( NULL, 0, CHAN_ITEM, Sound_RegisterSound( "lsfx/031.wav" ), 1, ATTN_NORM, 0 );
 			break;
 
 		case pow_clip2:
-			if( ! PL_GiveAmmo( &Player, AMMO_BULLETS, 4 ) ) {
+			if (! PL_GiveAmmo(&Player, AMMO_BULLETS, 4)) {
 				return 0;
 			}
 			Sound_StartSound( NULL, 0, CHAN_ITEM, Sound_RegisterSound( "lsfx/031.wav" ), 1, ATTN_NORM, 0 );
 			break;
 
 		case pow_25clip:
-			if( ! PL_GiveAmmo( &Player, AMMO_BULLETS, 25 ) ) {
+			if (! PL_GiveAmmo(&Player, AMMO_BULLETS, 25)) {
 				return 0;
 			}
 			Sound_StartSound( NULL, 0, CHAN_ITEM, Sound_RegisterSound( "lsfx/064.wav" ), 1, ATTN_NORM, 0 );
 			break;
 
 		case pow_machinegun:
-			PL_GiveWeapon( &Player, WEAPON_AUTO );
+			PL_GiveWeapon(&Player, WEAPON_AUTO);
 			Sound_StartSound( NULL, 0, CHAN_ITEM, Sound_RegisterSound( "lsfx/030.wav" ), 1, ATTN_NORM, 0 );
 			break;
 
 		case pow_chaingun:
-			PL_GiveWeapon( &Player, WEAPON_CHAIN );
+			PL_GiveWeapon(&Player, WEAPON_CHAIN);
 			Sound_StartSound( NULL, 0, CHAN_ITEM, Sound_RegisterSound( "lsfx/038.wav" ), 1, ATTN_NORM, 0 );
 
 			Player.facecount = 0;
@@ -300,27 +309,27 @@ PRIVATE int Pow_Give( pow_t type )
  * Artifacts
  */
 		case pow_fullheal:
-			PL_GiveHealth( &Player, 999, 0 );
-			PL_GiveAmmo( &Player, AMMO_BULLETS, 25 );
-			PL_GiveLife( &Player );
+			PL_GiveHealth(&Player, 999, 0);
+			PL_GiveAmmo(&Player, AMMO_BULLETS, 25);
+			PL_GiveLife(&Player);
 			levelstate.found_treasure++;
-			Com_Printf( "Extra life!\n" );
+			Com_Printf("Extra life!\n");
 			break;
 
 		case pow_spear:
 			{
-			char szTextMsg[ 256 ];
+			char szTextMsg[256];
 
 			Sound_StartSound( NULL, 0, CHAN_ITEM, Sound_RegisterSound( "sodsfx/109.wav" ), 1, ATTN_NORM, 0 );
 
-			my_snprintf( szTextMsg, sizeof( szTextMsg ),
-				"loading ; map s%.2d.map\n", 20 );
+			my_snprintf(szTextMsg, sizeof(szTextMsg),
+						"loading ; map s%.2d.map\n", 20);
 			Cbuf_AddText( szTextMsg );
-			}
+			} /* end random unnecessary floating brackets */
 			break;
 
 		default:
-			Com_DPrintf( "Warning: Unknown item type: %d\n", type );
+			Com_DPrintf("Warning: Unknown item type: %d\n", type);
 			break;
 	}
 
@@ -367,16 +376,16 @@ PUBLIC void Powerup_Spawn(int x, int y, int type, LevelData_t *lvl)
 
 -----------------------------------------------------------------------------
 */
-PUBLIC void Powerup_PickUp( int x, int y )
+PUBLIC void Powerup_PickUp(int x, int y)
 {
-	powerup_t *pow;
-	/* TODO: rename variable so it does not shadow global declaration of pow */
+	powerup_t *my_pow;
+	/* 'my_pow' used to be just 'pow', but that shadowed a global declaration */
 	_boolean p_left = false, p_pick = false;
 
-	for ((pow = powerups); pow; (pow = pow->next)) {
+	for ((my_pow = powerups); my_pow; (my_pow = my_pow->next)) {
 check_again:
-		if ((pow->x == x) && (pow->y == y)) { /* got a powerup here */
-			if (Pow_Give(pow->type)) { /*FIXME script */
+		if ((my_pow->x == x) && (my_pow->y == y)) { /* got a powerup here */
+			if (Pow_Give(my_pow->type)) { /*FIXME script */
 				/* picked up this stuff, remove it! */
 				p_pick = true;
 				/* dummy to silence clang static analyzer warning about value
@@ -384,9 +393,9 @@ check_again:
 				if (p_pick == true) {
 					;
 				}
-				Sprite_RemoveSprite( pow->sprite );
-				pow = Pow_Remove( pow );
-				if (pow) {
+				Sprite_RemoveSprite(my_pow->sprite);
+				my_pow = Pow_Remove(my_pow);
+				if (my_pow) {
 					goto check_again;
 				} else {
 					break;
@@ -397,10 +406,10 @@ check_again:
 		}
 	}
 
-	if( p_left ) {
-		r_world->tilemap[ x ][ y ] |= POWERUP_TILE;
+	if (p_left) {
+		r_world->tilemap[x][y] |= POWERUP_TILE;
 	} else {
-		r_world->tilemap[ x ][ y ] &= ~POWERUP_TILE;
+		r_world->tilemap[x][y] &= ~POWERUP_TILE;
 	}
 }
 

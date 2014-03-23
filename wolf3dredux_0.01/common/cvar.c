@@ -428,17 +428,17 @@ PUBLIC cvar_t *Cvar_FullSet( const char *var_name, const char *value, CVARFlags 
 
 -----------------------------------------------------------------------------
 */
-PUBLIC void Cvar_SetValue( const char *var_name, float value )
+PUBLIC void Cvar_SetValue(const char *var_name, float value)
 {
-	char	val[ 32 ];
+	char	val[32];
 
-	if( value == (int)value ) {
-		my_snprintf( val, sizeof( val ), "%i", (int)value );
+	if (value == (int)value) {
+		my_snprintf(val, sizeof(val), "%i", (int)value);
 	} else {
-		my_snprintf( val, sizeof( val ), "%f", value );
+		my_snprintf(val, sizeof(val), "%f", value);
 	}
 
-	Cvar_Set( var_name, val );
+	Cvar_Set(var_name, val);
 }
 
 /*

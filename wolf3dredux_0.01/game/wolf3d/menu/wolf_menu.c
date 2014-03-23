@@ -195,8 +195,8 @@ PUBLIC void M_BannerString(const char *string, W16 nYOffset)
 
 	Font_GetMsgDimensions(1, string, &w, &h);
 	Font_SetColour(1, readhcolour);
-	Font_put_line(1, ((viddef.width - (unsigned int)(w)) >> 1), nYOffset,
-				  string);
+	Font_put_line(1, (int)((viddef.width - (unsigned int)(w)) >> 1),
+				  (int)nYOffset, string);
 }
 
 /*
@@ -725,7 +725,7 @@ void M_Main_Draw(void)
 
 	R_Draw_Fill(0, 0, (int)viddef.width, (int)viddef.height, bgcolour);
 
-	M_Banner("pics/C_OPTIONSPIC.tga", 0);
+	M_Banner("pics/C_OPTIONSPIC.tga", (W16)0);
 
 
 	TM_GetTextureSize(&w, &h, "pics/C_MOUSELBACKPIC.tga");
@@ -788,8 +788,8 @@ const char *M_Main_Key(int key)
 
 		case K_KP_UPARROW:
 		case K_UPARROW:
-			if( --m_main_cursor < 0 ) {
-				m_main_cursor = MAIN_ITEMS - 1;
+			if (--m_main_cursor < 0) {
+				m_main_cursor = (MAIN_ITEMS - 1);
 			}
 			return sound;
 
@@ -797,9 +797,9 @@ const char *M_Main_Key(int key)
 		case K_ENTER:
 			m_entersound = true;
 
-			switch( m_main_cursor ) {
+			switch (m_main_cursor) {
 				case 0:
-					if( g_version->value == SPEAROFDESTINY ) {
+					if (g_version->value == SPEAROFDESTINY) {
 						M_Menu_Skill_f();
 					} else {
 						M_Menu_Game_f();
@@ -866,7 +866,7 @@ void M_SMain_Draw(void)
 	R_Draw_Tile(0, 0, (int)viddef.width, (int)viddef.height,
 				"pics/C_BACKDROPPIC.tga");
 
-	M_Banner("pics/SC_OPTIONSPIC.tga", 0);
+	M_Banner("pics/SC_OPTIONSPIC.tga", (W16)0);
 
 
 	TM_GetTextureSize(&w, &h, "pics/SC_MOUSELBACKPIC.tga");
@@ -915,13 +915,13 @@ void M_Menu_Main_f(void)
 	Sound_StopBGTrack();
 	Sound_StartBGTrack( "music/WONDERIN.ogg", "music/WONDERIN.ogg" );
 
-	if( g_version->value == SPEAROFDESTINY ) {
-		M_PushMenu( M_SMain_Draw, M_Main_Key );
+	if (g_version->value == SPEAROFDESTINY) {
+		M_PushMenu(M_SMain_Draw, M_Main_Key);
 
 		return;
 	}
 
-	M_PushMenu( M_Main_Draw, M_Main_Key );
+	M_PushMenu(M_Main_Draw, M_Main_Key);
 
 }
 
@@ -1007,7 +1007,7 @@ void LoadGameCallback(void *self)
 	menuaction_s *a = (menuaction_s *)self;
 
 	if (m_savevalid[a->generic.localdata[0]]) {
-		Cbuf_AddText( va( "load save%i\n",  a->generic.localdata[ 0 ] ) );
+		Cbuf_AddText(va("load save%i\n",  a->generic.localdata[0]));
 	}
 	M_ForceMenuOff();
 }
@@ -1068,11 +1068,11 @@ void LoadGame_MenuDraw(void)
 		R_Draw_Tile(0, 0, (int)viddef.width, (int)viddef.height,
 					"pics/C_BACKDROPPIC.tga");
 
-		M_Banner("pics/SC_LOADGAMEPIC.tga", 0);
+		M_Banner("pics/SC_LOADGAMEPIC.tga", (W16)0);
 	} else {
 		R_Draw_Fill(0, 0, (int)viddef.width, (int)viddef.height, bgcolour);
 
-		M_Banner("pics/C_LOADGAMEPIC.tga", 0);
+		M_Banner("pics/C_LOADGAMEPIC.tga", (W16)0);
 	}
 #if 0 || __clang_analyzer__
 	Menu_AdjustCursor(&s_loadgame_menu, 1);
@@ -1093,13 +1093,13 @@ void LoadGame_MenuDraw(void)
  */
 const char *LoadGame_MenuKey(int key)
 {
-	if( key == K_ESCAPE || key == K_ENTER ) {
-		s_savegame_menu.cursor = s_loadgame_menu.cursor - 1;
-		if( s_savegame_menu.cursor < 0 ) {
+	if ((key == K_ESCAPE) || (key == K_ENTER)) {
+		s_savegame_menu.cursor = (s_loadgame_menu.cursor - 1);
+		if (s_savegame_menu.cursor < 0) {
 			s_savegame_menu.cursor = 0;
 		}
 	}
-	return Default_MenuKey( &s_loadgame_menu, key );
+	return Default_MenuKey(&s_loadgame_menu, key);
 }
 
 /*
@@ -1142,11 +1142,11 @@ static menuaction_s		s_savegame_actions[MAX_SAVEGAMES];
  Notes:
  -----------------------------------------------------------------------------
  */
-void SaveGameCallback( void *self )
+void SaveGameCallback(void *self)
 {
-	menuaction_s *a = ( menuaction_s * ) self;
+	menuaction_s *a = (menuaction_s *)self;
 
-	Cbuf_AddText( va( "save save%i\n", a->generic.localdata[ 0 ] ) );
+	Cbuf_AddText(va("save save%i\n", a->generic.localdata[0]));
 	M_ForceMenuOff();
 }
 
@@ -1167,11 +1167,11 @@ void SaveGame_MenuDraw(void)
 		R_Draw_Tile(0, 0, (int)viddef.width, (int)viddef.height,
 					"pics/C_BACKDROPPIC.tga");
 
-		M_Banner("pics/SC_SAVEGAMEPIC.tga", 0);
+		M_Banner("pics/SC_SAVEGAMEPIC.tga", (W16)0);
 	} else {
 		R_Draw_Fill(0, 0, (int)viddef.width, (int)viddef.height, bgcolour);
 
-		M_Banner("pics/C_SAVEGAMEPIC.tga", 0);
+		M_Banner("pics/C_SAVEGAMEPIC.tga", (W16)0);
 	}
 #if 0 || __clang_analyzer__
 	Menu_AdjustCursor(&s_savegame_menu, 1);

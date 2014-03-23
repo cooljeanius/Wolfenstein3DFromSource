@@ -350,21 +350,22 @@ PRIVATE void Options_MenuInit(void)
 	Menu_AddItem(&s_options_menu, (void *)&s_options_console_action);
 }
 
+/* */
 PRIVATE void Options_MenuDraw(void)
 {
 	if (g_version->value == SPEAROFDESTINY) {
 		R_Draw_Tile(0, 0, (int)viddef.width, (int)viddef.height,
 					"pics/C_BACKDROPPIC.tga");
-		M_Banner("pics/SC_CONTROLPIC.tga", 0);
-		M_DrawWindow(((viddef.width - 550) >> 1),
-					 (((viddef.height - 335) >> 1) + 40), 550, 335,
+		M_Banner("pics/SC_CONTROLPIC.tga", (W16)0);
+		M_DrawWindow((int)((viddef.width - 550) >> 1),
+					 (int)(((viddef.height - 335) >> 1) + 40), 550, 335,
 					 sodbkgdcolour, sodbord2colour, soddeactive);
 	} else {
 		R_Draw_Fill(0, 0, (int)viddef.width, (int)viddef.height, bgcolour);
 
-		M_Banner("pics/C_CONTROLPIC.tga", 0);
-		M_DrawWindow(((viddef.width - 550) >> 1),
-					 (((viddef.height - 335) >> 1) + 40), 550, 335,
+		M_Banner("pics/C_CONTROLPIC.tga", (W16)0);
+		M_DrawWindow((int)((viddef.width - 550) >> 1),
+					 (int)(((viddef.height - 335) >> 1) + 40), 550, 335,
 					 bkgdcolour, bord2colour, deactive);
 	}
 
@@ -373,11 +374,13 @@ PRIVATE void Options_MenuDraw(void)
 	Menu_Draw(&s_options_menu);
 }
 
+/* */
 PRIVATE const char *Options_MenuKey(int key)
 {
 	return Default_MenuKey(&s_options_menu, key);
 }
 
+/* */
 PUBLIC void M_Menu_Options_f(void)
 {
 	Options_MenuInit();
@@ -481,24 +484,27 @@ PRIVATE void M_FindKeysForCommand(const char *command, int *twokeys)
 	}
 }
 
+/* */
 PRIVATE void KeyCursorDrawFunc(menuframework_s *menu)
 {
-	static const char ccursor[ 2 ] = { ' ', '>' };
+	static const char ccursor[2] = { ' ', '>' };
 
 	if (bind_grab) {
-		Font_put_character(FONT0, menu->x, (menu->y + (menu->cursor * 20)), '=');
+		Font_put_character(FONT0, (int)menu->x,
+						   (int)(menu->y + (menu->cursor * 20)), (W16)'=');
 	} else {
-		Font_put_character(FONT0, menu->x, (menu->y + (menu->cursor * 20)),
+		Font_put_character(FONT0, (int)menu->x, (menu->y + (menu->cursor * 20)),
 						   (W16)ccursor[(0 + ((int)(Sys_Milliseconds() / 250) & 1))]);
 	}
 }
 
+/* */
 PRIVATE void DrawKeyBindingFunc(void *self)
 {
 	int keys[2];
 	menuaction_s *a = (menuaction_s *)self;
 
-	Font_SetSize(a->generic.fs, 2);
+	Font_SetSize(a->generic.fs, (W16)2);
 	Font_SetColour(a->generic.fs, *a->generic.fontBaseColour);
 
 	M_FindKeysForCommand(bindnames[a->generic.localdata[0]][0], keys);
@@ -729,16 +735,16 @@ PRIVATE void Keys_MenuDraw(void)
 		R_Draw_Tile(0, 0, (int)viddef.width, (int)viddef.height,
 					"pics/C_BACKDROPPIC.tga");
 
-		M_Banner("pics/SC_CUSTOMIZEPIC.tga", 0);
-		M_DrawWindow(((viddef.width - 550) >> 1),
-					 (((viddef.height - 300) >> 1) + 10), 550, 300,
+		M_Banner("pics/SC_CUSTOMIZEPIC.tga", (W16)0);
+		M_DrawWindow((int)((viddef.width - 550) >> 1),
+					 (int)(((viddef.height - 300) >> 1) + 10), 550, 300,
 					 sodbkgdcolour, sodbord2colour, soddeactive);
 	} else {
 		R_Draw_Fill(0, 0, (int)viddef.width, (int)viddef.height, bgcolour);
 
-		M_Banner("pics/C_CUSTOMIZEPIC.tga", 0);
-		M_DrawWindow(((viddef.width - 550) >> 1),
-					 (((viddef.height - 300) >> 1) + 10), 550, 300,
+		M_Banner("pics/C_CUSTOMIZEPIC.tga", (W16)0);
+		M_DrawWindow((int)((viddef.width - 550) >> 1),
+					 (int)(((viddef.height - 300) >> 1) + 10), 550, 300,
 					 bkgdcolour, bord2colour, deactive );
 	}
 

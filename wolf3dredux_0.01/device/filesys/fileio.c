@@ -56,23 +56,21 @@
  Notes:
 -----------------------------------------------------------------------------
 */
-PUBLIC void *FS_GetLoadedFilePointer( filehandle_t *fhandle, W32 origin )
+PUBLIC void *FS_GetLoadedFilePointer(filehandle_t *fhandle, W32 origin)
 {
-	if( ! fhandle->bLoaded )
-	{
+	if (! fhandle->bLoaded) {
 		return NULL;
 	}
 
-	switch( origin )
-	{
+	switch (origin) {
 		case SEEK_SET:
-			return( (void *)fhandle->ptrStart );
+			return ((void *)fhandle->ptrStart);
 
 		case SEEK_END:
-			return( (void *)fhandle->ptrEnd );
+			return ((void *)fhandle->ptrEnd);
 
 		case SEEK_CUR:
-			return( (void *)fhandle->ptrCurrent );
+			return ((void *)fhandle->ptrCurrent);
 	}
 
 	return NULL;
@@ -123,10 +121,10 @@ PUBLIC SW32 FS_GetFileSize(filehandle_t *fhandle)
  Notes:
 -----------------------------------------------------------------------------
 */
-PUBLIC W32 FS_FileSeek( filehandle_t *fhandle, SW32 offset, W32 origin )
+PUBLIC W32 FS_FileSeek(filehandle_t *fhandle, SW32 offset, W32 origin)
 {
-	if( fhandle->bLoaded ) {
-		switch( origin ) {
+	if (fhandle->bLoaded) {
+		switch (origin) {
 			case SEEK_SET:
 				if ((offset < 0) ||
 					(offset > (SW32)(fhandle->filesize))) {
@@ -151,15 +149,15 @@ PUBLIC W32 FS_FileSeek( filehandle_t *fhandle, SW32 offset, W32 origin )
 				break;
 
 			case SEEK_CUR:
-				if( offset < 0 ) {
+				if (offset < 0) {
 					/* offset is negative */
-					if( ((fhandle->ptrCurrent - fhandle->ptrStart) + offset) < 0 ) {
+					if (((fhandle->ptrCurrent - fhandle->ptrStart) + offset) < 0) {
 						return 1;
 					}
 				}
 
-				if( offset > 0 ) {
-					if( offset > (fhandle->ptrEnd - fhandle->ptrCurrent) ) {
+				if (offset > 0) {
+					if (offset > (fhandle->ptrEnd - fhandle->ptrCurrent)) {
 						return 1;
 					}
 				}

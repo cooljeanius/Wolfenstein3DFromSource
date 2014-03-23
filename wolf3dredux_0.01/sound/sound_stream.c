@@ -187,7 +187,7 @@ PRIVATE _boolean Sound_OpenBGTrack(const char *name, musicTrack_t *track)
 	ov_callbacks	vorbisCallbacks = {ovc_read, ovc_seek, ovc_close, ovc_tell};
 	int ret;
 
-	track->hFile = FS_OpenFile(name, 0);
+	track->hFile = FS_OpenFile(name, (W32)0);
 	if (! track->hFile) {
 		return false;
 	}
@@ -196,7 +196,7 @@ PRIVATE _boolean Sound_OpenBGTrack(const char *name, musicTrack_t *track)
 	track->vorbisFile = vorbisFile = Z_Malloc(sizeof(OggVorbis_File));
 
 	if ((ret = ov_open_callbacks(track, vorbisFile,
-								 NULL, 0, vorbisCallbacks)) < 0) {
+								 NULL, (long)0, vorbisCallbacks)) < 0) {
 		switch (ret) {
 			case OV_EREAD:
 				Com_DPrintf("Sound_OpenBGTrack(): A read from media returned an error (OV_EREAD).(%s)\n",
@@ -389,7 +389,7 @@ PUBLIC void Sound_StartStreaming(void)
 		return;
 	}
 
-	s_streamingChannel = Sound_PickChannel(0, 0);
+	s_streamingChannel = Sound_PickChannel((W32)0, (W32)0);
 	if (! s_streamingChannel) {
 		return;
 	}
@@ -406,9 +406,12 @@ PUBLIC void Sound_StartStreaming(void)
 	pfalSourcei(s_streamingChannel->sourceName, AL_SOURCE_RELATIVE, AL_TRUE);
 	pfalSourcefv(s_streamingChannel->sourceName, AL_POSITION, vec3_origin);
 	pfalSourcefv(s_streamingChannel->sourceName, AL_VELOCITY, vec3_origin);
-	pfalSourcef(s_streamingChannel->sourceName, AL_REFERENCE_DISTANCE, 1.0);
-	pfalSourcef(s_streamingChannel->sourceName, AL_MAX_DISTANCE, 1.0);
-	pfalSourcef(s_streamingChannel->sourceName, AL_ROLLOFF_FACTOR, 0.0);
+	pfalSourcef((ALuint)s_streamingChannel->sourceName,
+				(ALenum)AL_REFERENCE_DISTANCE, (ALfloat)1.0);
+	pfalSourcef((ALuint)s_streamingChannel->sourceName,
+				(ALenum)AL_MAX_DISTANCE, (ALfloat)1.0);
+	pfalSourcef((ALuint)s_streamingChannel->sourceName,
+				(ALenum)AL_ROLLOFF_FACTOR, (ALfloat)0.0);
 }
 
 /*

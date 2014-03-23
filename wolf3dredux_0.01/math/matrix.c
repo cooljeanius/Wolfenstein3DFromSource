@@ -43,19 +43,19 @@
 	( h i j ) ( t w z )	  ( hr + hs + ht  iu + iv + iw  jx + jy + jz )
 -----------------------------------------------------------------------------
 */
-PUBLIC void Matrix3x3Multiply( mat3_t in1, mat3_t in2, mat3_t out )
+PUBLIC void Matrix3x3Multiply(mat3_t in1, mat3_t in2, mat3_t out)
 {
-	out[0] = in1[0] * in2[0] + in1[1] * in2[3] + in1[2] * in2[6];
-	out[1] = in1[0] * in2[1] + in1[1] * in2[4] + in1[2] * in2[7];
-	out[2] = in1[0] * in2[2] + in1[1] * in2[5] + in1[2] * in2[8];
+	out[0] = (in1[0] * in2[0]) + (in1[1] * in2[3]) + (in1[2] * in2[6]);
+	out[1] = (in1[0] * in2[1]) + (in1[1] * in2[4]) + (in1[2] * in2[7]);
+	out[2] = (in1[0] * in2[2]) + (in1[1] * in2[5]) + (in1[2] * in2[8]);
 
-	out[3] = in1[3] * in2[0] + in1[4] * in2[3] + in1[5] * in2[6];
-	out[4] = in1[3] * in2[1] + in1[4] * in2[4] + in1[5] * in2[7];
-	out[5] = in1[3] * in2[2] + in1[4] * in2[5] + in1[5] * in2[8];
+	out[3] = (in1[3] * in2[0]) + (in1[4] * in2[3]) + (in1[5] * in2[6]);
+	out[4] = (in1[3] * in2[1]) + (in1[4] * in2[4]) + (in1[5] * in2[7]);
+	out[5] = (in1[3] * in2[2]) + (in1[4] * in2[5]) + (in1[5] * in2[8]);
 
-	out[6] = in1[6] * in2[0] + in1[7] * in2[3] + in1[8] * in2[6];
-	out[7] = in1[6] * in2[1] + in1[7] * in2[4] + in1[8] * in2[7];
-	out[8] = in1[6] * in2[2] + in1[7] * in2[5] + in1[8] * in2[8];
+	out[6] = (in1[6] * in2[0]) + (in1[7] * in2[3]) + (in1[8] * in2[6]);
+	out[7] = (in1[6] * in2[1]) + (in1[7] * in2[4]) + (in1[8] * in2[7]);
+	out[8] = (in1[6] * in2[2]) + (in1[7] * in2[5]) + (in1[8] * in2[8]);
 }
 
 /*
@@ -69,12 +69,24 @@ PUBLIC void Matrix3x3Multiply( mat3_t in1, mat3_t in2, mat3_t out )
  Notes:
 -----------------------------------------------------------------------------
 */
-PUBLIC void MatrixIdentity( mat4_t matrix )
+PUBLIC void MatrixIdentity(mat4_t matrix)
 {
-	matrix[ 0] = 1.0;  matrix[ 1] = 0.0;  matrix[ 2] = 0.0;  matrix[ 3] = 0.0;
-	matrix[ 4] = 0.0;  matrix[ 5] = 1.0;  matrix[ 6] = 0.0;  matrix[ 7] = 0.0;
-	matrix[ 8] = 0.0;  matrix[ 9] = 0.0;  matrix[10] = 1.0;  matrix[11] = 0.0;
-	matrix[12] = 0.0;  matrix[13] = 0.0;  matrix[14] = 0.0;  matrix[15] = 1.0;
+	matrix[0] = (float)1.0;
+	matrix[1] = (float)0.0;
+	matrix[2] = (float)0.0;
+	matrix[3] = (float)0.0;
+	matrix[4] = (float)0.0;
+	matrix[5] = (float)1.0;
+	matrix[6] = (float)0.0;
+	matrix[7] = (float)0.0;
+	matrix[8] = (float)0.0;
+	matrix[9] = (float)0.0;
+	matrix[10] = (float)1.0;
+	matrix[11] = (float)0.0;
+	matrix[12] = (float)0.0;
+	matrix[13] = (float)0.0;
+	matrix[14] = (float)0.0;
+	matrix[15] = (float)1.0;
 }
 
 /*

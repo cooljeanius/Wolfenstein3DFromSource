@@ -208,23 +208,24 @@ PUBLIC char *FS_FindFirst(const char *path, W32 musthave, W32 canthave)
  Notes:
 -----------------------------------------------------------------------------
 */
-PUBLIC char *FS_FindNext( W32 musthave, W32 canthave )
+PUBLIC char *FS_FindNext(W32 musthave, W32 canthave)
 {
 	struct dirent *d;
 
-	if( fdir == NULL ) {
+	if (fdir == NULL) {
 		return NULL;
 	}
 
-	while( (d = readdir( fdir ) ) != NULL) {
-		if( ! *findpattern || glob_match( findpattern, d->d_name ) ) {
-			if( ! *findbase ) {
-				my_strlcpy( findpath, d->d_name, sizeof( findpath ) );
+	while ((d = readdir(fdir)) != NULL) {
+		if (! *findpattern || glob_match(findpattern, d->d_name)) {
+			if (! *findbase) {
+				my_strlcpy(findpath, d->d_name, sizeof(findpath));
 			} else {
-				my_snprintf( findpath, sizeof( findpath ), "%s/%s", findbase, d->d_name );
+				my_snprintf(findpath, sizeof(findpath), "%s/%s", findbase,
+							d->d_name);
 			}
 
-			if( CompareAttributes( findpath, musthave, canthave ) ) {
+			if (CompareAttributes(findpath, musthave, canthave)) {
 				return findpath;
 			}
 		}

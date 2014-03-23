@@ -163,7 +163,8 @@ PUBLIC void Sprite_SetPos(int sprite_id, int x, int y, int angle)
  Function: Sprite_SetTex -Set sprite texture.
 
  Parameters: sprite_id -[in] sprite id to change.
-			 index -[in] texture index.
+			 texture_index -[in] texture index (used to be just 'index', but
+												that shadowed a global decl)
 			 tex -[in] texture to set as.
 
  Returns: Nothing.
@@ -171,18 +172,17 @@ PUBLIC void Sprite_SetPos(int sprite_id, int x, int y, int angle)
  Notes:
 -----------------------------------------------------------------------------
 */
-PUBLIC void Sprite_SetTex(int sprite_id, int index, int tex)
+PUBLIC void Sprite_SetTex(int sprite_id, int texture_index, int tex)
 {
-	/* TODO: rename "index" */
 	if (sprite_id == -1) {
 		return;
 	}
 
-	if (index == -1) { /* one texture for each phase */
+	if (texture_index == -1) { /* one texture for each phase */
 		Spr_Sprites[sprite_id].tex[0] = tex;
 		Spr_Sprites[sprite_id].flags |= SPRT_ONE_TEX;
 	} else {
-		Spr_Sprites[sprite_id].tex[index] = tex;
+		Spr_Sprites[sprite_id].tex[texture_index] = tex;
 	}
 
 	Spr_Sprites[sprite_id].flags |= SPRT_CHG_TEX;

@@ -132,15 +132,13 @@ INLINECALL float angle_interpolate( float from, float to, float fraction )
  Notes:
 -----------------------------------------------------------------------------
 */
-INLINECALL float angle_normalize( float angle )
+INLINECALL float angle_normalize(float angle)
 {
-	while( angle < 0 )
-	{
+	while (angle < 0) {
 		angle += (2 * M_PI);
 	}
 
-	while( angle >= (2 * M_PI) )
-	{
+	while (angle >= (2 * M_PI)) {
 		angle -= (2 * M_PI);
 	}
 

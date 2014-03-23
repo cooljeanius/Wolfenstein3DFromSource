@@ -87,13 +87,13 @@ PUBLIC void Print_OS_Info(void)
 	mib[1] = KERN_OSTYPE;
 
 
-	if (sysctl(mib, 2, NULL, &len, NULL, 0) == -1) {
+	if (sysctl(mib, 2, NULL, &len, NULL, (size_t)0) == -1) {
 		return;
 	}
 
 	p = MM_MALLOC(len);
 
-	if (sysctl(mib, 2, p, &len, NULL, 0) == -1) {
+	if (sysctl(mib, 2, p, &len, NULL, (size_t)0) == -1) {
 		free(p);
 		return;
 	}
@@ -102,19 +102,19 @@ PUBLIC void Print_OS_Info(void)
 
 	mib[1] = KERN_OSRELEASE;
 
-	if (sysctl(mib, 2, NULL, &len, NULL, 0) == -1) {
+	if (sysctl(mib, 2, NULL, &len, NULL, (size_t)0) == -1) {
 		free(p);
 		return;
 	}
 
 	p = MM_REALLOC(p, len);
 
-	if (sysctl(mib, 2, p, &len, NULL, 0) == 0) {
+	if (sysctl(mib, 2, p, &len, NULL, (size_t)0) == 0) {
 		Com_Printf( "%*s\n", len, p );
 	}
 
 
-	MM_FREE( p );
+	MM_FREE(p);
 #elif defined(__linux__) || defined(__APPLE__)
 	struct utsname myname;
 
@@ -161,7 +161,7 @@ PUBLIC void Print_Memory_Stats(void)
 	mib[0] = CTL_HW;
 	mib[1] = HW_PHYSMEM;
 	len = sizeof(value);
-	sysctl(mib, 2, &value, &len, NULL, 0);
+	sysctl(mib, 2, &value, &len, NULL, (size_t)0);
 
 	Com_Printf("Physical Memory: %lu MiB\n", (value / DIV));
 #elif defined __linux__

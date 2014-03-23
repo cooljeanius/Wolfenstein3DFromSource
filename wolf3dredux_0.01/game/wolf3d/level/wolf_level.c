@@ -158,7 +158,7 @@ statinfo_t static_sod[] =
 };
 
 statinfo_t *statinfo = static_wl6;
-int num_statics = sizeof( static_wl6 ) / sizeof( static_wl6[ 0 ] );
+int num_statics = (sizeof(static_wl6 ) / sizeof(static_wl6[0]));
 
 
 PRIVATE W16	cachedGuard = 0;
@@ -209,7 +209,7 @@ PRIVATE void CacheTextures(W16 start, W16 end)
 
 -----------------------------------------------------------------------------
 */
-PUBLIC void Level_ScanInfoPlane( LevelData_t *lvl )
+PUBLIC void Level_ScanInfoPlane(LevelData_t *lvl)
 {
 	int x, y;
 	W16	tile;
@@ -221,14 +221,14 @@ PUBLIC void Level_ScanInfoPlane( LevelData_t *lvl )
 	cachedMutant = 0;
 	progress_bar = 0;
 
-	for( y = 0 ; y < 64; ++y ) {
-		for( x = 0 ; x < 64 ; ++x ) {
-			tile = lvl->Plane2[ (63 - y) * 64 + x ];
-			if( ! tile ) {
+	for ((y = 0); (y < 64); ++y) {
+		for ((x = 0); (x < 64); ++x) {
+			tile = lvl->Plane2[(((63 - y) * 64) + x)];
+			if (! tile) {
 				continue;
 			}
 
-			switch( tile ) {
+			switch (tile) {
 /*
  * guard
  */
@@ -236,7 +236,7 @@ PUBLIC void Level_ScanInfoPlane( LevelData_t *lvl )
 			case 181:
 			case 182:
 			case 183:
-				if( skill->value < gd_hard ) {
+				if (skill->value < gd_hard) {
 					break;
 				}
 				tile -= 36;
@@ -244,7 +244,7 @@ PUBLIC void Level_ScanInfoPlane( LevelData_t *lvl )
 			case 145:
 			case 146:
 			case 147:
-				if( skill->value < gd_medium ) {
+				if (skill->value < gd_medium) {
 					break;
 				}
 				tile -= 36;
@@ -252,18 +252,18 @@ PUBLIC void Level_ScanInfoPlane( LevelData_t *lvl )
 			case 109:
 			case 110:
 			case 111:
-				if( ! cachedGuard ) {
-					CacheTextures( SPR_GRD_S_1, SPR_GRD_SHOOT3 );
+				if (! cachedGuard) {
+					CacheTextures((W16)SPR_GRD_S_1, (W16)SPR_GRD_SHOOT3);
 					cachedGuard = 1;
 				}
-				SpawnStand( en_guard, x, y, tile - 108, lvl );
+				SpawnStand(en_guard, x, y, (tile - 108), lvl);
 				break;
 
 			case 184:
 			case 185:
 			case 186:
 			case 187:
-				if( skill->value < gd_hard ) {
+				if (skill->value < gd_hard) {
 					break;
 				}
 				tile -= 36;
@@ -271,7 +271,7 @@ PUBLIC void Level_ScanInfoPlane( LevelData_t *lvl )
 			case 149:
 			case 150:
 			case 151:
-				if( skill->value < gd_medium ) {
+				if (skill->value < gd_medium) {
 					break;
 				}
 				tile -= 36;
@@ -279,15 +279,15 @@ PUBLIC void Level_ScanInfoPlane( LevelData_t *lvl )
 			case 113:
 			case 114:
 			case 115:
-				if( ! cachedGuard ) {
-					CacheTextures( SPR_GRD_S_1, SPR_GRD_SHOOT3 );
+				if (! cachedGuard) {
+					CacheTextures((W16)SPR_GRD_S_1, (W16)SPR_GRD_SHOOT3);
 					cachedGuard = 1;
 				}
-				SpawnPatrol( en_guard, x, y,tile - 112 );
+				SpawnPatrol(en_guard, x, y, (tile - 112));
 				break;
 
 			case 124:
-				SpawnDeadGuard( en_guard, x, y );
+				SpawnDeadGuard(en_guard, x, y);
 				break;
 /*
  * officer
@@ -296,7 +296,7 @@ PUBLIC void Level_ScanInfoPlane( LevelData_t *lvl )
 			case 189:
 			case 190:
 			case 191:
-				if( skill->value < gd_hard ) {
+				if (skill->value < gd_hard) {
 					break;
 				}
 				tile -= 36;
@@ -304,7 +304,7 @@ PUBLIC void Level_ScanInfoPlane( LevelData_t *lvl )
 			case 153:
 			case 154:
 			case 155:
-				if( skill->value < gd_medium ) {
+				if (skill->value < gd_medium) {
 					break;
 				}
 				tile -= 36;
@@ -313,10 +313,10 @@ PUBLIC void Level_ScanInfoPlane( LevelData_t *lvl )
 			case 118:
 			case 119:
 				if( ! cachedOfficer ) {
-					CacheTextures( SPR_OFC_S_1, SPR_OFC_SHOOT3 );
+					CacheTextures((W16)SPR_OFC_S_1, (W16)SPR_OFC_SHOOT3);
 					cachedOfficer = 1;
 				}
-				SpawnStand( en_officer, x, y, tile - 116, lvl );
+				SpawnStand(en_officer, x, y, (tile - 116), lvl);
 				break;
 
 
@@ -324,7 +324,7 @@ PUBLIC void Level_ScanInfoPlane( LevelData_t *lvl )
 			case 193:
 			case 194:
 			case 195:
-				if( skill->value < gd_hard ) {
+				if (skill->value < gd_hard) {
 					break;
 				}
 				tile -= 36;
@@ -332,7 +332,7 @@ PUBLIC void Level_ScanInfoPlane( LevelData_t *lvl )
 			case 157:
 			case 158:
 			case 159:
-				if( skill->value < gd_medium ) {
+				if (skill->value < gd_medium) {
 					break;
 				}
 				tile -= 36;
@@ -340,11 +340,11 @@ PUBLIC void Level_ScanInfoPlane( LevelData_t *lvl )
 			case 121:
 			case 122:
 			case 123:
-				if( ! cachedOfficer ) {
-					CacheTextures( SPR_OFC_S_1, SPR_OFC_SHOOT3 );
+				if (! cachedOfficer) {
+					CacheTextures((W16)SPR_OFC_S_1, (W16)SPR_OFC_SHOOT3);
 					cachedOfficer = 1;
 				}
-				SpawnPatrol( en_officer, x, y, tile - 120 );
+				SpawnPatrol(en_officer, x, y, (tile - 120));
 				break;
 /*
  * SS
@@ -353,7 +353,7 @@ PUBLIC void Level_ScanInfoPlane( LevelData_t *lvl )
 			case 199:
 			case 200:
 			case 201:
-				if( skill->value < gd_hard ) {
+				if (skill->value < gd_hard) {
 					break;
 				}
 				tile -= 36;
@@ -361,7 +361,7 @@ PUBLIC void Level_ScanInfoPlane( LevelData_t *lvl )
 			case 163:
 			case 164:
 			case 165:
-				if( skill->value < gd_medium ) {
+				if (skill->value < gd_medium) {
 					break;
 				}
 				tile -= 36;
@@ -369,18 +369,18 @@ PUBLIC void Level_ScanInfoPlane( LevelData_t *lvl )
 			case 127:
 			case 128:
 			case 129:
-				if( ! cachedSS ) {
-					CacheTextures( SPR_SS_S_1, SPR_SS_SHOOT3 );
+				if (! cachedSS) {
+					CacheTextures((W16)SPR_SS_S_1, (W16)SPR_SS_SHOOT3);
 					cachedSS = 1;
 				}
-				SpawnStand( en_ss, x, y, tile - 126, lvl );
+				SpawnStand(en_ss, x, y, (tile - 126), lvl);
 				break;
 
 			case 202:
 			case 203:
 			case 204:
 			case 205:
-				if( skill->value < gd_hard ) {
+				if (skill->value < gd_hard) {
 					break;
 				}
 				tile -= 36;
@@ -388,7 +388,7 @@ PUBLIC void Level_ScanInfoPlane( LevelData_t *lvl )
 			case 167:
 			case 168:
 			case 169:
-				if( skill->value < gd_medium ) {
+				if (skill->value < gd_medium) {
 					break;
 				}
 				tile -= 36;
@@ -396,11 +396,11 @@ PUBLIC void Level_ScanInfoPlane( LevelData_t *lvl )
 			case 131:
 			case 132:
 			case 133:
-				if( ! cachedSS ) {
-					CacheTextures( SPR_SS_S_1, SPR_SS_SHOOT3 );
+				if (! cachedSS) {
+					CacheTextures((W16)SPR_SS_S_1, (W16)SPR_SS_SHOOT3);
 					cachedSS = 1;
 				}
-				SpawnPatrol( en_ss, x, y, tile - 130 );
+				SpawnPatrol(en_ss, x, y, (tile - 130));
 				break;
 /*
  * dogs
@@ -409,7 +409,7 @@ PUBLIC void Level_ScanInfoPlane( LevelData_t *lvl )
 			case 207:
 			case 208:
 			case 209:
-				if( skill->value < gd_hard ) {
+				if (skill->value < gd_hard) {
 					break;
 				}
 				tile -= 36;
@@ -417,7 +417,7 @@ PUBLIC void Level_ScanInfoPlane( LevelData_t *lvl )
 			case 171:
 			case 172:
 			case 173:
-				if( skill->value < gd_medium ) {
+				if (skill->value < gd_medium) {
 					break;
 				}
 				tile -= 36;
@@ -425,18 +425,18 @@ PUBLIC void Level_ScanInfoPlane( LevelData_t *lvl )
 			case 135:
 			case 136:
 			case 137:
-				if( ! cachedDog ) {
-					CacheTextures( SPR_DOG_W1_1, SPR_DOG_JUMP3 );
+				if (! cachedDog) {
+					CacheTextures((W16)SPR_DOG_W1_1, (W16)SPR_DOG_JUMP3);
 					cachedDog = 1;
 				}
-				SpawnStand( en_dog, x, y, tile - 134, lvl );
+				SpawnStand(en_dog, x, y, (tile - 134), lvl);
 				break;
 
 			case 210:
 			case 211:
 			case 212:
 			case 213:
-				if( skill->value < gd_hard ) {
+				if (skill->value < gd_hard) {
 					break;
 				}
 				tile -= 36;
@@ -444,7 +444,7 @@ PUBLIC void Level_ScanInfoPlane( LevelData_t *lvl )
 			case 175:
 			case 176:
 			case 177:
-				if( skill->value < gd_medium ) {
+				if (skill->value < gd_medium) {
 					break;
 				}
 				tile -= 36;
@@ -452,78 +452,78 @@ PUBLIC void Level_ScanInfoPlane( LevelData_t *lvl )
 			case 139:
 			case 140:
 			case 141:
-				if( ! cachedDog ) {
-					CacheTextures( SPR_DOG_W1_1, SPR_DOG_JUMP3 );
+				if (! cachedDog) {
+					CacheTextures((W16)SPR_DOG_W1_1, (W16)SPR_DOG_JUMP3);
 					cachedDog = 1;
 				}
-				SpawnPatrol( en_dog, x, y, tile - 138 );
+				SpawnPatrol(en_dog, x, y, (tile - 138));
 				break;
 /* bosses */
 			case 214:
-				CacheTextures( SPR_BOSS_W1, SPR_BOSS_DIE3 );
-				SpawnBoss( en_boss, x, y );
+				CacheTextures((W16)SPR_BOSS_W1, (W16)SPR_BOSS_DIE3);
+				SpawnBoss(en_boss, x, y);
 				break;
 
 			case 197:
-				CacheTextures( SPR_GRETEL_W1, SPR_GRETEL_DIE3 );
-				SpawnBoss( en_gretel, x, y );
+				CacheTextures((W16)SPR_GRETEL_W1, (W16)SPR_GRETEL_DIE3);
+				SpawnBoss(en_gretel, x, y);
 				break;
 
 			case 215:
-				CacheTextures( SPR_GIFT_W1, SPR_GIFT_DEAD );
-				SpawnBoss( en_gift, x, y );
+				CacheTextures((W16)SPR_GIFT_W1, (W16)SPR_GIFT_DEAD);
+				SpawnBoss(en_gift, x, y);
 				break;
 
 			case 179:
-				CacheTextures( SPR_FAT_W1, SPR_FAT_DEAD );
-				SpawnBoss( en_fat, x, y );
+				CacheTextures((W16)SPR_FAT_W1, (W16)SPR_FAT_DEAD);
+				SpawnBoss(en_fat, x, y);
 				break;
 
 			case 196:
-				CacheTextures( SPR_SCHABB_W1, SPR_HYPO4 );
-				SpawnBoss( en_schabbs, x, y );
+				CacheTextures((W16)SPR_SCHABB_W1, (W16)SPR_HYPO4);
+				SpawnBoss(en_schabbs, x, y);
 				break;
 
 			case 160:
-				CacheTextures( SPR_FAKE_W1, SPR_FAKE_DEAD );
-				SpawnBoss( en_fake, x, y );
+				CacheTextures((W16)SPR_FAKE_W1, (W16)SPR_FAKE_DEAD);
+				SpawnBoss(en_fake, x, y);
 				break;
 
 			case 178:
-				CacheTextures( SPR_MECHA_W1, SPR_HITLER_DIE7 );
-				SpawnBoss( en_mecha, x, y );
+				CacheTextures((W16)SPR_MECHA_W1, (W16)SPR_HITLER_DIE7);
+				SpawnBoss(en_mecha, x, y);
 				break;
 /*
  * Spear
  */
 			case 106:
-				CacheTextures( SPR_SPECTRE_W1, SPR_SPECTRE_F4 );
-				SpawnBoss( en_spectre, x, y );
+				CacheTextures((W16)SPR_SPECTRE_W1, (W16)SPR_SPECTRE_F4);
+				SpawnBoss(en_spectre, x, y);
 				break;
 
 			case 107:
-				CacheTextures( SPR_ANGEL_W1, SPR_ANGEL_DEAD );
-				SpawnBoss( en_angel, x, y );
+				CacheTextures((W16)SPR_ANGEL_W1, (W16)SPR_ANGEL_DEAD);
+				SpawnBoss(en_angel, x, y);
 				break;
 
 			case 125:
-				CacheTextures( SPR_TRANS_W1, SPR_TRANS_DIE3 );
-				SpawnBoss( en_trans, x, y );
+				CacheTextures((W16)SPR_TRANS_W1, (W16)SPR_TRANS_DIE3);
+				SpawnBoss(en_trans, x, y);
 				break;
 
 			case 142:
-				CacheTextures( SPR_UBER_W1, SPR_UBER_DEAD );
-				SpawnBoss( en_uber, x, y );
+				CacheTextures((W16)SPR_UBER_W1, (W16)SPR_UBER_DEAD);
+				SpawnBoss(en_uber, x, y);
 				break;
 
 			case 143:
-				CacheTextures( SPR_WILL_W1, SPR_WILL_DEAD );
-				SpawnBoss( en_will, x, y );
+				CacheTextures((W16)SPR_WILL_W1, (W16)SPR_WILL_DEAD);
+				SpawnBoss(en_will, x, y);
 				break;
 
 			case 161:
-				CacheTextures( SPR_DEATH_W1, SPR_DEATH_DEAD );
-				SpawnBoss( en_death, x, y );
+				CacheTextures((W16)SPR_DEATH_W1, (W16)SPR_DEATH_DEAD);
+				SpawnBoss(en_death, x, y);
 				break;
 /*
  * mutants
@@ -532,7 +532,7 @@ PUBLIC void Level_ScanInfoPlane( LevelData_t *lvl )
 			case 253:
 			case 254:
 			case 255:
-				if( skill->value < gd_hard ) {
+				if (skill->value < gd_hard) {
 					break;
 				}
 				tile -= 18;
@@ -540,7 +540,7 @@ PUBLIC void Level_ScanInfoPlane( LevelData_t *lvl )
 			case 235:
 			case 236:
 			case 237:
-				if( skill->value < gd_medium ) {
+				if (skill->value < gd_medium) {
 					break;
 				}
 				tile -= 18;
@@ -549,10 +549,10 @@ PUBLIC void Level_ScanInfoPlane( LevelData_t *lvl )
 			case 218:
 			case 219:
 				if( ! cachedMutant ) {
-					CacheTextures( SPR_MUT_S_1, SPR_MUT_SHOOT4 );
+					CacheTextures((W16)SPR_MUT_S_1, (W16)SPR_MUT_SHOOT4);
 					cachedMutant = 1;
 				}
-				SpawnStand( en_mutant, x, y, tile - 216, lvl );
+				SpawnStand(en_mutant, x, y, (tile - 216), lvl);
 				break;
 
 			case 256:
@@ -567,7 +567,7 @@ PUBLIC void Level_ScanInfoPlane( LevelData_t *lvl )
 			case 239:
 			case 240:
 			case 241:
-				if( skill->value < gd_medium ) {
+				if (skill->value < gd_medium) {
 					break;
 				}
 				tile -= 18;
@@ -575,34 +575,34 @@ PUBLIC void Level_ScanInfoPlane( LevelData_t *lvl )
 			case 221:
 			case 222:
 			case 223:
-				if( ! cachedMutant ) {
-					CacheTextures( SPR_MUT_S_1, SPR_MUT_SHOOT4 );
+				if (! cachedMutant) {
+					CacheTextures((W16)SPR_MUT_S_1, (W16)SPR_MUT_SHOOT4);
 					cachedMutant = 1;
 				}
-				SpawnPatrol( en_mutant, x, y, tile - 220 );
+				SpawnPatrol(en_mutant, x, y, (tile - 220));
 				break;
 
 /*
  * ghosts
  */
 			case 224:
-				CacheTextures( SPR_BLINKY_W1, SPR_BLINKY_W2 );
-				SpawnGhosts( en_blinky, x, y );
+				CacheTextures((W16)SPR_BLINKY_W1, (W16)SPR_BLINKY_W2);
+				SpawnGhosts(en_blinky, x, y);
 				break;
 
 			case 225:
-				CacheTextures( SPR_PINKY_W1, SPR_PINKY_W2 );
-				SpawnGhosts( en_clyde, x, y );
+				CacheTextures((W16)SPR_PINKY_W1, (W16)SPR_PINKY_W2);
+				SpawnGhosts(en_clyde, x, y);
 				break;
 
 			case 226:
-				CacheTextures( SPR_CLYDE_W1, SPR_CLYDE_W2 );
-				SpawnGhosts( en_pinky, x, y );
+				CacheTextures((W16)SPR_CLYDE_W1, (W16)SPR_CLYDE_W2);
+				SpawnGhosts(en_pinky, x, y );
 				break;
 
 			case 227:
-				CacheTextures( SPR_INKY_W1, SPR_INKY_W2 );
-				SpawnGhosts( en_inky, x, y );
+				CacheTextures((W16)SPR_INKY_W1, (W16)SPR_INKY_W2);
+				SpawnGhosts(en_inky, x, y);
 				break;
 			}
 		}
@@ -621,31 +621,31 @@ PUBLIC void Level_ScanInfoPlane( LevelData_t *lvl )
 
 -----------------------------------------------------------------------------
 */
-PRIVATE void Lvl_SpawnStatic( LevelData_t *lvl, int type, int x, int y )
+PRIVATE void Lvl_SpawnStatic(LevelData_t *lvl, int type, int x, int y)
 {
 	int spr_id;
 
-	if( statinfo[ type ].powerup == -1 ) {
-		if( statinfo[ type ].block ) {	/* blocking static */
+	if (statinfo[type].powerup == -1) {
+		if (statinfo[type].block) {	/* blocking static */
 			lvl->tilemap[x][y] |= BLOCK_TILE;
 		} else {						/* dressing static */
 			lvl->tilemap[x][y] |= DRESS_TILE;
 		}
 
 		spr_id = Sprite_GetNewSprite();
-		if( spr_id == -1 ) {
+		if (spr_id == -1) {
 			return;
 		}
 
-		Sprite_SetPos( spr_id, TILE2POS( x ), TILE2POS( y ), 0 );
-		Sprite_SetTex( spr_id, 0, SPR_STAT_0 + type );
+		Sprite_SetPos(spr_id, TILE2POS(x), TILE2POS(y), 0);
+		Sprite_SetTex(spr_id, 0, (SPR_STAT_0 + type));
 	} else {
-		Powerup_Spawn( x, y, statinfo[ type ].powerup, lvl );
-		if( statinfo[ type ].powerup == pow_cross ||
-			statinfo[ type ].powerup == pow_chalice ||
-			statinfo[ type ].powerup == pow_bible ||
-			statinfo[ type ].powerup == pow_crown ||
-			statinfo[ type ].powerup == pow_fullheal ) {
+		Powerup_Spawn(x, y, statinfo[type].powerup, lvl);
+		if (statinfo[type].powerup == pow_cross ||
+			statinfo[type].powerup == pow_chalice ||
+			statinfo[type].powerup == pow_bible ||
+			statinfo[type].powerup == pow_crown ||
+			statinfo[type].powerup == pow_fullheal ) {
 				levelstate.total_treasure++; /* FIXME: move this to Powerup_Spawn Function! */
 		}
 	}
@@ -772,12 +772,12 @@ PRIVATE void Lvl_CarmackExpand(W16 *source, W16 *dest, W16 length)
 	inptr = source;
 	outptr = dest;
 
-	while( length ) {
+	while (length) {
 		ch = *inptr++;
 		chhigh = ch >> 8;
-		if( chhigh == NEARTAG ) {
-			count = ch & 0xff;
-			if( ! count ) {
+		if (chhigh == NEARTAG) {
+			count = (ch & 0xff);
+			if (! count) {
 				/* have to insert a word containing the tag byte */
 				ch |= *((PW8)inptr); /* try to fix an lvalue cast error here */
 				ch++; /* this may have changed the original behavior... */
@@ -788,13 +788,13 @@ PRIVATE void Lvl_CarmackExpand(W16 *source, W16 *dest, W16 length)
 				offset++; /* this may have changed the original behavior... */
 				copyptr = outptr - offset;
 				length -= count;
-				while( count-- ) {
+				while (count--) {
 					*outptr++ = *copyptr++;
 				}
 			}
-		} else if( chhigh == FARTAG ) {
-			count = ch & 0xff;
-			if( ! count ) {
+		} else if (chhigh == FARTAG) {
+			count = (ch & 0xff);
+			if (! count) {
 				/* have to insert a word containing the tag byte */
 				ch |= *((PW8)inptr); /* try to fix an lvalue cast error here */
 				ch++; /* this may have changed the original behavior... */
@@ -804,7 +804,7 @@ PRIVATE void Lvl_CarmackExpand(W16 *source, W16 *dest, W16 length)
 				offset = *inptr++;
 				copyptr = dest + offset;
 				length -= count;
-				while( count-- ) {
+				while (count--) {
 					*outptr++ = *copyptr++;
 				}
 			}
@@ -890,7 +890,7 @@ PUBLIC LevelData_t *Level_LoadMap(const char *levelname)
 	W32	signature;
 	W16 *buffer, expanded;
 	W8	*data;
-	W32 ceiling, floor;
+	W32 ceiling, floor; /* 'floor' shadows a global declaration */
 	LevelData_t *newMap;
 	filehandle_t *fhandle;
 	W16 mapNameLength;
@@ -899,7 +899,7 @@ PUBLIC LevelData_t *Level_LoadMap(const char *levelname)
 	char *musicName;
 	SW32 filesize;
 
-	int x, y0, y, layer1, layer2, layer3;
+	int x, y0, y, layer1, layer2, layer3; /* 'y0' shadows a global decl */
 
 	if (g_version->value == SPEAROFDESTINY) {
 		statinfo = static_sod;
@@ -914,7 +914,7 @@ PUBLIC LevelData_t *Level_LoadMap(const char *levelname)
 	memset(newMap, 0, sizeof(LevelData_t));
 
 
-    fhandle = FS_OpenFile(levelname, 0);
+    fhandle = FS_OpenFile(levelname, (W32)0);
 	if (! fhandle) {
 		Com_Printf("Could not load map (%s)\n", levelname);
 
@@ -932,7 +932,7 @@ PUBLIC LevelData_t *Level_LoadMap(const char *levelname)
 /*
  * Process map header
  */
-	FS_ReadFile(&signature, 1, 4, fhandle);
+	FS_ReadFile(&signature, (W32)1, (W32)4, fhandle);
 	if (signature != MAP_SIGNATURE) {
 		Z_Free(newMap);
 
@@ -940,25 +940,25 @@ PUBLIC LevelData_t *Level_LoadMap(const char *levelname)
 	}
 
 
-	FS_ReadFile(&rle, 2, 1, fhandle);
+	FS_ReadFile(&rle, (W32)2, (W32)1, fhandle);
 
-	FS_ReadFile(&w, 2, 1, fhandle);
-	FS_ReadFile(&h, 2, 1, fhandle);
+	FS_ReadFile(&w, (W32)2, (W32)1, fhandle);
+	FS_ReadFile(&h, (W32)2, (W32)1, fhandle);
 
-	FS_ReadFile(&ceiling, 4, 1, fhandle);
-	FS_ReadFile(&floor, 4, 1, fhandle);
-
-
-	FS_ReadFile(&length, 2, 3, fhandle);
-	FS_ReadFile(&offset, 4, 3, fhandle);
+	FS_ReadFile(&ceiling, (W32)4, (W32)1, fhandle);
+	FS_ReadFile(&floor, (W32)4, (W32)1, fhandle);
 
 
-	FS_ReadFile(&mapNameLength, 1, 2, fhandle);
-	FS_ReadFile(&musicNameLength, 1, 2, fhandle);
+	FS_ReadFile(&length, (W32)2, (W32)3, fhandle);
+	FS_ReadFile(&offset, (W32)4, (W32)3, fhandle);
 
-	FS_ReadFile(&levelstate.fpartime, sizeof(float), 1, fhandle);
 
-	FS_ReadFile(levelstate.spartime, sizeof(W8), 5, fhandle);
+	FS_ReadFile(&mapNameLength, (W32)1, (W32)2, fhandle);
+	FS_ReadFile(&musicNameLength, (W32)1, (W32)2, fhandle);
+
+	FS_ReadFile(&levelstate.fpartime, sizeof(float), (W32)1, fhandle);
+
+	FS_ReadFile(levelstate.spartime, sizeof(W8), (W32)5, fhandle);
 	levelstate.spartime[5] = '\0';
 
 
@@ -969,15 +969,15 @@ PUBLIC LevelData_t *Level_LoadMap(const char *levelname)
 		return NULL;
 	}
 
-	mapName = Z_Malloc(mapNameLength + 1);
-	musicName = Z_Malloc(musicNameLength + 1);
+	mapName = Z_Malloc((size_t)(mapNameLength + 1));
+	musicName = Z_Malloc((size_t)(musicNameLength + 1));
 
 
-	FS_ReadFile(mapName, 1, mapNameLength, fhandle);
+	FS_ReadFile(mapName, (W32)1, (W32)mapNameLength, fhandle);
 	mapName[mapNameLength] = '\0';
 
 
-	FS_ReadFile(musicName, 1, musicNameLength, fhandle);
+	FS_ReadFile(musicName, (W32)1, (W32)musicNameLength, fhandle);
 	musicName[musicNameLength] = '\0';
 
 
@@ -992,8 +992,8 @@ PUBLIC LevelData_t *Level_LoadMap(const char *levelname)
  */
 	data = MM_MALLOC(length[0]);
 
-	FS_FileSeek(fhandle, (SW32)offset[0], SEEK_SET);
-	FS_ReadFile(data, 1, length[0], fhandle);
+	FS_FileSeek(fhandle, (SW32)offset[0], (W32)SEEK_SET);
+	FS_ReadFile(data, (W32)1, (W32)length[0], fhandle);
 
 
 	expanded = *((unsigned short *)data);
@@ -1001,8 +1001,10 @@ PUBLIC LevelData_t *Level_LoadMap(const char *levelname)
 
 	/* not sure if the cast here was supposed to be for just 'data' or for
 	 * '(data + 1)'...: */
-	Lvl_CarmackExpand((unsigned short *)(data + 1), buffer, expanded);
-	Lvl_RLEWexpand((buffer + 1), newMap->Plane1, (64 * 64 * 2), rle);
+	Lvl_CarmackExpand((unsigned short *)(data + 1), buffer, (W16)expanded);
+	Lvl_RLEWexpand((buffer + 1), newMap->Plane1, (long)(64 * 64 * 2),
+				   (unsigned)rle);
+	/* (64 * 64 * 2) = 8192 */
 
 	MM_FREE(buffer);
 	MM_FREE(data);
@@ -1012,8 +1014,8 @@ PUBLIC LevelData_t *Level_LoadMap(const char *levelname)
  */
     data = MM_MALLOC(length[1]);
 
-	FS_FileSeek(fhandle, (SW32)offset[1], SEEK_SET);
-	FS_ReadFile(data, 1, length[1], fhandle);
+	FS_FileSeek(fhandle, (SW32)offset[1], (W32)SEEK_SET);
+	FS_ReadFile(data, (W32)1, (W32)length[1], fhandle);
 
 
 	expanded = *((PW16)data);
@@ -1021,8 +1023,10 @@ PUBLIC LevelData_t *Level_LoadMap(const char *levelname)
 
 	/* not sure if the cast here was supposed to be for just 'data' or for
 	 * '(data + 1)'...: */
-	Lvl_CarmackExpand((PW16)(data + 1), buffer, expanded);
-	Lvl_RLEWexpand((buffer + 1), newMap->Plane2, (64 * 64 * 2), rle);
+	Lvl_CarmackExpand((PW16)(data + 1), buffer, (W16)expanded);
+	Lvl_RLEWexpand((buffer + 1), newMap->Plane2, (long)(64 * 64 * 2),
+				   (unsigned)rle);
+	/* (64 * 64 * 2) = 8192 */
 
 	MM_FREE(buffer);
 	MM_FREE(data);
@@ -1032,8 +1036,8 @@ PUBLIC LevelData_t *Level_LoadMap(const char *levelname)
  */
     data = MM_MALLOC(length[2]);
 
-	FS_FileSeek(fhandle, (SW32)offset[2], SEEK_SET);
-	FS_ReadFile(data, 1, length[2], fhandle);
+	FS_FileSeek(fhandle, (SW32)offset[2], (W32)SEEK_SET);
+	FS_ReadFile(data, (W32)1, (W32)length[2], fhandle);
 
 
 	expanded = *((PW16)data);
@@ -1041,8 +1045,10 @@ PUBLIC LevelData_t *Level_LoadMap(const char *levelname)
 
 	/* not sure if the cast here was supposed to be for just 'data' or for
 	 * '(data + 1)'...: */
-	Lvl_CarmackExpand((PW16)(data + 1), buffer, expanded);
-	Lvl_RLEWexpand((buffer + 1), newMap->Plane3, (64 * 64 * 2), rle );
+	Lvl_CarmackExpand((PW16)(data + 1), buffer, (W16)expanded);
+	Lvl_RLEWexpand((buffer + 1), newMap->Plane3, (long)(64 * 64 * 2),
+				   (unsigned)rle);
+	/* (64 * 64 * 2) = 8192 */
 
     MM_FREE(buffer);
 	MM_FREE(data);
@@ -1051,57 +1057,58 @@ PUBLIC LevelData_t *Level_LoadMap(const char *levelname)
 	FS_CloseFile(fhandle);
 
 
-	for ((y0 = 0); (y0 < 64); ++y0)
-	for ((x = 0); (x < 64); ++x ) {
-		y = (63 - y0);
-		/* parentheses are not strictly needed, they are just there to clarify
-		 * the order of operations for those of us that forget it: */
-		layer1 = newMap->Plane1[((y0 * 64) + x)];
-		layer2 = newMap->Plane2[((y0 * 64) + x)];
-		layer3 = newMap->Plane3[((y0 * 64) + x)];
-		/* (multiplication goes first, correct?) */
+	for ((y0 = 0); (y0 < 64); ++y0) {
+		for ((x = 0); (x < 64); ++x ) {
+			y = (63 - y0);
+			/* parentheses are not strictly needed, they are just there to clarify
+			 * the order of operations for those of us that forget it: */
+			layer1 = newMap->Plane1[((y0 * 64) + x)];
+			layer2 = newMap->Plane2[((y0 * 64) + x)];
+			layer3 = newMap->Plane3[((y0 * 64) + x)];
+			/* (multiplication goes first, correct?) */
 
-/* if server, process obj layer! */
-		if (layer2) {
-			Lvl_SpawnObj(newMap, layer2, x, y);
-		}
+			/* if server, process obj layer! */
+			if (layer2) {
+				Lvl_SpawnObj(newMap, layer2, x, y);
+			}
 
-/* Map data layer */
-		if (layer1 == 0) {
-			newMap->areas[x][y] = -3; /* unknown area */
-		} else if (layer1 < 0x6a) { /* solid map object */
-			if (((layer1 >= 0x5A) && (layer1 <= 0x5F)) ||
-				(layer1 == 0x64) || (layer1 == 0x65)) { /* door */
-				newMap->tilemap[x][y] |= DOOR_TILE;
-				Door_SpawnDoor(&newMap->Doors, x, y, layer1);
-				newMap->areas[x][y] = -2; /* door area */
-			} else {
-				newMap->tilemap[x][y] |= WALL_TILE;
+			/* Map data layer */
+			if (layer1 == 0) {
+				newMap->areas[x][y] = -3; /* unknown area */
+			} else if (layer1 < 0x6a) { /* solid map object */
+				if (((layer1 >= 0x5A) && (layer1 <= 0x5F)) ||
+					(layer1 == 0x64) || (layer1 == 0x65)) { /* door */
+					newMap->tilemap[x][y] |= DOOR_TILE;
+					Door_SpawnDoor(&newMap->Doors, x, y, layer1);
+					newMap->areas[x][y] = -2; /* door area */
+				} else {
+					newMap->tilemap[x][y] |= WALL_TILE;
 
-				newMap->wall_tex_x[x][y] = (((layer1 - 1) * 2) + 1);
-				newMap->wall_tex_y[x][y] = ((layer1 - 1) * 2);
-				newMap->areas[x][y] = -1; /* wall area */
+					newMap->wall_tex_x[x][y] = (((layer1 - 1) * 2) + 1);
+					newMap->wall_tex_y[x][y] = ((layer1 - 1) * 2);
+					newMap->areas[x][y] = -1; /* wall area */
 
-				if (layer1 == 0x15) { /* elevator */
-					newMap->tilemap[x][y] |= ELEVATOR_TILE;
+					if (layer1 == 0x15) { /* elevator */
+						newMap->tilemap[x][y] |= ELEVATOR_TILE;
+					}
 				}
+			} else if (layer1 == 0x6a) { /* Ambush floor tile */
+				newMap->tilemap[x][y] |= AMBUSH_TILE;
+				newMap->areas[x][y] = -3; /* unknown area */
+			} else if (layer1 >= FIRSTAREA &&
+					   layer1 < (FIRSTAREA + NUMAREAS)) { /* area */
+				if (layer1 == FIRSTAREA) { /* secret level */
+					newMap->tilemap[x][y] |= SECRETLEVEL_TILE;
+				}
+				newMap->areas[x][y] = (layer1 - FIRSTAREA); /* spawn area */
+			} else if (layer3 == 0) { /* dummy condition to use layer3 */
+				newMap->areas[x][y] = -3; /* unknown area */
+			} else {
+				newMap->areas[x][y] = -3; /* unknown area */
 			}
-		} else if (layer1 == 0x6a) { /* Ambush floor tile */
-			newMap->tilemap[x][y] |= AMBUSH_TILE;
-			newMap->areas[x][y] = -3; /* unknown area */
-		} else if (layer1 >= FIRSTAREA &&
-				   layer1 < (FIRSTAREA + NUMAREAS)) { /* area */
-			if (layer1 == FIRSTAREA) { /* secret level */
-				newMap->tilemap[x][y] |= SECRETLEVEL_TILE;
-			}
-			newMap->areas[x][y] = (layer1 - FIRSTAREA); /* spawn area */
-		} else if (layer3 == 0) { /* dummy condition to use layer3 */
-			newMap->areas[x][y] = -3; /* unknown area */
-		} else {
-			newMap->areas[x][y] = -3; /* unknown area */
-		}
-/* End of the map data layer */
-	}
+			/* End of the map data layer */
+		} /* end of 'x' for-loop */
+	} /* end of 'y' for-loop */
 
 	Door_SetAreas(&newMap->Doors, newMap->areas);
 
@@ -1119,8 +1126,8 @@ PUBLIC LevelData_t *Level_LoadMap(const char *levelname)
 	newMap->floorColour[2] = (W8)((floor) & 0xFF);
 
 	return newMap;
-}
 
+}
 
 
 
@@ -1183,10 +1190,10 @@ PUBLIC void Level_PrecacheTextures_Sound(LevelData_t *lvl)
 
 
 	/* Items */
-	CacheTextures(26, 36);
+	CacheTextures((W16)26, (W16)36);
 
 	/* Weapon frames */
-	CacheTextures(SPR_KNIFEREADY, SPR_CHAINATK4);
+	CacheTextures((W16)SPR_KNIFEREADY, (W16)SPR_CHAINATK4);
 
 	for ((x = 1); (x < 8); ++x) {
 		my_snprintf(texname, sizeof(texname), "pics/FACE%dAPIC.tga", x);
@@ -1209,7 +1216,7 @@ PUBLIC void Level_PrecacheTextures_Sound(LevelData_t *lvl)
 -----------------------------------------------------------------------------
  Function: Level_CheckLine
 
- Parameters:
+ Parameters: ('y1' shadows a global declaration)
 
  Returns: true if a straight line between 2 points is unobstructed,
 			otherwise false.
@@ -1238,101 +1245,101 @@ PUBLIC _boolean Level_CheckLine(SW32 x1, SW32 y1, SW32 x2, SW32 y2,
 
 
 /* get start & end tiles */
-	xt1 = x1 >> TILESHIFT;
-	yt1 = y1 >> TILESHIFT;
+	xt1 = (x1 >> TILESHIFT);
+	yt1 = (y1 >> TILESHIFT);
 
-	xt2 = x2 >> TILESHIFT;
-	yt2 = y2 >> TILESHIFT;
+	xt2 = (x2 >> TILESHIFT);
+	yt2 = (y2 >> TILESHIFT);
 
-	xdist = ABS( xt2 - xt1 ); /* X distance in tiles */
-	ydist = ABS( yt2 - yt1 ); /* Y distance in tiles */
+	xdist = ABS(xt2 - xt1); /* X distance in tiles */
+	ydist = ABS(yt2 - yt1); /* Y distance in tiles */
 
 /* 1/256 tile precision (TILESHIFT is 16) */
-	x1 >>= FRACBITS; y1 >>= FRACBITS;
-	x2 >>= FRACBITS; y2 >>= FRACBITS;
+	(x1 >>= FRACBITS); (y1 >>= FRACBITS);
+	(x2 >>= FRACBITS); (y2 >>= FRACBITS);
 
 
-	if( xdist ) { /* always positive check only for 0 */
-		if( xt2 > xt1 ) {
-			partial = 256 - (x1 & 0xff);
+	if (xdist) { /* should always be positive, so check only for 0 */
+		if (xt2 > xt1) {
+			partial = (256 - (x1 & 0xff));
 			xstep = 1;
 		} else {
-			partial = x1 & 0xff;
+			partial = (x1 & 0xff);
 			xstep = -1;
 		}
 
-		deltafrac = ABS( x2 - x1 );
-		ystep = ((y2 - y1) << FRACBITS) / deltafrac;
-		Frac = y1 + ((ystep * partial) >> FRACBITS);
+		deltafrac = ABS(x2 - x1);
+		ystep = (((y2 - y1) << FRACBITS) / deltafrac);
+		Frac = (y1 + ((ystep * partial) >> FRACBITS));
 
-		x = xt1 + xstep;
+		x = (xt1 + xstep);
 		xt2 += xstep;
 		do {
 			y = Frac >> FRACBITS;
 			Frac += ystep;
 
 
-			if( lvl->tilemap[x][y] & WALL_TILE ) {
+			if (lvl->tilemap[x][y] & WALL_TILE) {
 				return false; /* Wall is in path quitting! */
 			}
 
-			if( lvl->tilemap[x][y] & DOOR_TILE ) {
+			if (lvl->tilemap[x][y] & DOOR_TILE) {
 				/* door, see if the door is open enough */
-				if( lvl->Doors.DoorMap[ x ][ y ].action != dr_open ) {
-					if( lvl->Doors.DoorMap[ x ][ y ].action == dr_closed ) {
+				if (lvl->Doors.DoorMap[x][y].action != dr_open) {
+					if (lvl->Doors.DoorMap[x][y].action == dr_closed) {
 						return false;
 					}
 					/* checking vertical doors in action: ->_I_ */
-					intercept = ((Frac - ystep / 2) & 0xFF) >> 4; /* 1/64 of tile */
-					if( intercept < (63 - lvl->Doors.DoorMap[ x ][ y ].ticcount) ) {
+					intercept = (((Frac - ystep / 2) & 0xFF) >> 4); /* 1/64 of tile */
+					if (intercept < (63 - lvl->Doors.DoorMap[x][y].ticcount)) {
 						return false;
 					}
 				}
 			}
 			x += xstep;
 
-		} while( x != xt2 );
+		} while (x != xt2);
 	}
 
-	if( ydist ) { /* always positive check only for 0 */
-		if( yt2 > yt1 ) {
-			partial = 256 - (y1 & 0xff);
+	if (ydist) { /* always positive check only for 0 */
+		if (yt2 > yt1) {
+			partial = (256 - (y1 & 0xff));
 			ystep = 1;
 		} else {
-			partial = y1 & 0xff;
+			partial = (y1 & 0xff);
 			ystep = -1;
 		}
 
-		deltafrac = ABS( y2 - y1 );
-		xstep = ((x2 - x1) << FRACBITS) / deltafrac;
-		Frac = x1 + ((xstep * partial) >> FRACBITS);
+		deltafrac = ABS(y2 - y1);
+		xstep = (((x2 - x1) << FRACBITS) / deltafrac);
+		Frac = (x1 + ((xstep * partial) >> FRACBITS));
 
-		y = yt1 + ystep;
+		y = (yt1 + ystep);
 		yt2 += ystep;
 		do {
-			x = Frac >> FRACBITS;
+			x = (Frac >> FRACBITS);
 			Frac += xstep;
 
-			if( lvl->tilemap[x][y] & WALL_TILE ) {
+			if (lvl->tilemap[x][y] & WALL_TILE) {
 				return false; /* Wall is in path quitting! */
 			}
 
-			if( lvl->tilemap[x][y] & DOOR_TILE ) {
+			if (lvl->tilemap[x][y] & DOOR_TILE) {
 				/* door, see if the door is open enough */
-				if( lvl->Doors.DoorMap[ x ][ y ].action != dr_open ) {
-					if( lvl->Doors.DoorMap[ x ][ y ].action == dr_closed ) {
+				if (lvl->Doors.DoorMap[x][y].action != dr_open) {
+					if (lvl->Doors.DoorMap[x][y].action == dr_closed) {
 						return false;
 					}
 					/* checking vertical doors in action: ->_I_ */
-					intercept = ((Frac - xstep / 2) & 0xFF) >> 4; /* 1/64 of tile */
-					if( intercept < lvl->Doors.DoorMap[ x ][ y ].ticcount ) {
+					intercept = (((Frac - xstep / 2) & 0xFF) >> 4); /* 1/64 of tile */
+					if (intercept < lvl->Doors.DoorMap[x][y].ticcount) {
 						return false;
 					}
 				}
 			}
 			y += ystep;
 
-		} while( y != yt2 );
+		} while (y != yt2);
 	}
 
 	return true;

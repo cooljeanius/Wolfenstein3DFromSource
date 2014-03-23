@@ -105,20 +105,20 @@ typedef struct _TargaHeader
 } TargaHeader;
 
 
-
-PRIVATE void flip_line( W8 *buffer, TargaHeader *info )
+/* */
+PRIVATE void flip_line(W8 *buffer, TargaHeader *info)
 {
 	W8  temp;
 	W8 *alt;
 	SW32    x, s;
 
-	alt = buffer + (info->bytes * (info->width - 1));
+	alt = (buffer + (info->bytes * (info->width - 1)));
 
-	for( x = 0; x * 2 <= info->width; ++x ) {
-		for( s = 0; s < info->bytes; ++s ) {
-			temp = buffer[ s ];
-			buffer[ s ] = alt[ s ];
-			alt[ s ] = temp;
+	for ((x = 0); ((x * 2) <= info->width); ++x) {
+		for ((s = 0); (s < info->bytes); ++s) {
+			temp = buffer[s];
+			buffer[s] = alt[s];
+			alt[s] = temp;
 		}
 
 		buffer += info->bytes;
@@ -126,6 +126,7 @@ PRIVATE void flip_line( W8 *buffer, TargaHeader *info )
 	}
 }
 
+/* */
 PRIVATE void upsample(W8 *dest, W8 *src,
 					  W32 width, W32 bytes, W8 alphaBits)
 {
@@ -161,8 +162,8 @@ PUBLIC void bgr2rgb(W8 *dest, W8 *src,
 {
 	W32 x;
 
-	if( alpha ) {
-		for( x = 0 ; x < width ; ++x ) {
+	if (alpha) {
+		for ((x = 0); (x < width); ++x) {
 			*(dest++) = src[2];
 			*(dest++) = src[1];
 			*(dest++) = src[0];
@@ -172,7 +173,7 @@ PUBLIC void bgr2rgb(W8 *dest, W8 *src,
 			src += bytes;
 		}
 	} else {
-		for( x = 0 ; x < width ; ++x ) {
+		for ((x = 0); (x < width); ++x) {
 			*(dest++) = src[2];
 			*(dest++) = src[1];
 			*(dest++) = src[0];
@@ -182,40 +183,41 @@ PUBLIC void bgr2rgb(W8 *dest, W8 *src,
 	}
 }
 
+/* */
 PRIVATE SW32 rle_read(filehandle_t *fp, W8 *buffer,
 					  TargaHeader *info)
 {
 	static SW32   repeat = 0;
 	static SW32   direct = 0;
-	static W8 sample[ 4 ];
+	static W8 sample[4];
 	SW32 head;
 	W8	temphead;
 	SW32 x, k;
 
-	for( x = 0; x < info->width; ++x ) {
-		if( repeat == 0 && direct == 0 ) {
-			FS_ReadFile( &temphead, 1, 1, fp );
+	for ((x = 0); (x < info->width); ++x ) {
+		if ((repeat == 0) && (direct == 0)) {
+			FS_ReadFile(&temphead, (W32)1, (W32)1, fp);
 			head = temphead;
 
-			if( head >= 128 ) {
-				repeat = head - 127;
+			if (head >= 128) {
+				repeat = (head - 127);
 
-				if( FS_ReadFile( sample, info->bytes, 1, fp ) < 1 ) {
+				if (FS_ReadFile(sample, (W32)info->bytes, (W32)1, fp) < 1) {
 					return EOF;
 				}
 			} else {
-				direct = head + 1;
+				direct = (head + 1);
 			}
 		}
 
-		if( repeat > 0 ) {
-			for( k = 0 ; k < info->bytes ; ++k ) {
-				buffer[ k ] = sample[ k ];
+		if (repeat > 0) {
+			for ((k = 0); (k < info->bytes); ++k) {
+				buffer[k] = sample[k];
 			}
 
 			repeat--;
 		} else /* direct > 0 */ {
-			if( FS_ReadFile( buffer, info->bytes, 1, fp ) < 1 ) {
+			if (FS_ReadFile(buffer, (W32)info->bytes, (W32)1, fp) < 1) {
 				return EOF;
 			}
 
@@ -228,30 +230,35 @@ PRIVATE SW32 rle_read(filehandle_t *fp, W8 *buffer,
 	return 0;
 }
 
-
+/* */
 PRIVATE void read_line(filehandle_t	*fp,
 					   W8			*row,
 					   W8			*buffer,
 					   TargaHeader	*info)
 {
-	if( info->imageCompression == TGA_COMP_RLE ) {
-		if( rle_read( fp, buffer, info ) == EOF ) {
+	if (info->imageCompression == TGA_COMP_RLE) {
+		if (rle_read(fp, buffer, info) == EOF) {
 			return;
 		}
 	} else {
-		FS_ReadFile( buffer, info->bytes, info->width, fp );
+		FS_ReadFile(buffer, (W32)info->bytes, (W32)info->width, fp);
 	}
 
-	if( info->flipHoriz ) {
-		flip_line( buffer, info );
+	if (info->flipHoriz) {
+		flip_line(buffer, info);
 	}
 
 	if (info->imageType == TGA_TYPE_COLOR) {
-		if( info->bpp == 16 || info->bpp == 15 ) {
-			upsample(row, buffer, info->width, info->bytes, info->alphaBits);
+		if ((info->bpp == 16) || (info->bpp == 15)) {
+			upsample((W8*)row, (W8*)buffer, (W32)info->width, (W32)info->bytes,
+					 (W8)info->alphaBits);
 		} else {
-			bgr2rgb(row, buffer, info->width, info->bytes,
-					(info->bytes == 4 ? 1 : 0));
+			/* remember that while upsample() and bgr2rgb() may look similar in
+			 * terms of the arguments they take, their 5th ones actually differ
+			 * in type: */
+			bgr2rgb((W8*)row, (W8*)buffer, (W32)info->width, (W32)info->bytes,
+					(W32)((info->bytes == 4) ? 1 : 0));
+			/* not sure if order of parentheses is right on that last one? */
 		}
 	} else {
 		memcpy(row, buffer, (size_t)(info->width * info->bpp));
@@ -259,6 +266,21 @@ PRIVATE void read_line(filehandle_t	*fp,
 }
 
 
+/*
+ -----------------------------------------------------------------------------
+ Function: LoadTGA
+
+ Parameters: filename -[in] string representing name of tga file to load
+			 pic -[in]
+			 width -[in] Image width.
+			 height -[in] Image height.
+			 bytes -[in] Bytes per pixel (?)
+
+ Returns: Nothing.
+
+ Notes: A pretty lengthy function
+ -----------------------------------------------------------------------------
+ */
 PUBLIC void LoadTGA(const char *filename, W8 **pic, W16 *width, W16 *height,
 					W16 *bytes)
 {
@@ -283,38 +305,38 @@ PUBLIC void LoadTGA(const char *filename, W8 **pic, W16 *width, W16 *height,
 /*
  * Load the file
  */
-	hFile = FS_OpenFile( filename, 0 );
-	if( ! hFile ) {
-		Com_DPrintf( "Could not open (%s) for reading\n", filename );
+	hFile = FS_OpenFile(filename, (W32)0);
+	if (! hFile) {
+		Com_DPrintf("Could not open (%s) for reading\n", filename);
 
 		goto TGALOADFAILED;
     }
 
-	datalength = FS_GetFileSize( hFile );
+	datalength = FS_GetFileSize(hFile);
 
-	if( ! FS_FileSeek( hFile, -26L, SEEK_END ) ) {
+	if (! FS_FileSeek(hFile, (SW32)-26L, (W32)SEEK_END)) {
 		/* Is file big enough for a footer? */
-		if( FS_ReadFile( footer, sizeof( footer ), 1, hFile ) != 1 ) {
-			Com_DPrintf( "Cannot read footer from (%s)\n" , filename );
+		if (FS_ReadFile(footer, (W32)sizeof(footer), (W32)1, hFile) != 1) {
+			Com_DPrintf("Cannot read footer from (%s)\n", filename);
 
 			goto TGALOADFAILED;
-		} else if( memcmp( footer + 8, magic, sizeof( magic ) ) == 0 ) {
+		} else if (memcmp((footer + 8), magic, sizeof(magic)) == 0) {
 			/* Check the signature. */
-			offset = footer[ 0 ] + (footer[ 1 ] * 256) + (footer[ 2 ] * 65536)
-					 + (footer[ 3 ] * 16777216);
-
+			offset = footer[0] + (footer[1] * 256) + (footer[2] * 65536)
+					 + (footer[3] * 16777216);
+			/* what is with the magic numbers? well, 65536 is 2 to the 16th, and
+			 * 16777216 is 2 to the 24th... */
 			if( offset != 0 ) {
-				if (FS_FileSeek(hFile, offset, SEEK_SET ) ||
-					FS_ReadFile(extension,
-								sizeof(extension),
-								1, hFile) != 1 ) {
-					Com_DPrintf( "Cannot read extension from '%s'\n", filename );
+				if ((FS_FileSeek(hFile, (SW32)offset, (W32)SEEK_SET)) ||
+					(FS_ReadFile(extension, (W32)sizeof(extension), (W32)1,
+								 hFile) != 1)) {
+					Com_DPrintf("Cannot read extension from '%s'\n", filename);
 
 					goto TGALOADFAILED;
 				}
 
-				/* Eventually actually handle version 2 TGA here */
-
+				/* TODO: Eventually actually handle version 2 TGA here */
+				/* (or make a separate function for it?) */
 			}
 		}
 	}
@@ -323,23 +345,23 @@ PUBLIC void LoadTGA(const char *filename, W8 **pic, W16 *width, W16 *height,
 /*
  * Get header information.
  */
-	if( datalength < TGA_HEADER_SIZE ) {
-		Com_Printf( "Could not read header from (%s)\n", filename );
+	if (datalength < TGA_HEADER_SIZE) {
+		Com_Printf("Could not read header from (%s)\n", filename);
 
 		goto TGALOADFAILED;
 	}
 
-	if( FS_FileSeek( hFile, 0, SEEK_SET ) ||
-		FS_ReadFile( header, sizeof( header ), 1, hFile ) != 1 ) {
-		Com_Printf( "Cannot read header from (%s)\n", filename );
+	if ((FS_FileSeek(hFile, (SW32)0, (W32)SEEK_SET)) ||
+		(FS_ReadFile(header, (W32)sizeof(header), (W32)1, hFile) != 1)) {
+		Com_Printf("Cannot read header from (%s)\n", filename);
 
 		goto TGALOADFAILED;
 	}
 
 
 
-	targa_header.idLength = header[ 0 ];
-	targa_header.colorMapType = header[ 1 ];
+	targa_header.idLength = header[0];
+	targa_header.colorMapType = header[1];
 
 	switch (header[2]) {
 		case 1:
@@ -379,28 +401,28 @@ PUBLIC void LoadTGA(const char *filename, W8 **pic, W16 *width, W16 *height,
 		  targa_header.imageType = 0;
     }
 
-	targa_header.colorMapIndex  = header[ 3 ] + header[ 4 ] * 256;
-	targa_header.colorMapLength = header[ 5 ] + header[ 6 ] * 256;
-	targa_header.colorMapSize   = header[ 7 ];
+	targa_header.colorMapIndex = (header[3] + (header[4] * 256));
+	targa_header.colorMapLength = (header[5] + (header[6] * 256));
+	targa_header.colorMapSize = header[7];
 
-	targa_header.xOrigin = header[ 8  ] + header[ 9  ] * 256;
-	targa_header.yOrigin = header[ 10 ] + header[ 11 ] * 256;
-	targa_header.width   = header[ 12 ] + header[ 13 ] * 256;
-	targa_header.height  = header[ 14 ] + header[ 15 ] * 256;
+	targa_header.xOrigin = (header[8] + (header[9] * 256));
+	targa_header.yOrigin = (header[10] + (header[11] * 256));
+	targa_header.width = (header[12] + (header[13] * 256));
+	targa_header.height = (header[14] + (header[15] * 256));
 
-	targa_header.bpp       = header[ 16 ];
-	targa_header.bytes     = (targa_header.bpp + 7) / 8;
-	targa_header.alphaBits = header[ 17 ] & 0x0f; /* Just the low 4 bits */
-	targa_header.flipHoriz = (header[ 17 ] & 0x10) ? 1 : 0;
-	targa_header.flipVert  = (header[ 17 ] & 0x20) ? 0 : 1;
+	targa_header.bpp = header[16];
+	targa_header.bytes = ((targa_header.bpp + 7) / 8);
+	targa_header.alphaBits = (header[17] & 0x0f); /* Just the low 4 bits */
+	targa_header.flipHoriz = ((header[17] & 0x10) ? 1 : 0);
+	targa_header.flipVert  = ((header[17] & 0x20) ? 0 : 1);
 
 /*
  * Analyze header information.
  */
-	switch( targa_header.imageType ) {
+	switch (targa_header.imageType) {
 		case TGA_TYPE_MAPPED:
-			if( targa_header.bpp != 8 ) {
-				Com_DPrintf( "Unhandled sub-format in (%s)\n", filename );
+			if (targa_header.bpp != 8) {
+				Com_DPrintf("Unhandled sub-format in (%s)\n", filename);
 
 				goto TGALOADFAILED;
 			}
@@ -410,20 +432,20 @@ PUBLIC void LoadTGA(const char *filename, W8 **pic, W16 *width, W16 *height,
 			break;
 
 		case TGA_TYPE_COLOR:
-			if (targa_header.bpp != 15
-			    && targa_header.bpp != 16
-				&& targa_header.bpp != 24
-				&& targa_header.bpp != 32) {
-				Com_DPrintf( "Unhandled sub-format in (%s)\n", filename );
+			if ((targa_header.bpp != 15)
+			    && (targa_header.bpp != 16)
+				&& (targa_header.bpp != 24)
+				&& (targa_header.bpp != 32)) {
+				Com_DPrintf("Unhandled sub-format in (%s)\n", filename);
 				goto TGALOADFAILED;
 			}
 			break;
 
 		case TGA_TYPE_GRAY:
-			if(targa_header.bpp != 8 &&
-			   (targa_header.alphaBits != 8 ||
-				(targa_header.bpp != 16 && targa_header.bpp != 15 ))) {
-				Com_DPrintf( "Unhandled sub-format in (%s)\n", filename );
+			if ((targa_header.bpp != 8) &&
+				((targa_header.alphaBits != 8) ||
+				 ((targa_header.bpp != 16) && (targa_header.bpp != 15)))) {
+				Com_DPrintf("Unhandled sub-format in (%s)\n", filename);
 				goto TGALOADFAILED;
 			}
 
@@ -434,37 +456,37 @@ PUBLIC void LoadTGA(const char *filename, W8 **pic, W16 *width, W16 *height,
 			break;
 
 		default:
-			Com_DPrintf( "Unknown image type for (%s)\n", filename );
+			Com_DPrintf("Unknown image type for (%s)\n", filename);
 			goto TGALOADFAILED;
 
     } /* end of switch targa_header.imageType */
 
 	/* Plausible but unhandled formats */
-	if (targa_header.bytes * 8 != targa_header.bpp &&
-	    !(targa_header.bytes == 2 && targa_header.bpp == 15) ) {
-		Com_DPrintf( "No support yet for TGA with these parameters\n" );
+	if (((targa_header.bytes * 8) != targa_header.bpp) &&
+	    !((targa_header.bytes == 2) && (targa_header.bpp == 15))) {
+		Com_DPrintf("No support yet for TGA with these parameters\n");
 
 		goto TGALOADFAILED;
     }
 
 	/* Check that we have a color map only when we need it. */
-	if (targa_header.imageType == TGA_TYPE_MAPPED &&
-	    targa_header.colorMapType != 1 ) {
-		Com_DPrintf( "Indexed image has invalid color map type %d\n",
-					targa_header.colorMapType );
+	if ((targa_header.imageType == TGA_TYPE_MAPPED) &&
+	    (targa_header.colorMapType != 1)) {
+		Com_DPrintf("Indexed image has invalid color map type %d\n",
+					targa_header.colorMapType);
 
 		goto TGALOADFAILED;
-    } else if (targa_header.imageType != TGA_TYPE_MAPPED &&
-			   targa_header.colorMapType != 0 ) {
-		Com_DPrintf( "Non-indexed image has invalid color map type %d\n",
-					targa_header.colorMapType );
+    } else if ((targa_header.imageType != TGA_TYPE_MAPPED) &&
+			   (targa_header.colorMapType != 0)) {
+		Com_DPrintf("Non-indexed image has invalid color map type %d\n",
+					targa_header.colorMapType);
 
 		goto TGALOADFAILED;
     }
 
 	/* Skip the image ID field. */
 	if (targa_header.idLength &&
-	    FS_FileSeek(hFile, targa_header.idLength, SEEK_CUR)) {
+	    FS_FileSeek(hFile, (SW32)targa_header.idLength, (W32)SEEK_CUR)) {
 		Com_DPrintf("File (%s) is truncated or corrupted\n", filename);
 
 		goto TGALOADFAILED;
@@ -472,23 +494,29 @@ PUBLIC void LoadTGA(const char *filename, W8 **pic, W16 *width, W16 *height,
 
 
 	/* Handle colormap */
-	if( targa_header.colorMapType == 1 ) {
-		cmap_bytes = (targa_header.colorMapSize + 7 ) / 8;
-		if (cmap_bytes <= 4 &&
-			FS_ReadFile(tga_cmap,
-						targa_header.colorMapLength * cmap_bytes,
-						1, hFile ) == 1 ) {
-			if( targa_header.colorMapSize == 32 ) {
-				bgr2rgb( gimp_cmap, tga_cmap, targa_header.colorMapLength, cmap_bytes, 1);
-			} else if (targa_header.colorMapSize == 24 ) {
-				bgr2rgb( gimp_cmap, tga_cmap, targa_header.colorMapLength, cmap_bytes, 0);
-			} else if (targa_header.colorMapSize == 16 ||
-					   targa_header.colorMapSize == 15 ) {
-				upsample( gimp_cmap, tga_cmap, targa_header.colorMapLength, cmap_bytes, targa_header.alphaBits);
+	if (targa_header.colorMapType == 1) {
+		cmap_bytes = ((targa_header.colorMapSize + 7) / 8);
+		if ((cmap_bytes <= 4) &&
+			(FS_ReadFile(tga_cmap,
+						 (W32)(targa_header.colorMapLength * cmap_bytes),
+						 (W32)1, hFile) == 1)) {
+			if (targa_header.colorMapSize == 32) {
+				bgr2rgb((W8*)gimp_cmap, (W8*)tga_cmap,
+						(W32)targa_header.colorMapLength, (W32)cmap_bytes,
+						(W32)1);
+			} else if (targa_header.colorMapSize == 24) {
+				bgr2rgb((W8*)gimp_cmap, (W8*)tga_cmap,
+						(W32)targa_header.colorMapLength, (W32)cmap_bytes,
+						(W32)0);
+			} else if ((targa_header.colorMapSize == 16) ||
+					   (targa_header.colorMapSize == 15)) {
+				upsample((W8*)gimp_cmap, (W8*)tga_cmap,
+						 (W32)targa_header.colorMapLength, (W32)cmap_bytes,
+						 (W8)targa_header.alphaBits);
 			}
 
 		} else {
-			Com_DPrintf( "File (%s) is truncated or corrupted\n", filename );
+			Com_DPrintf("File (%s) is truncated or corrupted\n", filename);
 
 			goto TGALOADFAILED;
 		}
@@ -496,33 +524,33 @@ PUBLIC void LoadTGA(const char *filename, W8 **pic, W16 *width, W16 *height,
 
 
 	/* Allocate the data. */
-	data = MM_MALLOC( targa_header.width * targa_header.height * targa_header.bytes );
-	if( data == NULL ) {
-		MM_OUTOFMEM( "data" );
+	data = MM_MALLOC(targa_header.width * targa_header.height * targa_header.bytes);
+	if (data == NULL) {
+		MM_OUTOFMEM("data");
 	}
 
-	buffer = (PW8) MM_MALLOC( targa_header.width * targa_header.bytes );
-	if( buffer == NULL ) {
-		MM_FREE( data );
-		MM_OUTOFMEM( "buffer" );
+	buffer = (PW8)MM_MALLOC(targa_header.width * targa_header.bytes);
+	if (buffer == NULL) {
+		MM_FREE(data);
+		MM_OUTOFMEM("buffer");
 	}
 
-	if( targa_header.flipVert ) {
-		for( i = targa_header.height-1 ; i >= 0 ; --i ) {
-			row = data + (targa_header.width * targa_header.bytes * i);
-			read_line( hFile, row, buffer, &targa_header );
+	if (targa_header.flipVert) {
+		for ((i = (targa_header.height - 1)); (i >= 0); --i) {
+			row = (data + (targa_header.width * targa_header.bytes * i));
+			read_line(hFile, row, buffer, &targa_header);
 		}
 	} else {
-		for( i = 0 ; i < targa_header.height ; ++i ) {
-			row = data + (targa_header.width * targa_header.bytes * i);
-			read_line( hFile, row, buffer, &targa_header );
+		for ((i = 0); (i < targa_header.height); ++i) {
+			row = (data + (targa_header.width * targa_header.bytes * i));
+			read_line(hFile, row, buffer, &targa_header);
 		}
 	}
 
 
-	MM_FREE( buffer );
+	MM_FREE(buffer);
 
-	FS_CloseFile( hFile );
+	FS_CloseFile(hFile);
 
 	*pic = data;
 	*width = targa_header.width;
@@ -538,11 +566,11 @@ TGALOADFAILED:
 	*height = 0;
 	*bytes = 0;
 
-	if( hFile ) {
-		FS_CloseFile( hFile );
+	if (hFile) {
+		FS_CloseFile(hFile);
 	}
+} /* end of LoadTGA() */
 
-}
 
 /*
 -----------------------------------------------------------------------------
@@ -569,12 +597,12 @@ PRIVATE void rle_write(FILE *fp, W8 *buffer, W32 width, W32 bytes)
 	direct = 0;
 	from = buffer;
 
-	for ((x = 1); (x < width); ++x ) {
+	for ((x = 1); (x < width); ++x) {
 		if (memcmp(buffer, (buffer + bytes), bytes)) {
 			/* next pixel is different */
 			if (repeat) {
 				putc((int)(128 + repeat), fp);
-				fwrite(from, bytes, 1, fp);
+				fwrite(from, bytes, (size_t)1, fp);
 				from = (buffer + bytes); /* point to first different pixel */
 				repeat = 0;
 				direct = 0;
@@ -596,7 +624,7 @@ PRIVATE void rle_write(FILE *fp, W8 *buffer, W32 width, W32 bytes)
 
 		if (repeat == 128) {
 			putc(255, fp);
-			fwrite(from, bytes, 1, fp);
+			fwrite(from, bytes, (size_t)1, fp);
 			from = (buffer + bytes);
 			direct = 0;
 			repeat = 0;
@@ -613,7 +641,7 @@ PRIVATE void rle_write(FILE *fp, W8 *buffer, W32 width, W32 bytes)
 
 	if (repeat > 0) {
 		putc((int)(128 + repeat), fp);
-		fwrite( from, bytes, 1, fp );
+		fwrite(from, bytes, (size_t)1, fp);
 	} else {
 		putc((int)direct, fp);
 		fwrite(from, bytes, (size_t)(direct + 1), fp);
@@ -712,9 +740,10 @@ PUBLIC W8 loaders_WriteTGA(const char *filename, W16 bpp, W16 width, W16 height,
 		}
 
 		if (rle) {
-			rle_write(filestream, scanline, width, BytesPerPixel);
+			rle_write(filestream, scanline, (W32)width, (W32)BytesPerPixel);
 		} else {
-			fwrite(scanline, sizeof(W8), (width * BytesPerPixel), filestream);
+			fwrite(scanline, sizeof(W8), (size_t)(width * BytesPerPixel),
+				   filestream);
 		}
 	}
 

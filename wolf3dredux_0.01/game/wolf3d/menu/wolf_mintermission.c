@@ -481,26 +481,29 @@ PRIVATE void M_Victory_Draw_PageOne(void)
 	M_DrawWindow(16, 16, 608, 408, colourWhite, colourBlack, colourBlack);
 
 	TM_GetTextureSize(&w, &h, "pics/PLAQUE_PAGE.tga");
-	R_Draw_Pic((int)(((viddef.width >> 1) - w) >> 1), (int)(viddef.height - 48),
+	R_Draw_Pic((int)(((viddef.width >> 1) - (unsigned long)w) >> 1),
+			   (int)(viddef.height - 48),
 			   "pics/PLAQUE_PAGE.tga");
 
 	TM_GetTextureSize(&w, &h, "pics/PLAQUE_BLANK.tga");
-	R_Draw_Pic((int)(viddef.width - w - (((viddef.width >> 1) - w) >> 1)),
+	R_Draw_Pic((int)(viddef.width - (unsigned long)w - (((viddef.width >> 1) - (unsigned long)w) >> 1)),
 			   (int)(viddef.height - 48), "pics/PLAQUE_BLANK.tga");
 
 	R_Draw_Pic(32, 32, "pics/H_BLAZEPIC.tga");
 
 	Font_SetColour(FONT0, colourBlack);
-	Font_SetSize(FONT0, 2);
+	Font_SetSize(FONT0, (W16)2);
 
 	Font_put_line(FONT0,
-				  (int)((viddef.width - w - (((viddef.width >> 1) - w)  >> 1)) + 32),
+				  (int)((viddef.width - (unsigned long)w - (((viddef.width >> 1) - (unsigned long)w) >> 1)) + 32),
 				  (int)((viddef.height - 48) + 6), "pg 1 of 2");
 
-	Font_put_paragraph(FONT0, (240 + 32 + 10), 32,
+	/* (240 + 32 + 10) = 282 */
+	Font_put_paragraph(FONT0, (short)(240 + 32 + 10), (short)32,
 					   victorytextPageOnePartOne[(W32)episode->value], 0, 350);
 
-	Font_put_paragraph(FONT0, (32 + 4), (160 + 16 + 34),
+	/* (32 + 4) = 38 */		/* (160 + 16 + 34) = 210 */
+	Font_put_paragraph(FONT0, (short)(32 + 4), (short)(160 + 16 + 34),
 					   victorytextPageOnePartTwo[(W32)episode->value], 0, 600);
 }
 
@@ -513,21 +516,21 @@ PRIVATE void M_Victory_Draw_PageTwo(void)
 	M_DrawWindow(16, 16, 608, 408, colourWhite, colourBlack, colourBlack);
 
 	TM_GetTextureSize(&w, &h, "pics/PLAQUE_PAGE.tga");
-	R_Draw_Pic((int)(((viddef.width >> 1) - w)  >> 1),
+	R_Draw_Pic((int)(((viddef.width >> 1) - (unsigned long)w) >> 1),
 			   (int)(viddef.height - 48), "pics/PLAQUE_PAGE.tga");
 
 	TM_GetTextureSize(&w, &h, "pics/PLAQUE_BLANK.tga");
-	R_Draw_Pic((int)(viddef.width - w - (((viddef.width >> 1) - w)  >> 1)),
+	R_Draw_Pic((int)(viddef.width - (unsigned long)w - (((viddef.width >> 1) - (unsigned long)w) >> 1)),
 			   (int)(viddef.height - 48), "pics/PLAQUE_BLANK.tga");
 
 	Font_SetColour(FONT0, colourBlack);
-	Font_SetSize(FONT0, 2);
+	Font_SetSize(FONT0, (W16)2);
 
 	Font_put_line(FONT0,
-				  (int)((viddef.width - w - (((viddef.width >> 1) - w) >> 1)) + 32),
+				  (int)((viddef.width - (unsigned long)w - (((viddef.width >> 1) - (unsigned long)w) >> 1)) + 32),
 				  (int)((viddef.height - 48) + 6), "pg 2 of 2");
 
-	Font_put_paragraph(FONT0, (32 + 4), 34,
+	Font_put_paragraph(FONT0, (short)(32 + 4), (short)34,
 					   victorytextPageTwo[(W32)episode->value], 0, 600);
 }
 
@@ -566,14 +569,14 @@ PRIVATE char *M_Victory_Key(int key)
 
 		case K_KP_LEFTARROW:
 		case K_LEFTARROW:
-			if( page == 1 ) {
+			if (page == 1) {
 				page = 0;
 			}
 			break;
 
 		case K_KP_RIGHTARROW:
 		case K_RIGHTARROW:
-			if( page == 0 ) {
+			if (page == 0) {
 				page = 1;
 			}
 			break;
@@ -644,7 +647,7 @@ PRIVATE void SOD_EndScreen2_Draw(void)
 	R_Draw_Pic((int)((viddef.width - w) >> 1), (int)((viddef.height - h) >> 1),
 			   "pics/ENDSCREEN3PIC.tga" );
 
-	Font_SetSize(FONT0, 2);
+	Font_SetSize(FONT0, (W16)2);
 	Font_SetColour(FONT0, colourWhite);
 
 	if (victory_slide == 3) {
@@ -870,7 +873,7 @@ PUBLIC void M_Intermission_f(void)
 		M_PushMenu(M_Victory_Draw, (const char *(*)(int))M_Victory_Key);
 	} else if ((levelstate.floornum == 9) &&
 			   (g_version->value == WOLFENSTEINWL6)) {
-		PL_GivePoints(&Player, 15000);
+		PL_GivePoints(&Player, (W32)15000);
 		M_PushMenu(M_Secret_Draw, (const char *(*)(int))M_Secret_Key);
 	} else {
 		M_PushMenu(M_Intermission_Draw, (const char *(*)(int))M_Intermission_Key);

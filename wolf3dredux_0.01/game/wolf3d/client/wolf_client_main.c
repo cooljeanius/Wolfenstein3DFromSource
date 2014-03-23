@@ -102,7 +102,7 @@ PUBLIC void Client_Screen_UpdateScreen(void)
 /* prototype moved to "wolf_client.h" */
 PUBLIC void Client_PrepRefresh(const char *r_mapname)
 {
-	char mapname[ 32 ];
+	char mapname[32];
 #if 0 || __clang_analyzer__
 	int			i;
 	char		name[MAX_GAMEPATH];
@@ -114,7 +114,7 @@ PUBLIC void Client_PrepRefresh(const char *r_mapname)
 		return;
 	}
 
-	R_DrawPsyched(0);
+	R_DrawPsyched((W32)0);
 	R_EndFrame();
 
 	if (g_version->value == SPEAROFDESTINY) {
@@ -142,7 +142,7 @@ PUBLIC void Client_PrepRefresh(const char *r_mapname)
 
 	Com_Printf("Map: %s\n", r_world->mapName);
 
-	R_DrawPsyched( 30 );
+	R_DrawPsyched((W32)30);
 	R_EndFrame();
 
 	Level_ScanInfoPlane(r_world); /* Spawn items/guards */
@@ -153,13 +153,13 @@ PUBLIC void Client_PrepRefresh(const char *r_mapname)
 	Com_Printf("Caching Textures and Sounds\n");
 	Level_PrecacheTextures_Sound( r_world );
 
-	R_DrawPsyched(80);
+	R_DrawPsyched((W32)80);
 	R_EndFrame();
 
 	/* the renderer can now free unneeded stuff */
 	R_EndRegistration();
 
-	R_DrawPsyched(100);
+	R_DrawPsyched((W32)100);
 	R_EndFrame();
 
 	/* clear any lines of console text */
@@ -170,7 +170,6 @@ PUBLIC void Client_PrepRefresh(const char *r_mapname)
 	}
 
 	R_EndFrame();
-
 }
 
 

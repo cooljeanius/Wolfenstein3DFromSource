@@ -131,7 +131,7 @@ PRIVATE void FS_AddGameDirectory(const char *dir)
 	 */
 	my_snprintf(path, sizeof(path), "%s/*.pak", fs_gamedir);
 
-	pakfile = FS_FindFirst(path, 0, 0);
+	pakfile = FS_FindFirst(path, (W32)0, (W32)0);
 	if (pakfile) {
 		pak = FS_LoadZipFile(pakfile);
 		if (pak) {
@@ -145,7 +145,7 @@ PRIVATE void FS_AddGameDirectory(const char *dir)
 
 
 
-		while ((pakfile = FS_FindNext(0, 0)) != NULL) {
+		while ((pakfile = FS_FindNext((W32)0, (W32)0)) != NULL) {
 			pak = FS_LoadZipFile( pakfile );
 			if (! pak) {
 				continue;
@@ -167,7 +167,7 @@ PRIVATE void FS_AddGameDirectory(const char *dir)
 	 */
 	my_snprintf(path, sizeof(path), "%s/*.zip", fs_gamedir);
 
-	pakfile = FS_FindFirst(path, 0, 0);
+	pakfile = FS_FindFirst(path, (W32)0, (W32)0);
 	if (pakfile) {
 		pak = FS_LoadZipFile(pakfile);
 		if (pak) {
@@ -180,7 +180,7 @@ PRIVATE void FS_AddGameDirectory(const char *dir)
 		}
 
 
-		while ((pakfile = FS_FindNext(0, 0)) != NULL) {
+		while ((pakfile = FS_FindNext((W32)0, (W32)0)) != NULL) {
 			pak = FS_LoadZipFile(pakfile);
 			if (! pak) {
 				continue;
@@ -245,7 +245,7 @@ PUBLIC void FS_ExecAutoexec(void)
 					fs_basedir->string, BASEDIRNAME);
 	}
 
-	if (FS_FindFirst(name, 0, (FA_DIR | FA_HIDDEN | FA_SYSTEM))) {
+	if (FS_FindFirst(name, (W32)0, (W32)(FA_DIR | FA_HIDDEN | FA_SYSTEM))) {
 		Cbuf_AddText("exec autoexec.cfg\n");
 	}
 
@@ -384,12 +384,12 @@ PRIVATE char **FS_ListFiles(char *findname, int *numfiles, unsigned musthave,
 	nfiles = 0;
 	list = 0;
 
-	s = FS_FindFirst(findname, musthave, canthave);
+	s = FS_FindFirst(findname, (W32)musthave, (W32)canthave);
 	while (s) {
 		if (s[(strlen(s) - 1)] != '.') {
 			nfiles++;
 		}
-		s = FS_FindNext(musthave, canthave);
+		s = FS_FindNext((W32)musthave, (W32)canthave);
 	}
 	FS_FindClose ();
 
@@ -404,12 +404,12 @@ PRIVATE char **FS_ListFiles(char *findname, int *numfiles, unsigned musthave,
 	 * "../../memory/memory.h", which returns a (void*): */
 	list = (char **)MM_MALLOC((size_t)((size_t)(sizeof(char *)) * (size_t)nfiles));
 	if (list == NULL) {
-		MM_OUTOFMEM("list");
+		MM_OUTOFMEM((const char *)"list");
 	}
 
 	memset((void *)list, (int)0, (size_t)((sizeof(char *)) * (size_t)nfiles));
 
-	s = FS_FindFirst(findname, musthave, canthave);
+	s = FS_FindFirst(findname, (W32)musthave, (W32)canthave);
 	nfiles = 0;
 	while (s) {
 		if (s[(strlen(s) - 1)] != '.') {
@@ -419,7 +419,7 @@ PRIVATE char **FS_ListFiles(char *findname, int *numfiles, unsigned musthave,
 
 			nfiles++;
 		}
-		s = FS_FindNext(musthave, canthave);
+		s = FS_FindNext((W32)musthave, (W32)canthave);
 	}
 	FS_FindClose();
 

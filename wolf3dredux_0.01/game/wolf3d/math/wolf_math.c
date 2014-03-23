@@ -98,17 +98,17 @@ PUBLIC int G_Build_Tables(void)
  Notes:
 -----------------------------------------------------------------------------
 */
-PUBLIC quadrant GetQuadrant( float angle )
+PUBLIC quadrant GetQuadrant(float angle)
 {
-	angle = angle_normalize( angle );
+	angle = angle_normalize((float)angle);
 
-	if( angle < M_PI / 2 )  {
+	if (angle < (M_PI / 2)) {
 		return q_first;
-	} else if( angle < M_PI )  {
+	} else if (angle < M_PI) {
 		return q_second;
-	} else if( angle < 3 * M_PI / 2 )  {
+	} else if (angle < (3 * M_PI / 2)) {
 		return q_third;
-	} else  {
+	} else {
 		return q_fourth;
 	}
 }

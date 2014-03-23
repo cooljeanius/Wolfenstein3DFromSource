@@ -174,7 +174,7 @@ PUBLIC texture_t *TM_LoadTexture(const char *name, W8 *data, int width,
     tex = &ttextures[i];
 
 
-	my_strlcpy(tex->name, name, MAX_GAMEPATH);
+	my_strlcpy(tex->name, name, (size_t)MAX_GAMEPATH);
 	tex->registration_sequence = texture_registration_sequence;
 
 	tex->width = (W16)width;
@@ -233,7 +233,7 @@ PUBLIC void TM_LoadTexture_DB(const char *name, texture_t *tex, W8 *data,
 	}
 
 
-	my_strlcpy(tex->name, name, MAX_GAMEPATH);
+	my_strlcpy(tex->name, name, (size_t)MAX_GAMEPATH);
 	tex->registration_sequence = texture_registration_sequence;
 
 	tex->width = (W16)width;
@@ -306,7 +306,8 @@ PUBLIC void TM_FindTexture_DB(const char *name, texture_t *tex,
 			return;
 		}
 
-		TM_LoadTexture_DB(name, tex, data, width, height, type, bytes);
+		TM_LoadTexture_DB(name, tex, data, (int)width, (int)height, type,
+						  (W16)bytes);
 	} else {
 		return;
 	}
@@ -498,7 +499,8 @@ PUBLIC texture_t *TM_FindTexture(const char *name, texturetype_t type)
 			return r_notexture;
 		}
 
-		tex = TM_LoadTexture(name, data, width, height, type, bytes);
+		tex = TM_LoadTexture(name, data, (int)width, (int)height, type,
+							 (W16)bytes);
 	} else {
 		return r_notexture;
 	}
@@ -803,45 +805,38 @@ get_premultiplied_double_row(W8 *in,
 # endif /* __STRICT_ANSI__ */
 #endif /* !INLINECALL */
 PRIVATE INLINECALL void
-rotate_pointers( W8 **p, W32 n )
+rotate_pointers(W8 **p, W32 n)
 {
 	W32  i;
 	W8  *tmp;
 
-	tmp = p[ 0 ];
-	for( i = 0 ; i < n-1 ; i++ ) {
-		p[ i ] = p[ i + 1 ];
+	tmp = p[0];
+	for ((i = 0); (i < (n - 1)); i++) {
+		p[i] = p[(i + 1)];
     }
 
-	p[ i ] = tmp;
+	p[i] = tmp;
 }
 
 PRIVATE void
-get_scaled_row( double              **src,
-                int                   y,
-                int                   new_width,
-                double               *row,
-                W8			        *src_tmp,
-                W8			        *srcPR,
-                int old_width,
-                int old_height,
-                int bytes )
+get_scaled_row(double **src, int y, int new_width, double *row,
+			   W8 *src_tmp, W8 *srcPR, int old_width, int old_height, int bytes)
 {
 	/* get the necesary lines from the source image, scale them,
 	 * and put them into src[] */
-	rotate_pointers( (unsigned char  **)src, 4 );
+	rotate_pointers((unsigned char **)src, (W32)4);
 
-	if( y < 0 ) {
+	if (y < 0) {
 		y = 0;
 	}
 
-	if( y < old_height ) {
-		get_premultiplied_double_row( srcPR, bytes, 0, y, old_width,
-                                    row, src_tmp, 1 );
-		if( new_width > old_width ) {
-			expand_line( src[3], row, bytes, old_width, new_width );
-		} else if( old_width > new_width ) {
-			shrink_line( src[3], row, bytes, old_width, new_width );
+	if (y < old_height) {
+		get_premultiplied_double_row(srcPR, bytes, 0, y, old_width,
+									 row, src_tmp, 1);
+		if (new_width > old_width) {
+			expand_line(src[3], row, bytes, old_width, new_width);
+		} else if (old_width > new_width) {
+			shrink_line(src[3], row, bytes, old_width, new_width);
 		} else { /* no scaling needed */
 			memcpy(src[3], row,
 				   (sizeof(double) * (unsigned long)new_width * (unsigned long)bytes));
@@ -858,7 +853,7 @@ non-interpolating scale_region.
  */
 PRIVATE void
 scale_region_no_resample(W8 *in, int inwidth, int inheight,
-						W8 *out, int outwidth, int outheight, char bytes)
+						 W8 *out, int outwidth, int outheight, char bytes)
 {
 	int    *x_src_offsets;
 	int    *y_src_offsets;
@@ -1153,7 +1148,7 @@ PUBLIC void TM_ResampleTexture(W8 *in, int inwidth, int inheight, W8 *out,
  Notes: Operates in place, quartering the size of the texture.
 -----------------------------------------------------------------------------
 */
-PUBLIC _boolean TM_MipMap( PW8 in, W16 *width, W16 *height, W16 bytes )
+PUBLIC _boolean TM_MipMap(PW8 in, W16 *width, W16 *height, W16 bytes)
 {
 	W16 new_width, new_height;
 
@@ -1174,7 +1169,7 @@ PUBLIC _boolean TM_MipMap( PW8 in, W16 *width, W16 *height, W16 bytes )
 		new_height = (*height >> 1);
 	}
 
-	TM_ResampleTexture(in, *width, *height, in, new_width, new_height,
+	TM_ResampleTexture(in, *width, *height, in, (int)new_width, (int)new_height,
 					   (W8)bytes, INTERPOLATION_CUBIC);
 
 	*width = new_width;
@@ -1221,7 +1216,8 @@ PUBLIC void TM_Init(void)
 		}
 	}
 
-	r_notexture = TM_LoadTexture("***r_notexture***", data, 16, 16, TT_Pic, 4);
+	r_notexture = TM_LoadTexture("***r_notexture***", data, (int)16, (int)16,
+								 TT_Pic, (W16)4);
 
 	MM_FREE(data);
 

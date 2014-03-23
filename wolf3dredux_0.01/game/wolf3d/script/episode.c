@@ -71,7 +71,7 @@ PRIVATE W8 *parse_maptag(W8 *in, W32 *linenumber)
 
 	ptr = script_ReadString(ptr, (W8**)&szMapDef);
 
-	ptr = script_lookforCharacter(ptr, '{', 0);
+	ptr = script_lookforCharacter(ptr, (char)'{', (_boolean)0);
 
 	if (*ptr == ENDOFSTREAM) {
 
@@ -183,9 +183,8 @@ PRIVATE W8 *parse_maptag(W8 *in, W32 *linenumber)
 		bRoot = true;
 	}
 
-	ternary_tree_add((unsigned char *)szMapDef, (void *)newMap, maptree, 0,
-					 (void **)&oldMap);
-
+	ternary_tree_add((unsigned char *)szMapDef, (void *)newMap, maptree,
+					 (_boolean)0, (void **)&oldMap);
 
 	return ptr;
 }
@@ -212,7 +211,7 @@ PRIVATE W8 *parse_episodetag(W8 *in, W32 *linenumber)
 
 	ptr = script_ReadString(ptr, (W8**)&newEpisode->episodename);
 
-	ptr = script_lookforCharacter(ptr, '{', 0);
+	ptr = script_lookforCharacter(ptr, (char)'{', (_boolean)0);
 
 	if (*ptr == ENDOFSTREAM) {
 		Z_Free(newEpisode);
@@ -240,7 +239,8 @@ PRIVATE W8 *parse_episodetag(W8 *in, W32 *linenumber)
 	}
 
 	ternary_tree_add((unsigned char *)newEpisode->episodename,
-					 (void *)newEpisode, maptree, 0, (void **)&oldEpisode);
+					 (void *)newEpisode, maptree, (_boolean)0,
+					 (void **)&oldEpisode);
 
 	return ptr;
 }
@@ -263,7 +263,7 @@ PUBLIC _boolean episode_init(const char *filename)
 
 	Com_Printf("episode_init(): Processing script (%s)\n", filename);
 
-	maptree = ternary_tree_init(10);
+	maptree = ternary_tree_init((W32)10);
 
 	startime = Sys_Milliseconds();
 

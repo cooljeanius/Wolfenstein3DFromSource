@@ -17,28 +17,28 @@
 
 #ifndef NO_DUMMY_DECL
 struct internal_state {int dummy;}; /* for buggy compilers */
-#endif
+#endif /* !NO_DUMMY_DECL */
 
 #ifndef Z_BUFSIZE
 #  ifdef MAXSEG_64K
 #    define Z_BUFSIZE 4096 /* minimize memory usage for 16-bit DOS */
 #  else
 #    define Z_BUFSIZE 16384
-#  endif
-#endif
+#  endif /* MAXSEG_64K */
+#endif /* !Z_BUFSIZE */
 #ifndef Z_PRINTF_BUFSIZE
 #  define Z_PRINTF_BUFSIZE 4096
-#endif
+#endif /* !Z_PRINTF_BUFSIZE */
 
 #ifdef __MVS__
 #  pragma map (fdopen , "\174\174FDOPEN")
    FILE *fdopen(int, const char *);
-#endif
+#endif /* __MVS__ */
 
 #ifndef STDC
 extern voidp  malloc OF((uInt size));
 extern void   free   OF((voidpf ptr));
-#endif
+#endif /* !STDC */
 
 #define ALLOC(size) malloc(size)
 #define TRYFREE(p) {if (p) free(p);}

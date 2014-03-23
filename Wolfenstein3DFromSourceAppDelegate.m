@@ -15,6 +15,9 @@
 #import "Wolfenstein3DFromSourceAppDelegate.h"
 /* to add: "EAGLView.h" */
 #import <AudioToolbox/AudioServices.h>
+#ifndef getenv
+# include <unistd.h>
+#endif /* !getenv */
 #include "wolf3dredux_0.01/device/system/system.h" /* for Sys_OS_Init() */
 #include "wolf3dredux_0.01/game/wolf3d/wolf_local.h" /* for Game_Init() and Game_Shutdown() */
 
@@ -66,11 +69,14 @@ void vibrateDevice_type_alert(void) {
 	}
 
 	Sys_OS_Init();
-	Game_Init(); /* this might have already been called if we got here from the
-				  * end of unix/unix_main.c... how to check? */
+	/* GameInit() might have already been run if we got here from the end of
+	 * unix/unix_main.c, so check to see if its envvar has been set: */
+	if (getenv("GAME_INIT_HAS_RUN") == NULL) {
+		Game_Init();
+	}
 }
 
-- (void)applicationWillResignActive:(NSApplication *)application {
+- (void)applicationWillResignActive:(NSNotification *)application {
 	/* dummy condition to use the 'application' parameter: */
 	if (application) {
 		;
@@ -78,14 +84,14 @@ void vibrateDevice_type_alert(void) {
 }
 
 
-- (void)applicationDidBecomeActive:(NSApplication *)application {
+- (void)applicationDidBecomeActive:(NSNotification *)application {
 	/* dummy condition to use the 'application' parameter: */
 	if (application) {
 		;
 	}
 }
 
-- (void)applicationWillTerminate:(NSApplication *)application {
+- (void)applicationWillTerminate:(NSNotification *)application {
 	/* dummy condition to use the 'application' parameter: */
 	if (application) {
 		;

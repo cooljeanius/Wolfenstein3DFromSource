@@ -160,8 +160,8 @@ PRIVATE void InitSig(void)
 }
 
 
-
-int GLimp_SetMode( int *pwidth, int *pheight, int mode, _boolean fullscreen )
+/* */
+int GLimp_SetMode(int *pwidth, int *pheight, int mode, _boolean fullscreen)
 {
 	int width, height;
 
@@ -184,48 +184,49 @@ int GLimp_SetMode( int *pwidth, int *pheight, int mode, _boolean fullscreen )
 	int i;
 	XEvent report;
 	XSizeHints size_hints;
-	char display_name[ 512 ];
+	char display_name[512];
 
-	r_fakeFullscreen = Cvar_Get( "r_fakeFullscreen", "0", CVAR_ARCHIVE );
+	r_fakeFullscreen = Cvar_Get("r_fakeFullscreen", "0", CVAR_ARCHIVE);
 
-	if( fullscreen ) {
-		Com_Printf( "...setting fullscreen mode %d:", mode );
+	if (fullscreen) {
+		Com_Printf("...setting fullscreen mode %d:", mode);
 	} else {
-		Com_Printf( "...setting mode %d:", mode );
+		Com_Printf("...setting mode %d:", mode);
 	}
 
-	if ( ! VID_GetModeInfo( &width, &height, mode ) ) {
-		Com_Printf( " invalid mode\n" );
+	if (! VID_GetModeInfo(&width, &height, mode)) {
+		Com_Printf(" invalid mode\n");
 		return rserr_invalid_mode;
 	}
 
-	Com_Printf( " %d %d\n", width, height );
+	Com_Printf(" %d %d\n", width, height);
 
 	/* destroy the existing window */
 	GLimp_Shutdown();
 
 	/* get the default display name from the environment variable DISPLAY */
-	my_strlcpy( display_name, getenv( "DISPLAY" ), sizeof( display_name ) );
-	if( display_name[ 0 ] == 0 ) {
-    	my_strlcpy( display_name, "unix:0.0", sizeof( display_name ) );
+	my_strlcpy(display_name, getenv("DISPLAY"), sizeof(display_name));
+	if (display_name[0] == 0) {
+    	my_strlcpy(display_name, "unix:0.0", sizeof(display_name));
 	}
 
-	if( ! (display = XOpenDisplay( display_name )) ) {
-		fprintf( stderr, "Error could not open the X display\n" );
+	if (!(display = XOpenDisplay(display_name))) {
+		fprintf(stderr,
+				"GLimp_SetMode(): Error: could not open the X display\n");
 
 		return rserr_invalid_mode;
 	}
 
-	screen_num = DefaultScreen( display );
-	root = RootWindow( display, screen_num );
+	screen_num = DefaultScreen(display);
+	root = RootWindow(display, screen_num);
 
 	/* Get video mode list */
 	MajorVersion = MinorVersion = 0;
-	if( ! XF86VidModeQueryVersion( display, &MajorVersion, &MinorVersion ) ) {
+	if (! XF86VidModeQueryVersion(display, &MajorVersion, &MinorVersion)) {
 		vidmode_ext = false;
 	} else {
-		Com_Printf("Using XFree86-VidModeExtension Version %d.%d\n",
-				   MajorVersion, MinorVersion );
+		Com_Printf("GLimp_SetMode(): Using XFree86-VidModeExtension Version %d.%d\n",
+				   MajorVersion, MinorVersion);
 		vidmode_ext = true;
 	}
 
@@ -236,40 +237,41 @@ int GLimp_SetMode( int *pwidth, int *pheight, int mode, _boolean fullscreen )
 #  warning "cannot redefine pfglXChooseVisual as glXChooseVisual because it is not available."
 # endif /* HAVE_GLXCHOOSEVISUAL || glXChooseVisual || GLX_H */
 #endif /* !pfglXChooseVisual && !HAVE_PFGLXCHOOSEVISUAL */
-	visinfo = pfglXChooseVisual( display, screen_num, attrib );
-	if( ! visinfo ) {
-		fprintf( stderr, "Error could not get an RGB, Double-buffered, Depth visual\n" );
+	visinfo = pfglXChooseVisual(display, screen_num, attrib);
+	if (! visinfo) {
+		fprintf(stderr,
+				"GLimp_SetMode(): Error: could not get an RGB, Double-buffered, Depth visual\n");
 		return rserr_invalid_mode;
 	}
 
-	if( vidmode_ext ) {
+	if (vidmode_ext) {
 		int best_fit, best_dist, dist, x, y;
 
-		XF86VidModeGetAllModeLines( display, screen_num, &num_vidmodes, &vidmodes );
+		XF86VidModeGetAllModeLines(display, screen_num, &num_vidmodes, &vidmodes);
 
 		/* Are we going fullscreen?  If so, let us change video mode */
-		if( fullscreen && ! r_fakeFullscreen->value ) {
+		if (fullscreen && ! r_fakeFullscreen->value) {
 			best_dist = 9999999;
 			best_fit = -1;
 
-			for( i = 0 ; i < num_vidmodes ; i++ ) {
-				if( width > vidmodes[ i ]->hdisplay ||
-					height > vidmodes[ i ]->vdisplay ) {
+			for ((i = 0); (i < num_vidmodes); i++) {
+				if ((width > vidmodes[i]->hdisplay) ||
+					(height > vidmodes[i]->vdisplay)) {
 					continue;
 				}
 
-				x = width - vidmodes[ i ]->hdisplay;
-				y = height - vidmodes[ i ]->vdisplay;
-				dist = (x * x) + (y * y);
-				if( dist < best_dist ) {
+				x = (width - vidmodes[i]->hdisplay);
+				y = (height - vidmodes[i]->vdisplay);
+				dist = ((x * x) + (y * y));
+				if (dist < best_dist) {
 					best_dist = dist;
 					best_fit = i;
 				}
 			}
 
-			if( best_fit != -1 ) {
-				actualWidth = vidmodes[ best_fit ]->hdisplay;
-				actualHeight = vidmodes[ best_fit ]->vdisplay;
+			if (best_fit != -1) {
+				actualWidth = vidmodes[best_fit]->hdisplay;
+				actualHeight = vidmodes[best_fit]->vdisplay;
 
 				/* dummy to silence clang static analyzer warnings about values
 				 * stored to 'actualWidth' & 'actualHeight' never being read: */
@@ -278,11 +280,11 @@ int GLimp_SetMode( int *pwidth, int *pheight, int mode, _boolean fullscreen )
 				}
 
 				/* change to the mode */
-				XF86VidModeSwitchToMode( display, screen_num, vidmodes[ best_fit ] );
+				XF86VidModeSwitchToMode(display, screen_num, vidmodes[best_fit]);
 				vidmode_active = true;
 
 				/* Move the viewport to top left */
-				XF86VidModeSetViewPort( display, screen_num, 0, 0 );
+				XF86VidModeSetViewPort(display, screen_num, 0, 0);
 			} else {
 				fullscreen = 0;
 				/* dummy to silence clang static analyzer warning about value
@@ -297,7 +299,7 @@ int GLimp_SetMode( int *pwidth, int *pheight, int mode, _boolean fullscreen )
 	/* window attributes */
 	attr.background_pixel = 0;
 	attr.border_pixel = 0;
-	attr.colormap = XCreateColormap( display, root, visinfo->visual, AllocNone );
+	attr.colormap = XCreateColormap(display, root, visinfo->visual, AllocNone);
 	if (vidmode_active) {
 		attribmask = (CWBackPixel | CWColormap | CWSaveUnder | CWBackingStore |
 					  CWOverrideRedirect);
@@ -305,7 +307,7 @@ int GLimp_SetMode( int *pwidth, int *pheight, int mode, _boolean fullscreen )
 		attr.backing_store = NotUseful;
 		attr.save_under = False;
 	} else {
-		attribmask = CWBackPixel | CWBorderPixel | CWColormap;
+		attribmask = (CWBackPixel | CWBorderPixel | CWColormap);
 	}
 
 	mainwin = XCreateWindow(display, root, 0, 0,
@@ -313,33 +315,34 @@ int GLimp_SetMode( int *pwidth, int *pheight, int mode, _boolean fullscreen )
 							0, visinfo->depth, InputOutput,
 							visinfo->visual, attribmask, &attr);
 
-	size_hints.flags = PSize | PMinSize | PMaxSize;
+	size_hints.flags = (PSize | PMinSize | PMaxSize);
 	size_hints.min_width = width;
 	size_hints.max_width = width;
 	size_hints.min_height = height;
 	size_hints.max_height = height;
 
-	XSetStandardProperties( display, mainwin, GAME_NAME, NULL, None, 0, 0, &size_hints );
+	XSetStandardProperties(display, mainwin, GAME_NAME, NULL, None, 0, 0,
+						   &size_hints);
 
-	XSelectInput( display, mainwin, X_MASK );
+	XSelectInput(display, mainwin, X_MASK);
 
-	XMapWindow( display, mainwin );
+	XMapWindow(display, mainwin);
 
 	do {
-		XNextEvent( display, &report );
+		XNextEvent(display, &report);
 
-	} while( report.type != Expose ); /* wait for our window to pop up */
+	} while (report.type != Expose); /* wait for our window to pop up */
 
-	if( vidmode_active ) {
-		XMoveWindow( display, mainwin, 0, 0 );
-		XRaiseWindow( display, mainwin );
-		XWarpPointer( display, None, mainwin, 0, 0, 0, 0, 0, 0 );
-		XFlush( display );
+	if (vidmode_active) {
+		XMoveWindow(display, mainwin, 0, 0);
+		XRaiseWindow(display, mainwin);
+		XWarpPointer(display, None, mainwin, 0, 0, 0, 0, 0, 0);
+		XFlush(display);
 		/* Move the viewport to top left */
-		XF86VidModeSetViewPort( display, screen_num, 0, 0 );
+		XF86VidModeSetViewPort(display, screen_num, 0, 0);
 	}
 
-	XFlush( display );
+	XFlush(display);
 
 #if !defined(pfglXCreateContext) && !defined(HAVE_PFGLXCREATECONTEXT)
 # if defined(HAVE_GLXCREATECONTEXT) || defined(glXCreateContext) || defined(GLX_H)
@@ -348,7 +351,7 @@ int GLimp_SetMode( int *pwidth, int *pheight, int mode, _boolean fullscreen )
 #  warning "cannot redefine pfglXCreateContext as glXCreateContext because it is not available."
 # endif /* HAVE_GLXCREATECONTEXT || glXCreateContext || GLX_H */
 #endif /* !pfglXCreateContext && !HAVE_PFGLXCREATECONTEXT */
-	ctx = pfglXCreateContext( display, visinfo, NULL, True );
+	ctx = pfglXCreateContext(display, visinfo, NULL, True);
 
 #if !defined(pfglXMakeCurrent) && !defined(HAVE_PFGLXMAKECURRENT)
 # if defined(HAVE_GLXMAKECURRENT) || defined(glXMakeCurrent) || defined(GLX_H)
@@ -357,15 +360,15 @@ int GLimp_SetMode( int *pwidth, int *pheight, int mode, _boolean fullscreen )
 #  warning "cannot redefine pfglXMakeCurrent as glXMakeCurrent because it is not available."
 # endif /* HAVE_GLXMAKECURRENT || glXMakeCurrent || GLX_H */
 #endif /* !pfglXMakeCurrent && !HAVE_PFGLXMAKECURRENT */
-	pfglXMakeCurrent( display, mainwin, ctx );
+	pfglXMakeCurrent(display, mainwin, ctx);
 
 	*pwidth = width;
 	*pheight = height;
 
 	/* let the sound and input subsystems know about the new window */
-	VID_NewWindow( width, height );
+	VID_NewWindow(width, height);
 
-	pfglXMakeCurrent( display, mainwin, ctx );
+	pfglXMakeCurrent(display, mainwin, ctx);
 
 	return rserr_ok;
 }

@@ -162,41 +162,44 @@ PRIVATE void Intro_HighScore_Draw(void)
 
 	R_Draw_Fill(0, 0, (int)viddef.width, (int)viddef.height, bgcolour);
 
-	M_Banner("pics/HIGHSCORESPIC.tga", 0);
+	M_Banner("pics/HIGHSCORESPIC.tga", (W16)0);
 
 
 	TM_GetTextureSize((SW32*)&w, (SW32*)&h, "pics/C_NAMEPIC.tga");
-	R_Draw_Pic(((8 * 8) + ((viddef.width - 640) >> 1)),
-			   (136 + ((viddef.height - 480) >> 1)), "pics/C_NAMEPIC.tga");
+	R_Draw_Pic((int)((8 * 8) + ((viddef.width - 640) >> 1)),
+			   (int)(136 + ((viddef.height - 480) >> 1)),
+			   "pics/C_NAMEPIC.tga");
 
 	TM_GetTextureSize((SW32*)&w, (SW32*)&h, "pics/C_LEVELPIC.tga");
-	R_Draw_Pic(((40 * 8) + ((viddef.width - 640) >> 1)),
-			   (136 + ((viddef.height - 480) >> 1)), "pics/C_LEVELPIC.tga");
+	R_Draw_Pic((int)((40 * 8) + ((viddef.width - 640) >> 1)),
+			   (int)(136 + ((viddef.height - 480) >> 1)),
+			   "pics/C_LEVELPIC.tga");
 
 	TM_GetTextureSize((SW32*)&w, (SW32*)&h, "pics/C_SCOREPIC.tga");
-	R_Draw_Pic(((56 * 8) + ((viddef.width - 640) >> 1)),
-			   (136 + ((viddef.height - 480) >> 1)), "pics/C_SCOREPIC.tga");
+	R_Draw_Pic((int)((56 * 8) + ((viddef.width - 640) >> 1)),
+			   (int)(136 + ((viddef.height - 480) >> 1)),
+			   "pics/C_SCOREPIC.tga");
 
 
 	y = (W16)(160 + ((viddef.height - 480) >> 1));
 
-	Font_SetColour( FONT0, colourWhite );
-	h = Font_GetSize( FONT0 );
+	Font_SetColour(FONT0, colourWhite);
+	h = Font_GetSize(FONT0);
 
 	for ((i = 0), (hs_temp = Scores); (i < MAX_SCORES); ++i, ++hs_temp) {
 		/* Name */
-		Font_put_line(FONT0, ((8 * 8) + ((viddef.width - 640) >> 1)), y,
+		Font_put_line(FONT0, (int)((8 * 8) + ((viddef.width - 640) >> 1)), y,
 					  hs_temp->name);
 
 		/* Episode / Level */
 		my_snprintf(string, sizeof(string), "E%d/L%d", (hs_temp->episode + 1),
 					hs_temp->completed);
-		Font_put_line(FONT0, ((40 * 8) + ((viddef.width - 640) >> 1)), y,
+		Font_put_line(FONT0, (int)((40 * 8) + ((viddef.width - 640) >> 1)), y,
 					  string);
 
 		/* Score */
 		my_snprintf(string, sizeof(string), "%d", hs_temp->score);
-		Font_put_line(FONT0, ((56 * 8) + ((viddef.width - 640) >> 1)), y,
+		Font_put_line(FONT0, (int)((56 * 8) + ((viddef.width - 640) >> 1)), y,
 					  string);
 
 		y += (h * 2);
@@ -217,7 +220,7 @@ PRIVATE void Intro_SHighScore_Draw(void)
 	R_Draw_Tile(0, 0, (int)viddef.width, (int)viddef.height,
 				"pics/C_BACKDROPPIC.tga");
 
-	M_Banner("pics/SHIGHSCORESPIC.tga", 0);
+	M_Banner("pics/SHIGHSCORESPIC.tga", (W16)0);
 
 
 	y = (W16)(160 + ((viddef.height - 480) >> 1));
@@ -227,18 +230,18 @@ PRIVATE void Intro_SHighScore_Draw(void)
 
 	for ((i = 0), (hs_temp = Scores); (i < MAX_SCORES); ++i, ++hs_temp) {
 		/* Name */
-		Font_put_line(FONT0, ((8 * 4) + ((viddef.width - 640) >> 1)), y,
+		Font_put_line(FONT0, (int)((8 * 4) + ((viddef.width - 640) >> 1)), y,
 					  hs_temp->name);
 
 		/* Episode / Level */
 		my_snprintf(string, sizeof(string), "%d", (hs_temp->episode + 1),
 					hs_temp->completed);
-		Font_put_line(FONT0, ((40 * 8) + ((viddef.width - 640) >> 1)), y,
+		Font_put_line(FONT0, (int)((40 * 8) + ((viddef.width - 640) >> 1)), y,
 					  string);
 
 		/* Score */
 		my_snprintf(string, sizeof(string), "%d", hs_temp->score);
-		Font_put_line(FONT0, ((60 * 8) + ((viddef.width - 640) >> 1)), y,
+		Font_put_line(FONT0, (int)((60 * 8) + ((viddef.width - 640) >> 1)), y,
 					  string);
 
 		y += (h * 2);

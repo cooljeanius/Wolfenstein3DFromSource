@@ -169,7 +169,7 @@ PUBLIC void *Z_TagMalloc(size_t size, int tag)
 	/* Set memory block to zero and fill in header. */
 	memset(z, 0, size);
 	z_count++;
-	z_bytes += size;
+	z_bytes += (int)size;
 #if DEBUG_MEMORY
 	Com_Printf("Z_Malloc(): 'z_count' is now '%i' and 'z_bytes' is now '%i'\n",
 			   z_count, z_bytes);

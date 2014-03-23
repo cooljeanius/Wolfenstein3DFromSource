@@ -461,7 +461,7 @@ PRIVATE void Sound_IssuePlaySounds(void)
 		if (ps->attenuation != ATTN_NONE) {
 			ch->distanceMult = (1.0f / ps->attenuation);
 		} else {
-			ch->distanceMult = 0.0;
+			ch->distanceMult = (float)0.0;
 		}
 
 		Sound_SpatializeChannel(ch);
@@ -664,7 +664,8 @@ PUBLIC void Sound_Update(const vec3_t position, const vec3_t velocity,
 	pfalListenerfv(AL_POSITION, s_listener.position);
 	pfalListenerfv(AL_VELOCITY, s_listener.velocity);
 	pfalListenerfv(AL_ORIENTATION, s_listener.orientation);
-	pfalListenerf(AL_GAIN, ((s_activeApp) ? s_masterVolume->value : 0.0));
+	pfalListenerf((ALenum)AL_GAIN,
+				  (ALfloat)((s_activeApp) ? s_masterVolume->value : 0.0));
 
 	/* Set state */
 	pfalDistanceModel(AL_INVERSE_DISTANCE_CLAMPED);
@@ -728,8 +729,8 @@ PUBLIC void Sound_Activate(_boolean active)
 		return;
 	}
 
-	pfalListenerf(AL_GAIN, (active) ? s_masterVolume->value : 0.0);
-
+	pfalListenerf((ALenum)AL_GAIN,
+				  (ALfloat)((active) ? s_masterVolume->value : 0.0));
 }
 
 

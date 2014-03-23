@@ -242,14 +242,17 @@ PRIVATE void x86_do_cpuid(W32 id, W32 *p)
 	: "=a" (p[0]), "=b" (p[1]), "=c" (p[2]), "=d" (p[3])
 	:  "0" (id)
 	);
-# else /* not sure why I have this conditional on architecture, as they both
-		* work the same way... */
-#  ifdef __i386__
+# else
+	/* fails with GCC 4.2 for i386, but works with clang: */
+#  if defined(__i386__) && defined(__clang__)
 	__asm __volatile(
 	"cpuid"
 	: "=a" (p[0]), "=b" (p[1]), "=c" (p[2]), "=d" (p[3])
 	:  "0" (id)
 	);
+#  else
+	/* TODO: need to init p[0,1,2,3] here even in cases when the inline asm
+	 * is uncompilable... */
 #  endif /* __i386__ */
 # endif /* __x86_64__ */
 #endif /* _MSC_VER || __GNUC__ */
@@ -367,7 +370,7 @@ PRIVATE _boolean x86_can_do_cpuid( void )
       );
 
 
-#endif
+#endif /* _MSC_VER || __GNUC__ */
 
 	return result;
 }
@@ -383,9 +386,9 @@ PRIVATE _boolean x86_can_do_cpuid( void )
  Notes:
 -----------------------------------------------------------------------------
 */
-PRIVATE void x86_get_cpu_ProcessorName( void )
+PRIVATE void x86_get_cpu_ProcessorName(void)
 {
-	char ProcessorName[ 49 ];
+	char ProcessorName[49];
 
 #ifdef _MSC_VER
         __asm
@@ -458,7 +461,7 @@ PRIVATE void x86_get_cpu_ProcessorName( void )
 	return;
 #endif /* _MSC_VER || __GNUC__ */
 
-	Com_Printf( "%s\n", ProcessorName );
+	Com_Printf("%s\n", ProcessorName);
 }
 
 
@@ -484,9 +487,9 @@ PRIVATE void x86_get_cpu_ProcessorName_LUT( cpu_info_struct *s )
 
 
 	char *cpuname
-		/* Vendor */ [ MAX_CPU_VENDORS ]
-		/* Family */ [ MAX_CPU_FAMILY ]
-		/* Model  */ [ MAX_CPU_MODEL ]
+		/* Vendor */ [MAX_CPU_VENDORS]
+		/* Family */ [MAX_CPU_FAMILY]
+		/* Model  */ [MAX_CPU_MODEL]
         = {
                 /* Intel Corporation, "GenuineIntel" */
                 {
@@ -594,92 +597,91 @@ PRIVATE void x86_get_cpu_ProcessorName_LUT( cpu_info_struct *s )
 }; /* cpuname */
 
 
-	W32 regs[ 4 ];
+	W32 regs[4];  /* TODO: initialize properly */
 
 	W32 Type, Family, Model;
 
 	char *TempName;
 
-	x86_do_cpuid( 1, regs );
+	x86_do_cpuid(1, regs);
 
 
-	if( s->cpu_type == INTEL_X86 ) {
-		if( regs[ 1 ] & 0xff ) {
+	if (s->cpu_type == INTEL_X86) {
+		if (regs[1] & 0xff) {
 			/* Table 10 from "Intel Processor Identification" document. */
-			switch( regs[ 1 ] & 0xff ) {
+			switch (regs[1] & 0xff) {
 				case 0x01:
-					Com_Printf( "Intel(R) Celeron(R) Processor\n" );
+					Com_Printf("Intel(R) Celeron(R) Processor\n");
 					break;
 
 				case 0x02:
 				case 0x04:
-					Com_Printf( "Intel(R) Pentium(R) III Processor\n" );
+					Com_Printf("Intel(R) Pentium(R) III Processor\n");
 					break;
 
 				case 0x03:
-					if( regs[ 0 ] == 0x000006B1 )
-					{
-						Com_Printf( "Intel(R) Celeron(R) Processor\n" );
+					if (regs[0] == 0x000006B1) {
+						Com_Printf("Intel(R) Celeron(R) Processor\n");
 					} else {
-						Com_Printf( "Intel(R) Pentium(R) III Xeon(tm) Processor\n" );
+						Com_Printf("Intel(R) Pentium(R) III Xeon(tm) Processor\n");
 					}
 					break;
 
 				case 0x06:
-					Com_Printf( "Mobile Intel(R) Pentium(R) III Processor-M\n" );
+					Com_Printf("Mobile Intel(R) Pentium(R) III Processor-M\n");
 					break;
 
 				case 0x07:
-					Com_Printf( "Mobile Intel(R) Celeron(R) Processor\n" );
+					Com_Printf("Mobile Intel(R) Celeron(R) Processor\n");
 					break;
 
 				case 0x08:
-					if( regs[ 0 ] >= 0x00000F13 ) {
-						Com_Printf( "Intel(R) Genuine Processor\n" );
+					if (regs[0] >= 0x00000F13) {
+						Com_Printf("Intel(R) Genuine Processor\n");
 					} else {
-						Com_Printf( "Intel(R) Pentium(R) 4 Processor\n" );
+						Com_Printf("Intel(R) Pentium(R) 4 Processor\n");
 					}
 					break;
 
 				case 0x09:
-					Com_Printf( "Intel(R) Pentium(R) 4 Processor\n" );
+					Com_Printf("Intel(R) Pentium(R) 4 Processor\n");
 					break;
 
 				case 0x0A:
-					Com_Printf( "Intel(R) Celeron(R) Processor\n" );
+					Com_Printf("Intel(R) Celeron(R) Processor\n");
 					break;
 
 				case 0x0B:
-					if( regs[ 0 ] < 0x00000F13 ) {
-						Com_Printf( "Intel(R) Xeon(tm) Processor MP\n" );
+					if (regs[0] < 0x00000F13) {
+						Com_Printf("Intel(R) Xeon(tm) Processor MP\n");
 					} else {
-						Com_Printf( "Intel(R) Xeon(tm) Processor\n" );
+						Com_Printf("Intel(R) Xeon(tm) Processor\n");
 					}
 					break;
 
 				case 0x0C:
-					Com_Printf( "Intel(R) Xeon(tm) Processor MP\n" );
+					Com_Printf("Intel(R) Xeon(tm) Processor MP\n");
 					break;
 
 				case 0x0E:
-					if( regs[ 0 ] < 0x00000F13 ) {
-						Com_Printf( "Intel(R) Xeon(tm) Processor\n" );
+					if (regs[0] < 0x00000F13) {
+						Com_Printf("Intel(R) Xeon(tm) Processor\n");
 					} else {
-						Com_Printf( "Mobile Intel(R) Pentium(R) 4 Processor-M\n" );
+						Com_Printf("Mobile Intel(R) Pentium(R) 4 Processor-M\n");
 					}
 					break;
 
 				case 0x0F:
 				case 0x13:
-					Com_Printf( "Mobile Intel(R) Celeron(R) Processor\n" );
+					Com_Printf("Mobile Intel(R) Celeron(R) Processor\n");
 					break;
 
 				case 0x16:
-					Com_Printf( "Intel(R) Pentium(R) M Processor\n" );
+					Com_Printf("Intel(R) Pentium(R) M Processor\n");
 					break;
 
 				default:
-					Com_Printf( "Unknown BrandID\n" );
+					Com_Printf("Unknown BrandID\n");
 					break;
 
 			} /* end switch BrandID */
@@ -690,36 +692,36 @@ PRIVATE void x86_get_cpu_ProcessorName_LUT( cpu_info_struct *s )
 
 
 		/* This only works on Pentium and Subsequent Processor Signatures */
-		Type    = (regs[ 0 ] >> 12) & 0x03;
-		Family  = (regs[ 0 ] >> 8) & 0x0F;
-		Model   = (regs[ 0 ] >> 4) & 0x0F;
+		Type    = (regs[0] >> 12) & 0x03;
+		Family  = (regs[0] >> 8) & 0x0F;
+		Model   = (regs[0] >> 4) & 0x0F;
 
-		if( Type == 1 ) {
-			switch( Model ) {
+		if (Type == 1) {
+			switch (Model) {
 				case 1:
-					if( Family == 5 ) {
-						Com_Printf( "Intel(R) Pentium(R) OverDrive Processor for Pentium(R) Processor (60/66)\n" );
+					if (Family == 5) {
+						Com_Printf("Intel(R) Pentium(R) OverDrive Processor for Pentium(R) Processor (60/66)\n");
 					} else if( Family == 6 ) {
-						Com_Printf( "Intel(R) Pentium(R) II OverDrive Processor\n" );
+						Com_Printf("Intel(R) Pentium(R) II OverDrive Processor\n");
 					} else {
-						Com_Printf( "Unknown OverDrive Processor\n" );
+						Com_Printf("Unknown OverDrive Processor\n");
 					}
 					break;
 
 				case 2:
-					Com_Printf( "Intel(R) Pentium(R) OverDrive Processor for Pentium(R) Processor (75-133)\n" );
+					Com_Printf("Intel(R) Pentium(R) OverDrive Processor for Pentium(R) Processor (75-133)\n");
 					break;
 
 				case 3:
-					Com_Printf( "Intel(R) Pentium(R) OverDrive Processors for Intel486 Processor-based systems\n" );
+					Com_Printf("Intel(R) Pentium(R) OverDrive Processors for Intel486 Processor-based systems\n");
 					break;
 
 				case 4:
-					Com_Printf( "Intel(R) Pentium(R) OverDrive Processor with MMX(tm) technology for Pentium(R) Processor (75-133)\n" );
+					Com_Printf("Intel(R) Pentium(R) OverDrive Processor with MMX(tm) technology for Pentium(R) Processor (75-133)\n");
 					break;
 
 				default:
-					Com_Printf( "Unknown OverDrive Processor\n" );
+					Com_Printf("Unknown OverDrive Processor\n");
 					break;
 
 			} /* end switch Model */
@@ -729,15 +731,15 @@ PRIVATE void x86_get_cpu_ProcessorName_LUT( cpu_info_struct *s )
 		} /* end "if Type == 1" */
 
 		/* Do NOT do 486 */
-		if( Family < 5 || Model >= MAX_CPU_MODEL ) {
+		if ((Family < 5) || (Model >= MAX_CPU_MODEL)) {
 			return;
 		}
 		Family -= 5; /* Array lookup */
 
-		TempName = cpuname[ 0 ][ Family ][ Model ];
+		TempName = cpuname[0][Family][Model];
 
-		if( TempName != NULL ) {
-			Com_Printf( "%s\n", TempName );
+		if (TempName != NULL) {
+			Com_Printf("%s\n", TempName);
 		}
 
 		return;
@@ -745,30 +747,30 @@ PRIVATE void x86_get_cpu_ProcessorName_LUT( cpu_info_struct *s )
 	} /* end "if s->cpu_type == INTEL_X86" */
 
 
-	if( s->cpu_type == AMD_X86 ) {
-		Family  = (regs[ 0 ] >> 8) & 0x0F;
-		Model   = (regs[ 0 ] >> 4) & 0x0F;
+	if (s->cpu_type == AMD_X86) {
+		Family  = ((regs[0] >> 8) & 0x0F);
+		Model   = ((regs[0] >> 4) & 0x0F);
 
 		/* 64-bit processor */
-		if( Family == 0x0F ) {
-			TempName = cpuname[ 1 ][ 2 ][ Model ];
+		if (Family == 0x0F) {
+			TempName = cpuname[1][2][Model];
 
-			if( TempName != NULL ) {
-				Com_Printf( "%s\n", TempName );
+			if (TempName != NULL) {
+				Com_Printf("%s\n", TempName);
 			}
 		}
 
 		/* Do NOT do Am486 or Am5x86 */
-		if( Family >= MAX_CPU_FAMILY || Family < 5 ||
-			Model >= MAX_CPU_MODEL ) {
+		if ((Family >= MAX_CPU_FAMILY) || (Family < 5) ||
+			(Model >= MAX_CPU_MODEL)) {
 			return;
 		}
 		Family -= 5; /* Array lookup */
 
-		TempName = cpuname[ 1 ][ Family ][ Model ];
+		TempName = cpuname[1][Family][Model];
 
-		if( TempName != NULL ) {
-			Com_Printf( "%s\n", TempName );
+		if (TempName != NULL) {
+			Com_Printf("%s\n", TempName );
 		}
 
 		return;
@@ -789,208 +791,208 @@ PRIVATE void x86_get_cpu_ProcessorName_LUT( cpu_info_struct *s )
  Notes:
 -----------------------------------------------------------------------------
 */
-PRIVATE void Intel_TLB_Cache_LUT( W16 x )
+PRIVATE void Intel_TLB_Cache_LUT(W16 x)
 {
 	x &= 0xff;
 
-	switch( x ) {
+	switch (x) {
 		case 0:
 			break;
 
 		case 0x01:
-			Com_Printf( "Instruction TLB: 4-KBPages, 4-way set associative, 32 entries\n" );
+			Com_Printf("Instruction TLB: 4-KBPages, 4-way set associative, 32 entries\n");
 			break;
 
 		case 0x02:
-			Com_Printf( "Instruction TLB: 4-MB Pages, fully associative, 2 entries\n" );
+			Com_Printf("Instruction TLB: 4-MB Pages, fully associative, 2 entries\n");
 			break;
 
 		case 0x03:
-			Com_Printf( "Data TLB: 4-KB Pages, 4-way set associative, 64 entries\n" );
+			Com_Printf("Data TLB: 4-KB Pages, 4-way set associative, 64 entries\n");
 			break;
 
 		case 0x04:
-			Com_Printf( "Data TLB: 4-MB Pages, 4-way set associative, 8 entries\n" );
+			Com_Printf("Data TLB: 4-MB Pages, 4-way set associative, 8 entries\n");
 			break;
 
 		case 0x06:
-			Com_Printf( "1st-level instruction cache: 8-KB, 4-way set associative, 32-byte line size\n" );
+			Com_Printf("1st-level instruction cache: 8-KB, 4-way set associative, 32-byte line size\n");
 			break;
 
 		case 0x08:
-			Com_Printf( "1st-level instruction cache: 16-KB, 4-way set associative, 32-byte line size\n" );
+			Com_Printf("1st-level instruction cache: 16-KB, 4-way set associative, 32-byte line size\n");
 			break;
 
 		case 0x0A:
-			Com_Printf( "1st-level data cache: 8-KB, 2-way set associative, 32-byte line size\n" );
+			Com_Printf("1st-level data cache: 8-KB, 2-way set associative, 32-byte line size\n");
 			break;
 
 		case 0x0C:
-			Com_Printf( "1st-level data cache: 16-KB, 4-way set associative, 32-byte line size\n" );
+			Com_Printf("1st-level data cache: 16-KB, 4-way set associative, 32-byte line size\n");
 			break;
 
 		case 0x22:
-			Com_Printf( "3rd-level cache: 512 KB, 4-way set associative, sectored cache, 64-byte line size\n" );
+			Com_Printf("3rd-level cache: 512 KB, 4-way set associative, sectored cache, 64-byte line size\n");
 			break;
 
 		case 0x23:
-			Com_Printf( "3rd-level cache: 1-MB, 8-way set associative, sectored cache, 64-byte line size\n" );
+			Com_Printf("3rd-level cache: 1-MB, 8-way set associative, sectored cache, 64-byte line size\n");
 			break;
 
 		case 0x25:
-			Com_Printf( "3rd-level cache: 2-MB, 8-way set associative, sectored cache, 64-byte line size\n" );
+			Com_Printf("3rd-level cache: 2-MB, 8-way set associative, sectored cache, 64-byte line size\n");
 			break;
 
 		case 0x29:
-			Com_Printf( "3rd-level cache: 4-MB, 8-way set associative, sectored cache, 64-byte line size\n" );
+			Com_Printf("3rd-level cache: 4-MB, 8-way set associative, sectored cache, 64-byte line size\n");
 			break;
 
 		case 0x2C:
-			Com_Printf( "1st-level data cache: 32-KB, 8-way set associative, 64-byte line size\n" );
+			Com_Printf("1st-level data cache: 32-KB, 8-way set associative, 64-byte line size\n");
 			break;
 
 		case 0x30:
-			Com_Printf( "1st-level instruction cache: 32-KB, 8-way set associative, 64-byte line size\n" );
+			Com_Printf("1st-level instruction cache: 32-KB, 8-way set associative, 64-byte line size\n");
 			break;
 
 		case 0x39:
-			Com_Printf( "2nd-level cache: 128-KB, 4-way set associative, sectored cache, 64-byte line size\n" );
+			Com_Printf("2nd-level cache: 128-KB, 4-way set associative, sectored cache, 64-byte line size\n");
 			break;
 
 		case 0x3B:
-			Com_Printf( "2nd-level cache: 128-KB, 2-way set associative, sectored cache, 64-byte line size\n" );
+			Com_Printf("2nd-level cache: 128-KB, 2-way set associative, sectored cache, 64-byte line size\n");
 			break;
 
 		case 0x3C:
-			Com_Printf( "2nd-level cache: 256-KB, 4-way set associative, sectored cache, 64-byte line size\n" );
+			Com_Printf("2nd-level cache: 256-KB, 4-way set associative, sectored cache, 64-byte line size\n");
 			break;
 
 		case 0x40:
-			Com_Printf( "No 2nd-level cache or, if Processor contains a valid 2nd-level cache, no 3rd-level cache\n" );
+			Com_Printf("No 2nd-level cache or, if Processor contains a valid 2nd-level cache, no 3rd-level cache\n");
 			break;
 
 		case 0x41:
-			Com_Printf( "2nd-level cache: 128-KB, 4-way set associative, 32-byte line size\n" );
+			Com_Printf("2nd-level cache: 128-KB, 4-way set associative, 32-byte line size\n");
 			break;
 
 		case 0x42:
-			Com_Printf( "2nd-level cache: 256-KB, 4-way set associative, 32-byte line size\n" );
+			Com_Printf("2nd-level cache: 256-KB, 4-way set associative, 32-byte line size\n");
 			break;
 
 		case 0x43:
-			Com_Printf( "2nd-level cache: 512-KB, 4-way set associative, 32 byte line size\n" );
+			Com_Printf("2nd-level cache: 512-KB, 4-way set associative, 32 byte line size\n");
 			break;
 
 		case 0x44:
-			Com_Printf( "2nd-level cache: 1-MB, 4-way set associative, 32 byte line size\n" );
+			Com_Printf("2nd-level cache: 1-MB, 4-way set associative, 32 byte line size\n");
 			break;
 
 		case 0x45:
-			Com_Printf( "2nd-level cache: 2-MB, 4-way set associative, 32 byte line size\n" );
+			Com_Printf("2nd-level cache: 2-MB, 4-way set associative, 32 byte line size\n");
 			break;
 
 		case 0x50:
-			Com_Printf( "Instruction TLB: 4-KB, 2-MB or 4-MB pages, fully associative, 64 entries\n" );
+			Com_Printf("Instruction TLB: 4-KB, 2-MB or 4-MB pages, fully associative, 64 entries\n");
 			break;
 
 		case 0x51:
-			Com_Printf( "Instruction TLB: 4-KB, 2-MB or 4-MB pages, fully associative, 128 entries\n" );
+			Com_Printf("Instruction TLB: 4-KB, 2-MB or 4-MB pages, fully associative, 128 entries\n");
 			break;
 
 		case 0x52:
-			Com_Printf( "Instruction TLB: 4-KB, 2-MB or 4-MB pages, fully associative, 256 entries\n" );
+			Com_Printf("Instruction TLB: 4-KB, 2-MB or 4-MB pages, fully associative, 256 entries\n");
 			break;
 
 		case 0x5B:
-			Com_Printf( "Data TLB: 4-KB or 4-MB pages, fully associative, 64 entries\n" );
+			Com_Printf("Data TLB: 4-KB or 4-MB pages, fully associative, 64 entries\n");
 			break;
 
 		case 0x5C:
-			Com_Printf( "Data TLB: 4-KB or 4-MB pages, fully associative, 128 entries\n" );
+			Com_Printf("Data TLB: 4-KB or 4-MB pages, fully associative, 128 entries\n");
 			break;
 
 		case 0x5D:
-			Com_Printf( "Data TLB: 4-KB or 4-MB pages, fully associative, 256 entries\n" );
+			Com_Printf("Data TLB: 4-KB or 4-MB pages, fully associative, 256 entries\n");
 			break;
 
 		case 0x60:
-			Com_Printf( "1st-level data cache: 16-KB, 8-way set associative, sectored cache, 64-byte line size\n" );
+			Com_Printf("1st-level data cache: 16-KB, 8-way set associative, sectored cache, 64-byte line size\n");
 			break;
 
 		case 0x66:
-			Com_Printf( "1st-level data cache: 8-KB, 4-way set associative, sectored cache, 64-byte line size\n" );
+			Com_Printf("1st-level data cache: 8-KB, 4-way set associative, sectored cache, 64-byte line size\n");
 			break;
 
 		case 0x67:
-			Com_Printf( "1st-level data cache: 16-KB, 4-way set associative, sectored cache, 64-byte line size\n" );
+			Com_Printf("1st-level data cache: 16-KB, 4-way set associative, sectored cache, 64-byte line size\n");
 			break;
 
 		case 0x68:
-			Com_Printf( "1st-level data cache: 32-KB, 4 way set associative, sectored cache, 64-byte line size\n" );
+			Com_Printf("1st-level data cache: 32-KB, 4 way set associative, sectored cache, 64-byte line size\n");
 			break;
 
 		case 0x70:
-			Com_Printf( "Trace cache: 12K-uops, 8-way set associative\n" );
+			Com_Printf("Trace cache: 12K-uops, 8-way set associative\n");
 			break;
 
 		case 0x71:
-			Com_Printf( "Trace cache: 16K-uops, 8-way set associative\n" );
+			Com_Printf("Trace cache: 16K-uops, 8-way set associative\n");
 			break;
 
 		case 0x72:
-			Com_Printf( "Trace cache: 32K-uops, 8-way set associative\n" );
+			Com_Printf("Trace cache: 32K-uops, 8-way set associative\n");
 			break;
 
 		case 0x79:
-			Com_Printf( "2nd-level cache: 128-KB, 8-way set associative, sectored cache, 64-byte line size\n" );
+			Com_Printf("2nd-level cache: 128-KB, 8-way set associative, sectored cache, 64-byte line size\n");
 			break;
 
 		case 0x7A:
-			Com_Printf( "2nd-level cache: 256-KB, 8-way set associative, sectored cache, 64-byte line size\n" );
+			Com_Printf("2nd-level cache: 256-KB, 8-way set associative, sectored cache, 64-byte line size\n");
 			break;
 
 		case 0x7B:
-			Com_Printf( "2nd-level cache: 512-KB, 8-way set associative, sectored cache, 64-byte line size\n" );
+			Com_Printf("2nd-level cache: 512-KB, 8-way set associative, sectored cache, 64-byte line size\n");
 			break;
 
 		case 0x7C:
-			Com_Printf( "2nd-level cache: 1-MB, 8-way set associative, sectored cache, 64-byte line size\n" );
+			Com_Printf("2nd-level cache: 1-MB, 8-way set associative, sectored cache, 64-byte line size\n");
 			break;
 
 		case 0x82:
-			Com_Printf( "2nd-level cache: 256-KB, 8-way set associative, 32 byte line size\n" );
+			Com_Printf("2nd-level cache: 256-KB, 8-way set associative, 32 byte line size\n");
 			break;
 
 		case 0x83:
-			Com_Printf( "2nd-level cache: 512-KB, 8-way set associative, 32 byte line size\n" );
+			Com_Printf("2nd-level cache: 512-KB, 8-way set associative, 32 byte line size\n");
 			break;
 
 		case 0x84:
-			Com_Printf( "2nd-level cache: 1-MB, 8-way set associative, 32 byte line size\n" );
+			Com_Printf("2nd-level cache: 1-MB, 8-way set associative, 32 byte line size\n");
 			break;
 
 		case 0x85:
-			Com_Printf( "2nd-level cache: 2-MB, 8-way set associative, 32 byte line size\n" );
+			Com_Printf("2nd-level cache: 2-MB, 8-way set associative, 32 byte line size\n");
 			break;
 
 		case 0x86:
-			Com_Printf( "2nd-level cache: 512-KB, 4-way set associative, 64 byte line size\n" );
+			Com_Printf("2nd-level cache: 512-KB, 4-way set associative, 64 byte line size\n");
 			break;
 
 		case 0x87:
-			Com_Printf( "2nd-level cache: 1-MB, 8-way set associative, 64 byte line size\n" );
+			Com_Printf("2nd-level cache: 1-MB, 8-way set associative, 64 byte line size\n");
 			break;
 
 		case 0xB0:
-			Com_Printf( "Instruction TLB: 4-KB Pages, 4-way set associative, 128 entries\n" );
+			Com_Printf("Instruction TLB: 4-KB Pages, 4-way set associative, 128 entries\n");
 			break;
 
 		case 0xB3:
-			Com_Printf( "Data TLB: 4-KB Pages, 4-way set associative, 128 entries\n" );
+			Com_Printf("Data TLB: 4-KB Pages, 4-way set associative, 128 entries\n");
 			break;
 
 		default:
-			Com_Printf( "Unknown TLB/cache descriptor\n" );
+			Com_Printf("Unknown TLB/cache descriptor\n");
 			break;
 
 	} /* end switch x */
@@ -1017,7 +1019,7 @@ PRIVATE void x86_get_cpu_info(cpu_info_struct *s)
 
 
     x86_do_cpuid(0, regs); /* Largest Standard Function Supported and
-                              * CPU vendor name. */
+							* CPU vendor name. */
 
     LargestStdFunction = regs[0];
 
@@ -1042,8 +1044,8 @@ PRIVATE void x86_get_cpu_info(cpu_info_struct *s)
     LargestExtFunction = regs[0];
 
 
-	if( LargestStdFunction >= 1 ) {
-		x86_do_cpuid( 1, regs );
+	if (LargestStdFunction >= 1) {
+		x86_do_cpuid(1, regs);
 
 		/* Following are shared among all CPUs */
 		if (regs[3] & INTEL_CPUID_TSC_FLAG) {
@@ -1089,7 +1091,7 @@ PRIVATE void x86_get_cpu_info(cpu_info_struct *s)
         }
 	}
 
-	if( LargestExtFunction >= 0x80000004 ) {
+	if (LargestExtFunction >= 0x80000004) {
 		x86_get_cpu_ProcessorName();
 	} else {
 		x86_get_cpu_ProcessorName_LUT(s);
@@ -1102,61 +1104,63 @@ PRIVATE void x86_get_cpu_info(cpu_info_struct *s)
 				   ((temp >> 4) & 0x0F), (temp & 0x0F));
 #endif /* 0 */
 
-		if( LargestExtFunction >= 0x80000005 ) {
-			x86_do_cpuid( 0x80000005, regs );	/* Level 1 Cache Information */
+		if (LargestExtFunction >= 0x80000005) {
+			x86_do_cpuid(0x80000005, regs);	/* Level 1 Cache Information */
 
-			Com_Printf( "Level 1 Data Cache Size: %d KB\n", (regs[ 2 ] >> 24) & 0xFF );
-			Com_Printf( "Level 1 Instruction Cache Size: %d KB\n", (regs[ 3 ] >> 24) & 0xFF );
+			Com_Printf("Level 1 Data Cache Size: %d KB\n",
+					   ((regs[2] >> 24) & 0xFF));
+			Com_Printf("Level 1 Instruction Cache Size: %d KB\n",
+					   ((regs[3] >> 24) & 0xFF));
 		}
 
-        if( LargestExtFunction >= 0x80000006 ) {
+        if (LargestExtFunction >= 0x80000006) {
 			W32 L2CacheSize;
 
-			x86_do_cpuid( 0x80000006, regs );	/* Level 2 Cache Information */
+			x86_do_cpuid(0x80000006, regs);	/* Level 2 Cache Information */
 
-			L2CacheSize = (regs[ 2 ] >> 16) & 0xFFFF;
+			L2CacheSize = ((regs[2] >> 16) & 0xFFFF);
 
-			if( L2CacheSize == 1 ) { /* Duron Bug? */
+			if (L2CacheSize == 1) { /* Duron Bug? */
 				L2CacheSize = 64;
 			}
 
-			Com_Printf( "Level 2 Cache Size: %d KB\n", L2CacheSize );
+			Com_Printf("Level 2 Cache Size: %d KB\n", L2CacheSize);
 		} /* end if LargestExtFunction >= 0x80000006 */
 	} /* end if s->cpu_type == AMD_X86 */
-	else if( s->cpu_type == INTEL_X86 ) {
+	else if (s->cpu_type == INTEL_X86) {
 
-		if( LargestStdFunction >= 2 ) {
+		if (LargestStdFunction >= 2) {
 			/* Decode TLB and cache info */
 			W32 ntlb, i;
 
 			ntlb = 255;
-			Com_Printf( "TLB and cache info:\n" );
+			Com_Printf("TLB and cache info:\n");
 
-			for( i = 0; i < ntlb; ++i ) {
-				x86_do_cpuid( 2, regs );  /* Cache and TLB Descriptors */
+			for ((i = 0); (i < ntlb); ++i) {
+				x86_do_cpuid(2, regs);  /* Cache and TLB Descriptors */
 
-				ntlb =  regs[ 0 ] & 0xff;
-				Intel_TLB_Cache_LUT( (W16)(regs[ 0 ] >> 8) );
-				Intel_TLB_Cache_LUT( (W16)(regs[ 0 ] >> 16) );
-				Intel_TLB_Cache_LUT( (W16)(regs[ 0 ] >> 24) );
+				ntlb = (regs[0] & 0xff);
+				Intel_TLB_Cache_LUT((W16)(regs[0] >> 8));
+				Intel_TLB_Cache_LUT((W16)(regs[0] >> 16));
+				Intel_TLB_Cache_LUT((W16)(regs[0] >> 24));
 
-				if( (regs[ 1 ] & 0x80000000) == 0 ) {
-					Intel_TLB_Cache_LUT( (W16)regs[ 1 ] );
-					Intel_TLB_Cache_LUT( (W16)(regs[ 1 ] >> 8) );
-					Intel_TLB_Cache_LUT( (W16)(regs[ 1 ] >> 16) );
-					Intel_TLB_Cache_LUT( (W16)(regs[ 1 ] >> 24) );
+				if ((regs[1] & 0x80000000) == 0) {
+					Intel_TLB_Cache_LUT((W16)regs[1]);
+					Intel_TLB_Cache_LUT((W16)(regs[1] >> 8));
+					Intel_TLB_Cache_LUT((W16)(regs[1] >> 16));
+					Intel_TLB_Cache_LUT((W16)(regs[1] >> 24));
 				}
-				if( (regs[ 2 ] & 0x80000000) == 0 ) {
-					Intel_TLB_Cache_LUT( (W16)regs[ 2 ] );
-					Intel_TLB_Cache_LUT( (W16)(regs[ 2 ] >> 8) );
-					Intel_TLB_Cache_LUT( (W16)(regs[ 2 ] >> 16) );
-					Intel_TLB_Cache_LUT( (W16)(regs[ 2 ] >> 24) );
+				if ((regs[2] & 0x80000000) == 0) {
+					Intel_TLB_Cache_LUT((W16)regs[2]);
+					Intel_TLB_Cache_LUT((W16)(regs[2] >> 8));
+					Intel_TLB_Cache_LUT((W16)(regs[2] >> 16));
+					Intel_TLB_Cache_LUT((W16)(regs[2] >> 24));
 				}
-				if( (regs[ 3 ] & 0x80000000) == 0 ) {
-					Intel_TLB_Cache_LUT( (W16)regs[ 3 ] );
-					Intel_TLB_Cache_LUT( (W16)(regs[ 3 ] >> 8) );
-					Intel_TLB_Cache_LUT( (W16)(regs[ 3 ] >> 16) );
-					Intel_TLB_Cache_LUT( (W16)(regs[ 3 ] >> 24) );
+				if ((regs[3] & 0x80000000) == 0 ) {
+					Intel_TLB_Cache_LUT((W16)regs[3]);
+					Intel_TLB_Cache_LUT((W16)(regs[3] >> 8));
+					Intel_TLB_Cache_LUT((W16)(regs[3] >> 16));
+					Intel_TLB_Cache_LUT((W16)(regs[3] >> 24));
 				}
 			} /* end for i = 0; i < ntlb; ++i */
 		} /* end if LargestStdFunction >= 2 */
@@ -1181,17 +1185,17 @@ PRIVATE void x86_get_cpu_info(cpu_info_struct *s)
 
 -----------------------------------------------------------------------------
 */
-PRIVATE W32 x86_Get_CPU_frequency( void )
+PRIVATE W32 x86_Get_CPU_frequency(void)
 {
 #ifdef _MSC_VER
 	W32 startLOW, dtime;
 	LARGE_INTEGER StartCount, EndCount, WaitTime;
 
-	if( ! QueryPerformanceFrequency( &WaitTime ) ) {
+	if (! QueryPerformanceFrequency(&WaitTime)) {
 		return 0;
 	}
 
-	QueryPerformanceCounter( &StartCount );
+	QueryPerformanceCounter(&StartCount);
 
 	__asm
 	{
@@ -1210,14 +1214,14 @@ PRIVATE W32 x86_Get_CPU_frequency( void )
 		mov [dtime], eax
 	}
 
-	QueryPerformanceCounter( &EndCount );
+	QueryPerformanceCounter(&EndCount);
 
 	EndCount.QuadPart -= StartCount.QuadPart;
-	if( EndCount.QuadPart == 0 ) {
+	if (EndCount.QuadPart == 0) {
 		return 0;
 	}
 
-	return (W32)( dtime * WaitTime.QuadPart / EndCount.QuadPart / 1000000 );
+	return (W32)(dtime * WaitTime.QuadPart / EndCount.QuadPart / 1000000);
 #elif __unix__
 	unsigned long long tscstart, tscstop;
 	unsigned int start, stop;
@@ -1226,8 +1230,8 @@ PRIVATE W32 x86_Get_CPU_frequency( void )
 	struct timespec ts;
 
 	/* Get start time in micro-seconds */
-	gettimeofday( &tv, NULL );
-	start = tv.tv_sec * 1000000 + tv.tv_usec;
+	gettimeofday(&tv, NULL);
+	start = ((tv.tv_sec * 1000000) + tv.tv_usec);
 
 	/* tscstart time */
 	__asm__ __volatile__(	"rdtsc\n\t"
@@ -1235,9 +1239,9 @@ PRIVATE W32 x86_Get_CPU_frequency( void )
 	);
 
 	/* Sleep */
-	ts.tv_sec  =  50000 / 1000000;
-    ts.tv_nsec = (50000 % 1000000) * 1000;
-	nanosleep( &ts, NULL );
+	ts.tv_sec  = (50000 / 1000000);
+    ts.tv_nsec = ((50000 % 1000000) * 1000);
+	nanosleep(&ts, NULL);
 
 	/* tscstop time */
 	__asm__ __volatile__(	"rdtsc\n\t"
@@ -1245,10 +1249,10 @@ PRIVATE W32 x86_Get_CPU_frequency( void )
 	);
 
 	/* Get stop time in micro-seconds */
-	gettimeofday( &tv, NULL );
+	gettimeofday(&tv, NULL);
 	stop = tv.tv_sec * 1000000 + tv.tv_usec;
 
-	return( (tscstop - tscstart) / (stop - start) );
+	return ((tscstop - tscstart) / (stop - start));
 #else
 	return 0;
 #endif /* _MSC_VER || __unix__ */

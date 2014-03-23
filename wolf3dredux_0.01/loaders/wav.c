@@ -129,7 +129,7 @@ PRIVATE void Wav_FindNextChunk(const char *name)
 
 		iff_pdata -= 8;
 		iff_last_chunk = (iff_pdata + 8 + ((iff_chunk_len + 1) & ~1));
-		if (! my_strnicmp((const char *)iff_pdata, name, 4)) {
+		if (! my_strnicmp((const char *)iff_pdata, name, (size_t)4)) {
 			return;
 		}
 	}
@@ -204,12 +204,12 @@ PUBLIC _boolean LoadWavInfo(const char *filename, W8 **wav, soundInfo_t *info)
 	W8	*data;
 	W32	wavlength;
 
-	hFile = FS_OpenFile(filename, FA_FILE_FLAG_LOAD);
+	hFile = FS_OpenFile(filename, (W32)FA_FILE_FLAG_LOAD);
 	if (! hFile) {
 		return false;
 	}
 
-	data = (PW8)FS_GetLoadedFilePointer(hFile, SEEK_SET);
+	data = (PW8)FS_GetLoadedFilePointer(hFile, (W32)SEEK_SET);
 	wavlength = (W32)FS_GetFileSize(hFile);
 
 	iff_data = data;
@@ -218,7 +218,7 @@ PUBLIC _boolean LoadWavInfo(const char *filename, W8 **wav, soundInfo_t *info)
 	/* look for RIFF signature */
 	Wav_FindChunk("RIFF");
 	if (! (iff_pdata && ! my_strnicmp((const char *)(iff_pdata + 8),
-									  "WAVE", 4))) {
+									  "WAVE", (size_t)4))) {
 		Com_DPrintf("[LoadWavInfo]: Missing RIFF/WAVE chunks (%s)\n", filename);
 		FS_CloseFile(hFile);
 

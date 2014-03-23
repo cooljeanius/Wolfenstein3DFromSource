@@ -539,8 +539,9 @@ PRIVATE _boolean AI_CheckSight(entity_t *self)
 	}
 
 /* trace a line to check for blocking tiles (corners) */
-	return Level_CheckLine(self->x, self->y, Player.position.origin[0],
-						   Player.position.origin[1], r_world);
+	return Level_CheckLine((SW32)self->x, (SW32)self->y,
+						   Player.position.origin[0], Player.position.origin[1],
+						   r_world);
 }
 
 
@@ -652,34 +653,34 @@ PRIVATE _boolean AI_FindTarget(entity_t *self)
 	Does NOT check to see if the move is tile map valid.
 -----------------------------------------------------------------------------
 */
-PRIVATE void T_Move( entity_t *self, long dist )
+PRIVATE void T_Move(entity_t *self, long dist)
 {
 
-	if( self->dir == dir8_nodir || ! dist ) {
+	if ((self->dir == dir8_nodir) || ! dist) {
 		return;
 	}
 
-	self->x += dist * dx8dir[ self->dir ];
-	self->y += dist * dy8dir[ self->dir ];
+	self->x += (int)(dist * dx8dir[self->dir]);
+	self->y += (int)(dist * dy8dir[self->dir]);
 
 	/* check to make sure it is/was not on top of player */
-	if( ABS( self->x - Player.position.origin[ 0 ] ) <= MINACTORDIST )
-		if( ABS( self->y - Player.position.origin[ 1 ] ) <= MINACTORDIST ) {
-			if(self->type==en_blinky||
-				 self->type==en_clyde	||
-				 self->type==en_pinky	||
-				 self->type==en_inky	||
-				 self->type==en_spectre) PL_Damage(&Player, self, 2); /* ghosts hurt player! */
+	if (ABS(self->x - Player.position.origin[0]) <= MINACTORDIST)
+		if (ABS(self->y - Player.position.origin[1]) <= MINACTORDIST) {
+			if ((self->type == en_blinky) || (self->type == en_clyde) ||
+				(self->type == en_pinky) || (self->type == en_inky) ||
+				(self->type == en_spectre)) {
+				PL_Damage(&Player, self, 2); /* ghosts hurt player! */
+			}
 /*
  * back up
  */
-			self->x -= dist * dx8dir[ self->dir ];
-			self->y -= dist * dy8dir[ self->dir ];
+			self->x -= (int)(dist * dx8dir[self->dir]);
+			self->y -= (int)(dist * dy8dir[self->dir]);
 			return;
 		}
 
-	self->distance -= dist;
-	if( self->distance < 0 ) {
+	self->distance -= (int)dist;
+	if (self->distance < 0) {
 		self->distance = 0;
 	}
 }
@@ -840,7 +841,7 @@ PUBLIC void T_Chase(entity_t *self)
 #endif /* 0 */
 
 	dodge = 0;
-	if (Level_CheckLine(self->x, self->y, Player.position.origin[0],
+	if (Level_CheckLine((SW32)self->x, (SW32)self->y, Player.position.origin[0],
 						Player.position.origin[1], r_world)) {
 		/* got a shot at player? */
 		dx = ((int)ABS(POS2TILE(self->x) -
@@ -895,7 +896,7 @@ PUBLIC void T_Bite(entity_t *self)
 	long dx, dy;
 
 	Sound_StartSound(NULL, 1, CHAN_VOICE, Sound_RegisterSound("lsfx/076.wav"),
-					 1, ATTN_NORM, 0);
+					 (float)1.0, (float)ATTN_NORM, 0);
 
 	dx = (ABS(Player.position.origin[0] - self->x) - TILEGLOBAL);
 	if (dx <= MINACTORDIST) {
@@ -972,7 +973,7 @@ PUBLIC void T_BossChase(entity_t *self)
 	dy = ((int)ABS(self->tiley - POS2TILE(Player.position.origin[1])));
 	dist = max_of_2(dx, dy);
 
-	if (Level_CheckLine(self->x, self->y, Player.position.origin[0],
+	if (Level_CheckLine((SW32)self->x, (SW32)self->y, Player.position.origin[0],
 						Player.position.origin[1], r_world)) {
 		/* got a shot at player? */
 		if ((int)US_RndT() < (tics << 3)) {
@@ -1013,7 +1014,7 @@ PUBLIC void T_BossChase(entity_t *self)
 PUBLIC void T_Fake(entity_t *self)
 {
 
-	if (Level_CheckLine(self->x, self->y, Player.position.origin[0],
+	if (Level_CheckLine((SW32)self->x, (SW32)self->y, Player.position.origin[0],
 						Player.position.origin[1], r_world)) {
 		/* got a shot at player? */
 		if ((int)US_RndT() < (tics << 1)) { /* go into attack frame */
@@ -1055,7 +1056,7 @@ PUBLIC void T_Shoot(entity_t *self)
 		return;
 	}
 
-	if (! Level_CheckLine(self->x, self->y, Player.position.origin[0],
+	if (! Level_CheckLine((SW32)self->x, (SW32)self->y, Player.position.origin[0],
 						  Player.position.origin[1], r_world)) {
 		return; /* player is behind a wall */
 	}
@@ -1188,7 +1189,7 @@ PUBLIC void T_Launch(entity_t *self)
 										   Player.position.origin[0],
 										   Player.position.origin[1]) + M_PI);
 	if (iangle > (2 * M_PI)) {
-		iangle -= (2 * M_PI);
+		iangle -= (float)(2 * M_PI);
 	}
 
 	if (self->type == en_death) {

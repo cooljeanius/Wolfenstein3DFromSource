@@ -1,22 +1,20 @@
 /*
-
-	Copyright (C) 2004 Michael Liebscher
-
-	This program is free software; you can redistribute it and/or
-	modify it under the terms of the GNU General Public License
-	as published by the Free Software Foundation; either version 2
-	of the License, or (at your option) any later version.
-
-	This program is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	GNU General Public License for more details.
-
-	You should have received a copy of the GNU General Public License
-	along with this program; if not, write to the Free Software
-	Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-
-*/
+ *	Copyright (C) 2004 Michael Liebscher
+ *
+ *	This program is free software; you can redistribute it and/or
+ *	modify it under the terms of the GNU General Public License
+ *	as published by the Free Software Foundation; either version 2
+ *	of the License, or (at your option) any later version.
+ *
+ *	This program is distributed in the hope that it will be useful,
+ *	but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *	GNU General Public License for more details.
+ *
+ *	You should have received a copy of the GNU General Public License
+ *	along with this program; if not, write to the Free Software
+ *	Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */
 
 /*
  *      zippak.c:   Parse zip file
@@ -27,20 +25,18 @@
  */
 
 /*
-
-	Notes:
-	This zip parser is done for speed and so it makes a couple of assumptions.
-	1. CRC of the uncompressed data is not checked.
-	2. Assumes length of uncompressed data value is accurate (for now).
-	3. Only parses the local file headers (central directory headers are
-		redundant for what this module supports and end of central directory
-		record is useless).
-
-	Reference document:
-	http://www.pkware.com/company/standards/appnote/appnote.txt
-
-
-*/
+ *	Notes:
+ *	This zip parser is done for speed and so it makes a couple of assumptions.
+ *	1. CRC of the uncompressed data is not checked.
+ *	2. Assumes length of uncompressed data value is accurate (for now).
+ *	3. Only parses the local file headers (central directory headers are
+ *		redundant for what this module supports and end of central directory
+ *		record is useless).
+ *
+ *	Reference document:
+ *	http://www.pkware.com/company/standards/appnote/appnote.txt
+ *
+ */
 
 #include <stdio.h>
 #include <string.h>
@@ -153,8 +149,8 @@ PUBLIC pack_t *FS_LoadZipFile(const char *packfile)
 	}
 
 	/*	Scan local header information */
-	for( ; ; ) {
-		ret = fread(&ziphead, 1, 4, packhandle);
+	for (;;) {
+		ret = fread(&ziphead, (size_t)1, (size_t)4, packhandle);
 		if (ret != 4) {
 			Com_DPrintf("[FS_LoadZipFile]: Read error on file (%s)\n", packfile);
 			break;
@@ -168,31 +164,31 @@ PUBLIC pack_t *FS_LoadZipFile(const char *packfile)
 		memset(&zlocalhead, 0, sizeof(zlocalhead));
 
 		/* Read in local header */
-		ret = fread(&temp16, 1, 2, packhandle);
+		ret = fread(&temp16, (size_t)1, (size_t)2, packhandle);
 		zlocalhead.version_needed = LittleShort(temp16);
 
-		ret += fread(&temp16, 1, 2, packhandle);
+		ret += fread(&temp16, (size_t)1, (size_t)2, packhandle);
 		zlocalhead.flag = LittleShort(temp16);
 
-		ret += fread(&temp16, 1, 2, packhandle);
+		ret += fread(&temp16, (size_t)1, (size_t)2, packhandle);
 		zlocalhead.compression_method = LittleShort(temp16);
 
-		ret += fread(&temp32, 1, 4, packhandle);
+		ret += fread(&temp32, (size_t)1, (size_t)4, packhandle);
 		zlocalhead.timedate = LittleLong(temp32);
 
-		ret += fread(&temp32, 1, 4, packhandle);
+		ret += fread(&temp32, (size_t)1, (size_t)4, packhandle);
 		zlocalhead.crc32 = LittleLong(temp32);
 
-		ret += fread(&temp32, 1, 4, packhandle);
+		ret += fread(&temp32, (size_t)1, (size_t)4, packhandle);
 		zlocalhead.compressed_size = LittleLong(temp32);
 
-		ret += fread(&temp32, 1, 4, packhandle);
+		ret += fread(&temp32, (size_t)1, (size_t)4, packhandle);
 		zlocalhead.uncompressed_size = LittleLong(temp32);
 
-		ret += fread(&temp16, 1, 2, packhandle);
+		ret += fread(&temp16, (size_t)1, (size_t)2, packhandle);
 		zlocalhead.filename_length = LittleShort(temp16);
 
-		ret += fread(&temp16, 1, 2, packhandle);
+		ret += fread(&temp16, (size_t)1, (size_t)2, packhandle);
 		zlocalhead.extrafield_length = LittleShort(temp16);
 
 		if (ret != LOCALHEAD_SIZE) {
@@ -205,8 +201,8 @@ PUBLIC pack_t *FS_LoadZipFile(const char *packfile)
 		if (zlocalhead.compressed_size == 0) {
 			/* seek past filename + extra field */
 			ret = (W32)fseek(packhandle,
-							 (zlocalhead.filename_length +
-							  zlocalhead.extrafield_length),
+							 (long)(zlocalhead.filename_length +
+									zlocalhead.extrafield_length),
 							 SEEK_CUR);
 
 			if (ret != 0) {
@@ -261,18 +257,19 @@ PUBLIC pack_t *FS_LoadZipFile(const char *packfile)
 		pknewnode = Z_Malloc(sizeof(packfile_t));
 
 		/* Read in file name */
-		ret = fread(&tempfilename, 1, zlocalhead.filename_length, packhandle);
+		ret = fread(&tempfilename, (size_t)1,
+					(size_t)zlocalhead.filename_length, packhandle);
 		if (ret != zlocalhead.filename_length) {
 			Com_DPrintf("[FS_LoadZipFile]: Read error on file name in file (%s)\n",
 						packfile);
 			break;
 		}
 
-		tempfilename[ zlocalhead.filename_length ] = '\0'; /* NUL-terminate string */
+		tempfilename[zlocalhead.filename_length] = '\0'; /* NUL-terminate string */
 
 #if 0 || __clang_analyzer__
 		if (! checkstring(tempfilename)) {
-			Com_DPrintf( "[FS_LoadZipFile]: Invalid file name\n" );
+			Com_DPrintf("[FS_LoadZipFile]: Invalid file name\n");
 
 			/* seek past extra field + file data */
 			ret = (W32)fseek(packhandle,
@@ -299,9 +296,11 @@ PUBLIC pack_t *FS_LoadZipFile(const char *packfile)
 		pknewnode->filelength = zlocalhead.compressed_size;
 
 		/* seek past extra field */
-		ret = (W32)fseek(packhandle, zlocalhead.extrafield_length, SEEK_CUR);
+		ret = (W32)fseek(packhandle, (long)zlocalhead.extrafield_length,
+						 SEEK_CUR);
 		if (ret != 0) {
-			Com_DPrintf("[FS_LoadZipFile]: Seek error in file (%s)\n", packfile);
+			Com_DPrintf("[FS_LoadZipFile]: Seek error in file (%s)\n",
+						packfile);
 			break;
 		}
 

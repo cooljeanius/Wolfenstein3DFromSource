@@ -96,7 +96,8 @@ PRIVATE void SetEpisodeGameFunc(void *data)
  */
 PRIVATE void MenuCursorDrawFunc(menuframework_s *menu)
 {
-	M_DrawCursor((((viddef.width - 616) >> 1) + 5), (70 + (menu->cursor * 60)),
+	M_DrawCursor((int)(((viddef.width - 616) >> 1) + 5),
+				 (70 + (menu->cursor * 60)),
 				 ((int)(ClientStatic.realtime / 1000) % NUM_CURSOR_FRAMES));
 }
 
@@ -119,7 +120,8 @@ PRIVATE void MenuDrawNewGameImages(void)
 
 	for ((i = 0); (i < 6); ++i) {
 		my_snprintf(buffer, sizeof(buffer), "pics/C_EPISODE%dPIC.tga", (i + 1));
-		R_Draw_Pic((((viddef.width - 616) >> 1) + 69), (70 + (i * 60)), buffer);
+		R_Draw_Pic((int)(((viddef.width - 616) >> 1) + 69),
+				   (70 + (i * 60)), buffer);
 	}
 }
 
@@ -190,9 +192,9 @@ PRIVATE void Game_MenuDraw(void)
 {
 	R_Draw_Fill(0, 0, (int)viddef.width, (int)viddef.height, bgcolour);
 
-	M_BannerString("Which episode to play?", 15);
+	M_BannerString("Which episode to play?", (W16)15);
 
-	M_DrawWindow(((viddef.width - 616) >> 1), 60, 616, 370,
+	M_DrawWindow((int)((viddef.width - 616) >> 1), 60, 616, 370,
 				 bkgdcolour, bord2colour, deactive);
 	M_DrawInfoBar();
 	MenuDrawNewGameImages();
@@ -353,7 +355,7 @@ PRIVATE void ToughPic(int i)
 	}
 
 
-	R_Draw_Pic((((viddef.width - 450) >> 1) + 375), 214, string);
+	R_Draw_Pic((int)(((viddef.width - 450) >> 1) + 375), 214, string);
 }
 
 /*
@@ -371,7 +373,8 @@ PRIVATE void ToughPic(int i)
 PRIVATE void SkillMenuCursorDrawFunc(void *data)
 {
 	menuframework_s *menu = (menuframework_s *)data;
-	M_DrawCursor((((viddef.width - 450) >> 1) + 5), (187 + (menu->cursor * 30)),
+	M_DrawCursor((int)(((viddef.width - 450) >> 1) + 5),
+				 (187 + (menu->cursor * 30)),
 				 ((int)(ClientStatic.realtime / 1000) % NUM_CURSOR_FRAMES));
 	ToughPic(menu->cursor);
 }
@@ -476,14 +479,14 @@ PRIVATE void Skill_MenuDraw(void)
 				   "pics/C_HOWTOUGHPIC.tga");
 #endif /* __i386__ */
 
-		M_DrawWindow(((viddef.width - 450) >> 1), 180, 450, 134,
+		M_DrawWindow((int)((viddef.width - 450) >> 1), 180, 450, 134,
 					 sodbkgdcolour, sodbord2colour, soddeactive);
 	} else {
 		R_Draw_Fill(0, 0, (int)viddef.width, (int)viddef.height, bgcolour);
 
-		M_BannerString("How tough are you?", 136);
+		M_BannerString("How tough are you?", (W16)136);
 
-		M_DrawWindow(((viddef.width - 450) >> 1), 180, 450, 134,
+		M_DrawWindow((int)((viddef.width - 450) >> 1), 180, 450, 134,
 					 bkgdcolour, bord2colour, deactive);
 	}
 

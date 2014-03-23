@@ -37,22 +37,23 @@
 #include "../common/common_utils.h"
 
 
-/* Use the macros */
-extern void *Memory_malloc( size_t size );
-extern void *Memory_calloc( size_t num, size_t size );
-extern void *Memory_realloc( void *memblock, size_t size );
-extern void Memory_free( void *memblock );
+/* Use the macros instead of these prototypes (why?): */
+extern void *Memory_malloc(size_t size);
+extern void *Memory_calloc(size_t num, size_t size);
+extern void *Memory_realloc(void *memblock, size_t size);
+extern void Memory_free(void *memblock);
 
-extern void Memory_outofmem( const char *name, const char *file, W32 line );
+extern void Memory_outofmem(const char *name, const char *file, W32 line);
 
+/* These are the macros to actually use instead of the prototypes that they
+ * are simple wrappers around: */
+#define MM_MALLOC(size)				Memory_malloc((size_t)(size))
+#define MM_CALLOC(num, size)		Memory_calloc((size_t)(num), (size_t)(size))
+#define MM_REALLOC(memblock, size)	Memory_realloc((void *)(memblock), (size_t)(size))
 
-#define MM_MALLOC( size )				Memory_malloc( (size) )
-#define MM_CALLOC( num, size )			Memory_calloc( (num), (size) )
-#define MM_REALLOC( memblock, size )	Memory_realloc( (memblock), (size) )
+#define MM_FREE(memblock)	{ Memory_free((void *)(memblock)); ((memblock)) = NULL; }
 
-#define MM_FREE( memblock )	{ Memory_free( (memblock) ); ((memblock)) = NULL; }
-
-#define MM_OUTOFMEM( name )	Memory_outofmem( (name), __FILE__, __LINE__ )
+#define MM_OUTOFMEM(name)	Memory_outofmem((const char *)(name), (const char *)__FILE__, (W32)__LINE__)
 
 
 #endif /* __MEMORY_H__ */

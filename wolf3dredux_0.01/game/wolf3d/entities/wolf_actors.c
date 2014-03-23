@@ -147,7 +147,8 @@ PRIVATE int DoGuard( entity_t *ent ) /* FIXME: revise! */
 PRIVATE void RemoveActor(entity_t *actor)
 {
 	Sprite_RemoveSprite(actor->sprite);
-	memmove((void *)actor, (const void *)(actor + 1),
+	memmove((void *)(actor),
+			(const void *)(actor + 1),
 			(size_t)((int)(&Guards[NumGuards]) - (int)(actor + 1)));
 	NumGuards--;
 }
@@ -181,11 +182,11 @@ PUBLIC void ProcessGuards(void)
 		if (objstate[Guards[n].type][Guards[n].state].rotate) {
 			if ((Guards[n].type == en_rocket) ||
 				(Guards[n].type == en_hrocket)) {
-				tex += r_add8dir[Get8dir(angle_wise(Player.position.angle,
-													(float)FINE2RAD(Guards[n].angle)))];
+				tex += r_add8dir[Get8dir((float)angle_wise((float)Player.position.angle,
+														   (float)FINE2RAD(Guards[n].angle)))];
 			} else {
-				tex += add8dir[Get8dir(angle_wise(Player.position.angle,
-												  (float)FINE2RAD(Guards[n].angle)))];
+				tex += add8dir[Get8dir((float)angle_wise((float)Player.position.angle,
+														 (float)FINE2RAD(Guards[n].angle)))];
 			}
 		}
 

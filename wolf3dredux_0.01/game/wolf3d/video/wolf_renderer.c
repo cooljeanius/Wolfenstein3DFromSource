@@ -85,8 +85,8 @@ PUBLIC void R_DrawHUD(void)
 	W32 score = (W32)Player.score;
 
 	TM_GetTextureSize(&w, &h, "pics/STATUSBARPIC.tga");
-	hud_x = (viddef.width - w ) >> 1;
-	hud_y = viddef.height - h;
+	hud_x = ((viddef.width - (unsigned long)w) >> 1);
+	hud_y = (SW32)(viddef.height - (unsigned long)h);
 	R_Draw_Pic((int)hud_x, (int)hud_y, "pics/STATUSBARPIC.tga");
 
 	if (Player.items & ITEM_KEY_1) {
@@ -259,7 +259,7 @@ PRIVATE void R_DrawFlash(void)
 -----------------------------------------------------------------------------
  Function: R_DrawBackGnd -Renders the background floor / ceiling colours.
 
- Parameters: floor -[in] floor colour.
+ Parameters: floor -[in] floor colour. (shadows global decl of 'floor')
 			 ceiling -[in] ceiling colour.
 
  Returns: Nothing.
@@ -268,11 +268,12 @@ PRIVATE void R_DrawFlash(void)
 
 -----------------------------------------------------------------------------
 */
-PRIVATE void R_DrawBackGnd( colour3_t floor, colour3_t ceiling )
+PRIVATE void R_DrawBackGnd(colour3_t floor, colour3_t ceiling)
 {
-	R_Draw_Fill( 0, 0, (int)viddef.width, (int)viddef.height >> 1, ceiling );
+	R_Draw_Fill(0, 0, (int)viddef.width, ((int)viddef.height >> 1), ceiling);
 
-	R_Draw_Fill( 0, viddef.height >> 1, (int)viddef.width, (int)viddef.height, floor );
+	R_Draw_Fill(0, (int)(viddef.height >> 1), (int)viddef.width,
+				(int)viddef.height, floor);
 }
 
 
@@ -354,29 +355,29 @@ colour3_t barthirdcolour	= {	252, 156, 156 };
 
 -----------------------------------------------------------------------------
 */
-PUBLIC void R_DrawPsyched( W32 percent )
+PUBLIC void R_DrawPsyched(W32 percent)
 {
 	SW32 w, h;
 	W32 bar_length;
 
 	R_Draw_Fill(0, 0, (int)viddef.width, (int)viddef.height, interbkgnd);
 
-	TM_GetTextureSize( &w, &h, "pics/GETPSYCHEDPIC.tga" );
-	R_Draw_Pic((int)((viddef.width - w) >> 1),
-			   (int)(((viddef.height - h) >> 1) - 80),
+	TM_GetTextureSize(&w, &h, "pics/GETPSYCHEDPIC.tga");
+	R_Draw_Pic((int)((viddef.width - (unsigned long)w) >> 1),
+			   (int)(((viddef.height - (unsigned long)h) >> 1) - 80),
 			   "pics/GETPSYCHEDPIC.tga");
 
-	R_Draw_Fill((int)((viddef.width - w) >> 1),
-				(int)(((viddef.height - h) >> 1) + h - 80), (int)w, 4,
-				colourBlack);
+	R_Draw_Fill((int)((viddef.width - (unsigned long)w) >> 1),
+				(int)(((viddef.height - (unsigned long)h) >> 1) + (unsigned long)h - 80),
+				(int)w, 4, colourBlack);
 
 	bar_length = (((unsigned long)w * percent) / 100);
 	if (bar_length) {
-		R_Draw_Fill((int)((viddef.width - w) >> 1),
-					(int)(((viddef.height - h) >> 1) + h - 80),
+		R_Draw_Fill((int)((viddef.width - (unsigned long)w) >> 1),
+					(int)(((viddef.height - (unsigned long)h) >> 1) + (unsigned long)h - 80),
 					(int)bar_length, 4, barsecondcolour);
-		R_Draw_Fill((int)((viddef.width - w) >> 1),
-					(int)(((viddef.height - h) >> 1) + h - 80),
+		R_Draw_Fill((int)((viddef.width - (unsigned long)w) >> 1),
+					(int)(((viddef.height - (unsigned long)h) >> 1) + (unsigned long)h - 80),
 					(int)(bar_length - 2), 3, barthirdcolour);
 	}
 
@@ -399,14 +400,14 @@ PUBLIC void R_BeginRegistration(const char *map)
 {
 	char	fullname[MAX_GAMEPATH];
 
-	if( ! map || ! *map ) {
+	if (! map || ! *map) {
 		return;
 	}
 
 	++texture_registration_sequence;
 
 
-	my_snprintf( fullname, sizeof( fullname ), "maps/%s.map", map );
+	my_snprintf(fullname, sizeof(fullname), "maps/%s.map", map);
 
 	/* explicitly free the old map if different */
 	if (r_world) {

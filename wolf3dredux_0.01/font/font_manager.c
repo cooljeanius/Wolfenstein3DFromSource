@@ -86,7 +86,7 @@ font_t *createFont(const char *filename)
 
 	my_strlcat(datname, ".dat", (strlen(filename) + 1));
 
-	fp = FS_OpenFile(datname, 0);
+	fp = FS_OpenFile(datname, (W32)0);
 	if (NULL == fp) {
 		Com_Printf("[createFont]: unable to open file (%s); it seems to be NULL...\n",
 				   datname);
@@ -113,12 +113,12 @@ font_t *createFont(const char *filename)
 	}
 
 	/* Check sig of font dat file */
-	FS_ReadFile(&size, 1, 4, fp);
+	FS_ReadFile(&size, (W32)1, (W32)4, fp);
 
-	FS_ReadFile(&temp_font->nMaxWidth, 1, 1, fp);
-	FS_ReadFile(&temp_font->nMaxHeight, 1, 1, fp);
+	FS_ReadFile(&temp_font->nMaxWidth, (W32)1, (W32)1, fp);
+	FS_ReadFile(&temp_font->nMaxHeight, (W32)1, (W32)1, fp);
 
-	FS_ReadFile(&size, 1, 4, fp);
+	FS_ReadFile(&size, (W32)1, (W32)4, fp);
 	/* LittleLong is a define from "../common/arch.h" that only does anything on
 	 * big-endian systems: */
 	if (size != (W32)LittleLong(size)) {
@@ -137,7 +137,7 @@ font_t *createFont(const char *filename)
 		return NULL;
 	}
 
-	FS_ReadFile(&temp_font->nCharWidth, 1, size, fp);
+	FS_ReadFile(&temp_font->nCharWidth, (W32)1, size, fp);
 
 	FS_CloseFile(fp);
 
@@ -223,7 +223,8 @@ void Font_GetMsgDimensions(FONTSELECT fs, const char *string, int *w, int *h)
 			continue;
 		}
 
-		mx += myfonts[fs]->nCharWidth[(*string) - 32] * myfonts[fs]->nSize;
+		mx += (int)(myfonts[fs]->nCharWidth[((*string) - 32)] *
+					myfonts[fs]->nSize);
 
 		++string;
 	}
@@ -303,8 +304,8 @@ void Font_put_lineR2L(FONTSELECT fs, int x, int y, const char *string)
 
 	for ((i = 0); (i < strlen(string)); ++i ) {
 		charindex = (unsigned int)(strlen(string) - i - 1);
-		mx -= ((myfonts[fs]->nCharWidth[(string[charindex] - 32)]) *
-			   (myfonts[fs]->nSize));
+		mx -= (int)((myfonts[fs]->nCharWidth[(string[charindex] - 32)]) *
+					(myfonts[fs]->nSize));
 
 		R_Draw_Character(mx, y, string[charindex], myfonts[fs]);
 	}

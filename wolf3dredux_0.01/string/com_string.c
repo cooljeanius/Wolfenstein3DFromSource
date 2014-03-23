@@ -96,7 +96,7 @@ PUBLIC size_t my_strlcpy(char *dest, const char *source, size_t nMaxLength)
 
 	/* Not enough room in dest, add NUL and traverse rest of source */
 	if (n == 0) {
-		if( nMaxLength != 0 ) {
+		if (nMaxLength != 0) {
 			*d = '\0'; /* NUL-terminate dest */
 		}
 
@@ -174,12 +174,12 @@ PUBLIC size_t my_strlcat(char *dest, const char *source, size_t nMaxLength)
  Notes:
 -----------------------------------------------------------------------------
 */
-PUBLIC int my_strnicmp( const char *string1, const char *string2, size_t count )
+PUBLIC int my_strnicmp(const char *string1, const char *string2, size_t count)
 {
 	char c1, c2;
 
-	if( ! string1 || ! *string1 ||
-	    ! string2 || ! *string2 ) {
+	if (! string1 || ! *string1 ||
+	    ! string2 || ! *string2) {
 		return -1;
 	}
 
@@ -187,17 +187,17 @@ PUBLIC int my_strnicmp( const char *string1, const char *string2, size_t count )
 		c1 = *string1++;
 		c2 = *string2++;
 
-		if( ! count-- ) {
+		if (! count--) {
 			return 0;		/* strings are equal until end point */
 		}
 
-		if( c1 != c2 ) {
-			if( TOUPPER( c1 ) != TOUPPER( c2 ) ) { /* Uppercase compare */
+		if (c1 != c2) {
+			if (TOUPPER(c1) != TOUPPER(c2)) { /* Uppercase compare */
 				return -1;	/* strings are not equal */
 			}
 		}
 
-	} while( c1 );
+	} while (c1);
 
 	return 0;		/* strings are equal */
 }
@@ -214,9 +214,9 @@ PUBLIC int my_strnicmp( const char *string1, const char *string2, size_t count )
 		Calls my_strnicmp, where count is 99999
 -----------------------------------------------------------------------------
 */
-PUBLIC int my_stricmp( const char *string1, const char *string2 )
+PUBLIC int my_stricmp(const char *string1, const char *string2)
 {
-	return my_strnicmp( string1, string2, 99999 );
+	return my_strnicmp(string1, string2, (size_t)99999);
 }
 
 /*
@@ -234,18 +234,19 @@ PUBLIC int my_stricmp( const char *string1, const char *string2 )
 		Also, if format is longer than dest truncation will occur.
 -----------------------------------------------------------------------------
 */
-PUBLIC void my_snprintf( char *dest, size_t size, const char *format, ... )
+PUBLIC void my_snprintf(char *dest, size_t size, const char *format, ...)
 {
 	va_list	argptr;
-	char	bigbuffer[ 0x8000 ];
+	char	bigbuffer[0x8000];
 
-	va_start( argptr, format );
-	(void)vsnprintf( bigbuffer, sizeof( bigbuffer ), format, argptr );
-	va_end( argptr );
+	va_start(argptr, format);
+	(void)vsnprintf(bigbuffer, sizeof(bigbuffer), format, argptr);
+	va_end(argptr);
 
-	bigbuffer[ sizeof( bigbuffer ) - 1 ] = '\0';
+	/* NUL-terminate: */
+	bigbuffer[(sizeof(bigbuffer) - 1)] = '\0';
 
-	my_strlcpy( dest, bigbuffer, size );
+	my_strlcpy(dest, bigbuffer, size);
 }
 
 
@@ -264,12 +265,12 @@ PUBLIC void my_snprintf( char *dest, size_t size, const char *format, ... )
  Notes:
 -----------------------------------------------------------------------------
 */
-PUBLIC char *my_CopyString( const char *in )
+PUBLIC char *my_CopyString(const char *in)
 {
 	char *out;
 
-	out = Z_Malloc( strlen( in ) + 1 );
-	my_strlcpy( out, in, strlen( in ) + 1 );
+	out = Z_Malloc(strlen(in) + 1);
+	my_strlcpy(out, in, strlen(in) + 1);
 
 	return out;
 }
@@ -382,7 +383,7 @@ PUBLIC char *my_strlwr( char *string )
  Notes:
 -----------------------------------------------------------------------------
 */
-PUBLIC SW32 StringToInteger( const char *string, W32 *error )
+PUBLIC SW32 StringToInteger(const char *string, W32 *error)
 {
 	const char *ptr = string;
 	SW32 temp;
@@ -390,35 +391,35 @@ PUBLIC SW32 StringToInteger( const char *string, W32 *error )
 	W32 errortag = 0;
 	_boolean bNegative = false;
 
-	if( ! string || ! *string ) {
+	if (! string || ! *string) {
 		*error = SCE_NULL_VALUE;
 
 		return 0;
 	}
 
-	if( *ptr == '-' ) {
+	if (*ptr == '-') {
 		bNegative = true;
 
 		ptr++;
 	}
 
-	while( *ptr && ISNUMERIC( *ptr ) ) {
+	while (*ptr && ISNUMERIC(*ptr)) {
 		temp = number;
-		number = (number * 10) + *ptr - '0';
+		number = ((number * 10) + *ptr - '0');
 
-		if( number < temp ) {
+		if (number < temp) {
 			errortag &= SCE_BUFFER_OVERFLOW;
 		}
 
 		ptr++;
 	}
 
-	if( *ptr ) {
+	if (*ptr) {
 		errortag &= SCE_NON_NUMERIC;
 	}
 
 
-	if( bNegative ) {
+	if (bNegative) {
 		number = -number;
 	}
 
@@ -439,7 +440,7 @@ PUBLIC SW32 StringToInteger( const char *string, W32 *error )
  Notes:
 -----------------------------------------------------------------------------
 */
-PUBLIC double StringToFloat( const char *string, W32 *error )
+PUBLIC double StringToFloat(const char *string, W32 *error)
 {
 	const char *ptr;
 	double number;
@@ -454,7 +455,7 @@ PUBLIC double StringToFloat( const char *string, W32 *error )
 
 	*error = 0;
 	/* guessing by the name of the variable what its value is supposed to be: */
-	expError = (W32)pow((double)atoi((const char*)error), exponent);
+	expError = (W32)pow((double)atoi((const char*)error), (double)exponent);
 
 	/* should be done initializing now... */
 
@@ -473,7 +474,7 @@ PUBLIC double StringToFloat( const char *string, W32 *error )
 	}
 
 	while (*ptr && (ISNUMERIC(*ptr))) {
-		number = (number * 10) + (double)(*ptr - '0');
+		number = ((number * 10) + (double)(*ptr - '0'));
 
 		ptr++;
 	}
@@ -482,7 +483,7 @@ PUBLIC double StringToFloat( const char *string, W32 *error )
 		ptr++;
 
 		while (*ptr && (ISNUMERIC(*ptr))) {
-			number = (number * 10) + (double)(*ptr - '0');
+			number = ((number * 10) + (double)(*ptr - '0'));
 			exponent--;
 
 			ptr++;
@@ -492,7 +493,7 @@ PUBLIC double StringToFloat( const char *string, W32 *error )
 	if ((TOLOWER(*ptr)) == 'e') {
 		ptr++;
 
-		exponent += StringToInteger( ptr, &expError );
+		exponent += StringToInteger(ptr, &expError);
 	}
 
 	if (bNegative) {
@@ -503,7 +504,7 @@ PUBLIC double StringToFloat( const char *string, W32 *error )
 		*error |= expError;
 	}
 
-	return (number * (pow(10, exponent)));
+	return (number * (pow((double)10.0, (double)exponent)));
 }
 
 /* EOF */

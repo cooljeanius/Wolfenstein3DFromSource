@@ -117,10 +117,10 @@ PRIVATE INLINECALL GLenum MagFilterToGL( TMagFilter MagFilter )
 #  define INLINECALL inline
 # endif /* __STRICT_ANSI__ */
 #endif /* !INLINECALL */
-PRIVATE INLINECALL GLenum MinFilterToGL( _boolean MipMap, TMinFilter MinFilter )
+PRIVATE INLINECALL GLenum MinFilterToGL(_boolean MipMap, TMinFilter MinFilter)
 {
-	if( MipMap ) {
-		switch( MinFilter ) {
+	if (MipMap) {
+		switch (MinFilter) {
 			case NearestMipMapOff:
 				return GL_NEAREST;
 
@@ -143,7 +143,7 @@ PRIVATE INLINECALL GLenum MinFilterToGL( _boolean MipMap, TMinFilter MinFilter )
 				break;
 		}
 	} else {
-		switch( MinFilter ) {
+		switch (MinFilter) {
 			case NearestMipMapOff:
 			case NearestMipMapNearest:
 			case NearestMipMapLinear:
@@ -248,7 +248,7 @@ PUBLIC _boolean R_UploadTexture(texture_t *tex, PW8 data)
 	tex->upload_height = scaled_height;
 
 
-	scaled = Z_Malloc( scaled_width * scaled_height * tex->bytes );
+	scaled = Z_Malloc((size_t)(scaled_width * scaled_height * tex->bytes));
 
 #if 0 || __clang_analyzer__
 	if (tex->bytes < 4) {
@@ -286,18 +286,19 @@ PUBLIC _boolean R_UploadTexture(texture_t *tex, PW8 data)
 
 	/* upload base image */
 	pfglTexImage2D(GL_TEXTURE_2D, 0, comp, scaled_width, scaled_height, 0,
-				   tex->bytes == 4 ? GL_RGBA : GL_RGB, GL_UNSIGNED_BYTE,
-				   scaled);
+				   (GLenum)((tex->bytes == 4) ? GL_RGBA : GL_RGB),
+				   GL_UNSIGNED_BYTE, scaled);
 
 	/* upload mipmaps if required */
 	if (tex->MipMap) {
 		int miplevel = 1;
 
-		while (TM_MipMap(scaled, &scaled_width, &scaled_height, tex->bytes)) {
+		while (TM_MipMap(scaled, &scaled_width, &scaled_height,
+						 (W16)tex->bytes)) {
 			pfglTexImage2D(GL_TEXTURE_2D, miplevel++, tex->bytes,
 						   scaled_width, scaled_height, 0,
-						   tex->bytes == 4 ? GL_RGBA : GL_RGB, GL_UNSIGNED_BYTE,
-						   scaled);
+						   (GLenum)((tex->bytes == 4) ? GL_RGBA : GL_RGB),
+						   GL_UNSIGNED_BYTE, scaled);
 		}
 	}
 
@@ -313,7 +314,8 @@ PUBLIC _boolean R_UploadTexture(texture_t *tex, PW8 data)
 		pfglTexParameteri(GL_TEXTURE_CUBE_MAP_ARB, GL_TEXTURE_WRAP_R,
 						  (GLint)WrapToGL(tex->WrapR));
 		pfglTexParameteri(GL_TEXTURE_CUBE_MAP_ARB, GL_TEXTURE_MIN_FILTER,
-						  (GLint)MinFilterToGL(tex->MipMap, tex->MinFilter));
+						  (GLint)MinFilterToGL((_boolean)tex->MipMap,
+											   tex->MinFilter));
 		pfglTexParameteri(GL_TEXTURE_CUBE_MAP_ARB, GL_TEXTURE_MAG_FILTER,
 						  (GLint)MagFilterToGL(tex->MagFilter));
 	} else {
@@ -322,14 +324,15 @@ PUBLIC _boolean R_UploadTexture(texture_t *tex, PW8 data)
 		pfglTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T,
 						  (GLint)WrapToGL(tex->WrapT));
 		pfglTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,
-						  (GLint)MinFilterToGL(tex->MipMap, tex->MinFilter));
+						  (GLint)MinFilterToGL((_boolean)tex->MipMap,
+											   tex->MinFilter));
 		pfglTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER,
 						  (GLint)MagFilterToGL(tex->MagFilter));
 	}
 
 	if (gl_ext.EXTTextureFilterAnisotropic) {
 		pfglTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT,
-						  gl_ext.nMaxAnisotropy);
+						  (GLfloat)gl_ext.nMaxAnisotropy);
 	}
 
 	return true;

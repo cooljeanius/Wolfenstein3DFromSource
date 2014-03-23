@@ -184,8 +184,8 @@ PRIVATE void R_ScreenShot_f(void)
 	pfglReadPixels(0, 0, (GLsizei)viddef.width, (GLsizei)viddef.height, GL_RGB,
 				   GL_UNSIGNED_BYTE, buffer);
 
-	WriteTGA(checkname, 24, (W16)viddef.width, (W16)viddef.height, buffer,
-			 1, 1);
+	WriteTGA(checkname, (W16)24, (W16)viddef.width, (W16)viddef.height, buffer,
+			 (W8)1, (W8)1);
 
 	MM_FREE(buffer);
 	Com_Printf("Wrote %s\n", picname);
@@ -237,7 +237,7 @@ PRIVATE void R_Clear(void)
 			pfglDepthFunc(GL_LEQUAL);
 		} else {
 			gldepthmin = 1;
-			gldepthmax = 0.5;
+			gldepthmax = (float)0.5;
 			pfglDepthFunc(GL_GEQUAL);
 		}
 	} else {
@@ -274,15 +274,15 @@ PUBLIC void R_SetGL2D(void)
 	pfglViewport(0, 0, (GLsizei)viddef.width, (GLsizei)viddef.height);
 	pfglMatrixMode(GL_PROJECTION);
     pfglLoadIdentity();
-	pfglOrtho(0, viddef.width, viddef.height, 0, -99999, 99999);
+	pfglOrtho((GLdouble)0, (GLdouble)viddef.width, (GLdouble)viddef.height,
+			  (GLdouble)0, (GLdouble)-99999, (GLdouble)99999);
 	pfglMatrixMode(GL_MODELVIEW);
     pfglLoadIdentity();
 	pfglDisable(GL_DEPTH_TEST);
 	pfglDisable(GL_CULL_FACE);
 	pfglDisable(GL_BLEND);
 	pfglEnable(GL_ALPHA_TEST);
-	pfglColor4f(1, 1, 1, 1);
-
+	pfglColor4f((GLfloat)1, (GLfloat)1, (GLfloat)1, (GLfloat)1);
 }
 
 
@@ -386,20 +386,20 @@ PRIVATE _boolean R_SetMode(void)
 
 	if ((err = (rserr_t)GLimp_SetMode((int*)&viddef.width, (int*)&viddef.height,
 									  (int)FloatToInt((float)(gl_mode->value)),
-									  fullscreen)) == rserr_ok) {
+									  (_boolean)fullscreen)) == rserr_ok) {
 		gl_state.prev_mode = (int)FloatToInt((float)(gl_mode->value));
 	} else {
 		if (err == rserr_invalid_fullscreen) {
-			Cvar_SetValue("r_fullscreen", 0);
+			Cvar_SetValue("r_fullscreen", (float)0);
 			r_fullscreen->modified = false;
 			Com_Printf("[R_SetMode()] -fullscreen unavailable in this mode\n");
 
 			if ((err = (rserr_t)GLimp_SetMode((int*)&viddef.width,
 											  (int*)&viddef.height,
 											  (int)FloatToInt((float)(gl_mode->value)),
-											  false)) == rserr_ok) {
+											  (_boolean)false)) == rserr_ok) {
 				if (err == rserr_ok) {
-					Com_Printf("err is %s", err);
+					Com_Printf("R_SetMode(): err is %s", err);
 				}
 				return true;
 			}
@@ -413,10 +413,10 @@ PRIVATE _boolean R_SetMode(void)
 		if ((err = (rserr_t)GLimp_SetMode((int*)&viddef.width,
 										  (int*)&viddef.height,
 										  gl_state.prev_mode,
-										  false)) != rserr_ok) {
+										  (_boolean)false)) != rserr_ok) {
 			Com_Printf("ref_gl::R_SetMode() - could not revert to safe mode\n");
 			if (err != rserr_ok) {
-				Com_Printf("err is %s", err);
+				Com_Printf("R_SetMode(): err is %s", err);
 			}
 			return false;
 		}
@@ -503,11 +503,10 @@ PUBLIC int R_Init(void *hinstance, void *hWnd)
 	}
 
 #if defined(__unix__) || defined(__APPLE__)
-	Cvar_SetValue("gl_finish", 1);
+	Cvar_SetValue("gl_finish", (float)1.0);
 #endif /* __unix__ || __APPLE__ */
 
 	Com_Printf("Initializing OpenGL extensions\n");
-
 
 	GL_ConfigExtensions(gl_config.extensions_string);
 
@@ -520,15 +519,12 @@ PUBLIC int R_Init(void *hinstance, void *hWnd)
 		Com_Printf("Missing Important GL extension: GL_EXT_texture_env_combine => All envcombine are setup to GL_MODULATE!\n");
 	}
 
-
 	if (gl_ext.nMaxAnisotropy) {
 		Com_Printf("GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT: %4.2f\n",
 				   gl_ext.nMaxAnisotropy);
 	}
 
-
 	Com_Printf("GL_MAX_TEXTURE_UNITS_ARB: %d\n", gl_ext.nTextureStages);
-
 
 	pfglGetIntegerv(GL_MAX_TEXTURE_SIZE, &glMaxTexSize);
 	Com_Printf("GL_MAX_TEXTURE_SIZE: %d\n", glMaxTexSize);
@@ -537,7 +533,6 @@ PUBLIC int R_Init(void *hinstance, void *hWnd)
 
 	TM_Init(); /* 'TM' stands for 'Texture Manager' (draws checkerboard) */
 	Font_Init(); /* calls createFont() for some images */
-
 
 	err = (int)pfglGetError();
 	if (err != GL_NO_ERROR) {
@@ -684,7 +679,7 @@ PUBLIC void R_EndFrame(void)
 */
 PUBLIC void R_AppActivate(_boolean active)
 {
-	GLimp_AppActivate(active);
+	GLimp_AppActivate((_boolean)active);
 }
 
 

@@ -158,7 +158,7 @@ PRIVATE W8 *readFloat(W8 *in, double *number, W32 *error)
 {
 	W8 *ptr = in;
 	double num = 0;
-	SW32 exp = 0;
+	SW32 exp = 0; /* shadows a global decl of 'exp', apparently */
 	_boolean bError = false;
 	_boolean bNegative = false;
 
@@ -210,7 +210,7 @@ PRIVATE W8 *readFloat(W8 *in, double *number, W32 *error)
 		return (ptr);
 	}
 
-	*number = (num * pow(10, exp));
+	*number = (num * pow((double)10.0, (double)exp));
 	*error = 0;
 
 	return (ptr);
@@ -219,7 +219,7 @@ PRIVATE W8 *readFloat(W8 *in, double *number, W32 *error)
 PUBLIC W8 *script_ReadNumber(W8 *ptr, int numerictype, decimalType_t *nt)
 {
 	W8 *start;
-	W8 *end;
+	W8 *end; /* TODO: initialize properly */
 	W8 *buffer;
 	W32 size;
 	W32 error;
@@ -360,8 +360,8 @@ PUBLIC W8 *script_ignoreWhiteSpace(W8 *ptr)
 			continue;
 		}
 
-		if (ptr[0] == '/' && ptr[1] == '/') {
-			ptr = script_lookforCharacter(ptr, '\n', 0);
+		if ((ptr[0] == '/') && (ptr[1] == '/')) {
+			ptr = script_lookforCharacter(ptr, (char)'\n', (_boolean)0);
 
 			if (*ptr == '\n') {
 				LineNumber++;
@@ -389,7 +389,7 @@ PUBLIC _boolean script_Parse(const char *filename,
 	W32 i, lg;
 	filehandle_t *fp;
 
-	fp = FS_OpenFile(filename, 0);
+	fp = FS_OpenFile(filename, (W32)0);
 	if (! fp) {
 		return false;
 	}
@@ -398,7 +398,7 @@ PUBLIC _boolean script_Parse(const char *filename,
 
 	buffer = (PW8)MM_MALLOC((size_t)(filesize + 1));
 
-	read = FS_ReadFile(buffer, 1, (W32)filesize, fp);
+	read = FS_ReadFile(buffer, (W32)1, (W32)filesize, fp);
 	if (read != filesize) {
 		MM_FREE(buffer);
 		FS_CloseFile(fp);

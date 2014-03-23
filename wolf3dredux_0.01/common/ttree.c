@@ -95,13 +95,13 @@ PRIVATE _boolean ternary_tree_grow_node_free_list( ttree_t *tst )
  Notes:
 -----------------------------------------------------------------------------
 */
-PUBLIC ttree_t *ternary_tree_init( W32 width )
+PUBLIC ttree_t *ternary_tree_init(W32 width)
 {
 	ttree_t *tst;
 	node_t *current_node;
 	W32 i;
 
-	if( width == 0 ) {
+	if (width == 0) {
 		width = 1;
 	}
 
@@ -164,7 +164,9 @@ PUBLIC ttree_t *ternary_tree_init( W32 width )
  Notes: Call ternary_tree_cleanup() to destroy the allocated tree.
 -----------------------------------------------------------------------------
 */
-PUBLIC _boolean ternary_tree_add( unsigned char *key, void *new_data, ttree_t *tst, _boolean bReplace, void **old_data )
+PUBLIC _boolean ternary_tree_add(unsigned char *key, void *new_data,
+								 ttree_t *tst, _boolean bReplace,
+								 void **old_data)
 {
 	node_t *current_node;
 	node_t *new_node_tree_begin = NULL;
@@ -172,7 +174,7 @@ PUBLIC _boolean ternary_tree_add( unsigned char *key, void *new_data, ttree_t *t
 	int perform_loop = 1;
 
 
-	if( ! key || ! *key ) {
+	if (! key || ! *key) {
 		return false;
 	}
 
@@ -320,9 +322,9 @@ PUBLIC _boolean ternary_tree_add( unsigned char *key, void *new_data, ttree_t *t
 
 		tst->free_list = tst->free_list->eq;
 		current_node = current_node->eq;
-		current_node->value = key[ key_index ];
+		current_node->value = key[key_index];
 
-	} while( key[ key_index ] != 0 );
+	} while (key[key_index] != 0);
 
 	current_node->eq = new_data;
 
