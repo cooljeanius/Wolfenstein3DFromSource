@@ -416,16 +416,15 @@ PRIVATE void CAL_ShutdownMapFile(void)
 			ChunkOffset -[in] Chunk offset.
 			Chunklength -[in] Length of chunk.
 			filename -[in] File name to save map as.
-			index -[in] File name index number.
+			index_number -[in] File name index number (used to be just 'index').
 
  Returns: Non-zero on success, otherwise zero.
 
  Notes:
 -----------------------------------------------------------------------------
 */
-/* TODO: use a different parameter name for 'index': */
 PRIVATE W8 CA_CacheMap(W32 ChunkOffset, W32 Chunklength, const char *filename,
-					   W32 index)
+					   W32 index_number)
 {
 	W32 offset[3];
 	W32 offsetin[3];
@@ -450,7 +449,7 @@ PRIVATE W8 CA_CacheMap(W32 ChunkOffset, W32 Chunklength, const char *filename,
 	}
 
 	if (gameversion == SOD_PAK) {
-		temp = (vgaCeilingSOD[index] & 0xff) * 3;
+		temp = (vgaCeilingSOD[index_number] & 0xff) * 3;
 		ceiling = ((W32)((gamepal[temp] << 2) << 16) |
 				   ((W32)(gamepal[(temp + 1)] << 2) << 8) |
 				   (W32)(gamepal[(temp + 2)] << 2));
@@ -460,13 +459,13 @@ PRIVATE W8 CA_CacheMap(W32 ChunkOffset, W32 Chunklength, const char *filename,
 				 ((W32)(gamepal[(temp + 1)] << 2) << 8) |
 				 (W32)(gamepal[(temp + 2)] << 2));
 
-		ftime = parTimesSOD[index].time;
-		stime = parTimesSOD[index].timestr;
+		ftime = parTimesSOD[index_number].time;
+		stime = parTimesSOD[index_number].timestr;
 
 		cs_snprintf(musicName, sizeof(musicName), "music/%s.ogg",
-					GetMusicFileName_SOD(SOD_songs[index]));
+					GetMusicFileName_SOD(SOD_songs[index_number]));
 	} else {
-		temp = ((vgaCeilingWL6[index] & 0xff) * 3);
+		temp = ((vgaCeilingWL6[index_number] & 0xff) * 3);
 		ceiling = ((W32)((gamepal[temp] << 2)  << 16) |
 				   ((W32)(gamepal[(temp + 1)] << 2) << 8) |
 				   (W32)(gamepal[(temp + 2)] << 2));
@@ -476,11 +475,11 @@ PRIVATE W8 CA_CacheMap(W32 ChunkOffset, W32 Chunklength, const char *filename,
 				 ((W32)(gamepal[(temp + 1)] << 2) << 8) |
 				 (W32)(gamepal[(temp + 2)] << 2));
 
-		ftime = parTimesWL6[index].time;
-		stime = parTimesWL6[index].timestr;
+		ftime = parTimesWL6[index_number].time;
+		stime = parTimesWL6[index_number].timestr;
 
 		cs_snprintf(musicName, sizeof(musicName), "music/%s.ogg",
-					GetMusicFileName_WL6(WL6_songs[index]));
+					GetMusicFileName_WL6(WL6_songs[index_number]));
 	}
 
 	fout = fopen(filename, "wb");

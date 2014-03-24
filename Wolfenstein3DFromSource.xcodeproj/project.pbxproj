@@ -2257,6 +2257,8 @@
 					"DEBUG=1",
 					"PARANOID=1",
 				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = NO;
+				GCC_WARN_PROTOTYPE_CONVERSION = NO;
 				INSTALL_PATH = /usr/local/bin;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",

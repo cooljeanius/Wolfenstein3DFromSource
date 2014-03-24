@@ -1144,7 +1144,7 @@ STATUSBARHACK:
 
 			return;
 		} else if (chunknum == WL1_N_9PIC) {
-			W32 i; /* different than original "i" */
+			W32 i0; /* different than original 'i', so change name */
 
 			MergePics(buffer, buffer2, (W16)width, (W16)height, (W16)2, (W16)90,
 					  (W32)offset, (W32)0);
@@ -1152,10 +1152,10 @@ STATUSBARHACK:
 			memcpy(buffer, buffer2, (size_t)(90 * height * 2));
 
 			/* (90 * 16 * 2) = 2880 */
-			for ((i = 0); (i < (90 * 16 * 2)); (i += 2)) {
-				if (!(i % 9) && (i != 0)) {
-					buffer[(i - 2)] = 0;
-					buffer[(i - 1)] = 160;
+			for ((i0 = 0); (i0 < (90 * 16 * 2)); (i0 += 2)) {
+				if (!(i0 % 9) && (i0 != 0)) {
+					buffer[(i0 - 2)] = 0;
+					buffer[(i0 - 1)] = 160;
 				}
 			}
 
@@ -1254,7 +1254,8 @@ STATUSBARHACK:
 		}
 	} else if (version & WL6_PAK) {
 		if (chunknum == STATUSBARPIC) {
-			memcpy(buffer2, buffer, (size_t)(width * height * 2)); /* Save Status bar pic */
+			/* Save Status bar pic: */
+			memcpy(buffer2, buffer, (size_t)(width * height * 2));
 			CA_CacheGrChunk((W32)NOKEYPIC, (W16)version); /* cache NOKEYPIC */
 			chunknum = NOKEYPIC;
 
@@ -1283,7 +1284,7 @@ STATUSBARHACK:
 
 			/* (16 * 91 * 2) = 2912 */	/* ((91 * 2) * 4) = (182 * 4) = 728 */
 			hq2x_32(buffer2 + (16 * 91 * 2), buffer, 91, 16, ((91 * 2) * 4));
-			RGB32toRGB24( buffer, buffer, (size_t)(182 * 32 * 4));
+			RGB32toRGB24(buffer, buffer, (size_t)(182 * 32 * 4));
 			/* (182 * 32 * 4) = 23296 */
 
 			cs_snprintf(filename, sizeof(filename), "%s/%s.tga", LGFXDIR,
@@ -1318,8 +1319,7 @@ STATUSBARHACK:
 
 			return;
 		} else if (chunknum == L_APOSTROPHEPIC) {
-			W16 i; /* original "i" is "W16" like here, but there was a "W32 i;"
-					* in between... */
+			W16 i1; /* new 'i', so new name */
 			MergePics(buffer, buffer2, (W16)width, (W16)height, (W16)2,
 					  (W16)256, (W32)112, (W32)0);
 
@@ -1327,9 +1327,9 @@ STATUSBARHACK:
 			memcpy(buffer, buffer2, (size_t)(256 * 64 * 2));
 
 			/* (256 * 64 * 2) = 32768 */
-			for ((i = 0); (i < (256 * 64 * 2)); (i += 2)) {
-				if ((buffer[i] == 0) && (buffer[(i + 1)] == 0)) {
-					 buffer[(i + 1)] = 66;
+			for ((i1 = 0); (i1 < (256 * 64 * 2)); (i1 += 2)) {
+				if ((buffer[i1] == 0) && (buffer[(i1 + 1)] == 0)) {
+					 buffer[(i1 + 1)] = 66;
 				}
 			}
 
@@ -1358,7 +1358,7 @@ STATUSBARHACK:
 
 			return;
 		} else if (chunknum == N_9PIC) {
-			W32 i; /* different than original "i" */
+			W32 i2; /* new 'i', so new name */
 
 			MergePics(buffer, buffer2, (W16)width, (W16)height, (W16)2, (W16)90,
 					  (W32)offset, (W32)0);
@@ -1366,10 +1366,10 @@ STATUSBARHACK:
 			memcpy(buffer, buffer2, (size_t)(90 * height * 2));
 
 			/* (90 * 16 * 2) = 2880 */
-			for ((i = 0); (i < (90 * 16 * 2)); (i += 2)) {
-				if (!(i % 9) && (i != 0)) {
-					buffer[(i - 2)] = 0;
-					buffer[(i - 1)] = 160;
+			for ((i2 = 0); (i2 < (90 * 16 * 2)); (i2 += 2)) {
+				if (!(i2 % 9) && (i2 != 0)) {
+					buffer[(i2 - 2)] = 0;
+					buffer[(i2 - 1)] = 160;
 				}
 			}
 
@@ -1424,8 +1424,7 @@ STATUSBARHACK:
 
 			return;
 		} else if( chunknum == SDM_L_APOSTROPHEPIC ) {
-			W16 i; /* original "i" is "W16" like here, but there were some
-					* "W32 i;" declarations in between... */
+			W16 i3; /* new 'i', so new name */
 
 			MergePics(buffer, buffer2, (W16)width, (W16)height, (W16)2,
 					  (W16)256, (W32)112, (W32)0);
@@ -1434,9 +1433,9 @@ STATUSBARHACK:
 			memcpy(buffer, buffer2, (size_t)(256 * 64 * 2));
 
 			/* (256 * 64 * 2) = 32768 */
-			for ((i = 0); (i < (256 * 64 * 2)); (i += 2)) {
-				if ((buffer[i] == 0) && (buffer[(i + 1)] == 0)) {
-					 buffer[(i + 1)] = 66;
+			for ((i3 = 0); (i3 < (256 * 64 * 2)); (i3 += 2)) {
+				if ((buffer[i3] == 0) && (buffer[(i3 + 1)] == 0)) {
+					 buffer[(i3 + 1)] = 66;
 				}
 			}
 
@@ -1465,7 +1464,7 @@ STATUSBARHACK:
 
 			return;
 		} else if (chunknum == SDM_N_9PIC) {
-			W32 i; /* different than original "i" */
+			W32 i4; /* new 'i', so new name */
 
 			MergePics(buffer, buffer2, (W16)width, (W16)height, (W16)2, (W16)90,
 					  (W32)offset, (W32)0);
@@ -1473,10 +1472,10 @@ STATUSBARHACK:
 			memcpy(buffer, buffer2, (size_t)(90 * height * 2));
 
 			/* (90 * 16 * 2) = 2880 */
-			for ((i = 0); (i < (90 * 16 * 2)); (i += 2)) {
-				if (!(i % 9) && (i != 0)) {
-					buffer[(i - 2)] = 0;
-					buffer[(i - 1)] = 160;
+			for ((i4 = 0); (i4 < (90 * 16 * 2)); (i4 += 2)) {
+				if (!(i4 % 9) && (i4 != 0)) {
+					buffer[(i4 - 2)] = 0;
+					buffer[(i4 - 1)] = 160;
 				}
 			}
 
@@ -1541,8 +1540,7 @@ STATUSBARHACK:
 
 			return;
 		} else if (chunknum == SOD_L_APOSTROPHEPIC) {
-			W16 i; /* original "i" is "W16" like here, but there were some
-					* "W32 i;" declarations in between... */
+			W16 i5; /* new 'i', so new name */
 
 			MergePics(buffer, buffer2, (W16)width, (W16)height, (W16)2,
 					  (W16)256, (W32)112, (W32)0);
@@ -1551,9 +1549,9 @@ STATUSBARHACK:
 			memcpy(buffer, buffer2, (size_t)(256 * 64 * 2));
 
 			/* (256 * 64 * 2) = 32768 */
-			for ((i = 0); (i < (256 * 64 * 2)); (i += 2)) {
-				if ((buffer[i] == 0) && (buffer[(i + 1)] == 0)) {
-					 buffer[(i + 1)] = 66;
+			for ((i5 = 0); (i5 < (256 * 64 * 2)); (i5 += 2)) {
+				if ((buffer[i5] == 0) && (buffer[(i5 + 1)] == 0)) {
+					 buffer[(i5 + 1)] = 66;
 				}
 			}
 
@@ -1582,7 +1580,7 @@ STATUSBARHACK:
 
 			return;
 		} else if( chunknum == SOD_N_9PIC ) {
-			W32 i; /* different than original "i" */
+			W32 i6; /* new 'i', so new name */
 
 			MergePics(buffer, buffer2, (W16)width, (W16)height, (W16)2, (W16)90,
 					  (W32)offset, (W32)0);
@@ -1590,10 +1588,10 @@ STATUSBARHACK:
 			memcpy(buffer, buffer2, (size_t)(90 * height * 2));
 
 			/* (90 * 16 * 2) = 2880 */
-			for ((i = 0); (i < (90 * 16 * 2)); (i += 2)) {
-				if (!(i % 9) && (i != 0)) {
-					buffer[(i - 2)] = 0;
-					buffer[(i - 1)] = 160;
+			for ((i6 = 0); (i6 < (90 * 16 * 2)); (i6 += 2)) {
+				if (!(i6 % 9) && (i6 != 0)) {
+					buffer[(i6 - 2)] = 0;
+					buffer[(i6 - 1)] = 160;
 				}
 			}
 
@@ -1737,12 +1735,9 @@ PRIVATE void Fontline(W32 fontnumber, W16 version)
 				   version, i);
 		}
 
-		/* I thought that 'width' was already a 'char' though? */
-		/* The warning produced by the old version of clang that comes with
-		 * Xcode 3.2.6 can be silenced with a cast here, but other compilers
-		 * will still complain: */
-		if (font->width[i] == NULL) {
-			printf("Error: font %i was NOT cached in grsegs[]!\n", i);
+		/* I hope that this comparison is correct now...: */
+		if (&font->width[i] == NULL) {
+			printf("Error: font '%i' was NOT cached in grsegs[]!\n", i);
 			return;
 		}
 
