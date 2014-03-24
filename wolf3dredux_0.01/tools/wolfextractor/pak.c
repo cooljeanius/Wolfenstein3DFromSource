@@ -154,7 +154,8 @@ PRIVATE struct zlist *writelocalfilechunk(const char *filename, FILE *fout)
  *	End of compression
  */
 
-	zentry->crc32 = (crc32(0, data, (uInt)zentry->uncompressed_size));
+	zentry->crc32 = (crc32((unsigned long)0, data,
+						   (uInt)zentry->uncompressed_size));
 
 	cs_strlcpy(zentry->filename, filename, sizeof(zentry->filename));
 	zentry->filename_length = (W16)(strlen(zentry->filename));
@@ -172,18 +173,18 @@ PRIVATE struct zlist *writelocalfilechunk(const char *filename, FILE *fout)
 	}
 
 	/* Write data to file */
-	retval = fwrite( compr+2, 1, zentry->compressed_size, fout );
-	if( retval != zentry->compressed_size ) {
-		printf( "Error writing data after local header to zip file\n" );
-		MM_FREE( compr );
-		MM_FREE( data );
-		MM_FREE( zentry );
+	retval = fwrite((compr + 2), (size_t)1, zentry->compressed_size, fout);
+	if (retval != zentry->compressed_size) {
+		printf("Error writing data after local header to zip file\n");
+		MM_FREE(compr);
+		MM_FREE(data);
+		MM_FREE(zentry);
 
 		return NULL;
 	}
 
-	MM_FREE( compr );
-	MM_FREE( data );
+	MM_FREE(compr);
+	MM_FREE(data);
 
 	return zentry;
 }
@@ -227,7 +228,8 @@ PRIVATE _boolean writecentralchunk(struct zlist *z, FILE *fout)
 
 	central_size = ((unsigned long)(ftell(fout)) - central_offset);
 
-	if (! zip_writeend((SW32)(num), central_size, central_offset, 0, NULL, fout)) {
+	if (! zip_writeend((SW32)num, (W32)central_size, (W32)central_offset,
+					   (W16)0, NULL, fout)) {
 		printf("writecentralchunk(): Error writing end header to zip file\n");
 
 		return false;
@@ -248,26 +250,26 @@ PRIVATE _boolean writecentralchunk(struct zlist *z, FILE *fout)
  Notes:
 -----------------------------------------------------------------------------
 */
-PRIVATE _boolean parsedirectory( const char *path, FILE *f )
+PRIVATE _boolean parsedirectory(const char *path, FILE *f)
 {
-	char temp[ 256 ];
+	char temp[256];
 	char *ptr;
 	struct zlist *znewnode = NULL;
 
-	cs_strlcpy( temp, path, sizeof( temp ) );
+	cs_strlcpy(temp, path, sizeof(temp));
 
-	if( strstr( temp, "*" ) == NULL ) {
-		cs_strlcat( temp, "/*", sizeof( temp ) );
+	if (strstr(temp, "*") == NULL) {
+		cs_strlcat(temp, "/*", sizeof(temp));
 	}
 
 	/* run findfirst once so we can use findnext in a loop.
 	 * This will return the current directory. */
-	(void)FS_FindFirst( temp, 0, 0 );
+	(void)FS_FindFirst(temp, (W32)0, (W32)0);
 
 	/* Look for files */
-	while( (ptr = FS_FindNext( 0, FA_DIR )) != NULL ) {
-		znewnode = writelocalfilechunk( ptr, f );
-		if( znewnode == NULL ) {
+	while ((ptr = FS_FindNext((W32)0, (W32)FA_DIR)) != NULL) {
+		znewnode = writelocalfilechunk(ptr, f);
+		if (znewnode == NULL) {
 			continue;
 		}
 
@@ -332,7 +334,7 @@ PRIVATE struct zlist *addscripttozipfile(char *filename, FILE *fout, W16 version
 
 	data = MM_MALLOC((size_t)(retval + strlen(commandline) + 1));
 
-	if (fread(data, 1, retval, fin) != retval) {
+	if (fread(data, (size_t)1, retval, fin) != retval) {
 		printf("Could not read from file (%s)\n", filename);
 
 		MM_FREE(data)
@@ -369,19 +371,19 @@ PRIVATE struct zlist *addscripttozipfile(char *filename, FILE *fout, W16 version
     c_stream.zfree = (free_func)0;
     c_stream.opaque = (voidpf)0;
 
-	err = deflateInit( &c_stream, Z_DEFAULT_COMPRESSION );
-	if( err != Z_OK ) {
-		MM_FREE( data );
-		MM_FREE( zentry );
+	err = deflateInit(&c_stream, Z_DEFAULT_COMPRESSION);
+	if (err != Z_OK) {
+		MM_FREE(data);
+		MM_FREE(zentry);
 
 		return NULL;
 	}
 
 
-	zentry->compressed_size = (zentry->uncompressed_size / 10) + 12 + zentry->uncompressed_size;
+	zentry->compressed_size = ((zentry->uncompressed_size / 10) + 12 +
+							   zentry->uncompressed_size);
 
-
-	compr = MM_MALLOC( zentry->compressed_size );
+	compr = MM_MALLOC(zentry->compressed_size);
 
 
 	c_stream.next_out = compr;
@@ -391,20 +393,20 @@ PRIVATE struct zlist *addscripttozipfile(char *filename, FILE *fout, W16 version
 	c_stream.avail_in = (uInt)zentry->uncompressed_size;
 
 
-	err = deflate( &c_stream, Z_FINISH );
-	if( err != Z_STREAM_END ) {
-		MM_FREE( compr );
-		MM_FREE( data );
-		MM_FREE( zentry );
+	err = deflate(&c_stream, Z_FINISH);
+	if (err != Z_STREAM_END) {
+		MM_FREE(compr);
+		MM_FREE(data);
+		MM_FREE(zentry);
 
 		return NULL;
 	}
 
-	err = deflateEnd( &c_stream );
-    if( err != Z_OK ) {
-		MM_FREE( compr );
-		MM_FREE( data );
-		MM_FREE( zentry );
+	err = deflateEnd(&c_stream);
+    if (err != Z_OK) {
+		MM_FREE(compr);
+		MM_FREE(data);
+		MM_FREE(zentry);
 
 		return NULL;
 	}
@@ -420,7 +422,8 @@ PRIVATE struct zlist *addscripttozipfile(char *filename, FILE *fout, W16 version
  */
 
 
-	zentry->crc32 = (crc32(0, data, (uInt)zentry->uncompressed_size));
+	zentry->crc32 = (crc32((unsigned long)0, data,
+						   (uInt)zentry->uncompressed_size));
 
 	cs_strlcpy(zentry->filename, filename, sizeof(zentry->filename));
 	zentry->filename_length = (W16)(strlen(zentry->filename));
@@ -428,28 +431,28 @@ PRIVATE struct zlist *addscripttozipfile(char *filename, FILE *fout, W16 version
 	zentry->offset = (W32)(ftell(fout));
 
 	/* Write header to file */
-	if( ! zip_writelocalfileheader( zentry, fout ) ) {
-		printf( "Error writing local header to zip file\n" );
-		MM_FREE( compr );
-		MM_FREE( data );
-		MM_FREE( zentry );
+	if (! zip_writelocalfileheader(zentry, fout)) {
+		printf("Error writing local header to zip file\n");
+		MM_FREE(compr);
+		MM_FREE(data);
+		MM_FREE(zentry);
 
 		return NULL;
 	}
 
 	/* Write data to file */
-	retval = fwrite( compr+2, 1, zentry->compressed_size, fout );
+	retval = fwrite((compr + 2), (size_t)1, zentry->compressed_size, fout);
 	if( retval != zentry->compressed_size ) {
-		printf( "Error writing data after local header to zip file\n" );
-		MM_FREE( compr );
-		MM_FREE( data );
-		MM_FREE( zentry );
+		printf("Error writing data after local header to zip file\n");
+		MM_FREE(compr);
+		MM_FREE(data);
+		MM_FREE(zentry);
 
 		return NULL;
 	}
 
-	MM_FREE( compr );
-	MM_FREE( data );
+	MM_FREE(compr);
+	MM_FREE(data);
 
 
 	return zentry;
@@ -467,38 +470,38 @@ PRIVATE struct zlist *addscripttozipfile(char *filename, FILE *fout, W16 version
  Notes:
 -----------------------------------------------------------------------------
 */
-PRIVATE void deletezlist( struct zlist *in, _boolean deletefile )
+PRIVATE void deletezlist(struct zlist *in, _boolean deletefile)
 {
 	struct zlist *z1;
 
-	if( in == NULL ) {
-		printf( "NULL zip list passed into deletezlist.\n" );
+	if (in == NULL) {
+		printf("NULL zip list passed into deletezlist.\n");
 
 		return;
 	}
 
-	if( deletefile ) {
-		printf( "Removing cached files.\n" );
+	if (deletefile) {
+		printf("Removing cached files.\n");
 	}
 
 	z1 = in->next;
 	do {
-		if( in ) {
+		if (in) {
 			/* delete file */
-			if( deletefile && in->deletefile ) {
-				if( ! FS_DeleteFile( in->filename ) ) {
-					printf( "Unable to delete file (%s)\n", in->filename );
+			if (deletefile && in->deletefile) {
+				if (! FS_DeleteFile( in->filename)) {
+					printf("Unable to delete file (%s)\n", in->filename);
 				}
 			}
 
-			MM_FREE( in );
+			MM_FREE(in);
 		}
 
-		if( z1 ) {
+		if (z1) {
 			in = z1;
 			z1 = in->next;
 		}
-	} while( in );
+	} while (in);
 
 }
 
@@ -515,67 +518,68 @@ PRIVATE void deletezlist( struct zlist *in, _boolean deletefile )
  Notes:
 -----------------------------------------------------------------------------
 */
-extern void PAK_builder( const char *packname, W16 version );
+extern void PAK_builder(const char *packname, W16 version);
 /* TODO: move the prototype to a header */
-PUBLIC void PAK_builder( const char *packname, W16 version )
+PUBLIC void PAK_builder(const char *packname, W16 version)
 {
 	FILE *fout;
 
-	printf( "\n\nGenerating pack file (%s)\nThis could take a few minutes.\n", packname );
+	printf("\n\nGenerating pack file (%s)\nThis could take a few minutes.\n",
+		   packname);
 
-	fout = fopen( packname, "wb" );
-	if( fout == NULL ) {
-		printf( "[PAK_builder]: Could not create file (%s)\n", packname );
+	fout = fopen(packname, "wb");
+	if (fout == NULL) {
+		printf("[PAK_builder]: Could not create file (%s)\n", packname);
 		return;
 	}
 
 	/* Script file should be first */
-	zfchain = addscripttozipfile( SCRIPTNAME, fout, version );
+	zfchain = addscripttozipfile(SCRIPTNAME, fout, (W16)version);
 
-	if( version & WL1_PAK || version & WL6_PAK ||
-		version & SDM_PAK || version & SOD_PAK  ) {
-		parsedirectory( MAPDIR, fout );
-		parsedirectory( LGFXDIR, fout );
-		parsedirectory( GFXWALLDIR, fout );
-		parsedirectory( MUSICDIR, fout );
+	if ((version & WL1_PAK) || (version & WL6_PAK) ||
+		(version & SDM_PAK) || (version & SOD_PAK)) {
+		parsedirectory(MAPDIR, fout );
+		parsedirectory(LGFXDIR, fout );
+		parsedirectory(GFXWALLDIR, fout );
+		parsedirectory(MUSICDIR, fout );
 
-		if( version & WL1_PAK || version & WL6_PAK ) {
-			parsedirectory( SCRIPT_DIR, fout );
-			parsedirectory( SFXDIR, fout );
-			parsedirectory( GFXSPRITEDIR, fout );
-			parsedirectory( LSFXDIR, fout );
+		if ((version & WL1_PAK) || (version & WL6_PAK)) {
+			parsedirectory(SCRIPT_DIR, fout);
+			parsedirectory(SFXDIR, fout);
+			parsedirectory(GFXSPRITEDIR, fout);
+			parsedirectory(LSFXDIR, fout);
 		}
 
-		if( version & SDM_PAK || version & SOD_PAK ) {
-			parsedirectory( SODSFXDIR, fout );
-			parsedirectory( SODGFXSPRITEDIR, fout );
-			parsedirectory( SODLSFXDIR, fout );
+		if ((version & SDM_PAK) || (version & SOD_PAK)) {
+			parsedirectory(SODSFXDIR, fout);
+			parsedirectory(SODGFXSPRITEDIR, fout);
+			parsedirectory(SODLSFXDIR, fout);
 		}
 	}
 
-	if( version & MAC_PAK ) {
-		parsedirectory( DIRPATHSPRITES, fout );
-		parsedirectory( DIRPATHWALLS, fout );
-		parsedirectory( DIRPATHPICS, fout );
-		parsedirectory( DIRPATHMIDI, fout );
+	if (version & MAC_PAK) {
+		parsedirectory(DIRPATHSPRITES, fout);
+		parsedirectory(DIRPATHWALLS, fout);
+		parsedirectory(DIRPATHPICS, fout);
+		parsedirectory(DIRPATHMIDI, fout);
 	}
 
 
-	if( ! writecentralchunk( zfchain, fout ) ) {
-		deletezlist( zfchain, false );
+	if (! writecentralchunk(zfchain, fout)) {
+		deletezlist(zfchain, (_boolean)false);
 
 		/* close and delete zip file. */
-		fclose( fout );
+		fclose(fout);
 
-		FS_DeleteFile( packname );
+		FS_DeleteFile(packname);
 
 		return;
 	}
 
 	/* close zip file. */
-	fclose( fout );
+	fclose(fout);
 
-	deletezlist( zfchain, true );
+	deletezlist(zfchain, (_boolean)true);
 	zfchain = NULL;
 
 }

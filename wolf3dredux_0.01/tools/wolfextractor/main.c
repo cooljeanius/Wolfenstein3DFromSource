@@ -62,7 +62,7 @@
 #define BASEDIR	"base/" /* why is this hardcoded? */
 
 
-extern void PAK_builder( const char *filename, W16 version );
+extern void PAK_builder(const char *filename, W16 version);
 
 
 /*
@@ -76,22 +76,22 @@ extern void PAK_builder( const char *filename, W16 version );
  Notes:
 -----------------------------------------------------------------------------
 */
-PRIVATE void deleteCacheDirectories( W16 version )
+PRIVATE void deleteCacheDirectories(W16 version)
 {
-	FS_RemoveDirectory( GFXWALLDIR );
-	FS_RemoveDirectory( MAPDIR );
-	FS_RemoveDirectory( LGFXDIR );
+	FS_RemoveDirectory(GFXWALLDIR);
+	FS_RemoveDirectory(MAPDIR);
+	FS_RemoveDirectory(LGFXDIR);
 
-	if( version & WL1_PAK || version & WL6_PAK ) {
-		FS_RemoveDirectory( SFXDIR );
-		FS_RemoveDirectory( GFXSPRITEDIR );
-		FS_RemoveDirectory( LSFXDIR );
+	if ((version & WL1_PAK) || (version & WL6_PAK)) {
+		FS_RemoveDirectory(SFXDIR);
+		FS_RemoveDirectory(GFXSPRITEDIR);
+		FS_RemoveDirectory(LSFXDIR);
 	}
 
-	if( version & SDM_PAK || version & SOD_PAK ) {
-		FS_RemoveDirectory( SODSFXDIR );
-		FS_RemoveDirectory( SODGFXSPRITEDIR );
-		FS_RemoveDirectory( SODLSFXDIR );
+	if ((version & SDM_PAK) || (version & SOD_PAK)) {
+		FS_RemoveDirectory(SODSFXDIR);
+		FS_RemoveDirectory(SODGFXSPRITEDIR);
+		FS_RemoveDirectory(SODLSFXDIR);
 	}
 }
 
@@ -111,24 +111,24 @@ PRIVATE void deleteCacheDirectories( W16 version )
  Notes:
 -----------------------------------------------------------------------------
 */
-void CheckForDataFiles( W16 *Wolf_Ext );
+void CheckForDataFiles(W16 *Wolf_Ext);
 /* TODO: put the above prototype in a matching header file */
-void CheckForDataFiles( W16 *Wolf_Ext )
+void CheckForDataFiles(W16 *Wolf_Ext)
 {
-	char ext[ 13 ];
+	char ext[13];
 
 /*
  *	Wolfenstein 3-D	Demo
  */
-	cs_strlcpy( ext, WL1_FEXT, sizeof( ext ) );
+	cs_strlcpy(ext, WL1_FEXT, sizeof(ext));
 
-    if( FS_FindFirst( cs_strupr( ext ), 0, 0 ) ) {
+    if (FS_FindFirst(cs_strupr(ext), (W32)0, (W32)0)) {
         *Wolf_Ext |= WL1_PAK;
     }
 
 	FS_FindClose();
 
-	if( FS_FindFirst( cs_strlwr( ext ), 0, 0 ) ) {
+	if (FS_FindFirst(cs_strlwr(ext), (W32)0, (W32)0)) {
 		*Wolf_Ext |= WL1_PAK;
 	}
 
@@ -138,15 +138,15 @@ void CheckForDataFiles( W16 *Wolf_Ext )
 /*
  *	Wolfenstein 3-D
  */
-	cs_strlcpy( ext, WL6_FEXT, sizeof( ext ) );
+	cs_strlcpy(ext, WL6_FEXT, sizeof(ext));
 
-    if( FS_FindFirst( cs_strupr( ext ), 0, 0 ) ) {
+    if (FS_FindFirst(cs_strupr(ext), (W32)0, (W32)0)) {
         *Wolf_Ext |= WL6_PAK;
     }
 
 	FS_FindClose();
 
-	if( FS_FindFirst( cs_strlwr( ext ), 0, 0 ) ) {
+	if (FS_FindFirst(cs_strlwr(ext), (W32)0, (W32)0)) {
 		*Wolf_Ext |= WL6_PAK;
 	}
 
@@ -156,15 +156,15 @@ void CheckForDataFiles( W16 *Wolf_Ext )
 /*
  *	Spear of Destiny Demo
  */
-    cs_strlcpy( ext, SDM_FEXT, sizeof( ext ) );
+    cs_strlcpy(ext, SDM_FEXT, sizeof(ext));
 
-    if( FS_FindFirst( cs_strupr( ext ), 0, 0 ) ) {
+    if (FS_FindFirst(cs_strupr(ext), (W32)0, (W32)0)) {
         *Wolf_Ext |= SDM_PAK;
     }
 
 	FS_FindClose();
 
-	if( FS_FindFirst( cs_strlwr( ext ), 0, 0 ) ) {
+	if (FS_FindFirst(cs_strlwr(ext), (W32)0, (W32)0)) {
         *Wolf_Ext |= SDM_PAK;
     }
 
@@ -174,15 +174,15 @@ void CheckForDataFiles( W16 *Wolf_Ext )
 /*
  *	Spear of Destiny
  */
-    cs_strlcpy( ext, SOD_FEXT, sizeof( ext ) );
+    cs_strlcpy(ext, SOD_FEXT, sizeof(ext));
 
-    if( FS_FindFirst( cs_strupr( ext ), 0, 0 ) ) {
+    if (FS_FindFirst(cs_strupr(ext), (W32)0, (W32)0)) {
         *Wolf_Ext |= SOD_PAK;
     }
 
 	FS_FindClose();
 
-	if( FS_FindFirst( cs_strlwr( ext ), 0, 0 ) ) {
+	if (FS_FindFirst(cs_strlwr(ext), (W32)0, (W32)0)) {
         *Wolf_Ext |= SOD_PAK;
     }
 
@@ -191,15 +191,15 @@ void CheckForDataFiles( W16 *Wolf_Ext )
 /*
  *	Macintosh Wolfenstein 3-D
  */
-	cs_strlcpy( ext, MAC_FEXT, sizeof( ext ) );
+	cs_strlcpy(ext, MAC_FEXT, sizeof(ext));
 
-    if( FS_FindFirst( cs_strupr( ext ), 0, 0 ) ) {
+    if (FS_FindFirst(cs_strupr(ext), (W32)0, (W32)0)) {
         *Wolf_Ext |= MAC_PAK;
     }
 
 	FS_FindClose();
 
-	if( FS_FindFirst( cs_strlwr( ext ), 0, 0 ) ) {
+	if (FS_FindFirst(cs_strlwr(ext), (W32)0, (W32)0)) {
         *Wolf_Ext |= MAC_PAK;
     }
 
@@ -218,7 +218,8 @@ void CheckForDataFiles( W16 *Wolf_Ext )
 
 		1. Search for Wolfenstein data files.
 		2. Decode data accordingly.
-
+		3. TODO: only write data to new files if output file does NOT already
+			exist, or if the '--force' ('-f') flag was passed...
 -----------------------------------------------------------------------------
 */
 #ifndef main /* this ifdef is bad */
@@ -252,7 +253,7 @@ int wolfextractor_main(int argc, char *argv[])
 # endif /* RETURN_EARLY */
 #endif /* 0 || 1 */
 
-	printf("\nWolfExtractor %s %s\n", BUILDSTRING, CPUSTRING);
+	printf("\n WolfExtractor %s %s\n", BUILDSTRING, CPUSTRING);
 	printf("running executable path %s with %i argument(s)\n", argv[0], argc);
 	printf("Version %s built on %s at %s\n\n", APP_VERSION, __DATE__, __TIME__);
 
@@ -276,97 +277,118 @@ int wolfextractor_main(int argc, char *argv[])
     InitLUTs(); /* This is for hq2x */
 
 	if (Wolf_Ext & WL1_PAK) {
-		printf("\nFound Wolfenstein 3-D demo data files\n");
+		printf("\n Found Wolfenstein 3-D demo data files \n");
 
 		retval = 0;
 
-		retval += LumpExtractor((WL1_FEXT + 1), (WL1_LATCHPICS_LUMP_END + 5),
-								WL1_PAK);
-		retval += PExtractor((WL1_FEXT + 1), WL1_PAK);
-		retval += AudioRipper((WL1_FEXT + 1), 87, 174, WL1_PAK);
-		retval += MapRipper((WL1_FEXT + 1), WL1_PAK);
+		retval += LumpExtractor((WL1_FEXT + 1),
+								(W32)(WL1_LATCHPICS_LUMP_END + 5),
+								(W16)WL1_PAK);
+		retval += PExtractor((WL1_FEXT + 1), (W16)WL1_PAK);
+		retval += AudioRipper((WL1_FEXT + 1), (W32)87, (W32)174, (W16)WL1_PAK);
+		retval += MapRipper((WL1_FEXT + 1), (W16)WL1_PAK);
 
 		if (retval != 4) {
-			printf("\nAn Error Has Occurred, exiting!\n");
+			printf("\n wolfextractor: main(): An error occurred in one of the extraction steps, exiting now!\n");
+#ifdef DEBUG
+			printf(" (accumulated retval was '%i')\n", (int)retval);
+#endif /* DEBUG */
 
+			printf("\n");
 			return 1;
 		}
 
-		PAK_builder("wolf_demo.pak", WL1_PAK);
+		PAK_builder("wolf_demo.pak", (W16)WL1_PAK);
     }
 
 
     if (Wolf_Ext & WL6_PAK) {
-		printf("\nFound Wolfenstein 3-D data files here, trying to extract them...\n");
+		printf("\n Found Wolfenstein 3-D data files here, trying to extract them...\n");
 
 		retval = 0;
 
 		retval += LumpExtractor((const char *)(WL6_FEXT + 1),
 								(W32)WL6_LATCHPICS_LUMP_END, (W16)WL6_PAK);
+#ifdef I_HATE_MYSELF
 		retval += PExtractor((const char *)(WL6_FEXT + 1), (W16)WL6_PAK);
-		retval += AudioRipper((WL6_FEXT + 1), 87, 174, WL6_PAK);
-		retval += MapRipper((WL6_FEXT + 1), WL6_PAK);
+#else /* I do NOT hate myself: */
+		retval++;
+#endif /* I_HATE_MYSELF */
+		retval += AudioRipper((WL6_FEXT + 1), (W32)87, (W32)174, (W16)WL6_PAK);
+		retval += MapRipper((WL6_FEXT + 1), (W16)WL6_PAK);
 
 		if (retval != 4) {
-			printf("\nAn Error Has Occurred, exiting!\n");
+			printf("\n wolfextractor: main(): An error occurred in one of the extraction steps, exiting now!\n");
+#ifdef DEBUG
+			printf(" (accumulated retval was '%i')\n", (int)retval);
+#endif /* DEBUG */
 
+			printf("\n");
 			return 1;
 		}
 
-		PAK_builder("wolf.pak", WL6_PAK);
+		PAK_builder("wolf.pak", (W16)WL6_PAK);
     }
 
 	if (Wolf_Ext & SDM_PAK) {
-		printf("\nFound Spear of Destiny demo data files\n");
+		printf("\n Found Spear of Destiny demo data files \n");
 
 		retval = 0;
 
-		retval += LumpExtractor((SDM_FEXT + 1), 127, SDM_PAK);
-		retval += PExtractor((SDM_FEXT + 1), SDM_PAK);
-		retval += AudioRipper((SDM_FEXT + 1), 81, 162, SDM_PAK);
-		retval += MapRipper((SDM_FEXT + 1), SDM_PAK);
+		retval += LumpExtractor((SDM_FEXT + 1), (W32)127, (W16)SDM_PAK);
+		retval += PExtractor((SDM_FEXT + 1), (W16)SDM_PAK);
+		retval += AudioRipper((SDM_FEXT + 1), (W32)81, (W32)162, (W16)SDM_PAK);
+		retval += MapRipper((SDM_FEXT + 1), (W16)SDM_PAK);
 
 		if (retval != 4) {
-			printf("\nAn Error Has Occurred, exiting!\n");
+			printf("\n wolfextractor: main(): An error occurred in one of the extraction steps, exiting now!\n");
+#ifdef DEBUG
+			printf(" (accumulated retval was '%i')\n", (int)retval);
+#endif /* DEBUG */
 
+			printf("\n");
 			return 1;
 		}
 
 		return (int)retval;
 
-		PAK_builder("spear_demo.pak", SDM_PAK);
+		PAK_builder("spear_demo.pak", (W16)SDM_PAK);
     }
 
 	if (Wolf_Ext & SOD_PAK) {
-		printf("\nFound Spear of Destiny data files\n");
+		printf("\n Found Spear of Destiny data files \n");
 
 		retval = 0;
 
-		retval += LumpExtractor((SOD_FEXT + 1), 149, SOD_PAK);
-		retval += PExtractor((SOD_FEXT + 1), SOD_PAK);
-		retval += AudioRipper((SOD_FEXT + 1), 81, 162, SOD_PAK);
-		retval += MapRipper((SOD_FEXT + 1), SOD_PAK);
+		retval += LumpExtractor((SOD_FEXT + 1), (W32)149, (W16)SOD_PAK);
+		retval += PExtractor((SOD_FEXT + 1), (W16)SOD_PAK);
+		retval += AudioRipper((SOD_FEXT + 1), (W32)81, (W32)162, (W16)SOD_PAK);
+		retval += MapRipper((SOD_FEXT + 1), (W16)SOD_PAK);
 
 		if (retval != 4) {
-			printf("\nAn Error Has Occurred, exiting!\n");
+			printf("\n wolfextractor: main(): An error occurred in one of the extraction steps, exiting now!\n");
+#ifdef DEBUG
+			printf(" (accumulated retval was '%i')\n", (int)retval);
+#endif /* DEBUG */
 
+			printf("\n");
 			return 1;
 		}
 
-		PAK_builder("spear.pak", SOD_PAK);
+		PAK_builder("spear.pak", (W16)SOD_PAK);
     }
 
 	if (Wolf_Ext & MAC_PAK) {
-		printf("\nFound Macintosh binary file\n");
+		printf("\n Found Macintosh binary file \n");
 
 		ripMac();
 
 #if 0 || __clang_analyzer__ || __MACOS_CLASSIC__
-		PAK_builder("mac.pak", MAC_PAK);
+		PAK_builder("mac.pak", (W16)MAC_PAK);
 #endif /* 0 || __clang_analyzer__ || __MACOS_CLASSIC__ */
     }
 
-	deleteCacheDirectories(Wolf_Ext);
+	deleteCacheDirectories((W16)Wolf_Ext);
 
 	return 0;
 }

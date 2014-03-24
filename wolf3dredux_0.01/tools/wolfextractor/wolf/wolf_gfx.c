@@ -350,7 +350,8 @@ PRIVATE W8 CAL_SetupGrFile(const char *extension)
 	}
 
 
-	chunkcomplen = CAL_GetGrChunkLength(STRUCTPIC); /* position file pointer */
+	chunkcomplen = CAL_GetGrChunkLength((W32)STRUCTPIC);
+	/* position file pointer */
 
 	compseg = MM_MALLOC((size_t)chunkcomplen);
 	if (compseg == NULL) {
@@ -455,8 +456,8 @@ PRIVATE void CAL_ExpandGrChunk(W32 chunk, const W8 *source, W16 version)
 		   chunk, (STARTTILE8 + offset), (STARTEXTERNS + offset));
 	/* STARTTILE8 is defined to '135' in "wolf_def.h" */
 	/* STARTEXTERNS is defined to '136' in "wolf_def.h" */
-	if ((chunk >= (STARTTILE8 + offset)) &&
-        (chunk < (STARTEXTERNS + offset))) {
+	if ((chunk >= (W32)(STARTTILE8 + offset)) &&
+        (chunk < (W32)(STARTEXTERNS + offset))) {
 	/*
 	 * expanded sizes of tile8/16/32 are implicit
 	 */
@@ -464,18 +465,18 @@ PRIVATE void CAL_ExpandGrChunk(W32 chunk, const W8 *source, W16 version)
 #define BLOCK		64
 #define MASKBLOCK	128
 
-		if (chunk < (STARTTILE8M + offset)) { /* tile 8s are all in 1 chunk! */
+		if (chunk < (W32)(STARTTILE8M + offset)) { /* tile 8s are all in 1 chunk! */
 			/* NUMTILE8 is defined to '72' in "wolf_def.h": */
 			expanded = (BLOCK * NUMTILE8); /* (64 * 72) = 4608 */
-		} else if (chunk < (STARTTILE16 + offset)) {
+		} else if (chunk < (W32)(STARTTILE16 + offset)) {
 			/* NUMTILE8M is defined to '0' in "wolf_def.h": */
 			expanded = (MASKBLOCK * NUMTILE8M); /* (128 * 0) = 0 */
-		} else if (chunk < (STARTTILE16M + offset)) {
+		} else if (chunk < (W32)(STARTTILE16M + offset)) {
 			/* all other tiles are 1/chunk */
 			expanded = (BLOCK << 2); /* (64 << 2) = 256 */
-		} else if (chunk < (STARTTILE32 + offset)) {
+		} else if (chunk < (W32)(STARTTILE32 + offset)) {
 			expanded = (MASKBLOCK << 2); /* (128 << 2) = 512 */
-		} else if (chunk < (STARTTILE32M + offset)) {
+		} else if (chunk < (W32)(STARTTILE32M + offset)) {
 			expanded = (BLOCK << 4); /* (64 << 4) = 1024 */
 		} else {
 			expanded = (MASKBLOCK << 4); /* (128 << 4) = 2048 */
@@ -612,7 +613,7 @@ PRIVATE void CA_CacheGrChunk(W32 chunk, W16 version)
 			/* FIXME: filename is truncated? */
 		}
 	} else {
-		printf("CA_CacheGrChunk: no grhandle!\n");
+		printf("CA_CacheGrChunk(): no grhandle!\n");
 		return;
 	}
 	if (buffer == NULL) {
@@ -635,7 +636,7 @@ PRIVATE void CA_CacheGrChunk(W32 chunk, W16 version)
 		previous_version = version; /* set now for the next time around */
 	}
 #endif /* PARANOID */
-	CAL_ExpandGrChunk(chunk, buffer, version);
+	CAL_ExpandGrChunk(chunk, buffer, (W16)version);
 
 
 	MM_FREE(buffer);
@@ -923,7 +924,7 @@ PRIVATE void SavePic(W32 chunknum, W16 version, W8 *buffer, W8 *buffer2)
 		switch (chunknum) {
 			case SDM_TITLE1PIC:
             case SDM_TITLE2PIC:
-                CA_CacheGrChunk(SDM_TITLEPALETTE, version);
+                CA_CacheGrChunk((W32)SDM_TITLEPALETTE, (W16)version);
                 tpalette = grsegs[SDM_TITLEPALETTE];
                 break;
 
@@ -937,58 +938,58 @@ PRIVATE void SavePic(W32 chunknum, W16 version, W8 *buffer, W8 *buffer2)
         switch (chunknum) {
             case SOD_IDGUYS1PIC:
             case SOD_IDGUYS2PIC:
-                CA_CacheGrChunk(SOD_IDGUYSPALETTE, version);
+                CA_CacheGrChunk((W32)SOD_IDGUYSPALETTE, (W16)version);
                 tpalette = grsegs[SOD_IDGUYSPALETTE];
                 break;
 
             case SOD_TITLE1PIC:
             case SOD_TITLE2PIC:
-                CA_CacheGrChunk(SOD_TITLEPALETTE, version);
+                CA_CacheGrChunk((W32)SOD_TITLEPALETTE, (W16)version);
                 tpalette = grsegs[SOD_TITLEPALETTE];
                 break;
 
             case SOD_ENDSCREEN11PIC:
-                CA_CacheGrChunk(SOD_END1PALETTE, version);
+                CA_CacheGrChunk((W32)SOD_END1PALETTE, (W16)version);
                 tpalette = grsegs[SOD_END1PALETTE];
                 break;
 
             case SOD_ENDSCREEN12PIC:
-                CA_CacheGrChunk(SOD_END2PALETTE, version);
+                CA_CacheGrChunk((W32)SOD_END2PALETTE, (W16)version);
                 tpalette = grsegs[SOD_END2PALETTE];
                 break;
 
             case SOD_ENDSCREEN3PIC:
-                CA_CacheGrChunk(SOD_END3PALETTE, version);
+                CA_CacheGrChunk((W32)SOD_END3PALETTE, (W16)version);
                 tpalette = grsegs[SOD_END3PALETTE];
                 break;
 
             case SOD_ENDSCREEN4PIC:
-                CA_CacheGrChunk(SOD_END4PALETTE, version);
+                CA_CacheGrChunk((W32)SOD_END4PALETTE, (W16)version);
                 tpalette = grsegs[SOD_END4PALETTE];
                 break;
 
             case SOD_ENDSCREEN5PIC:
-                CA_CacheGrChunk(SOD_END5PALETTE, version);
+                CA_CacheGrChunk((W32)SOD_END5PALETTE, (W16)version);
                 tpalette = grsegs[SOD_END5PALETTE];
                 break;
 
             case SOD_ENDSCREEN6PIC:
-                CA_CacheGrChunk(SOD_END6PALETTE, version);
+                CA_CacheGrChunk((W32)SOD_END6PALETTE, (W16)version);
                 tpalette = grsegs[SOD_END6PALETTE];
                 break;
 
             case SOD_ENDSCREEN7PIC:
-                CA_CacheGrChunk(SOD_END7PALETTE, version);
+                CA_CacheGrChunk((W32)SOD_END7PALETTE, (W16)version);
                 tpalette = grsegs[SOD_END7PALETTE];
                 break;
 
             case SOD_ENDSCREEN8PIC:
-                CA_CacheGrChunk(SOD_END8PALETTE, version);
+                CA_CacheGrChunk((W32)SOD_END8PALETTE, (W16)version);
                 tpalette = grsegs[SOD_END8PALETTE];
                 break;
 
             case SOD_ENDSCREEN9PIC:
-                CA_CacheGrChunk(SOD_END9PALETTE, version);
+                CA_CacheGrChunk((W32)SOD_END9PALETTE, (W16)version);
                 tpalette = grsegs[SOD_END9PALETTE];
                 break;
 
@@ -1040,43 +1041,57 @@ STATUSBARHACK:
 		if (chunknum == WL1_STATUSBARPIC) {
 			/* Save Status bar pic: */
 			memcpy(buffer2, buffer, (size_t)(width * height * 2));
-			CA_CacheGrChunk(WL1_NOKEYPIC, version); /* cache NOKEYPIC */
+			/* cache NOKEYPIC: */
+			CA_CacheGrChunk((W32)WL1_NOKEYPIC, (W16)version);
 			chunknum = WL1_NOKEYPIC;
 
 			goto STATUSBARHACK;
-		} else if( chunknum == WL1_H_BOTTOMINFOPIC ) {
-			MergeImages( buffer, 2, 304, 91, 16, 24, 4,
-						 buffer2, 2, 91, 91, 16, 0, 0 );
-			MergeImages( buffer, 2, 304, 91, 16, 192, 4,
-						 buffer2, 2, 91, 91, 16, 0, 16 );
+		} else if (chunknum == WL1_H_BOTTOMINFOPIC) {
+			MergeImages(buffer, (W16)2, (W16)304, (W16)91, (W16)16,
+						(W32)24, (W32)4,
+						buffer2, (W16)2, (W16)91, (W16)91, (W16)16,
+						(W32)0, (W32)0);
+			MergeImages(buffer, (W16)2, (W16)304, (W16)91, (W16)16,
+						(W32)192, (W32)4,
+						buffer2, (W16)2, (W16)91, (W16)91, (W16)16,
+						(W32)0, (W32)16);
 
+			/* ((91 * 2) * 4) = (182 * 4) = 728 */
+			hq2x_32(buffer2, buffer, 91, 16, ((91 * 2) * 4));
+			RGB32toRGB24(buffer, buffer, (size_t)(182 * 32 * 4));
+			/* (182 * 32 * 4) = 23296 */
 
-			hq2x_32( buffer2, buffer, 91, 16, (91*2)*4 );
-			RGB32toRGB24( buffer, buffer, 182*32*4 );
+			cs_snprintf(filename, sizeof(filename), "%s/%s.tga", LGFXDIR,
+						"PLAQUE_PAGE");
 
-			cs_snprintf( filename, sizeof( filename ), "%s/%s.tga", LGFXDIR, "PLAQUE_PAGE" );
+			WriteTGA(filename, (W16)24, (W16)182, (W16)32, buffer,
+					 (W8)0, (W8)0);
 
-			WriteTGA( filename, 24, 182, 32, buffer, 0, 0 );
+			/* (16 * 91 * 2) = 2912 */	/* ((91 * 2) * 4) = (182 * 4) = 728 */
+			hq2x_32((buffer2 + (16 * 91 * 2)), buffer, 91, 16, ((91 * 2) * 4));
+			RGB32toRGB24(buffer, buffer, (size_t)(182 * 32 * 4));
+			/* (182 * 32 * 4) = 23296 */
 
-			hq2x_32( buffer2 + (16 * 91 * 2), buffer, 91, 16, (91*2)*4 );
-			RGB32toRGB24( buffer, buffer, 182*32*4 );
+			cs_snprintf(filename, sizeof(filename), "%s/%s.tga", LGFXDIR,
+						"PLAQUE_BLANK");
 
-			cs_snprintf( filename, sizeof( filename ), "%s/%s.tga", LGFXDIR, "PLAQUE_BLANK" );
-
-			WriteTGA( filename, 24, 182, 32, buffer, 0, 1 );
+			WriteTGA(filename, (W16)24, (W16)182, (W16)32, buffer,
+					 (W8)0, (W8)1);
 
 			return;
-		} else if( chunknum == WL1_NOKEYPIC ) {
+		} else if (chunknum == WL1_NOKEYPIC) {
 			chunknum = WL1_STATUSBARPIC;
 			MergePics(buffer, buffer2, (W16)width, (W16)height, (W16)2,
 					  (W16)320, (W32)240, (W32)4);
 			MergePics(buffer, buffer2, (W16)width, (W16)height, (W16)2,
 					  (W16)320, (W32)240, (W32)(4 + height));
 
+			/* (320 * 40 * 2) = 25600 */
 			memcpy(buffer, buffer2, (size_t)(320 * 40 * 2));
 			width = (W16)320;
 			height = (W16)40;
 		} else if (chunknum == WL1_L_COLONPIC) {
+			/* (256 * 64 * 2) = 32768 */
 			memset(buffer2, 0, (size_t)(256 * 64 * 2));
 
 			MergePics(buffer, buffer2, (W16)width, (W16)height, (W16)2,
@@ -1094,183 +1109,10 @@ STATUSBARHACK:
 			MergePics(buffer, buffer2, (W16)width, (W16)height, (W16)2,
 					  (W16)256, (W32)112, (W32)0);
 
+			/* (256 * 64 * 2) = 32768 */
 			memcpy(buffer, buffer2, (size_t)(256 * 64 * 2));
 
-
-			for( i = 0 ; i < 256 * 64 * 2 ; i += 2 ) {
-				if( buffer[ i ] == 0 && buffer[ i + 1 ] == 0 ) {
-					 buffer[ i + 1 ] = 66;
-				}
-			}
-
-			offset = 0;
-			width = 256;
-			height = 64;
-		} else if( chunknum == WL1_L_PERCENTPIC ) {
-			offset = 16; /* this is for L_APIC... */
-
-			MergePics( buffer, buffer2, width, height, 2, 256, 80, 0 );
-
-			return;
-		} else if( chunknum >= WL1_L_NUM0PIC && chunknum <= WL1_L_NUM9PIC ) {
-			MergePics( buffer, buffer2, width, height, 2, 256, offset, 16 );
-
-			offset += width;
-
-			return;
-		} else if( chunknum >= WL1_N_0PIC && chunknum < WL1_N_9PIC ) {
-			MergePics( buffer, buffer2, width, height, 2, 90, offset, 0 );
-
-			offset += width + 1;
-
-			return;
-		} else if( chunknum == WL1_N_9PIC ) {
-			W32 i; /* different than original "i" */
-
-			MergePics( buffer, buffer2, width, height, 2, 90, offset, 0 );
-
-			memcpy(buffer, buffer2, (size_t)(90 * height * 2));
-
-			for ((i = 0); (i < (90 * 16 * 2)); (i += 2)) {
-				if (! (i % 9) && (i != 0)) {
-					buffer[(i - 2)] = 0;
-					buffer[(i - 1)] = 160;
-				}
-			}
-
-			width = 90;
-			offset = 0;
-		} else if( chunknum >= WL1_L_APIC && chunknum <= WL1_L_ZPIC ) {
-			static W32 yoffset = 32;
-
-			MergePics( buffer, buffer2, width, height, 2, 256, offset, yoffset );
-
-			offset += width;
-
-			if( offset >= 256 ) {
-				offset = 0;
-				yoffset += 16;
-			}
-
-			return;
-		} else if( chunknum == WL1_FACE5CPIC ) {
-			/* hmmm... Why is this one messed up? */
-
-			MergeImages( buffer, 2, 24, 18, height-2, 8, 2,
-						 buffer2, 2, 24, 18, height-2, 0, 0 );
-			MergeImages( buffer, 2, 24, 8, height-3, 0, 3,
-						 buffer2, 2, 24, 8, height-2, 16, 0 );
-
-			MergeImages( buffer, 2, 24, 18, 2, 9, 0,
-						 buffer2, 2, 24, 18, 2, 0, height-2 );
-			MergeImages( buffer, 2, 24, 7, 3, 1, 0,
-						 buffer2, 2, 24, 7, 3, 16, height-3 );
-
-			memcpy(buffer, buffer2, (size_t)(24 * 32 * 2));
-
-
-			buffer[(30 * 24 * 2) + (3 * 2) ] = 73;
-			buffer[(30 * 24 * 2) + (3 * 2) + 1 ] = 74;
-
-			buffer[(31 * 24 * 2) + (3 * 2) ] = 73;
-			buffer[(31 * 24 * 2) + (3 * 2) + 1 ] = 74;
-
-
-			buffer[(29 * 24 * 2) + (23 * 2) ] = 73;
-			buffer[(29 * 24 * 2) + (23 * 2) + 1 ] = 74;
-
-			buffer[(30 * 24 * 2) + (23 * 2) ] = 73;
-			buffer[(30 * 24 * 2) + (23 * 2) + 1 ] = 74;
-
-			buffer[(31 * 24 * 2) + (23 * 2) ] = 73;
-			buffer[(31 * 24 * 2) + (23 * 2) + 1 ] = 74;
-
-
-			buffer[(29 * 24 * 2) + (19 * 2) ] = 255;
-			buffer[(29 * 24 * 2) + (19 * 2) + 1 ] = 100;
-
-			buffer[(30 * 24 * 2) + (19 * 2) ] = 63;
-			buffer[(30 * 24 * 2) + (19 * 2) + 1 ] = 117;
-
-			buffer[(31 * 24 * 2) + (19 * 2) ] = 52;
-			buffer[(31 * 24 * 2) + (19 * 2) + 1 ] = 59;
-
-
-			buffer[(30 * 24 * 2) + (7 * 2) ] = 19;
-			buffer[(30 * 24 * 2) + (7 * 2) + 1 ] = 59;
-
-			buffer[(31 * 24 * 2) + (7 * 2) ] = 19;
-			buffer[(31 * 24 * 2) + (7 * 2) + 1 ] = 59;
-
-
-			buffer[(30 * 24 * 2) + (11 * 2) ] = 91;
-			buffer[(30 * 24 * 2) + (11 * 2) + 1 ] = 84;
-
-			buffer[(31 * 24 * 2) + (11 * 2) ] = 190;
-			buffer[(31 * 24 * 2) + (11 * 2) + 1 ] = 92;
-
-
-			buffer[(30 * 24 * 2) + (15 * 2) ] = 249;
-			buffer[(30 * 24 * 2) + (15 * 2) + 1 ] = 75;
-
-			buffer[(31 * 24 * 2) + (15 * 2) ] = 190;
-			buffer[(31 * 24 * 2) + (15 * 2) + 1 ] = 92;
-		}
-	} else if( version & WL6_PAK ) {
-		if( chunknum == STATUSBARPIC ) {
-			memcpy(buffer2, buffer, (size_t)(width * height * 2)); /* Save Status bar pic */
-			CA_CacheGrChunk( NOKEYPIC, version ); /* cache NOKEYPIC */
-			chunknum = NOKEYPIC;
-
-			goto STATUSBARHACK;
-		} else if( chunknum == H_BOTTOMINFOPIC ) {
-			MergeImages( buffer, 2, 304, 91, 16, 24, 4,
-						 buffer2, 2, 91, 91, 16, 0, 0 );
-			MergeImages( buffer, 2, 304, 91, 16, 192, 4,
-						 buffer2, 2, 91, 91, 16, 0, 16 );
-
-
-			hq2x_32( buffer2, buffer, 91, 16, (91*2)*4 );
-			RGB32toRGB24( buffer, buffer, 182*32*4 );
-
-			cs_snprintf( filename, sizeof( filename ), "%s/%s.tga", LGFXDIR, "PLAQUE_PAGE" );
-
-			WriteTGA( filename, 24, 182, 32, buffer, 0, 0 );
-
-			hq2x_32( buffer2 + (16 * 91 * 2), buffer, 91, 16, (91*2)*4 );
-			RGB32toRGB24( buffer, buffer, 182*32*4 );
-
-			cs_snprintf( filename, sizeof( filename ), "%s/%s.tga", LGFXDIR, "PLAQUE_BLANK" );
-
-			WriteTGA( filename, 24, 182, 32, buffer, 0, 1 );
-
-			return;
-		} else if( chunknum == NOKEYPIC ) {
-			chunknum = STATUSBARPIC;
-			MergePics( buffer, buffer2, width, height, 2, 320, 240, 4 );
-			MergePics( buffer, buffer2, width, height, 2, 320, 240, 4+height );
-
-			memcpy(buffer, buffer2, (size_t)(320 * 40 * 2));
-			width = 320;
-			height = 40;
-		} else if( chunknum == L_COLONPIC ) {
-			memset( buffer2, 0, (size_t)(256 * 64 * 2));
-
-			MergePics( buffer, buffer2, width, height, 2, 256, 160, 16 );
-
-			return;
-		} else if( chunknum == L_EXPOINTPIC ) {
-			MergePics( buffer, buffer2, width, height, 2, 256, 16, 0 );
-
-			return;
-		} else if( chunknum == L_APOSTROPHEPIC ) {
-			W16 i; /* original "i" is "W16" like here, but there was a "W32 i;" in between... */
-
-			MergePics( buffer, buffer2, width, height, 2, 256, 112, 0 );
-
-			memcpy(buffer, buffer2, (size_t)(256 * 64 * 2));
-
-
+			/* (256 * 64 * 2) = 32768 */
 			for ((i = 0); (i < (256 * 64 * 2)); (i += 2)) {
 				if ((buffer[i] == 0) && (buffer[(i + 1)] == 0)) {
 					 buffer[(i + 1)] = 66;
@@ -1280,33 +1122,38 @@ STATUSBARHACK:
 			offset = 0;
 			width = 256;
 			height = 64;
-		} else if( chunknum == L_PERCENTPIC ) {
+		} else if (chunknum == WL1_L_PERCENTPIC) {
 			offset = 16; /* this is for L_APIC... */
 
-			MergePics( buffer, buffer2, width, height, 2, 256, 80, 0 );
+			MergePics(buffer, buffer2, (W16)width, (W16)height, (W16)2,
+					  (W16)256, (W32)80, (W32)0);
 
 			return;
-		} else if( chunknum >= L_NUM0PIC && chunknum <= L_NUM9PIC ) {
-			MergePics( buffer, buffer2, width, height, 2, 256, offset, 16 );
+		} else if ((chunknum >= WL1_L_NUM0PIC) && (chunknum <= WL1_L_NUM9PIC)) {
+			MergePics(buffer, buffer2, (W16)width, (W16)height, (W16)2,
+					  (W16)256, (W32)offset, (W32)16);
 
 			offset += width;
 
 			return;
-		} else if( chunknum >= N_0PIC && chunknum < N_9PIC ) {
-			MergePics( buffer, buffer2, width, height, 2, 90, offset, 0 );
+		} else if ((chunknum >= WL1_N_0PIC) && (chunknum < WL1_N_9PIC)) {
+			MergePics(buffer, buffer2, (W16)width, (W16)height, (W16)2, (W16)90,
+					  (W32)offset, (W32)0);
 
-			offset += width + 1;
+			offset += (width + 1);
 
 			return;
-		} else if( chunknum == N_9PIC ) {
+		} else if (chunknum == WL1_N_9PIC) {
 			W32 i; /* different than original "i" */
 
-			MergePics( buffer, buffer2, width, height, 2, 90, offset, 0 );
+			MergePics(buffer, buffer2, (W16)width, (W16)height, (W16)2, (W16)90,
+					  (W32)offset, (W32)0);
 
 			memcpy(buffer, buffer2, (size_t)(90 * height * 2));
 
+			/* (90 * 16 * 2) = 2880 */
 			for ((i = 0); (i < (90 * 16 * 2)); (i += 2)) {
-				if (! (i % 9) && (i != 0)) {
+				if (!(i % 9) && (i != 0)) {
 					buffer[(i - 2)] = 0;
 					buffer[(i - 1)] = 160;
 				}
@@ -1314,54 +1161,279 @@ STATUSBARHACK:
 
 			width = 90;
 			offset = 0;
-		} else if( chunknum >= L_APIC && chunknum <= L_ZPIC ) {
+		} else if ((chunknum >= WL1_L_APIC) && (chunknum <= WL1_L_ZPIC)) {
 			static W32 yoffset = 32;
 
-			MergePics( buffer, buffer2, width, height, 2, 256, offset, yoffset );
+			MergePics(buffer, buffer2, (W16)width, (W16)height, (W16)2,
+					  (W16)256, (W32)offset, (W32)yoffset);
 
 			offset += width;
 
-			if( offset >= 256 ) {
+			if (offset >= 256) {
+				offset = 0;
+				yoffset += 16;
+			}
+
+			return;
+		} else if (chunknum == WL1_FACE5CPIC) {
+			/* hmmm... Why is this one messed up? */
+
+			MergeImages(buffer, (W16)2, (W16)24, (W16)18, (W16)(height - 2),
+						(W32)8, (W32)2,
+						buffer2, (W16)2, (W16)24, (W16)18, (W16)(height - 2),
+						(W32)0, (W32)0);
+			MergeImages(buffer, (W16)2, (W16)24, (W16)8, (W16)(height - 3),
+						(W32)0, (W32)3,
+						buffer2, (W16)2, (W16)24, (W16)8, (W16)(height - 2),
+						(W32)16, (W32)0);
+
+			MergeImages(buffer, (W16)2, (W16)24, (W16)18, (W16)2,
+						(W32)9, (W32)0,
+						buffer2, (W16)2, (W16)24, (W16)18, (W16)2,
+						(W32)0, (W32)(height - 2));
+			MergeImages(buffer, (W16)2, (W16)24, (W16)7, (W16)3,
+						(W32)1, (W32)0,
+						buffer2, (W16)2, (W16)24, (W16)7, (W16)3,
+						(W32)16, (W32)(height - 3));
+
+			/* (24 * 32 * 2) = 1536 */
+			memcpy(buffer, buffer2, (size_t)(24 * 32 * 2));
+
+			/* ((30 * 24 * 2) + (3 * 2)) = (1440 + 6) = 1446 */
+			buffer[((30 * 24 * 2) + (3 * 2))] = 73;
+			/* ((30 * 24 * 2) + (3 * 2) + 1) = (1440 + 6 + 1) = 1447 */
+			buffer[((30 * 24 * 2) + (3 * 2) + 1)] = 74;
+
+			/* ((31 * 24 * 2) + (3 * 2)) = (1488 + 6) = 1494 */
+			buffer[((31 * 24 * 2) + (3 * 2))] = 73;
+			/* ((31 * 24 * 2) + (3 * 2)) = (1488 + 6 + 1) = 1495 */
+			buffer[((31 * 24 * 2) + (3 * 2) + 1)] = 74;
+
+			/* ((29 * 24 * 2) + (3 * 2)) = (1392 + 46) = 1438 */
+			buffer[((29 * 24 * 2) + (23 * 2))] = 73;
+			/* ((29 * 24 * 2) + (3 * 2)) = (1392 + 46 + 1) = 1439 */
+			buffer[((29 * 24 * 2) + (23 * 2) + 1)] = 74;
+
+			/* TODO: write out math on rest of these */
+			buffer[((30 * 24 * 2) + (23 * 2))] = 73;
+			buffer[((30 * 24 * 2) + (23 * 2) + 1)] = 74;
+
+			buffer[((31 * 24 * 2) + (23 * 2))] = 73;
+			buffer[((31 * 24 * 2) + (23 * 2) + 1)] = 74;
+
+
+			buffer[((29 * 24 * 2) + (19 * 2))] = 255;
+			buffer[((29 * 24 * 2) + (19 * 2) + 1)] = 100;
+
+			buffer[((30 * 24 * 2) + (19 * 2))] = 63;
+			buffer[((30 * 24 * 2) + (19 * 2) + 1)] = 117;
+
+			buffer[((31 * 24 * 2) + (19 * 2))] = 52;
+			buffer[((31 * 24 * 2) + (19 * 2) + 1)] = 59;
+
+
+			buffer[((30 * 24 * 2) + (7 * 2))] = 19;
+			buffer[((30 * 24 * 2) + (7 * 2) + 1)] = 59;
+
+			buffer[((31 * 24 * 2) + (7 * 2))] = 19;
+			buffer[((31 * 24 * 2) + (7 * 2) + 1)] = 59;
+
+
+			buffer[((30 * 24 * 2) + (11 * 2))] = 91;
+			buffer[((30 * 24 * 2) + (11 * 2) + 1)] = 84;
+
+			buffer[((31 * 24 * 2) + (11 * 2))] = 190;
+			buffer[((31 * 24 * 2) + (11 * 2) + 1)] = 92;
+
+
+			buffer[((30 * 24 * 2) + (15 * 2))] = 249;
+			buffer[((30 * 24 * 2) + (15 * 2) + 1)] = 75;
+
+			buffer[((31 * 24 * 2) + (15 * 2))] = 190;
+			buffer[((31 * 24 * 2) + (15 * 2) + 1)] = 92;
+		}
+	} else if (version & WL6_PAK) {
+		if (chunknum == STATUSBARPIC) {
+			memcpy(buffer2, buffer, (size_t)(width * height * 2)); /* Save Status bar pic */
+			CA_CacheGrChunk((W32)NOKEYPIC, (W16)version); /* cache NOKEYPIC */
+			chunknum = NOKEYPIC;
+
+			goto STATUSBARHACK;
+		} else if (chunknum == H_BOTTOMINFOPIC) {
+			MergeImages(buffer, (W16)2, (W16)304, (W16)91, (W16)16,
+						(W32)24, (W32)4,
+						buffer2, (W16)2, (W16)91, (W16)91, (W16)16,
+						(W32)0, (W32)0);
+			MergeImages(buffer, (W16)2, (W16)304, (W16)91, (W16)16,
+						(W32)192, (W32)4,
+						buffer2, (W16)2, (W16)91, (W16)91, (W16)16,
+						(W32)0, (W32)16);
+
+
+			/* ((91 * 2) * 4) = (182 * 4) = 728 */
+			hq2x_32(buffer2, buffer, 91, 16, ((91 * 2) * 4));
+			RGB32toRGB24(buffer, buffer, (size_t)(182 * 32 * 4));
+			/* (182 * 32 * 4) = 23296 */
+
+			cs_snprintf(filename, sizeof(filename), "%s/%s.tga", LGFXDIR,
+						"PLAQUE_PAGE");
+
+			WriteTGA(filename, (W16)24, (W16)182, (W16)32, buffer,
+					 (W8)0, (W8)0);
+
+			/* (16 * 91 * 2) = 2912 */	/* ((91 * 2) * 4) = (182 * 4) = 728 */
+			hq2x_32(buffer2 + (16 * 91 * 2), buffer, 91, 16, ((91 * 2) * 4));
+			RGB32toRGB24( buffer, buffer, (size_t)(182 * 32 * 4));
+			/* (182 * 32 * 4) = 23296 */
+
+			cs_snprintf(filename, sizeof(filename), "%s/%s.tga", LGFXDIR,
+						"PLAQUE_BLANK");
+
+			WriteTGA(filename, (W16)24, (W16)182, (W16)32, buffer,
+					 (W8)0, (W8)1);
+
+			return;
+		} else if (chunknum == NOKEYPIC) {
+			chunknum = STATUSBARPIC;
+			MergePics(buffer, buffer2, (W16)width, (W16)height, (W16)2,
+					  (W16)320, (W32)240, (W32)4);
+			MergePics(buffer, buffer2, (W16)width, (W16)height, (W16)2,
+					  (W16)320, (W32)240, (W32)(4 + height));
+
+			/* (320 * 40 * 2) = 25600 */
+			memcpy(buffer, buffer2, (size_t)(320 * 40 * 2));
+			width = 320;
+			height = 40;
+		} else if (chunknum == L_COLONPIC) {
+			memset(buffer2, 0, (size_t)(256 * 64 * 2));
+			/* (256 * 64 * 2) = 32768 */
+
+			MergePics(buffer, buffer2, (W16)width, (W16)height, (W16)2,
+					  (W16)256, (W32)160, (W32)16);
+
+			return;
+		} else if (chunknum == L_EXPOINTPIC) {
+			MergePics(buffer, buffer2, (W16)width, (W16)height, (W16)2,
+					  (W16)256, (W32)16, (W32)0);
+
+			return;
+		} else if (chunknum == L_APOSTROPHEPIC) {
+			W16 i; /* original "i" is "W16" like here, but there was a "W32 i;"
+					* in between... */
+			MergePics(buffer, buffer2, (W16)width, (W16)height, (W16)2,
+					  (W16)256, (W32)112, (W32)0);
+
+			/* (256 * 64 * 2) = 32768 */
+			memcpy(buffer, buffer2, (size_t)(256 * 64 * 2));
+
+			/* (256 * 64 * 2) = 32768 */
+			for ((i = 0); (i < (256 * 64 * 2)); (i += 2)) {
+				if ((buffer[i] == 0) && (buffer[(i + 1)] == 0)) {
+					 buffer[(i + 1)] = 66;
+				}
+			}
+
+			offset = 0;
+			width = 256;
+			height = 64;
+		} else if (chunknum == L_PERCENTPIC) {
+			offset = 16; /* this is for L_APIC... */
+
+			MergePics(buffer, buffer2, (W16)width, (W16)height, (W16)2,
+					  (W16)256, (W32)80, (W32)0);
+
+			return;
+		} else if ((chunknum >= L_NUM0PIC) && (chunknum <= L_NUM9PIC)) {
+			MergePics(buffer, buffer2, (W16)width, (W16)height, (W16)2,
+					  (W16)256, (W32)offset, (W32)16);
+
+			offset += width;
+
+			return;
+		} else if ((chunknum >= N_0PIC) && (chunknum < N_9PIC)) {
+			MergePics(buffer, buffer2, (W16)width, (W16)height, (W16)2, (W16)90,
+					  (W32)offset, (W32)0);
+
+			offset += (width + 1);
+
+			return;
+		} else if (chunknum == N_9PIC) {
+			W32 i; /* different than original "i" */
+
+			MergePics(buffer, buffer2, (W16)width, (W16)height, (W16)2, (W16)90,
+					  (W32)offset, (W32)0);
+
+			memcpy(buffer, buffer2, (size_t)(90 * height * 2));
+
+			/* (90 * 16 * 2) = 2880 */
+			for ((i = 0); (i < (90 * 16 * 2)); (i += 2)) {
+				if (!(i % 9) && (i != 0)) {
+					buffer[(i - 2)] = 0;
+					buffer[(i - 1)] = 160;
+				}
+			}
+
+			width = 90;
+			offset = 0;
+		} else if ((chunknum >= L_APIC) && (chunknum <= L_ZPIC)) {
+			static W32 yoffset = 32;
+
+			MergePics(buffer, buffer2, (W16)width, (W16)height, (W16)2,
+					  (W16)256, (W32)offset, (W32)yoffset);
+
+			offset += width;
+
+			if (offset >= 256) {
 				offset = 0;
 				yoffset += 16;
 			}
 
 			return;
 		}
-	} else if( version & SDM_PAK ) {
-		if( chunknum == SDM_STATUSBARPIC ) {
-			memcpy(buffer2, buffer, (size_t)(width * height * 2)); /* Save Status bar pic */
-			CA_CacheGrChunk( SDM_NOKEYPIC, version ); /* cache SOD_NOKEYPIC */
+	} else if (version & SDM_PAK ) {
+		if (chunknum == SDM_STATUSBARPIC) {
+			/* Save Status bar pic: */
+			memcpy(buffer2, buffer, (size_t)(width * height * 2));
+			/* cache SOD_NOKEYPIC: */
+			CA_CacheGrChunk((W32)SDM_NOKEYPIC, (W16)version);
 			chunknum = SDM_NOKEYPIC;
 
 			goto STATUSBARHACK;
-		} else if( chunknum == SDM_NOKEYPIC ) {
+		} else if (chunknum == SDM_NOKEYPIC) {
 			chunknum = SDM_STATUSBARPIC;
-			MergePics(buffer, buffer2, width, height, 2, 320, 240, 4);
-			MergePics(buffer, buffer2, width, height, 2, 320, 240, (4 + height));
+			MergePics(buffer, buffer2, (W16)width, (W16)height, (W16)2,
+					  (W16)320, (W32)240, (W32)4);
+			MergePics(buffer, buffer2, (W16)width, (W16)height, (W16)2,
+					  (W16)320, (W32)240, (W32)(4 + height));
 
+			/* (320 * 40 * 2) = 25600 */
 			memcpy(buffer, buffer2, (size_t)(320 * 40 * 2));
 			width = 320;
 			height = 40;
 		} else if (chunknum == SDM_L_COLONPIC) {
+			/* (256 * 64 * 2) = 32768 */
 			memset(buffer2, 0, (size_t)(256 * 64 * 2));
 
-			MergePics( buffer, buffer2, width, height, 2, 256, 160, 16 );
+			MergePics(buffer, buffer2, (W16)width, (W16)height, (W16)2,
+					  (W16)256, (W32)160, (W32)16);
 
 			return;
-		} else if( chunknum == SDM_L_EXPOINTPIC ) {
-			MergePics( buffer, buffer2, width, height, 2, 256, 16, 0 );
+		} else if (chunknum == SDM_L_EXPOINTPIC) {
+			MergePics(buffer, buffer2, (W16)width, (W16)height, (W16)2,
+					  (W16)256, (W32)16, (W32)0);
 
 			return;
 		} else if( chunknum == SDM_L_APOSTROPHEPIC ) {
 			W16 i; /* original "i" is "W16" like here, but there were some
 					* "W32 i;" declarations in between... */
 
-			MergePics( buffer, buffer2, width, height, 2, 256, 112, 0 );
+			MergePics(buffer, buffer2, (W16)width, (W16)height, (W16)2,
+					  (W16)256, (W32)112, (W32)0);
 
+			/* (256 * 64 * 2) = 32768 */
 			memcpy(buffer, buffer2, (size_t)(256 * 64 * 2));
 
-
+			/* (256 * 64 * 2) = 32768 */
 			for ((i = 0); (i < (256 * 64 * 2)); (i += 2)) {
 				if ((buffer[i] == 0) && (buffer[(i + 1)] == 0)) {
 					 buffer[(i + 1)] = 66;
@@ -1374,30 +1446,35 @@ STATUSBARHACK:
 		} else if (chunknum == SDM_L_PERCENTPIC) {
 			offset = 16; /* this is for L_APIC... */
 
-			MergePics( buffer, buffer2, width, height, 2, 256, 80, 0 );
+			MergePics(buffer, buffer2, (W16)width, (W16)height, (W16)2,
+					  (W16)256, (W32)80, (W32)0);
 
 			return;
-		} else if( chunknum >= SDM_L_NUM0PIC && chunknum <= SDM_L_NUM9PIC ) {
-			MergePics( buffer, buffer2, width, height, 2, 256, offset, 16 );
+		} else if ((chunknum >= SDM_L_NUM0PIC) && (chunknum <= SDM_L_NUM9PIC)) {
+			MergePics(buffer, buffer2, (W16)width, (W16)height, (W16)2,
+					  (W16)256, (W32)offset, (W32)16);
 
 			offset += width;
 
 			return;
-		} else if( chunknum >= SDM_N_0PIC && chunknum < SDM_N_9PIC ) {
-			MergePics( buffer, buffer2, width, height, 2, 90, offset, 0 );
+		} else if ((chunknum >= SDM_N_0PIC) && (chunknum < SDM_N_9PIC)) {
+			MergePics(buffer, buffer2, (W16)width, (W16)height, (W16)2, (W16)90,
+					  (W32)offset, (W32)0);
 
-			offset += width + 1;
+			offset += (width + 1);
 
 			return;
-		} else if( chunknum == SDM_N_9PIC ) {
+		} else if (chunknum == SDM_N_9PIC) {
 			W32 i; /* different than original "i" */
 
-			MergePics( buffer, buffer2, width, height, 2, 90, offset, 0 );
+			MergePics(buffer, buffer2, (W16)width, (W16)height, (W16)2, (W16)90,
+					  (W32)offset, (W32)0);
 
 			memcpy(buffer, buffer2, (size_t)(90 * height * 2));
 
+			/* (90 * 16 * 2) = 2880 */
 			for ((i = 0); (i < (90 * 16 * 2)); (i += 2)) {
-				if (! (i % 9) && (i != 0)) {
+				if (!(i % 9) && (i != 0)) {
 					buffer[(i - 2)] = 0;
 					buffer[(i - 1)] = 160;
 				}
@@ -1405,10 +1482,11 @@ STATUSBARHACK:
 
 			width = 90;
 			offset = 0;
-		} else if( chunknum >= SDM_L_APIC && chunknum <= SDM_L_ZPIC ) {
+		} else if ((chunknum >= SDM_L_APIC) && (chunknum <= SDM_L_ZPIC)) {
 			static W32 yoffset = 32;
 
-			MergePics( buffer, buffer2, width, height, 2, 256, offset, yoffset );
+			MergePics(buffer, buffer2, (W16)width, (W16)height, (W16)2,
+					  (W16)256, (W32)offset, (W32)yoffset);
 
 			offset += width;
 
@@ -1433,36 +1511,46 @@ STATUSBARHACK:
 		if (chunknum == SOD_STATUSBARPIC) {
 			/* Save Status bar pic: */
 			memcpy(buffer2, buffer, (size_t)(width * height * 2));
-			CA_CacheGrChunk( SOD_NOKEYPIC, version ); /* cache SOD_NOKEYPIC */
+			/* cache SOD_NOKEYPIC: */
+			CA_CacheGrChunk((W32)SOD_NOKEYPIC, (W16)version);
 			chunknum = SOD_NOKEYPIC;
 
 			goto STATUSBARHACK;
-		} else if( chunknum == SOD_NOKEYPIC ) {
+		} else if (chunknum == SOD_NOKEYPIC) {
 			chunknum = SOD_STATUSBARPIC;
-			MergePics(buffer, buffer2, width, height, 2, 320, 240, 4);
-			MergePics(buffer, buffer2, width, height, 2, 320, 240, (4 + height));
+			MergePics(buffer, buffer2, (W16)width, (W16)height, (W16)2,
+					  (W16)320, (W32)240, (W32)4);
+			MergePics(buffer, buffer2, (W16)width, (W16)height, (W16)2,
+					  (W16)320, (W32)240, (W32)(4 + height));
 
-			memcpy( buffer, buffer2, (size_t)(320 * 40 * 2));
+			/* (320 * 40 * 2) = 25600 */
+			memcpy(buffer, buffer2, (size_t)(320 * 40 * 2));
 			width = 320;
 			height = 40;
-		} else if( chunknum == SOD_L_COLONPIC ) {
-			memset( buffer2, 0, (size_t)(256 * 64 * 2));
+		} else if (chunknum == SOD_L_COLONPIC) {
+			/* (256 * 64 * 2) = 32768 */
+			memset(buffer2, 0, (size_t)(256 * 64 * 2));
 
-			MergePics( buffer, buffer2, width, height, 2, 256, 160, 16 );
-
-			return;
-		} else if( chunknum == SOD_L_EXPOINTPIC ) {
-			MergePics( buffer, buffer2, width, height, 2, 256, 16, 0 );
+			MergePics(buffer, buffer2, (W16)width, (W16)height, (W16)2,
+					  (W16)256, (W32)160, (W32)16);
 
 			return;
-		} else if( chunknum == SOD_L_APOSTROPHEPIC ) {
+		} else if (chunknum == SOD_L_EXPOINTPIC) {
+			MergePics(buffer, buffer2, (W16)width, (W16)height, (W16)2,
+					  (W16)256, (W32)16, (W32)0);
+
+			return;
+		} else if (chunknum == SOD_L_APOSTROPHEPIC) {
 			W16 i; /* original "i" is "W16" like here, but there were some
 					* "W32 i;" declarations in between... */
 
-			MergePics( buffer, buffer2, width, height, 2, 256, 112, 0 );
+			MergePics(buffer, buffer2, (W16)width, (W16)height, (W16)2,
+					  (W16)256, (W32)112, (W32)0);
 
+			/* (256 * 64 * 2) = 32768 */
 			memcpy(buffer, buffer2, (size_t)(256 * 64 * 2));
 
+			/* (256 * 64 * 2) = 32768 */
 			for ((i = 0); (i < (256 * 64 * 2)); (i += 2)) {
 				if ((buffer[i] == 0) && (buffer[(i + 1)] == 0)) {
 					 buffer[(i + 1)] = 66;
@@ -1472,33 +1560,38 @@ STATUSBARHACK:
 			offset = 0;
 			width = 256;
 			height = 64;
-		} else if( chunknum == SOD_L_PERCENTPIC ) {
+		} else if (chunknum == SOD_L_PERCENTPIC) {
 			offset = 16; /* this is for L_APIC... */
 
-			MergePics( buffer, buffer2, width, height, 2, 256, 80, 0 );
+			MergePics(buffer, buffer2, (W16)width, (W16)height, (W16)2,
+					  (W16)256, (W32)80, (W32)0);
 
 			return;
-		} else if( chunknum >= SOD_L_NUM0PIC && chunknum <= SOD_L_NUM9PIC ) {
-			MergePics( buffer, buffer2, width, height, 2, 256, offset, 16 );
+		} else if ((chunknum >= SOD_L_NUM0PIC) && (chunknum <= SOD_L_NUM9PIC)) {
+			MergePics(buffer, buffer2, (W16)width, (W16)height, (W16)2,
+					  (W16)256, (W32)offset, (W32)16);
 
 			offset += width;
 
 			return;
-		} else if( chunknum >= SOD_N_0PIC && chunknum < SOD_N_9PIC ) {
-			MergePics( buffer, buffer2, width, height, 2, 90, offset, 0 );
+		} else if ((chunknum >= SOD_N_0PIC) && (chunknum < SOD_N_9PIC)) {
+			MergePics(buffer, buffer2, (W16)width, (W16)height, (W16)2, (W16)90,
+					  (W32)offset, (W32)0);
 
-			offset += width + 1;
+			offset += (width + 1);
 
 			return;
 		} else if( chunknum == SOD_N_9PIC ) {
 			W32 i; /* different than original "i" */
 
-			MergePics(buffer, buffer2, width, height, 2, 90, offset, 0);
+			MergePics(buffer, buffer2, (W16)width, (W16)height, (W16)2, (W16)90,
+					  (W32)offset, (W32)0);
 
 			memcpy(buffer, buffer2, (size_t)(90 * height * 2));
 
+			/* (90 * 16 * 2) = 2880 */
 			for ((i = 0); (i < (90 * 16 * 2)); (i += 2)) {
-				if (! (i % 9) && (i != 0)) {
+				if (!(i % 9) && (i != 0)) {
 					buffer[(i - 2)] = 0;
 					buffer[(i - 1)] = 160;
 				}
@@ -1509,22 +1602,23 @@ STATUSBARHACK:
 		} else if ((chunknum >= SOD_L_APIC) && (chunknum <= SOD_L_ZPIC)) {
 			static W32 yoffset = 32;
 
-			MergePics(buffer, buffer2, width, height, 2, 256, offset, yoffset);
+			MergePics(buffer, buffer2, (W16)width, (W16)height,
+					  (W16)2, (W16)256, (W32)offset, (W32)yoffset);
 
 			offset += width;
 
-			if( offset >= 256 ) {
+			if (offset >= 256) {
 				offset = 0;
 				yoffset += 16;
 			}
 
 			return;
-		} else if( chunknum == SOD_IDGUYS1PIC ) {
+		} else if (chunknum == SOD_IDGUYS1PIC) {
 			memcpy((buffer2 + offset), buffer, (size_t)(width * height * 2));
-			offset += width*height*2;
+			offset += (width * height * 2);
 
 			return;
-		} else if( chunknum == SOD_IDGUYS2PIC ) {
+		} else if (chunknum == SOD_IDGUYS2PIC) {
 			memcpy((buffer2 + offset), buffer, (size_t)(width * height * 2));
 			memcpy(buffer, buffer2, (size_t)(320 * 200 * 2));
 			height = 200;
@@ -1546,14 +1640,14 @@ STATUSBARHACK:
  */
 
 
-	if( version & WL1_PAK ) {
-		fname = GetLumpFileName_WL1( chunknum );
-	} else if( version & WL6_PAK ) {
-        fname = GetLumpFileName_WL6( chunknum );
-    } else if( version & SDM_PAK ) {
-        fname = GetLumpFileName_SDM( chunknum );
-    } else if( version & SOD_PAK ) {
-        fname = GetLumpFileName_SOD( chunknum );
+	if (version & WL1_PAK) {
+		fname = GetLumpFileName_WL1(chunknum);
+	} else if (version & WL6_PAK) {
+        fname = GetLumpFileName_WL6(chunknum);
+    } else if (version & SDM_PAK) {
+        fname = GetLumpFileName_SDM(chunknum);
+    } else if (version & SOD_PAK) {
+        fname = GetLumpFileName_SOD(chunknum);
     } else {
         printf("Unknown file extension!\n");
 
@@ -1566,17 +1660,18 @@ STATUSBARHACK:
 		return;
     }
 
-	cs_snprintf( filename, sizeof( filename ), "%s/%s.tga", LGFXDIR, fname );
+	cs_snprintf(filename, sizeof(filename), "%s/%s.tga", LGFXDIR, fname);
 
 
-    hq2x_32( buffer, buffer2, width, height, (width*2)*4 );
+    hq2x_32(buffer, buffer2, width, height, ((width * 2) * 4));
 
 
 	/* Get rid of alpha channel */
-	RGB32toRGB24( buffer2, buffer2, (width*2)*(height*2)*4 );
+	RGB32toRGB24(buffer2, buffer2, (size_t)((width * 2) * (height * 2) * 4));
 
 
-	WriteTGA( filename, 24, (width*2), (height*2), buffer2, 0, 1 );
+	WriteTGA(filename, (W16)24, (W16)(width * 2), (W16)(height * 2), buffer2,
+			 (W8)0, (W8)1);
 
 	return;
 } /* end of SavePic() function (that was really long!) */
@@ -1682,7 +1777,8 @@ PRIVATE void Fontline(W32 fontnumber, W16 version)
 	cs_snprintf(filename, sizeof(filename), "%s/font%d.tga", LGFXDIR,
 				fontnumber);
 
-	WriteTGA(filename, 32, FONTWIDTH, FONTHEIGHT, buffer, 0, 1);
+	WriteTGA(filename, (W16)32, (W16)FONTWIDTH, (W16)FONTHEIGHT, buffer,
+			 (W8)0, (W8)1);
 
 	MM_FREE(buffer);
 
@@ -1723,7 +1819,7 @@ PRIVATE void DecodeText(W16 version)
 
 	for ((i = 0); (i < limit); ++i) {
 		artnum = (endextern + i);
-		CA_CacheGrChunk((W32)artnum, version);
+		CA_CacheGrChunk((W32)artnum, (W16)version);
 		text = (char *)grsegs[artnum];
 
 		if (text == NULL) {
@@ -1822,15 +1918,15 @@ PUBLIC _boolean LumpExtractor(const char *fextension, W32 limit, W16 version)
 	printf("LumpExtractor(): attempting to decode GFX Data...\n");
 
 #if 1 || __clang_analyzer__
-	(void)DecodeText(version);
+	(void)DecodeText((W16)version);
 #endif /* 1 || __clang_analyzer__ */
 
 	/* STARTPICS is defined to '3' in "wolf_def.h", so it _should_ always be
 	 * smaller than NUMCHUNKS (i.e. '169'), which is the number of elements
 	 * in grsegs[], which Fontline() accesses: */
 	for ((i = STARTFONT); (i < STARTPICS); ++i) {
-        CA_CacheGrChunk(i, version); /* use 'i' as 'chunk' */
-        Fontline(i, version); /* use 'i' as 'fontnumber' */
+        CA_CacheGrChunk((W32)i, (W16)version); /* use 'i' as 'chunk' here */
+        Fontline((W32)i, (W16)version); /* use 'i' as 'fontnumber' here */
     }
 
 
@@ -1838,8 +1934,9 @@ PUBLIC _boolean LumpExtractor(const char *fextension, W32 limit, W16 version)
 		if (i == limit) {
 			printf("LumpExtractor(): reached limit '%lu' \n", limit);
 		}
-        CA_CacheGrChunk(i, version); /* use 'i' as 'chunk' */
-        SavePic(i, version, buffer, buffer2); /* use 'i' as 'chunknum' */
+        CA_CacheGrChunk((W32)i, (W16)version); /* use 'i' as 'chunk' here */
+        SavePic((W32)i, (W16)version, (W8*)buffer, (W8*)buffer2);
+		/* use 'i' as 'chunknum' for SavePic() */
     }
 
 

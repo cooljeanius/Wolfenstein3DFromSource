@@ -114,7 +114,8 @@ PRIVATE W8 CAL_SetupAudioFile(const char *fextension)
 	count = fread(audiostarts, sizeof(W32), (size_t)(length >> 2), handle);
 	if (count != (W32)(length >> 2)) {
         fclose(handle);
-        printf("[Error]: Read error on file: (%s)", fname);
+        printf("[Error]: CAL_SetupAudioFile() ran into a read error on file: (%s) \n",
+			   fname);
 		return 0;
 	}
 
@@ -173,7 +174,7 @@ PRIVATE W8 CA_CacheAudioChunk(W32 chunk, W8 *BuffChunk)
 	}
 
 
-	count = fread(BuffChunk, 1, length, audiohandle);
+	count = fread(BuffChunk, (size_t)1, length, audiohandle);
 	if (count != length) {
 		printf("[CA_CacheAudioChunk]: Read error!\n");
 		return 0;
@@ -201,29 +202,29 @@ PRIVATE void CA_SaveAudioChunk( W32 chunk, const char *filename,
 {
 	W32 length;
 
-	if( ! filename || ! *filename ) {
+	if (! filename || ! *filename) {
 	   return;
 	}
 
-	if( ! CA_CacheAudioChunk( chunk, BuffChunk ) ) {
+	if (! CA_CacheAudioChunk(chunk, BuffChunk)) {
 		return;
 	}
 
-	if( ADLIB_DecodeSound( (AdLibSound *)BuffChunk, BuffWav, &length ) == 0 ) {
+	if (ADLIB_DecodeSound((AdLibSound *)BuffChunk, BuffWav, &length) == 0) {
 	   return;
     }
 
-	write_wav( filename, BuffWav, length, 1, 22050, 2  );
+	write_wav(filename, BuffWav, (W32)length, (W16)1, (W32)22050, (W16)2);
 }
 
 
-extern W32 ADLIB_UpdateMusic( W32 size, void *buffer );
-extern W32 ADLIB_getLength( void *musbuffer );
-extern void ADLIB_LoadMusic( void *musbuffer );
+extern W32 ADLIB_UpdateMusic(W32 size, void *buffer);
+extern W32 ADLIB_getLength(void *musbuffer);
+extern void ADLIB_LoadMusic(void *musbuffer);
 
 #ifndef vorbis_encode
-extern int vorbis_encode( const char *filename, void *data, W32 size,
-						  W32 in_channels, W32 in_samplesize,
+extern int vorbis_encode(const char *filename, void *data, W32 size,
+						W32 in_channels, W32 in_samplesize,
 						  W32 rate, W32 quality, W32 max_bitrate,
 						  W32 min_bitrate );
 /* TODO: check if prototype can be put in header? might conflict though... */
@@ -257,7 +258,7 @@ PRIVATE void CA_SaveMusicChunk(W32 chunk, const char *filename)
 		return;
 	}
 
-	if (fread(data, 1, length, audiohandle) != length) {
+	if (fread(data, (size_t)1, length, audiohandle) != length) {
 		printf("[CA_SaveMusicChunk]: Read error!\n");
 
 		MM_FREE(data);
@@ -285,11 +286,12 @@ PRIVATE void CA_SaveMusicChunk(W32 chunk, const char *filename)
 
 	len = ADLIB_UpdateMusic(uncompr_length, BuffWav);
 
-
+/* TODO: make this conditional better: */
 #if 1
-	vorbis_encode(filename, BuffWav, len, 1, 16, 44100, 0, 0, 0);
+	vorbis_encode(filename, BuffWav, (W32)len, (W32)1, (W32)16, (W32)44100,
+				  (W32)0, (W32)0, (W32)0);
 #else
-	write_wav(filename, BuffWav, len, 1, 44100, 2);
+	write_wav(filename, BuffWav, (W32)len, (W16)1, (W32)44100, (W16)2);
 #endif /* 1 */
 
 	MM_FREE(BuffWav);
@@ -372,13 +374,13 @@ PUBLIC _boolean AudioRipper( const char *fextension,
 	}
 
 
-    if( ! CAL_SetupAudioFile( fextension ) ) {
+    if (! CAL_SetupAudioFile(fextension)) {
 		CAL_ShutdownAudioFile();
 
 		return false;
     }
 
-    if( ! ADLIB_Init( 22050 ) ) {
+    if (! ADLIB_Init((W32)22050)) {
 		CAL_ShutdownAudioFile();
 
 		return false;
@@ -388,16 +390,16 @@ PUBLIC _boolean AudioRipper( const char *fextension,
  * Allocate buffers
  */
 
-	buffChunk = MM_MALLOC( MAX_CHUNK_SIZE );
-	if( buffChunk == NULL ) {
+	buffChunk = MM_MALLOC(MAX_CHUNK_SIZE);
+	if (buffChunk == NULL) {
 		ADLIB_Shutdown();
 		CAL_ShutdownAudioFile();
 
 		return false;
 	}
 
-	buffWav = MM_MALLOC( MAX_WAV_SIZE );
-	if( buffWav == NULL ) {
+	buffWav = MM_MALLOC(MAX_WAV_SIZE);
+	if (buffWav == NULL) {
 		ADLIB_Shutdown();
 		CAL_ShutdownAudioFile();
 		MM_FREE( buffChunk );

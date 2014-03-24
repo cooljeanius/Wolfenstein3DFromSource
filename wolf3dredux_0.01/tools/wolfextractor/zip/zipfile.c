@@ -65,48 +65,51 @@
 
 -----------------------------------------------------------------------------
 */
-_boolean zip_writelocalfileheader( struct zlist *z, FILE *f )
+_boolean zip_writelocalfileheader(struct zlist *z, FILE *f)
 {
 	W32 temp32;
 	W16 temp16;
 	W32 retval;
 
 	temp32 = LittleLong( SIG_LOCAL );
-	retval = fwrite( &temp32, 1, 4, f );
+	retval = fwrite(&temp32, (size_t)1, (size_t)4, f);
 
 	temp16 = LittleShort( z->versionneeded );
-	retval += fwrite( &temp16, 1, 2, f );
+	retval += fwrite(&temp16, (size_t)1, (size_t)2, f);
 
 	temp16 = LittleShort( z->localflag );
-	retval += fwrite( &temp16, 1, 2, f );
+	retval += fwrite(&temp16, (size_t)1, (size_t)2, f);
 
 	temp16 = LittleShort( z->compression_method );
-	retval += fwrite( &temp16, 1, 2, f );
+	retval += fwrite(&temp16, (size_t)1, (size_t)2, f);
 
 	temp32 = LittleLong( z->timedate );
-	retval += fwrite( &temp32, 1, 4, f );
+	retval += fwrite(&temp32, (size_t)1, (size_t)4, f);
 
 	temp32 = LittleLong( z->crc32 );
-	retval += fwrite( &temp32, 1, 4, f );
+	retval += fwrite(&temp32, (size_t)1, (size_t)4, f);
 
 	temp32 = LittleLong( z->compressed_size );
-	retval += fwrite( &temp32, 1, 4, f );
+	retval += fwrite(&temp32, (size_t)1, (size_t)4, f);
 
 	temp32 = LittleLong( z->uncompressed_size );
-	retval += fwrite( &temp32, 1, 4, f );
+	retval += fwrite(&temp32, (size_t)1, (size_t)4, f);
 
 	temp16 = LittleShort( z->filename_length );
-	retval += fwrite( &temp16, 1, 2, f );
+	retval += fwrite(&temp16, (size_t)1, (size_t)2, f);
 
 	temp16 = LittleShort( z->extrafield_length );
-	retval += fwrite( &temp16, 1, 2, f );
+	retval += fwrite(&temp16, (size_t)1, (size_t)2, f);
 
-	if( retval != LOCALHEAD_SIZE + 4 ) {
+	if (retval != (LOCALHEAD_SIZE + 4)) {
 		return false;
 	}
 
-	if( fwrite( z->filename, 1, z->filename_length, f ) != z->filename_length ||
-		(z->extrafield && fwrite( z->extrafield, 1, z->extrafield_length, f) != z->extrafield_length) ) {
+	if ((fwrite(z->filename, (size_t)1, (size_t)z->filename_length, f) !=
+		 z->filename_length) || (z->extrafield &&
+								 (fwrite(z->extrafield, (size_t)1,
+										 (size_t)z->extrafield_length, f) !=
+								  z->extrafield_length))) {
 		return false;
 	}
 
@@ -136,60 +139,65 @@ _boolean zip_writecentral( struct zlist *z, FILE *f )
 	W32 retval;
 
 	temp32 = LittleLong( SIG_CENTRAL );
-	retval = fwrite( &temp32, 1, 4, f );
+	retval = fwrite(&temp32, (size_t)1, (size_t)4, f);
 
 	temp16 = LittleShort( z->versionmadeby );
-	retval += fwrite( &temp16, 1, 2, f );
+	retval += fwrite(&temp16, (size_t)1, (size_t)2, f);
 
 	temp16 = LittleShort( z->versionneeded );
-	retval += fwrite( &temp16, 1, 2, f );
+	retval += fwrite(&temp16, (size_t)1, (size_t)2, f);
 
 	temp16 = LittleShort( z->flag );
-	retval += fwrite( &temp16, 1, 2, f );
+	retval += fwrite(&temp16, (size_t)1, (size_t)2, f);
 
 	temp16 = LittleShort( z->compression_method );
-	retval += fwrite( &temp16, 1, 2, f );
+	retval += fwrite(&temp16, (size_t)1, (size_t)2, f);
 
 	temp32 = LittleLong( z->timedate );
-	retval += fwrite( &temp32, 1, 4, f );
+	retval += fwrite(&temp32, (size_t)1, (size_t)4, f);
 
 	temp32 = LittleLong( z->crc32 );
-	retval += fwrite( &temp32, 1, 4, f );
+	retval += fwrite(&temp32, (size_t)1, (size_t)4, f);
 
 	temp32 = LittleLong( z->compressed_size );
-	retval += fwrite( &temp32, 1, 4, f );
+	retval += fwrite(&temp32, (size_t)1, (size_t)4, f);
 
 	temp32 = LittleLong( z->uncompressed_size );
-	retval += fwrite( &temp32, 1, 4, f );
+	retval += fwrite(&temp32, (size_t)1, (size_t)4, f);
 
 	temp16 = LittleShort( z->filename_length );
-	retval += fwrite( &temp16, 1, 2, f );
+	retval += fwrite(&temp16, (size_t)1, (size_t)2, f);
 
 	temp16 = LittleShort( z->centralextra_length );
-	retval += fwrite( &temp16, 1, 2, f );
+	retval += fwrite(&temp16, (size_t)1, (size_t)2, f);
 
 	temp16 = LittleShort( z->comment_length );
-	retval += fwrite( &temp16, 1, 2, f );
+	retval += fwrite(&temp16, (size_t)1, (size_t)2, f);
 
 	temp16 = LittleShort( z->disknumstart );
-	retval += fwrite( &temp16, 1, 2, f );
+	retval += fwrite(&temp16, (size_t)1, (size_t)2, f);
 
 	temp16 = LittleShort( z->internalattribute );
-	retval += fwrite( &temp16, 1, 2, f );
+	retval += fwrite(&temp16, (size_t)1, (size_t)2, f);
 
 	temp32 = LittleLong( z->externalattribute );
-	retval += fwrite( &temp32, 1, 4, f );
+	retval += fwrite(&temp32, (size_t)1, (size_t)4, f);
 
 	temp32 = LittleLong( z->offset );
-	retval += fwrite( &temp32, 1, 4, f );
+	retval += fwrite(&temp32, (size_t)1, (size_t)4, f);
 
 	if( retval != CENTRALHEAD_SIZE + 4 ) {
 		return false;
 	}
 
-	if( fwrite(z->filename, 1, z->filename_length, f) != z->filename_length ||
-		(z->centralextra_length && fwrite(z->centralextra, 1, z->centralextra_length, f) != z->centralextra_length) ||
-		(z->comment_length && fwrite(z->comment, 1, z->comment_length, f) != z->comment_length) ) {
+	if ((fwrite(z->filename, (size_t)1, (size_t)z->filename_length, f)
+		 != z->filename_length) || (z->centralextra_length &&
+									(fwrite(z->centralextra, (size_t)1,
+											(size_t)z->centralextra_length, f)
+									 != z->centralextra_length)) ||
+		(z->comment_length && (fwrite(z->comment, (size_t)1,
+									  (size_t)z->comment_length, f) !=
+							   z->comment_length))) {
 		return false;
 	}
 
@@ -214,42 +222,43 @@ _boolean zip_writecentral( struct zlist *z, FILE *f )
 
 -----------------------------------------------------------------------------
 */
-_boolean zip_writeend( SW32 num, W32 size, W32 offset, W16 len, char *comment, FILE *f )
+_boolean zip_writeend(SW32 num, W32 size, W32 offset, W16 len, char *comment,
+					  FILE *f)
 {
 	W32 temp32;
 	W16 temp16;
 	W32 retval;
 
-	temp32 = LittleLong( SIG_END );
-	retval = fwrite( &temp32, 1, 4, f );
+	temp32 = LittleLong(SIG_END);
+	retval = fwrite(&temp32, (size_t)1, (size_t)4, f);
 
 	temp16 = 0;
-	retval += fwrite( &temp16, 1, 2, f );
+	retval += fwrite(&temp16, (size_t)1, (size_t)2, f);
 
 	temp16 = 0;
-	retval += fwrite( &temp16, 1, 2, f );
+	retval += fwrite(&temp16, (size_t)1, (size_t)2, f);
 
 	temp16 = (W16)LittleShort(num);
-	retval += fwrite( &temp16, 1, 2, f );
+	retval += fwrite(&temp16, (size_t)1, (size_t)2, f);
 
 	temp16 = (W16)LittleShort(num);
-	retval += fwrite( &temp16, 1, 2, f );
+	retval += fwrite(&temp16, (size_t)1, (size_t)2, f);
 
 	temp32 = LittleLong( size );
-	retval += fwrite( &temp32, 1, 4, f );
+	retval += fwrite(&temp32, (size_t)1, (size_t)4, f);
 
 	temp32 = LittleLong( offset );
-	retval += fwrite( &temp32, 1, 4, f );
+	retval += fwrite(&temp32, (size_t)1, (size_t)4, f);
 
 	temp16 = LittleShort( len );
-	retval += fwrite( &temp16, 1, 2, f );
+	retval += fwrite(&temp16, (size_t)1, (size_t)2, f);
 
-	if( retval != ENDHEAD_SIZE + 4 ) {
+	if (retval != (ENDHEAD_SIZE + 4)) {
 		return false;
 	}
 
 
-	if( len && fwrite( comment, 1, len, f ) != len ) {
+	if (len && fwrite(comment, (size_t)1, (size_t)len, f) != len ) {
 		return false;
 	}
 

@@ -121,51 +121,51 @@ PRIVATE W8 *getResourceBlock(W32 offset, W32 length, W32 *glen)
  Notes:
 -----------------------------------------------------------------------------
 */
-PRIVATE void Decode_LZSS( W8 *dst, const W8 *src, W32 Length )
+PRIVATE void Decode_LZSS(W8 *dst, const W8 *src, W32 Length)
 {
 	W32 bitBucket;
 	W32 runCount;
 	W32 Fun;
 	W8 *ptrBack;
 
-	if( ! Length ) {
+	if (! Length) {
 		return;
 	}
 
-	bitBucket = (W32) src[ 0 ] | 0x100;
+	bitBucket = ((W32)src[0] | 0x100);
 	++src;
 
 	do {
-		if( bitBucket & 1 ) {
-			dst[ 0 ] = src[ 0 ];
+		if (bitBucket & 1) {
+			dst[0] = src[0];
 			++src;
 			++dst;
 			--Length;
 		} else {
-			runCount = (W32) src[ 0 ] | ((W32) src[ 1 ] << 8);
-			Fun = 0x1000 - (runCount & 0xFFF);
-			ptrBack = dst - Fun;
-			runCount = ((runCount >> 12) & 0x0F) + 3;
-			if( Length >= runCount ) {
+			runCount = ((W32)src[0] | ((W32)src[1] << 8));
+			Fun = (0x1000 - (runCount & 0xFFF));
+			ptrBack = (dst - Fun);
+			runCount = (((runCount >> 12) & 0x0F) + 3);
+			if (Length >= runCount) {
 				Length -= runCount;
 			} else {
 				runCount = Length;
 				Length = 0;
 			}
 
-			while( runCount-- ) {
+			while (runCount--) {
 				*dst++ = *ptrBack++;
 			}
 			src += 2;
 		}
 
 		bitBucket >>= 1;
-		if( bitBucket == 1 ) {
-			bitBucket = (W32) src[ 0 ] | 0x100;
+		if (bitBucket == 1) {
+			bitBucket = ((W32)src[0] | 0x100);
 			++src;
 		}
 
-	} while( Length );
+	} while (Length);
 }
 
 /*******************************************************************
@@ -211,17 +211,17 @@ PRIVATE void ConvertPaletteToRGB(W8 *dst, W8 *src, W32 length, W8 *palette)
  Notes:
 -----------------------------------------------------------------------------
 */
-PRIVATE void setPalette( W32 offset )
+PRIVATE void setPalette(W32 offset)
 {
 	W32 junk;
 
-	if( macPalette ) {
-		MM_FREE( macPalette );
+	if (macPalette) {
+		MM_FREE(macPalette);
 	}
 
-	macPalette = getResourceBlock( offset, PALETTE_SIZE, &junk );
-
+	macPalette = getResourceBlock((W32)offset, (W32)PALETTE_SIZE, &junk);
 }
+
 
 /*******************************************************************
  *
@@ -229,7 +229,7 @@ PRIVATE void setPalette( W32 offset )
  *
  *******************************************************************/
 
-PRIVATE void DecodeBJMapImage( W32 offset, W32 length )
+PRIVATE void DecodeBJMapImage(W32 offset, W32 length)
 {
 	W8 *ptrResource;
 	W8 *buffer;
@@ -247,7 +247,7 @@ PRIVATE void DecodeBJMapImage( W32 offset, W32 length )
 
 	cs_snprintf(filename, sizeof(filename), "%s/bjautomap.tga", DIRPATHPICS);
 
-	WriteTGA(filename, 24, 16, 16, buffer, 0, 1);
+	WriteTGA(filename, (W16)24, (W16)16, (W16)16, buffer, (W8)0, (W8)1);
 
 	MM_FREE(buffer);
 
@@ -295,7 +295,8 @@ PRIVATE void DecodeBJIntermImages(W32 offset, W32 length)
 
 		cs_snprintf(filename, sizeof(filename), "%s/bj%d.tga", DIRPATHPICS, i);
 
-		WriteTGA(filename, 24, (W16)(width), (W16)(height), buffer, 0, 1);
+		WriteTGA(filename, (W16)24, (W16)(width), (W16)(height), buffer,
+				 (W8)0, (W8)1);
 	}
 
 	MM_FREE(buffer);
@@ -341,9 +342,9 @@ PRIVATE void DecodeScreen(W32 offset, W32 length, const char *filename)
 
 	buffer = MM_MALLOC(width * height * 3);
 
-	ConvertPaletteToRGB(buffer, (PW8)&uncompr[2], (width * height), macPalette);
-
-	WriteTGA(filename, 24, width, height, buffer, 0, 1);
+	ConvertPaletteToRGB(buffer, (PW8)&uncompr[2], (W32)(width * height),
+						macPalette);
+	WriteTGA(filename, (W16)24, (W16)width, (W16)height, buffer, (W8)0, (W8)1);
 
 	MM_FREE(buffer);
     MM_FREE(uncompr);
@@ -362,41 +363,41 @@ PRIVATE void DecodeScreen(W32 offset, W32 length, const char *filename)
  Notes:
 -----------------------------------------------------------------------------
 */
-PRIVATE void RipScreens( void )
+PRIVATE void RipScreens(void)
 {
-	char path[ 256 ];
+	char path[256];
 
-	setPalette( MACPAL );
-	cs_snprintf( path, sizeof( path ), "%s/macplaypic.tga", DIRPATHPICS );
-	DecodeScreen( 899914, 46893, path );
+	setPalette(MACPAL);
+	cs_snprintf(path, sizeof(path), "%s/macplaypic.tga", DIRPATHPICS);
+	DecodeScreen((W32)899914, (W32)46893, path);
 
-	setPalette( IDPAL );
-	cs_snprintf( path, sizeof( path ), "%s/idpic.tga", DIRPATHPICS );
-	DecodeScreen( 899914, 46893, path );
+	setPalette(IDPAL);
+	cs_snprintf(path, sizeof(path), "%s/idpic.tga", DIRPATHPICS);
+	DecodeScreen((W32)899914, (W32)46893, path);
 
-	setPalette( INTERPAL );
-	cs_snprintf( path, sizeof( path ), "%s/intermissionpic.tga", DIRPATHPICS );
-	DecodeScreen( 947583, 49624, path );
-
-
-	DecodeBJIntermImages( 1018931, 20766 );
+	setPalette(INTERPAL);
+	cs_snprintf(path, sizeof(path), "%s/intermissionpic.tga", DIRPATHPICS);
+	DecodeScreen((W32)947583, (W32)49624, path );
 
 
-	setPalette( GAMEPAL );
-	cs_snprintf( path, sizeof( path ), "%s/getpsychedpic.tga", DIRPATHPICS );
-	DecodeScreen( 997983, 3256, path );
+	DecodeBJIntermImages((W32)1018931, (W32)20766);
 
 
-	DecodeBJMapImage( 2391746, 1281 );
+	setPalette(GAMEPAL);
+	cs_snprintf(path, sizeof(path), "%s/getpsychedpic.tga", DIRPATHPICS);
+	DecodeScreen((W32)997983, (W32)3256, path);
 
 
-	setPalette( YUMMYPAL );
-	cs_snprintf( path, sizeof( path ), "%s/yummypic.tga", DIRPATHPICS );
-	DecodeScreen( 1002299, 9042, path );
+	DecodeBJMapImage((W32)2391746, (W32)1281);
 
-	setPalette( TITLEPAL );
-	cs_snprintf( path, sizeof( path ), "%s/titlepic.tga", DIRPATHPICS );
-	DecodeScreen( 2067971, 167032, path );
+
+	setPalette(YUMMYPAL);
+	cs_snprintf(path, sizeof(path), "%s/yummypic.tga", DIRPATHPICS);
+	DecodeScreen((W32)1002299, (W32)9042, path);
+
+	setPalette(TITLEPAL);
+	cs_snprintf(path, sizeof(path), "%s/titlepic.tga", DIRPATHPICS);
+	DecodeScreen((W32)2067971, (W32)167032, path);
 
 }
 
@@ -423,17 +424,17 @@ PRIVATE void RipScreens( void )
  Notes: Caller is responsible for freeing returned memory block.
 -----------------------------------------------------------------------------
 */
-PRIVATE W8 *obverseWall( const W8 *src, W16 width, W16 height )
+PRIVATE W8 *obverseWall(const W8 *src, W16 width, W16 height)
 {
 	W8 *target;
 	W16 w, h;
 
-	target = MM_MALLOC( width * height );
+	target = MM_MALLOC(width * height);
 
-	for( h = 0; h < height; ++h )
-	for( w = 0; w < width; ++w )
-	{
-		target[ h + width * w ] = src[ h * width + w ];
+	for((h = 0); (h < height); ++h) {
+		for((w = 0); (w < width); ++w) {
+			target[(h + (width * w))] = src[((h * width) + w)];
+		}
 	}
 
 	return target;
@@ -455,34 +456,34 @@ PRIVATE W8 *obverseWall( const W8 *src, W16 width, W16 height )
  Notes:
 -----------------------------------------------------------------------------
 */
-PRIVATE void DecodeWall( W32 offset, W32 length, W32 *retval, const char *filename )
+PRIVATE void DecodeWall(W32 offset, W32 length, W32 *retval,
+						const char *filename)
 {
 	W8 *ptrResource;
 	W8 *uncompr;
 	W8 *buffer;
 	W8 *newwall;
 
-	ptrResource = getResourceBlock( offset, length, retval );
-	if( ! ptrResource )
-	{
+	ptrResource = getResourceBlock(offset, length, retval);
+	if (! ptrResource) {
 		return;
 	}
 
-	uncompr = (PW8)MM_MALLOC( 128 * 128 );
+	uncompr = (PW8)MM_MALLOC(128 * 128);
 
-	Decode_LZSS( uncompr, ptrResource, 128 * 128 );
+	Decode_LZSS(uncompr, ptrResource, (W32)(128 * 128));
 
-	newwall = obverseWall( uncompr, 128, 128 );
+	newwall = obverseWall(uncompr, (W16)128, (W16)128);
 
-	buffer = MM_MALLOC( 128 * 128 * 3 );
-	ConvertPaletteToRGB( buffer, newwall, 128 * 128, macPalette );
+	buffer = MM_MALLOC(128 * 128 * 3);
+	ConvertPaletteToRGB(buffer, newwall, (W32)(128 * 128), macPalette);
 
-	WriteTGA( filename, 24, 128, 128, buffer, 0, 1 );
+	WriteTGA(filename, (W16)24, (W16)128, (W16)128, buffer, (W8)0, (W8)1);
 
-	MM_FREE( buffer );
-	MM_FREE( newwall );
-    MM_FREE( uncompr );
-	MM_FREE( ptrResource );
+	MM_FREE(buffer);
+	MM_FREE(newwall);
+    MM_FREE(uncompr);
+	MM_FREE(ptrResource);
 }
 
 
@@ -604,7 +605,7 @@ PRIVATE void DecodeSprite(W32 offset, W32 length, W32 *retval,
 	}
 
 
-	WriteTGA(filename, 32, 128, 128, buffer, 0, 1);
+	WriteTGA(filename, (W16)32, (W16)128, (W16)128, buffer, (W8)0, (W8)1);
 
 	MM_FREE(buffer);
     MM_FREE(uncompr);
@@ -766,7 +767,7 @@ PRIVATE void RipItems(void)
 	for ((i = 0); (i < (6 * 4)); ++i) {
 		cs_snprintf(name, sizeof(name), "%s/weapon%.2d.tga", DIRPATHPICS, i);
 		buffer = DecodeItem(gameItems[(12 + i)], macPalette);
-		WriteTGA(name, 32, 128, 128, buffer, 0, 1);
+		WriteTGA(name, (W16)32, (W16)128, (W16)128, buffer, (W8)0, (W8)1);
 
 		MM_FREE(buffer);
 	}
@@ -779,10 +780,10 @@ PRIVATE void RipItems(void)
 
 		buffer = MM_MALLOC(width * height * 3);
 
-		ConvertPaletteToRGB(buffer, ptrShape2, (width * height), macPalette);
-
+		ConvertPaletteToRGB(buffer, ptrShape2, (W32)(width * height),
+							macPalette);
 		cs_snprintf(name, sizeof(name), "%s/%.2d.tga", DIRPATHPICS, i);
-		WriteTGA(name, 24, width, height, buffer, 0, 1);
+		WriteTGA(name, (W16)24, (W16)width, (W16)height, buffer, (W8)0, (W8)1);
 
 		MM_FREE(buffer);
 
@@ -813,34 +814,34 @@ PRIVATE void RipItems(void)
  Notes:
 -----------------------------------------------------------------------------
 */
-PRIVATE void RipMidi( void )
+PRIVATE void RipMidi(void)
 {
 	W8 *ptrResource;
 	W32 retval;
 	FILE *fhandle;
-	char name[ 256 ];
+	char name[256];
 	int i;
 	W32 offset = 1899536L;
 	W32 length = 8215L;
 
-	for( i = 0 ; i < 8 ; ++i ) {
-		ptrResource = getResourceBlock( offset, length, &retval );
+	for ((i = 0); (i < 8); ++i) {
+		ptrResource = getResourceBlock(offset, length, &retval);
 		if( ! ptrResource ) {
 			continue;
 		}
 
-		cs_snprintf( name, sizeof( name ), "%s/%d.mid", DIRPATHMIDI, i );
-		fhandle = fopen( name, "wb" );
-		if( ! fhandle ) {
+		cs_snprintf(name, sizeof(name), "%s/%d.mid", DIRPATHMIDI, i);
+		fhandle = fopen(name, "wb");
+		if (! fhandle) {
 			continue;
 		}
 
-		fwrite( ptrResource, 1, length, fhandle );
+		fwrite(ptrResource, (size_t)1, length, fhandle);
 
-		fclose( fhandle );
-		MM_FREE( ptrResource );
+		fclose(fhandle);
+		MM_FREE(ptrResource);
 
-		offset += length + 4;
+		offset += (length + 4);
 		length = retval;
 	}
 }
@@ -902,58 +903,58 @@ PRIVATE void DecodePICTimage( W32 offset, W32 length )
  Notes:
 -----------------------------------------------------------------------------
 */
-PRIVATE _boolean parseMacBinaryHead( void )
+PRIVATE _boolean parseMacBinaryHead(void)
 {
 	W32 temp32 = 0;
-	char name[ 64 ];
+	char name[64];
 
 /*
  * Check file name
  */
-	fseek( fResHandle, 1, SEEK_SET );
+	fseek(fResHandle, (long)1, SEEK_SET);
 
 	/* get file name length (range is 1 to 31) */
-	fread( &temp32, 1, 1, fResHandle );
-	if( temp32 < 1 || temp32 > 31 ) {
+	fread(&temp32, (size_t)1, (size_t)1, fResHandle);
+	if ((temp32 < 1) || (temp32 > 31)) {
 		return false;
 	}
 
-	fread( name, 1, temp32, fResHandle );
-	name[ temp32 - 1 ] = '\0';
-	if( strcmp( name, MACBINFILENAME ) != 0 ) {
+	fread(name, (size_t)1, (size_t)temp32, fResHandle);
+	name[(temp32 - 1)] = '\0';
+	if (strcmp(name, MACBINFILENAME) != 0) {
 		return false;
 	}
 
 /*
  *	Check file type / creator
  */
-	fseek( fResHandle, 65, SEEK_SET );
+	fseek(fResHandle, (long)65, SEEK_SET);
 
-	fread( &name, 1, 8, fResHandle );
-	name[ 8 ] = '\0';
-	if( strcmp( name, FILETYPECREATOR ) != 0 ) {
+	fread(&name, (size_t)1, (size_t)8, fResHandle);
+	name[8] = '\0';
+	if (strcmp(name, FILETYPECREATOR) != 0) {
 		return false;
 	}
 
 /*
  *	Check Data Fork length
  */
-	fseek( fResHandle, 83, SEEK_SET );
+	fseek(fResHandle, (long)83, SEEK_SET);
 
-	fread( &temp32, 1, 4, fResHandle );
+	fread(&temp32, (size_t)1, (size_t)4, fResHandle);
 
-	temp32 = BigLong( temp32 );
-	if( temp32 != DATAFORKLENGTH ) {
+	temp32 = BigLong(temp32);
+	if (temp32 != DATAFORKLENGTH) {
 		return false;
 	}
 
 /*
  *	Check Resource Fork length
  */
-	fread( &temp32, 1, 4, fResHandle );
+	fread(&temp32, (size_t)1, (size_t)4, fResHandle);
 
-	temp32 = BigLong( temp32 );
-	if( temp32 != RESFORKLENGTH ) {
+	temp32 = BigLong(temp32);
+	if (temp32 != RESFORKLENGTH) {
 		return false;
 	}
 
@@ -978,69 +979,69 @@ PRIVATE _boolean parseMacBinaryHead( void )
  Notes:
 -----------------------------------------------------------------------------
 */
-PUBLIC void ripMac( void )
+PUBLIC void ripMac(void)
 {
 	char *fname;
-	char ext[ 256 ];
+	char ext[256];
 
-	cs_strlcpy( ext, MAC_FEXT, sizeof( ext ) );
+	cs_strlcpy(ext, MAC_FEXT, sizeof(ext));
 
 
-	fname = FS_FindFirst( ext, 0, FA_DIR );
+	fname = FS_FindFirst(ext, (W32)0, (W32)FA_DIR);
 	FS_FindClose();
 
-	if( fname == NULL ) {
+	if (fname == NULL) {
 		/* try again with lower case */
-		fname = FS_FindFirst( cs_strlwr( ext ), 0, FA_DIR );
+		fname = FS_FindFirst(cs_strlwr(ext), (W32)0, (W32)FA_DIR);
 		FS_FindClose();
 
-		if( fname == NULL ) {
-			printf( "Could not find any mac files for read\n" );
+		if (fname == NULL) {
+			printf("Could not find any mac files for read\n");
 
 			return;
 		}
 	}
 
-	fResHandle = fopen( fname, "rb" );
-	if( fResHandle == NULL ) {
-		printf( "Could not open file (%s) for read\n", fname );
+	fResHandle = fopen(fname, "rb");
+	if (fResHandle == NULL) {
+		printf("Could not open file (%s) for read\n", fname);
 
 		return;
 	}
 
-	if( ! parseMacBinaryHead() ) {
-		printf( "Unknown MacBinary file\n" );
+	if (! parseMacBinaryHead()) {
+		printf("Unknown MacBinary file\n");
 
-		fclose( fResHandle );
+		fclose(fResHandle);
 
 		return;
 	}
 
 
 
-	FS_Mkdir( DIRPATHPICS );
-	FS_Mkdir( DIRPATHSPRITES );
-	FS_Mkdir( DIRPATHWALLS );
-	FS_Mkdir( DIRPATHMIDI );
+	FS_Mkdir(DIRPATHPICS);
+	FS_Mkdir(DIRPATHSPRITES);
+	FS_Mkdir(DIRPATHWALLS);
+	FS_Mkdir(DIRPATHMIDI);
 
 
-	printf( "Extracting Midi data...\n" );
+	printf("Extracting Midi data...\n");
 	RipMidi();
 
-	printf( "Decoding Screen data...\n" );
+	printf("Decoding Screen data...\n");
 	RipScreens();
 
 
-	setPalette( GAMEPAL );
+	setPalette(GAMEPAL);
 
-	printf( "Decoding Wall data...\n" );
+	printf("Decoding Wall data...\n");
 	RipWalls();
-	printf( "Decoding Sprite data...\n" );
+	printf("Decoding Sprite data...\n");
 	RipSprites();
-	printf( "Decoding Item data...\n" );
+	printf("Decoding Item data...\n");
 	RipItems();
 
-	fclose( fResHandle );
+	fclose(fResHandle);
 }
 
 /* EOF */

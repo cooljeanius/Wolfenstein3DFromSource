@@ -84,30 +84,30 @@ write_wav(const char *filename, void *data, W32 size, W16 channels,
     wavheader_t header;
     FILE *handle;
 
-    handle = fopen( filename, "wb" );
-    if( handle == NULL ) {
-        printf( "unable to write wav file\n" );
+    handle = fopen(filename, "wb");
+    if (handle == NULL) {
+        printf("unable to write wav file\n");
         return;
     }
 
 	/* RIFF Chunk */
-	header.riff[ 0 ] = 'R';
-	header.riff[ 1 ] = 'I';
-	header.riff[ 2 ] = 'F';
-	header.riff[ 3 ] = 'F';
+	header.riff[0] = 'R';
+	header.riff[1] = 'I';
+	header.riff[2] = 'F';
+	header.riff[3] = 'F';
 
 	/* Total Length Of Package To Follow */
     header.TotalLength = size + 36;
 
 	/* Format Chunk */
-	header.wave[ 0 ] = 'W';
-	header.wave[ 1 ] = 'A';
-	header.wave[ 2 ] = 'V';
-	header.wave[ 3 ] = 'E';
-	header.wave[ 4 ] = 'f';
-	header.wave[ 5 ] = 'm';
-	header.wave[ 6 ] = 't';
-	header.wave[ 7 ] = ' ';
+	header.wave[0] = 'W';
+	header.wave[1] = 'A';
+	header.wave[2] = 'V';
+	header.wave[3] = 'E';
+	header.wave[4] = 'f';
+	header.wave[5] = 'm';
+	header.wave[6] = 't';
+	header.wave[7] = ' ';
 
     header.LengthFORMAT = 0x10; /* Length Of FORMAT Chunk (always 0x10) */
     header.DataType  = 0x01; /* Always 0x01 */
@@ -126,19 +126,19 @@ write_wav(const char *filename, void *data, W32 size, W16 channels,
     header.BitsPerSample =  sample_size * 8;
 
 	/* DATA Chunk */
-    header.data[ 0 ] = 'd';
-	header.data[ 1 ] = 'a';
-	header.data[ 2 ] = 't';
-	header.data[ 3 ] = 'a';
+    header.data[0] = 'd';
+	header.data[1] = 'a';
+	header.data[2] = 't';
+	header.data[3] = 'a';
 
     /* Length Of Data To Follow */
     header.LengthData = size;
 
-    fwrite( &header, sizeof( W8 ), sizeof( wavheader_t ), handle );
+    fwrite(&header, sizeof(W8), sizeof(wavheader_t), handle);
 
-    fwrite( data, sizeof( W8 ), size, handle );
+    fwrite(data, sizeof(W8), size, handle);
 
-    fclose( handle );
+    fclose(handle);
 }
 
 /* EOF */

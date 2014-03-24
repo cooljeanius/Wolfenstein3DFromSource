@@ -140,7 +140,8 @@ int vorbis_encode(const char *filename, void *data, W32 size, W32 in_channels,
 
 	vorbis_info_init(&vi);
 
-	if (vorbis_encode_setup_vbr(&vi, (long)(channels), (long)(rate), quality)) {
+	if (vorbis_encode_setup_vbr(&vi, (long)(channels), (long)(rate),
+								(float)quality)) {
 		fprintf(stderr, "Mode initialisation failed: invalid parameters for quality\n");
 		vorbis_info_clear(&vi);
 
@@ -190,8 +191,8 @@ int vorbis_encode(const char *filename, void *data, W32 size, W32 in_channels,
 			break;
 		}
 
-		ret = (int)fwrite(og.header, 1, (size_t)og.header_len, fp);
-		ret += fwrite(og.body, 1, (size_t)og.body_len, fp);
+		ret = (int)fwrite(og.header, (size_t)1, (size_t)og.header_len, fp);
+		ret += (int)fwrite(og.body, (size_t)1, (size_t)og.body_len, fp);
 
 		if (ret != og.header_len + og.body_len) {
 			printf("Failed writing header to output stream\n") ;
@@ -251,8 +252,10 @@ int vorbis_encode(const char *filename, void *data, W32 size, W32 in_channels,
 						break;
 					}
 
-					ret = (int)fwrite(og.header, 1, (size_t)og.header_len, fp);
-					ret += fwrite(og.body, 1, (size_t)og.body_len, fp);
+					ret = (int)fwrite(og.header, (size_t)1,
+									  (size_t)og.header_len, fp);
+					ret += (int)fwrite(og.body, (size_t)1, (size_t)og.body_len,
+									   fp);
 
 					if (ret != og.header_len + og.body_len) {
 						printf("Failed writing data to output stream\n");
@@ -282,7 +285,9 @@ cleanup:
 	vorbis_dsp_clear(&vd);
 	vorbis_info_clear(&vi);
 
-	if ((&ret != NULL) && (ret) && (ret != (int)NULL)) {
+	/* this should be enough checks to make sure we are actually returning
+	 * something: */
+	if ((&ret != NULL) && (ret)) {
 		return ret;
 	} else {
 		return 0;

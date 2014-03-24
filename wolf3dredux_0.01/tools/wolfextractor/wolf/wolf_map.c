@@ -204,7 +204,7 @@ PRIVATE W32 SOD_songs[] =
 typedef struct
 {
 	float time;
-	char timestr[ 6 ];
+	char timestr[6];
 
 } times;
 
@@ -214,86 +214,86 @@ PRIVATE times parTimesWL6[] =
 	 /*
 	  * Episode One Par Times
 	  */
-	 { 1.5,	"01:30" },
-	 { 2,	"02:00" },
-	 { 2,	"02:00" },
-	 { 3.5,	"03:30" },
-	 { 3,	"03:00" },
-	 { 3,	"03:00" },
-	 { 2.5,	"02:30" },
-	 { 2.5,	"02:30" },
-	 { 0,	"??:??" },	/* Boss level */
-	 { 0,	"??:??" },	/* Secret level */
+	 { (float)1.5,	"01:30" },
+	 { (float)2.0,	"02:00" },
+	 { (float)2.0,	"02:00" },
+	 { (float)3.5,	"03:30" },
+	 { (float)3.0,	"03:00" },
+	 { (float)3.0,	"03:00" },
+	 { (float)2.5,	"02:30" },
+	 { (float)2.5,	"02:30" },
+	 { (float)0.0,	"??:??" },	/* Boss level */
+	 { (float)0.0,	"??:??" },	/* Secret level */
 
 	 /*
 	  * Episode Two Par Times
 	  */
-	 { 1.5,	"01:30" },
-	 { 3.5,	"03:30" },
-	 { 3,	"03:00" },
-	 { 2,	"02:00" },
-	 { 4,	"04:00" },
-	 { 6,	"06:00" },
-	 { 1,	"01:00" },
-	 { 3,	"03:00" },
-	 { 0,	"??:??" },
-	 { 0,	"??:??" },
+	 { (float)1.5,	"01:30" },
+	 { (float)3.5,	"03:30" },
+	 { (float)3.0,	"03:00" },
+	 { (float)2.0,	"02:00" },
+	 { (float)4.0,	"04:00" },
+	 { (float)6.0,	"06:00" },
+	 { (float)1.0,	"01:00" },
+	 { (float)3.0,	"03:00" },
+	 { (float)0.0,	"??:??" },
+	 { (float)0.0,	"??:??" },
 
 	 /*
 	  * Episode Three Par Times
 	  */
-	 { 1.5,	"01:30" },
-	 { 1.5,	"01:30" },
-	 { 2.5,	"02:30" },
-	 { 2.5,	"02:30" },
-	 { 3.5,	"03:30" },
-	 { 2.5,	"02:30" },
-	 { 2,	"02:00" },
-	 { 6,	"06:00" },
-	 { 0,	"??:??" },
-	 { 0,	"??:??" },
+	 { (float)1.5,	"01:30" },
+	 { (float)1.5,	"01:30" },
+	 { (float)2.5,	"02:30" },
+	 { (float)2.5,	"02:30" },
+	 { (float)3.5,	"03:30" },
+	 { (float)2.5,	"02:30" },
+	 { (float)2.0,	"02:00" },
+	 { (float)6.0,	"06:00" },
+	 { (float)0.0,	"??:??" },
+	 { (float)0.0,	"??:??" },
 
 	 /*
 	  * Episode Four Par Times
 	  */
-	 { 2,	"02:00" },
-	 { 2,	"02:00" },
-	 { 1.5,	"01:30" },
-	 { 1,	"01:00" },
-	 { 4.5,	"04:30" },
-	 { 3.5,	"03:30" },
-	 { 2,	"02:00" },
-	 { 4.5,	"04:30" },
-	 { 0,	"??:??" },
-	 { 0,	"??:??" },
+	 { (float)2.0,	"02:00" },
+	 { (float)2.0,	"02:00" },
+	 { (float)1.5,	"01:30" },
+	 { (float)1.0,	"01:00" },
+	 { (float)4.5,	"04:30" },
+	 { (float)3.5,	"03:30" },
+	 { (float)2.0,	"02:00" },
+	 { (float)4.5,	"04:30" },
+	 { (float)0.0,	"??:??" },
+	 { (float)0.0,	"??:??" },
 
 	 /*
 	  * Episode Five Par Times
 	  */
-	 { 2.5,	"02:30" },
-	 { 1.5,	"01:30" },
-	 { 2.5,	"02:30" },
-	 { 2.5,	"02:30" },
-	 { 4,	"04:00" },
-	 { 3,	"03:00" },
-	 { 4.5,	"04:30" },
-	 { 3.5,	"03:30" },
-	 { 0,	"??:??" },
-	 { 0,	"??:??" },
+	 { (float)2.5,	"02:30" },
+	 { (float)1.5,	"01:30" },
+	 { (float)2.5,	"02:30" },
+	 { (float)2.5,	"02:30" },
+	 { (float)4.0,	"04:00" },
+	 { (float)3.0,	"03:00" },
+	 { (float)4.5,	"04:30" },
+	 { (float)3.5,	"03:30" },
+	 { (float)0.0,	"??:??" },
+	 { (float)0.0,	"??:??" },
 
 	 /*
 	  * Episode Six Par Times
 	  */
-	 { 6.5,	"06:30" },
-	 { 4,	"04:00" },
-	 { 4.5,	"04:30" },
-	 { 6,	"06:00" },
-	 { 5,	"05:00" },
-	 { 5.5,	"05:30" },
-	 { 5.5,	"05:30" },
-	 { 8.5,	"08:30" },
-	 { 0,	"??:??" },
-	 { 0,	"??:??" }
+	 { (float)6.5,	"06:30" },
+	 { (float)4.0,	"04:00" },
+	 { (float)4.5,	"04:30" },
+	 { (float)6.0,	"06:00" },
+	 { (float)5.0,	"05:00" },
+	 { (float)5.5,	"05:30" },
+	 { (float)5.5,	"05:30" },
+	 { (float)8.5,	"08:30" },
+	 { (float)0.0,	"??:??" },
+	 { (float)0.0,	"??:??" }
 };
 
 PRIVATE times parTimesSOD[] =
@@ -301,26 +301,26 @@ PRIVATE times parTimesSOD[] =
 	 /*
 	  * SPEAR OF DESTINY TIMES
 	  */
-	 { 1.5,	"01:30" },
-	 { 3.5,	"03:30" },
-	 { 2.75,"02:45" },
-	 { 3.5,	"03:30" },
-	 { 0,	"??:??" },	/* Boss 1 */
-	 { 4.5,	"04:30" },
-	 { 3.25,"03:15" },
-	 { 2.75,"02:45" },
-	 { 4.75,"04:45" },
-	 { 0,	"??:??" },	/* Boss 2 */
-	 { 6.5,	"06:30" },
-	 { 4.5,	"04:30" },
-	 { 2.75,"02:45" },
-	 { 4.5,	"04:30" },
-	 { 6,	"06:00" },
-	 { 0,	"??:??" },	/* Boss 3 */
-	 { 6,	"06:00" },
-	 { 0,	"??:??" },	/* Boss 4 */
-	 { 0,	"??:??" },	/* Secret level 1 */
-	 { 0,	"??:??" },	/* Secret level 2 */
+	 { (float)1.5,	"01:30" },
+	 { (float)3.5,	"03:30" },
+	 { (float)2.75,	"02:45" },
+	 { (float)3.5,	"03:30" },
+	 { (float)0.0,	"??:??" },	/* Boss 1 */
+	 { (float)4.5,	"04:30" },
+	 { (float)3.25,	"03:15" },
+	 { (float)2.75,	"02:45" },
+	 { (float)4.75,	"04:45" },
+	 { (float)0.0,	"??:??" },	/* Boss 2 */
+	 { (float)6.5,	"06:30" },
+	 { (float)4.5,	"04:30" },
+	 { (float)2.75,	"02:45" },
+	 { (float)4.5,	"04:30" },
+	 { (float)6.0,	"06:00" },
+	 { (float)0.0,	"??:??" },	/* Boss 3 */
+	 { (float)6.0,	"06:00" },
+	 { (float)0.0,	"??:??" },	/* Boss 4 */
+	 { (float)0.0,	"??:??" },	/* Secret level 1 */
+	 { (float)0.0,	"??:??" },	/* Secret level 2 */
 
 };
 
@@ -336,51 +336,51 @@ PRIVATE times parTimesSOD[] =
  Notes:
 -----------------------------------------------------------------------------
 */
-PRIVATE W8 CAL_SetupMapFile( const char *extension )
+PRIVATE W8 CAL_SetupMapFile(const char *extension)
 {
 	FILE *handle;
 	SW32 length;
-	char fname[ 13 ];
+	char fname[13];
 
 
 /*
  * load maphead.xxx (offsets and tileinfo for map file)
  */
-	cs_strlcpy( fname, MAPHEADNAME, sizeof( fname ) );
-	cs_strlcat( fname, extension, sizeof( fname ) );
+	cs_strlcpy(fname, MAPHEADNAME, sizeof(fname));
+	cs_strlcat(fname, extension, sizeof(fname));
 
-	handle = fopen( cs_strupr( fname ), "rb" );
-	if( handle == NULL ) {
-		handle = fopen( cs_strlwr( fname ), "rb" );
-		if( handle == NULL ) {
-			printf( "Could not open file (%s) for read!\n", fname );
+	handle = fopen(cs_strupr(fname), "rb");
+	if (handle == NULL) {
+		handle = fopen(cs_strlwr(fname), "rb");
+		if (handle == NULL) {
+			printf("Could not open file (%s) for read!\n", fname);
 			return 0;
 		}
 	}
 
-	length = FS_FileLength( handle );
+	length = FS_FileLength(handle);
 
 
-	fread( &RLEWtag, 2, 1, handle );
+	fread(&RLEWtag, (size_t)2, (size_t)1, handle);
 
 	for ((TotalMaps = 0); ((long)TotalMaps < length); ++TotalMaps) {
-		fread( &headeroffsets[ TotalMaps ], 4, 1, handle );
-		if( ! headeroffsets[ TotalMaps ] ) {
+		fread(&headeroffsets[TotalMaps], (size_t)4, (size_t)1, handle);
+		if (! headeroffsets[TotalMaps]) {
 			break;
 		}
 	}
 
 
-	fclose( handle );
+	fclose(handle);
 
 
-	cs_strlcpy( fname, MAPNAME, sizeof( fname ) );
-	cs_strlcat( fname, extension, sizeof( fname ) );
+	cs_strlcpy(fname, MAPNAME, sizeof(fname));
+	cs_strlcat(fname, extension, sizeof(fname));
 
-	maphandle = fopen( cs_strupr( fname ), "rb");
-	if( NULL == maphandle ) {
-		maphandle = fopen( cs_strlwr( fname ), "rb");
-		if( NULL == maphandle ) {
+	maphandle = fopen(cs_strupr(fname), "rb");
+	if (NULL == maphandle) {
+		maphandle = fopen(cs_strlwr(fname), "rb");
+		if (NULL == maphandle) {
 			return 0;
 		}
 	}
@@ -396,13 +396,13 @@ PRIVATE W8 CAL_SetupMapFile( const char *extension )
 
  Returns: Nothing.
 
- Notes:
+ Notes: Basically a simple wrapper around fclose() for now.
 -----------------------------------------------------------------------------
 */
-PRIVATE void CAL_ShutdownMapFile( void )
+PRIVATE void CAL_ShutdownMapFile(void)
 {
-	if( maphandle ) {
-		fclose( maphandle );
+	if (maphandle) {
+		fclose(maphandle);
 	}
 }
 
@@ -492,86 +492,86 @@ PRIVATE W8 CA_CacheMap(W32 ChunkOffset, W32 Chunklength, const char *filename,
 	fseek(maphandle, (long)ChunkOffset, SEEK_SET);
 
 
-	fread(&offsetin, sizeof(W32), 3, maphandle);
-	fread(&length, sizeof(W16), 3, maphandle);
+	fread(&offsetin, (size_t)sizeof(W32), (size_t)3, maphandle);
+	fread(&length, (size_t)sizeof(W16), (size_t)3, maphandle);
 
-	fread(&w, sizeof(W16), 1, maphandle);
-	fread(&h, sizeof(W16), 1, maphandle);
+	fread(&w, (size_t)sizeof(W16), (size_t)1, maphandle);
+	fread(&h, (size_t)sizeof(W16), (size_t)1, maphandle);
 
 
-	fread(name, sizeof(W8), 16, maphandle);
-	fread(sig, sizeof(W8), 4, maphandle);
+	fread(name, (size_t)sizeof(W8), (size_t)16, maphandle);
+	fread(sig, (size_t)sizeof(W8), (size_t)4, maphandle);
 
 /*
  * Output header
  */
 
 	/* Map file header signature */
-	fwrite( sig, sizeof( W8 ), 4, fout );
+	fwrite(sig, (size_t)sizeof(W8), (size_t)4, fout);
 
 	/* RLE Word tag */
-	fwrite( &RLEWtag, sizeof( W16 ), 1, fout );
+	fwrite(&RLEWtag, (size_t)sizeof(W16), (size_t)1, fout);
 
 	/* Max Width */
-	fwrite( &w, sizeof( W16 ), 1, fout );
+	fwrite(&w, (size_t)sizeof(W16), (size_t)1, fout);
 
 	/* Max Height */
-	fwrite( &h, sizeof( W16 ), 1, fout );
+	fwrite(&h, (size_t)sizeof(W16), (size_t)1, fout);
 
 	/* Ceiling Colour */
-	fwrite( &ceiling, sizeof( W32 ), 1, fout );
+	fwrite(&ceiling, (size_t)sizeof(W32), (size_t)1, fout);
 
 	/* Floor Colour */
-	fwrite( &floor, sizeof( W32 ), 1, fout );
+	fwrite(&floor, (size_t)sizeof(W32), (size_t)1, fout);
 
 	/* Length of layers */
-	temp = length[ 0 ];
-	fwrite( &temp, sizeof( W16 ), 1, fout );	/* Length One */
-	temp = length[ 1 ];
-	fwrite( &temp, sizeof( W16 ), 1, fout );	/* Length Two */
-	temp = length[ 2 ];
-	fwrite( &temp, sizeof( W16 ), 1, fout );	/* Length Three */
+	temp = length[0];
+	fwrite(&temp, (size_t)sizeof(W16), (size_t)1, fout);	/* Length One */
+	temp = length[1];
+	fwrite(&temp, (size_t)sizeof(W16), (size_t)1, fout);	/* Length Two */
+	temp = length[2];
+	fwrite(&temp, (size_t)sizeof(W16), (size_t)1, fout);	/* Length Three */
 
-	jmp = ftell( fout );
+	jmp = ftell(fout);
 
 	temp = 0;
-	fwrite( &temp, sizeof( W32 ), 1, fout );	/* Offset One */
-	fwrite( &temp, sizeof( W32 ), 1, fout );	/* Offset Two */
-	fwrite( &temp, sizeof( W32 ), 1, fout );	/* Offset Three */
+	fwrite(&temp, (size_t)sizeof(W32), (size_t)1, fout);	/* Offset One */
+	fwrite(&temp, (size_t)sizeof(W32), (size_t)1, fout);	/* Offset Two */
+	fwrite(&temp, (size_t)sizeof(W32), (size_t)1, fout);	/* Offset Three */
 
 
 	/* Map name length */
-	temp = strlen( name );
-	fwrite( &temp, sizeof( W16 ), 1, fout );
+	temp = strlen(name);
+	fwrite(&temp, (size_t)sizeof(W16), (size_t)1, fout);
 
 	/* Music name length */
 	temp = strlen( musicName );
-	fwrite( &temp, sizeof( W16 ), 1, fout );
+	fwrite(&temp, (size_t)sizeof(W16), (size_t)1, fout);
 
 	/* Par time Float */
-	fwrite( &ftime, sizeof( float ), 1, fout );
+	fwrite(&ftime, (size_t)sizeof(float), (size_t)1, fout);
 
 	/* Par time string */
-	fwrite( stime, sizeof( W8 ), 5 , fout );
+	fwrite(stime, (size_t)sizeof(W8), (size_t)5, fout);
 
 	/* Map name */
-	fwrite( name, sizeof( W8 ), strlen( name ), fout );
+	fwrite(name, (size_t)sizeof(W8), (size_t)strlen(name), fout);
 
 	/* Music file name */
-	fwrite( musicName, sizeof( W8 ), strlen( musicName ), fout );
+	fwrite(musicName, (size_t)sizeof(W8), (size_t)strlen(musicName), fout);
 
 
-	data = MM_MALLOC( length[ 0 ] );
-	if( data == NULL ) {
+	data = MM_MALLOC(length[0]);
+	if (data == NULL) {
 		return 0;
 	}
 
 	offset[0] = (W32)(ftell(fout));
 
 	fseek(maphandle, (long)(offsetin[0]), SEEK_SET);
-	fread(data, 1, length[0], maphandle);
+	fread(data, (size_t)1, (size_t)length[0], maphandle);
 
-	fwrite(data, 1, length[0], fout);
+	fwrite(data, (size_t)1, (size_t)length[0], fout);
 
 
 	data = MM_REALLOC(data, length[1]);
@@ -583,13 +583,13 @@ PRIVATE W8 CA_CacheMap(W32 ChunkOffset, W32 Chunklength, const char *filename,
 	offset[1] = (W32)(ftell(fout));
 
 	fseek(maphandle, (long)(offsetin[1]), SEEK_SET);
-	fread(data, 1, length[1], maphandle);
+	fread(data, (size_t)1, (size_t)length[1], maphandle);
 
-	fwrite(data, 1, length[1], fout);
+	fwrite(data, (size_t)1, (size_t)length[1], fout);
 
 
 	data = MM_REALLOC(data, length[2]);
-	if( data == NULL ) {
+	if (data == NULL) {
 		printf("CA_CacheMap(): realloced null data, returning 0...\n");
 		return 0;
 	}
@@ -597,23 +597,23 @@ PRIVATE W8 CA_CacheMap(W32 ChunkOffset, W32 Chunklength, const char *filename,
 	offset[2] = (W32)(ftell(fout));
 
 	fseek(maphandle, (long)(offsetin[2]), SEEK_SET);
-	fread(data, 1, length[2], maphandle);
+	fread(data, (size_t)1, (size_t)length[2], maphandle);
 
-	fwrite(data, 1, length[2], fout);
+	fwrite(data, (size_t)1, (size_t)length[2], fout);
 
 	MM_FREE(data);
 
 
-	fseek( fout, jmp, SEEK_SET );
+	fseek(fout, jmp, SEEK_SET);
 
-	temp = offset[ 0 ];
-	fwrite( &temp, sizeof( W32 ), 1, fout );	/* Offset One */
+	temp = offset[0];
+	fwrite(&temp, (size_t)sizeof(W32), (size_t)1, fout);	/* Offset One */
 
-	temp = offset[ 1 ];
-	fwrite( &temp, sizeof( W32 ), 1, fout );	/* Offset Two */
+	temp = offset[1];
+	fwrite(&temp, (size_t)sizeof(W32), (size_t)1, fout);	/* Offset Two */
 
-	temp = offset[ 2 ];
-	fwrite( &temp, sizeof( W32 ), 1, fout );	/* Offset Three */
+	temp = offset[2];
+	fwrite(&temp, (size_t)sizeof(W32), (size_t)1, fout);	/* Offset Three */
 
 
 	fclose(fout);
@@ -633,10 +633,10 @@ PRIVATE W8 CA_CacheMap(W32 ChunkOffset, W32 Chunklength, const char *filename,
  Notes:
 -----------------------------------------------------------------------------
 */
-PUBLIC _boolean MapRipper( const char *fextension, W16 version )
+PUBLIC _boolean MapRipper(const char *fextension, W16 version)
 {
 	W32 i;
-	char fname[ 32 ];
+	char fname[32];
 
 	gameversion = version;
 
@@ -644,14 +644,14 @@ PUBLIC _boolean MapRipper( const char *fextension, W16 version )
  * Setup
  */
 
-	if( 0 == FS_Mkdir( MAPDIR ) ) {
-		printf( "[%s] Could not create directory (%s)!\n", "wolf_map.c", MAPDIR );
+	if (0 == FS_Mkdir(MAPDIR)) {
+		printf("[%s] Could not create directory (%s)!\n", "wolf_map.c", MAPDIR);
 
 		return false;
 	}
 
 
-	if( ! CAL_SetupMapFile( fextension ) ) {
+	if (! CAL_SetupMapFile(fextension)) {
 		CAL_ShutdownMapFile();
 
 		return false;
@@ -661,14 +661,15 @@ PUBLIC _boolean MapRipper( const char *fextension, W16 version )
  * Decode Map data
  */
 
-	printf( "Decoding Map Data...\n" );
+	printf("Decoding Map Data...\n");
 
-	for( i = 0 ; i < TotalMaps ; ++i ) {
-		cs_snprintf( fname, sizeof( fname ), "%s/%c%.2d.map", MAPDIR, TOLOWER( fextension[ 1 ] ), i );
+	for ((i = 0); (i < TotalMaps); ++i) {
+		cs_snprintf(fname, sizeof(fname), "%s/%c%.2d.map", MAPDIR,
+					TOLOWER(fextension[1]), i);
 
-		CA_CacheMap( headeroffsets[ i ],
-					 headeroffsets[ i + 1 ] - headeroffsets[ i ],
-					 fname, i );
+		CA_CacheMap(headeroffsets[i],
+					(headeroffsets[(i + 1)] - headeroffsets[i]),
+					fname, i);
 
 	}
 

@@ -395,7 +395,7 @@ PUBLIC void M_Menu_Options_f(void)
  *
  *******************************************************************/
 
-
+/* Is this array correct? */
 char *bindnames[][2] =
 {
 	{"+attack", 		"Attack"},
@@ -707,7 +707,8 @@ PRIVATE void Keys_MenuInit(void)
 	s_keys_move_down_action.generic.ownerdraw = DrawKeyBindingFunc;
 	s_keys_move_down_action.generic.ownerdraw = DrawKeyBindingFunc;
 	s_keys_move_down_action.generic.localdata[0] = ++i;
-	s_keys_move_down_action.generic.name	= bindnames[s_keys_move_down_action.generic.localdata[0]][1];
+	/* FIXME: array subscript here: */
+	s_keys_move_down_action.generic.name = bindnames[s_keys_move_down_action.generic.localdata[0]][1];
 
 	Menu_AddItem(&s_keys_menu, (void *)&s_keys_attack_action);
 	Menu_AddItem(&s_keys_menu, (void *)&s_keys_change_weapon_action);
@@ -749,8 +750,8 @@ PRIVATE void Keys_MenuDraw(void)
 	}
 
 
-	Menu_AdjustCursor( &s_keys_menu, 1 );
-	Menu_Draw( &s_keys_menu );
+	Menu_AdjustCursor(&s_keys_menu, 1);
+	Menu_Draw(&s_keys_menu);
 }
 
 PRIVATE const char *Keys_MenuKey(int key)

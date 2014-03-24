@@ -72,7 +72,7 @@ typedef	struct
     SoundCommon	common;
     Instrument	inst;
     W8   block;
-    W8   data[ 1 ];
+    W8   data[1];
 
 } AdLibSound;
 
@@ -81,11 +81,11 @@ extern W8 ADLIB_Init();
 extern void ADLIB_Shutdown();
 
 #ifndef ADLIB_Init
-extern _boolean ADLIB_Init( W32 freq );
+extern _boolean ADLIB_Init(W32 freq);
 #endif /* !ADLIB_Init */
 
 #ifndef ADLIB_Shutdown
-extern void ADLIB_Shutdown( void );
+extern void ADLIB_Shutdown(void);
 #endif /* !ADLIB_Shutdown */
 
 extern W8 ADLIB_DecodeSound( AdLibSound *sound, W8 *buffer, W32 *length );

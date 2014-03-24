@@ -163,6 +163,12 @@ PUBLIC char *FS_FindFirst(const char *path, W32 musthave, W32 canthave)
 		return NULL;
 	}
 
+	/* again, about wishing for those per-target breakpoints in Xcode 3.2.6...
+	 * this is another place where placing breakpoints for this target can
+	 * confuse Xcode when debugging the other target (wolfextractor), which does
+	 * not even include this file, but it does include one with the same name
+	 * that has the same functions, so Xcode gets confused... darn duplicated
+	 * code... */
 	FS_FilePath((char *)path, findbase);
 	my_strlcpy(findpattern, (char *)FS_SkipPath((char *)path),
 			   sizeof(findpattern)); /* FS_SkipPath() is not worth stepping into */

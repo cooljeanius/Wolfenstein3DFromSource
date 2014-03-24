@@ -46,30 +46,30 @@
 #include "../../../common/arch.h"
 
 
-#define ISSPACE( c )	( ( c ) == ' ' || ( c ) == '\f' || ( c ) == '\n' || ( c ) == '\r' || ( c ) == '\t' || ( c ) == '\v' )
-#define ISUPPER( c )	( ( c ) >= 'A' && ( c ) <= 'Z' )
-#define ISLOWER( c )	( ( c ) >= 'a' && ( c ) <= 'z' )
-#define ISALPHA( c )	( ISUPPER( c ) || ISLOWER( c ) )
-#define TOUPPER( c )	( ISLOWER( c ) ? (c) - 'a' + 'A' : ( c ) )
-#define TOLOWER( c )	( ISUPPER( c ) ? (c) - 'A' + 'a' : ( c ) )
+#define ISSPACE(c)	((c) == ' ' || (c) == '\f' || (c) == '\n' || (c) == '\r' || (c) == '\t' || (c) == '\v')
+#define ISUPPER(c)	((c) >= 'A' && (c) <= 'Z' )
+#define ISLOWER(c)	((c) >= 'a' && (c) <= 'z' )
+#define ISALPHA(c)	(ISUPPER(c) || ISLOWER(c))
+#define TOUPPER(c)	(ISLOWER(c) ? (c) - 'a' + 'A' : (c))
+#define TOLOWER(c)	(ISUPPER(c) ? (c) - 'A' + 'a' : (c))
 
 
-extern size_t cs_strlcpy( char *dest, const char *source, size_t nMaxLength );
-extern size_t cs_strlcat( char *dest, const char *source, size_t nMaxLength );
+extern size_t cs_strlcpy(char *dest, const char *source, size_t nMaxLength);
+extern size_t cs_strlcat(char *dest, const char *source, size_t nMaxLength);
 
 
-extern int cs_stricmp( const char *string1, const char *string2 );
-extern int cs_strnicmp( const char *string1, const char *string2, size_t count );
+extern int cs_stricmp(const char *string1, const char *string2);
+extern int cs_strnicmp(const char *string1, const char *string2, size_t count);
 
 
-extern void cs_snprintf( char *dest, size_t size, const char *format, ... );
+extern void cs_snprintf(char *dest, size_t size, const char *format, ...);
 
-extern char *cs_CopyString( const char *in ); /* the implementation of this function is still in process... */
+extern char *cs_CopyString(const char *in); /* the implementation of this function is still in progress... */
 
-extern W32 cs_strhash( const char *string );
+extern W32 cs_strhash(const char *string);
 
-extern char *cs_strupr( char *string );
-extern char *cs_strlwr( char *string );
+extern char *cs_strupr(char *string);
+extern char *cs_strlwr(char *string);
 
 
 #endif /* __COM_STRING_H__ */

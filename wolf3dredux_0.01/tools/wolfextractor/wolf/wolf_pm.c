@@ -61,8 +61,8 @@ typedef	struct
 typedef struct
 {
 	W16 leftpix, rightpix;
-	W16	dataofs[ 64 ];
-    /* table data after dataofs[ rightpix - leftpix + 1 ] */
+	W16	dataofs[64];
+    /* table data after dataofs[(rightpix - leftpix + 1)] */
 
 } t_compshape;
 
@@ -91,82 +91,82 @@ PRIVATE W16 PMSpriteStart, PMSoundStart;
 
 -----------------------------------------------------------------------------
 */
-PRIVATE W8 PML_OpenPageFile( const char *extension )
+PRIVATE W8 PML_OpenPageFile(const char *extension)
 {
 	W32    i;
 	W32   size;
 	void   *buf;
-	char filename[ 16 ];
+	char filename[16];
 	W32  *offsetptr;
 	W16 *lengthptr;
 	PageList_t *page;
 
-	if( ! extension || ! *extension ) {
-	   printf( "Invalid file extension passed to PML_OpenPageFile()\n" );
+	if (! extension || ! *extension) {
+	   printf("Invalid file extension passed to PML_OpenPageFile()\n");
 	   return 0;
     }
 
-    cs_strlcpy( filename, PAGEFNAME, sizeof( filename ) );
-    cs_strlcat( filename, extension, sizeof( filename ) );
+    cs_strlcpy(filename, PAGEFNAME, sizeof(filename));
+    cs_strlcat(filename, extension, sizeof(filename));
 
-	PageFile = fopen( cs_strupr( filename ), "rb" );
-	if( PageFile == NULL ) {
-		PageFile = fopen( cs_strlwr( filename ), "rb" );
-		if( PageFile == NULL ) {
-			printf( "Could not open file (%s) for read!\n", filename );
+	PageFile = fopen(cs_strupr(filename), "rb");
+	if (PageFile == NULL) {
+		PageFile = fopen(cs_strlwr(filename), "rb");
+		if (PageFile == NULL) {
+			printf("Could not open file (%s) for read!\n", filename);
 			return 0;
 		}
 	}
 
 	/* Read in header variables */
-	fread( &PMNumBlocks,  sizeof( PMNumBlocks ), 1, PageFile );
-	fread( &PMSpriteStart, sizeof( PMSpriteStart ), 1, PageFile );
-	fread( &PMSoundStart, sizeof( PMSoundStart ), 1, PageFile );
+	fread(&PMNumBlocks, sizeof(PMNumBlocks), (size_t)1, PageFile);
+	fread(&PMSpriteStart, sizeof(PMSpriteStart), (size_t)1, PageFile);
+	fread(&PMSoundStart, sizeof(PMSoundStart), (size_t)1, PageFile);
 
 
 	/* Allocate and clear the page list */
-	PMPages = (PageList_t *) MM_MALLOC( sizeof( PageList_t ) * PMNumBlocks );
-	if( PMPages == NULL ) {
+	PMPages = (PageList_t *)MM_MALLOC(sizeof(PageList_t) * PMNumBlocks);
+	if (PMPages == NULL) {
 		return 0;
 	}
 
-	memset( PMPages, 0, sizeof( PageList_t ) * PMNumBlocks );
+	memset(PMPages, 0, (sizeof(PageList_t) * PMNumBlocks));
 
 	/* Read in the chunk offsets */
-	size = sizeof( W32 ) * PMNumBlocks;
+	size = (sizeof(W32) * PMNumBlocks);
 
-    buf = MM_MALLOC( size );
-	if( buf == NULL ) {
+    buf = MM_MALLOC(size);
+	if (buf == NULL) {
 		return 0;
 	}
 
-	if( fread( buf, 1, size, PageFile ) == 0 ) {
-		printf( "PML_OpenPageFile: Length read failed\n" );
+	if (fread(buf, (size_t)1, size, PageFile) == 0) {
+		printf("PML_OpenPageFile(): Length read failed\n");
 	}
-	offsetptr = (PW32) buf;
-	for( i = 0, page = PMPages; i < PMNumBlocks; i++, page++ ) {
+	offsetptr = (PW32)buf;
+	for ((i = 0), (page = PMPages); (i < PMNumBlocks); i++, page++) {
 		page->offset = *offsetptr++;
     }
-	MM_FREE( buf );
+	MM_FREE(buf);
 
 	/* Read in the chunk lengths */
-	size = sizeof( W16 ) * PMNumBlocks;
+	size = (sizeof(W16) * PMNumBlocks);
 
-	buf = MM_MALLOC( size );
-	if( buf == NULL ) {
+	buf = MM_MALLOC(size);
+	if (buf == NULL) {
 		return 0;
 	}
 
-	if( fread( buf, 1, size, PageFile ) == 0 ) {
-		printf( "PML_OpenPageFile: Length read failed\n" );
+	if (fread(buf, (size_t)1, size, PageFile) == 0) {
+		printf("PML_OpenPageFile: Length read failed\n");
 	}
 
     lengthptr = (PW16)buf;
-	for( i = 0, page = PMPages; i < PMNumBlocks; ++i, page++ ) {
+	for ((i = 0), (page = PMPages); (i < PMNumBlocks); ++i, page++) {
 		page->length = *lengthptr++;
 	}
 
-    MM_FREE( buf );
+    MM_FREE(buf);
 
     return 1;
 }
@@ -208,7 +208,7 @@ PRIVATE void PML_ReadFromFile(W8 *buf, SW32 offset, W16 length)
 		return;
 	}
 
-	if (! fread(buf, 1, length, PageFile)) {
+	if (! fread(buf, (size_t)1, (size_t)length, PageFile)) {
 		printf("[PML_ReadFromFile]: Reading file using buf '%s' and length '%i' failed\n",
 			   buf, length);
 		return;
@@ -246,7 +246,7 @@ PRIVATE void *PML_LoadPage(W32 pagenum, W16 *clength)
 		return NULL;
 	}
 
-    PML_ReadFromFile(addr, (SW32)page->offset, page->length);
+    PML_ReadFromFile(addr, (SW32)page->offset, (W16)page->length);
 
     return addr;
 }
@@ -278,6 +278,12 @@ PRIVATE W8 PML_SaveGFXPage(W32 nPage, const char *filename, W8 *buffer,
 	W16 rgb;
 	W8 r,g,b;
 	W16 clength; /* Chunk length */
+
+	ptr = buffer; /* try initializing here like this to avoid error later */
+
+	if (filename != NULL) {
+		printf("PML_SaveGFXPage(): trying to save '%s'\n", filename);
+	}
 
 	/* dummy condition to use GunFlash parameter: */
 	if (GunFlash == 0) {
@@ -352,7 +358,10 @@ PRIVATE W8 PML_SaveGFXPage(W32 nPage, const char *filename, W8 *buffer,
         shape = (t_compshape *)data;
 
         cmdptr = shape->dataofs;
-        for ((x = shape->leftpix); (x <= shape->rightpix); ++x) {
+		/* hardcoded number is because shape->rightpix apparently was
+		 * not actually the correct maximum for 'x'...
+		 * TODO: figure out why... */
+        for ((x = shape->leftpix); (x <= shape->rightpix), (x < 183); ++x) {
             linecmds = (int *)(data + *cmdptr++);
 			/* one of clang's sanitizers throws a runtime error around here */
             for ((i = 0); (*linecmds); (linecmds += (short)(3))) {
@@ -361,22 +370,53 @@ PRIVATE W8 PML_SaveGFXPage(W32 nPage, const char *filename, W8 *buffer,
 					;
 				}
                 i = (W16)((linecmds[2] / 2) + linecmds[1]);
-                for ((y = (W16)(linecmds[2] / 2)); (y < (linecmds[0] / 2));
-					 ++y, ++i) {
+				/* hardcoded number is because (linecmds[0] /2) apparently was
+				 * not actually the correct maximum for 'y'...
+				 * TODO: figure out why... */
+                for ((y = (W16)(linecmds[2] / 2)); (y < (linecmds[0] / 2)),
+					 (y < 65332), (i <= 7987); ++y, ++i) {
 				    temp = ((data[i]) * 3);
 
-                    ptr = (buffer + (((y * 64) + x) * 2));
+					if (buffer && (&buffer != NULL)) {
+#if defined(DEBUG) && 0
+						printf("PML_SaveGFXPage(): progress saving '%s': ", filename);
+						printf(" math: 'y' = '%i', 'x' = '%i', (((y * 64) + x) * 2) = '%i', ",
+							   y, x, (((y * 64) + x) * 2));
+						printf(" loop counters: 'i' = '%i', 'temp' = '%i' \n",
+							   i, temp);
+#endif /* DEBUG && 0 */
+						ptr = (W8*)(buffer + (((y * 64) + x) * 2));
+					} else if (buffer2 && (&buffer2 != NULL)) {
+						ptr = (W8*)(buffer2 + (((y * 64) + x) * 2));
+					} else if (data && (&data != NULL)) {
+						ptr = (W8*)(data + (((y * 64) + x) * 2));
+					} else {
+						ptr = (W8*)"error";
+					}
 
                     r = (W8)(gamepal[temp] >> 1);
                     g = (W8)(gamepal[(temp + 1)]);
                     b = (W8)(gamepal[(temp + 2)] >> 1);
 
                     rgb = (W16)((b << 11) | (g << 5) | r);
-					if (ptr) {
+					if (ptr && (&ptr != NULL) && (&ptr[0] != NULL) && rgb) {
 						ptr[0] = (rgb & 0xff); /* bad access here... */
 						ptr[1] = (rgb >> 8);
+					} else {
+						break;
 					}
                 }
+				/* This is a bad value for (linecmds[0] / 2): */
+				if ((linecmds[0] / 2) > 65332) {
+					break;
+				} else if (i > 7987) {
+					break;
+				} else if (!linecmds || (&linecmds == NULL)) {
+					break;
+				}
+#ifdef DEBUG
+				break;
+#endif /* DEBUG */
             }
         }
     } else {
@@ -394,11 +434,12 @@ PRIVATE W8 PML_SaveGFXPage(W32 nPage, const char *filename, W8 *buffer,
 		/* wtf is the prototype doing here in the middle of another function? */
 		extern void RGB32toRGB24(const W8 *src, W8 *dest, size_t size);
 		/* I mean, I get that it is right before it is used, but still... */
-		RGB32toRGB24(buffer2, buffer2, (128 * 128 * 4));
+		RGB32toRGB24(buffer2, buffer2, (size_t)(128 * 128 * 4));
 		/* (128 * 128 * 4) = 65536 */
-		WriteTGA(filename, 24, 128, 128, buffer2, 0, 1);
+		WriteTGA((const char *)filename, (W16)24, (W16)128, (W16)128,
+				 (void *)buffer2, (W8)0, (W8)1);
 	} else {
-        ReduxAlphaChannel_hq2x(buffer2, 128, 128);
+        ReduxAlphaChannel_hq2x(buffer2, (W32)128, (W32)128);
 
 		/* Mod alpha channel for gun flash */
 #if 0 || defined MOD_ALPHA_CHANNEL_FOR_GUN_FLASH || __clang_analyzer__
@@ -430,7 +471,7 @@ PRIVATE W8 PML_SaveGFXPage(W32 nPage, const char *filename, W8 *buffer,
 					ptr[2] > 75 &&
 					ptr[0] < 250 &&
 					ptr[1] > 185 &&
-					ptr[2] < 172 ) {
+					ptr[2] < 172) {
 					ptr[3] = 103;
 				}
 
@@ -445,7 +486,7 @@ PRIVATE W8 PML_SaveGFXPage(W32 nPage, const char *filename, W8 *buffer,
 					ptr[1] < 253 &&
 					ptr[2] < 241 &&
 					ptr[1] > 190 &&
-					ptr[2] > 174 ) {
+					ptr[2] > 174) {
 					ptr[3] = 103;
 				}
 
@@ -497,7 +538,7 @@ PRIVATE W8 PML_SaveGFXPage(W32 nPage, const char *filename, W8 *buffer,
 					ptr[1] >= 0 &&
 					ptr[2] >= 0 &&
 					ptr[1] < 63 &&
-					ptr[2] < 63 ) {
+					ptr[2] < 63) {
 					ptr[3] = 103;
 				}
 
@@ -506,7 +547,7 @@ PRIVATE W8 PML_SaveGFXPage(W32 nPage, const char *filename, W8 *buffer,
 					ptr[2] >= 70 &&
 					ptr[1] < 157 &&
 					ptr[2] < 153 &&
-					ptr[2] != 96 ) {
+					ptr[2] != 96) {
 					ptr[3] = 103;
 				}
 
@@ -515,32 +556,33 @@ PRIVATE W8 PML_SaveGFXPage(W32 nPage, const char *filename, W8 *buffer,
 					ptr[2] > 79 &&
 					ptr[0] > 237 &&
 					ptr[1] < 253 &&
-					ptr[2] < 92 ) {
+					ptr[2] < 92) {
 					ptr[3] = 103;
 				}
 
 				if (ptr[0] == 236 &&
 					ptr[1] == 80 &&
-					ptr[2] == 77 ) {
+					ptr[2] == 77) {
 					ptr[3] = 103;
 				}
 
 				if (ptr[0] == 247 &&
 					ptr[1] == 136 &&
-					ptr[2] == 133 ) {
+					ptr[2] == 133) {
 					ptr[3] = 103;
 				}
 
 				if (ptr[0] == 248 &&
 					ptr[1] == 100 &&
-					ptr[2] == 96 ) {
+					ptr[2] == 96) {
 					ptr[3] = 103;
 				}
 			}
 		}
 #endif /* 0 || MOD_ALPHA_CHANNEL_FOR_GUN_FLASH || __clang_analyzer__ */
 
-		WriteTGA(filename, 32, 128, 128, buffer2, 0, 1);
+		WriteTGA((const char *)filename, (W16)32, (W16)128, (W16)128,
+				 (void *)buffer2, (W8)0, (W8)1);
 	}
 
     return 1;
@@ -573,7 +615,7 @@ PRIVATE W8 PML_SaveSoundPage(W32 nPage, char *filename, W8 *buffer, W32 size)
     }
 
     data = (PW8)PML_LoadPage(nPage, &clength);
-	if( data == NULL ) {
+	if (data == NULL) {
         return 1;
     }
 
@@ -711,7 +753,8 @@ PUBLIC _boolean PExtractor(const char *extension, W16 version)
  */
 	printf("PExtractor(): attempting to decode Page Data...\n");
 
-	for ((i = 0), (j = 0); (i < PMSpriteStart); ++i, ++j ) {
+	/* '414' is a bad one for sprites, '134' is a bad one for walls */
+	for ((i = 0), (j = 0); (i < PMSpriteStart), (j < 414); ++i, ++j) {
 		/* Hacks */
 		if ((version == WL6_PAK) || (version == WL1_PAK)) {
 			if (98 == j) {
@@ -720,14 +763,24 @@ PUBLIC _boolean PExtractor(const char *extension, W16 version)
 			}
 		}
 
+		if (version == 2) {
+			/* these two error out: */
+			if ((j == 134) || (j == 135)) {
+				j = 136;
+			}
+		}
+
 		cs_snprintf(filename, sizeof(filename), "%s/%.3d.tga", GFXWALLDIR, j);
 
 		PML_SaveGFXPage(i, filename, buffer, buffer2, (_boolean)1, (W32)0);
 	}
 
-    for((i = PMSpriteStart), (j = 0); (i < PMSoundStart); ++i, ++j ) {
+	/* '521' is the highest hardcoded number in the section below; I am unsure
+	 * what the actual max value for 'j' is... */
+    for ((i = PMSpriteStart), (j = 0); (i < PMSoundStart), (j <= 521);
+		 ++i, ++j) {
 		/* Hacks (need documentation) */
-		if( version == WL1_PAK ) {
+		if (version == WL1_PAK) {
 			if (j == 50) {
 				j = 54;
 			}
@@ -777,14 +830,23 @@ PUBLIC _boolean PExtractor(const char *extension, W16 version)
 			}
 		}
 
-		if( version == SOD_PAK || version == SDM_PAK ) {
+		if (version == 2) {
+			/* try to avoid error: */
+			if (j == 414) {
+				j = 415; /* (might not be necessary any more...) */
+			}
+		}
+
+		/* this is where the filename actually gets set, so if you want to hack
+		 * 'j' to make it skip a particular file, it needs to be done before
+		 * this point: */
+		if ((version == SOD_PAK) || (version == SDM_PAK)) {
 			cs_snprintf(filename, sizeof(filename), "%s/%.3d.tga",
 						SODGFXSPRITEDIR, j);
 		} else {
 			cs_snprintf(filename, sizeof(filename), "%s/%.3d.tga",
 						GFXSPRITEDIR, j);
 		}
-
 
 		if ((j == 531) ||
 			(j == 532) ||
@@ -795,18 +857,18 @@ PUBLIC _boolean PExtractor(const char *extension, W16 version)
 			Flash = 0;
 		}
 
-
-        PML_SaveGFXPage(i, filename, buffer, buffer2, 0, Flash);
+        PML_SaveGFXPage(i, filename, buffer, buffer2, (_boolean)0, (W32)Flash);
     }
 
-    for ((i = PMSoundStart), (j = 0); (i < (PMNumBlocks - 1)); ++i, ++j) {
-		if( version == SOD_PAK || version == SDM_PAK ) {
-			cs_snprintf(filename, sizeof(filename), "%s/%.3d.wav", SODSFXDIR, j);
+    for ((i = PMSoundStart), (j = 0); (i < (W32)(PMNumBlocks - 1)); ++i, ++j) {
+		if ((version == SOD_PAK) || (version == SDM_PAK)) {
+			cs_snprintf(filename, sizeof(filename), "%s/%.3d.wav",
+						SODSFXDIR, j);
 		} else {
 			cs_snprintf(filename, sizeof(filename), "%s/%.3d.wav", SFXDIR, j);
 		}
 
-        PML_SaveSoundPage(i, filename, buffer2, (128 * 128 * 4));
+        PML_SaveSoundPage(i, filename, buffer2, (W32)(128 * 128 * 4));
 		/* (128 * 128 * 4) = 65536 */
     }
 

@@ -229,8 +229,8 @@ PUBLIC char *FS_FindFirst(const char *path, W32 musthave, W32 canthave)
 	}
 
 	return NULL;
-
 }
+
 
 /*
 -----------------------------------------------------------------------------

@@ -391,7 +391,7 @@ PRIVATE char **FS_ListFiles(char *findname, int *numfiles, unsigned musthave,
 		}
 		s = FS_FindNext((W32)musthave, (W32)canthave);
 	}
-	FS_FindClose ();
+	FS_FindClose();
 
 	if (!nfiles) {
 		return NULL;
@@ -572,13 +572,17 @@ PUBLIC char *FS_NextPath(char *prevpath)
 PUBLIC void FS_InitFilesystem(void)
 {
 	char FS_getcwd_result[MAX_OSPATH];
-	getcwd(FS_getcwd_result, (size_t)MAX_OSPATH);
+
 	Cmd_AddCommand("path", FS_Path_f);
 	Cmd_AddCommand("link", FS_Link_f);
 	Cmd_AddCommand("dir", FS_Dir_f);
 
-	Com_Printf("FS_InitFilesystem(): initializing filesystem from '%s'\n",
-			   FS_getcwd_result);
+	/* instead of just calling getcwd(), compare its return value against NULL
+	 * in order to use it and silence a warning: */
+	if (getcwd(FS_getcwd_result, (size_t)MAX_OSPATH) != NULL) {
+		Com_Printf("FS_InitFilesystem(): initializing filesystem from '%s'\n",
+				   FS_getcwd_result);
+	}
 
 	/*
 	 * basedir <path>
