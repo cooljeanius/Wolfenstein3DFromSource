@@ -137,6 +137,9 @@
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
 		A5457AF418DC92EB00FBCD8F /* wolf3dEpisode1_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = A5457AF318DC92EB00FBCD8F /* wolf3dEpisode1_icon.png */; };
+		A54581B118DFA45700FBCD8F /* memcmp.c in Sources */ = {isa = PBXBuildFile; fileRef = A54581AE18DFA45700FBCD8F /* memcmp.c */; };
+		A54581B218DFA45700FBCD8F /* memcmp2.c in Sources */ = {isa = PBXBuildFile; fileRef = A54581AF18DFA45700FBCD8F /* memcmp2.c */; };
+		A54581B318DFA45700FBCD8F /* memcmp2.h in Headers */ = {isa = PBXBuildFile; fileRef = A54581B018DFA45700FBCD8F /* memcmp2.h */; };
 		A5475D3618D37D4800FE1646 /* wolf_client.h in Headers */ = {isa = PBXBuildFile; fileRef = A5475D3518D37D4800FE1646 /* wolf_client.h */; };
 		A54761A018D4B24D00FE1646 /* libdmalloc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A547619F18D4B24D00FE1646 /* libdmalloc.a */; settings = {ATTRIBUTES = (Weak, ); }; };
 		A54766E118D7D34C00FE1646 /* vorbisenc_inter.h in Headers */ = {isa = PBXBuildFile; fileRef = A54766E018D7D34C00FE1646 /* vorbisenc_inter.h */; };
@@ -619,6 +622,9 @@
 		8D1107320486CEB800E47090 /* Wolfenstein3DFromSource.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Wolfenstein3DFromSource.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A5457AF318DC92EB00FBCD8F /* wolf3dEpisode1_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = wolf3dEpisode1_icon.png; path = Resources/wolf3dEpisode1_icon.png; sourceTree = "<group>"; };
 		A5457AFF18DC97D300FBCD8F /* Wolfenstein3DFromSource.exp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.exports; path = Wolfenstein3DFromSource.exp; sourceTree = "<group>"; };
+		A54581AE18DFA45700FBCD8F /* memcmp.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = memcmp.c; sourceTree = "<group>"; };
+		A54581AF18DFA45700FBCD8F /* memcmp2.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = memcmp2.c; sourceTree = "<group>"; };
+		A54581B018DFA45700FBCD8F /* memcmp2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = memcmp2.h; sourceTree = "<group>"; };
 		A5475D3518D37D4800FE1646 /* wolf_client.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = wolf_client.h; sourceTree = "<group>"; };
 		A547619F18D4B24D00FE1646 /* libdmalloc.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libdmalloc.a; path = /opt/local/lib/libdmalloc.a; sourceTree = "<absolute>"; };
 		A54766E018D7D34C00FE1646 /* vorbisenc_inter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = vorbisenc_inter.h; sourceTree = "<group>"; };
@@ -1601,6 +1607,9 @@
 				A5476C3A18D9F35800FE1646 /* fileblocks.c */,
 				A5476C1418D9EB8400FE1646 /* lstat.c */,
 				A5476C1A18D9F17C00FE1646 /* malloc.c */,
+				A54581AE18DFA45700FBCD8F /* memcmp.c */,
+				A54581AF18DFA45700FBCD8F /* memcmp2.c */,
+				A54581B018DFA45700FBCD8F /* memcmp2.h */,
 				A5476C3218D9F20800FE1646 /* pathmax.h */,
 				A571F0FF18C6E9820037F031 /* progname.h */,
 				A571F10018C6E9820037F031 /* progname.c */,
@@ -1768,6 +1777,7 @@
 				A5476C3318D9F20800FE1646 /* pathmax.h in Headers */,
 				A5476C3518D9F21400FE1646 /* verify.h in Headers */,
 				A547716418DB76DF00FE1646 /* glext.h in Headers */,
+				A54581B318DFA45700FBCD8F /* memcmp2.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2044,6 +2054,8 @@
 				A5476C2018D9F18800FE1646 /* realloc.c in Sources */,
 				A5476C2318D9F18800FE1646 /* stat.c in Sources */,
 				A5476C3B18D9F35800FE1646 /* fileblocks.c in Sources */,
+				A54581B118DFA45700FBCD8F /* memcmp.c in Sources */,
+				A54581B218DFA45700FBCD8F /* memcmp2.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

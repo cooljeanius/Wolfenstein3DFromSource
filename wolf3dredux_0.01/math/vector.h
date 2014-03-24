@@ -77,31 +77,34 @@ extern vec3_t vec3_origin;
 #endif /* 1 */
 
 
-extern void vectorCrossProduct( const vec3_t v1, const vec3_t v2, vec3_t cross );
+extern void vectorCrossProduct(const vec3_t v1, const vec3_t v2, vec3_t cross);
 
 
-extern int vectorCompare( const vec3_t v1, const vec3_t v2 );
-extern vec_t vectorLength( const vec3_t v );
-extern vec_t (*pfVectorNormalize)( vec3_t vec );
+extern int vectorCompare(const vec3_t v1, const vec3_t v2);
+extern vec_t vectorLength(const vec3_t v); /* TODO: check inline-ability */
+extern vec_t (*pfVectorNormalize)(vec3_t vec);
 
-extern void angleVectors( const vec3_t angles, vec3_t forward, vec3_t right, vec3_t up );
+extern void angleVectors(const vec3_t angles, vec3_t forward, vec3_t right,
+						 vec3_t up);
 
+extern void RotatePointAroundVector(vec3_t dst, const vec3_t dir,
+									const vec3_t point, float degrees);
+extern void PerpendicularVector(vec3_t dst, const vec3_t src);
+extern void ProjectPointOnPlane(vec3_t dst, const vec3_t p,
+								const vec3_t normal);
 
-extern void RotatePointAroundVector( vec3_t dst, const vec3_t dir, const vec3_t point, float degrees );
-extern void PerpendicularVector( vec3_t dst, const vec3_t src );
-extern void ProjectPointOnPlane( vec3_t dst, const vec3_t p, const vec3_t normal );
+extern void AddPointToBounds(vec3_t v, vec3_t mins, vec3_t maxs);
+extern float RadiusFromBounds(const vec3_t mins, const vec3_t maxs);
 
-
-extern void AddPointToBounds( vec3_t v, vec3_t mins, vec3_t maxs );
-extern float RadiusFromBounds( const vec3_t mins, const vec3_t maxs );
-
-extern void AngleVectors( const vec3_t angles, vec3_t forward, vec3_t right, vec3_t up );
-extern vec_t _vectorDotProduct( const vec3_t v1, const vec3_t v2 );
-extern void _vectorSubtract( const vec3_t veca, const vec3_t vecb, vec3_t out );
-extern void _vectorAdd( const vec3_t veca, const vec3_t vecb, vec3_t out );
-extern void _vectorCopy( const vec3_t in, vec3_t out );
-extern void _vectorScale( const vec3_t in, const vec_t scale, vec3_t out );
-extern void _vectorMA( const vec3_t veca, float scale, const vec3_t vecb, vec3_t vecc );
+extern void AngleVectors(const vec3_t angles, vec3_t forward, vec3_t right,
+						 vec3_t up);
+extern vec_t _vectorDotProduct(const vec3_t v1, const vec3_t v2);
+extern void _vectorSubtract(const vec3_t veca, const vec3_t vecb, vec3_t out);
+extern void _vectorAdd(const vec3_t veca, const vec3_t vecb, vec3_t out);
+extern void _vectorCopy(const vec3_t in, vec3_t out);
+extern void _vectorScale(const vec3_t in, const vec_t scale, vec3_t out);
+extern void _vectorMA(const vec3_t veca, float scale, const vec3_t vecb,
+					  vec3_t vecc);
 
 
 /********************************************************************
@@ -124,8 +127,8 @@ extern void _vectorMA( const vec3_t veca, float scale, const vec3_t vecb, vec3_t
 #define	vector2DMA( v, s, b, o )	( (o)[ 0 ] = (v)[ 0 ] + (b)[ 0 ]*(s), (o)[ 1 ] = (v)[ 1 ] + (b)[ 1 ] * (s) )
 
 
-extern W32 vector2DCompare( const vec2_t v1, const vec2_t v2 );
-extern vec_t vector2DLength( const vec2_t v );
+extern W32 vector2DCompare(const vec2_t v1, const vec2_t v2);
+extern vec_t vector2DLength(const vec2_t v);
 
 
 #endif /* __VECTOR_H__ */

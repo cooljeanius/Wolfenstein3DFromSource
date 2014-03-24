@@ -45,7 +45,11 @@ AM_CONDITIONAL([WOLF_OLD_BUILD],[test "x${DO_WOLF_OLD_BUILD}" = "xyes"])
 AC_PROG_CPP
 AC_PROG_CXX
 AC_PROG_OBJC
-AC_PROG_OBJCPP
+dnl# only do test for OBJCPP if the OBJC test was successful:
+if test "x${ac_cv_objc_compiler_gnu}" = "xyes"; then
+  test -x `which cpp`
+  AC_PROG_OBJCPP
+fi
 AC_PROG_INSTALL
 AC_PROG_MKDIR_P
 AC_PATH_PROG([GLXINFO],[glxinfo],[:],[${PATH}:/opt/local/bin])
@@ -136,14 +140,15 @@ if test "x" = "y"; then
 fi
 
 AC_CHECK_HEADERS([alloc.h assert.h bits/libc-lock.h ctype.h dmalloc.h \
-                  errno.h fcntl.h float.h libintl.h \
+                  endian.h errno.h fcntl.h float.h libintl.h \
                   libio/iolibio.h libio/libioP.h limits.h \
                   mach/mach.h mach/vm_param.h malloc.h malloc/malloc.h \
-                  math.h mmsystem.h search.h setjmp.h signal.h stdarg.h \
-                  stddef.h stdio.h sys/gmon.h sys/malloc.h sys/mount.h \
-                  sys/param.h sys/socket.h sys/sysctl.h sys/syslimits.h \
-                  sys/time.h sys/timeb.h sys/utsname.h sys/vmmeter.h \
-                  unix.h wchar.h windef.h windows.h xlocale.h Xutil.h])
+                  math.h memcopy.h mmsystem.h search.h setjmp.h signal.h \
+                  stdarg.h stddef.h stdio.h sys/gmon.h sys/malloc.h \
+                  sys/mount.h sys/param.h sys/socket.h sys/sysctl.h \
+                  sys/syslimits.h sys/time.h sys/timeb.h sys/utsname.h \
+                  sys/vmmeter.h unix.h wchar.h windef.h windows.h \
+                  xlocale.h Xutil.h])
 AC_CHECK_HEADERS([X11/extensions/xf86dga.h],[],[
   AC_CHECK_HEADERS([X11/extensions/Xxf86dga.h])
 ])
@@ -180,6 +185,7 @@ AC_TYPE_INT32_T
 AC_TYPE_INT64_T
 AC_TYPE_INTMAX_T
 AC_TYPE_UINTMAX_T
+AC_TYPE_UINTPTR_T
 AC_TYPE_UINT64_T
 AC_CHECK_MEMBERS([struct stat.st_blksize])
 AC_STRUCT_ST_BLOCKS

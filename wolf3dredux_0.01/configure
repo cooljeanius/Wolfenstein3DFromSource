@@ -6172,7 +6172,9 @@ else
 fi
 
 
-ac_ext=m
+if test "x${ac_cv_objc_compiler_gnu}" = "xyes"; then
+  test -x `which cpp`
+  ac_ext=m
 ac_cpp='$OBJCPP $CPPFLAGS'
 ac_compile='$OBJC -c $OBJCFLAGS $CPPFLAGS conftest.$ac_ext >&5'
 ac_link='$OBJC -o conftest$ac_exeext $OBJCFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
@@ -6305,6 +6307,7 @@ ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
 ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
 ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
+fi
 
 
 # Extract the first word of "glxinfo", so it can be a program name with args.
@@ -19518,14 +19521,15 @@ fi
 fi
 
 for ac_header in alloc.h assert.h bits/libc-lock.h ctype.h dmalloc.h \
-                  errno.h fcntl.h float.h libintl.h \
+                  endian.h errno.h fcntl.h float.h libintl.h \
                   libio/iolibio.h libio/libioP.h limits.h \
                   mach/mach.h mach/vm_param.h malloc.h malloc/malloc.h \
-                  math.h mmsystem.h search.h setjmp.h signal.h stdarg.h \
-                  stddef.h stdio.h sys/gmon.h sys/malloc.h sys/mount.h \
-                  sys/param.h sys/socket.h sys/sysctl.h sys/syslimits.h \
-                  sys/time.h sys/timeb.h sys/utsname.h sys/vmmeter.h \
-                  unix.h wchar.h windef.h windows.h xlocale.h Xutil.h
+                  math.h memcopy.h mmsystem.h search.h setjmp.h signal.h \
+                  stdarg.h stddef.h stdio.h sys/gmon.h sys/malloc.h \
+                  sys/mount.h sys/param.h sys/socket.h sys/sysctl.h \
+                  sys/syslimits.h sys/time.h sys/timeb.h sys/utsname.h \
+                  sys/vmmeter.h unix.h wchar.h windef.h windows.h \
+                  xlocale.h Xutil.h
 do :
   as_ac_Header=`$as_echo "ac_cv_header_$ac_header" | $as_tr_sh`
 ac_fn_c_check_header_mongrel "$LINENO" "$ac_header" "$as_ac_Header" "$ac_includes_default"
@@ -20543,6 +20547,43 @@ cat >>confdefs.h <<_ACEOF
 #define uintmax_t $ac_type
 _ACEOF
 
+fi
+
+
+
+  ac_fn_c_check_type "$LINENO" "uintptr_t" "ac_cv_type_uintptr_t" "$ac_includes_default"
+if test "x$ac_cv_type_uintptr_t" = xyes; then :
+
+$as_echo "#define HAVE_UINTPTR_T 1" >>confdefs.h
+
+else
+  for ac_type in 'unsigned int' 'unsigned long int' \
+	'unsigned long long int'; do
+       cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+$ac_includes_default
+int
+main ()
+{
+static int test_array [1 - 2 * !(sizeof (void *) <= sizeof ($ac_type))];
+test_array [0] = 0;
+return test_array [0];
+
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_c_try_compile "$LINENO"; then :
+
+cat >>confdefs.h <<_ACEOF
+#define uintptr_t $ac_type
+_ACEOF
+
+	  ac_type=
+fi
+rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
+       test -z "$ac_type" && break
+     done
 fi
 
 

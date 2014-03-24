@@ -30,9 +30,9 @@ strnlen1 (const char *string, size_t maxlen)
 {
   const char *end = (const char *)memchr(string, '\0', maxlen);
   if (end != NULL) {
-    return (size_t)(end - string + 1);
+	  return (size_t)(end - string + 1);
   } else {
-    return maxlen;
+	  return maxlen;
   }
 }
 

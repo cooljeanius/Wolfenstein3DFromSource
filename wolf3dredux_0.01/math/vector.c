@@ -42,9 +42,9 @@
 vec3_t vec3_origin = { 0, 0, 0 };
 
 
-vec_t _VectorNormalize( vec3_t v );
+vec_t _VectorNormalize(vec3_t v);
 
-vec_t (*pfVectorNormalize)( vec3_t v ) = _VectorNormalize;
+vec_t (*pfVectorNormalize)(vec3_t v) = _VectorNormalize;
 
 
 /*
@@ -61,17 +61,17 @@ vec_t (*pfVectorNormalize)( vec3_t v ) = _VectorNormalize;
 	magnitude.
 -----------------------------------------------------------------------------
 */
-PUBLIC vec_t _VectorNormalize( vec3_t v )
+PUBLIC vec_t _VectorNormalize(vec3_t v)
 {
 	float length, ilength;
 
-	length = (float)pfSqrt( v[ 0 ] * v[ 0 ] + v[ 1 ] * v[ 1 ] + v[ 2 ] * v[ 2 ] );
+	length = (float)pfSqrt((v[0] * v[0]) + (v[1] * v[1]) + (v[2] * v[2]));
 
-	if( length ) {
-		ilength = 1 / length;
-		v[ 0 ] *= ilength;
-		v[ 1 ] *= ilength;
-		v[ 2 ] *= ilength;
+	if (length) {
+		ilength = (1 / length);
+		v[0] *= ilength;
+		v[1] *= ilength;
+		v[2] *= ilength;
 	}
 
 	return length;
@@ -90,23 +90,23 @@ PUBLIC vec_t _VectorNormalize( vec3_t v )
  Notes:
 -----------------------------------------------------------------------------
 */
-PUBLIC void ProjectPointOnPlane( vec3_t dst, const vec3_t p, const vec3_t normal )
+PUBLIC void ProjectPointOnPlane(vec3_t dst, const vec3_t p, const vec3_t normal)
 {
 	float d;
 	vec3_t n;
 	float inv_denom;
 
-	inv_denom = 1.0f / DotProduct( normal, normal );
+	inv_denom = (1.0f / DotProduct(normal, normal));
 
-	d = DotProduct( normal, p ) * inv_denom;
+	d = (DotProduct(normal, p) * inv_denom);
 
-	n[ 0 ] = normal[ 0 ] * inv_denom;
-	n[ 1 ] = normal[ 1 ] * inv_denom;
-	n[ 2 ] = normal[ 2 ] * inv_denom;
+	n[0] = (normal[0] * inv_denom);
+	n[1] = (normal[1] * inv_denom);
+	n[2] = (normal[2] * inv_denom);
 
-	dst[ 0 ] = p[ 0 ] - d * n[ 0 ];
-	dst[ 1 ] = p[ 1 ] - d * n[ 1 ];
-	dst[ 2 ] = p[ 2 ] - d * n[ 2 ];
+	dst[0] = (p[0] - d * n[0]);
+	dst[1] = (p[1] - d * n[1]);
+	dst[2] = (p[2] - d * n[2]);
 }
 
 /*
@@ -123,7 +123,7 @@ PUBLIC void ProjectPointOnPlane( vec3_t dst, const vec3_t p, const vec3_t normal
 
 -----------------------------------------------------------------------------
 */
-PUBLIC void PerpendicularVector( vec3_t dst, const vec3_t src )
+PUBLIC void PerpendicularVector(vec3_t dst, const vec3_t src)
 {
 	int	pos;
 	int i;
@@ -131,20 +131,20 @@ PUBLIC void PerpendicularVector( vec3_t dst, const vec3_t src )
 	vec3_t tempvec;
 
 	/* find the smallest magnitude axially aligned vector */
-	for( pos = 0, i = 0 ; i < 3 ; ++i ) {
-		if( fabs( src[ i ] ) < minelem ) {
+	for ((pos = 0), (i = 0); (i < 3); ++i) {
+		if (fabs(src[i]) < minelem) {
 			pos = i;
-			minelem = (float)fabs( src[ i ] );
+			minelem = (float)fabs(src[i]);
 		}
 	}
-	tempvec[ 0 ] = tempvec[ 1 ] = tempvec[ 2 ] = 0.0F;
-	tempvec[ pos ] = 1.0F;
+	tempvec[0] = tempvec[1] = tempvec[2] = 0.0F;
+	tempvec[pos] = 1.0F;
 
 	/* project the point onto the plane defined by src */
-	ProjectPointOnPlane( dst, tempvec, src );
+	ProjectPointOnPlane(dst, tempvec, src);
 
 	/* normalize the result */
-	pfVectorNormalize( dst );
+	pfVectorNormalize(dst);
 }
 
 /*
@@ -228,19 +228,19 @@ PUBLIC void RotatePointAroundVector(vec3_t dst, const vec3_t dir,
  Notes:
 -----------------------------------------------------------------------------
 */
-PUBLIC float RadiusFromBounds( const vec3_t mins, const vec3_t maxs )
+PUBLIC float RadiusFromBounds(const vec3_t mins, const vec3_t maxs)
 {
 	int		i;
 	vec3_t	corner;
 	float a, b;
 
-	for( i = 0; i < 3; ++i ) {
-		a = (float)fabs( mins[i] );
-		b = (float)fabs( maxs[i] );
-		corner[i] = a > b ? a : b;
+	for ((i = 0); (i < 3); ++i) {
+		a = (float)fabs(mins[i]);
+		b = (float)fabs(maxs[i]);
+		corner[i] = (a > b ? a : b);
 	}
 
-	return vectorLength( corner );
+	return vectorLength(corner);
 }
 
 /*
@@ -254,26 +254,26 @@ PUBLIC float RadiusFromBounds( const vec3_t mins, const vec3_t maxs )
  Notes:
 -----------------------------------------------------------------------------
 */
-PUBLIC void AddPointToBounds( vec3_t v, vec3_t mins, vec3_t maxs )
+PUBLIC void AddPointToBounds(vec3_t v, vec3_t mins, vec3_t maxs)
 {
-	if ( v[0] < mins[0] ) {
+	if (v[0] < mins[0]) {
 		mins[0] = v[0];
 	}
-	if ( v[0] > maxs[0]) {
+	if (v[0] > maxs[0]) {
 		maxs[0] = v[0];
 	}
 
-	if ( v[1] < mins[1] ) {
+	if (v[1] < mins[1]) {
 		mins[1] = v[1];
 	}
-	if ( v[1] > maxs[1]) {
+	if (v[1] > maxs[1]) {
 		maxs[1] = v[1];
 	}
 
-	if ( v[2] < mins[2] ) {
+	if (v[2] < mins[2]) {
 		mins[2] = v[2];
 	}
-	if ( v[2] > maxs[2]) {
+	if (v[2] > maxs[2]) {
 		maxs[2] = v[2];
 	}
 }
@@ -337,11 +337,11 @@ PUBLIC void AngleVectors(const vec3_t angles, vec3_t forward, vec3_t right,
  Notes:
 -----------------------------------------------------------------------------
 */
-INLINECALL int vectorCompare( const vec3_t v1, const vec3_t v2 )
+INLINECALL int vectorCompare(const vec3_t v1, const vec3_t v2)
 {
-	if (v1[ 0 ] != v2[ 0 ]
-		|| v1[ 1 ] != v2[ 1 ]
-		|| v1[ 2 ] != v2[ 2 ]) {
+	if (v1[0] != v2[0]
+		|| v1[1] != v2[1]
+		|| v1[2] != v2[2]) {
 		return 0;
 	}
 
@@ -363,9 +363,9 @@ INLINECALL int vectorCompare( const vec3_t v1, const vec3_t v2 )
         is the zero vector.
 -----------------------------------------------------------------------------
 */
-INLINECALL vec_t vectorLength( const vec3_t v )
+INLINECALL vec_t vectorLength(const vec3_t v)
 {
-	return (vec_t)pfSqrt( v[ 0 ] * v[ 0 ] + v[ 1 ] * v[ 1 ] + v[ 2 ] * v[ 2 ] );
+	return (vec_t)pfSqrt((v[0] * v[0]) + (v[1] * v[1]) + (v[2] * v[2]));
 }
 
 /*
@@ -394,11 +394,11 @@ INLINECALL vec_t vectorLength( const vec3_t v )
 		   u × v  = ( uj vk - uk vj , uk vi - ui vk , ui vj - uj vi )T
 -----------------------------------------------------------------------------
 */
-PUBLIC void vectorCrossProduct( const vec3_t v1, const vec3_t v2, vec3_t cross )
+PUBLIC void vectorCrossProduct(const vec3_t v1, const vec3_t v2, vec3_t cross)
 {
-	cross[ 0 ] = v1[ 1 ] * v2[ 2 ] - v1[ 2 ] * v2[ 1 ];		/* X */
-	cross[ 1 ] = v1[ 2 ] * v2[ 0 ] - v1[ 0 ] * v2[ 2 ];		/* Y */
-	cross[ 2 ] = v1[ 0 ] * v2[ 1 ] - v1[ 1 ] * v2[ 0 ];		/* Z */
+	cross[0] = (v1[1] * v2[2]) - (v1[2] * v2[1]); /* X */
+	cross[1] = (v1[2] * v2[0]) - (v1[0] * v2[2]); /* Y */
+	cross[2] = (v1[0] * v2[1]) - (v1[1] * v2[0]); /* Z */
 }
 
 
@@ -406,7 +406,8 @@ PUBLIC void vectorCrossProduct( const vec3_t v1, const vec3_t v2, vec3_t cross )
 
 /* Taken from an article written by Michael Abrash that originally appeared in
  * Dr. Dobb's Journal. */
-PUBLIC void vectorCrossProduct_asm( const vec3_t v1, const vec3_t v2, vec3_t cross )
+PUBLIC void vectorCrossProduct_asm(const vec3_t v1, const vec3_t v2,
+								   vec3_t cross)
 {
 	__asm
 	{
@@ -438,7 +439,7 @@ PUBLIC void vectorCrossProduct_asm( const vec3_t v1, const vec3_t v2, vec3_t cro
 	}
 }
 
-#endif /* __i386__ */
+#endif /* __i386__ && _MSC_VER */
 
 
 
@@ -455,12 +456,12 @@ PUBLIC void vectorCrossProduct_asm( const vec3_t v1, const vec3_t v2, vec3_t cro
         number as its output. Sometimes the dot product is called the inner
         product or the scalar product.
 		The dot product is:
-			a · b = a1b1 + a2b2 + a3b3
+			a · b = (a1b1 + a2b2 + a3b3)
 -----------------------------------------------------------------------------
 */
-PUBLIC vec_t _vectorDotProduct( const vec3_t v1, const vec3_t v2 )
+PUBLIC vec_t _vectorDotProduct(const vec3_t v1, const vec3_t v2)
 {
-	return v1[ 0 ] * v2[ 0 ] + v1[ 1 ] * v2[ 1 ] + v1[ 2 ] * v2[ 2 ];
+	return ((v1[0] * v2[0]) + (v1[1] * v2[1]) + (v1[2] * v2[2]));
 }
 
 
@@ -468,7 +469,7 @@ PUBLIC vec_t _vectorDotProduct( const vec3_t v1, const vec3_t v2 )
 
 /* Taken from an article written by Michael Abrash that originally appeared in
  * Dr. Dobb's Journal. */
-PUBLIC vec_t _vectorDotProduct_asm( const vec3_t v1, const vec3_t v2 )
+PUBLIC vec_t _vectorDotProduct_asm(const vec3_t v1, const vec3_t v2)
 {
 	float dotret;
 
@@ -509,11 +510,12 @@ PUBLIC vec_t _vectorDotProduct_asm( const vec3_t v1, const vec3_t v2 )
  Notes:
 -----------------------------------------------------------------------------
 */
-INLINECALL void _vectorSubtract( const vec3_t veca, const vec3_t vecb, vec3_t out )
+INLINECALL void _vectorSubtract(const vec3_t veca, const vec3_t vecb,
+								vec3_t out)
 {
-	out[ 0 ] = veca[ 0 ] - vecb[ 0 ];
-	out[ 1 ] = veca[ 1 ] - vecb[ 1 ];
-	out[ 2 ] = veca[ 2 ] - vecb[ 2 ];
+	out[0] = (veca[0] - vecb[0]);
+	out[1] = (veca[1] - vecb[1]);
+	out[2] = (veca[2] - vecb[2]);
 }
 
 /*
@@ -528,11 +530,11 @@ INLINECALL void _vectorSubtract( const vec3_t veca, const vec3_t vecb, vec3_t ou
  Notes:
 -----------------------------------------------------------------------------
 */
-INLINECALL void _vectorAdd( const vec3_t veca, const vec3_t vecb, vec3_t out )
+INLINECALL void _vectorAdd(const vec3_t veca, const vec3_t vecb, vec3_t out)
 {
-	out[ 0 ] = veca[ 0 ] + vecb[ 0 ];
-	out[ 1 ] = veca[ 1 ] + vecb[ 1 ];
-	out[ 2 ] = veca[ 2 ] + vecb[ 2 ];
+	out[0] = (veca[0] + vecb[0]);
+	out[1] = (veca[1] + vecb[1]);
+	out[2] = (veca[2] + vecb[2]);
 }
 
 /*
@@ -547,11 +549,11 @@ INLINECALL void _vectorAdd( const vec3_t veca, const vec3_t vecb, vec3_t out )
  Notes:
 -----------------------------------------------------------------------------
 */
-INLINECALL void _vectorCopy( const vec3_t in, vec3_t out )
+INLINECALL void _vectorCopy(const vec3_t in, vec3_t out)
 {
-	out[ 0 ] = in[ 0 ];
-	out[ 1 ] = in[ 1 ];
-	out[ 2 ] = in[ 2 ];
+	out[0] = in[0];
+	out[1] = in[1];
+	out[2] = in[2];
 }
 
 /*
@@ -567,11 +569,11 @@ INLINECALL void _vectorCopy( const vec3_t in, vec3_t out )
  Notes:
 -----------------------------------------------------------------------------
 */
-INLINECALL void _vectorScale( const vec3_t in, const vec_t scale, vec3_t out )
+INLINECALL void _vectorScale(const vec3_t in, const vec_t scale, vec3_t out)
 {
-	out[ 0 ] = in[ 0 ] * scale;
-	out[ 1 ] = in[ 1 ] * scale;
-	out[ 2 ] = in[ 2 ] * scale;
+	out[0] = (in[0] * scale);
+	out[1] = (in[1] * scale);
+	out[2] = (in[2] * scale);
 }
 
 /*
@@ -585,11 +587,12 @@ INLINECALL void _vectorScale( const vec3_t in, const vec_t scale, vec3_t out )
  Notes:
 -----------------------------------------------------------------------------
 */
-INLINECALL void _vectorMA( const vec3_t veca, float scale, const vec3_t vecb, vec3_t vecc )
+INLINECALL void _vectorMA(const vec3_t veca, float scale, const vec3_t vecb,
+						  vec3_t vecc)
 {
-	vecc[ 0 ] = veca[ 0 ] + scale * vecb[ 0 ];
-	vecc[ 1 ] = veca[ 1 ] + scale * vecb[ 1 ];
-	vecc[ 2 ] = veca[ 2 ] + scale * vecb[ 2 ];
+	vecc[0] = (veca[0] + (scale * vecb[0]));
+	vecc[1] = (veca[1] + (scale * vecb[1]));
+	vecc[2] = (veca[2] + (scale * vecb[2]));
 }
 
 
@@ -611,9 +614,9 @@ INLINECALL void _vectorMA( const vec3_t veca, float scale, const vec3_t vecb, ve
  Notes:
 -----------------------------------------------------------------------------
 */
-INLINECALL W32 vector2DCompare( const vec2_t v1, const vec2_t v2 )
+INLINECALL W32 vector2DCompare(const vec2_t v1, const vec2_t v2)
 {
-	if( v1[ 0 ] != v2[ 0 ] || v1[ 1 ] != v2[ 1 ] ) {
+	if ((v1[0] != v2[0]) || (v1[1] != v2[1])) {
 		return 0;
 	}
 
@@ -631,9 +634,9 @@ INLINECALL W32 vector2DCompare( const vec2_t v1, const vec2_t v2 )
  Notes:
 -----------------------------------------------------------------------------
 */
-INLINECALL vec_t vector2DLength( const vec2_t v )
+INLINECALL vec_t vector2DLength(const vec2_t v)
 {
-	return (vec_t)pfSqrt( v[ 0 ] * v[ 0 ] + v[ 1 ] * v[ 1 ] );
+	return (vec_t)pfSqrt((v[0] * v[0]) + (v[1] * v[1]));
 }
 
 /* EOF */

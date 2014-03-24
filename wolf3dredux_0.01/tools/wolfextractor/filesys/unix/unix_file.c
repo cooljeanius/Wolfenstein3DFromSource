@@ -154,15 +154,15 @@ PRIVATE _boolean CompareAttributes( const char *path, W32 musthave, W32 canthave
 {
 	struct stat st;
 
-	if( stat( path, &st ) == -1 ) {
+	if (stat(path, &st) == -1) {
 		return false;
 	}
 
-	if( ( st.st_mode & S_IFDIR ) && ( canthave & FA_DIR ) ) {
+	if ((st.st_mode & S_IFDIR) && (canthave & FA_DIR)) {
 		return false;
 	}
 
-	if( ( musthave & FA_DIR ) && !( st.st_mode & S_IFDIR ) ) {
+	if ((musthave & FA_DIR) && !(st.st_mode & S_IFDIR)) {
 		return false;
 	}
 
@@ -245,23 +245,24 @@ PUBLIC char *FS_FindFirst(const char *path, W32 musthave, W32 canthave)
  Notes:
 -----------------------------------------------------------------------------
 */
-PUBLIC char *FS_FindNext( W32 musthave, W32 canthave )
+PUBLIC char *FS_FindNext(W32 musthave, W32 canthave)
 {
 	struct dirent *d;
 
-	if( fdir == NULL ) {
+	if (fdir == NULL) {
 		return NULL;
 	}
 
-	while( (d = readdir( fdir ) ) != NULL) {
-		if( ! *findpattern || glob_match( findpattern, d->d_name ) ) {
-			if( ! *findbase ) {
-				cs_strlcpy( findpath, d->d_name, sizeof( findpath ) );
+	while ((d = readdir(fdir)) != NULL) {
+		if (! *findpattern || glob_match(findpattern, d->d_name)) {
+			if (! *findbase) {
+				cs_strlcpy(findpath, d->d_name, sizeof(findpath));
 			} else {
-				cs_snprintf( findpath, sizeof( findpath ), "%s/%s", findbase, d->d_name );
+				cs_snprintf(findpath, sizeof(findpath), "%s/%s", findbase,
+							d->d_name);
 			}
 
-			if( CompareAttributes( findpath, musthave, canthave ) ) {
+			if (CompareAttributes(findpath, musthave, canthave)) {
 				return findpath;
 			}
 		}
@@ -278,13 +279,14 @@ PUBLIC char *FS_FindNext( W32 musthave, W32 canthave )
 
  Returns: Nothing.
 
- Notes:
+ Notes: Wait is this in here twice?
+		Actually nvm, that was the _other_ unix_file.c...
 -----------------------------------------------------------------------------
 */
-PUBLIC void FS_FindClose( void )
+PUBLIC void FS_FindClose(void)
 {
-	if( fdir ) {
-		closedir( fdir );
+	if (fdir) {
+		closedir(fdir);
 	}
 
 	fdir = NULL;
@@ -302,9 +304,9 @@ PUBLIC void FS_FindClose( void )
  Notes:
 -----------------------------------------------------------------------------
 */
-PUBLIC _boolean FS_DeleteFile( const char *filename )
+PUBLIC _boolean FS_DeleteFile(const char *filename)
 {
-	return( ! unlink( filename ) );
+	return (! unlink(filename));
 }
 
 /*
@@ -319,9 +321,9 @@ PUBLIC _boolean FS_DeleteFile( const char *filename )
  Notes:
 -----------------------------------------------------------------------------
 */
-PUBLIC _boolean FS_RemoveDirectory( const char *pathname )
+PUBLIC _boolean FS_RemoveDirectory(const char *pathname)
 {
-	return( ! rmdir( pathname ) );
+	return(! rmdir(pathname));
 }
 
 /* EOF */

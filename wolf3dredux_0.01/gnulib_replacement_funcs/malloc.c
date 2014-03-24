@@ -49,7 +49,7 @@ rpl_malloc(size_t n)
 	if (n == 0) {
 		n = 1;
 	}
-#endif
+#endif /* NEED_MALLOC_GNU */
 
   result = malloc (n);
 
@@ -57,7 +57,7 @@ rpl_malloc(size_t n)
 	if (result == NULL) {
 		errno = ENOMEM;
 	}
-#endif
+#endif /* !HAVE_MALLOC_POSIX */
 
   return result;
 }

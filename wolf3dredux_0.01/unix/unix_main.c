@@ -48,6 +48,13 @@
 # include <string.h>
 #endif /* __APPLE__ && __OBJC__ && __GNUC__ */
 
+#ifndef strcpy
+# include <string.h>
+#endif /* !strcpy */
+#ifndef strlen
+# include <string.h>
+#endif /* !strlen */
+
 #include "../common/arch.h"
 #include "../common/common.h"
 #include "../memory/memory.h"
