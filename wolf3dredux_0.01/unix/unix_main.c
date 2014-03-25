@@ -279,20 +279,31 @@ void Sys_SendKeyEvents(void)
         Caller is responsible for freeing data.
 -----------------------------------------------------------------------------
 */
-/* prototypes needed: */
+#if defined(__APPLE__) && defined(__OBJC__)
+# include "clipboard/OSXClipboard.h"
+#elif defined(__unix__) || defined(__linux__) || defined(__FreeBSD__)
+# include "clipboard/X11Clipboard.h"
+#else /* just put the prototypes here: */
 extern _boolean OpenClipboard(char *);
 extern _boolean CloseClipboard(void);
 extern void *GetClipboardData(unsigned int);
 extern char *GlobalLockClipboardData(void *);
 extern void GlobalUnlockClipboardData(void *);
-/* (TODO: put them in a header once implemented) */
+#endif /* platform check */
 char *Sys_GetClipboardData(void)
 {
 	char *data = NULL;
 	char *cliptext;
 
-	/* TODO: implement OpenClipboard() */
-	if (OpenClipboard(NULL) != 0) {
+/* uncomment the '&& 0' to test the other half of the conditional: */
+#if defined(__APPLE__) && defined(__OBJC__) /* && 0 */
+	BOOL falseval;
+	falseval = NO;
+#else /* not both (__APPLE__ && __OBJC__): */
+	_boolean falseval;
+	falseval = (_boolean)0; /* could also try just 'false' */
+#endif /* __APPLE__ && __OBJC__ */
+	if (OpenClipboard(NULL) != falseval) {
 		void *hClipboardData;
 
 		/* not sure exactly what this actually supposed to be: */

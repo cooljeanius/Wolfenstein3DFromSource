@@ -149,6 +149,8 @@
 		A545870C18E1B93700FBCD8F /* X11Clipboard.h in Headers */ = {isa = PBXBuildFile; fileRef = A545870A18E1B93700FBCD8F /* X11Clipboard.h */; };
 		A545870D18E1B93700FBCD8F /* X11Clipboard.c in Sources */ = {isa = PBXBuildFile; fileRef = A545870B18E1B93700FBCD8F /* X11Clipboard.c */; };
 		A545872718E1C27E00FBCD8F /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A545872618E1C27E00FBCD8F /* Carbon.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		A54589C418E1F31100FBCD8F /* ApplicationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A54589C318E1F31100FBCD8F /* ApplicationServices.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		A5458B8718E1FC2200FBCD8F /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A5458B8618E1FC2200FBCD8F /* CoreServices.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		A5475D3618D37D4800FE1646 /* wolf_client.h in Headers */ = {isa = PBXBuildFile; fileRef = A5475D3518D37D4800FE1646 /* wolf_client.h */; };
 		A54761A018D4B24D00FE1646 /* libdmalloc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A547619F18D4B24D00FE1646 /* libdmalloc.a */; settings = {ATTRIBUTES = (Weak, ); }; };
 		A54766E118D7D34C00FE1646 /* vorbisenc_inter.h in Headers */ = {isa = PBXBuildFile; fileRef = A54766E018D7D34C00FE1646 /* vorbisenc_inter.h */; };
@@ -643,6 +645,10 @@
 		A545870A18E1B93700FBCD8F /* X11Clipboard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = X11Clipboard.h; sourceTree = "<group>"; };
 		A545870B18E1B93700FBCD8F /* X11Clipboard.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = X11Clipboard.c; sourceTree = "<group>"; };
 		A545872618E1C27E00FBCD8F /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
+		A54589C318E1F31100FBCD8F /* ApplicationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApplicationServices.framework; path = /System/Library/Frameworks/ApplicationServices.framework; sourceTree = "<absolute>"; };
+		A54589C818E1F33800FBCD8F /* HIServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HIServices.framework; path = /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/HIServices.framework; sourceTree = "<absolute>"; };
+		A54589CC18E1F35000FBCD8F /* HIToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HIToolbox.framework; path = /System/Library/Frameworks/Carbon.framework/Versions/A/Frameworks/HIToolbox.framework; sourceTree = "<absolute>"; };
+		A5458B8618E1FC2200FBCD8F /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = /System/Library/Frameworks/CoreServices.framework; sourceTree = "<absolute>"; };
 		A5475D3518D37D4800FE1646 /* wolf_client.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = wolf_client.h; sourceTree = "<group>"; };
 		A547619F18D4B24D00FE1646 /* libdmalloc.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libdmalloc.a; path = /opt/local/lib/libdmalloc.a; sourceTree = "<absolute>"; };
 		A54766E018D7D34C00FE1646 /* vorbisenc_inter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = vorbisenc_inter.h; sourceTree = "<group>"; };
@@ -704,6 +710,8 @@
 				A54772FB18DBCDF800FE1646 /* QuartzCore.framework in Frameworks */,
 				A547733418DBCE1100FE1646 /* SystemConfiguration.framework in Frameworks */,
 				A545872718E1C27E00FBCD8F /* Carbon.framework in Frameworks */,
+				A54589C418E1F31100FBCD8F /* ApplicationServices.framework in Frameworks */,
+				A5458B8718E1FC2200FBCD8F /* CoreServices.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -759,7 +767,12 @@
 		1058C7A2FEA54F0111CA2CBB /* Other Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				A54589C318E1F31100FBCD8F /* ApplicationServices.framework */,
+				A545872618E1C27E00FBCD8F /* Carbon.framework */,
 				13E42FB307B3F0F600E4EEF1 /* CoreData.framework */,
+				A5458B8618E1FC2200FBCD8F /* CoreServices.framework */,
+				A54589C818E1F33800FBCD8F /* HIServices.framework */,
+				A54589CC18E1F35000FBCD8F /* HIToolbox.framework */,
 			);
 			name = "Other Frameworks";
 			sourceTree = "<group>";
@@ -785,7 +798,6 @@
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
 				A547619F18D4B24D00FE1646 /* libdmalloc.a */,
-				A545872618E1C27E00FBCD8F /* Carbon.framework */,
 			);
 			name = Wolfenstein3DFromSource;
 			sourceTree = "<group>";
@@ -2385,6 +2397,8 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
+					"\"$(SYSTEM_LIBRARY_DIR)/Frameworks/ApplicationServices.framework/Versions/A/Frameworks\"",
+					"\"$(SYSTEM_LIBRARY_DIR)/Frameworks/Carbon.framework/Versions/A/Frameworks\"",
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
@@ -2396,6 +2410,8 @@
 					"DEBUG_MEMORY=0",
 				);
 				GCC_WARN_64_TO_32_BIT_CONVERSION = NO;
+				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = NO;
+				"GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS[arch=x86_64]" = YES;
 				GCC_WARN_PROTOTYPE_CONVERSION = NO;
 				GCC_WARN_UNUSED_PARAMETER = NO;
 				INFOPLIST_FILE = "Wolfenstein3DFromSource-Info.plist";
@@ -2413,6 +2429,8 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
+					"\"$(SYSTEM_LIBRARY_DIR)/Frameworks/ApplicationServices.framework/Versions/A/Frameworks\"",
+					"\"$(SYSTEM_LIBRARY_DIR)/Frameworks/Carbon.framework/Versions/A/Frameworks\"",
 				);
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
