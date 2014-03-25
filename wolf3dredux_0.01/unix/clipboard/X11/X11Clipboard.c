@@ -9,8 +9,8 @@
 
 #include "X11Clipboard.h"
 
-#include "../../common/arch.h" /* types */
-#include "../../common/common_utils.h" /* for PUBLIC and PRIVATE */
+#include "../../../common/arch.h" /* types */
+#include "../../../common/common_utils.h" /* for PUBLIC and PRIVATE */
 
 /* this conditional is only to prevent conflicting symbols when building from
  * Xcode: */

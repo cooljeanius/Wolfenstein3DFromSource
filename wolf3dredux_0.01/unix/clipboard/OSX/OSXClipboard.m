@@ -15,12 +15,11 @@
 # include "OSXClipboard.h"
 #endif /* __GNUC__ && !__STRICT_ANSI__ */
 
-#include "../../common/common_utils.h" /* for PUBLIC and PRIVATE */
+#include "../../../common/common_utils.h" /* for PUBLIC and PRIVATE */
 
 /* uncomment the '&& 0' to test the other half of the conditional: */
 #if defined(__APPLE__) && defined(__OBJC__) /* && 0 */
 @interface OSXClipboard()
-BOOL clipboardIsOpen;
 @property(readwrite, retain) NSPasteboard *whichPboard;
 @property(readwrite, retain) NSArray *types;
 @end
@@ -123,7 +122,7 @@ PUBLIC void GlobalUnlockClipboardData(void *data)
 #  endif /* __GNUC__ && !__STRICT_ANSI__ */
 # endif /* __APPLE__ */
 
-#include "../../common/arch.h" /* types */
+#include "../../../common/arch.h" /* types */
 
 _boolean clipboardIsOpen;
 

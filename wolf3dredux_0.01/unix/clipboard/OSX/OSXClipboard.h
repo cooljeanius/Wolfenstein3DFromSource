@@ -61,7 +61,7 @@ extern void GlobalUnlockClipboardData(void *);
 #  endif /* __GNUC__ && !__STRICT_ANSI__ */
 # endif /* __APPLE__ */
 
-#include "../../common/arch.h" /* types */
+#include "../../../common/arch.h" /* types */
 
 /* prototypes: */
 extern _boolean OpenClipboard(char *ptr);

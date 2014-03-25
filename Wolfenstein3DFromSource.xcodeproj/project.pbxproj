@@ -151,6 +151,16 @@
 		A545872718E1C27E00FBCD8F /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A545872618E1C27E00FBCD8F /* Carbon.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		A54589C418E1F31100FBCD8F /* ApplicationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A54589C318E1F31100FBCD8F /* ApplicationServices.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		A5458B8718E1FC2200FBCD8F /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A5458B8618E1FC2200FBCD8F /* CoreServices.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		A5458CC618E20BE200FBCD8F /* PasteboardTypeTransformer.h in Headers */ = {isa = PBXBuildFile; fileRef = A5458CC418E20BE200FBCD8F /* PasteboardTypeTransformer.h */; };
+		A5458CC718E20BE200FBCD8F /* PasteboardTypeTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = A5458CC518E20BE200FBCD8F /* PasteboardTypeTransformer.m */; };
+		A5458CE518E20CC400FBCD8F /* ASCIIString.h in Headers */ = {isa = PBXBuildFile; fileRef = A5458CDC18E20CC400FBCD8F /* ASCIIString.h */; };
+		A5458CE618E20CC400FBCD8F /* ASCIIString.m in Sources */ = {isa = PBXBuildFile; fileRef = A5458CDD18E20CC400FBCD8F /* ASCIIString.m */; };
+		A5458CE818E20CC400FBCD8F /* HexAndASCIIString.h in Headers */ = {isa = PBXBuildFile; fileRef = A5458CDF18E20CC400FBCD8F /* HexAndASCIIString.h */; };
+		A5458CE918E20CC400FBCD8F /* HexAndASCIIString.m in Sources */ = {isa = PBXBuildFile; fileRef = A5458CE018E20CC400FBCD8F /* HexAndASCIIString.m */; };
+		A5458CEA18E20CC400FBCD8F /* HexString.h in Headers */ = {isa = PBXBuildFile; fileRef = A5458CE118E20CC400FBCD8F /* HexString.h */; };
+		A5458CEB18E20CC400FBCD8F /* HexString.m in Sources */ = {isa = PBXBuildFile; fileRef = A5458CE218E20CC400FBCD8F /* HexString.m */; };
+		A5458CEC18E20CC400FBCD8F /* LazyDataTextStorage.h in Headers */ = {isa = PBXBuildFile; fileRef = A5458CE318E20CC400FBCD8F /* LazyDataTextStorage.h */; };
+		A5458CED18E20CC400FBCD8F /* LazyDataTextStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = A5458CE418E20CC400FBCD8F /* LazyDataTextStorage.m */; };
 		A5475D3618D37D4800FE1646 /* wolf_client.h in Headers */ = {isa = PBXBuildFile; fileRef = A5475D3518D37D4800FE1646 /* wolf_client.h */; };
 		A54761A018D4B24D00FE1646 /* libdmalloc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A547619F18D4B24D00FE1646 /* libdmalloc.a */; settings = {ATTRIBUTES = (Weak, ); }; };
 		A54766E118D7D34C00FE1646 /* vorbisenc_inter.h in Headers */ = {isa = PBXBuildFile; fileRef = A54766E018D7D34C00FE1646 /* vorbisenc_inter.h */; };
@@ -640,15 +650,26 @@
 		A545852F18E0A22500FBCD8F /* wolf_common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = wolf_common.h; sourceTree = "<group>"; };
 		A545853518E0A32F00FBCD8F /* gamepal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = gamepal.h; sourceTree = "<group>"; };
 		A545857518E0A8E900FBCD8F /* pak.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pak.h; sourceTree = "<group>"; };
-		A545870618E1B8E400FBCD8F /* OSXClipboard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OSXClipboard.h; sourceTree = "<group>"; };
-		A545870718E1B8E400FBCD8F /* OSXClipboard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OSXClipboard.m; sourceTree = "<group>"; };
-		A545870A18E1B93700FBCD8F /* X11Clipboard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = X11Clipboard.h; sourceTree = "<group>"; };
-		A545870B18E1B93700FBCD8F /* X11Clipboard.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = X11Clipboard.c; sourceTree = "<group>"; };
+		A545870618E1B8E400FBCD8F /* OSXClipboard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OSXClipboard.h; path = OSX/OSXClipboard.h; sourceTree = "<group>"; };
+		A545870718E1B8E400FBCD8F /* OSXClipboard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OSXClipboard.m; path = OSX/OSXClipboard.m; sourceTree = "<group>"; };
+		A545870A18E1B93700FBCD8F /* X11Clipboard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = X11Clipboard.h; path = X11/X11Clipboard.h; sourceTree = "<group>"; };
+		A545870B18E1B93700FBCD8F /* X11Clipboard.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = X11Clipboard.c; path = X11/X11Clipboard.c; sourceTree = "<group>"; };
 		A545872618E1C27E00FBCD8F /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
 		A54589C318E1F31100FBCD8F /* ApplicationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApplicationServices.framework; path = /System/Library/Frameworks/ApplicationServices.framework; sourceTree = "<absolute>"; };
 		A54589C818E1F33800FBCD8F /* HIServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HIServices.framework; path = /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/HIServices.framework; sourceTree = "<absolute>"; };
 		A54589CC18E1F35000FBCD8F /* HIToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HIToolbox.framework; path = /System/Library/Frameworks/Carbon.framework/Versions/A/Frameworks/HIToolbox.framework; sourceTree = "<absolute>"; };
 		A5458B8618E1FC2200FBCD8F /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = /System/Library/Frameworks/CoreServices.framework; sourceTree = "<absolute>"; };
+		A5458CC418E20BE200FBCD8F /* PasteboardTypeTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PasteboardTypeTransformer.h; path = OSX/PasteboardTypeTransformer.h; sourceTree = "<group>"; };
+		A5458CC518E20BE200FBCD8F /* PasteboardTypeTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PasteboardTypeTransformer.m; path = OSX/PasteboardTypeTransformer.m; sourceTree = "<group>"; };
+		A5458CDC18E20CC400FBCD8F /* ASCIIString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ASCIIString.h; path = OSX/ASCIIString.h; sourceTree = "<group>"; };
+		A5458CDD18E20CC400FBCD8F /* ASCIIString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ASCIIString.m; path = OSX/ASCIIString.m; sourceTree = "<group>"; };
+		A5458CDE18E20CC400FBCD8F /* ClipboardViewer.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ClipboardViewer.pch; path = OSX/ClipboardViewer.pch; sourceTree = "<group>"; };
+		A5458CDF18E20CC400FBCD8F /* HexAndASCIIString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HexAndASCIIString.h; path = OSX/HexAndASCIIString.h; sourceTree = "<group>"; };
+		A5458CE018E20CC400FBCD8F /* HexAndASCIIString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HexAndASCIIString.m; path = OSX/HexAndASCIIString.m; sourceTree = "<group>"; };
+		A5458CE118E20CC400FBCD8F /* HexString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HexString.h; path = OSX/HexString.h; sourceTree = "<group>"; };
+		A5458CE218E20CC400FBCD8F /* HexString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HexString.m; path = OSX/HexString.m; sourceTree = "<group>"; };
+		A5458CE318E20CC400FBCD8F /* LazyDataTextStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LazyDataTextStorage.h; path = OSX/LazyDataTextStorage.h; sourceTree = "<group>"; };
+		A5458CE418E20CC400FBCD8F /* LazyDataTextStorage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LazyDataTextStorage.m; path = OSX/LazyDataTextStorage.m; sourceTree = "<group>"; };
 		A5475D3518D37D4800FE1646 /* wolf_client.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = wolf_client.h; sourceTree = "<group>"; };
 		A547619F18D4B24D00FE1646 /* libdmalloc.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libdmalloc.a; path = /opt/local/lib/libdmalloc.a; sourceTree = "<absolute>"; };
 		A54766E018D7D34C00FE1646 /* vorbisenc_inter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = vorbisenc_inter.h; sourceTree = "<group>"; };
@@ -795,9 +816,9 @@
 				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
+				A5458CEE18E20E0500FBCD8F /* Libraries */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
-				A547619F18D4B24D00FE1646 /* libdmalloc.a */,
 			);
 			name = Wolfenstein3DFromSource;
 			sourceTree = "<group>";
@@ -1629,12 +1650,47 @@
 		A54586AC18E1ACA000FBCD8F /* clipboard */ = {
 			isa = PBXGroup;
 			children = (
+				A5458CC218E20B7000FBCD8F /* OSX */,
+				A5458CC318E20B7A00FBCD8F /* X11 */,
+			);
+			path = clipboard;
+			sourceTree = "<group>";
+		};
+		A5458CC218E20B7000FBCD8F /* OSX */ = {
+			isa = PBXGroup;
+			children = (
+				A5458CDC18E20CC400FBCD8F /* ASCIIString.h */,
+				A5458CDD18E20CC400FBCD8F /* ASCIIString.m */,
+				A5458CDE18E20CC400FBCD8F /* ClipboardViewer.pch */,
+				A5458CDF18E20CC400FBCD8F /* HexAndASCIIString.h */,
+				A5458CE018E20CC400FBCD8F /* HexAndASCIIString.m */,
+				A5458CE118E20CC400FBCD8F /* HexString.h */,
+				A5458CE218E20CC400FBCD8F /* HexString.m */,
+				A5458CE318E20CC400FBCD8F /* LazyDataTextStorage.h */,
+				A5458CE418E20CC400FBCD8F /* LazyDataTextStorage.m */,
 				A545870618E1B8E400FBCD8F /* OSXClipboard.h */,
 				A545870718E1B8E400FBCD8F /* OSXClipboard.m */,
+				A5458CC418E20BE200FBCD8F /* PasteboardTypeTransformer.h */,
+				A5458CC518E20BE200FBCD8F /* PasteboardTypeTransformer.m */,
+			);
+			name = OSX;
+			sourceTree = "<group>";
+		};
+		A5458CC318E20B7A00FBCD8F /* X11 */ = {
+			isa = PBXGroup;
+			children = (
 				A545870A18E1B93700FBCD8F /* X11Clipboard.h */,
 				A545870B18E1B93700FBCD8F /* X11Clipboard.c */,
 			);
-			path = clipboard;
+			name = X11;
+			sourceTree = "<group>";
+		};
+		A5458CEE18E20E0500FBCD8F /* Libraries */ = {
+			isa = PBXGroup;
+			children = (
+				A547619F18D4B24D00FE1646 /* libdmalloc.a */,
+			);
+			name = Libraries;
 			sourceTree = "<group>";
 		};
 		A547716018DB76DF00FE1646 /* GL */ = {
@@ -1839,6 +1895,11 @@
 				A545853018E0A22500FBCD8F /* wolf_common.h in Headers */,
 				A545870818E1B8E400FBCD8F /* OSXClipboard.h in Headers */,
 				A545870C18E1B93700FBCD8F /* X11Clipboard.h in Headers */,
+				A5458CC618E20BE200FBCD8F /* PasteboardTypeTransformer.h in Headers */,
+				A5458CE518E20CC400FBCD8F /* ASCIIString.h in Headers */,
+				A5458CE818E20CC400FBCD8F /* HexAndASCIIString.h in Headers */,
+				A5458CEA18E20CC400FBCD8F /* HexString.h in Headers */,
+				A5458CEC18E20CC400FBCD8F /* LazyDataTextStorage.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2120,6 +2181,11 @@
 				A54581B218DFA45700FBCD8F /* memcmp2.c in Sources */,
 				A545870918E1B8E400FBCD8F /* OSXClipboard.m in Sources */,
 				A545870D18E1B93700FBCD8F /* X11Clipboard.c in Sources */,
+				A5458CC718E20BE200FBCD8F /* PasteboardTypeTransformer.m in Sources */,
+				A5458CE618E20CC400FBCD8F /* ASCIIString.m in Sources */,
+				A5458CE918E20CC400FBCD8F /* HexAndASCIIString.m in Sources */,
+				A5458CEB18E20CC400FBCD8F /* HexString.m in Sources */,
+				A5458CED18E20CC400FBCD8F /* LazyDataTextStorage.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

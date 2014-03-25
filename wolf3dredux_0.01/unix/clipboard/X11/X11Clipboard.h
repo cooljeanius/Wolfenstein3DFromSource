@@ -10,7 +10,7 @@
 #ifndef __X11CLIPBOARD_H__
 #define __X11CLIPBOARD_H__
 
-#include "../../common/arch.h" /* for types */
+#include "../../../common/arch.h" /* for types */
 
 extern _boolean OpenClipboard(char *ptr);
 extern _boolean CloseClipboard(void);
