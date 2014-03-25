@@ -5,7 +5,7 @@
  */
 
 /* TODO: put this in a shared library */
-char gamepal[ 768 ] = {
+char gamepal[768] = {
 	0, 0, 0,
 	0, 0, 42,
 	0, 42, 0,

@@ -50,6 +50,15 @@ extern W8 WriteTGA(const char *filename, W16 bpp, W16 width, W16 height,
 #  ifndef LoadTGA
 extern void LoadTGA(const char *filename, W8 **pic, W16 *width, W16 *height, W16 *bytes);
 #  endif /* !LoadTGA */
+#  ifndef WriteTGA
+extern W8 WriteTGA(const char *filename, W16 bpp, W16 width, W16 height,
+				   void *Data, W8 upsideDown, W8 rle);
+#  else /* WriteTGA already defined: */
+#   ifndef loaders_WriteTGA
+extern W8 loaders_WriteTGA(const char *filename, W16 bpp, W16 width, W16 height,
+						   void *Data, W8 upsideDown, W8 rle);
+#   endif /* !loaders_WriteTGA */
+#  endif /* !WriteTGA */
 #  ifndef bgr2rgb
 /* originally said "private" in the implementation, but I need to extern it anyways: */
 extern void bgr2rgb(W8 *dest, W8 *src, W32 width, W32 bytes, W32 alpha);

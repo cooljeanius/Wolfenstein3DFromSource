@@ -18,6 +18,7 @@
 # only exists to make sure that m4 macros are handled properly.
 # The old makefile is still handwritten (as makefile.orig).
 
+
 VPATH = @srcdir@
 am__is_gnu_make = test -n '$(MAKEFILE_LIST)' && test -n '$(MAKELEVEL)'
 am__make_running_with_option = \
@@ -89,19 +90,21 @@ subdir = .
 DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/Makefile.am \
 	$(top_srcdir)/configure $(am__configure_deps) \
 	$(srcdir)/config.h.in $(top_srcdir)/build-aux/depcomp \
-	build-aux/compile build-aux/config.guess build-aux/config.sub \
-	build-aux/depcomp build-aux/install-sh build-aux/missing \
-	build-aux/ltmain.sh $(top_srcdir)/build-aux/compile \
+	build-aux/ar-lib build-aux/compile build-aux/config.guess \
+	build-aux/config.sub build-aux/depcomp build-aux/install-sh \
+	build-aux/missing build-aux/ltmain.sh \
+	$(top_srcdir)/build-aux/ar-lib $(top_srcdir)/build-aux/compile \
 	$(top_srcdir)/build-aux/config.guess \
 	$(top_srcdir)/build-aux/config.sub \
 	$(top_srcdir)/build-aux/install-sh \
 	$(top_srcdir)/build-aux/ltmain.sh \
 	$(top_srcdir)/build-aux/missing
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
-am__aclocal_m4_deps = $(top_srcdir)/m4/libtool.m4 \
-	$(top_srcdir)/m4/ltoptions.m4 $(top_srcdir)/m4/ltsugar.m4 \
-	$(top_srcdir)/m4/ltversion.m4 $(top_srcdir)/m4/lt~obsolete.m4 \
-	$(top_srcdir)/m4/pkg.m4 $(top_srcdir)/m4/vorbis.m4 \
+am__aclocal_m4_deps = $(top_srcdir)/m4/extern-inline.m4 \
+	$(top_srcdir)/m4/libtool.m4 $(top_srcdir)/m4/ltoptions.m4 \
+	$(top_srcdir)/m4/ltsugar.m4 $(top_srcdir)/m4/ltversion.m4 \
+	$(top_srcdir)/m4/lt~obsolete.m4 $(top_srcdir)/m4/pkg.m4 \
+	$(top_srcdir)/m4/vorbis.m4 $(top_srcdir)/m4/wchar_t.m4 \
 	$(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
@@ -111,9 +114,34 @@ mkinstalldirs = $(install_sh) -d
 CONFIG_HEADER = config.h
 CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
+LIBRARIES = $(noinst_LIBRARIES)
+ARFLAGS = cru
+AM_V_AR = $(am__v_AR_@AM_V@)
+am__v_AR_ = $(am__v_AR_@AM_DEFAULT_V@)
+am__v_AR_0 = @echo "  AR      " $@;
+am__v_AR_1 = 
+libmscompat_a_AR = $(AR) $(ARFLAGS)
+libmscompat_a_LIBADD =
+am__libmscompat_a_SOURCES_DIST = device/filesys/win32/win_file.c \
+	device/input/win32/win_joystick.c \
+	device/input/win32/win_keys.c device/input/win32/win_mouse.c \
+	device/system/win32/win_system.c \
+	device/timer/win32/win_timer.c \
+	video/opengl/win32/openglw_imp.c win32/vid_sys.c \
+	win32/win_main.c
+am__dirstamp = $(am__leading_dot)dirstamp
+@CLANG_RULES_TRUE@@MS_COMPAT_CHECK_TRUE@am_libmscompat_a_OBJECTS = device/filesys/win32/win_file.$(OBJEXT) \
+@CLANG_RULES_TRUE@@MS_COMPAT_CHECK_TRUE@	device/input/win32/win_joystick.$(OBJEXT) \
+@CLANG_RULES_TRUE@@MS_COMPAT_CHECK_TRUE@	device/input/win32/win_keys.$(OBJEXT) \
+@CLANG_RULES_TRUE@@MS_COMPAT_CHECK_TRUE@	device/input/win32/win_mouse.$(OBJEXT) \
+@CLANG_RULES_TRUE@@MS_COMPAT_CHECK_TRUE@	device/system/win32/win_system.$(OBJEXT) \
+@CLANG_RULES_TRUE@@MS_COMPAT_CHECK_TRUE@	device/timer/win32/win_timer.$(OBJEXT) \
+@CLANG_RULES_TRUE@@MS_COMPAT_CHECK_TRUE@	video/opengl/win32/openglw_imp.$(OBJEXT) \
+@CLANG_RULES_TRUE@@MS_COMPAT_CHECK_TRUE@	win32/vid_sys.$(OBJEXT) \
+@CLANG_RULES_TRUE@@MS_COMPAT_CHECK_TRUE@	win32/win_main.$(OBJEXT)
+libmscompat_a_OBJECTS = $(am_libmscompat_a_OBJECTS)
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS) $(noinst_PROGRAMS)
-am__dirstamp = $(am__leading_dot)dirstamp
 am_gamepal_OBJECTS = tools/gamepal/main.$(OBJEXT)
 gamepal_OBJECTS = $(am_gamepal_OBJECTS)
 gamepal_LDADD = $(LDADD)
@@ -230,9 +258,10 @@ AM_V_CCLD = $(am__v_CCLD_@AM_V@)
 am__v_CCLD_ = $(am__v_CCLD_@AM_DEFAULT_V@)
 am__v_CCLD_0 = @echo "  CCLD    " $@;
 am__v_CCLD_1 = 
-SOURCES = $(gamepal_SOURCES) $(signon_SOURCES) $(wolf3dredux_SOURCES)
-DIST_SOURCES = $(gamepal_SOURCES) $(signon_SOURCES) \
-	$(wolf3dredux_SOURCES)
+SOURCES = $(libmscompat_a_SOURCES) $(gamepal_SOURCES) \
+	$(signon_SOURCES) $(wolf3dredux_SOURCES)
+DIST_SOURCES = $(am__libmscompat_a_SOURCES_DIST) $(gamepal_SOURCES) \
+	$(signon_SOURCES) $(wolf3dredux_SOURCES)
 RECURSIVE_TARGETS = all-recursive check-recursive cscopelist-recursive \
 	ctags-recursive dvi-recursive html-recursive info-recursive \
 	install-data-recursive install-dvi-recursive \
@@ -329,6 +358,9 @@ AUTOHEADER = @AUTOHEADER@
 AUTOMAKE = @AUTOMAKE@
 AWK = @AWK@
 CC = @CC@
+CCAS = @CCAS@
+CCASDEPMODE = @CCASDEPMODE@
+CCASFLAGS = @CCASFLAGS@
 CCDEPMODE = @CCDEPMODE@
 CFLAGS = @CFLAGS@
 CPP = @CPP@
@@ -490,11 +522,16 @@ ASAN_SYMBOLIZER_PATH = $(LLVM_SYMBOLIZER)
 @CLANG_RULES_TRUE@WARNFLAGS = $(WARNFLAGS_COMMON) -Wunused-function -Wunused-label -Wunused-parameter -Wunused-variable -Wshorten-64-to-32
 # (cannot sanitize both thread and address at the same time)
 @CLANG_RULES_TRUE@SANFLAGS = -fsanitize=bounds -fsanitize=undefined
-@CLANG_RULES_TRUE@OPTFLAGS = -g -gdwarf-2 -ggdb -O1 -msse3 -mssse3 -msse4.2 -msse4.2 
+@CLANG_RULES_TRUE@OPTFLAGS = -g -gdwarf-2 -ggdb -O1 -msse3 -mssse3 -msse4.1 -msse4.2 
 @CLANG_RULES_TRUE@CLANG_CFLAGS = $(OPTFLAGS) -std=gnu99 $(WARNFLAGS) -fasm-blocks -fexceptions -fno-common -fno-limit-debug-info -fno-omit-frame-pointer -fpascal-strings $(CFLAGS_COMMON) -mfix-and-continue $(DIAGFLAGS) $(SANFLAGS)
 @CLANG_RULES_TRUE@AM_CLANG_CPPFLAGS = -I/opt/local/include
 # need to link with sanitizer flags, too, to get necessary symbols:
 @CLANG_RULES_TRUE@AM_CLANG_LINKFLAGS = -L/opt/local/lib $(SANFLAGS) -v -exported_symbols_list ../Wolfenstein3DFromSource.exp
+
+# turn off warnings that actually are just coming from the Wine headers:
+@CLANG_RULES_TRUE@@MS_COMPAT_CHECK_TRUE@CLANG_MS_COMPAT_WARNFLAGS = $(WARNFLAGS_COMMON) -Wno-unknown-pragmas -Wno-ignored-attributes -Wno-implicit-function-declaration -Wno-int-conversion -Wno-uninitialized
+@CLANG_RULES_TRUE@@MS_COMPAT_CHECK_TRUE@CLANG_MS_COMPAT_CFLAGS = -fasm-blocks -fborland-extensions -fexceptions -ffast-math -fms-compatibility -fms-extensions -fmsc-version=601 -fno-builtin -fno-common -fvisibility-ms-compat -funroll-loops -mfix-and-continue -mms-bitfields -msse3 -mssse3 -msse4.1 -msse4.2 -m32 -g -O0 -arch i386 -std=c99 $(CLANG_MS_COMPAT_WARNFLAGS) -x c
+@CLANG_RULES_TRUE@@MS_COMPAT_CHECK_TRUE@AM_CLANG_MS_COMPAT_CPPFLAGS = -D_MSC_VER=601 -D_WIN32 -I/opt/local/include/wine -I/opt/local/include/wine -I/opt/local/include/wine/msvcrt -I/opt/local/include/wine/windows $(AM_CLANG_CPPFLAGS)
 @CLANG_RULES_TRUE@SCAN_BUILD_CHECKERS = -enable-checker alpha.core.CastSize -enable-checker alpha.core.CastToStruct -enable-checker alpha.core.FixedAddr -enable-checker alpha.core.PointerArithm -enable-checker alpha.core.PointerSub -enable-checker alpha.core.SizeofPtr -enable-checker alpha.security.ArrayBound -enable-checker alpha.security.ArrayBoundV2 -enable-checker alpha.security.MallocOverflow -enable-checker alpha.security.ReturnPtrRange -enable-checker alpha.unix.MallocWithAnnotations -enable-checker alpha.unix.SimpleStream -enable-checker alpha.unix.Stream -enable-checker alpha.unix.cstring.BufferOverlap -enable-checker alpha.unix.cstring.NotNullTerminated -enable-checker alpha.unix.cstring.OutOfBounds -enable-checker security.insecureAPI.rand -enable-checker security.insecureAPI.strcpy -enable-checker security.insecureAPI.vfork -enable-checker llvm.Conventions -enable-checker debug.ConfigDumper -enable-checker alpha.deadcode.UnreachableCode -enable-checker security.FloatLoopCounter -enable-checker debug.Stats
 @WOLF_OLD_BUILD_TRUE@NON_AM_CFLAGS = -c
 @WOLF_OLD_BUILD_TRUE@OLD_LDFLAGS_UNUSED = -s
@@ -690,6 +727,17 @@ signon_SOURCES = tools/signon/wolf_pal.c \
 @WOLF_OLD_BUILD_TRUE@		$(ODIR)/wolf_renderer.o \
 @WOLF_OLD_BUILD_TRUE@		$(ODIR)/wolf_opengl.o
 
+@CLANG_RULES_TRUE@@MS_COMPAT_CHECK_TRUE@noinst_LIBRARIES = libmscompat.a
+@CLANG_RULES_TRUE@@MS_COMPAT_CHECK_TRUE@libmscompat_a_SOURCES = device/filesys/win32/win_file.c \
+@CLANG_RULES_TRUE@@MS_COMPAT_CHECK_TRUE@                        device/input/win32/win_joystick.c \
+@CLANG_RULES_TRUE@@MS_COMPAT_CHECK_TRUE@                        device/input/win32/win_keys.c \
+@CLANG_RULES_TRUE@@MS_COMPAT_CHECK_TRUE@                        device/input/win32/win_mouse.c \
+@CLANG_RULES_TRUE@@MS_COMPAT_CHECK_TRUE@                        device/system/win32/win_system.c \
+@CLANG_RULES_TRUE@@MS_COMPAT_CHECK_TRUE@                        device/timer/win32/win_timer.c \
+@CLANG_RULES_TRUE@@MS_COMPAT_CHECK_TRUE@                        video/opengl/win32/openglw_imp.c \
+@CLANG_RULES_TRUE@@MS_COMPAT_CHECK_TRUE@                        win32/vid_sys.c \
+@CLANG_RULES_TRUE@@MS_COMPAT_CHECK_TRUE@                        win32/win_main.c
+
 DISTCLEANFILES = *~
 all: config.h
 	$(MAKE) $(AM_MAKEFLAGS) all-recursive
@@ -745,6 +793,75 @@ $(srcdir)/config.h.in: @MAINTAINER_MODE_TRUE@ $(am__configure_deps)
 
 distclean-hdr:
 	-rm -f config.h stamp-h1
+
+clean-noinstLIBRARIES:
+	-test -z "$(noinst_LIBRARIES)" || rm -f $(noinst_LIBRARIES)
+device/filesys/win32/$(am__dirstamp):
+	@$(MKDIR_P) device/filesys/win32
+	@: > device/filesys/win32/$(am__dirstamp)
+device/filesys/win32/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) device/filesys/win32/$(DEPDIR)
+	@: > device/filesys/win32/$(DEPDIR)/$(am__dirstamp)
+device/filesys/win32/win_file.$(OBJEXT):  \
+	device/filesys/win32/$(am__dirstamp) \
+	device/filesys/win32/$(DEPDIR)/$(am__dirstamp)
+device/input/win32/$(am__dirstamp):
+	@$(MKDIR_P) device/input/win32
+	@: > device/input/win32/$(am__dirstamp)
+device/input/win32/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) device/input/win32/$(DEPDIR)
+	@: > device/input/win32/$(DEPDIR)/$(am__dirstamp)
+device/input/win32/win_joystick.$(OBJEXT):  \
+	device/input/win32/$(am__dirstamp) \
+	device/input/win32/$(DEPDIR)/$(am__dirstamp)
+device/input/win32/win_keys.$(OBJEXT):  \
+	device/input/win32/$(am__dirstamp) \
+	device/input/win32/$(DEPDIR)/$(am__dirstamp)
+device/input/win32/win_mouse.$(OBJEXT):  \
+	device/input/win32/$(am__dirstamp) \
+	device/input/win32/$(DEPDIR)/$(am__dirstamp)
+device/system/win32/$(am__dirstamp):
+	@$(MKDIR_P) device/system/win32
+	@: > device/system/win32/$(am__dirstamp)
+device/system/win32/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) device/system/win32/$(DEPDIR)
+	@: > device/system/win32/$(DEPDIR)/$(am__dirstamp)
+device/system/win32/win_system.$(OBJEXT):  \
+	device/system/win32/$(am__dirstamp) \
+	device/system/win32/$(DEPDIR)/$(am__dirstamp)
+device/timer/win32/$(am__dirstamp):
+	@$(MKDIR_P) device/timer/win32
+	@: > device/timer/win32/$(am__dirstamp)
+device/timer/win32/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) device/timer/win32/$(DEPDIR)
+	@: > device/timer/win32/$(DEPDIR)/$(am__dirstamp)
+device/timer/win32/win_timer.$(OBJEXT):  \
+	device/timer/win32/$(am__dirstamp) \
+	device/timer/win32/$(DEPDIR)/$(am__dirstamp)
+video/opengl/win32/$(am__dirstamp):
+	@$(MKDIR_P) video/opengl/win32
+	@: > video/opengl/win32/$(am__dirstamp)
+video/opengl/win32/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) video/opengl/win32/$(DEPDIR)
+	@: > video/opengl/win32/$(DEPDIR)/$(am__dirstamp)
+video/opengl/win32/openglw_imp.$(OBJEXT):  \
+	video/opengl/win32/$(am__dirstamp) \
+	video/opengl/win32/$(DEPDIR)/$(am__dirstamp)
+win32/$(am__dirstamp):
+	@$(MKDIR_P) win32
+	@: > win32/$(am__dirstamp)
+win32/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) win32/$(DEPDIR)
+	@: > win32/$(DEPDIR)/$(am__dirstamp)
+win32/vid_sys.$(OBJEXT): win32/$(am__dirstamp) \
+	win32/$(DEPDIR)/$(am__dirstamp)
+win32/win_main.$(OBJEXT): win32/$(am__dirstamp) \
+	win32/$(DEPDIR)/$(am__dirstamp)
+
+libmscompat.a: $(libmscompat_a_OBJECTS) $(libmscompat_a_DEPENDENCIES) $(EXTRA_libmscompat_a_DEPENDENCIES) 
+	$(AM_V_at)-rm -f libmscompat.a
+	$(AM_V_AR)$(libmscompat_a_AR) libmscompat.a $(libmscompat_a_OBJECTS) $(libmscompat_a_LIBADD)
+	$(AM_V_at)$(RANLIB) libmscompat.a
 install-binPROGRAMS: $(bin_PROGRAMS)
 	@$(NORMAL_INSTALL)
 	@list='$(bin_PROGRAMS)'; test -n "$(bindir)" || list=; \
@@ -1254,11 +1371,15 @@ mostlyclean-compile:
 	-rm -f device/cpu/*.$(OBJEXT)
 	-rm -f device/filesys/*.$(OBJEXT)
 	-rm -f device/filesys/unix/*.$(OBJEXT)
+	-rm -f device/filesys/win32/*.$(OBJEXT)
 	-rm -f device/input/*.$(OBJEXT)
 	-rm -f device/input/unix/*.$(OBJEXT)
+	-rm -f device/input/win32/*.$(OBJEXT)
 	-rm -f device/system/*.$(OBJEXT)
 	-rm -f device/system/unix/*.$(OBJEXT)
+	-rm -f device/system/win32/*.$(OBJEXT)
 	-rm -f device/timer/unix/*.$(OBJEXT)
+	-rm -f device/timer/win32/*.$(OBJEXT)
 	-rm -f font/*.$(OBJEXT)
 	-rm -f game/wolf3d/*.$(OBJEXT)
 	-rm -f game/wolf3d/client/*.$(OBJEXT)
@@ -1283,6 +1404,8 @@ mostlyclean-compile:
 	-rm -f video/*.$(OBJEXT)
 	-rm -f video/opengl/*.$(OBJEXT)
 	-rm -f video/opengl/unix/*.$(OBJEXT)
+	-rm -f video/opengl/win32/*.$(OBJEXT)
+	-rm -f win32/*.$(OBJEXT)
 	-rm -f zlib/*.$(OBJEXT)
 
 distclean-compile:
@@ -1307,13 +1430,19 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@device/filesys/$(DEPDIR)/zippak.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@device/filesys/unix/$(DEPDIR)/glob.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@device/filesys/unix/$(DEPDIR)/unix_file.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@device/filesys/win32/$(DEPDIR)/win_file.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@device/input/$(DEPDIR)/in_view.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@device/input/unix/$(DEPDIR)/unix_joystick.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@device/input/unix/$(DEPDIR)/unix_keys.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@device/input/unix/$(DEPDIR)/unix_mouse.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@device/input/win32/$(DEPDIR)/win_joystick.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@device/input/win32/$(DEPDIR)/win_keys.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@device/input/win32/$(DEPDIR)/win_mouse.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@device/system/$(DEPDIR)/system.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@device/system/unix/$(DEPDIR)/unix_system.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@device/system/win32/$(DEPDIR)/win_system.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@device/timer/unix/$(DEPDIR)/unix_timer.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@device/timer/win32/$(DEPDIR)/win_timer.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@font/$(DEPDIR)/font_manager.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@game/wolf3d/$(DEPDIR)/wolf_main.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@game/wolf3d/client/$(DEPDIR)/wolf_client_main.Po@am__quote@
@@ -1374,6 +1503,9 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@video/opengl/$(DEPDIR)/opengl_main.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@video/opengl/$(DEPDIR)/opengl_texture.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@video/opengl/unix/$(DEPDIR)/openglw_imp.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@video/opengl/win32/$(DEPDIR)/openglw_imp.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@win32/$(DEPDIR)/vid_sys.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@win32/$(DEPDIR)/win_main.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@zlib/$(DEPDIR)/adler32.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@zlib/$(DEPDIR)/crc32.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@zlib/$(DEPDIR)/inffast.Po@am__quote@
@@ -1710,7 +1842,7 @@ distcleancheck: distclean
 	       exit 1; } >&2
 check-am: all-am
 check: check-recursive
-all-am: Makefile $(PROGRAMS) config.h
+all-am: Makefile $(LIBRARIES) $(PROGRAMS) config.h
 installdirs: installdirs-recursive
 installdirs-am:
 	for dir in "$(DESTDIR)$(bindir)"; do \
@@ -1752,16 +1884,24 @@ distclean-generic:
 	-rm -f device/filesys/$(am__dirstamp)
 	-rm -f device/filesys/unix/$(DEPDIR)/$(am__dirstamp)
 	-rm -f device/filesys/unix/$(am__dirstamp)
+	-rm -f device/filesys/win32/$(DEPDIR)/$(am__dirstamp)
+	-rm -f device/filesys/win32/$(am__dirstamp)
 	-rm -f device/input/$(DEPDIR)/$(am__dirstamp)
 	-rm -f device/input/$(am__dirstamp)
 	-rm -f device/input/unix/$(DEPDIR)/$(am__dirstamp)
 	-rm -f device/input/unix/$(am__dirstamp)
+	-rm -f device/input/win32/$(DEPDIR)/$(am__dirstamp)
+	-rm -f device/input/win32/$(am__dirstamp)
 	-rm -f device/system/$(DEPDIR)/$(am__dirstamp)
 	-rm -f device/system/$(am__dirstamp)
 	-rm -f device/system/unix/$(DEPDIR)/$(am__dirstamp)
 	-rm -f device/system/unix/$(am__dirstamp)
+	-rm -f device/system/win32/$(DEPDIR)/$(am__dirstamp)
+	-rm -f device/system/win32/$(am__dirstamp)
 	-rm -f device/timer/unix/$(DEPDIR)/$(am__dirstamp)
 	-rm -f device/timer/unix/$(am__dirstamp)
+	-rm -f device/timer/win32/$(DEPDIR)/$(am__dirstamp)
+	-rm -f device/timer/win32/$(am__dirstamp)
 	-rm -f font/$(DEPDIR)/$(am__dirstamp)
 	-rm -f font/$(am__dirstamp)
 	-rm -f game/wolf3d/$(DEPDIR)/$(am__dirstamp)
@@ -1810,6 +1950,10 @@ distclean-generic:
 	-rm -f video/opengl/$(am__dirstamp)
 	-rm -f video/opengl/unix/$(DEPDIR)/$(am__dirstamp)
 	-rm -f video/opengl/unix/$(am__dirstamp)
+	-rm -f video/opengl/win32/$(DEPDIR)/$(am__dirstamp)
+	-rm -f video/opengl/win32/$(am__dirstamp)
+	-rm -f win32/$(DEPDIR)/$(am__dirstamp)
+	-rm -f win32/$(am__dirstamp)
 	-rm -f zlib/$(DEPDIR)/$(am__dirstamp)
 	-rm -f zlib/$(am__dirstamp)
 	-test -z "$(DISTCLEANFILES)" || rm -f $(DISTCLEANFILES)
@@ -1821,11 +1965,11 @@ maintainer-clean-generic:
 clean: clean-recursive
 
 clean-am: clean-binPROGRAMS clean-generic clean-libtool clean-local \
-	clean-noinstPROGRAMS mostlyclean-am
+	clean-noinstLIBRARIES clean-noinstPROGRAMS mostlyclean-am
 
 distclean: distclean-recursive
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
-	-rm -rf client/$(DEPDIR) common/$(DEPDIR) device/cpu/$(DEPDIR) device/filesys/$(DEPDIR) device/filesys/unix/$(DEPDIR) device/input/$(DEPDIR) device/input/unix/$(DEPDIR) device/system/$(DEPDIR) device/system/unix/$(DEPDIR) device/timer/unix/$(DEPDIR) font/$(DEPDIR) game/wolf3d/$(DEPDIR) game/wolf3d/client/$(DEPDIR) game/wolf3d/common/$(DEPDIR) game/wolf3d/entities/$(DEPDIR) game/wolf3d/level/$(DEPDIR) game/wolf3d/math/$(DEPDIR) game/wolf3d/menu/$(DEPDIR) game/wolf3d/script/$(DEPDIR) game/wolf3d/video/$(DEPDIR) game/wolf3d/video/opengl/$(DEPDIR) loaders/$(DEPDIR) math/$(DEPDIR) memory/$(DEPDIR) script/$(DEPDIR) sound/$(DEPDIR) sound/openal/$(DEPDIR) string/$(DEPDIR) tools/gamepal/$(DEPDIR) tools/signon/$(DEPDIR) unix/$(DEPDIR) video/$(DEPDIR) video/opengl/$(DEPDIR) video/opengl/unix/$(DEPDIR) zlib/$(DEPDIR)
+	-rm -rf client/$(DEPDIR) common/$(DEPDIR) device/cpu/$(DEPDIR) device/filesys/$(DEPDIR) device/filesys/unix/$(DEPDIR) device/filesys/win32/$(DEPDIR) device/input/$(DEPDIR) device/input/unix/$(DEPDIR) device/input/win32/$(DEPDIR) device/system/$(DEPDIR) device/system/unix/$(DEPDIR) device/system/win32/$(DEPDIR) device/timer/unix/$(DEPDIR) device/timer/win32/$(DEPDIR) font/$(DEPDIR) game/wolf3d/$(DEPDIR) game/wolf3d/client/$(DEPDIR) game/wolf3d/common/$(DEPDIR) game/wolf3d/entities/$(DEPDIR) game/wolf3d/level/$(DEPDIR) game/wolf3d/math/$(DEPDIR) game/wolf3d/menu/$(DEPDIR) game/wolf3d/script/$(DEPDIR) game/wolf3d/video/$(DEPDIR) game/wolf3d/video/opengl/$(DEPDIR) loaders/$(DEPDIR) math/$(DEPDIR) memory/$(DEPDIR) script/$(DEPDIR) sound/$(DEPDIR) sound/openal/$(DEPDIR) string/$(DEPDIR) tools/gamepal/$(DEPDIR) tools/signon/$(DEPDIR) unix/$(DEPDIR) video/$(DEPDIR) video/opengl/$(DEPDIR) video/opengl/unix/$(DEPDIR) video/opengl/win32/$(DEPDIR) win32/$(DEPDIR) zlib/$(DEPDIR)
 	-rm -f Makefile
 distclean-am: clean-am distclean-compile distclean-generic \
 	distclean-hdr distclean-libtool distclean-local distclean-tags
@@ -1873,7 +2017,7 @@ installcheck-am:
 maintainer-clean: maintainer-clean-recursive
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
 	-rm -rf $(top_srcdir)/autom4te.cache
-	-rm -rf client/$(DEPDIR) common/$(DEPDIR) device/cpu/$(DEPDIR) device/filesys/$(DEPDIR) device/filesys/unix/$(DEPDIR) device/input/$(DEPDIR) device/input/unix/$(DEPDIR) device/system/$(DEPDIR) device/system/unix/$(DEPDIR) device/timer/unix/$(DEPDIR) font/$(DEPDIR) game/wolf3d/$(DEPDIR) game/wolf3d/client/$(DEPDIR) game/wolf3d/common/$(DEPDIR) game/wolf3d/entities/$(DEPDIR) game/wolf3d/level/$(DEPDIR) game/wolf3d/math/$(DEPDIR) game/wolf3d/menu/$(DEPDIR) game/wolf3d/script/$(DEPDIR) game/wolf3d/video/$(DEPDIR) game/wolf3d/video/opengl/$(DEPDIR) loaders/$(DEPDIR) math/$(DEPDIR) memory/$(DEPDIR) script/$(DEPDIR) sound/$(DEPDIR) sound/openal/$(DEPDIR) string/$(DEPDIR) tools/gamepal/$(DEPDIR) tools/signon/$(DEPDIR) unix/$(DEPDIR) video/$(DEPDIR) video/opengl/$(DEPDIR) video/opengl/unix/$(DEPDIR) zlib/$(DEPDIR)
+	-rm -rf client/$(DEPDIR) common/$(DEPDIR) device/cpu/$(DEPDIR) device/filesys/$(DEPDIR) device/filesys/unix/$(DEPDIR) device/filesys/win32/$(DEPDIR) device/input/$(DEPDIR) device/input/unix/$(DEPDIR) device/input/win32/$(DEPDIR) device/system/$(DEPDIR) device/system/unix/$(DEPDIR) device/system/win32/$(DEPDIR) device/timer/unix/$(DEPDIR) device/timer/win32/$(DEPDIR) font/$(DEPDIR) game/wolf3d/$(DEPDIR) game/wolf3d/client/$(DEPDIR) game/wolf3d/common/$(DEPDIR) game/wolf3d/entities/$(DEPDIR) game/wolf3d/level/$(DEPDIR) game/wolf3d/math/$(DEPDIR) game/wolf3d/menu/$(DEPDIR) game/wolf3d/script/$(DEPDIR) game/wolf3d/video/$(DEPDIR) game/wolf3d/video/opengl/$(DEPDIR) loaders/$(DEPDIR) math/$(DEPDIR) memory/$(DEPDIR) script/$(DEPDIR) sound/$(DEPDIR) sound/openal/$(DEPDIR) string/$(DEPDIR) tools/gamepal/$(DEPDIR) tools/signon/$(DEPDIR) unix/$(DEPDIR) video/$(DEPDIR) video/opengl/$(DEPDIR) video/opengl/unix/$(DEPDIR) video/opengl/win32/$(DEPDIR) win32/$(DEPDIR) zlib/$(DEPDIR)
 	-rm -f Makefile
 maintainer-clean-am: distclean-am maintainer-clean-generic
 
@@ -1897,22 +2041,27 @@ uninstall-am: uninstall-binPROGRAMS
 .PHONY: $(am__recursive_targets) CTAGS GTAGS TAGS all all-am \
 	am--refresh check check-am clean clean-binPROGRAMS \
 	clean-cscope clean-generic clean-libtool clean-local \
-	clean-noinstPROGRAMS cscope cscopelist-am ctags ctags-am dist \
-	dist-all dist-bzip2 dist-gzip dist-lzip dist-shar dist-tarZ \
-	dist-xz dist-zip distcheck distclean distclean-compile \
-	distclean-generic distclean-hdr distclean-libtool \
-	distclean-local distclean-tags distcleancheck distdir \
-	distuninstallcheck dvi dvi-am html html-am info info-am \
-	install install-am install-binPROGRAMS install-data \
-	install-data-am install-dvi install-dvi-am install-exec \
-	install-exec-am install-html install-html-am install-info \
-	install-info-am install-man install-pdf install-pdf-am \
-	install-ps install-ps-am install-strip installcheck \
-	installcheck-am installdirs installdirs-am maintainer-clean \
-	maintainer-clean-generic mostlyclean mostlyclean-compile \
-	mostlyclean-generic mostlyclean-libtool pdf pdf-am ps ps-am \
-	tags tags-am uninstall uninstall-am uninstall-binPROGRAMS
+	clean-noinstLIBRARIES clean-noinstPROGRAMS cscope \
+	cscopelist-am ctags ctags-am dist dist-all dist-bzip2 \
+	dist-gzip dist-lzip dist-shar dist-tarZ dist-xz dist-zip \
+	distcheck distclean distclean-compile distclean-generic \
+	distclean-hdr distclean-libtool distclean-local distclean-tags \
+	distcleancheck distdir distuninstallcheck dvi dvi-am html \
+	html-am info info-am install install-am install-binPROGRAMS \
+	install-data install-data-am install-dvi install-dvi-am \
+	install-exec install-exec-am install-html install-html-am \
+	install-info install-info-am install-man install-pdf \
+	install-pdf-am install-ps install-ps-am install-strip \
+	installcheck installcheck-am installdirs installdirs-am \
+	maintainer-clean maintainer-clean-generic mostlyclean \
+	mostlyclean-compile mostlyclean-generic mostlyclean-libtool \
+	pdf pdf-am ps ps-am tags tags-am uninstall uninstall-am \
+	uninstall-binPROGRAMS
 
+
+# note the space in the rule:
+$(LIBOBJDIR)libgnu.a: $(LIBOBJDIR)Makefile
+	$(MAKE) -C $(LIBOBJDIR) libgnu.a
 
 XSyms.txt: wolf3dredux
 	for Xlib in `$(OTOOL) -L wolf3dredux | $(GREP) -i libX | cut -d\( -f1 | tr -d [:blank:] | xargs basename | cut -d. -f1`; do $(NM) -m wolf3dredux | $(GREP) $${Xlib}; done | tee XSyms.txt
@@ -2165,7 +2314,7 @@ XSyms.txt: wolf3dredux
 @WOLF_OLD_BUILD_TRUE@$(ODIR)/opengl_texture.o : video/opengl/opengl_texture.c 
 @WOLF_OLD_BUILD_TRUE@	$(DO_CC)
 
-# this file seems not to exist yet?
+# this file seems not to exist yet? TODO: add/create it...
 @WOLF_OLD_BUILD_TRUE@$(ODIR)/opengl_interface.o : video/opengl/unix/opengl_interface.c 
 @WOLF_OLD_BUILD_TRUE@	$(DO_CC)
 
@@ -2320,7 +2469,13 @@ XSyms.txt: wolf3dredux
 @WOLF_OLD_BUILD_TRUE@	rm -f *.o $(ODIR)/*.o $(EXE)
 
 @CLANG_RULES_TRUE@analyze: clean ../Wolfenstein3DFromSource.exp
-@CLANG_RULES_TRUE@	$(SCAN_BUILD) -analyze-headers -stats --use-analyzer=$(COMPILER) $(SCAN_BUILD_CHECKERS) -v -v -v -plist-html -o scan_build_output $(MAKE) CFLAGS="$(CLANG_CFLAGS)" CPPFLAGS="$(AM_CLANG_CPPFLAGS)" LDFLAGS="$(AM_CLANG_LINKFLAGS)"
+@CLANG_RULES_TRUE@	$(SCAN_BUILD) -analyze-headers -stats --use-analyzer=$(COMPILER) $(SCAN_BUILD_CHECKERS) -v -v -v -plist-html -o scan_build_output $(MAKE) CFLAGS="$(CLANG_CFLAGS)" CPPFLAGS="$(AM_CLANG_CPPFLAGS)" LDFLAGS="$(AM_CLANG_LINKFLAGS)" $(LIBOBJDIR)libgnu.a wolf3dredux
+
+@CLANG_RULES_TRUE@@MS_COMPAT_CHECK_TRUE@ms-compat: clean
+@CLANG_RULES_TRUE@@MS_COMPAT_CHECK_TRUE@	 $(MAKE) AM_CFLAGS="" CFLAGS="$(CLANG_MS_COMPAT_CFLAGS)" AM_CPPFLAGS="-I." CPPFLAGS="$(AM_CLANG_MS_COMPAT_CPPFLAGS)" LDFLAGS="" libmscompat.a
+@CLANG_RULES_TRUE@@MS_COMPAT_CHECK_FALSE@ms-compat:
+@CLANG_RULES_TRUE@@MS_COMPAT_CHECK_FALSE@	@echo "the ms-compat target is not supported with your current configuration."
+
 @CLANG_RULES_FALSE@analyze:
 @CLANG_RULES_FALSE@	@echo "you must configure with CC set to a compiler that is clang to be able to use this target."
 

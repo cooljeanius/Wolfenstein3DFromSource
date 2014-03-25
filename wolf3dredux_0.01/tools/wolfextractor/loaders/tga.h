@@ -39,15 +39,17 @@
  */
 
 #ifndef __TGA_H__
-#define __TGA_H__
-
-#include "../../../common/arch.h"
-
-
+# define __TGA_H__
+# include "../../../common/arch.h" /* for types */
+# ifndef WriteTGA
 extern W8 WriteTGA(const char *filename, W16 depth, W16 width, W16 height,
-				   void *Data, W8 upsideDown, W8 rle );
-
-
+				   void *Data, W8 upsideDown, W8 rle);
+# else /* WriteTGA already defined: */
+#  ifndef wolfextractor_WriteTGA
+extern W8 wolfextractor_WriteTGA(const char *filename, W16 bpp, W16 width,
+								 W16 height, void *Data, W8 upsideDown, W8 rle);
+#  endif /* !wolfextractor_WriteTGA */
+# endif /* !WriteTGA */
 #endif /* __TGA_H__ */
 
 /* EOF */

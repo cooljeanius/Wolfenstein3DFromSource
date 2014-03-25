@@ -106,7 +106,7 @@ PUBLIC void FS_FreeFile(void *buffer)
  Notes:
 	Sets fs_gamedir, adds the directory to the head of the path,
 	then loads and adds *.pak then *.zip files.
-	TODO: print something if there is nothing to load?
+	It should print something if there is nothing found to load...
 -----------------------------------------------------------------------------
 */
 PRIVATE void FS_AddGameDirectory(const char *dir)

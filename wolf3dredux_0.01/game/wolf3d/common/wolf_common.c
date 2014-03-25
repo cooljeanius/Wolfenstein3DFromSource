@@ -20,6 +20,8 @@
 
 #include "../../../common/common_utils.h"
 
+#include "wolf_common.h" /* new location for prototypes from this file */
+
 
 extern void Client_Frame(int msec);
 
@@ -37,8 +39,7 @@ extern void Client_Frame(int msec);
 		(right now there is no server context, so just use the client one)
 -----------------------------------------------------------------------------
 */
-PUBLIC void common_Frame(int msec);
-/* TODO: put the prototype in a header */
+/* prototype has moved to "wolf_common.h" */
 PUBLIC void common_Frame(int msec)
 {
 	/* make sure anything left in the command line buffer has been executed: */

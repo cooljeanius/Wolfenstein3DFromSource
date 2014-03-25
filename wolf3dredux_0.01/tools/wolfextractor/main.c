@@ -56,10 +56,12 @@
 #include "hq2x.h"
 #include "mac/mac.h"
 
+#include "wolfextractor.h" /* new location for prototypes for functions from this file */
+
 
 #define APP_VERSION "0.01k"
 
-#define BASEDIR	"base/" /* why is this hardcoded? */
+#define BASEDIR	"base/" /* why is this hardcoded? FIXME */
 
 
 extern void PAK_builder(const char *filename, W16 version);
@@ -111,8 +113,7 @@ PRIVATE void deleteCacheDirectories(W16 version)
  Notes:
 -----------------------------------------------------------------------------
 */
-void CheckForDataFiles(W16 *Wolf_Ext);
-/* TODO: put the above prototype in a matching header file */
+/* prototype has moved to "wolfextractor.h" */
 void CheckForDataFiles(W16 *Wolf_Ext)
 {
 	char ext[13];

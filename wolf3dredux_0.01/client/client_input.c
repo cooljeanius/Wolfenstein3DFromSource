@@ -91,7 +91,7 @@ int			in_impulse;
 
 -----------------------------------------------------------------------------
 */
-PRIVATE void KeyDown( kbutton_t *b )
+PRIVATE void KeyDown(kbutton_t *b)
 {
 	int		k;
 	char	*c;
@@ -318,7 +318,7 @@ cvar_t	*cl_anglespeedkey;
 
 -----------------------------------------------------------------------------
 */
-PRIVATE void Client_AdjustAngles( void )
+PRIVATE void Client_AdjustAngles(void)
 {
 	float	speed;
 	float	up, down;
@@ -469,11 +469,11 @@ PRIVATE void Client_FinishMove( usercmd_t *cmd )
 
 -----------------------------------------------------------------------------
 */
-PRIVATE usercmd_t Client_CreateCmd( void )
+PRIVATE usercmd_t Client_CreateCmd(void)
 {
 	usercmd_t	cmd;
 
-	frame_msec = sys_frame_time - old_sys_frame_time;
+	frame_msec = (sys_frame_time - old_sys_frame_time);
 	if (frame_msec < 1) {
 		frame_msec = 1;
 	}
@@ -500,10 +500,10 @@ PRIVATE usercmd_t Client_CreateCmd( void )
 }
 
 
-void IN_CenterView (void)
+void IN_CenterView(void)
 {
 #if 0
-	ClientState.viewangles[ PITCH ] = -SHORT2ANGLE( ClientState.frame.playerstate.pmove.delta_angles[ PITCH ] );
+	ClientState.viewangles[PITCH] = -SHORT2ANGLE(ClientState.frame.playerstate.pmove.delta_angles[PITCH]);
 #else
 	;
 #endif /* 0 */
@@ -574,12 +574,12 @@ PUBLIC void Client_InitInput(void)
 
 -----------------------------------------------------------------------------
 */
-PUBLIC void Client_SendCommand( void )
+PUBLIC void Client_SendCommand(void)
 {
 	usercmd_t	*cmd;
 
-	cmd = &ClientState.cmds[ 0 ];
-	ClientState.cmd_time[ 0 ] = ClientStatic.realtime;	/* for netgraph ping calculation */
+	cmd = &ClientState.cmds[0];
+	ClientState.cmd_time[0] = ClientStatic.realtime; /* for netgraph ping calculation */
 
 	*cmd = Client_CreateCmd();
 

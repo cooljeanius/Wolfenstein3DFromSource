@@ -88,7 +88,7 @@ extern void WIN_EnableAltTab( void );
 
 -----------------------------------------------------------------------------
 */
-PRIVATE void VID_Restart_f( void )
+PRIVATE void VID_Restart_f(void)
 {
 	r_ref->modified = true;
 }
@@ -203,7 +203,7 @@ PRIVATE void VID_UpdateWindowPosAndSize( int x, int y )
  Notes: Sets global variables [viddef.width] [viddef.height]
 -----------------------------------------------------------------------------
 */
-PUBLIC void VID_NewWindow( int width, int height )
+PUBLIC void VID_NewWindow(int width, int height)
 {
 	viddef.width  = width;
 	viddef.height = height;
@@ -328,7 +328,7 @@ PUBLIC void Video_CheckChanges( void )
  Notes:
 -----------------------------------------------------------------------------
 */
-PUBLIC void Video_Init( void )
+PUBLIC void Video_Init(void)
 {
 	/* Create the video variables so we know how to start the graphics drivers */
 	r_ref = Cvar_Get( "r_ref", "gl", CVAR_ARCHIVE );
@@ -355,10 +355,10 @@ PUBLIC void Video_Init( void )
 
  Returns:	Nothing
 
- Notes:
+ Notes: Just a simple wrapper around R_Shutdown() for now...
 -----------------------------------------------------------------------------
 */
-PUBLIC void Video_Shutdown( void )
+PUBLIC void Video_Shutdown(void)
 {
 	R_Shutdown();
 }

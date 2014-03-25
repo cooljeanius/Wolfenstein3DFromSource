@@ -73,107 +73,141 @@ PRIVATE W8 ConfigARBMultiTexture(const char *glext)
 		return 0;
 	}
 
-	if (!(pfglActiveTextureARB = (void *)pfwglGetProcAddress("glActiveTextureARB"))) {
+	if (!(pfglActiveTextureARB =
+		  (void (*)(GLenum))(void *)pfwglGetProcAddress("glActiveTextureARB"))) {
 		return 0;
 	}
-	if (!(pfglClientActiveTextureARB = (void *)pfwglGetProcAddress("glClientActiveTextureARB"))) {
+	if (!(pfglClientActiveTextureARB =
+		  (void (*)(GLenum))(void *)pfwglGetProcAddress("glClientActiveTextureARB"))) {
 		return 0;
 	}
-	if(!(pfglMultiTexCoord1sARB = (void *)pfwglGetProcAddress("glMultiTexCoord1sARB"))) {
+	if (!(pfglMultiTexCoord1sARB =
+		  (void (*)(GLenum, GLshort))(void *)pfwglGetProcAddress("glMultiTexCoord1sARB"))) {
 		return 0;
 	}
-	if(!(pfglMultiTexCoord1iARB = (void *)pfwglGetProcAddress("glMultiTexCoord1iARB"))) {
+	if (!(pfglMultiTexCoord1iARB =
+		  (void (*)(GLenum, GLint))(void *)pfwglGetProcAddress("glMultiTexCoord1iARB"))) {
 		return 0;
 	}
-	if(!(pfglMultiTexCoord1fARB = (void *)pfwglGetProcAddress("glMultiTexCoord1fARB"))) {
+	if (!(pfglMultiTexCoord1fARB =
+		  (void (*)(GLenum, GLfloat))(void *)pfwglGetProcAddress("glMultiTexCoord1fARB"))) {
 		return 0;
 	}
-	if(!(pfglMultiTexCoord1dARB = (void *)pfwglGetProcAddress("glMultiTexCoord1dARB"))) {
+	if (!(pfglMultiTexCoord1dARB =
+		  (void (*)(GLenum, GLdouble))(void *)pfwglGetProcAddress("glMultiTexCoord1dARB"))) {
 		return 0;
 	}
-	if(!(pfglMultiTexCoord2sARB = (void *)pfwglGetProcAddress("glMultiTexCoord2sARB"))) {
+	if (!(pfglMultiTexCoord2sARB =
+		  (void (*)(GLenum, GLshort, GLshort))(void *)pfwglGetProcAddress("glMultiTexCoord2sARB"))) {
 		return 0;
 	}
-	if(!(pfglMultiTexCoord2iARB = (void *)pfwglGetProcAddress("glMultiTexCoord2iARB"))) {
+	if (!(pfglMultiTexCoord2iARB =
+		  (void (*)(GLenum, GLint, GLint))(void *)pfwglGetProcAddress("glMultiTexCoord2iARB"))) {
 		return 0;
 	}
-	if(!(pfglMultiTexCoord2fARB = (void *)pfwglGetProcAddress("glMultiTexCoord2fARB"))) {
+	if (!(pfglMultiTexCoord2fARB =
+		  (void (*)(GLenum, GLfloat, GLfloat))(void *)pfwglGetProcAddress("glMultiTexCoord2fARB"))) {
 		return 0;
 	}
-	if(!(pfglMultiTexCoord2dARB = (void *)pfwglGetProcAddress("glMultiTexCoord2dARB"))) {
+	if (!(pfglMultiTexCoord2dARB =
+		  (void (*)(GLenum, GLdouble, GLdouble))(void *)pfwglGetProcAddress("glMultiTexCoord2dARB"))) {
 		return 0;
 	}
-	if(!(pfglMultiTexCoord3sARB = (void *)pfwglGetProcAddress("glMultiTexCoord3sARB"))) {
+	if (!(pfglMultiTexCoord3sARB =
+		  (void (*)(GLenum, GLshort, GLshort, GLshort))(void *)pfwglGetProcAddress("glMultiTexCoord3sARB"))) {
 		return 0;
 	}
-	if(!(pfglMultiTexCoord3iARB = (void *)pfwglGetProcAddress("glMultiTexCoord3iARB"))) {
+	if (!(pfglMultiTexCoord3iARB =
+		  (void (*)(GLenum, GLint, GLint, GLint))(void *)pfwglGetProcAddress("glMultiTexCoord3iARB"))) {
 		return 0;
 	}
-	if(!(pfglMultiTexCoord3fARB = (void *)pfwglGetProcAddress("glMultiTexCoord3fARB"))) {
+	if (!(pfglMultiTexCoord3fARB =
+		  (void (*)(GLenum, GLfloat, GLfloat, GLfloat))(void *)pfwglGetProcAddress("glMultiTexCoord3fARB"))) {
 		return 0;
 	}
-	if(!(pfglMultiTexCoord3dARB = (void *)pfwglGetProcAddress("glMultiTexCoord3dARB"))) {
+	if (!(pfglMultiTexCoord3dARB =
+		  (void (*)(GLenum, GLdouble, GLdouble, GLdouble))(void *)pfwglGetProcAddress("glMultiTexCoord3dARB"))) {
 		return 0;
 	}
-	if(!(pfglMultiTexCoord4sARB = (void *)pfwglGetProcAddress("glMultiTexCoord4sARB"))) {
+	if (!(pfglMultiTexCoord4sARB =
+		  (void (*)(GLenum, GLshort, GLshort, GLshort, GLshort))(void *)pfwglGetProcAddress("glMultiTexCoord4sARB"))) {
 		return 0;
 	}
-	if(!(pfglMultiTexCoord4iARB = (void *)pfwglGetProcAddress("glMultiTexCoord4iARB"))) {
+	if (!(pfglMultiTexCoord4iARB =
+		  (void (*)(GLenum, GLint, GLint, GLint, GLint))(void *)pfwglGetProcAddress("glMultiTexCoord4iARB"))) {
 		return 0;
 	}
-	if(!(pfglMultiTexCoord4fARB = (void *)pfwglGetProcAddress("glMultiTexCoord4fARB"))) {
+	if (!(pfglMultiTexCoord4fARB =
+		  (void (*)(GLenum, GLfloat, GLfloat, GLfloat, GLfloat))(void *)pfwglGetProcAddress("glMultiTexCoord4fARB"))) {
 		return 0;
 	}
-	if(!(pfglMultiTexCoord4dARB = (void *)pfwglGetProcAddress("glMultiTexCoord4dARB"))) {
+	if (!(pfglMultiTexCoord4dARB =
+		  (void (*)(GLenum, GLdouble, GLdouble, GLdouble, GLdouble))(void *)pfwglGetProcAddress("glMultiTexCoord4dARB"))) {
 		return 0;
 	}
 
-	if(!(pfglMultiTexCoord1svARB = (void *)pfwglGetProcAddress("glMultiTexCoord1svARB"))) {
+	if (!(pfglMultiTexCoord1svARB =
+		  (void (*)(GLenum, const GLshort *))(void *)pfwglGetProcAddress("glMultiTexCoord1svARB"))) {
 		return 0;
 	}
-	if(!(pfglMultiTexCoord1ivARB = (void *)pfwglGetProcAddress("glMultiTexCoord1ivARB"))) {
+	if (!(pfglMultiTexCoord1ivARB =
+		  (void (*)(GLenum, const GLint *))(void *)pfwglGetProcAddress("glMultiTexCoord1ivARB"))) {
 		return 0;
 	}
-	if(!(pfglMultiTexCoord1fvARB = (void *)pfwglGetProcAddress("glMultiTexCoord1fvARB"))) {
+	if (!(pfglMultiTexCoord1fvARB =
+		  (void (*)(GLenum, const GLfloat *))(void *)pfwglGetProcAddress("glMultiTexCoord1fvARB"))) {
 		return 0;
 	}
-	if(!(pfglMultiTexCoord1dvARB = (void *)pfwglGetProcAddress("glMultiTexCoord1dvARB"))) {
+	if (!(pfglMultiTexCoord1dvARB =
+		  (void (*)(GLenum, const GLdouble *))(void *)pfwglGetProcAddress("glMultiTexCoord1dvARB"))) {
 		return 0;
 	}
-	if(!(pfglMultiTexCoord2svARB = (void *)pfwglGetProcAddress("glMultiTexCoord2svARB"))) {
+	if (!(pfglMultiTexCoord2svARB =
+		  (void (*)(GLenum, const GLshort *))(void *)pfwglGetProcAddress("glMultiTexCoord2svARB"))) {
 		return 0;
 	}
-	if(!(pfglMultiTexCoord2ivARB = (void *)pfwglGetProcAddress("glMultiTexCoord2ivARB"))) {
+	if (!(pfglMultiTexCoord2ivARB =
+		  (void (*)(GLenum, const GLint *))(void *)pfwglGetProcAddress("glMultiTexCoord2ivARB"))) {
 		return 0;
 	}
-	if(!(pfglMultiTexCoord2fvARB = (void *)pfwglGetProcAddress("glMultiTexCoord2fvARB"))) {
+	if (!(pfglMultiTexCoord2fvARB =
+		  (void (*)(GLenum, const GLfloat *))(void *)pfwglGetProcAddress("glMultiTexCoord2fvARB"))) {
 		return 0;
 	}
-	if(!(pfglMultiTexCoord2dvARB = (void *)pfwglGetProcAddress("glMultiTexCoord2dvARB"))) {
+	if (!(pfglMultiTexCoord2dvARB =
+		  (void (*)(GLenum, const GLdouble *))(void *)pfwglGetProcAddress("glMultiTexCoord2dvARB"))) {
 		return 0;
 	}
-	if(!(pfglMultiTexCoord3svARB = (void *)pfwglGetProcAddress("glMultiTexCoord3svARB"))) {
+	if (!(pfglMultiTexCoord3svARB =
+		  (void (*)(GLenum, const GLshort *))(void *)pfwglGetProcAddress("glMultiTexCoord3svARB"))) {
 		return 0;
 	}
-	if(!(pfglMultiTexCoord3ivARB = (void *)pfwglGetProcAddress("glMultiTexCoord3ivARB"))) {
+	if (!(pfglMultiTexCoord3ivARB =
+		  (void (*)(GLenum, const GLint *))(void *)pfwglGetProcAddress("glMultiTexCoord3ivARB"))) {
 		return 0;
 	}
-	if(!(pfglMultiTexCoord3fvARB = (void *)pfwglGetProcAddress("glMultiTexCoord3fvARB"))) {
+	if (!(pfglMultiTexCoord3fvARB =
+		  (void (*)(GLenum, const GLfloat *))(void *)pfwglGetProcAddress("glMultiTexCoord3fvARB"))) {
 		return 0;
 	}
-	if(!(pfglMultiTexCoord3dvARB = (void *)pfwglGetProcAddress("glMultiTexCoord3dvARB"))) {
+	if (!(pfglMultiTexCoord3dvARB =
+		  (void (*)(GLenum, const GLdouble *))(void *)pfwglGetProcAddress("glMultiTexCoord3dvARB"))) {
 		return 0;
 	}
-	if(!(pfglMultiTexCoord4svARB = (void *)pfwglGetProcAddress("glMultiTexCoord4svARB"))) {
+	if (!(pfglMultiTexCoord4svARB =
+		  (void (*)(GLenum, const GLshort *))(void *)pfwglGetProcAddress("glMultiTexCoord4svARB"))) {
 		return 0;
 	}
-	if(!(pfglMultiTexCoord4ivARB = (void *)pfwglGetProcAddress("glMultiTexCoord4ivARB"))) {
+	if (!(pfglMultiTexCoord4ivARB =
+		  (void (*)(GLenum, const GLint *))(void *)pfwglGetProcAddress("glMultiTexCoord4ivARB"))) {
 		return 0;
 	}
-	if(!(pfglMultiTexCoord4fvARB = (void *)pfwglGetProcAddress("glMultiTexCoord4fvARB"))) {
+	if (!(pfglMultiTexCoord4fvARB =
+		  (void (*)(GLenum, const GLfloat *))(void *)pfwglGetProcAddress("glMultiTexCoord4fvARB"))) {
 		return 0;
 	}
-	if(!(pfglMultiTexCoord4dvARB = (void *)pfwglGetProcAddress("glMultiTexCoord4dvARB"))) {
+	if (!(pfglMultiTexCoord4dvARB =
+		  (void (*)(GLenum, const GLdouble *))(void *)pfwglGetProcAddress("glMultiTexCoord4dvARB"))) {
 		return 0;
 	}
 
@@ -191,25 +225,38 @@ PRIVATE W8 ConfigARBTextureCompression(const char *glext)
 		return 0;
 	}
 
-	if (!(pfglCompressedTexImage3DARB = (void *)pfwglGetProcAddress( "glCompressedTexImage3DARB"))) {
+	if (!(pfglCompressedTexImage3DARB =
+		  (void (*)(GLenum, GLint, GLenum, GLsizei, GLsizei, GLsizei, GLint,
+					GLsizei, const GLvoid *))(void *)pfwglGetProcAddress("glCompressedTexImage3DARB"))) {
 		return 0;
 	}
-	if (!(pfglCompressedTexImage2DARB = (void *)pfwglGetProcAddress( "glCompressedTexImage2DARB"))) {
+	if (!(pfglCompressedTexImage2DARB =
+		  (void (*)(GLenum, GLint, GLenum, GLsizei, GLsizei, GLint, GLsizei,
+					const GLvoid *))(void *)pfwglGetProcAddress("glCompressedTexImage2DARB"))) {
 		return 0;
 	}
-	if (!(pfglCompressedTexImage1DARB = (void *)pfwglGetProcAddress( "glCompressedTexImage1DARB"))) {
+	if (!(pfglCompressedTexImage1DARB =
+		  (void (*)(GLenum, GLint, GLenum, GLsizei, GLint, GLsizei,
+					const GLvoid *))(void *)pfwglGetProcAddress("glCompressedTexImage1DARB"))) {
 		return 0;
 	}
-	if (!(pfglCompressedTexSubImage3DARB = (void *)pfwglGetProcAddress( "glCompressedTexSubImage3DARB"))) {
+	if (!(pfglCompressedTexSubImage3DARB =
+		  (void (*)(GLenum, GLint, GLint, GLint, GLint, GLsizei, GLsizei,
+					GLsizei, GLenum, GLsizei, const GLvoid *))(void *)pfwglGetProcAddress("glCompressedTexSubImage3DARB"))) {
 		return 0;
 	}
-	if (!(pfglCompressedTexSubImage2DARB = (void *)pfwglGetProcAddress( "glCompressedTexSubImage2DARB"))) {
+	if (!(pfglCompressedTexSubImage2DARB =
+		  (void (*)(GLenum, GLint, GLint, GLint, GLsizei, GLsizei, GLenum,
+					GLsizei, const GLvoid *))(void *)pfwglGetProcAddress("glCompressedTexSubImage2DARB"))) {
 		return 0;
 	}
-	if (!(pfglCompressedTexSubImage1DARB = (void *)pfwglGetProcAddress( "glCompressedTexSubImage1DARB"))) {
+	if (!(pfglCompressedTexSubImage1DARB =
+		  (void (*)(GLenum, GLint, GLint, GLsizei, GLenum, GLsizei,
+					const GLvoid *))(void *)pfwglGetProcAddress("glCompressedTexSubImage1DARB"))) {
 		return 0;
 	}
-	if (!(pfglGetCompressedTexImageARB = (void *)pfwglGetProcAddress( "glGetCompressedTexImageARB"))) {
+	if (!(pfglGetCompressedTexImageARB =
+		  (void (*)(GLenum, GLint, GLvoid *))(void *)pfwglGetProcAddress("glGetCompressedTexImageARB"))) {
 		return 0;
 	}
 
@@ -219,7 +266,7 @@ PRIVATE W8 ConfigARBTextureCompression(const char *glext)
 }
 
 
-PRIVATE W8 CheckARBTextureCubeMap( const char *glext )
+PRIVATE W8 CheckARBTextureCubeMap(const char *glext)
 {
 	if (strstr(glext, "GL_ARB_texture_cube_map") == NULL) {
 		Com_Printf("...GL_ARB_texture_cube_map not found\n");
@@ -231,7 +278,7 @@ PRIVATE W8 CheckARBTextureCubeMap( const char *glext )
 	return 1;
 }
 
-PRIVATE W8 ConfigARBVertexProgram( const char *glext )
+PRIVATE W8 ConfigARBVertexProgram(const char *glext)
 {
 	if (strstr(glext, "GL_ARB_vertex_program") == NULL) {
 		return 0;
@@ -470,7 +517,7 @@ PRIVATE W8 CheckEXTTextureEnvCombine(const char *glext)
 PRIVATE W8 ConfigEXTSecondaryColor(const char *glext)
 {
 	if (strstr(glext, "GL_EXT_secondary_color") == NULL) {
-		Com_Printf( "...GL_EXT_secondary_color not found\n" );
+		Com_Printf("...GL_EXT_secondary_color not found\n");
 		return 0;
 	}
 
@@ -1139,10 +1186,10 @@ PRIVATE W8 ConfigATIMapObjectBuffer(const char *glext)
 		return 0;
 	}
 
-	if(!(pfglMapObjectBufferATI = (void *)pfwglGetProcAddress("glMapObjectBufferATI"))) {
+	if (!(pfglMapObjectBufferATI = (void *)pfwglGetProcAddress("glMapObjectBufferATI"))) {
 		return 0;
 	}
-	if(!(pfglUnmapObjectBufferATI = (void *)pfwglGetProcAddress("glUnmapObjectBufferATI"))) {
+	if (!(pfglUnmapObjectBufferATI = (void *)pfwglGetProcAddress("glUnmapObjectBufferATI"))) {
 		return 0;
 	}
 
@@ -1158,46 +1205,46 @@ PRIVATE W8 ConfigATIFragmentShader(const char *glext)
 		return 0;
 	}
 
-	if(!(pfglGenFragmentShadersATI = (void *)pfwglGetProcAddress("glGenFragmentShadersATI"))) {
+	if (!(pfglGenFragmentShadersATI = (void *)pfwglGetProcAddress("glGenFragmentShadersATI"))) {
 		return 0;
 	}
-	if(!(pfglBindFragmentShaderATI = (void *)pfwglGetProcAddress("glBindFragmentShaderATI"))) {
+	if (!(pfglBindFragmentShaderATI = (void *)pfwglGetProcAddress("glBindFragmentShaderATI"))) {
 		return 0;
 	}
-	if(!(pfglDeleteFragmentShaderATI = (void *)pfwglGetProcAddress("glDeleteFragmentShaderATI"))) {
+	if (!(pfglDeleteFragmentShaderATI = (void *)pfwglGetProcAddress("glDeleteFragmentShaderATI"))) {
 		return 0;
 	}
-	if(!(pfglBeginFragmentShaderATI = (void *)pfwglGetProcAddress("glBeginFragmentShaderATI"))) {
+	if (!(pfglBeginFragmentShaderATI = (void *)pfwglGetProcAddress("glBeginFragmentShaderATI"))) {
 		return 0;
 	}
-	if(!(pfglEndFragmentShaderATI = (void *)pfwglGetProcAddress("glEndFragmentShaderATI"))) {
+	if (!(pfglEndFragmentShaderATI = (void *)pfwglGetProcAddress("glEndFragmentShaderATI"))) {
 		return 0;
 	}
-	if(!(pfglPassTexCoordATI = (void *)pfwglGetProcAddress("glPassTexCoordATI"))) {
+	if (!(pfglPassTexCoordATI = (void *)pfwglGetProcAddress("glPassTexCoordATI"))) {
 		return 0;
 	}
-	if(!(pfglSampleMapATI = (void *)pfwglGetProcAddress("glSampleMapATI"))) {
+	if (!(pfglSampleMapATI = (void *)pfwglGetProcAddress("glSampleMapATI"))) {
 		return 0;
 	}
-	if(!(pfglColorFragmentOp1ATI = (void *)pfwglGetProcAddress("glColorFragmentOp1ATI"))) {
+	if (!(pfglColorFragmentOp1ATI = (void *)pfwglGetProcAddress("glColorFragmentOp1ATI"))) {
 		return 0;
 	}
-	if(!(pfglColorFragmentOp2ATI = (void *)pfwglGetProcAddress("glColorFragmentOp2ATI"))) {
+	if (!(pfglColorFragmentOp2ATI = (void *)pfwglGetProcAddress("glColorFragmentOp2ATI"))) {
 		return 0;
 	}
-	if(!(pfglColorFragmentOp3ATI = (void *)pfwglGetProcAddress("glColorFragmentOp3ATI"))) {
+	if (!(pfglColorFragmentOp3ATI = (void *)pfwglGetProcAddress("glColorFragmentOp3ATI"))) {
 		return 0;
 	}
-	if(!(pfglAlphaFragmentOp1ATI = (void *)pfwglGetProcAddress("glAlphaFragmentOp1ATI"))) {
+	if (!(pfglAlphaFragmentOp1ATI = (void *)pfwglGetProcAddress("glAlphaFragmentOp1ATI"))) {
 		return 0;
 	}
-	if(!(pfglAlphaFragmentOp2ATI = (void *)pfwglGetProcAddress("glAlphaFragmentOp2ATI"))) {
+	if (!(pfglAlphaFragmentOp2ATI = (void *)pfwglGetProcAddress("glAlphaFragmentOp2ATI"))) {
 		return 0;
 	}
-	if(!(pfglAlphaFragmentOp3ATI = (void *)pfwglGetProcAddress("glAlphaFragmentOp3ATI"))) {
+	if (!(pfglAlphaFragmentOp3ATI = (void *)pfwglGetProcAddress("glAlphaFragmentOp3ATI"))) {
 		return 0;
 	}
-	if(!(pfglSetFragmentShaderConstantATI = (void *)pfwglGetProcAddress("glSetFragmentShaderConstantATI"))) {
+	if (!(pfglSetFragmentShaderConstantATI = (void *)pfwglGetProcAddress("glSetFragmentShaderConstantATI"))) {
 		return 0;
 	}
 

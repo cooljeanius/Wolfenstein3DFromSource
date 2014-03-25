@@ -140,6 +140,15 @@
 		A54581B118DFA45700FBCD8F /* memcmp.c in Sources */ = {isa = PBXBuildFile; fileRef = A54581AE18DFA45700FBCD8F /* memcmp.c */; };
 		A54581B218DFA45700FBCD8F /* memcmp2.c in Sources */ = {isa = PBXBuildFile; fileRef = A54581AF18DFA45700FBCD8F /* memcmp2.c */; };
 		A54581B318DFA45700FBCD8F /* memcmp2.h in Headers */ = {isa = PBXBuildFile; fileRef = A54581B018DFA45700FBCD8F /* memcmp2.h */; };
+		A54584F418E0987000FBCD8F /* wolfextractor.h in Headers */ = {isa = PBXBuildFile; fileRef = A54584F318E0987000FBCD8F /* wolfextractor.h */; };
+		A545853018E0A22500FBCD8F /* wolf_common.h in Headers */ = {isa = PBXBuildFile; fileRef = A545852F18E0A22500FBCD8F /* wolf_common.h */; };
+		A545853718E0A37800FBCD8F /* gamepal.h in Headers */ = {isa = PBXBuildFile; fileRef = A545853518E0A32F00FBCD8F /* gamepal.h */; };
+		A545857618E0A8E900FBCD8F /* pak.h in Headers */ = {isa = PBXBuildFile; fileRef = A545857518E0A8E900FBCD8F /* pak.h */; };
+		A545870818E1B8E400FBCD8F /* OSXClipboard.h in Headers */ = {isa = PBXBuildFile; fileRef = A545870618E1B8E400FBCD8F /* OSXClipboard.h */; };
+		A545870918E1B8E400FBCD8F /* OSXClipboard.m in Sources */ = {isa = PBXBuildFile; fileRef = A545870718E1B8E400FBCD8F /* OSXClipboard.m */; };
+		A545870C18E1B93700FBCD8F /* X11Clipboard.h in Headers */ = {isa = PBXBuildFile; fileRef = A545870A18E1B93700FBCD8F /* X11Clipboard.h */; };
+		A545870D18E1B93700FBCD8F /* X11Clipboard.c in Sources */ = {isa = PBXBuildFile; fileRef = A545870B18E1B93700FBCD8F /* X11Clipboard.c */; };
+		A545872718E1C27E00FBCD8F /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A545872618E1C27E00FBCD8F /* Carbon.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		A5475D3618D37D4800FE1646 /* wolf_client.h in Headers */ = {isa = PBXBuildFile; fileRef = A5475D3518D37D4800FE1646 /* wolf_client.h */; };
 		A54761A018D4B24D00FE1646 /* libdmalloc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A547619F18D4B24D00FE1646 /* libdmalloc.a */; settings = {ATTRIBUTES = (Weak, ); }; };
 		A54766E118D7D34C00FE1646 /* vorbisenc_inter.h in Headers */ = {isa = PBXBuildFile; fileRef = A54766E018D7D34C00FE1646 /* vorbisenc_inter.h */; };
@@ -186,8 +195,8 @@
 		A547716418DB76DF00FE1646 /* glext.h in Headers */ = {isa = PBXBuildFile; fileRef = A547716218DB76DF00FE1646 /* glext.h */; };
 		A547716618DB7FCC00FE1646 /* wondering.caf in Resources */ = {isa = PBXBuildFile; fileRef = A547716518DB7FCC00FE1646 /* wondering.caf */; };
 		A54772B918DBCD9900FE1646 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 29B97325FDCFA39411CA2CEA /* Foundation.framework */; };
-		A54772FB18DBCDF800FE1646 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A54772FA18DBCDF800FE1646 /* QuartzCore.framework */; };
-		A547733418DBCE1100FE1646 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A547733318DBCE1100FE1646 /* SystemConfiguration.framework */; };
+		A54772FB18DBCDF800FE1646 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A54772FA18DBCDF800FE1646 /* QuartzCore.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		A547733418DBCE1100FE1646 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A547733318DBCE1100FE1646 /* SystemConfiguration.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		A54773FE18DBCE2C00FE1646 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 29B97324FDCFA39411CA2CEA /* AppKit.framework */; };
 		A547740118DBCE4000FE1646 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A547740018DBCE4000FE1646 /* AudioToolbox.framework */; };
 		A547741A18DBCEE600FE1646 /* dist.plist in Resources */ = {isa = PBXBuildFile; fileRef = A547741918DBCEE600FE1646 /* dist.plist */; };
@@ -625,6 +634,15 @@
 		A54581AE18DFA45700FBCD8F /* memcmp.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = memcmp.c; sourceTree = "<group>"; };
 		A54581AF18DFA45700FBCD8F /* memcmp2.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = memcmp2.c; sourceTree = "<group>"; };
 		A54581B018DFA45700FBCD8F /* memcmp2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = memcmp2.h; sourceTree = "<group>"; };
+		A54584F318E0987000FBCD8F /* wolfextractor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = wolfextractor.h; sourceTree = "<group>"; };
+		A545852F18E0A22500FBCD8F /* wolf_common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = wolf_common.h; sourceTree = "<group>"; };
+		A545853518E0A32F00FBCD8F /* gamepal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = gamepal.h; sourceTree = "<group>"; };
+		A545857518E0A8E900FBCD8F /* pak.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pak.h; sourceTree = "<group>"; };
+		A545870618E1B8E400FBCD8F /* OSXClipboard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OSXClipboard.h; sourceTree = "<group>"; };
+		A545870718E1B8E400FBCD8F /* OSXClipboard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OSXClipboard.m; sourceTree = "<group>"; };
+		A545870A18E1B93700FBCD8F /* X11Clipboard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = X11Clipboard.h; sourceTree = "<group>"; };
+		A545870B18E1B93700FBCD8F /* X11Clipboard.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = X11Clipboard.c; sourceTree = "<group>"; };
+		A545872618E1C27E00FBCD8F /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
 		A5475D3518D37D4800FE1646 /* wolf_client.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = wolf_client.h; sourceTree = "<group>"; };
 		A547619F18D4B24D00FE1646 /* libdmalloc.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libdmalloc.a; path = /opt/local/lib/libdmalloc.a; sourceTree = "<absolute>"; };
 		A54766E018D7D34C00FE1646 /* vorbisenc_inter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = vorbisenc_inter.h; sourceTree = "<group>"; };
@@ -685,6 +703,7 @@
 				7B0AFCBB1470CF7400165517 /* OpenGL.framework in Frameworks */,
 				A54772FB18DBCDF800FE1646 /* QuartzCore.framework in Frameworks */,
 				A547733418DBCE1100FE1646 /* SystemConfiguration.framework in Frameworks */,
+				A545872718E1C27E00FBCD8F /* Carbon.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -766,6 +785,7 @@
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
 				A547619F18D4B24D00FE1646 /* libdmalloc.a */,
+				A545872618E1C27E00FBCD8F /* Carbon.framework */,
 			);
 			name = Wolfenstein3DFromSource;
 			sourceTree = "<group>";
@@ -1066,6 +1086,7 @@
 			isa = PBXGroup;
 			children = (
 				7B0AFB1B1470CE6200165517 /* wolf_common.c */,
+				A545852F18E0A22500FBCD8F /* wolf_common.h */,
 			);
 			path = common;
 			sourceTree = "<group>";
@@ -1282,6 +1303,7 @@
 			isa = PBXGroup;
 			children = (
 				7B0AFB841470CE6200165517 /* main.c */,
+				A545853518E0A32F00FBCD8F /* gamepal.h */,
 			);
 			path = gamepal;
 			sourceTree = "<group>";
@@ -1312,11 +1334,13 @@
 				7B0AFBAE1470CE6200165517 /* makefile.freebsd */,
 				7B0AFBAF1470CE6200165517 /* memory */,
 				7B0AFBB21470CE6200165517 /* pak.c */,
+				A545857518E0A8E900FBCD8F /* pak.h */,
 				7B0AFBB31470CE6200165517 /* Release */,
 				7B0AFBB41470CE6200165517 /* string */,
 				7B0AFBB71470CE6300165517 /* vorbisenc_inter.c */,
 				A54766E018D7D34C00FE1646 /* vorbisenc_inter.h */,
 				7B0AFBB81470CE6300165517 /* wolf */,
+				A54584F318E0987000FBCD8F /* wolfextractor.h */,
 				7B0AFBC01470CE6300165517 /* wolfextractor.sln */,
 				7B0AFBC11470CE6300165517 /* wolfextractor.vcproj */,
 				7B0AFBC21470CE6300165517 /* zip */,
@@ -1462,6 +1486,7 @@
 		7B0AFBC51470CE6300165517 /* unix */ = {
 			isa = PBXGroup;
 			children = (
+				A54586AC18E1ACA000FBCD8F /* clipboard */,
 				7B0AFBC61470CE6300165517 /* unix_main.c */,
 				7B0AFBC71470CE6300165517 /* unix_vid_sys.c */,
 			);
@@ -1589,6 +1614,17 @@
 			name = wav;
 			sourceTree = "<group>";
 		};
+		A54586AC18E1ACA000FBCD8F /* clipboard */ = {
+			isa = PBXGroup;
+			children = (
+				A545870618E1B8E400FBCD8F /* OSXClipboard.h */,
+				A545870718E1B8E400FBCD8F /* OSXClipboard.m */,
+				A545870A18E1B93700FBCD8F /* X11Clipboard.h */,
+				A545870B18E1B93700FBCD8F /* X11Clipboard.c */,
+			);
+			path = clipboard;
+			sourceTree = "<group>";
+		};
 		A547716018DB76DF00FE1646 /* GL */ = {
 			isa = PBXGroup;
 			children = (
@@ -1629,6 +1665,14 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
+		A545853818E0A39600FBCD8F /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A545853718E0A37800FBCD8F /* gamepal.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		A5476DCD18DA1D8700FE1646 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -1666,6 +1710,8 @@
 				A571F1C018C6FA300037F031 /* adlib.h in Headers */,
 				A571F1C218C6FA300037F031 /* fmopl.h in Headers */,
 				A54766E118D7D34C00FE1646 /* vorbisenc_inter.h in Headers */,
+				A54584F418E0987000FBCD8F /* wolfextractor.h in Headers */,
+				A545857618E0A8E900FBCD8F /* pak.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1778,6 +1824,9 @@
 				A5476C3518D9F21400FE1646 /* verify.h in Headers */,
 				A547716418DB76DF00FE1646 /* glext.h in Headers */,
 				A54581B318DFA45700FBCD8F /* memcmp2.h in Headers */,
+				A545853018E0A22500FBCD8F /* wolf_common.h in Headers */,
+				A545870818E1B8E400FBCD8F /* OSXClipboard.h in Headers */,
+				A545870C18E1B93700FBCD8F /* X11Clipboard.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1808,6 +1857,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = A5476C8618DA0C1D00FE1646 /* Build configuration list for PBXNativeTarget "gamepal" */;
 			buildPhases = (
+				A545853818E0A39600FBCD8F /* Headers */,
 				A5476C7A18DA0BE800FE1646 /* Sources */,
 				A5476C7B18DA0BE800FE1646 /* Frameworks */,
 			);
@@ -2056,6 +2106,8 @@
 				A5476C3B18D9F35800FE1646 /* fileblocks.c in Sources */,
 				A54581B118DFA45700FBCD8F /* memcmp.c in Sources */,
 				A54581B218DFA45700FBCD8F /* memcmp2.c in Sources */,
+				A545870918E1B8E400FBCD8F /* OSXClipboard.m in Sources */,
+				A545870D18E1B93700FBCD8F /* X11Clipboard.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

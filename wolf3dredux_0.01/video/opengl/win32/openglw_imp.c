@@ -1,37 +1,34 @@
 /*
-
-	Copyright (C) 1997-2001 Id Software, Inc.
-
-	This program is free software; you can redistribute it and/or
-	modify it under the terms of the GNU General Public License
-	as published by the Free Software Foundation; either version 2
-	of the License, or (at your option) any later version.
-
-	This program is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	GNU General Public License for more details.
-
-	You should have received a copy of the GNU General Public License
-	along with this program; if not, write to the Free Software
-	Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-
-*/
+ *	Copyright (C) 1997-2001 Id Software, Inc.
+ *
+ *	This program is free software; you can redistribute it and/or
+ *	modify it under the terms of the GNU General Public License
+ *	as published by the Free Software Foundation; either version 2
+ *	of the License, or (at your option) any later version.
+ *
+ *	This program is distributed in the hope that it will be useful,
+ *	but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *	GNU General Public License for more details.
+ *
+ *	You should have received a copy of the GNU General Public License
+ * 	along with this program; if not, write to the Free Software
+ *	Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */
 
 /*
-
- Notes:
-
- This file contains ALL Win32 specific stuff having to do with the
- OpenGL refresh. When a port is being made the following functions
- must be implemented by the port:
-
- GLimp_EndFrame
- GLimp_Init
- GLimp_Shutdown
- GLimp_SwitchFullscreen
-
-*/
+ * Notes:
+ *
+ * This file contains ALL Win32 specific stuff having to do with the
+ * OpenGL refresh. When a port is being made the following functions
+ * must be implemented by the port:
+ *
+ * GLimp_EndFrame()
+ * GLimp_Init()
+ * GLimp_Shutdown()
+ * GLimp_SwitchFullscreen()
+ *
+ */
 
 #ifndef _WIN32
 # error "You do not appear to be on Windows, do not compile this file on this platform."
@@ -42,11 +39,25 @@
 
 #include <math.h>
 
+/* Wine's <crtdefs.h> has conflicting declarations for intptr_t, uintptr_t, and
+ * wchar_t, so be sure to let <stdint.h> and <inttypes.h> that we already have
+ * these types: */
+#ifdef __WINE_CRTDEFS_H
+# define _INTPTR_T 1
+# define _UINTPTR_T 1
+# define _WCHAR_T 1
+#endif /* __WINE_CRTDEFS_H */
 #include "../opengl_local.h"
 #include "../myopengl.h"
 #include "../opengl_binding.h"
 
 #include "../../video.h"
+
+/* Prevent conflict between types for perror and _wperror in Wine's <stdio.h>
+ * and Wine's <stdlib.h>: */
+#ifdef __WINE_STDIO_H
+# define __WINE_STDLIB_H 1
+#endif /* __WINE_STDIO_H */
 #include "../../../string/com_string.h"
 #include "../../../common/common.h"
 
@@ -57,8 +68,12 @@
 #define	WINDOW_CLASS_NAME	GAME_NAME
 
 
-static _boolean GLimp_SwitchFullscreen( int width, int height );
-_boolean GLimp_InitGL (void);
+static _boolean GLimp_SwitchFullscreen(int width, int height);
+#ifdef PRIVATE
+PRIVATE _boolean GLimp_InitGL(void);
+#else
+static _boolean GLimp_InitGL(void);
+#endif /* PRIVATE */
 
 glwstate_t glw_state;
 
@@ -67,13 +82,13 @@ extern cvar_t *r_ref;
 
 
 BOOL	RestoreGammaRamp;
-WORD	GammaRampBackup[ 3 * 256 ];
+WORD	GammaRampBackup[(3 * 256)];
 
 typedef struct
 {
-	float	Contrast[ 3 ];		// Contrast RGB,	[-1.f ~ 1.f]
-	float	Luminosity[ 3 ];	// Luminosity RGB,	[-1.f ~ 1.f]
-	float	Gamma[ 3 ];			// Gamma RGB,		[-1.f ~ 1.f]
+	float	Contrast[3];		/* Contrast RGB,	[-1.f ~ 1.f] */
+	float	Luminosity[3];		/* Luminosity RGB,	[-1.f ~ 1.f] */
+	float	Gamma[3];			/* Gamma RGB,		[-1.f ~ 1.f] */
 
 } CMonitorColorProperties;
 
@@ -91,15 +106,14 @@ CMonitorColorProperties properties;
  Notes:
 -----------------------------------------------------------------------------
 */
-PRIVATE _boolean VerifyDriver( void )
+PRIVATE _boolean VerifyDriver(void)
 {
-	char buffer[ 1024 ];
+	char buffer[1024];
 
-	my_strlcpy( buffer, pfglGetString( GL_RENDERER ), sizeof( buffer ) );
-	(void)my_strlwr( buffer );
+	my_strlcpy(buffer, (char *)pfglGetString(GL_RENDERER), sizeof(buffer));
+	(void)my_strlwr(buffer);
 
-	if( strcmp( buffer, "gdi generic" ) == 0 )
-	{
+	if (strcmp(buffer, "gdi generic") == 0) {
 		return false;
 	}
 
@@ -108,16 +122,16 @@ PRIVATE _boolean VerifyDriver( void )
 
 /*
 -----------------------------------------------------------------------------
- Function:
+ Function: BackupGammaRamp
 
- Parameters:
+ Parameters: Nothing.
 
- Returns:
+ Returns: Nothing.
 
  Notes:
 -----------------------------------------------------------------------------
 */
-PRIVATE void BackupGammaRamp( void )
+PRIVATE void BackupGammaRamp(void)
 {
 	HDC hDC;
 
@@ -734,18 +748,16 @@ void GLimp_EndFrame( void )
  Notes:
 -----------------------------------------------------------------------------
 */
-void GLimp_AppActivate( _boolean active )
+void GLimp_AppActivate(_boolean active)
 {
-	if( active )
-	{
-		SetForegroundWindow( glw_state.hWnd );
-		ShowWindow( glw_state.hWnd, SW_RESTORE );
-	}
-	else
-	{
-		if ( r_fullscreen->value )
-		{
-			ShowWindow( glw_state.hWnd, SW_MINIMIZE );
+	if (active) {
+		SetForegroundWindow(glw_state.hWnd);
+		ShowWindow(glw_state.hWnd, SW_RESTORE);
+	} else {
+		if (r_fullscreen->value) {
+			ShowWindow(glw_state.hWnd, SW_MINIMIZE);
 		}
 	}
 }
+
+/* EOF */

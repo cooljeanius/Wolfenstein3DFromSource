@@ -5,6 +5,7 @@ noinst_LIBRARIES = libgnu.a
 
 ## clear to prevent implicit rules from trying to find a 'libgnu.c':
 libgnu_a_SOURCES =
+## (TODO: actually add a 'libgnu.c' file)
 
 libgnu_a_LIBADD = $(LIBOBJS)
 

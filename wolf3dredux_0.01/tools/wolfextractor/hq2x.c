@@ -160,14 +160,15 @@ int Diff( unsigned int w1, unsigned int w2 )
 {
   YUV1 = RGBtoYUV[w1];
   YUV2 = RGBtoYUV[w2];
-  return ( ( abs((YUV1 & Ymask) - (YUV2 & Ymask)) > trY ) ||
-           ( abs((YUV1 & Umask) - (YUV2 & Umask)) > trU ) ||
-           ( abs((YUV1 & Vmask) - (YUV2 & Vmask)) > trV ) );
+  return ((abs((YUV1 & Ymask) - (YUV2 & Ymask)) > trY) ||
+		  (abs((YUV1 & Umask) - (YUV2 & Umask)) > trU) ||
+		  (abs((YUV1 & Vmask) - (YUV2 & Vmask)) > trV));
 }
 
 /* second (and originally was the last) function to have a prototype in the
  * corresponding header */
-void hq2x_32( unsigned char *pIn, unsigned char *pOut, int Xres, int Yres, int BpL )
+void hq2x_32(unsigned char *pIn, unsigned char *pOut, int Xres, int Yres,
+			 int BpL)
 {
     int	i, j, k;
     int	prevline, nextline;
@@ -204,25 +205,25 @@ void hq2x_32( unsigned char *pIn, unsigned char *pOut, int Xres, int Yres, int B
      *   +----+----+----+
 	 */
 
-    for( j = 0; j < Yres; ++j ) {
-        if( j > 0 ) {
-            prevline = -Xres*2;
+    for ((j = 0); (j < Yres); ++j) {
+        if (j > 0) {
+            prevline = (-Xres * 2);
         } else {
             prevline = 0;
 		}
 
-        if( j < Yres-1 ) {
-            nextline =  Xres*2;
+        if (j < (Yres - 1)) {
+            nextline = (Xres * 2);
         } else {
             nextline = 0;
 		}
 
-        for( i = 0; i < Xres; ++i ) {
+        for ((i = 0); (i < Xres); ++i) {
             w[2] = *((unsigned short*)(pIn + prevline));
             w[5] = *((unsigned short*)pIn);
             w[8] = *((unsigned short*)(pIn + nextline));
 
-            if( i > 0 ) {
+            if (i > 0) {
                 w[1] = *((unsigned short*)(pIn + prevline - 2));
                 w[4] = *((unsigned short*)(pIn - 2));
                 w[7] = *((unsigned short*)(pIn + nextline - 2));
@@ -232,7 +233,7 @@ void hq2x_32( unsigned char *pIn, unsigned char *pOut, int Xres, int Yres, int B
                 w[7] = w[8];
             }
 
-            if( i < Xres-1 ) {
+            if (i < (Xres - 1)) {
                 w[3] = *((unsigned short*)(pIn + prevline + 2));
                 w[6] = *((unsigned short*)(pIn + 2));
                 w[9] = *((unsigned short*)(pIn + nextline + 2));
@@ -245,29 +246,31 @@ void hq2x_32( unsigned char *pIn, unsigned char *pOut, int Xres, int Yres, int B
             pattern = 0;
             flag = 1;
 
-            YUV1 = RGBtoYUV[ w[ 5 ] ];
+            YUV1 = RGBtoYUV[w[5]];
 
-            for( k = 1; k <= 9; ++k ) {
-                if( k == 5 ) {
+            for ((k = 1); (k <= 9); ++k) {
+                if (k == 5) {
                     continue;
 				}
 
-                if ( w[ k ] != w[ 5 ] ) {
-                    YUV2 = RGBtoYUV[ w[ k ] ];
-                    if(( abs((YUV1 & Ymask) - (YUV2 & Ymask)) > trY ) ||
-					   ( abs((YUV1 & Umask) - (YUV2 & Umask)) > trU ) ||
-					   ( abs((YUV1 & Vmask) - (YUV2 & Vmask)) > trV ) ) {
+                if (w[k] != w[5]) {
+                    YUV2 = RGBtoYUV[w[k]];
+                    if((abs((YUV1 & Ymask) - (YUV2 & Ymask)) > trY) ||
+					   (abs((YUV1 & Umask) - (YUV2 & Umask)) > trU) ||
+					   (abs((YUV1 & Vmask) - (YUV2 & Vmask)) > trV)) {
                             pattern |= flag;
 					}
                 }
                 flag <<= 1;
             }
 
-            for( k = 1; k <= 9; ++k ) {
-                c[ k ] = LUT16to24[ w[ k ] ];
+            for ((k = 1); (k <= 9); ++k) {
+                c[k] = LUT16to24[w[k]];
             }
 
-            switch( pattern ) {
+			/* there has to be a more efficient way to do this than to enumerate
+			 * every single case like is done here: */
+            switch (pattern) {
                 case 0:
                 case 1:
                 case 4:
@@ -291,6 +294,11 @@ void hq2x_32( unsigned char *pIn, unsigned char *pOut, int Xres, int Yres, int B
                     PIXEL11_20
                     break;
                 }
+					/* why the change in indentation here? FIXME */
+					/* (although in the long term it would be better to just
+					 * replace this entire "switch" thing with something else,
+					 * in which case this change in indentation would be
+					 * disappearing, anyways...) */
         case 2:
         case 34:
         case 130:
@@ -2380,7 +2388,7 @@ void hq2x_32( unsigned char *pIn, unsigned char *pOut, int Xres, int Yres, int B
           }
           break;
         }
-      }
+      } /* end "switch (pattern)" (whew, that went on a ways!) */
       pIn += 2;
       pOut += 8;
     }
@@ -2389,30 +2397,31 @@ void hq2x_32( unsigned char *pIn, unsigned char *pOut, int Xres, int Yres, int B
 }
 
 /* first prototype listed in corresponding header */
-void InitLUTs( void )
+void InitLUTs(void)
 {
     int i, j, k, r, g, b, Y, U, V;
 
-    for( i = 0; i < 65536; ++i ) {
+    for ((i = 0); (i < 65536); ++i) {
 
         LUT16to24[i] = ((i & 0xF800) << 8) |
 						((i & 0x07E0) << 5) |
 						((i & 0x001F) << 3);
     }
 
-    for( i = 0; i < 32; ++i )
-    for( j = 0; j < 64; ++j )
-    for( k = 0; k < 32; ++k )
-    {
-        r = i << 3;
-        g = j << 2;
-        b = k << 3;
+    for ((i = 0); (i < 32); ++i) {
+		for ((j = 0); (j < 64); ++j) {
+			for ((k = 0); (k < 32); ++k) {
+				r = (i << 3);
+				g = (j << 2);
+				b = (k << 3);
 
-		Y  = (r + g + b) >> 2;
-        U = 128 + ((r - b) >> 2);
-        V = 128 + ((-r + 2*g -b)>>3);
+				Y = ((r + g + b) >> 2);
+				U = (128 + ((r - b) >> 2));
+				V = (128 + ((-r + (2 * g) -b) >> 3));
 
-        RGBtoYUV[ (i << 11) | (j << 5) | k ] = (Y<<16) | (U<<8) | V;
+				RGBtoYUV[((i << 11) | (j << 5) | k)] = ((Y << 16) | (U << 8) | V);
+			}
+		}
     }
 }
 

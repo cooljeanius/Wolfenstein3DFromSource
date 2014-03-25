@@ -28,11 +28,20 @@ DIAGFLAGS = -fcolor-diagnostics -fdiagnostics-print-source-range-info -fdiagnost
 WARNFLAGS = $(WARNFLAGS_COMMON) -Wunused-function -Wunused-label -Wunused-parameter -Wunused-variable -Wshorten-64-to-32
 # (cannot sanitize both thread and address at the same time)
 SANFLAGS = -fsanitize=bounds -fsanitize=undefined
-OPTFLAGS = -g -gdwarf-2 -ggdb -O1 -msse3 -mssse3 -msse4.2 -msse4.2 
+OPTFLAGS = -g -gdwarf-2 -ggdb -O1 -msse3 -mssse3 -msse4.1 -msse4.2 
 CLANG_CFLAGS = $(OPTFLAGS) -std=gnu99 $(WARNFLAGS) -fasm-blocks -fexceptions -fno-common -fno-limit-debug-info -fno-omit-frame-pointer -fpascal-strings $(CFLAGS_COMMON) -mfix-and-continue $(DIAGFLAGS) $(SANFLAGS)
 AM_CLANG_CPPFLAGS = -I/opt/local/include
 # need to link with sanitizer flags, too, to get necessary symbols:
 AM_CLANG_LINKFLAGS = -L/opt/local/lib $(SANFLAGS) -v -exported_symbols_list ../Wolfenstein3DFromSource.exp
+
+if MS_COMPAT_CHECK
+# turn off warnings that actually are just coming from the Wine headers:
+CLANG_MS_COMPAT_WARNFLAGS = $(WARNFLAGS_COMMON) -Wno-unknown-pragmas -Wno-ignored-attributes -Wno-implicit-function-declaration -Wno-int-conversion -Wno-uninitialized
+CLANG_MS_COMPAT_CFLAGS = -fasm-blocks -fborland-extensions -fexceptions -ffast-math -fms-compatibility -fms-extensions -fmsc-version=601 -fno-builtin -fno-common -fvisibility-ms-compat -funroll-loops -mfix-and-continue -mms-bitfields -msse3 -mssse3 -msse4.1 -msse4.2 -m32 -g -O0 -arch i386 -std=c99 $(CLANG_MS_COMPAT_WARNFLAGS) -x c
+AM_CLANG_MS_COMPAT_CPPFLAGS = -D_MSC_VER=601 -D_WIN32 -I/opt/local/include/wine -I/opt/local/include/wine -I/opt/local/include/wine/msvcrt -I/opt/local/include/wine/windows $(AM_CLANG_CPPFLAGS)
+endif
+## (end MS_COMPAT_CHECK)
+
 SCAN_BUILD_CHECKERS = -enable-checker alpha.core.CastSize -enable-checker alpha.core.CastToStruct -enable-checker alpha.core.FixedAddr -enable-checker alpha.core.PointerArithm -enable-checker alpha.core.PointerSub -enable-checker alpha.core.SizeofPtr -enable-checker alpha.security.ArrayBound -enable-checker alpha.security.ArrayBoundV2 -enable-checker alpha.security.MallocOverflow -enable-checker alpha.security.ReturnPtrRange -enable-checker alpha.unix.MallocWithAnnotations -enable-checker alpha.unix.SimpleStream -enable-checker alpha.unix.Stream -enable-checker alpha.unix.cstring.BufferOverlap -enable-checker alpha.unix.cstring.NotNullTerminated -enable-checker alpha.unix.cstring.OutOfBounds -enable-checker security.insecureAPI.rand -enable-checker security.insecureAPI.strcpy -enable-checker security.insecureAPI.vfork -enable-checker llvm.Conventions -enable-checker debug.ConfigDumper -enable-checker alpha.deadcode.UnreachableCode -enable-checker security.FloatLoopCounter -enable-checker debug.Stats
 endif
 ## (end CLANG_RULES)
@@ -147,6 +156,10 @@ wolf3dredux_SOURCES = client/client_input.c \
 
 wolf3dredux_LDADD = $(LIBOBJDIR)libgnu.a
 EXTRA_wolf3dredux_DEPENDENCIES = $(LIBOBJDIR)libgnu.a
+
+# note the space in the rule:
+$(LIBOBJDIR)libgnu.a: $(LIBOBJDIR)Makefile
+	$(MAKE) -C $(LIBOBJDIR) libgnu.a
 
 noinst_PROGRAMS = gamepal signon
 
@@ -504,7 +517,7 @@ $(ODIR)/opengl_main.o : video/opengl/opengl_main.c
 $(ODIR)/opengl_texture.o : video/opengl/opengl_texture.c 
 	$(DO_CC)
 
-# this file seems not to exist yet?
+# this file seems not to exist yet? TODO: add/create it...
 $(ODIR)/opengl_interface.o : video/opengl/unix/opengl_interface.c 
 	$(DO_CC)
 
@@ -668,7 +681,30 @@ endif
 
 if CLANG_RULES
 analyze: clean ../Wolfenstein3DFromSource.exp
-	$(SCAN_BUILD) -analyze-headers -stats --use-analyzer=$(COMPILER) $(SCAN_BUILD_CHECKERS) -v -v -v -plist-html -o scan_build_output $(MAKE) CFLAGS="$(CLANG_CFLAGS)" CPPFLAGS="$(AM_CLANG_CPPFLAGS)" LDFLAGS="$(AM_CLANG_LINKFLAGS)"
+	$(SCAN_BUILD) -analyze-headers -stats --use-analyzer=$(COMPILER) $(SCAN_BUILD_CHECKERS) -v -v -v -plist-html -o scan_build_output $(MAKE) CFLAGS="$(CLANG_CFLAGS)" CPPFLAGS="$(AM_CLANG_CPPFLAGS)" LDFLAGS="$(AM_CLANG_LINKFLAGS)" $(LIBOBJDIR)libgnu.a wolf3dredux
+
+if MS_COMPAT_CHECK
+noinst_LIBRARIES = libmscompat.a
+
+libmscompat_a_SOURCES = device/filesys/win32/win_file.c \
+                        device/input/win32/win_joystick.c \
+                        device/input/win32/win_keys.c \
+                        device/input/win32/win_mouse.c \
+                        device/system/win32/win_system.c \
+                        device/timer/win32/win_timer.c \
+                        video/opengl/win32/openglw_imp.c \
+                        win32/vid_sys.c \
+                        win32/win_main.c
+
+ms-compat: clean
+	 $(MAKE) AM_CFLAGS="" CFLAGS="$(CLANG_MS_COMPAT_CFLAGS)" AM_CPPFLAGS="-I." CPPFLAGS="$(AM_CLANG_MS_COMPAT_CPPFLAGS)" LDFLAGS="" libmscompat.a
+else
+## (not MS_COMPAT_CHECK)
+ms-compat:
+	@echo "the ms-compat target is not supported with your current configuration."
+endif
+## (end MS_COMPAT_CHECK)
+
 else
 ## (not CLANG_RULES)
 analyze:

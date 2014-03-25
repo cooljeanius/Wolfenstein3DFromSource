@@ -979,7 +979,7 @@ BOOL (WINAPI *pfwglChoosePixelFormatARB)(HDC hdc, const int *piAttribIList,
 
 #endif /* _WIN32 */
 
-#if defined(__unix__) || defined(__APPLE__)
+#if (defined(__unix__) || defined(__APPLE__)) && !defined(_WIN32)
 /* for "__APPLE__" to be correct, X11 or XQuartz needs to be installed
  * (see above) */
 
@@ -1025,7 +1025,7 @@ void (*pfglXUseXFont)(Font font, int first, int count, int listBase);
 void (*pfglXWaitGL)(void);
 void (*pfglXWaitX)(void);
 
-#endif /* __unix__ || __APPLE__ */
+#endif /* (__unix__ || __APPLE__) && !_WIN32 */
 
 #endif /* __MYOPENGL_H__ */
 

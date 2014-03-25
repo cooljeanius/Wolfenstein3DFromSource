@@ -1,29 +1,26 @@
 /*
-
-	Copyright (C) 2004 Michael Liebscher
-
-	This program is free software; you can redistribute it and/or
-	modify it under the terms of the GNU General Public License
-	as published by the Free Software Foundation; either version 2
-	of the License, or (at your option) any later version.
-
-	This program is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	GNU General Public License for more details.
-
-	You should have received a copy of the GNU General Public License
-	along with this program; if not, write to the Free Software
-	Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-
-*/
+ *	Copyright (C) 2004 Michael Liebscher
+ *
+ *	This program is free software; you can redistribute it and/or
+ *	modify it under the terms of the GNU General Public License
+ *	as published by the Free Software Foundation; either version 2
+ *	of the License, or (at your option) any later version.
+ *
+ *	This program is distributed in the hope that it will be useful,
+ *	but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *	GNU General Public License for more details.
+ *
+ *	You should have received a copy of the GNU General Public License
+ *	along with this program; if not, write to the Free Software
+ *	Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */
 
 /*
  *	win_file.c:   Handles non-portable file services.
  *
  *	Author:	Michael Liebscher <johnnycanuck@users.sourceforge.net>
  *	Date:	2004
- *
  *
  */
 
@@ -42,8 +39,8 @@
 
 
 
-PRIVATE char    findbase[ MAX_PATH ];
-PRIVATE char    findpath[ MAX_PATH ];
+PRIVATE char    findbase[MAX_PATH];
+PRIVATE char    findpath[MAX_PATH];
 PRIVATE HANDLE  FindHandle;
 
 
@@ -59,12 +56,11 @@ PRIVATE HANDLE  FindHandle;
  Notes:
 -----------------------------------------------------------------------------
 */
-PUBLIC W8 FS_CreateDirectory( const char *dirname )
+PUBLIC W8 FS_CreateDirectory(const char *dirname)
 {
-	BOOL ret_val = CreateDirectory( dirname, NULL );
+	BOOL ret_val = CreateDirectory(dirname, NULL);
 
-	if( ret_val == 0 && GetLastError() == ERROR_ALREADY_EXISTS )
-	{
+	if ((ret_val == 0) && (GetLastError() == ERROR_ALREADY_EXISTS)) {
 		return 1;
 	}
 
@@ -80,12 +76,12 @@ PUBLIC W8 FS_CreateDirectory( const char *dirname )
 
  Returns: On success nonzero, otherwise zero.
 
- Notes:
+ Notes: Just a simple wrapper around SetCurrentDirectory() for now...
 -----------------------------------------------------------------------------
 */
-PUBLIC W8 FS_ChangeCurrentDirectory( const char *path )
+PUBLIC W8 FS_ChangeCurrentDirectory(const char *path)
 {
-	return SetCurrentDirectory( path );
+	return SetCurrentDirectory(path);
 }
 
 
@@ -102,39 +98,50 @@ PUBLIC W8 FS_ChangeCurrentDirectory( const char *path )
  Notes:
 -----------------------------------------------------------------------------
 */
-PRIVATE _boolean CompareAttributes( W32 found, W32 musthave, W32 canthave )
+PRIVATE _boolean CompareAttributes(W32 found, W32 musthave, W32 canthave)
 {
-	if( ( found & FILE_ATTRIBUTE_READONLY ) && ( canthave & FA_RDONLY ) )
+	/* check 'canthave' attributes first: */
+	if ((found & FILE_ATTRIBUTE_READONLY) && (canthave & FA_RDONLY)) {
 		return false;
+	}
 
-	if( ( found & FILE_ATTRIBUTE_HIDDEN ) && ( canthave & FA_HIDDEN ) )
+	if ((found & FILE_ATTRIBUTE_HIDDEN) && (canthave & FA_HIDDEN)) {
 		return false;
+	}
 
-	if( ( found & FILE_ATTRIBUTE_SYSTEM ) && ( canthave & FA_SYSTEM ) )
+	if ((found & FILE_ATTRIBUTE_SYSTEM) && (canthave & FA_SYSTEM)) {
 		return false;
+	}
 
-	if( ( found & FILE_ATTRIBUTE_DIRECTORY ) && ( canthave & FA_DIR ) )
+	if ((found & FILE_ATTRIBUTE_DIRECTORY) && (canthave & FA_DIR)) {
 		return false;
+	}
 
-	if( ( found & FILE_ATTRIBUTE_ARCHIVE ) && ( canthave & FA_ARCH ) )
+	if ((found & FILE_ATTRIBUTE_ARCHIVE) && (canthave & FA_ARCH)) {
 		return false;
+	}
 
 
-
-	if( ( musthave & FA_RDONLY ) && !( found & FILE_ATTRIBUTE_READONLY ) )
+	/* done with 'canthave' checks, now check for 'musthave' attributes: */
+	if ((musthave & FA_RDONLY) && !(found & FILE_ATTRIBUTE_READONLY)) {
 		return false;
+	}
 
-	if( ( musthave & FA_HIDDEN ) && !( found & FILE_ATTRIBUTE_HIDDEN ) )
+	if ((musthave & FA_HIDDEN) && !(found & FILE_ATTRIBUTE_HIDDEN)) {
 		return false;
+	}
 
-	if( ( musthave & FA_SYSTEM ) && !( found & FILE_ATTRIBUTE_SYSTEM ) )
+	if ((musthave & FA_SYSTEM) && !(found & FILE_ATTRIBUTE_SYSTEM)) {
 		return false;
+	}
 
-	if( ( musthave & FA_DIR ) && !( found & FILE_ATTRIBUTE_DIRECTORY ) )
+	if ((musthave & FA_DIR) && !(found & FILE_ATTRIBUTE_DIRECTORY)) {
 		return false;
+	}
 
-	if( ( musthave & FA_ARCH ) && !( found & FILE_ATTRIBUTE_ARCHIVE ) )
+	if ((musthave & FA_ARCH) && !(found & FILE_ATTRIBUTE_ARCHIVE)) {
 		return false;
+	}
 
 	return true;
 }
@@ -153,44 +160,38 @@ PRIVATE _boolean CompareAttributes( W32 found, W32 musthave, W32 canthave )
  Notes:
 -----------------------------------------------------------------------------
 */
-PUBLIC char *FS_FindFirst( const char *path, W32 musthave, W32 canthave )
+PUBLIC char *FS_FindFirst(const char *path, W32 musthave, W32 canthave)
 {
     WIN32_FIND_DATA FindFileData;
 
-	if( FindHandle )
-	{
-		printf( "FS_FindFirst without close\n" );
+	if (FindHandle) {
+		printf("FS_FindFirst without close\n");
 
 		return NULL;
 	}
 
-	FS_FilePath( path, findbase );
+	FS_FilePath((char *)path, findbase);
 
-	FindHandle = FindFirstFile( path, &FindFileData );
+	FindHandle = FindFirstFile(path, &FindFileData);
 
-	if( FindHandle == INVALID_HANDLE_VALUE )
-	{
+	if (FindHandle == INVALID_HANDLE_VALUE) {
 		return NULL;
 	}
 
 
-
-	if( CompareAttributes( FindFileData.dwFileAttributes, musthave, canthave ) )
-	{
-		if( ! *findbase )
-		{
-			my_strlcpy( findpath, FindFileData.cFileName, sizeof( findpath ) );
-		}
-		else
-		{
-			my_snprintf( findpath, sizeof( findpath ), "%s/%s", findbase, FindFileData.cFileName );
+	if (CompareAttributes(FindFileData.dwFileAttributes, musthave, canthave)) {
+		if (! *findbase) {
+			my_strlcpy(findpath, FindFileData.cFileName, sizeof(findpath));
+		} else {
+			my_snprintf(findpath, sizeof(findpath), "%s/%s", findbase,
+						FindFileData.cFileName);
 		}
 
 		return findpath;
 	}
 
 
-    return FS_FindNext( musthave, canthave );
+    return FS_FindNext(musthave, canthave);
 }
 
 
@@ -207,35 +208,30 @@ PUBLIC char *FS_FindFirst( const char *path, W32 musthave, W32 canthave )
  Notes:
 -----------------------------------------------------------------------------
 */
-PUBLIC char *FS_FindNext( W32 musthave, W32 canthave )
+PUBLIC char *FS_FindNext(W32 musthave, W32 canthave)
 {
 	WIN32_FIND_DATA FindFileData;
 
-	if( FindHandle == INVALID_HANDLE_VALUE )
-	{
+	if (FindHandle == INVALID_HANDLE_VALUE) {
 		return NULL;
 	}
 
-	while( 1 )
-	{
-		if( FindNextFile( FindHandle, &FindFileData ) == 0 )
-		{
+	while (1) {
+		if (FindNextFile(FindHandle, &FindFileData) == 0) {
 			return NULL;
 		}
 
-		if( CompareAttributes( FindFileData.dwFileAttributes, musthave, canthave ) )
-		{
+		if (CompareAttributes(FindFileData.dwFileAttributes,
+							  musthave, canthave)) {
 			break;
 		}
 	}
 
-	if( ! *findbase )
-	{
-		my_snprintf( findpath, sizeof( findpath ), "%s", FindFileData.cFileName );
-	}
-	else
-	{
-		my_snprintf( findpath, sizeof( findpath ), "%s/%s", findbase, FindFileData.cFileName );
+	if (! *findbase) {
+		my_snprintf(findpath, sizeof(findpath), "%s", FindFileData.cFileName);
+	} else {
+		my_snprintf(findpath, sizeof(findpath), "%s/%s", findbase,
+					FindFileData.cFileName );
 	}
 
 	return findpath;
@@ -249,14 +245,13 @@ PUBLIC char *FS_FindNext( W32 musthave, W32 canthave )
 
  Returns: Nothing.
 
- Notes:
+ Notes: Basically just a simple wrapper around FindClose() for now...
 -----------------------------------------------------------------------------
 */
-PUBLIC void FS_FindClose( void )
+PUBLIC void FS_FindClose(void)
 {
-	if( FindHandle != INVALID_HANDLE_VALUE )
-	{
-		FindClose( FindHandle );
+	if (FindHandle != INVALID_HANDLE_VALUE) {
+		FindClose(FindHandle);
     }
 
 	FindHandle = 0;
@@ -271,12 +266,12 @@ PUBLIC void FS_FindClose( void )
 
  Returns: If successful the return value is nonzero, otherwise zero.
 
- Notes:
+ Notes: Just a simple wrapper around DeleteFile() for now...
 -----------------------------------------------------------------------------
 */
-PUBLIC _boolean FS_DeleteFile( const char *filename )
+PUBLIC _boolean FS_DeleteFile(const char *filename)
 {
-	return DeleteFile( filename );
+	return DeleteFile(filename);
 }
 
 /*
@@ -288,12 +283,12 @@ PUBLIC _boolean FS_DeleteFile( const char *filename )
 
  Returns: If successful the return value is nonzero, otherwise zero.
 
- Notes:
+ Notes: Just a simple wrapper around RemoveDirectory() for now...
 -----------------------------------------------------------------------------
 */
-PUBLIC _boolean FS_RemoveDirectory( const char *pathname )
+PUBLIC _boolean FS_RemoveDirectory(const char *pathname)
 {
-	return RemoveDirectory( pathname );
+	return RemoveDirectory(pathname);
 }
 
-
+/* EOF */

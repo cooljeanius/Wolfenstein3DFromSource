@@ -36,6 +36,8 @@
 
 #include "../../zlib/zlib.h"
 
+#include "pak.h" /* new location for prototypes from this file */
+
 
 #define SCRIPTNAME		"DEFAULT.CFG"
 #define GVERSION_TEXT	"set g_version "
@@ -104,19 +106,19 @@ PRIVATE struct zlist *writelocalfilechunk(const char *filename, FILE *fout)
     c_stream.zfree = (free_func)0;
     c_stream.opaque = (voidpf)0;
 
-	err = deflateInit( &c_stream, Z_DEFAULT_COMPRESSION );
-	if( err != Z_OK ) {
-		MM_FREE( data );
-		MM_FREE( zentry );
+	err = deflateInit(&c_stream, Z_DEFAULT_COMPRESSION);
+	if (err != Z_OK) {
+		MM_FREE(data);
+		MM_FREE(zentry);
 
 		return NULL;
 	}
 
 
-	zentry->compressed_size = (zentry->uncompressed_size / 10) + 12 + zentry->uncompressed_size;
+	zentry->compressed_size = ((zentry->uncompressed_size / 10) + 12 +
+							   zentry->uncompressed_size);
 
-
-	compr = MM_MALLOC( zentry->compressed_size );
+	compr = MM_MALLOC(zentry->compressed_size);
 
 
 	c_stream.next_out = compr;
@@ -126,28 +128,28 @@ PRIVATE struct zlist *writelocalfilechunk(const char *filename, FILE *fout)
 	c_stream.avail_in = (uInt)zentry->uncompressed_size;
 
 
-	err = deflate( &c_stream, Z_FINISH );
-	if( err != Z_STREAM_END ) {
-		MM_FREE( compr );
-		MM_FREE( data );
-		MM_FREE( zentry );
+	err = deflate(&c_stream, Z_FINISH);
+	if (err != Z_STREAM_END) {
+		MM_FREE(compr);
+		MM_FREE(data);
+		MM_FREE(zentry);
 
 		return NULL;
 	}
 
-	err = deflateEnd( &c_stream );
-    if( err != Z_OK ) {
-		MM_FREE( compr );
-		MM_FREE( data );
-		MM_FREE( zentry );
+	err = deflateEnd(&c_stream);
+    if (err != Z_OK) {
+		MM_FREE(compr);
+		MM_FREE(data);
+		MM_FREE(zentry);
 
 		return NULL;
 	}
 
 
-	/*	When using the deflate method, ZLib adds a 2 byte head
-	 *	and a 4 byte tail. The head must be removed for zip
-	 *	compatability and the tail is not necessary. */
+	/* When using the deflate method, ZLib adds a 2 byte head
+	 * and a 4 byte tail. The head must be removed for zip
+	 * compatability and the tail is not necessary. */
 	zentry->compressed_size = c_stream.total_out - 6;
 
 /*
@@ -323,7 +325,7 @@ PRIVATE struct zlist *addscripttozipfile(char *filename, FILE *fout, W16 version
 	}
 
 	/* add g_version command */
-	if ((version == SDM_PAK) ||( version == SOD_PAK)) {
+	if ((version == SDM_PAK) || (version == SOD_PAK)) {
 		value = 1;
 	} else {
 		value = 0;
@@ -412,9 +414,9 @@ PRIVATE struct zlist *addscripttozipfile(char *filename, FILE *fout, W16 version
 	}
 
 
-	/*	When using the deflate method, ZLib adds a 2 byte head
-	 *	and a 4 byte tail. The head must be removed for zip
-	 *	compatability and the tail is not necessary. */
+	/* When using the deflate method, ZLib adds a 2 byte head
+	 * and a 4 byte tail. The head must be removed for zip
+	 * compatability and the tail is not necessary. */
 	zentry->compressed_size = c_stream.total_out - 6;
 
 /*
@@ -442,7 +444,7 @@ PRIVATE struct zlist *addscripttozipfile(char *filename, FILE *fout, W16 version
 
 	/* Write data to file */
 	retval = fwrite((compr + 2), (size_t)1, zentry->compressed_size, fout);
-	if( retval != zentry->compressed_size ) {
+	if (retval != zentry->compressed_size) {
 		printf("Error writing data after local header to zip file\n");
 		MM_FREE(compr);
 		MM_FREE(data);
@@ -518,8 +520,7 @@ PRIVATE void deletezlist(struct zlist *in, _boolean deletefile)
  Notes:
 -----------------------------------------------------------------------------
 */
-extern void PAK_builder(const char *packname, W16 version);
-/* TODO: move the prototype to a header */
+/* prototype has moved to "pak.h" */
 PUBLIC void PAK_builder(const char *packname, W16 version)
 {
 	FILE *fout;

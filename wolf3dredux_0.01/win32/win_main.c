@@ -1,23 +1,21 @@
 /*
-
-	Copyright (C) 2004-2005 Michael Liebscher <johnnycanuck@users.sourceforge.net>
-	Copyright (C) 1997-2001 Id Software, Inc.
-
-	This program is free software; you can redistribute it and/or
-	modify it under the terms of the GNU General Public License
-	as published by the Free Software Foundation; either version 2
-	of the License, or (at your option) any later version.
-
-	This program is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	GNU General Public License for more details.
-
-	You should have received a copy of the GNU General Public License
-	along with this program; if not, write to the Free Software
-	Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-
-*/
+ *	Copyright (C) 2004-2005 Michael Liebscher <johnnycanuck@users.sourceforge.net>
+ *	Copyright (C) 1997-2001 Id Software, Inc.
+ *
+ *	This program is free software; you can redistribute it and/or
+ *	modify it under the terms of the GNU General Public License
+ *	as published by the Free Software Foundation; either version 2
+ *	of the License, or (at your option) any later version.
+ *
+ *	This program is distributed in the hope that it will be useful,
+ *	but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *	GNU General Public License for more details.
+ *
+ *	You should have received a copy of the GNU General Public License
+ *	along with this program; if not, write to the Free Software
+ *	Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */
 
 
 /*
@@ -40,10 +38,12 @@
 #include <windows.h>
 #include <mmsystem.h>
 
+#include "../common/arch.h"
 #include "../common/common.h"
 #include "../memory/memory.h"
 #include "../device/timer/timer.h"
 
+#include "win_def.h" /* new place for prototypes from this file */
 
 
 HINSTANCE	global_hInstance;
@@ -64,7 +64,7 @@ static HANDLE hMutex;
 #define	MAX_NUM_ARGVS	128
 
 int	 argc;
-char *argv[ MAX_NUM_ARGVS ];
+char *argv[MAX_NUM_ARGVS];
 
 
 
@@ -95,31 +95,31 @@ char *argv[ MAX_NUM_ARGVS ];
 		3.  Exit application.
 -----------------------------------------------------------------------------
 */
-void Sys_Error( const char *format, ... )
+void Sys_Error(const char *format, ...)
 {
 	va_list	argptr;
-	char	text[ 1024 ];
+	char	text[1024];
 
 	Client_Shutdown();
 
-	va_start( argptr, format );
-	(void)vsnprintf( text, sizeof( text ), format, argptr );
-	va_end( argptr );
+	va_start(argptr, format);
+	(void)vsnprintf(text, sizeof(text), format, argptr);
+	va_end(argptr);
 
-	text[ sizeof( text ) - 1 ] = '\0';
+	text[(sizeof(text) - 1)] = '\0';
 
-	MessageBox( NULL, text, "Error", MB_OK );
+	MessageBox(NULL, text, "Error", MB_OK);
 
-	if( hMutex )
-	{
-		CloseHandle( hMutex );
+	if (hMutex) {
+		CloseHandle(hMutex);
 	}
 
+#if 0
+/*	shut down HOST hooks if necessary */
+	DeinitConProc();
+#endif /* 0 */
 
-//	shut down HOST hooks if necessary
-//	DeinitConProc();
-
-	exit( 1 );
+	exit(1);
 }
 
 
@@ -137,34 +137,32 @@ void Sys_Error( const char *format, ... )
 		2.  Exit application.
 -----------------------------------------------------------------------------
 */
-void Sys_Quit( void )
+void Sys_Quit(void)
 {
-	timeEndPeriod( 1 );
+	timeEndPeriod(1);
 
 	Client_Shutdown();
 
-	if( hMutex )
-	{
-		CloseHandle( hMutex );
+	if (hMutex) {
+		CloseHandle(hMutex);
 	}
 
 
-	if( dedicated && dedicated->value )
-	{
+	if (dedicated && dedicated->value) {
 		FreeConsole();
 	}
 
-// shut down HOST hooks if necessary
-//	DeinitConProc();
+#if 0
+/* shut down HOST hooks if necessary */
+	DeinitConProc();
+#endif /* 0 */
 
-	exit( 0 );
+	exit(0);
 }
 
 
-
-static char	console_text[ 256 ];
+static char	console_text[256];
 static int	console_textlen;
-
 
 
 /*
@@ -178,73 +176,75 @@ static int	console_textlen;
  Notes:
 -----------------------------------------------------------------------------
 */
-char *Sys_ConsoleInput( void )
+char *Sys_ConsoleInput(void)
 {
 	INPUT_RECORD	recs[1024];
 	int	dummy;
 	int	ch, numread, numevents;
 
-	if( ! dedicated || ! dedicated->value )
+	if (! dedicated || ! dedicated->value) {
 		return NULL;
+	}
 
+	for (;;) {
+		if (! GetNumberOfConsoleInputEvents(hinput, (LPDWORD)&numevents)) {
+			Sys_Error("Error getting # of console events" );
+		}
 
-	for( ;; )
-	{
-		if( ! GetNumberOfConsoleInputEvents( hinput, &numevents ) )
-			Sys_Error( "Error getting # of console events" );
-
-		if( numevents <= 0 )
+		if (numevents <= 0) {
 			break;
+		}
 
-		if( ! ReadConsoleInput( hinput, recs, 1, &numread ) )
-			Sys_Error ("Error reading console input");
+		if (! ReadConsoleInput(hinput, recs, 1, (LPDWORD)&numread)) {
+			Sys_Error("Error reading console input");
+		}
 
-		if( numread != 1 )
-			Sys_Error ("Could NOT read console input");
+		if (numread != 1) {
+			Sys_Error("Could NOT read console input");
+		}
 
-		if( recs[0].EventType == KEY_EVENT ) {
-			if( ! recs[0].Event.KeyEvent.bKeyDown ) {
+		if (recs[0].EventType == KEY_EVENT) {
+			if (! recs[0].Event.KeyEvent.bKeyDown) {
 				ch = recs[0].Event.KeyEvent.uChar.AsciiChar;
 
-				switch( ch ) {
+				switch (ch) {
 					case '\r':
-						WriteFile( houtput, "\r\n", 2, &dummy, NULL );
+						WriteFile(houtput, "\r\n", 2, (LPDWORD)&dummy, NULL);
 
-						if( console_textlen ) {
-							console_text[ console_textlen ] = '\0';
+						if (console_textlen) {
+							console_text[console_textlen] = '\0';
 							console_textlen = 0;
 							return console_text;
 						}
 						break;
 
 					case '\b':
-						if( console_textlen )
-						{
+						if (console_textlen) {
 							console_textlen--;
-							WriteFile( houtput, "\b \b", 3, &dummy, NULL );
+							WriteFile(houtput, "\b \b", 3, (LPDWORD)&dummy,
+									  NULL);
 						}
 						break;
 
 					default:
-						if( ch >= ' ' )
-						{
-							if( console_textlen < sizeof( console_text ) - 2 )
-							{
-								WriteFile( houtput, &ch, 1, &dummy, NULL );
-								console_text[ console_textlen ] = ch;
+						if (ch >= ' ') {
+							if (console_textlen < (sizeof(console_text) - 2)) {
+								WriteFile(houtput, &ch, 1, (LPDWORD)&dummy,
+										  NULL);
+								console_text[console_textlen] = ch;
 								console_textlen++;
 							}
 						}
 
 						break;
 
-				} // end switch ch
+				} /* end switch ch */
 
-			} //  end if ! recs[0].Event.KeyEvent.bKeyDown
+			} /* end "if (! recs[0].Event.KeyEvent.bKeyDown)" */
 
-		} // end if recs[0].EventType == KEY_EVENT
+		} /* end "if (recs[0].EventType == KEY_EVENT)" */
 
-	} // end for ;;
+	} /* end "for (;;)" for-loop */
 
 	return NULL;
 }
@@ -261,21 +261,21 @@ char *Sys_ConsoleInput( void )
  Notes: Send Key_Event calls.
 -----------------------------------------------------------------------------
 */
-void Sys_SendKeyEvents( void )
+void Sys_SendKeyEvents(void)
 {
     MSG msg;
 
-	while( PeekMessage( &msg, NULL, 0, 0, PM_NOREMOVE ) )
-	{
-		if( ! GetMessage( &msg, NULL, 0, 0 ) )
+	while (PeekMessage(&msg, NULL, 0, 0, PM_NOREMOVE)) {
+		if (! GetMessage(&msg, NULL, 0, 0)) {
 			Sys_Quit();
+		}
 		sys_msg_time = msg.time;
-      	TranslateMessage( &msg );
-      	DispatchMessage( &msg );
+      	TranslateMessage(&msg);
+      	DispatchMessage(&msg);
 	}
 
-	// grab frame time
-	sys_frame_time = timeGetTime();	// FIXME: should this be at start?
+	/* grab frame time */
+	sys_frame_time = timeGetTime();	/* FIXME: should this be at start? */
 }
 
 
@@ -291,22 +291,19 @@ void Sys_SendKeyEvents( void )
         Caller is responsible for freeing data.
 -----------------------------------------------------------------------------
 */
-char *Sys_GetClipboardData( void )
+char *Sys_GetClipboardData(void)
 {
 	char *data = NULL;
 	char *cliptext;
 
-	if( OpenClipboard( NULL ) != 0 )
-	{
+	if (OpenClipboard(NULL) != 0) {
 		HANDLE hClipboardData;
 
-		if( ( hClipboardData = GetClipboardData( CF_TEXT ) ) != 0 )
-		{
-			if( ( cliptext = GlobalLock( hClipboardData ) ) != 0 )
-			{
-				data = MM_MALLOC( GlobalSize( hClipboardData ) + 1 );
-				strncpy( data, cliptext, GlobalSize( hClipboardData ) );
-				GlobalUnlock( hClipboardData );
+		if ((hClipboardData = GetClipboardData(CF_TEXT)) != 0) {
+			if ((cliptext = GlobalLock(hClipboardData)) != 0) {
+				data = MM_MALLOC(GlobalSize(hClipboardData) + 1);
+				strncpy(data, cliptext, GlobalSize(hClipboardData));
+				GlobalUnlock(hClipboardData);
 			}
 		}
 		CloseClipboard();
@@ -327,33 +324,28 @@ char *Sys_GetClipboardData( void )
  Notes: Uses global variables argc argv[].
 -----------------------------------------------------------------------------
 */
-void ParseCommandLine( LPSTR lpCmdLine )
+void ParseCommandLine(LPSTR lpCmdLine)
 {
 	argc = 1;
-	argv[ 0 ] = "exe";
+	argv[0] = "exe";
 
-	while( *lpCmdLine && (argc < MAX_NUM_ARGVS) )
-	{
-		// Ignore ASCII characters outside the range of '!' and '}'
-		while( *lpCmdLine && ( (*lpCmdLine < 33) || (*lpCmdLine > 126) ) )
-		{
+	while (*lpCmdLine && (argc < MAX_NUM_ARGVS)) {
+		/* Ignore ASCII characters outside the range of '!' and '}' */
+		while (*lpCmdLine && ((*lpCmdLine < 33) || (*lpCmdLine > 126))) {
 			++lpCmdLine;
 		}
 
-		if( *lpCmdLine )
-		{
-			argv[ argc ] = lpCmdLine;
+		if (*lpCmdLine) {
+			argv[argc] = lpCmdLine;
 			argc++;
 
-			// Keep ASCII characters within the range of '!' and '}'
-			while( *lpCmdLine && ( (*lpCmdLine > 32) && (*lpCmdLine < 127) ) )
-			{
+			/* Keep ASCII characters within the range of '!' and '}' */
+			while (*lpCmdLine && ((*lpCmdLine > 32) && (*lpCmdLine < 127))) {
 				++lpCmdLine;
 			}
 
-			if( *lpCmdLine )
-			{
-				*lpCmdLine = '\0';	// NUL-terminate string
+			if (*lpCmdLine) {
+				*lpCmdLine = '\0';	/* NUL-terminate string */
 				++lpCmdLine;
 			}
 		}
@@ -362,8 +354,8 @@ void ParseCommandLine( LPSTR lpCmdLine )
 
 /*
 -----------------------------------------------------------------------------
- Function: CheckforInstance -Check to stop multiple instances of application from executing.
-
+ Function: CheckforInstance -Check to stop multiple instances of application
+							 from executing.
  Parameters: Nothing.
 
  Returns: Nothing.
@@ -371,16 +363,15 @@ void ParseCommandLine( LPSTR lpCmdLine )
  Notes: Uses global variable hMutex.
 -----------------------------------------------------------------------------
 */
-void CheckforInstance( void )
+void CheckforInstance(void)
 {
-	// Create a mutex object on the client to stop
-	//  multiple instances of application from running.
+	/* Create a mutex object on the client to stop
+	 * multiple instances of application from running. */
 
-	hMutex = CreateMutex( NULL, 0, "qwcl" );
+	hMutex = CreateMutex(NULL, 0, "qwcl");
 
-	if( ! hMutex || (GetLastError() == ERROR_ALREADY_EXISTS) )
-	{
-		Sys_Error( "Application is already running on this system" );
+	if (! hMutex || (GetLastError() == ERROR_ALREADY_EXISTS)) {
+		Sys_Error("Application is already running on this system");
 	}
 }
 
@@ -399,10 +390,8 @@ void CheckforInstance( void )
 			4.  Enter the message loop.
 -----------------------------------------------------------------------------
 */
-int WINAPI WinMain( HINSTANCE hInstance,
-				    HINSTANCE hPrevInstance,
-					LPSTR lpCmdLine,
-					int nWinMode )
+int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
+				   LPSTR lpCmdLine, int nWinMode)
 {
 	MSG	 msg;
 	int	 time, oldtime, newtime;
@@ -412,49 +401,42 @@ int WINAPI WinMain( HINSTANCE hInstance,
 
 	CheckforInstance();
 
-	ParseCommandLine( lpCmdLine );
+	ParseCommandLine(lpCmdLine);
 
-	common_Init( argc, argv );
+	common_Init(argc, argv);
 
 	oldtime = Sys_Milliseconds();
 
 	/* main window message loop */
-	while( 1 )
-	{
-		// if at a full screen console, don't update unless needed
-		if( Minimized || (dedicated && dedicated->value) )
-		{
-			Sleep( 1 );
+	while (1) {
+		/* if at a full screen console, do NOT update unless needed */
+		if (Minimized || (dedicated && dedicated->value)) {
+			Sleep(1);
 		}
 
-		while( PeekMessage( &msg, NULL, 0, 0, PM_NOREMOVE ) )
-		{
-			if( ! GetMessage( &msg, NULL, 0, 0 ) )
-			{
+		while (PeekMessage(&msg, NULL, 0, 0, PM_NOREMOVE)) {
+			if (! GetMessage(&msg, NULL, 0, 0)) {
 				Com_Quit();
 			}
 			sys_msg_time = msg.time;
 
-			TranslateMessage( &msg );
-   			DispatchMessage( &msg );
+			TranslateMessage(&msg);
+   			DispatchMessage(&msg);
 		}
 
-		do
-		{
+		do {
 			newtime = Sys_Milliseconds();
-			time = newtime - oldtime;
+			time = (newtime - oldtime);
+		} while (time < 1);
 
-		} while( time < 1 );
-
-
-		common_Frame( time );
+		common_Frame(time);
 
 		oldtime = newtime;
-
 	}
 
-// Should never get here!
+/* We should never get here! */
 	return msg.wParam;
-
 }
 
+
+/* EOF */

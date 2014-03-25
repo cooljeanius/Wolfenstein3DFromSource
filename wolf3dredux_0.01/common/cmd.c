@@ -860,12 +860,12 @@ PUBLIC void Cmd_TokenizeString(char *text, _boolean macroExpand)
 				}
 			}
 		} else {
-#ifdef DEBUG
+#if defined(DEBUG) && 0
 			Com_Printf("Cmd_TokenizeString(): 'cmd_argc' was not 1 (it was actually '%i').\n",
 					   cmd_argc);
 #else
 			;
-#endif /* DEBUG */
+#endif /* DEBUG && 0 */
 		}
 
 

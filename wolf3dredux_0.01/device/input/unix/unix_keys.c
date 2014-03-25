@@ -29,6 +29,10 @@
  *
  */
 
+#ifdef HAVE_CONFIG_H
+# include "../../../config.h"
+#endif /* HAVE_CONFIG_H */
+
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
 #include <X11/keysym.h>
@@ -36,8 +40,21 @@
 
 #include <X11/cursorfont.h>
 
-#include "../input.h" /* has prototypes for Do_Key_Event(), KBD_Init(), KBD_Update(), and KBD_Close() */
+#if defined(__APPLE__)
+# if defined(__OBJC__) || defined(HAVE_OBJC_OBJC_H)
+#  include <objc/objc.h>
+# else
+#  ifndef BOOL /* &&/||(?) !defined(OBJC_BOOL_DEFINED) */
+typedef signed char BOOL;
+#  endif /* !BOOL */
+# endif /* __OBJC__ || HAVE_OBJC_OBJC_H */
+#endif /* __APPLE__ */
+
+#include "../input.h"
+/* has protos for Do_Key_Event(), KBD_Init(), KBD_Update(), and KBD_Close() */
+
 #include "../../timer/timer.h"
+#include "../../../common/arch.h"
 #include "../../../client/keys.h"
 #include "../../../video/video.h"
 #include "../../../string/com_string.h"
@@ -50,13 +67,92 @@ extern _boolean dgamouse;
 extern int mx, my;
 int win_x, win_y;
 
+static _boolean s_cmdtab_disabled;
 
+#if defined(__APPLE__)
+/*
+ -----------------------------------------------------------------------------
+ Function: OSX_DisableCmdTab
+
+ Parameters: Nothing.
+
+ Returns: Nothing.
+
+ Notes:
+ -----------------------------------------------------------------------------
+ */
+void OSX_DisableCmdTab(void);
+/* TODO: move prototype into header once this func actually works properly: */
+void OSX_DisableCmdTab(void)
+{
+	if (s_cmdtab_disabled) {
+		return;
+	}
+
+	if (0) {
+		BOOL old;
+#if defined(__OBJC__) || defined(YES)
+		old = YES;
+#else
+		old = 'Y';
+#endif /* __OBJC__ || YES */
+		/* dummy condition to use value stored to 'old': */
+		if (old == 'Y') {
+			;
+		}
+		/* TODO: actually do something here */
+	} else {
+		;
+		/* TODO: actually do something here */
+	}
+	s_cmdtab_disabled = true;
+}
+
+/*
+ -----------------------------------------------------------------------------
+ Function: OSX_EnableCmdTab
+
+ Parameters: Nothing.
+
+ Returns: Nothing.
+
+ Notes:
+ -----------------------------------------------------------------------------
+ */
+extern void OSX_EnableCmdTab(void);
+/* TODO: move prototype into header once this func actually works properly: */
+PUBLIC void OSX_EnableCmdTab(void)
+{
+	if (s_cmdtab_disabled) {
+		if (0) {
+			BOOL old;
+#if defined(__OBJC__) || defined(YES)
+			old = YES;
+#else
+			old = 'Y';
+#endif /* __OBJC__ || YES */
+			/* dummy condition to use value stored to 'old': */
+			if (old == 'Y') {
+				;
+			}
+			/* TODO: actually do something here */
+		} else {
+			;
+			/* TODO: actually do something here */
+		}
+
+		s_cmdtab_disabled = false;
+	}
+}
+#endif /* __APPLE__ */
+
+/* */
 void Do_Key_Event(int key, _boolean down)
 {
 	Key_Event((int)key, (_boolean)down, (unsigned int)Sys_Milliseconds());
 }
 
-
+/* */
 static int XLateKey(XKeyEvent *ev)
 {
 
@@ -344,7 +440,7 @@ static int XLateKey(XKeyEvent *ev)
 	return key;
 }
 
-
+/* */
 static void HandleEvents(void)
 {
 	XEvent event;

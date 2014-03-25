@@ -21,7 +21,7 @@
 #define __UNIX_GLOB_H__
 
 /* just the one prototype so far: */
-extern int glob_match( char *pattern, char *text );
+extern int glob_match(char *pattern, char *text);
 
 #endif /* !__UNIX_GLOB_H__ */
 

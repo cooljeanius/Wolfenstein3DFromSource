@@ -254,13 +254,13 @@ IMPLEMENTATION SPECIFIC FUNCTIONS
 ====================================================================
 */
 
-extern void		GLimp_BeginFrame();
-extern void		GLimp_EndFrame( void );
-extern _boolean	GLimp_Init( void *hinstance, void *hWnd );
-extern void		GLimp_Shutdown( void );
-extern int     	GLimp_SetMode( int *pwidth, int *pheight, int mode, _boolean fullscreen );
-extern void		GLimp_AppActivate( _boolean active );
-
+extern void GLimp_BeginFrame(void);
+extern void GLimp_EndFrame(void);
+extern _boolean GLimp_Init(void *hinstance, void *hWnd);
+extern void GLimp_Shutdown(void);
+extern int GLimp_SetMode(int *pwidth, int *pheight, int mode,
+						 _boolean fullscreen);
+extern void GLimp_AppActivate( _boolean active);
 
 
 #endif /* __OPENGL_LOCAL_H__ */

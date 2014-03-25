@@ -41,7 +41,32 @@ fi
 
 AM_CONDITIONAL([WOLF_OLD_BUILD],[test "x${DO_WOLF_OLD_BUILD}" = "xyes"])
 
+AC_ARG_ENABLE([ms-compat],
+              [AS_HELP_STRING([--enable-ms-compat],
+                               [try to check for compatibility with
+                                Microsoft Windows
+                                (requires a new enough version of clang
+                                and an installation of Wine)])],
+              [CHECK_MS_COMPAT=${enableval}],
+              [CHECK_MS_COMPAT=no])
+
+dnl# TODO: actually check whether we meet the requirements for the flag,
+dnl# instead of just accepting it.
+AC_MSG_CHECKING([whether to try to build sources for Microsoft Windows])
+if test "x${CHECK_MS_COMPAT}" = "xyes"; then
+  AC_MSG_RESULT([yes])
+  AC_LIBOBJ([msvc-inval])
+  AC_LIBOBJ([msvc-nothrow])
+else
+  AC_MSG_RESULT([no])
+fi
+
+AM_CONDITIONAL([MS_COMPAT_CHECK],[test "x${CHECK_MS_COMPAT}" = "xyes"])
+
 # Checks for programs.
+AM_PROG_AR
+AM_PROG_AS
+AC_PROG_CC_C99
 AC_PROG_CPP
 AC_PROG_CXX
 AC_PROG_OBJC
@@ -138,17 +163,20 @@ if test "x" = "y"; then
   test -x `which autoscan`
   AC_PROG_RANLIB
 fi
-
-AC_CHECK_HEADERS([alloc.h assert.h bits/libc-lock.h ctype.h dmalloc.h \
-                  endian.h errno.h fcntl.h float.h libintl.h \
-                  libio/iolibio.h libio/libioP.h limits.h \
+dnl# having libtool check dlopen also has it check for dlfcn.h, so no
+dnl# need to check for it here as well...
+AC_CHECK_HEADERS([alloc.h assert.h bits/libc-lock.h crtdefs.h ctype.h \
+                  dmalloc.h endian.h errno.h excpt.h fcntl.h float.h \
+                  io.h libintl.h libio/iolibio.h libio/libioP.h limits.h \
                   mach/mach.h mach/vm_param.h malloc.h malloc/malloc.h \
-                  math.h memcopy.h mmsystem.h search.h setjmp.h signal.h \
-                  stdarg.h stddef.h stdio.h sys/gmon.h sys/malloc.h \
-                  sys/mount.h sys/param.h sys/socket.h sys/sysctl.h \
-                  sys/syslimits.h sys/time.h sys/timeb.h sys/utsname.h \
-                  sys/vmmeter.h unix.h wchar.h windef.h windows.h \
-                  xlocale.h Xutil.h])
+                  math.h memcopy.h mmsystem.h objc/objc.h search.h \
+                  setjmp.h signal.h stdarg.h stddef.h stdio.h \
+                  sys/gmon.h sys/malloc.h sys/mount.h sys/param.h \
+                  sys/socket.h sys/sysctl.h sys/syslimits.h sys/time.h \
+                  sys/timeb.h sys/uio.h sys/utsname.h sys/vmmeter.h \
+                  unix.h wchar.h windef.h windows.h xlocale.h Xutil.h \
+                  X11/Xlib.h X11/Xutil.h X11/keysym.h X11/Xresource.h \
+                  X11/cursorfont.h])
 AC_CHECK_HEADERS([X11/extensions/xf86dga.h],[],[
   AC_CHECK_HEADERS([X11/extensions/Xxf86dga.h])
 ])
@@ -162,6 +190,7 @@ AC_C_CHAR_UNSIGNED
 AC_C_CONST
 AC_C_BIGENDIAN
 AC_C_INLINE
+gl_EXTERN_INLINE
 AC_C_PROTOTYPES
 AC_C_RESTRICT
 AC_C_VOLATILE
@@ -180,13 +209,17 @@ dnl# end what used to be AC\_TYPE\_SIGNAL
 AC_TYPE_MODE_T
 AC_TYPE_OFF_T
 AC_TYPE_SIZE_T
+AC_TYPE_SSIZE_T
 AC_TYPE_UID_T
 AC_TYPE_INT32_T
 AC_TYPE_INT64_T
 AC_TYPE_INTMAX_T
+AC_TYPE_INTPTR_T
+AC_TYPE_UINT32_T
+AC_TYPE_UINT64_T
 AC_TYPE_UINTMAX_T
 AC_TYPE_UINTPTR_T
-AC_TYPE_UINT64_T
+gt_TYPE_WCHAR_T
 AC_CHECK_MEMBERS([struct stat.st_blksize])
 AC_STRUCT_ST_BLOCKS
 AC_STRUCT_TIMEZONE dnl# also checks struct tm
@@ -214,6 +247,7 @@ AC_FUNC_CLOSEDIR_VOID
 AC_FUNC_ERROR_AT_LINE
 AC_FUNC_LSTAT
 AC_FUNC_MALLOC
+AC_FUNC_MBRTOWC
 AC_FUNC_MEMCMP
 AC_FUNC_MMAP
 AC_FUNC_REALLOC
@@ -221,19 +255,19 @@ AC_FUNC_STAT
 AC_FUNC_STRERROR_R
 AC_FUNC_STRNLEN
 AC_FUNC_VPRINTF
-AC_CHECK_FUNCS([atoi atof dlsym dmalloc_malloc fabs floor ftell fwrite \
-                getcwd getenv gettimeofday \
+AC_CHECK_FUNCS([atoi atof dlsym dmalloc_malloc fabs fclose floor fopen \
+                ftell fscanf fread fwrite getcwd getenv gettimeofday \
                 glXChooseVisual glXCreateContext glXMakeCurrent \
-                malloc_good_size malloc_size malloc_create_zone \
+                longjmp malloc_good_size malloc_size malloc_create_zone \
                 malloc_destroy_zone malloc_default_zone \
                 malloc_zone_from_ptr malloc_zone_malloc \
                 malloc_zone_calloc malloc_zone_valloc malloc_zone_realloc \
                 malloc_zone_memalign malloc_zone_free memchr memcmp \
-                memcpy memmove memset mkdir pow posix_memalign putc \
-                qsort rmdir setenv signal sqrt sqrtf stpcpy strcat \
-                strcpy strdup strerror strlen strncat strncpy strrchr \
-                strstr strtok sysconf sysctl sysctlbyname sysctlnametomib \
-                uname unlink])
+                memcpy memmove memset mkdir pow posix_memalign putc pread \
+                qsort read rmdir scanf setenv signal sqrt sqrtf stpcpy \
+                strcat strcpy strdup strerror strlen strncat strncpy \
+                strrchr strstr strtok sscanf sysconf sysctl sysctlbyname \
+                sysctlnametomib uname unlink])
 AC_REPLACE_FUNCS([strnlen1])
 AC_LIBOBJ([progname])
 

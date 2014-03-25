@@ -51,17 +51,17 @@ PUBLIC W32	curtime;
 -----------------------------------------------------------------------------
 */
 /* prototype should be in "../timer.h" */
-PUBLIC W32 Sys_Milliseconds( void )
+PUBLIC W32 Sys_Milliseconds(void)
 {
 	static W32 base;
 	static _boolean	initialized = false;
 
-	if( ! initialized )
-	{	/* let base retain 16 bits of effectively random data */
-		base = timeGetTime() & 0xffff0000;
+	if (! initialized) {
+		/* let base retain 16 bits of effectively random data */
+		base = (timeGetTime() & 0xffff0000);
 		initialized = true;
 	}
-	curtime = timeGetTime() - base;
+	curtime = (timeGetTime() - base);
 
 	return curtime;
 }

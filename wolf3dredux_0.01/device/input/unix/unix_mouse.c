@@ -35,7 +35,8 @@
 #include <X11/keysym.h>
 #include <X11/Xresource.h>
 
-#include <X11/keysym.h>
+/* <X11/keysym.h> had been listed a second time here, but no need for duplicate
+ * includes... */
 #include <X11/cursorfont.h>
 
 #ifdef HAVE_X11_EXTENSIONS_XF86DGA_H
@@ -43,11 +44,14 @@
 #elif defined HAVE_X11_EXTENSIONS_XXF86DGA_H || 1
 # include <X11/extensions/Xxf86dga.h>
 #else
-# warning unix_mouse.c expects a certain X11 header to be included, check the ifdefs
+# if defined(__GNUC__) && !defined(__STRICT_ANSI__)
+#  warning "unix_mouse.c expects a certain X11 header to be included, check the ifdefs"
+# endif /* __GNUC__ && !__STRICT_ANSI__ */
 #endif /* HAVE_X11_EXTENSIONS_[X|XX]F86DGA_H */
 #include <X11/extensions/xf86vmode.h>
 
 #include "../../../client/keys.h"
+#include "../../../common/arch.h"
 #include "../../../common/common_utils.h"
 #include "../../../client/client.h"
 #include "../../../video/video.h"

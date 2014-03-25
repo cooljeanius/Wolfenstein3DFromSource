@@ -49,12 +49,12 @@ _boolean s_win95;
 
  Returns: Nothing
 
- Notes:
+ Notes: A simple wrapper around timeBeginPeriod() here...
 -----------------------------------------------------------------------------
 */
-PUBLIC void Sys_OS_Init( void )
+PUBLIC void Sys_OS_Init(void)
 {
-	timeBeginPeriod( 1 );
+	timeBeginPeriod(1);
 }
 
 /*
@@ -69,7 +69,7 @@ PUBLIC void Sys_OS_Init( void )
 -----------------------------------------------------------------------------
 */
 /* prototype should be in "../system.h" */
-PUBLIC void Print_OS_Info( void )
+PUBLIC void Print_OS_Info(void)
 {
 	OSVERSIONINFOEX vinfo;
 	_boolean bOsVersionInfoEx;
@@ -77,119 +77,113 @@ PUBLIC void Print_OS_Info( void )
 /*
  * Find out what version of Windows is running
  */
-	memset( &vinfo, 0, sizeof( OSVERSIONINFOEX ) );
+	memset(&vinfo, 0, sizeof(OSVERSIONINFOEX));
 	vinfo.dwOSVersionInfoSize = sizeof(OSVERSIONINFOEX);
 
 	/* Try calling GetVersionEx using the OSVERSIONINFOEX structure. */
 	/* If that fails, try using the OSVERSIONINFO structure. */
-	if( ! ( bOsVersionInfoEx = GetVersionEx( (OSVERSIONINFO *) &vinfo ) ) ) {
-		vinfo.dwOSVersionInfoSize = sizeof( OSVERSIONINFO );
-		if( ! GetVersionEx( (OSVERSIONINFO *) &vinfo ) ) {
-			Com_Printf( "[%s]: Could not get OS info\n", "Print_OS_Info" );
+	if (!(bOsVersionInfoEx = GetVersionEx((OSVERSIONINFO *)&vinfo))) {
+		vinfo.dwOSVersionInfoSize = sizeof(OSVERSIONINFO);
+		if (! GetVersionEx((OSVERSIONINFO *)&vinfo)) {
+			Com_Printf("[%s]: Could not get OS info\n", "Print_OS_Info");
 			return;
 		}
 	}
 
-	switch( vinfo.dwPlatformId ) {
+	switch (vinfo.dwPlatformId) {
 		/* Check for the Windows NT product family. */
 		case VER_PLATFORM_WIN32_NT:
 
 			/* Test for the specific product family. */
-			if( vinfo.dwMajorVersion == 5 && vinfo.dwMinorVersion == 2 ) {
-				Com_Printf( "Windows Server 2003" );
+			if ((vinfo.dwMajorVersion == 5) && (vinfo.dwMinorVersion == 2)) {
+				Com_Printf("Windows Server 2003");
 
-				if( bOsVersionInfoEx ) {
-					if( vinfo.wSuiteMask & VER_SUITE_DATACENTER ) {
-						Com_Printf( " Datacenter Edition" );
-					} else if( vinfo.wSuiteMask & VER_SUITE_ENTERPRISE ) {
-						Com_Printf( " Enterprise Edition" );
-					} else if( vinfo.wSuiteMask & VER_SUITE_BLADE ) {
-						Com_Printf( " Web Edition" );
+				if (bOsVersionInfoEx) {
+					if (vinfo.wSuiteMask & VER_SUITE_DATACENTER) {
+						Com_Printf(" Datacenter Edition");
+					} else if (vinfo.wSuiteMask & VER_SUITE_ENTERPRISE) {
+						Com_Printf(" Enterprise Edition");
+					} else if (vinfo.wSuiteMask & VER_SUITE_BLADE) {
+						Com_Printf(" Web Edition");
 					} else {
-						Com_Printf( " Standard Edition" );
+						Com_Printf(" Standard Edition");
 					}
 				}
-			} else if( vinfo.dwMajorVersion == 5 && vinfo.dwMinorVersion == 1 ) {
-				Com_Printf( "Windows XP" );
+			} else if ((vinfo.dwMajorVersion == 5) &&
+					   (vinfo.dwMinorVersion == 1)) {
+				Com_Printf("Windows XP");
 
 				if( bOsVersionInfoEx ) {
-					if( vinfo.wSuiteMask & VER_SUITE_PERSONAL ) {
-						Com_Printf( " Home Edition" );
+					if (vinfo.wSuiteMask & VER_SUITE_PERSONAL) {
+						Com_Printf(" Home Edition");
 					} else {
-						Com_Printf( " Professional" );
+						Com_Printf(" Professional");
 					}
 				}
-			} else if( vinfo.dwMajorVersion == 5 && vinfo.dwMinorVersion == 0 ) {
-				Com_Printf( "Windows 2000" );
+			} else if ((vinfo.dwMajorVersion == 5) &&
+					   (vinfo.dwMinorVersion == 0)) {
+				Com_Printf("Windows 2000");
 
-				if( bOsVersionInfoEx ) {
-					if( vinfo.wProductType ==  VER_NT_SERVER ) {
-						if( vinfo.wSuiteMask & VER_SUITE_DATACENTER ) {
-							Com_Printf( " Datacenter Server" );
-						} else if( vinfo.wSuiteMask & VER_SUITE_ENTERPRISE ) {
-							Com_Printf( " Advanced Server" );
+				if (bOsVersionInfoEx) {
+					if (vinfo.wProductType ==  VER_NT_SERVER) {
+						if (vinfo.wSuiteMask & VER_SUITE_DATACENTER) {
+							Com_Printf(" Datacenter Server");
+						} else if (vinfo.wSuiteMask & VER_SUITE_ENTERPRISE) {
+							Com_Printf(" Advanced Server");
 						} else {
-							Com_Printf( " Server" );
+							Com_Printf(" Server");
 						}
-					} else if(vinfo.wProductType == VER_NT_DOMAIN_CONTROLLER) {
-						Com_Printf( " Domain Controller" );
+					} else if (vinfo.wProductType == VER_NT_DOMAIN_CONTROLLER) {
+						Com_Printf(" Domain Controller");
 					} else {
-						Com_Printf( " Professional" );
+						Com_Printf(" Professional");
 					}
 				}
-			} else if( vinfo.dwMajorVersion <= 4 ) {
-				Com_Printf( "Windows NT" );
-
+			} else if (vinfo.dwMajorVersion <= 4) {
+				Com_Printf("Windows NT");
 			} else {
-				Com_Printf( "Unknown Windows product family" );
+				Com_Printf("Unknown Windows product family");
 			}
 
 
 			/* Display service pack (if any) and build number. */
-			Com_Printf( " %s (Build %d)",
-               vinfo.szCSDVersion,
-               vinfo.dwBuildNumber & 0xFFFF);
-
+			Com_Printf(" %s (Build %d)", vinfo.szCSDVersion,
+					   (vinfo.dwBuildNumber & 0xFFFF));
 			break;
 
 		/* Test for the Windows 9x product family. */
 		case VER_PLATFORM_WIN32_WINDOWS:
-
 			s_win95 = true;
-
-			if( vinfo.dwMajorVersion == 4 && vinfo.dwMinorVersion == 0 ) {
-				Com_Printf( "Windows 95" );
-				if(vinfo.szCSDVersion[ 1 ] == 'B' || vinfo.szCSDVersion[ 1 ] == 'C') {
-					Com_Printf( " OSR2" );
+			if ((vinfo.dwMajorVersion == 4) && (vinfo.dwMinorVersion == 0)) {
+				Com_Printf("Windows 95");
+				if ((vinfo.szCSDVersion[1] == 'B') ||
+					(vinfo.szCSDVersion[1] == 'C')) {
+					Com_Printf(" OSR2");
 				}
-			} else if(vinfo.dwMajorVersion == 4 && vinfo.dwMinorVersion == 10) {
-				Com_Printf( "Windows 98" );
-				if( vinfo.szCSDVersion[ 1 ] == 'A' ) {
-					Com_Printf( " SE" );
+			} else if ((vinfo.dwMajorVersion == 4) &&
+					   (vinfo.dwMinorVersion == 10)) {
+				Com_Printf("Windows 98");
+				if (vinfo.szCSDVersion[1] == 'A') {
+					Com_Printf(" SE");
 				}
-			} else if(vinfo.dwMajorVersion == 4 && vinfo.dwMinorVersion == 90) {
-				Com_Printf( "Windows Millennium Edition" );
+			} else if ((vinfo.dwMajorVersion == 4) &&
+					   (vinfo.dwMinorVersion == 90)) {
+				Com_Printf("Windows Millennium Edition");
 			} else {
-				Com_Printf( "Unknown Windows product family" );
+				Com_Printf("Unknown Windows product family");
 			}
-
 			break;
 
 		case VER_PLATFORM_WIN32s:
-
-			Sys_Error( " does NOT run on Win32s" );
-
+			Sys_Error(" does NOT run on Win32s");
 			break;
 
 		default:
-
-			Com_Printf( "Unknown OS" );
-
+			Com_Printf("Unknown OS");
 			break;
-
 	}
 
-	Com_Printf( "\n" );
+	Com_Printf("\n");
 
 }
 
@@ -205,21 +199,21 @@ PUBLIC void Print_OS_Info( void )
 -----------------------------------------------------------------------------
 */
 /* prototype should be in "../system.h" */
-PUBLIC void Print_Memory_Stats( void )
+PUBLIC void Print_Memory_Stats(void)
 {
 	/* Calculate in mebibytes */
 	#define DIV 1024/1024
 
 	MEMORYSTATUS MemStat;
 
-	GlobalMemoryStatus( &MemStat );
+	GlobalMemoryStatus(&MemStat);
 
-	Com_Printf( "Physical Memory: %lu MiB", MemStat.dwTotalPhys / DIV );
-	Com_Printf( " (%lu MiB free)\n", MemStat.dwAvailPhys / DIV );
-	Com_Printf( "Virtual Memory: 0x%lx MiB", MemStat.dwTotalVirtual / DIV );
-	Com_Printf( " (0x%lx MiB free)\n", MemStat.dwAvailVirtual / DIV );
-	Com_Printf( "Page File: %lu MiB", MemStat.dwTotalPageFile / DIV );
-	Com_Printf( " (%lu MiB free)\n", MemStat.dwAvailPageFile / DIV );
+	Com_Printf("Physical Memory: %lu MiB", (MemStat.dwTotalPhys / DIV));
+	Com_Printf(" (%lu MiB free)\n", (MemStat.dwAvailPhys / DIV));
+	Com_Printf("Virtual Memory: 0x%lx MiB", (MemStat.dwTotalVirtual / DIV));
+	Com_Printf(" (0x%lx MiB free)\n", (MemStat.dwAvailVirtual / DIV));
+	Com_Printf("Page File: %lu MiB", (MemStat.dwTotalPageFile / DIV));
+	Com_Printf(" (%lu MiB free)\n", (MemStat.dwAvailPageFile / DIV));
 
 }
 

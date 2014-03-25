@@ -71,6 +71,43 @@ cvar_t *nostdout;
 
 extern void KBD_Update(void);
 
+_boolean	ActiveApp;
+_boolean	Minimized;
+
+
+unsigned	sys_msg_time;
+W32	sys_frame_time;
+
+#define	MAX_NUM_ARGVS	128
+
+
+/*
+ ===============================================================================
+
+ SYSTEM IO
+
+ ===============================================================================
+ */
+
+
+
+/*
+ -----------------------------------------------------------------------------
+ Function: Sys_Error -Terminate the application due to error.
+
+ Parameters:
+			format -[in] Pointer to null-terminated string.
+			... -[in] Optional arguments
+
+ Returns:	Nothing
+
+ Notes: Shutdown Application due to error. See format specification fields.
+
+		1.  Terminate Client Sub-systems (with Client_Shutdown()).
+		2.  Display error message (with fprintf() to stderr).
+		3.  Exit application (with _exit()).
+ -----------------------------------------------------------------------------
+ */
 #ifndef Sys_Error /* this ifdef is bad */
 void Sys_Error(const char *format, ...)
 #else
@@ -96,7 +133,20 @@ void unix_Sys_Error(const char *format, ...)
 
 }
 
-/* quit */
+/*
+ -----------------------------------------------------------------------------
+ Function: Sys_Quit -Terminate the application after cleanup.
+
+ Parameters: Nothing
+
+ Returns: Nothing
+
+ Notes: Shutdown Application.
+
+		1.  Terminate Client Sub-systems (with Client_Shutdown())
+		2.  Exit application (with _exit())
+ -----------------------------------------------------------------------------
+ */
 void Sys_Quit(void)
 {
 	Client_Shutdown();
@@ -104,6 +154,100 @@ void Sys_Quit(void)
     fcntl(0, F_SETFL, fcntl(0, F_GETFL, 0) & ~FNDELAY);
 	_exit(0);
 }
+
+
+static char	console_text[256];
+static int	console_textlen;
+
+#ifdef HAVE_SYS_UIO_H
+# include <sys/uio.h>
+#endif /* HAVE_SYS_UIO_H */
+
+/*
+ -----------------------------------------------------------------------------
+ Function: Sys_ConsoleInput -Console input for dedicated server.
+
+ Parameters: Nothing
+
+ Returns: NULL or pointer to string with console input.
+
+ Notes: TODO: reimplement using curses or something...
+ -----------------------------------------------------------------------------
+ */
+char *Sys_ConsoleInput(void)
+{
+	void *recs;
+	int	dummy;
+	int	ch, numread, numevents;
+
+	dummy = 0;
+	ch = 0;
+	numread = 0;
+	numevents = 0;
+
+	if (! dedicated || ! dedicated->value) {
+		return NULL;
+	}
+
+	for (;;) {
+		if (numevents <= 0) {
+			break;
+		}
+
+		/* not sure whether to use something from the read() family of funcs,
+		 * or something from the scanf() family of funcs here for unix: */
+		/* '0' is 'stdin': */
+		if (! read(0, recs, (size_t)1)) {
+			Sys_Error("Error reading console input");
+		}
+
+		if (numread != 1) {
+			Sys_Error("Could NOT read console input");
+		}
+
+		switch (ch) {
+			case '\r':
+				/* not sure where to put NULL in here: */
+				fwrite("\r\n", (size_t)2, (size_t)(unsigned long int *)&dummy,
+					   stdout);
+
+				if (console_textlen) {
+					console_text[console_textlen] = '\0';
+					console_textlen = 0;
+					return console_text;
+				}
+				break;
+
+			case '\b':
+				if (console_textlen) {
+					console_textlen--;
+					/* not sure where to put NULL in here: */
+					fwrite("\b \b", (size_t)3,
+						   (size_t)(unsigned long int *)&dummy, stdout);
+				}
+				break;
+
+			default:
+				if (ch >= ' ') {
+					if (((unsigned long)console_textlen) <
+						(sizeof(console_text) - 2)) {
+						/* not sure where to put NULL in here: */
+						fwrite(&ch, (size_t)1,
+							   (size_t)(unsigned long int *)&dummy, stdout);
+						console_text[console_textlen] = ch;
+						console_textlen++;
+					}
+				}
+
+				break;
+
+		} /* end switch ch */
+
+	} /* end "for (;;)" for-loop */
+
+	return NULL;
+}
+
 
 /*
 -----------------------------------------------------------------------------
@@ -135,9 +279,36 @@ void Sys_SendKeyEvents(void)
         Caller is responsible for freeing data.
 -----------------------------------------------------------------------------
 */
+/* prototypes needed: */
+extern _boolean OpenClipboard(char *);
+extern _boolean CloseClipboard(void);
+extern void *GetClipboardData(unsigned int);
+extern char *GlobalLockClipboardData(void *);
+extern void GlobalUnlockClipboardData(void *);
+/* (TODO: put them in a header once implemented) */
 char *Sys_GetClipboardData(void)
 {
+	char *data = NULL;
+	char *cliptext;
+
+	/* TODO: implement OpenClipboard() */
+	if (OpenClipboard(NULL) != 0) {
+		void *hClipboardData;
+
+		/* not sure exactly what this actually supposed to be: */
+		unsigned int CF_TEXT;
+		CF_TEXT = 0;
+		if ((hClipboardData = GetClipboardData(CF_TEXT)) != 0) {
+			if ((cliptext = GlobalLockClipboardData(hClipboardData)) != 0) {
+				data = MM_MALLOC(sizeof(hClipboardData) + 1);
+				strncpy(data, cliptext, sizeof(hClipboardData));
+				GlobalUnlockClipboardData(hClipboardData);
+			}
+		}
+		CloseClipboard();
+	}
 	return NULL;
+	/*TODO: have this function actually do what it says. */
 }
 
 
@@ -156,9 +327,9 @@ char *Sys_GetClipboardData(void)
 -----------------------------------------------------------------------------
 */
 #ifndef main /* this ifdef is bad */
-int main(int argc, char *argv[])
+int main(int argc, char *argv[MAX_NUM_ARGVS])
 #else
-int unix_main(int argc, char *argv[])
+int unix_main(int argc, char *argv[MAX_NUM_ARGVS])
 #endif /* !main */
 {
 	int main_time, oldtime, newtime; /* 'time' was renamed to 'main_time' to
@@ -208,12 +379,12 @@ int unix_main(int argc, char *argv[])
         /* most of our time is spent in here: */
         common_Frame(main_time);
         oldtime = newtime;
-#ifdef DEBUG
+#if defined(DEBUG) && 0
         if (getenv("SECRET_MAIN_LOOP_BREAKING_ENVVAR") != NULL) {
 			fprintf(stdout, "main(): You have set the secret environment variable; you must be a developer!\n");
         	break;
         }
-#endif /* DEBUG */
+#endif /* DEBUG && 0 */
     }
 
 /* Should never get here!

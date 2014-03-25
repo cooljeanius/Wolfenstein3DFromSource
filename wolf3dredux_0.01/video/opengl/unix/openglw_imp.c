@@ -53,7 +53,8 @@
 
 #include <GL/glx.h>
 
-#include <X11/keysym.h>
+/* <X11/keysym.h> had been listed a second time here, but no need for duplicate
+ * includes... */
 #include <X11/cursorfont.h>
 
 #ifdef HAVE_X11_EXTENSIONS_XF86DGA_H
@@ -83,8 +84,8 @@
 #include "../../../game/app_def.h"
 
 
-extern void uninstall_grabs( void );
-extern void install_grabs( void );
+extern void uninstall_grabs(void);
+extern void install_grabs(void);
 
 Display *display = NULL;
 PRIVATE int screen_num;
@@ -111,9 +112,9 @@ extern _boolean dgamouse;
 #define X_MASK (KEY_MASK | MOUSE_MASK | VisibilityChangeMask | StructureNotifyMask | ExposureMask | EnterWindowMask | LeaveWindowMask )
 
 
-PRIVATE char *signal_ErrorString( int sig )
+PRIVATE char *signal_ErrorString(int sig)
 {
-	switch( sig ) {
+	switch (sig) {
 		case SIGHUP:	return "Hangup (POSIX)";
 		case SIGINT:	return "Interrupt (ANSI)";
 		case SIGQUIT:	return "Quit (POSIX)";

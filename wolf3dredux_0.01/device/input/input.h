@@ -59,8 +59,9 @@ extern void IN_ActivateMouse(void);
 extern void IN_DeactivateMouse(void);
 extern void IN_MouseMove(usercmd_t *cmd);
 
-/* these only exist for unix so far, in unix_keys.c: */
+/* these only exist for unix so far: */
 #if (defined(__unix__) || defined(__APPLE__)) && !defined(_WIN32)
+/* these ones are from unix_keys.c: */
 extern void Do_Key_Event(int key, _boolean down);
 extern void KBD_Init(void);
 extern void KBD_Update(void);
@@ -71,6 +72,38 @@ extern void uninstall_grabs(void);
 extern void RW_IN_Activate(_boolean active);
 extern void RW_IN_Shutdown(void);
 #endif /* (__unix__ || __APPLE__) && !_WIN32 */
+
+/* these only exist for Windows so far: */
+#ifdef _WIN32
+# if defined(HAVE_WINDOWS_H) || defined(_MSC_VER)
+#  define WIN32_LEAN_AND_MEAN 1
+#  include <windows.h>
+# endif /* HAVE_WINDOWS_H || _MSC_VER */
+/* these ones are from win_joystick.c: */
+# if defined(PDWORD) || defined(HAVE_PDWORD) || defined(_MSC_VER)
+extern PDWORD RawValuePointer(int axis);
+# elif defined(HAVE_UINT32_T)
+extern uint32_t RawValuePointer(int axis);
+# else
+extern unsigned int RawValuePointer(int axis);
+# endif /* (PDWORD || HAVE_PDWORD || _MSC_VER) || HAVE_UINT32_T */
+extern void Joy_AdvancedUpdate_f(void);
+extern _boolean IN_ReadJoystick(void);
+extern void IN_JoyMove(usercmd_t *cmd);
+/* these ones are from win_keys.c: */
+extern void WIN_DisableAltTab(void);
+extern void WIN_EnableAltTab(void);
+extern void AppActivate(BOOL fActive, BOOL minimize);
+# if defined(LONG) || defined(_MSC_VER)
+extern LONG WINAPI MainWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+# else
+extern long WINAPI MainWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+# endif /* LONG || _MSC_VER */
+/* these ones are from win_mouse.c: */
+extern void IN_MouseLookDown(void);
+extern void IN_MouseLookUp(void);
+extern void IN_MouseEvent(int mstate);
+#endif /* _WIN32 */
 
 #endif /* __INPUT_H__ */
 

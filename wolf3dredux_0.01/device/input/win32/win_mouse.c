@@ -32,17 +32,20 @@
 #define WIN32_LEAN_AND_MEAN 1
 #include <windows.h>
 
+#include "../../../common/arch.h"
 #include "../../../client/client.h"
 #include "../../../client/keys.h"
 
+#include "../input.h" /* prototypes for this file */
+
 
 /* mouse variables */
-extern	unsigned	sys_msg_time;
+extern unsigned sys_msg_time;
 
-extern cvar_t	*in_mouse;
-cvar_t	*m_filter;
+extern cvar_t *in_mouse;
+cvar_t		*m_filter;
 
-extern _boolean	mlooking;
+extern		_boolean mlooking;
 
 int			mouse_buttons;
 extern int	mouse_oldbuttonstate;
@@ -51,11 +54,11 @@ int			mouse_x, mouse_y, old_mouse_x, old_mouse_y, mx_accum, my_accum;
 
 int			old_x, old_y;
 
-extern _boolean	mouseactive;	/* false when not focus app */
+extern		_boolean mouseactive; /* false when not focus app */
 
 _boolean	restore_spi;
-extern _boolean	mouseinitialized;
-int		originalmouseparms[3], newmouseparms[3] = {0, 0, 1};
+extern		_boolean mouseinitialized;
+int			originalmouseparms[3], newmouseparms[3] = {0, 0, 1};
 _boolean	mouseparmsvalid;
 
 int			window_center_x, window_center_y;
@@ -64,8 +67,21 @@ RECT		window_rect;
 extern HWND cl_hwnd;
 
 
+/*
+ =================
+ IN_MouseLookDown
+ =================
+ */
+void IN_MouseLookDown(void)
+{
+	mlooking = true;
+}
 
-void IN_MouseLookDown(void) { mlooking = true; }
+/*
+ ===============
+ IN_MouseLookUp
+ ===============
+ */
 void IN_MouseLookUp(void)
 {
 	mlooking = false;
@@ -80,13 +96,13 @@ void IN_MouseLookUp(void)
 
  Parameters: Nothing
 
- Returns:	Nothing
+ Returns: Nothing
 
  Notes: Called when the window gains focus or changes in some way
 
 -----------------------------------------------------------------------------
 */
-void IN_ActivateMouse (void)
+void IN_ActivateMouse(void)
 {
 	int	width, height;
 
@@ -213,9 +229,9 @@ void IN_StartupMouse (void)
 }
 
 /*
-===========
+==============
 IN_MouseEvent
-===========
+==============
 */
 void IN_MouseEvent(int mstate)
 {
@@ -242,9 +258,9 @@ void IN_MouseEvent(int mstate)
 
 
 /*
-===========
+=============
 IN_MouseMove
-===========
+=============
 */
 void IN_MouseMove(usercmd_t *cmd)
 {

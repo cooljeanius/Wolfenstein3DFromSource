@@ -47,9 +47,9 @@
 
 
 
-PRIVATE	char	findbase[ 128 ];
-PRIVATE	char	findpath[ 128 ];
-PRIVATE	char	findpattern[ 128 ];
+PRIVATE	char	findbase[128];
+PRIVATE	char	findpath[128];
+PRIVATE	char	findpattern[128];
 PRIVATE	DIR     *fdir;
 
 
@@ -75,7 +75,7 @@ PUBLIC W8 FS_CreateDirectory(const char *dirname)
 		return 1;
 	}
 
-	return  (W8)(! ret_val);
+	return (W8)(! ret_val);
 }
 
 /*
@@ -87,17 +87,17 @@ PUBLIC W8 FS_CreateDirectory(const char *dirname)
 
  Returns: On success nonzero, otherwise zero.
 
- Notes:
+ Notes: Just a simple wrapper around chdir() for now...
 -----------------------------------------------------------------------------
 */
 /* TODO: put this function in a shared library */
 #ifndef FS_ChangeCurrentDirectory
-PUBLIC W8 FS_ChangeCurrentDirectory( const char *path )
+PUBLIC W8 FS_ChangeCurrentDirectory(const char *path)
 #else
-PUBLIC W8 unix_file_FS_ChangeCurrentDirectory( const char *path )
+PUBLIC W8 unix_file_FS_ChangeCurrentDirectory(const char *path)
 #endif /* !FS_ChangeCurrentDirectory */
 {
-	return ! chdir( path );
+	return (! chdir(path));
 }
 
 /*
@@ -113,19 +113,19 @@ PUBLIC W8 unix_file_FS_ChangeCurrentDirectory( const char *path )
  Notes:
 -----------------------------------------------------------------------------
 */
-PRIVATE _boolean CompareAttributes( const char *path, W32 musthave, W32 canthave )
+PRIVATE _boolean CompareAttributes(const char *path, W32 musthave, W32 canthave)
 {
 	struct stat st;
 
-	if( stat( path, &st ) == -1 ) {
+	if (stat(path, &st) == -1) {
 		return false;
 	}
 
-	if( ( st.st_mode & S_IFDIR ) && ( canthave & FA_DIR ) ) {
+	if ((st.st_mode & S_IFDIR) && (canthave & FA_DIR)) {
 		return false;
 	}
 
-	if( ( musthave & FA_DIR ) && !( st.st_mode & S_IFDIR ) ) {
+	if ((musthave & FA_DIR) && !(st.st_mode & S_IFDIR)) {
 		return false;
 	}
 
@@ -248,7 +248,7 @@ PUBLIC char *FS_FindNext(W32 musthave, W32 canthave)
 
  Returns: Nothing.
 
- Notes: Just a simple wrapper around closedir() for now...
+ Notes: Basically just a simple wrapper around closedir() for now...
 -----------------------------------------------------------------------------
 */
 PUBLIC void FS_FindClose(void)
@@ -269,12 +269,12 @@ PUBLIC void FS_FindClose(void)
 
  Returns: If successful the return value is nonzero, otherwise zero.
 
- Notes:
+ Notes: Just a simple wrapper around unlink() for now...
 -----------------------------------------------------------------------------
 */
-PUBLIC _boolean FS_DeleteFile( const char *filename )
+PUBLIC _boolean FS_DeleteFile(const char *filename)
 {
-	return( ! unlink( filename ) );
+	return (! unlink(filename));
 }
 
 /*
@@ -286,12 +286,12 @@ PUBLIC _boolean FS_DeleteFile( const char *filename )
 
  Returns: If successful the return value is nonzero, otherwise zero.
 
- Notes:
+ Notes: Just a simple wrapper around rmdir() for now...
 -----------------------------------------------------------------------------
 */
-PUBLIC _boolean FS_RemoveDirectory( const char *pathname )
+PUBLIC _boolean FS_RemoveDirectory(const char *pathname)
 {
-	return( ! rmdir( pathname ) );
+	return (! rmdir(pathname));
 }
 
 /* EOF */

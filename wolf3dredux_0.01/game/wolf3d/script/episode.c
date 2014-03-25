@@ -248,7 +248,8 @@ PRIVATE W8 *parse_episodetag(W8 *in, W32 *linenumber)
 
 PRIVATE Tag_Property_t episode_tags[] =
 {
-	/* casting here to avoid a warning leads to an error: */
+	/* casting here to avoid a warning leads to an error, so just leave it
+	 * un-casted for now: */
 	{ "episodeDef", parse_episodetag }
 };
 

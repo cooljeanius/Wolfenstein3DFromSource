@@ -39,6 +39,8 @@
 #include "../memory/memory.h"
 #include "../../../common/common_utils.h"
 
+#include "tga.h" /* prototypes should be here */
+
 
 /*
 -----------------------------------------------------------------------------
@@ -54,10 +56,7 @@
  Notes:
 -----------------------------------------------------------------------------
 */
-PRIVATE void rle_write(FILE   *fp,
-					   W8	*buffer,
-					   W32	width,
-					   W32	bytes)
+PRIVATE void rle_write(FILE *fp, W8 *buffer, W32 width, W32 bytes)
 {
 	SW32    repeat = 0;
 	SW32    direct = 0;
@@ -135,15 +134,11 @@ PRIVATE void rle_write(FILE   *fp,
 */
 /* TODO: put this function in a shared library */
 #ifndef WriteTGA /* this if(n)def is bad */
-PUBLIC W8 WriteTGA(const char *filename, W16 bpp, W16 width, W16 height,
-				   void *Data, W8 upsideDown, W8 rle);
-/* TODO: put the prototype in a relevant header */
+/* prototype has moved to "tga.h" */
 PUBLIC W8 WriteTGA(const char *filename, W16 bpp, W16 width, W16 height,
 				   void *Data, W8 upsideDown, W8 rle)
-#else
-PUBLIC W8 wolfextractor_WriteTGA(const char *filename, W16 bpp, W16 width,
-								 W16 height, void *Data, W8 upsideDown, W8 rle);
-/* TODO: as above with the prototype in the previous condition */
+#else /* WriteTGA already defined: */
+/* as above with the previous condition, the prototype has moved to "tga.h" */
 PUBLIC W8 wolfextractor_WriteTGA(const char *filename, W16 bpp, W16 width,
 								 W16 height, void *Data, W8 upsideDown, W8 rle)
 #endif /* !WriteTGA */

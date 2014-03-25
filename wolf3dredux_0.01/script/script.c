@@ -225,14 +225,14 @@ PRIVATE W8 *readFloat(W8 *in, double *number, W32 *error)
 PUBLIC W8 *script_ReadNumber(W8 *ptr, int numerictype, decimalType_t *nt)
 {
 	W8 *start;
-	W8 *end; /* TODO: initialize properly */
+	W8 *end;
 	W8 *buffer;
 	W32 size;
 	W32 error;
 	_boolean bDecimal;
 	_boolean bNegative;
 
-	end = NULL;
+	end = NULL; /* not sure if this counts as initializing properly... FIXME */
 
 	bDecimal = false;
 	bNegative = false;

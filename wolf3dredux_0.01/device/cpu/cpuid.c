@@ -47,10 +47,10 @@ cpu_info_struct main_cpu_s;
 #  define WIN32_LEAN_AND_MEAN 1
 #  include <windows.h>
 # endif /* _WIN32 */
-# ifdef __linux__
+# if (defined(__linux__) || defined(HAVE_SYS_TIMEB_H)) && !defined(_WIN32)
 #  include <sys/timeb.h>
 # endif /* __linux__ */
-# if defined(__FreeBSD__) || defined(__APPLE__) || defined(HAVE_SYS_TIME_H)
+# if (defined(__FreeBSD__) || defined(__APPLE__) || defined(HAVE_SYS_TIME_H)) && !defined(_WIN32)
 #  include <sys/time.h>
 # endif /* __FreeBSD__ */
 
@@ -293,7 +293,9 @@ PRIVATE _boolean x86_can_do_cpuid(void)
                 pop  eax        /* Store EFLAGS in EAX */
 
                 test eax, 0x00200000    /* Check ID bit (bit 21) */
+# if !defined(__clang__)
                 jz   set_21          /* Bit 21 is not set, so jump to set_21 */
+# endif /* !__clang__ */
                 and  eax, 0xffdfffff    /* Clear bit 21 */
 
                 push eax        /* Copy changed value to stack */
@@ -304,10 +306,14 @@ PRIVATE _boolean x86_can_do_cpuid(void)
 
                 test eax, 0x00200000    /* Check ID bit (bit 21) */
 
+# if !defined(__clang__)
                 jnz  cpu_id_not_ok      /* If it is on, no CPUID */
+# endif /* !__clang__ */
 
                 mov byte ptr result, 1  /* return 1 */
+# if !defined(__clang__)
                 jmp  done
+# endif /* !__clang__ */
 
         set_21:
                 or   eax, 0x00200000  /* Turn bit 21 on */
@@ -319,10 +325,14 @@ PRIVATE _boolean x86_can_do_cpuid(void)
                 pop  eax        /* Store EFLAGS in EAX */
 
                 test eax, 0x00200000    /* See if bit 21 has changed */
+# if !defined(__clang__)
                 jz   cpu_id_not_ok      /* If no change, no CPUID */
+# endif /* !__clang__ */
 
                 mov byte ptr result, 1  /* return 1 */
+# if !defined(__clang__)
                 jmp  done
+# endif /* !__clang__ */
 
         cpu_id_not_ok:
 
@@ -706,9 +716,9 @@ PRIVATE void x86_get_cpu_ProcessorName_LUT( cpu_info_struct *s )
 
 
 		/* This only works on Pentium and Subsequent Processor Signatures */
-		Type    = (regs[0] >> 12) & 0x03;
-		Family  = (regs[0] >> 8) & 0x0F;
-		Model   = (regs[0] >> 4) & 0x0F;
+		Type    = ((regs[0] >> 12) & 0x03);
+		Family  = ((regs[0] >> 8) & 0x0F);
+		Model   = ((regs[0] >> 4) & 0x0F);
 
 		if (Type == 1) {
 			switch (Model) {
@@ -1081,7 +1091,6 @@ PRIVATE void x86_get_cpu_info(cpu_info_struct *s)
         if (regs[2] & INTEL_CPUID_SSE3_FLAG) {
             s->bSSE3 = true;
         }
-
 	}
 
 
@@ -1089,7 +1098,6 @@ PRIVATE void x86_get_cpu_info(cpu_info_struct *s)
         x86_do_cpuid(0x80000001, regs);
 
 		if (s->cpu_type == AMD_X86) {
-
 			if (regs[3] & AMD_CPUID_EXT_MMXEXT) {
                 s->bMMXExt = true;
             }
@@ -1220,7 +1228,9 @@ PRIVATE W32 x86_Get_CPU_frequency(void)
 		mov ebx, 5000000
 		AGAIN:
 		dec ebx
+# if !defined(__clang__)
 		jnz AGAIN
+# endif /* !__clang__ */
 
 		/* Read Time Stamp Counter and calculate time delta. */
 		rdtsc
@@ -1235,7 +1245,7 @@ PRIVATE W32 x86_Get_CPU_frequency(void)
 		return 0;
 	}
 
-	return (W32)(dtime * WaitTime.QuadPart / EndCount.QuadPart / 1000000);
+	return (W32)((dtime * WaitTime.QuadPart) / EndCount.QuadPart / 1000000);
 #elif __unix__
 	unsigned long long tscstart, tscstop;
 	unsigned int start, stop;
@@ -1322,13 +1332,11 @@ PUBLIC void Get_CPU_info(void)
 #else /* !__i386__: */
 PUBLIC void Get_CPU_info(void)
 {
-
 	memset(&main_cpu_s, 0, sizeof(cpu_info_struct));
 
 	main_cpu_s.cpu_type = NON_X86;
 
 	Com_Printf("CPU was NOT recognized as i386, cannot say more about it.\n");
-
 }
 #endif /* __i386__ */
 

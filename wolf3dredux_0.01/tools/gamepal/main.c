@@ -41,6 +41,8 @@
 # include <unistd.h>
 #endif /* !unlink */
 
+#include "gamepal.h" /* new location for prototypes from this file */
+
 /* TODO: allow these paths to be configurable instead of hardcoded: */
 #define INPUT_FNAME "gamepal.obj"
 #define OUTPUT_FNAME "wolf_pal.c"
@@ -74,11 +76,9 @@
  Notes:
  			1.  Format message then display it to user.
 			2.  Delete file.
-
 -----------------------------------------------------------------------------
 */
-void PrintErrorDestroyFile(const char *filename, const char *format, ...);
-/* TODO: move the above prototype to a matching header file */
+/* prototype has moved to "gamepal.h" */
 void PrintErrorDestroyFile(const char *filename, const char *format, ...)
 {
     va_list	argptr;

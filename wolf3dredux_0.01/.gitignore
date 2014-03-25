@@ -33,3 +33,4 @@ config*.lineno
 wolf3dredux
 gamepal
 signon
+lib*.a

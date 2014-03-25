@@ -197,8 +197,8 @@ PRIVATE W8 CA_CacheAudioChunk(W32 chunk, W8 *BuffChunk)
  Notes:
 -----------------------------------------------------------------------------
 */
-PRIVATE void CA_SaveAudioChunk( W32 chunk, const char *filename,
-							    W8 *BuffChunk, W8 *BuffWav )
+PRIVATE void CA_SaveAudioChunk(W32 chunk, const char *filename,
+							   W8 *BuffChunk, W8 *BuffWav)
 {
 	W32 length;
 
@@ -224,12 +224,14 @@ extern void ADLIB_LoadMusic(void *musbuffer);
 
 #ifndef vorbis_encode
 extern int vorbis_encode(const char *filename, void *data, W32 size,
-						W32 in_channels, W32 in_samplesize,
-						  W32 rate, W32 quality, W32 max_bitrate,
-						  W32 min_bitrate );
+						 W32 in_channels, W32 in_samplesize,
+						 W32 rate, W32 quality, W32 max_bitrate,
+						 W32 min_bitrate);
 /* TODO: check if prototype can be put in header? might conflict though... */
 #else
-# warning "vorbis_encode() already defined."
+# if defined(__GNUC__) && !defined(__STRICT_ANSI__)
+#  warning "vorbis_encode() already defined."
+# endif /* __GNUC__ && !__STRICT_ANSI__ */
 #endif /* !vorbis_encode */
 
 #define NCH 1		/* channels */
@@ -311,13 +313,13 @@ PRIVATE void CA_SaveMusicChunk(W32 chunk, const char *filename)
 */
 PRIVATE void CAL_ShutdownAudioFile()
 {
-    if( audiohandle ) {
-        fclose( audiohandle );
+    if (audiohandle) {
+        fclose(audiohandle);
         audiohandle = NULL;
     }
 
-    if( audiostarts ) {
-        MM_FREE( audiostarts );
+    if (audiostarts) {
+        MM_FREE(audiostarts);
     }
 
 }
@@ -335,14 +337,14 @@ PRIVATE void CAL_ShutdownAudioFile()
  Notes:
 -----------------------------------------------------------------------------
 */
-PUBLIC _boolean AudioRipper( const char *fextension,
-							 W32 start, W32 end, W16 version )
+PUBLIC _boolean AudioRipper(const char *fextension, W32 start, W32 end,
+							W16 version)
 {
     W32 i, j;
-	char filename[ 64 ];
+	char filename[64];
 	W8 *buffChunk;
 	W8 *buffWav;
-	W32 startofmusic = WL6_STARTMUSIC - 1;
+	W32 startofmusic = (WL6_STARTMUSIC - 1);
 	W32 endofmusic = LASTMUSIC;
 
 /*
@@ -350,8 +352,9 @@ PUBLIC _boolean AudioRipper( const char *fextension,
  */
 
 	if( version == SOD_PAK || version == SDM_PAK ) {
-		if( 0 == FS_Mkdir( SODLSFXDIR ) ) {
-			printf( "[%s] Could not create directory (%s)!\n", "wolf_aud.c", SODLSFXDIR );
+		if (0 == FS_Mkdir(SODLSFXDIR)) {
+			printf("[%s] Could not create directory (%s)!\n", "wolf_aud.c",
+				   SODLSFXDIR);
 
 			return false;
 		}
@@ -359,16 +362,18 @@ PUBLIC _boolean AudioRipper( const char *fextension,
 		startofmusic = SOD_STARTMUSIC;
 		endofmusic = SOD_LASTMUSIC;
 	} else {
-		if( 0 == FS_Mkdir( LSFXDIR ) ) {
-			printf( "[%s] Could not create directory (%s)!\n", "wolf_aud.c", LSFXDIR );
+		if (0 == FS_Mkdir(LSFXDIR)) {
+			printf("[%s] Could not create directory (%s)!\n", "wolf_aud.c",
+				   LSFXDIR);
 
 			return false;
 		}
 	}
 
 
-	if( 0 == FS_Mkdir( MUSICDIR ) ) {
-		printf( "[%s] Could not create directory (%s)!\n", "wolf_aud.c", LSFXDIR );
+	if (0 == FS_Mkdir(MUSICDIR)) {
+		printf("[%s] Could not create directory (%s)!\n", "wolf_aud.c",
+			   LSFXDIR);
 
 		return false;
 	}
@@ -402,7 +407,7 @@ PUBLIC _boolean AudioRipper( const char *fextension,
 	if (buffWav == NULL) {
 		ADLIB_Shutdown();
 		CAL_ShutdownAudioFile();
-		MM_FREE( buffChunk );
+		MM_FREE(buffChunk);
 
 		return false;
 	}
@@ -411,29 +416,30 @@ PUBLIC _boolean AudioRipper( const char *fextension,
  * Decode Audio data
  */
 
-	printf( "Decoding Audio Data...\n" );
+	printf("Decoding Audio Data...\n");
 
-	for( i = start, j = 0; i < end; ++i, ++j ) {
-		if( version == SOD_PAK || version == SDM_PAK ) {
-			cs_snprintf( filename, sizeof( filename ), "%s/%.3d.wav", SODLSFXDIR, j );
+	for ((i = start), (j = 0); (i < end); ++i, ++j) {
+		if ((version == SOD_PAK) || (version == SDM_PAK)) {
+			cs_snprintf(filename, sizeof(filename), "%s/%.3d.wav",
+						SODLSFXDIR, j);
 		} else {
-			cs_snprintf( filename, sizeof( filename ), "%s/%.3d.wav", LSFXDIR, j );
+			cs_snprintf(filename, sizeof(filename), "%s/%.3d.wav", LSFXDIR, j);
 		}
 
-		CA_SaveAudioChunk( i, filename, buffChunk, buffWav );
+		CA_SaveAudioChunk(i, filename, buffChunk, buffWav);
     }
 
 	ADLIB_Shutdown();
 
-	MM_FREE( buffWav );
-	MM_FREE( buffChunk );
+	MM_FREE(buffWav);
+	MM_FREE(buffChunk);
 
 
 /*
  *	Decode Music data
  */
 
-	if( ! ADLIB_Init( 44100 ) ) {
+	if (! ADLIB_Init(44100)) {
 		CAL_ShutdownAudioFile();
 
 		return false;
@@ -441,14 +447,16 @@ PUBLIC _boolean AudioRipper( const char *fextension,
 
 	printf( "Decoding Music Data...\n" );
 
-	for( i = 0 ; i < endofmusic ; ++i ) {
-		if( version == SOD_PAK || version == SDM_PAK ) {
-			cs_snprintf( filename, sizeof( filename ), "%s/%s.ogg", MUSICDIR, GetMusicFileName_SOD( i ) );
+	for ((i = 0); (i < endofmusic); ++i ) {
+		if ((version == SOD_PAK) || (version == SDM_PAK)) {
+			cs_snprintf(filename, sizeof(filename), "%s/%s.ogg", MUSICDIR,
+						GetMusicFileName_SOD(i));
 		} else {
-			cs_snprintf( filename, sizeof( filename ), "%s/%s.ogg", MUSICDIR, GetMusicFileName_WL6( i ) );
+			cs_snprintf(filename, sizeof(filename), "%s/%s.ogg", MUSICDIR,
+						GetMusicFileName_WL6(i));
 		}
 
-		CA_SaveMusicChunk( startofmusic + i, filename );
+		CA_SaveMusicChunk((startofmusic + i), filename);
 	}
 
 	ADLIB_Shutdown();
@@ -456,7 +464,6 @@ PUBLIC _boolean AudioRipper( const char *fextension,
 /*
  * Shutdown
  */
-
     CAL_ShutdownAudioFile();
 
     return true;

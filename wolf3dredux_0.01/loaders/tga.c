@@ -668,15 +668,12 @@ PRIVATE void rle_write(FILE *fp, W8 *buffer, W32 width, W32 bytes)
 */
 /* TODO: put this function in an actual shared library */
 #ifndef WriteTGA
-PUBLIC W8 WriteTGA(const char *filename, W16 bpp, W16 width, W16 height,
-				   void *Data, W8 upsideDown, W8 rle);
-/* TODO: put the prototype in a relevant header */
+/* prototype moved to "tga_minimal.h" */
 PUBLIC W8 WriteTGA(const char *filename, W16 bpp, W16 width, W16 height,
 				   void *Data, W8 upsideDown, W8 rle)
-#else
-PUBLIC W8 loaders_WriteTGA(const char *filename, W16 bpp, W16 width, W16 height,
-						   void *Data, W8 upsideDown, W8 rle);
-/* TODO: as above with the prototype in the previous condition */
+#else /* WriteTGA already defined: */
+/* as above with the previous condition, the prototype has moved to
+ * "tga_minimal.h" */
 PUBLIC W8 loaders_WriteTGA(const char *filename, W16 bpp, W16 width, W16 height,
 						   void *Data, W8 upsideDown, W8 rle)
 #endif /* !WriteTGA */
