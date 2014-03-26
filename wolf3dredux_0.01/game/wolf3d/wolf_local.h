@@ -69,9 +69,9 @@ typedef struct
 	int		framenum;
 	float	time;
 
-	char	level_name[ MAX_OSPATH ]; /* the descriptive name (eg Outer Base) */
-	char	mapname[ MAX_OSPATH ]; /* the server name (base1, etc) */
-	char	nextmap[ MAX_OSPATH ]; /* go here when fraglimit is hit */
+	char	level_name[MAX_OSPATH]; /* the descriptive name (eg Outer Base) */
+	char	mapname[MAX_OSPATH]; /* the server name (base1, etc) */
+	char	nextmap[MAX_OSPATH]; /* go here when fraglimit is hit */
 
 	/* intermission state */
 	float		intermissiontime; /* time the intermission was started */

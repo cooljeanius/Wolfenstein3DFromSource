@@ -30,12 +30,13 @@ AC_ARG_ENABLE([old-style-build],
                                [also run the pre-automake build rules when
                                 building])],
               [DO_WOLF_OLD_BUILD=${enableval}],
-              [DO_WOLF_OLD_BULD=no])
+              [DO_WOLF_OLD_BUILD=no])
 
 AC_MSG_CHECKING([whether to use pre-automake build rules])
 if test "x${DO_WOLF_OLD_BUILD}" = "xyes"; then
   AC_MSG_RESULT([yes])
 else
+  export DO_WOLF_OLD_BUILD=no
   AC_MSG_RESULT([no])
 fi
 
@@ -78,7 +79,16 @@ if test "x${ac_cv_objc_compiler_gnu}" = "xyes"; then
   AC_CHECK_HEADERS([objc/objc.h])
   AC_SUBST([ac_cv_header_objc_objc_h])
 fi
-AM_CONDITIONAL([BUILD_OBJC_SOURCES],[test "x${ac_cv_objc_compiler_gnu}" = "xyes" -a "x${OBJCPP}" != "x" -a "x${ac_cv_header_objc_objc_h}" = "xyes"])
+AC_MSG_CHECKING([whether we can build objc sources])
+if test "x${ac_cv_objc_compiler_gnu}" = "xyes" -a "x${OBJCPP}" != "x" -a "x${ac_cv_header_objc_objc_h}" = "xyes"; then
+  export CAN_BUILD_OBJC=yes
+  AC_SUBST([CAN_BUILD_OBJC])
+  AC_MSG_RESULT([${CAN_BUILD_OBJC}])
+else
+  export CAN_BUILD_OBJC=no
+  AC_MSG_RESULT([${CAN_BUILD_OBJC}])
+fi
+AM_CONDITIONAL([BUILD_OBJC_SOURCES],[test "x${CAN_BUILD_OBJC}" = "xyes"])
 AC_PROG_INSTALL
 AC_PROG_MKDIR_P
 AC_PATH_PROG([GLXINFO],[glxinfo],[:],[${PATH}:/opt/local/bin])
@@ -111,8 +121,8 @@ LT_LANG([C])
 
 # Checks for libraries.
 PKG_CHECK_MODULES([MESA],[
-# 3.4.1 is the first version in the timeline on mesa3d.org to fully conform
-# to semantic versioning; not sure which version is actually needed:
+dnl# 3.4.1 is the 1st version in the timeline on mesa3d.org to fully
+dnl# conform to semver; not sure which version is actually needed:
 gl > 3.4.1
 glu > 3.4.1
 osmesa > 3.4.1
@@ -125,14 +135,127 @@ LIBS="${LIBS} ${MESA_LIBS}"
 ],[
 AC_MSG_WARN([mesa not found; if your system uses an alternate OpenGL interface, it will require manual setup])
 ])
+# X11 checks
+AC_PATH_X
+AC_SUBST([with_x])
+AC_SUBST([have_x])
+AC_SUBST([ac_cv_have_x])
+AC_SUBST([no_x])
+AC_SUBST([x_includes])
+AC_SUBST([x_libraries])
+AC_SUBST([ac_x_includes])
+AC_SUBST([ac_x_libraries])
+AC_MSG_CHECKING([if we can actually build against X11])
+if test "x${no_x}" != "xyes" -a "x${have_x}" = "xyes" -a "x${with_x}" != "xno"; then
+  export CAN_BUILD_AGAINST_X11=yes
+  AC_SUBST([CAN_BUILD_AGAINST_X11])
+  AC_MSG_RESULT([${CAN_BUILD_AGAINST_X11}])
+  AC_PATH_XTRA
+  # these ones are unnecessary:
+  AC_CHECK_HEADERS([Xlib.h Xutil.h X.h X11/X.h X11/Xfuncproto.h X11/Xmd.h \
+                    X11/extensions/xf86vm.h])
+  # these ones are necessary:
+  AC_CHECK_HEADERS([X11/Xlib.h X11/Xutil.h X11/keysym.h \
+                    X11/Xresource.h X11/cursorfont.h],[],[
+     break && export CAN_BUILD_AGAINST_X11=no && export CAUSE_OF_X11_FAILURE="missing/bad headers"])
+  # need this for the next few conftests:
+  export ac_xeleven_includes_default="\
+#ifdef HAVE_X_H
+# include <X.h>
+#else
+# ifdef HAVE_X11_X_H
+#  include <X11/X.h>
+# else
+#  if defined(__GNUC__) && !defined(__STRICT_ANSI__)
+#   warning this conftest is missing an X header.
+#  endif /* __GNUC__ && !__STRICT_ANSI__ */
+# endif /* HAVE_X11_X_H */
+#endif /* HAVE_X_H */
+#ifdef HAVE_XLIB_H
+# include <Xlib.h>
+#else
+# ifdef HAVE_X11_XLIB_H
+#  include <X11/Xlib.h>
+# else
+#  if defined(__GNUC__) && !defined(__STRICT_ANSI__)
+#   warning this conftest is missing an Xlib header.
+#  endif /* __GNUC__ && !__STRICT_ANSI__ */
+# endif /* HAVE_X11_XLIB_H */
+#endif /* HAVE_XLIB_H */
+#ifdef HAVE_X11_XFUNCPROTO_H
+# include <X11/Xfuncproto.h>
+#endif /* HAVE_X11_XFUNCPROTO_H */"
+dnl# (I wanted to use m4_divert_text like autoconf does for its default
+dnl# includes, but that led to errors...)
+  AC_CHECK_HEADERS([X11/extensions/xf86dga.h],[],[
+    AC_CHECK_HEADERS([X11/extensions/xf86dgaconst.h],[],[
+      AC_CHECK_HEADERS([X11/extensions/xf86dga1.h],[],[
+        AC_CHECK_HEADERS([X11/extensions/Xxf86dga.h],[],[
+          export CAN_BUILD_AGAINST_X11=no
+          export CAUSE_OF_X11_FAILURE="missing/bad headers"
+        ],[AC_INCLUDES_DEFAULT
+${ac_xeleven_includes_default}
+        ])
+      ],[AC_INCLUDES_DEFAULT
+${ac_xeleven_includes_default}
+      ])
+    ],[AC_INCLUDES_DEFAULT
+${ac_xeleven_includes_default}
+    ])
+  ],[AC_INCLUDES_DEFAULT
+${ac_xeleven_includes_default}
+  ])
+  AC_CHECK_HEADERS([X11/extensions/xf86vmode.h],[],[
+    AC_CHECK_HEADERS([X11/extensions/Xxf86vmode.h],[],[
+      export CAN_BUILD_AGAINST_X11=no
+      export CAUSE_OF_X11_FAILURE="missing/bad headers"
+    ],[AC_INCLUDES_DEFAULT
+${ac_xeleven_includes_default}
+    ])
+  ],[AC_INCLUDES_DEFAULT
+${ac_xeleven_includes_default}
+  ])
+  AC_CHECK_LIB([X11],[XCloseDisplay],[],[
+    export CAN_BUILD_AGAINST_X11=no
+    if test -z "${CAUSE_OF_X11_FAILURE}"; then
+      export CAUSE_OF_X11_FAILURE="missing/bad libX11"
+    else
+      export CAUSE_OF_X11_FAILURE="${CAUSE_OF_X11_FAILURE}, and missing/bad libX11"
+    fi
+  ])
+  # wolf3dredux does not actually use any symbols from `-lXext', so just
+  # check for `main', and skip the failure condition:
+  AC_CHECK_LIB([Xext],[main],[],[:])
+  AC_CHECK_LIB([Xxf86dga],[XF86DGADirectVideo],[],[
+    export CAN_BUILD_AGAINST_X11=no
+    if test -z "${CAUSE_OF_X11_FAILURE}"; then
+      export CAUSE_OF_X11_FAILURE="missing/bad libXxf86dga"
+    else
+      export CAUSE_OF_X11_FAILURE="${CAUSE_OF_X11_FAILURE}, and missing/bad libXxf86dga"
+    fi
+  ])
+  AC_CHECK_LIB([Xxf86vm],[XF86VidModeGetAllModeLines],[],[
+    export CAN_BUILD_AGAINST_X11=no
+    if test -z "${CAUSE_OF_X11_FAILURE}"; then
+      export CAUSE_OF_X11_FAILURE="missing/bad libXxf86vm"
+    else
+      export CAUSE_OF_X11_FAILURE="${CAUSE_OF_X11_FAILURE}, and missing/bad libXxf86vm"
+    fi
+  ])
+  AC_MSG_CHECKING([if it is still true that we can actually build against X11])
+  if test -z "${CAUSE_OF_X11_FAILURE}"; then
+    AC_MSG_RESULT([${CAN_BUILD_AGAINST_X11}])
+  else
+    AC_MSG_RESULT([${CAN_BUILD_AGAINST_X11}, because of ${CAUSE_OF_X11_FAILURE}])
+  fi
+else
+  export CAN_BUILD_AGAINST_X11=no
+  AC_MSG_RESULT([${CAN_BUILD_AGAINST_X11}])
+fi
+AM_CONDITIONAL([BUILD_X11_SOURCES],[test "x${CAN_BUILD_AGAINST_X11}" = "xyes"])
+
 # simpler library checks:
 AC_CHECK_LIB([c],[printf])
-AC_CHECK_LIB([X11],[XCloseDisplay])
-# wolf3dredux does not actually use any symbols from `-lXext', so just
-# check for `main':
-AC_CHECK_LIB([Xext],[main])
-AC_CHECK_LIB([Xxf86dga],[XF86DGADirectVideo])
-AC_CHECK_LIB([Xxf86vm],[XF86VidModeGetAllModeLines])
 LT_LIB_M
 AC_CHECK_LIB([m],[sqrt])
 AC_SEARCH_LIBS([logerror],[m crlibm log gnu iberty])
@@ -147,21 +270,9 @@ XIPH_PATH_VORBIS
 # Checks for header files.
 AC_HEADER_DIRENT
 AC_HEADER_STAT
+dnl# might want to consider doing stdbool before the X11 checks instead:
 AC_HEADER_STDBOOL dnl# also "_CHECK"s it
 AC_HEADER_TIME
-AC_PATH_X
-AC_SUBST([with_x])
-AC_SUBST([have_x])
-AC_SUBST([ac_cv_have_x])
-AC_SUBST([no_x])
-AC_SUBST([x_includes])
-AC_SUBST([x_libraries])
-AC_SUBST([ac_x_includes])
-AC_SUBST([ac_x_libraries])
-AM_CONDITIONAL([BUILD_X11_SOURCES],[test "x${no_x}" != "xyes" -a "x${have_x}" = "xyes" -a "x${with_x}" != "xno"])
-dnl# TODO: use same condition for BUILD_X11_SOURCES to determine whether
-dnl# to do other X11-related tests in other sections...
-AC_PATH_XTRA
 m4_foreach_w([my_GL_header],[gl.h glu.h glext.h glx.h],[
   # The "<GL/>" directory is where they should be, so check that first:
   AC_CHECK_HEADERS([GL/my_GL_header],[],[
@@ -190,15 +301,7 @@ AC_CHECK_HEADERS([alloc.h assert.h bits/libc-lock.h crtdefs.h ctype.h \
                   sys/gmon.h sys/malloc.h sys/mount.h sys/param.h \
                   sys/socket.h sys/sysctl.h sys/syslimits.h sys/time.h \
                   sys/timeb.h sys/uio.h sys/utsname.h sys/vmmeter.h \
-                  unix.h wchar.h windef.h windows.h xlocale.h Xutil.h \
-                  X11/Xlib.h X11/Xutil.h X11/keysym.h X11/Xresource.h \
-                  X11/cursorfont.h])
-AC_CHECK_HEADERS([X11/extensions/xf86dga.h],[],[
-  AC_CHECK_HEADERS([X11/extensions/Xxf86dga.h])
-])
-AC_CHECK_HEADERS([X11/extensions/xf86vmode.h],[],[
-  AC_CHECK_HEADERS([X11/extensions/Xxf86vmode.h])
-])
+                  unix.h wchar.h windef.h windows.h xlocale.h])
 
 # Checks for typedefs, structures, and compiler characteristics.
 AC_SYS_LARGEFILE
@@ -287,6 +390,31 @@ AC_CHECK_FUNCS([atoi atof dlsym dmalloc_malloc fabs fclose floor fopen \
 AC_REPLACE_FUNCS([strnlen1])
 AC_LIBOBJ([progname])
 
+for my_libobj in `eval echo ${LIBOBJS}`; do
+  export JUST_LIBOBJS="${JUST_LIBOBJS} `echo ${my_libobj} | cut -d\/ -f2`"
+done
+AC_SUBST([JUST_LIBOBJS])
+
 # Output
 AC_CONFIG_FILES([Makefile gnulib_replacement_funcs/Makefile])
 AC_OUTPUT
+
+echo ""
+echo "Building with the following characteristics:"
+echo ""
+echo "compiler: ${CC}"
+echo "compiler flags: ${CFLAGS}"
+echo "preprocessor flags: ${CPPFLAGS}"
+echo "linker flags: ${LDFLAGS}"
+echo "libraries to link against: ${LIBS}"
+echo "old-style build: ${DO_WOLF_OLD_BUILD}"
+echo "build Microsoft sources: ${CHECK_MS_COMPAT}"
+echo "build Objective C sources: ${CAN_BUILD_OBJC}"
+echo "enable clang analyzer target: ${wolf_cv_clang}"
+if test -z "${CAUSE_OF_X11_FAILURE}"; then
+  echo "build X11 sources: ${CAN_BUILD_AGAINST_X11}"
+else
+  echo "build X11 sources: ${CAN_BUILD_AGAINST_X11}, because of ${CAUSE_OF_X11_FAILURE}"
+fi
+echo "objects to build for replacement functions: ${JUST_LIBOBJS}"
+echo ""

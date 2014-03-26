@@ -41,6 +41,8 @@
 
 #ifdef HAVE_X11_EXTENSIONS_XF86DGA_H
 # include <X11/extensions/xf86dga.h>
+#elif defined(_XF86DGA_SERVER_) && defined(HAVE_X11_EXTENSIONS_XF86DGACONST_H)
+# include <X11/extensions/xf86dgaconst.h>
 #elif defined HAVE_X11_EXTENSIONS_XXF86DGA_H || 1
 # include <X11/extensions/Xxf86dga.h>
 #else
