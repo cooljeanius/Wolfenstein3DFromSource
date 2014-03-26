@@ -40,18 +40,31 @@
 #ifdef __APPLE__
 /* assume we are doing a build against OpenGL.framework */
 # include <OpenGL/OpenGL.h> /* also includes <OpenGL/gl.h> */
-/* TODO: allow building against non-framework OpenGL installations */
-#else /* not __APPLE__ */
+/* TODO: allow building against non-framework OpenGL installations for Apple */
+#else /* not __APPLE__: */
 # include <GL/gl.h>
 #endif /* __APPLE__ */
 
+/* Wine's <crtdefs.h> has conflicting declarations for intptr_t, uintptr_t, and
+ * wchar_t, so be sure to let <stdint.h> and <inttypes.h> that we already have
+ * these types: */
+#ifdef __WINE_CRTDEFS_H
+# ifndef _INTPTR_T
+#  define _INTPTR_T 1
+# endif /* !_INTPTR_T */
+# ifndef _UINTPTR_T
+#  define _UINTPTR_T 1
+# endif /* !_UINTPTR_T */
+# ifndef _WCHAR_T
+#  define _WCHAR_T 1
+# endif /* !_WCHAR_T */
+#endif /* __WINE_CRTDEFS_H */
 
-#if __unix__ || __APPLE__
+#if (__unix__ || __APPLE__ || HAVE_GL_GLX_H) && !defined(_WIN32)
 /* for __APPLE__ to be correct, X11 or XQuartz needs to be installed
- * (not sure the preprocessor macro to check for that... maybe one of the
- * autoconf/autoheader generated ones?) */
+ * (not sure if I should just rely on the HAVE_GL_GLX_H macro instead?) */
 # include <GL/glx.h>
-#endif /* __unix__ || __APPLE__ */
+#endif /* (__unix__ || __APPLE__ || HAVE_GL_GLX_H) && !_WIN32 */
 
 
 extern int	OpenGL_Init(const char *dllname);

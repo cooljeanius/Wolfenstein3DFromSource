@@ -35,7 +35,7 @@
 #ifdef _WIN32
 # include <windows.h>
 HINSTANCE hinstOpenAL;
-#elif __unix__ || __APPLE__
+#elif (__unix__ || __APPLE__) && !defined(_WIN32)
 # include <dlfcn.h>
 void *OpenALLib;
 #else
@@ -67,7 +67,7 @@ PUBLIC void OpenAL_Shutdown(void)
 	}
 
 	hinstOpenAL = NULL;
-#elif __unix__ || __APPLE__
+#elif (__unix__ || __APPLE__) && !defined(_WIN32)
 	if (OpenALLib) {
 		dlclose(OpenALLib);
 		OpenALLib = NULL;
@@ -155,7 +155,7 @@ PUBLIC void OpenAL_Shutdown(void)
 
 #ifdef _WIN32
 # define GPA(a) GetProcAddress(hinstOpenAL, a)
-#elif __unix__ || __APPLE__
+#elif (__unix__ || __APPLE__) && !defined(_WIN32)
 # define GPA(a) dlsym(OpenALLib, a)
 #else
 # error "Please define interface to OpenAL library for your platform!"
@@ -203,7 +203,7 @@ PUBLIC _boolean OpenAL_Init(const char *dllname)
 
 		return false;
 	}
-#elif __unix__ || __APPLE__
+#elif (__unix__ || __APPLE__) && !defined(_WIN32)
 	Com_Printf("...calling dlopen(%s): ", dllname);
 
 	if ((OpenALLib = dlopen(dllname, (RTLD_LAZY | RTLD_GLOBAL))) == 0) {

@@ -835,7 +835,7 @@ PRIVATE W8 ConfigNVVertexArrayRange(const char *glext)
 	if (!(pfwglFreeMemoryNV = (void *)pfwglGetProcAddress("wglFreeMemoryNV"))) {
 		return 0;
 	}
-#elif __unix__ || __APPLE__
+#elif (__unix__ || __APPLE__) && !defined(_WIN32)
 /* __APPLE__ depends on tentative similar preprocessor macro check also existing
  * in "myopengl.h" */
 	if (!(pfwglAllocateMemoryNV = (void *)pfwglGetProcAddress("glXAllocateMemoryNV"))) {

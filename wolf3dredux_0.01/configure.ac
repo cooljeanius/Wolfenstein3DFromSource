@@ -18,13 +18,20 @@ if test "x${LIBOBJDIR}" = "x"; then
   # automake implicit rules require the "/" at the end:
   test -z "${LIBOBJDIR}" && export LIBOBJDIR="gnulib_replacement_funcs/"
 fi
+export LIBOBJDIRNOSLASH="gnulib_replacement_funcs"
 AC_SUBST([LIBOBJDIR])
+AC_SUBST([LIBOBJDIRNOSLASH])
 AC_CONFIG_MACRO_DIR([m4])
 AC_CANONICAL_TARGET
 AC_USE_SYSTEM_EXTENSIONS
+
+dnl# automake
+AC_MSG_CHECKING([for some automake things...])
+AC_MSG_RESULT([... ])
 AM_INIT_AUTOMAKE([foreign subdir-objects])
 AM_MAINTAINER_MODE
 
+dnl# our own additional configure flags:
 AC_ARG_ENABLE([old-style-build],
               [AS_HELP_STRING([--enable-old-style-build],
                                [also run the pre-automake build rules when
@@ -65,6 +72,8 @@ fi
 AM_CONDITIONAL([MS_COMPAT_CHECK],[test "x${CHECK_MS_COMPAT}" = "xyes"])
 
 # Checks for programs.
+AC_MSG_CHECKING([for some programs...])
+AC_MSG_RESULT([... ])
 AM_PROG_AR
 AM_PROG_AS
 AC_PROG_CC_C99
@@ -114,8 +123,17 @@ AC_CACHE_CHECK([whether the compiler is actually clang],[wolf_cv_clang],
 ])
 AC_SUBST([wolf_cv_clang])
 AM_CONDITIONAL([CLANG_RULES],[test "x${wolf_cv_clang}" = "xyes"])
+dnl# TODO: only do this check if the real MSVC is not being used:
+if test "x${wolf_cv_clang}" = "xno"; then
+  if test "x${CHECK_MS_COMPAT}" = "xyes"; then
+    AC_MSG_ERROR([currently only clang can successfully fake being MSVC])
+dnl# TODO: do something more helpful instead of just erroring out
+  fi
+fi
 
 # libtool
+AC_MSG_CHECKING([for some libtool things...])
+AC_MSG_RESULT([... ])
 LT_INIT([win32-dll dlopen])
 LT_LANG([C])
 
@@ -151,10 +169,12 @@ if test "x${no_x}" != "xyes" -a "x${have_x}" = "xyes" -a "x${with_x}" != "xno"; 
   AC_SUBST([CAN_BUILD_AGAINST_X11])
   AC_MSG_RESULT([${CAN_BUILD_AGAINST_X11}])
   AC_PATH_XTRA
-  # these ones are unnecessary:
+  AC_MSG_CHECKING([for some useful but unnecessary X11 headers...])
+  AC_MSG_RESULT([... ])
   AC_CHECK_HEADERS([Xlib.h Xutil.h X.h X11/X.h X11/Xfuncproto.h X11/Xmd.h \
                     X11/extensions/xf86vm.h])
-  # these ones are necessary:
+  AC_MSG_CHECKING([for the X11 headers that we actually need...])
+  AC_MSG_RESULT([... ])
   AC_CHECK_HEADERS([X11/Xlib.h X11/Xutil.h X11/keysym.h \
                     X11/Xresource.h X11/cursorfont.h],[],[
      break && export CAN_BUILD_AGAINST_X11=no && export CAUSE_OF_X11_FAILURE="missing/bad headers"])
@@ -187,6 +207,8 @@ if test "x${no_x}" != "xyes" -a "x${have_x}" = "xyes" -a "x${with_x}" != "xno"; 
 #endif /* HAVE_X11_XFUNCPROTO_H */"
 dnl# (I wanted to use m4_divert_text like autoconf does for its default
 dnl# includes, but that led to errors...)
+  AC_MSG_CHECKING([for X11 headers that require special treatment...])
+  AC_MSG_RESULT([... ])
   AC_CHECK_HEADERS([X11/extensions/xf86dga.h],[],[
     AC_CHECK_HEADERS([X11/extensions/xf86dgaconst.h],[],[
       AC_CHECK_HEADERS([X11/extensions/xf86dga1.h],[],[
@@ -215,6 +237,8 @@ ${ac_xeleven_includes_default}
   ],[AC_INCLUDES_DEFAULT
 ${ac_xeleven_includes_default}
   ])
+  AC_MSG_CHECKING([for X11 libraries that we would like to link with...])
+  AC_MSG_RESULT([... ])
   AC_CHECK_LIB([X11],[XCloseDisplay],[],[
     export CAN_BUILD_AGAINST_X11=no
     if test -z "${CAUSE_OF_X11_FAILURE}"; then
@@ -242,6 +266,21 @@ ${ac_xeleven_includes_default}
       export CAUSE_OF_X11_FAILURE="${CAUSE_OF_X11_FAILURE}, and missing/bad libXxf86vm"
     fi
   ])
+  AC_MSG_CHECKING([for all of the X11 functions that we need...])
+  AC_MSG_RESULT([... ])
+  # these are all the functions in XSyms.txt:
+  AC_CHECK_FUNCS([XF86VidModeGetAllModeLines XF86VidModeQueryVersion \
+                  XF86VidModeSetViewPort XF86VidModeSwitchToMode \
+                  XF86DGADirectVideo XF86DGAQueryVersion XCloseDisplay \
+                  XCreateColormap XCreateGC XCreatePixmap \
+                  XCreatePixmapCursor XCreateWindow XDefineCursor \
+                  XDestroyWindow XFillRectangle XFlush XFreeGC \
+                  XFreePixmap XGrabKeyboard XGrabPointer XLookupString \
+                  XMapWindow XMoveWindow XNextEvent XOpenDisplay XPending \
+                  XRaiseWindow XSelectInput XSetStandardProperties \
+                  XUndefineCursor XUngrabKeyboard XUngrabPointer \
+                  XWarpPointer],[],[
+    break && export CAN_BUILD_AGAINST_X11=no && export CAUSE_OF_X11_FAILURE="missing required functions"])
   AC_MSG_CHECKING([if it is still true that we can actually build against X11])
   if test -z "${CAUSE_OF_X11_FAILURE}"; then
     AC_MSG_RESULT([${CAN_BUILD_AGAINST_X11}])
@@ -255,6 +294,8 @@ fi
 AM_CONDITIONAL([BUILD_X11_SOURCES],[test "x${CAN_BUILD_AGAINST_X11}" = "xyes"])
 
 # simpler library checks:
+AC_MSG_CHECKING([for some other libraries...])
+AC_MSG_RESULT([... ])
 AC_CHECK_LIB([c],[printf])
 LT_LIB_M
 AC_CHECK_LIB([m],[sqrt])
@@ -268,30 +309,79 @@ AC_CHECK_LIB([vorbisfile],[ov_clear])
 XIPH_PATH_VORBIS
 
 # Checks for header files.
-AC_HEADER_DIRENT
-AC_HEADER_STAT
-dnl# might want to consider doing stdbool before the X11 checks instead:
-AC_HEADER_STDBOOL dnl# also "_CHECK"s it
-AC_HEADER_TIME
+AC_MSG_CHECKING([to see which OpenGL headers we can use...])
+AC_MSG_RESULT([... ])
+# need this for the next few conftests:
+export ac_gl_includes_default="\
+#ifdef HAVE_GL_GL_H
+# include <GL/gl.h>
+#else
+# ifdef HAVE_GL_H
+#  include <gl.h>
+# else
+#  ifdef HAVE_OPENGL_GL_H
+#   include <OpenGL/gl.h>
+#  endif /* HAVE_OPENGL_GL_H */
+# endif /* HAVE_GL_H */
+#endif /* HAVE_GL_GL_H */"
 m4_foreach_w([my_GL_header],[gl.h glu.h glext.h glx.h],[
   # The "<GL/>" directory is where they should be, so check that first:
   AC_CHECK_HEADERS([GL/my_GL_header],[],[
     # If that fails, try without the "<GL/>" prefix:
-    # (for cases like using OpenGL.framework on OSX)
-    AC_CHECK_HEADERS([my_GL_header],[],[])
+    # (for cases like when the Headers directory in OpenGL.framework on
+    # OSX is put directly into the include path)
+    AC_CHECK_HEADERS([my_GL_header],[],[
+      # If that fails, try with the "<OpenGL/>" prefix:
+      # (which is the normal way to grab headers from OpenGL.framework
+      # on OSX)
+      AC_CHECK_HEADERS([OpenGL/my_GL_header],[],[],[AC_INCLUDES_DEFAULT
+${ac_gl_includes_default}
+      ])
+    ],[AC_INCLUDES_DEFAULT
+${ac_gl_includes_default}
+    ])
+  ],[AC_INCLUDES_DEFAULT
+${ac_gl_includes_default}
   ])
 ])
 # Keep autoheader happy by making sure the proper templates are added:
 if test "x" = "y"; then
   test -x `which autoheader`
-  AC_CHECK_HEADERS_ONCE([gl.h glu.h glext.h glx.h \
-                         GL/gl.h GL/glu.h GL/glext.h GL/glx.h])
+  unset ac_cv_header_gl_h
+  unset ac_cv_header_glu_h
+  unset ac_cv_header_glext_h
+  unset ac_cv_header_glx_h
+  unset ac_cv_header_GL_gl_h
+  unset ac_cv_header_GL_glu_h
+  unset ac_cv_header_GL_glext_h
+  unset ac_cv_header_GL_glx_h
+  unset ac_cv_header_OpenGL_gl_h
+  unset ac_cv_header_OpenGL_glu_h
+  unset ac_cv_header_OpenGL_glext_h
+  unset ac_cv_header_OpenGL_glx_h
+  dnl# using "_ONCE" makes these checks break out of this conditional,
+  dnl# which means that they are already cached by the time the actual
+  dnl# tests for them are run above, so instead just use the normal macro
+  dnl# to keep it inside this conditional so they will never actually be
+  dnl# checked again:
+  AC_CHECK_HEADERS([gl.h glu.h glext.h glx.h \
+                    GL/gl.h GL/glu.h GL/glext.h GL/glx.h \
+                    OpenGL/gl.h OpenGL/glu.h OpenGL/glext.h OpenGL/glx.h])
   # Keep autoscan happy as well:
   test -x `which autoscan`
   AC_PROG_RANLIB
 fi
+dnl# okay, now that that is out of the way...
+AC_MSG_CHECKING([for miscellaneous other headers...])
+AC_MSG_RESULT([... ])
+AC_HEADER_DIRENT
+AC_HEADER_STAT
+AC_HEADER_STDBOOL dnl# also "_CHECK"s it
+AC_HEADER_TIME
 dnl# having libtool check dlopen also has it check for dlfcn.h, so no
 dnl# need to check for it here as well...
+unset ac_cv_header_stddef_h
+unset ac_cv_header_sys_param_h
 AC_CHECK_HEADERS([alloc.h assert.h bits/libc-lock.h crtdefs.h ctype.h \
                   dmalloc.h endian.h errno.h excpt.h fcntl.h float.h \
                   io.h libintl.h libio/iolibio.h libio/libioP.h limits.h \
@@ -304,6 +394,8 @@ AC_CHECK_HEADERS([alloc.h assert.h bits/libc-lock.h crtdefs.h ctype.h \
                   unix.h wchar.h windef.h windows.h xlocale.h])
 
 # Checks for typedefs, structures, and compiler characteristics.
+AC_MSG_CHECKING([into the characteristics of your C compiler...])
+AC_MSG_RESULT([... ])
 AC_SYS_LARGEFILE
 AC_C_CHAR_UNSIGNED
 AC_C_CONST
@@ -313,6 +405,8 @@ gl_EXTERN_INLINE
 AC_C_PROTOTYPES
 AC_C_RESTRICT
 AC_C_VOLATILE
+AC_MSG_CHECKING([for some types...])
+AC_MSG_RESULT([... ])
 dnl# begin what used to be AC\_TYPE\_SIGNAL
 AC_CACHE_CHECK([return type of signal handlers],[ac_cv_type_signal],
                [AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[
@@ -339,14 +433,10 @@ AC_TYPE_UINT64_T
 AC_TYPE_UINTMAX_T
 AC_TYPE_UINTPTR_T
 gt_TYPE_WCHAR_T
-AC_CHECK_MEMBERS([struct stat.st_blksize])
-AC_STRUCT_ST_BLOCKS
-AC_STRUCT_TIMEZONE dnl# also checks struct tm
 AC_CHECK_TYPE([long long])
 AC_CHECK_TYPE([unsigned long long])
 AC_CHECK_TYPES([time_t, __darwin_time_t, malloc_zone_t])
 AC_CHECK_TYPES([ptrdiff_t])
-AC_CHECK_MEMBERS([struct timeval.tv_sec])
 AC_CHECK_SIZEOF([short],[2])
 AC_CHECK_ALIGNOF([short])
 AC_CHECK_SIZEOF([int],[4])
@@ -357,15 +447,28 @@ AC_CHECK_SIZEOF([long],[8])
 AC_CHECK_ALIGNOF([long])
 AC_CHECK_SIZEOF([unsigned long],[8])
 AC_CHECK_ALIGNOF([unsigned long])
+AC_MSG_CHECKING([for a couple of declarations...])
+AC_MSG_RESULT([... ])
 AC_CHECK_DECLS_ONCE([true, false])
+AC_MSG_CHECKING([for some structs and struct members...])
+AC_MSG_RESULT([... ])
+AC_CHECK_MEMBERS([struct stat.st_blksize])
+AC_STRUCT_ST_BLOCKS
+AC_STRUCT_TIMEZONE dnl# also checks struct tm
+AC_CHECK_MEMBERS([struct timeval.tv_sec])
 
 # Checks for library functions.
-AM_WITH_DMALLOC
+AC_MSG_CHECKING([for some miscellaneous functions...])
+AC_MSG_RESULT([... ])
 AC_FUNC_ALLOCA
 AC_FUNC_CLOSEDIR_VOID
 AC_FUNC_ERROR_AT_LINE
 AC_FUNC_LSTAT
 AC_FUNC_MALLOC
+if test "x${ac_cv_func_malloc_0_nonnull}" = "xyes"; then
+  test ! -z "${ac_cv_func_malloc_0_nonnull}"
+  AM_WITH_DMALLOC
+fi
 AC_FUNC_MBRTOWC
 AC_FUNC_MEMCMP
 AC_FUNC_MMAP

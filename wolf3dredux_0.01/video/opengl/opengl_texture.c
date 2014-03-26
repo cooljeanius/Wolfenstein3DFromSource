@@ -33,12 +33,13 @@
 
 #include "opengl_local.h"
 
+#include "../../common/common.h"
 #include "../../memory/memory.h"
 #include "../../memory/zmem.h"
 #include "../../common/arch.h"
 #include "../../common/common_utils.h"
 
-int currentTextures[ 4 ];
+int currentTextures[4];
 int currenttmu;
 
 

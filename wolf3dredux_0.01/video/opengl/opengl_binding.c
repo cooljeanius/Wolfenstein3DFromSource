@@ -41,7 +41,7 @@
 # include <float.h>
 # include <windows.h>
 HINSTANCE hinstOpenGL;
-#elif __unix__ || __APPLE__
+#elif (__unix__ || __APPLE__) && !defined(_WIN32)
 # include <dlfcn.h>
 # include <limits.h>
 # include <stdlib.h>
@@ -86,7 +86,7 @@ PUBLIC void OpenGL_Shutdown(void)
 	}
 
 	hinstOpenGL = NULL;
-#elif __unix__ || __APPLE__
+#elif (__unix__ || __APPLE__) && !defined(_WIN32)
 	if (OpenGLLib) {
 		dlclose(OpenGLLib);
 		OpenGLLib = NULL;
@@ -455,7 +455,7 @@ PUBLIC void OpenGL_Shutdown(void)
 	pfwglGetPixelFormat = NULL;
 	pfwglSetPixelFormat = NULL;
 	pfwglSwapBuffers = NULL;
-#elif __unix__ || __APPLE__
+#elif (__unix__ || __APPLE__) && !defined(_WIN32)
 /* __APPLE__ depends on tentative similar preprocessor macro check also existing
  * in "myopengl.h" */
 	pfglXChooseVisual = NULL;
@@ -481,7 +481,7 @@ PUBLIC void OpenGL_Shutdown(void)
 
 #ifdef _WIN32
 # define GPA(a) GetProcAddress(hinstOpenGL, a)
-#elif __unix__ || __APPLE__
+#elif (__unix__ || __APPLE__) && !defined(_WIN32)
 # define GPA(a) dlsym(OpenGLLib, a)
 	void *pfwglGetProcAddress(const char *symbol) {
 		if (OpenGLLib) {
@@ -537,7 +537,7 @@ PUBLIC int OpenGL_Init(const char *dllname)
 
 		return 0;
 	}
-#elif __unix__ || __APPLE__
+#elif (__unix__ || __APPLE__) && !defined(_WIN32)
 	char *loadpath;
 	loadpath = getenv("LD_LIBRARY_PATH");
 # if __APPLE__
@@ -2036,7 +2036,7 @@ PUBLIC int OpenGL_Init(const char *dllname)
 		Com_Printf(" ...failed. \n");
 		return 0;
 	}
-#elif __unix__ || __APPLE__
+#elif (__unix__ || __APPLE__) && !defined(_WIN32)
 /* __APPLE__ depends on tentative similar preprocessor macro check also existing
  * in "myopengl.h" */
 	if (!(pfglXChooseVisual =

@@ -21,11 +21,14 @@
 #include "opengl_local.h"
 #include "myopengl.h"
 #include "../video.h"
+#include "../../common/arch.h"
+#include "../../common/common.h"
 #include "../../string/com_string.h"
 #include "../../loaders/tga.h"
 #include "../../loaders/tga_minimal.h" /* for WriteTGA() */
 #include "../../font/font_manager.h"
-#include "../../common/common.h"
+/* need to include "../../common/common.h" earlier than this, so it has been
+ * moved up */
 #include "../../device/filesys/filesystem.h"
 
 #include "../../game/app_def.h"
@@ -502,7 +505,7 @@ PUBLIC int R_Init(void *hinstance, void *hWnd)
 		gl_config.Version_1_2 = true;
 	}
 
-#if defined(__unix__) || defined(__APPLE__)
+#if (defined(__unix__) || defined(__APPLE__)) && !defined(_WIN32)
 	Cvar_SetValue("gl_finish", (float)1.0);
 #endif /* __unix__ || __APPLE__ */
 

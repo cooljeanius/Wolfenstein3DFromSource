@@ -48,8 +48,8 @@
 
 #define	MAX_SFX				1024
 
-PRIVATE sfx_t		*s_sfxHash[ SFX_HASHSIZE ];
-PRIVATE sfx_t		*s_sfx[ MAX_SFX ];
+PRIVATE sfx_t		*s_sfxHash[SFX_HASHSIZE];
+PRIVATE sfx_t		*s_sfx[MAX_SFX];
 PRIVATE int			s_numSfx;
 
 
@@ -57,7 +57,7 @@ PRIVATE _boolean s_registering = false;
 PRIVATE W32	s_registration_sequence = 0;
 
 /* prototype for this in "sound_local.h" had been commented out... */
-void Sound_SoundList_f( void )
+void Sound_SoundList_f(void)
 {
 	;
 /* TODO: actually put something here? */

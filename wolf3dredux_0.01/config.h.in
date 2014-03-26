@@ -348,6 +348,18 @@
 /* Define to 1 if you have the <objc/objc.h> header file. */
 #undef HAVE_OBJC_OBJC_H
 
+/* Define to 1 if you have the <OpenGL/glext.h> header file. */
+#undef HAVE_OPENGL_GLEXT_H
+
+/* Define to 1 if you have the <OpenGL/glu.h> header file. */
+#undef HAVE_OPENGL_GLU_H
+
+/* Define to 1 if you have the <OpenGL/glx.h> header file. */
+#undef HAVE_OPENGL_GLX_H
+
+/* Define to 1 if you have the <OpenGL/gl.h> header file. */
+#undef HAVE_OPENGL_GL_H
+
 /* Define to 1 if you have the `posix_memalign' function. */
 #undef HAVE_POSIX_MEMALIGN
 
@@ -664,14 +676,113 @@
 /* Define to 1 if you have the <X11/X.h> header file. */
 #undef HAVE_X11_X_H
 
+/* Define to 1 if you have the `XCloseDisplay' function. */
+#undef HAVE_XCLOSEDISPLAY
+
+/* Define to 1 if you have the `XCreateColormap' function. */
+#undef HAVE_XCREATECOLORMAP
+
+/* Define to 1 if you have the `XCreateGC' function. */
+#undef HAVE_XCREATEGC
+
+/* Define to 1 if you have the `XCreatePixmap' function. */
+#undef HAVE_XCREATEPIXMAP
+
+/* Define to 1 if you have the `XCreatePixmapCursor' function. */
+#undef HAVE_XCREATEPIXMAPCURSOR
+
+/* Define to 1 if you have the `XCreateWindow' function. */
+#undef HAVE_XCREATEWINDOW
+
+/* Define to 1 if you have the `XDefineCursor' function. */
+#undef HAVE_XDEFINECURSOR
+
+/* Define to 1 if you have the `XDestroyWindow' function. */
+#undef HAVE_XDESTROYWINDOW
+
+/* Define to 1 if you have the `XF86DGADirectVideo' function. */
+#undef HAVE_XF86DGADIRECTVIDEO
+
+/* Define to 1 if you have the `XF86DGAQueryVersion' function. */
+#undef HAVE_XF86DGAQUERYVERSION
+
+/* Define to 1 if you have the `XF86VidModeGetAllModeLines' function. */
+#undef HAVE_XF86VIDMODEGETALLMODELINES
+
+/* Define to 1 if you have the `XF86VidModeQueryVersion' function. */
+#undef HAVE_XF86VIDMODEQUERYVERSION
+
+/* Define to 1 if you have the `XF86VidModeSetViewPort' function. */
+#undef HAVE_XF86VIDMODESETVIEWPORT
+
+/* Define to 1 if you have the `XF86VidModeSwitchToMode' function. */
+#undef HAVE_XF86VIDMODESWITCHTOMODE
+
+/* Define to 1 if you have the `XFillRectangle' function. */
+#undef HAVE_XFILLRECTANGLE
+
+/* Define to 1 if you have the `XFlush' function. */
+#undef HAVE_XFLUSH
+
+/* Define to 1 if you have the `XFreeGC' function. */
+#undef HAVE_XFREEGC
+
+/* Define to 1 if you have the `XFreePixmap' function. */
+#undef HAVE_XFREEPIXMAP
+
+/* Define to 1 if you have the `XGrabKeyboard' function. */
+#undef HAVE_XGRABKEYBOARD
+
+/* Define to 1 if you have the `XGrabPointer' function. */
+#undef HAVE_XGRABPOINTER
+
 /* Define to 1 if you have the <Xlib.h> header file. */
 #undef HAVE_XLIB_H
 
 /* Define to 1 if you have the <xlocale.h> header file. */
 #undef HAVE_XLOCALE_H
 
+/* Define to 1 if you have the `XLookupString' function. */
+#undef HAVE_XLOOKUPSTRING
+
+/* Define to 1 if you have the `XMapWindow' function. */
+#undef HAVE_XMAPWINDOW
+
+/* Define to 1 if you have the `XMoveWindow' function. */
+#undef HAVE_XMOVEWINDOW
+
+/* Define to 1 if you have the `XNextEvent' function. */
+#undef HAVE_XNEXTEVENT
+
+/* Define to 1 if you have the `XOpenDisplay' function. */
+#undef HAVE_XOPENDISPLAY
+
+/* Define to 1 if you have the `XPending' function. */
+#undef HAVE_XPENDING
+
+/* Define to 1 if you have the `XRaiseWindow' function. */
+#undef HAVE_XRAISEWINDOW
+
+/* Define to 1 if you have the `XSelectInput' function. */
+#undef HAVE_XSELECTINPUT
+
+/* Define to 1 if you have the `XSetStandardProperties' function. */
+#undef HAVE_XSETSTANDARDPROPERTIES
+
+/* Define to 1 if you have the `XUndefineCursor' function. */
+#undef HAVE_XUNDEFINECURSOR
+
+/* Define to 1 if you have the `XUngrabKeyboard' function. */
+#undef HAVE_XUNGRABKEYBOARD
+
+/* Define to 1 if you have the `XUngrabPointer' function. */
+#undef HAVE_XUNGRABPOINTER
+
 /* Define to 1 if you have the <Xutil.h> header file. */
 #undef HAVE_XUTIL_H
+
+/* Define to 1 if you have the `XWarpPointer' function. */
+#undef HAVE_XWARPPOINTER
 
 /* Define to 1 if you have the <X.h> header file. */
 #undef HAVE_X_H

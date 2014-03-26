@@ -583,6 +583,8 @@ PUBLIC void FS_InitFilesystem(void)
 		Com_Printf("FS_InitFilesystem(): initializing filesystem from '%s'\n",
 				   FS_getcwd_result);
 	}
+	/* TODO: the call to getcwd should really go in a function in a file in the
+	 * 'unix' subdirectory... */
 
 	/*
 	 * basedir <path>

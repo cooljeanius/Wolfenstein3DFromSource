@@ -61,17 +61,17 @@ viddef_t	viddef;	/* global video state; used by other modules */
 
 extern HWND	cl_hwnd; /* Main window handle for life of program */
 
-#define VID_NUM_MODES ( sizeof( vid_modes ) / sizeof( vid_modes[ 0 ] ) )
+#define VID_NUM_MODES (sizeof(vid_modes) / sizeof(vid_modes[0]))
 
-extern LONG WINAPI MainWndProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam );
+extern LONG WINAPI MainWndProc(HWND hWnd, UINT uMsg, WPARAM wParam,
+							   LPARAM lParam);
+
+extern void WIN_DisableAltTab(void);
+extern void WIN_EnableAltTab(void);
 
 
-extern void WIN_DisableAltTab( void );
-extern void WIN_EnableAltTab( void );
 
-
-
-//==========================================================================
+/*==========================================================================*/
 
 
 /*
@@ -104,10 +104,10 @@ PRIVATE void VID_Restart_f(void)
  Notes:
 -----------------------------------------------------------------------------
 */
-PRIVATE void VID_Front_f( void )
+PRIVATE void VID_Front_f(void)
 {
-	SetWindowLong( cl_hwnd, GWL_EXSTYLE, WS_EX_TOPMOST );
-	SetForegroundWindow( cl_hwnd );
+	SetWindowLong(cl_hwnd, GWL_EXSTYLE, WS_EX_TOPMOST);
+	SetForegroundWindow(cl_hwnd);
 }
 
 /*
@@ -146,15 +146,14 @@ vidmode_t vid_modes[] =
  Notes:
 -----------------------------------------------------------------------------
 */
-PUBLIC _boolean VID_GetModeInfo( int *width, int *height, int mode )
+PUBLIC _boolean VID_GetModeInfo(int *width, int *height, int mode)
 {
-	if( mode < 0 || mode >= VID_NUM_MODES )
-	{
+	if ((mode < 0) || ((unsigned long)mode >= VID_NUM_MODES)) {
 		return false;
 	}
 
-	*width  = vid_modes[ mode ].width;
-	*height = vid_modes[ mode ].height;
+	*width  = vid_modes[mode].width;
+	*height = vid_modes[mode].height;
 
 	return true;
 }
@@ -171,24 +170,29 @@ PUBLIC _boolean VID_GetModeInfo( int *width, int *height, int mode )
  Notes:
 -----------------------------------------------------------------------------
 */
-PRIVATE void VID_UpdateWindowPosAndSize( int x, int y )
+PRIVATE void VID_UpdateWindowPosAndSize(int x, int y)
 {
 	RECT r;
 	int		style;
 	int		w, h;
+
+	/* dummy condition to use 'x' and 'y': */
+	if (x == y) {
+		;
+	}
 
 	r.left   = 0;
 	r.top    = 0;
 	r.right  = viddef.width;
 	r.bottom = viddef.height;
 
-	style = GetWindowLong( cl_hwnd, GWL_STYLE );
-	AdjustWindowRect( &r, style, FALSE );
+	style = GetWindowLong(cl_hwnd, GWL_STYLE);
+	AdjustWindowRect(&r, style, FALSE);
 
-	w = r.right - r.left;
-	h = r.bottom - r.top;
+	w = (r.right - r.left);
+	h = (r.bottom - r.top);
 
-	MoveWindow( cl_hwnd, (int)vid_xpos->value, (int)vid_ypos->value, w, h, TRUE );
+	MoveWindow(cl_hwnd, (int)vid_xpos->value, (int)vid_ypos->value, w, h, TRUE);
 }
 
 /*
@@ -226,13 +230,13 @@ PUBLIC void VID_NewWindow(int width, int height)
  	This function refreshes the rendering layer.
 -----------------------------------------------------------------------------
 */
-PRIVATE _boolean VID_LoadRefresh( void )
+PRIVATE _boolean VID_LoadRefresh(void)
 {
 	extern	HINSTANCE	global_hInstance;
 
 	R_Shutdown();
 
-	if( R_Init( global_hInstance, MainWndProc ) == -1 ) {
+	if (R_Init(global_hInstance, MainWndProc) == -1) {
 		R_Shutdown();
 		Com_Printf("VID_LoadRefresh() encountered an error, returning false");
 		return false;
@@ -241,7 +245,7 @@ PRIVATE _boolean VID_LoadRefresh( void )
 		Com_Printf(" (in VID_LoadRefresh() in vid_sys.c)");
 	}
 
-	Com_Printf( "------------------------------------\n" );
+	Com_Printf("------------------------------------\n");
 
 
 	return true;
@@ -263,10 +267,10 @@ PRIVATE _boolean VID_LoadRefresh( void )
 	mode to match.
 -----------------------------------------------------------------------------
 */
-PUBLIC void Video_CheckChanges( void )
+PUBLIC void Video_CheckChanges(void)
 {
-	if( win_noalttab->modified ) {
-		if ( win_noalttab->value ) {
+	if (win_noalttab->modified) {
+		if (win_noalttab->value) {
 			WIN_DisableAltTab();
 		} else {
 			WIN_EnableAltTab();
@@ -274,12 +278,12 @@ PUBLIC void Video_CheckChanges( void )
 		win_noalttab->modified = false;
 	}
 
-	if ( r_ref->modified ) {
+	if (r_ref->modified) {
 		ClientState.force_refdef = true; /* cannot use a paused refdef */
 		Sound_StopAllSounds();
 	}
 
-	while( r_ref->modified ) {
+	while (r_ref->modified) {
 		/* refresh has changed */
 		r_ref->modified = false;
 		r_fullscreen->modified = true;
@@ -291,13 +295,12 @@ PUBLIC void Video_CheckChanges( void )
 		if( ! VID_LoadRefresh() ) {
 			Com_Printf("in Video_CheckChanges() in vid_sys.c:\n");
 			Com_Printf("VID_LoadRefresh() failed:\n");
-			Com_Error( ERR_FATAL, "Could not start OpenGL module!");
+			Com_Error(ERR_FATAL, "Could not start OpenGL module!");
 			Com_Printf(" (in Video_CheckChanges() in vid_sys.c)");
 			Com_Printf(" (this means that VID_LoadRefresh() failed)");
 
 			/* drop the console if we fail to load a refresh */
-			if ( ClientStatic.key_dest != key_console )
-			{
+			if  (ClientStatic.key_dest != key_console) {
 				Con_ToggleConsole_f();
 			}
 		}
@@ -307,9 +310,10 @@ PUBLIC void Video_CheckChanges( void )
 	}
 
 	/* update our window position */
-	if( vid_xpos->modified || vid_ypos->modified ) {
-		if( ! r_fullscreen->value ) {
-			VID_UpdateWindowPosAndSize( (int)vid_xpos->value, (int)vid_ypos->value );
+	if (vid_xpos->modified || vid_ypos->modified) {
+		if (! r_fullscreen->value) {
+			VID_UpdateWindowPosAndSize((int)vid_xpos->value,
+									   (int)vid_ypos->value);
 		}
 
 		vid_xpos->modified = false;
@@ -330,17 +334,18 @@ PUBLIC void Video_CheckChanges( void )
 */
 PUBLIC void Video_Init(void)
 {
-	/* Create the video variables so we know how to start the graphics drivers */
-	r_ref = Cvar_Get( "r_ref", "gl", CVAR_ARCHIVE );
-	vid_xpos = Cvar_Get( "win_xpos", "3", CVAR_ARCHIVE );
-	vid_ypos = Cvar_Get( "win_ypos", "22", CVAR_ARCHIVE );
-	r_fullscreen = Cvar_Get( "r_fullscreen", "0", CVAR_ARCHIVE );
-	vid_gamma = Cvar_Get( "vid_gamma", "1", CVAR_ARCHIVE );
-	win_noalttab = Cvar_Get( "win_noalttab", "0", CVAR_ARCHIVE );
+	/* Create the video variables, so that we know how to start the
+	 * graphics drivers: */
+	r_ref = Cvar_Get("r_ref", "gl", CVAR_ARCHIVE);
+	vid_xpos = Cvar_Get("win_xpos", "3", CVAR_ARCHIVE);
+	vid_ypos = Cvar_Get("win_ypos", "22", CVAR_ARCHIVE);
+	r_fullscreen = Cvar_Get("r_fullscreen", "0", CVAR_ARCHIVE);
+	vid_gamma = Cvar_Get("vid_gamma", "1", CVAR_ARCHIVE);
+	win_noalttab = Cvar_Get("win_noalttab", "0", CVAR_ARCHIVE);
 
 	/* Add some console commands that we want to handle */
-	Cmd_AddCommand( "vid_restart", VID_Restart_f );
-	Cmd_AddCommand( "vid_front", VID_Front_f );
+	Cmd_AddCommand("vid_restart", VID_Restart_f);
+	Cmd_AddCommand("vid_front", VID_Front_f);
 
 
 	/* Start the graphics mode */

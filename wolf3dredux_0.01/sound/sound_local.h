@@ -95,21 +95,21 @@ typedef struct
 {
 	vec3_t				position;
 	vec3_t				velocity;
-	float				orientation[ 6 ];
+	float				orientation[6];
 
 } listener_t;
 
-#if 0 || __STDC__
-extern void		Sound_SoundList_f( void ); /* why would you comment out a missing prototype? */
-#endif /* 0 || __STDC__ */
-extern _boolean	Sound_LoadSound( sfx_t *sfx );
-extern sfx_t	*Sound_FindSound( const char *name );
-extern void Sound_BeginRegistration( void );
-extern void Sound_EndRegistration( void );
-extern void Sound_FreeSounds( void );
+#if 0 || __STDC__ || __clang__
+extern void		Sound_SoundList_f(void); /* why would you comment out a missing prototype? */
+#endif /* 0 || __STDC__ || __clang__ */
+extern _boolean	Sound_LoadSound(sfx_t *sfx);
+extern sfx_t	*Sound_FindSound(const char *name);
+extern void Sound_BeginRegistration(void);
+extern void Sound_EndRegistration(void);
+extern void Sound_FreeSounds(void);
 
-extern _boolean Sound_Device_Setup( void );
-extern void Sound_Device_Shutdown( void );
+extern _boolean Sound_Device_Setup(void);
+extern void Sound_Device_Shutdown(void);
 
 
 #endif /* __SOUND_LOCAL_H__ */

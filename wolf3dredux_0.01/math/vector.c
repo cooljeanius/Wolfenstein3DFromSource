@@ -429,9 +429,11 @@ PUBLIC void vectorCrossProduct_asm(const vec3_t v1, const vec3_t v2,
 		fld dword ptr   [ecx+4]     ;starts & ends on cycle 10
 		fmul dword ptr  [edx+0]     ;starts on cycle 11
 		fxch            st(2)       ;no cost
+# ifndef __clang__
 		fsubrp          st(5),st(0) ;starts on cycle 12
 		fsubrp          st(3),st(0) ;starts on cycle 13
 		fsubrp          st(1),st(0) ;starts on cycle 14
+# endif /* !__clang__ */
 		fxch            st(2)       ;no cost, stalls for cycle 15
 		fstp dword ptr  [eax+0]     ;starts on cycle 16, ends on cycle 17
 		fstp dword ptr  [eax+4]     ;starts on cycle 18, ends on cycle 19
@@ -486,8 +488,10 @@ PUBLIC vec_t _vectorDotProduct_asm(const vec3_t v1, const vec3_t v2)
 		fld dword ptr   [eax+8]     ;starts & ends on cycle 4
 		fmul dword ptr  [ecx+8]     ;starts on cycle 5
 		fxch            st(1)       ;no cost
+# ifndef __clang__
 		faddp           st(2),st(0) ;starts on cycle 6, stalls for cycles 7-8
 		faddp           st(1),st(0) ;starts on cycle 9, stalls for cycles 10-12
+# endif /* !__clang__ */
 		fstp dword ptr  [dotret]    ;starts on cycle 13, ends on cycle 14
 	}
 

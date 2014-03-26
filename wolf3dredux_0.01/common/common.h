@@ -37,7 +37,11 @@
 #ifndef __COMMON_H__
 #define __COMMON_H__
 
-
+#ifdef __WINE_STDIO_H
+# ifndef __WINE_STDLIB_H
+#  define __WINE_STDLIB_H 1
+# endif /* !__WINE_STDLIB_H */
+#endif /* __WINE_STDIO_H */
 #include "../memory/zmem.h"
 #include "arch.h"
 #include "../math/mymath.h"

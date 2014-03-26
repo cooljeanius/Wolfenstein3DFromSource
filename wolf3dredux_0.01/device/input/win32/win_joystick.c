@@ -322,7 +322,7 @@ void IN_Commands(void)
 	/* key a joystick event or auxillary event for higher number buttons for
 	 * each state change */
 	buttonstate = ji.dwButtons;
-	for ((i = 0); (i < joy_numbuttons); i++) {
+	for ((i = 0); ((DWORD)i < joy_numbuttons); i++) {
 		if ((buttonstate & (1 << i)) && !(joy_oldbuttonstate & (1 << i))) {
 			key_index = ((i < 4) ? K_JOY1 : K_AUX1);
 			Key_Event((key_index + i), true, 0);

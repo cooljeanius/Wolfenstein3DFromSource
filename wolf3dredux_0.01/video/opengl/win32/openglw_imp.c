@@ -39,27 +39,18 @@
 
 #include <math.h>
 
-/* Wine's <crtdefs.h> has conflicting declarations for intptr_t, uintptr_t, and
- * wchar_t, so be sure to let <stdint.h> and <inttypes.h> that we already have
- * these types: */
-#ifdef __WINE_CRTDEFS_H
-# define _INTPTR_T 1
-# define _UINTPTR_T 1
-# define _WCHAR_T 1
-#endif /* __WINE_CRTDEFS_H */
+/* header guard against Wine's <crtdefs.h> has moved into "../myopengl.h" */
 #include "../opengl_local.h"
 #include "../myopengl.h"
 #include "../opengl_binding.h"
 
 #include "../../video.h"
 
-/* Prevent conflict between types for perror and _wperror in Wine's <stdio.h>
- * and Wine's <stdlib.h>: */
-#ifdef __WINE_STDIO_H
-# define __WINE_STDLIB_H 1
-#endif /* __WINE_STDIO_H */
-#include "../../../string/com_string.h"
+/* header guard against conflict between Wine's <stdio.h> and Wine's <stdlib.h>
+ * has moved to "../../../common/common.h" */
 #include "../../../common/common.h"
+#include "../../../string/com_string.h"
+#include "../../../common/arch.h"
 
 #include "../../../game/app_def.h"
 

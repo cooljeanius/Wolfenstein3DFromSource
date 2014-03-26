@@ -16,6 +16,7 @@ AM_WARNFLAGS = $(WARNFLAGS_COMMON) -Wsign-compare -Wunknown-pragmas
 CFLAGS_COMMON = -ffast-math -funroll-loops
 AM_CFLAGS = $(AM_WARNFLAGS) $(CFLAGS_COMMON)
 AM_CPPFLAGS = -I. -I/usr/X11R6/include
+AM_CXXFLAGS = -fno-rtti
 AM_LDFLAGS = -L. -L$(LIBOBJDIR)
 
 GLXINFO = @GLXINFO@
@@ -34,19 +35,43 @@ WARNFLAGS = $(WARNFLAGS_COMMON) -Wunused-function -Wunused-label -Wunused-parame
 SANFLAGS = -fsanitize=bounds -fsanitize=undefined
 OPTFLAGS = -g -gdwarf-2 -ggdb -O1 -msse3 -mssse3 -msse4.1 -msse4.2 
 CLANG_CFLAGS = $(OPTFLAGS) -std=gnu99 $(WARNFLAGS) -fasm-blocks -fexceptions -fno-common -fno-limit-debug-info -fno-omit-frame-pointer -fpascal-strings $(CFLAGS_COMMON) -mfix-and-continue $(DIAGFLAGS) $(SANFLAGS)
+AM_CFLAGS += $(CLANG_CFLAGS)
 AM_CLANG_CPPFLAGS = -I/opt/local/include
+AM_CPPFLAGS += $(CLANG_CPPFLAGS)
 # need to link with sanitizer flags, too, to get necessary symbols:
 AM_CLANG_LINKFLAGS = -L/opt/local/lib $(SANFLAGS) -v -exported_symbols_list ../Wolfenstein3DFromSource.exp
+AM_LDFLAGS += $(AM_CLANG_LINKFLAGS)
 
+## put this inside the clang rules conditional because I have only tested
+## these flags with clang:
 if MS_COMPAT_CHECK
 # turn off warnings that actually are just coming from the Wine headers:
 CLANG_MS_COMPAT_WARNFLAGS = $(WARNFLAGS_COMMON) -Wno-unknown-pragmas -Wno-ignored-attributes -Wno-implicit-function-declaration -Wno-int-conversion -Wno-uninitialized
 CLANG_MS_COMPAT_CFLAGS = -fasm-blocks -fborland-extensions -fexceptions -ffast-math -fms-compatibility -fms-extensions -fmsc-version=601 -fno-builtin -fno-common -fvisibility-ms-compat -funroll-loops -mfix-and-continue -mms-bitfields -msse3 -mssse3 -msse4.1 -msse4.2 -m32 -g -O0 -arch i386 -std=c99 $(CLANG_MS_COMPAT_WARNFLAGS) -x c
+AM_CFLAGS += $(CLANG_MS_COMPAT_CFLAGS)
 AM_CLANG_MS_COMPAT_CPPFLAGS = -D_MSC_VER=601 -D_WIN32 -I/opt/local/include/wine -I/opt/local/include/wine -I/opt/local/include/wine/msvcrt -I/opt/local/include/wine/windows $(AM_CLANG_CPPFLAGS)
+AM_CPPFLAGS += $(AM_CLANG_MS_COMPAT_CPPFLAGS)
+AM_CLANG_MS_COMPAT_LINKFLAGS = -m32 -arch i386
+AM_LDFLAGS += $(AM_CLANG_MS_COMPAT_LINKFLAGS)
 endif
 ## (end MS_COMPAT_CHECK)
 
 SCAN_BUILD_CHECKERS = -enable-checker alpha.core.CastSize -enable-checker alpha.core.CastToStruct -enable-checker alpha.core.FixedAddr -enable-checker alpha.core.PointerArithm -enable-checker alpha.core.PointerSub -enable-checker alpha.core.SizeofPtr -enable-checker alpha.security.ArrayBound -enable-checker alpha.security.ArrayBoundV2 -enable-checker alpha.security.MallocOverflow -enable-checker alpha.security.ReturnPtrRange -enable-checker alpha.unix.MallocWithAnnotations -enable-checker alpha.unix.SimpleStream -enable-checker alpha.unix.Stream -enable-checker alpha.unix.cstring.BufferOverlap -enable-checker alpha.unix.cstring.NotNullTerminated -enable-checker alpha.unix.cstring.OutOfBounds -enable-checker security.insecureAPI.rand -enable-checker security.insecureAPI.strcpy -enable-checker security.insecureAPI.vfork -enable-checker llvm.Conventions -enable-checker debug.ConfigDumper -enable-checker alpha.deadcode.UnreachableCode -enable-checker security.FloatLoopCounter -enable-checker debug.Stats
+else
+## not CLANG_RULES
+if MS_COMPAT_CHECK
+# turn off warnings that actually are just coming from the Wine headers:
+MS_COMPAT_WARNFLAGS = $(WARNFLAGS_COMMON) -Wno-unknown-pragmas -Wno-implicit-function-declaration -Wno-uninitialized
+MS_COMPAT_CFLAGS = -fasm-blocks -fexceptions -ffast-math -fms-extensions -fno-builtin -fno-common -funroll-loops -mfix-and-continue -mms-bitfields -msse3 -mssse3 -msse4.1 -msse4.2 -m32 -g -O0 -arch i386 -std=c99 $(MS_COMPAT_WARNFLAGS) -x c
+AM_CFLAGS += $(MS_COMPAT_CFLAGS)
+MS_COMPAT_CXXFLAGS = -fvisibility-ms-compat
+AM_CXXFLAGS += $(MS_COMPAT_CXXFLAGS)
+AM_MS_COMPAT_CPPFLAGS = -D_MSC_VER=601 -D_WIN32 -I/opt/local/include/wine -I/opt/local/include/wine -I/opt/local/include/wine/msvcrt -I/opt/local/include/wine/windows -I/opt/local/include
+AM_CPPFLAGS += $(AM_MS_COMPAT_CPPFLAGS)
+AM_MS_COMPAT_LINKFLAGS = -m32 -arch i386
+AM_LDFLAGS += $(AM_MS_COMPAT_LINKFLAGS)
+endif
+## (end MS_COMPAT_CHECK)
 endif
 ## (end CLANG_RULES)
 
@@ -55,6 +80,11 @@ COMPILER = @CC@
 NON_AM_CFLAGS = -c
 OLD_LDFLAGS_UNUSED =  -s
 XLDFLAGS = -L/usr/X11R6/lib @LIBS@
+if BUILD_OBJC_SOURCES
+# Building Objective C sources requires linking agains frameworks:
+XLDFLAGS += -framework Cocoa
+endif
+## (end BUILD_OBJC_SOURCES)
 VORBISFLAGS = @VORBIS_LIBS@
 ODIR = Release
 EXEBASE = wolf3dredux
@@ -64,8 +94,11 @@ endif
 
 ## should contain a "/" at the end:
 LIBOBJDIR = @LIBOBJDIR@
+## there is also a version without the slash, in case the slash is a
+## problem:
+LIBOBJDIRNOSLASH = @LIBOBJDIRNOSLASH@
 
-SUBDIRS = $(LIBOBJDIR) .
+SUBDIRS = $(LIBOBJDIRNOSLASH) .
 
 bin_PROGRAMS = wolf3dredux
 
@@ -86,15 +119,8 @@ wolf3dredux_SOURCES = client/client_input.c \
                       device/filesys/files.c \
                       device/filesys/filestring.c \
                       device/filesys/zippak.c \
-                      device/filesys/unix/unix_file.c \
-                      device/filesys/unix/glob.c \
                       device/input/in_view.c \
-                      device/input/unix/unix_keys.c \
-                      device/input/unix/unix_mouse.c \
-                      device/input/unix/unix_joystick.c \
                       device/system/system.c \
-                      device/system/unix/unix_system.c \
-                      device/timer/unix/unix_timer.c \
                       font/font_manager.c \
                       loaders/tga.c \
                       loaders/wav.c \
@@ -112,15 +138,12 @@ wolf3dredux_SOURCES = client/client_input.c \
                       sound/openal/openal_binding.c \
                       sound/openal/openal_main.c \
                       string/com_string.c \
-                      unix/unix_main.c \
-                      unix/unix_vid_sys.c \
                       video/texture_manager.c \
                       video/opengl/opengl_binding.c \
                       video/opengl/opengl_draw.c \
                       video/opengl/opengl_extension.c \
                       video/opengl/opengl_main.c \
                       video/opengl/opengl_texture.c \
-                      video/opengl/unix/openglw_imp.c \
                       zlib/adler32.c \
                       zlib/crc32.c \
                       zlib/inffast.c \
@@ -159,11 +182,36 @@ wolf3dredux_SOURCES = client/client_input.c \
                       game/wolf3d/video/opengl/wolf_opengl.c
 ## TODO: enumerate headers under "noinst_HEADERS"
 
+if MS_COMPAT_CHECK
+wolf3dredux_SOURCES += device/filesys/win32/win_file.c \
+                       device/input/win32/win_joystick.c \
+                       device/input/win32/win_keys.c \
+                       device/input/win32/win_mouse.c \
+                       device/system/win32/win_system.c \
+                       device/timer/win32/win_timer.c \
+                       video/opengl/win32/openglw_imp.c \
+                       win32/vid_sys.c \
+                       win32/win_main.c
+else
+## (not MS_COMPAT_CHECK -- i.e. standard unix build:)
+wolf3dredux_SOURCES += device/filesys/unix/unix_file.c \
+                       device/filesys/unix/glob.c \
+                       device/input/unix/unix_keys.c \
+                       device/input/unix/unix_mouse.c \
+                       device/input/unix/unix_joystick.c \
+                       device/system/unix/unix_system.c \
+                       device/timer/unix/unix_timer.c \
+                       unix/unix_main.c \
+                       unix/unix_vid_sys.c \
+                       video/opengl/unix/openglw_imp.c
+
+## only makes sense to do these when NOT doing MS_COMPAT_CHECK:
 if BUILD_X11_SOURCES
 wolf3dredux_SOURCES += unix/clipboard/X11/X11Clipboard.c
 endif
 ## (end BUILD_X11_SOURCES)
 
+## only makes sense to do these when NOT doing MS_COMPAT_CHECK:
 if BUILD_OBJC_SOURCES
 wolf3dredux_SOURCES += unix/clipboard/OSX/OSXClipboard.m \
                        unix/clipboard/OSX/ASCIIString.m \
@@ -173,6 +221,12 @@ wolf3dredux_SOURCES += unix/clipboard/OSX/OSXClipboard.m \
                        unix/clipboard/OSX/PasteboardTypeTransformer.m
 # Building Objective C sources requires linking agains frameworks:
 AM_OBJCLDFLAGS = -framework Cocoa
+endif
+## (end BUILD_OBJC_SOURCES)
+
+endif
+## (end MS_COMPAT_CHECK)
+
 # override these two to avoid the "unable to infer tagged configuration"
 # libtool error that comes from mixing C and Objective C:
 LTOBJCCOMPILE = $(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) \
@@ -183,15 +237,16 @@ OBJCLINK = $(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) \
 	$(LIBTOOLFLAGS) --mode=link $(OBJCLD) $(AM_OBJCFLAGS)  \
 	$(OBJCFLAGS) $(AM_LDFLAGS) $(LDFLAGS) $(AM_OBJCLDFLAGS) \
 	$(OBJCLDFLAGS) -o $@
-endif
-## (end BUILD_OBJC_SOURCES)
+# (these need to be overriden unconditionally, because for some reason
+# automake uses the Objective C linker even if the Objective C sources
+# have not actually been added in that condition...)
 
 wolf3dredux_LDADD = $(LIBOBJDIR)libgnu.a
 EXTRA_wolf3dredux_DEPENDENCIES = $(LIBOBJDIR)libgnu.a
 
 # note the space in the rule:
 $(LIBOBJDIR)libgnu.a: $(LIBOBJDIR)Makefile
-	$(MAKE) -C $(LIBOBJDIR) libgnu.a
+	$(MAKE) -C $(LIBOBJDIRNOSLASH) libgnu.a
 
 noinst_PROGRAMS = gamepal signon
 
@@ -205,6 +260,8 @@ XSyms.txt: wolf3dredux
 
 if WOLF_OLD_BUILD
 DO_CC = $(COMPILER) $(CFLAGS) $(AM_CFLAGS) $(AM_CPPFLAGS) ${CPPFLAGS} -o $@ -c $<
+XOBJCFLAGS = -x objective-c
+DO_OBJCC = $(COMPILER) $(CFLAGS) $(AM_CFLAGS) $(OBJCFLAGS) $(XOBJCFLAGS) $(AM_OBJCFLAGS) $(OBJCPPFLAGS) $(AM_OBJCPPFLAGS) $(AM_CPPFLAGS) ${CPPFLAGS} -o $@ -c $<
 
 PROGRAM_OBJS =  $(ODIR)/client_input.o \
 		$(ODIR)/client_main.o \
@@ -294,6 +351,21 @@ PROGRAM_OBJS =  $(ODIR)/client_input.o \
 		$(ODIR)/wolf_raycast.o \
 		$(ODIR)/wolf_renderer.o \
 		$(ODIR)/wolf_opengl.o
+
+if BUILD_X11_SOURCES
+PROGRAM_OBJS += $(ODIR)/X11Clipboard.o
+endif
+## (end BUILD_X11_SOURCES)
+
+if BUILD_OBJC_SOURCES
+PROGRAM_OBJS += $(ODIR)/OSXClipboard.o \
+                $(ODIR)/ASCIIString.o \
+                $(ODIR)/HexAndASCIIString.o \
+                $(ODIR)/HexString.o \
+                $(ODIR)/LazyDataTextStorage.o \
+                $(ODIR)/PasteboardTypeTransformer.o
+endif
+## (end BUILD_OBJC_SOURCES)
 
 all: config.h all-recursive $(EXE)
 
@@ -518,7 +590,13 @@ $(ODIR)/com_string.o : string/com_string.c
 #	unix/
 #
 $(ODIR)/unix_main.o : unix/unix_main.c 
+if BUILD_OBJC_SOURCES
+	$(DO_OBJCC)
+else
+## not BUILD_OBJC_SOURCES:
 	$(DO_CC)
+endif
+## (end BUILD_OBJC_SOURCES)
 
 $(ODIR)/unix_vid_sys.o : unix/unix_vid_sys.c 
 	$(DO_CC)
@@ -703,6 +781,37 @@ $(ODIR)/wolf_renderer.o : game/wolf3d/video/wolf_renderer.c
 $(ODIR)/wolf_opengl.o : game/wolf3d/video/opengl/wolf_opengl.c 
 	$(DO_CC)
 
+#
+#	unix/clipboard/
+#
+if BUILD_X11_SOURCES
+$(ODIR)/X11Clipboard.o : unix/clipboard/X11/X11Clipboard.c
+	$(DO_CC)
+endif
+## (end BUILD_X11_SOURCES)
+
+if BUILD_OBJC_SOURCES
+$(ODIR)/OSXClipboard.o : unix/clipboard/OSX/OSXClipboard.m
+	$(DO_OBJCC)
+
+$(ODIR)/ASCIIString.o : unix/clipboard/OSX/ASCIIString.m
+	$(DO_OBJCC)
+
+$(ODIR)/HexAndASCIIString.o : unix/clipboard/OSX/HexAndASCIIString.m
+	$(DO_OBJCC)
+
+$(ODIR)/HexString.o : unix/clipboard/OSX/HexString.m
+	$(DO_OBJCC)
+
+$(ODIR)/LazyDataTextStorage.o : unix/clipboard/OSX/LazyDataTextStorage.m
+	$(DO_OBJCC)
+
+$(ODIR)/PasteboardTypeTransformer.o : unix/clipboard/OSX/PasteboardTypeTransformer.m
+	$(DO_OBJCC)
+
+endif
+## (end BUILD_OBJC_SOURCES)
+
 #==========================================================================
 #	Misc
 #==========================================================================
@@ -713,26 +822,14 @@ endif
 
 if CLANG_RULES
 analyze: clean ../Wolfenstein3DFromSource.exp
-	$(SCAN_BUILD) -analyze-headers -stats --use-analyzer=$(COMPILER) $(SCAN_BUILD_CHECKERS) -v -v -v -plist-html -o scan_build_output $(MAKE) CFLAGS="$(CLANG_CFLAGS)" CPPFLAGS="$(AM_CLANG_CPPFLAGS)" LDFLAGS="$(AM_CLANG_LINKFLAGS)" $(LIBOBJDIR)libgnu.a wolf3dredux
+	$(SCAN_BUILD) -analyze-headers -stats --use-analyzer=$(COMPILER) $(SCAN_BUILD_CHECKERS) -v -v -v -plist-html -o scan_build_output $(MAKE) AM_CFLAGS="" CFLAGS="$(CLANG_CFLAGS)" AM_CPPFLAGS="-I." CPPFLAGS="$(AM_CLANG_CPPFLAGS)" AM_LDFLAGS="-L." LDFLAGS="$(AM_CLANG_LINKFLAGS)" $(LIBOBJDIR)libgnu.a wolf3dredux
 
 if MS_COMPAT_CHECK
-## TODO: either skip building libmscompat.a when building all, or apply
-## flags for building it when building all, too, or integrate it with the
-## normal build process
-noinst_LIBRARIES = libmscompat.a
-
-libmscompat_a_SOURCES = device/filesys/win32/win_file.c \
-                        device/input/win32/win_joystick.c \
-                        device/input/win32/win_keys.c \
-                        device/input/win32/win_mouse.c \
-                        device/system/win32/win_system.c \
-                        device/timer/win32/win_timer.c \
-                        video/opengl/win32/openglw_imp.c \
-                        win32/vid_sys.c \
-                        win32/win_main.c
-
+## this target is not really as necessary any more now that mswin files
+## are built as part of the normal build process instead of in a separate
+## static library...
 ms-compat: clean
-	 $(MAKE) AM_CFLAGS="" CFLAGS="$(CLANG_MS_COMPAT_CFLAGS)" AM_CPPFLAGS="-I." CPPFLAGS="$(AM_CLANG_MS_COMPAT_CPPFLAGS)" LDFLAGS="" libmscompat.a
+	 $(MAKE) AM_CFLAGS="" CFLAGS="$(CLANG_MS_COMPAT_CFLAGS)" AM_CPPFLAGS="-I." CPPFLAGS="$(AM_CLANG_MS_COMPAT_CPPFLAGS)" AM_LDFLAGS="-L." LDFLAGS=""
 else
 ## (not MS_COMPAT_CHECK)
 ms-compat:

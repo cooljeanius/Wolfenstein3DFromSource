@@ -228,7 +228,7 @@ char *Sys_ConsoleInput(void)
 
 					default:
 						if (ch >= ' ') {
-							if (console_textlen < (sizeof(console_text) - 2)) {
+							if ((unsigned long)console_textlen < (sizeof(console_text) - 2)) {
 								WriteFile(houtput, &ch, 1, (LPDWORD)&dummy,
 										  NULL);
 								console_text[console_textlen] = ch;
@@ -396,6 +396,16 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 	MSG	 msg;
 	int	 time, oldtime, newtime;
 
+
+	/* dummy condition to use 'hPrevInstance': */
+	if (hInstance == hPrevInstance) {
+		;
+	}
+
+	/* dummy condition to use 'nWindMode': */
+	if (nWinMode == 0) {
+		;
+	}
 
 	global_hInstance = hInstance;
 

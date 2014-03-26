@@ -130,6 +130,12 @@ extern void _vectorMA(const vec3_t veca, float scale, const vec3_t vecb,
 extern W32 vector2DCompare(const vec2_t v1, const vec2_t v2);
 extern vec_t vector2DLength(const vec2_t v);
 
+/* some prototypes for functions that require Microsoft-style inline asm: */
+#if defined(__i386__) && defined(_MSC_VER)
+extern void vectorCrossProduct_asm(const vec3_t v1, const vec3_t v2,
+								   vec3_t cross);
+extern vec_t _vectorDotProduct_asm(const vec3_t v1, const vec3_t v2);
+#endif /* __i386__ && _MSC_VER */
 
 #endif /* __VECTOR_H__ */
 
