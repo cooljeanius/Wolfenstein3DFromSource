@@ -17687,6 +17687,52 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 
 
+if test "x${ac_cv_prog_ac_ct_DSYMUTIL}" = "x"; then
+  test -z "${DSYMUTIL}"
+  # Extract the first word of "dsymutil", so it can be a program name with args.
+set dummy dsymutil; ac_word=$2
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
+$as_echo_n "checking for $ac_word... " >&6; }
+if ${ac_cv_path_DSYMUTIL+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  case $DSYMUTIL in
+  [\\/]* | ?:[\\/]*)
+  ac_cv_path_DSYMUTIL="$DSYMUTIL" # Let the user override the test with a path.
+  ;;
+  *)
+  as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
+as_dummy="${PATH}:/Developer/usr/bin"
+for as_dir in $as_dummy
+do
+  IFS=$as_save_IFS
+  test -z "$as_dir" && as_dir=.
+    for ac_exec_ext in '' $ac_executable_extensions; do
+  if as_fn_executable_p "$as_dir/$ac_word$ac_exec_ext"; then
+    ac_cv_path_DSYMUTIL="$as_dir/$ac_word$ac_exec_ext"
+    $as_echo "$as_me:${as_lineno-$LINENO}: found $as_dir/$ac_word$ac_exec_ext" >&5
+    break 2
+  fi
+done
+  done
+IFS=$as_save_IFS
+
+  test -z "$ac_cv_path_DSYMUTIL" && ac_cv_path_DSYMUTIL=":"
+  ;;
+esac
+fi
+DSYMUTIL=$ac_cv_path_DSYMUTIL
+if test -n "$DSYMUTIL"; then
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: $DSYMUTIL" >&5
+$as_echo "$DSYMUTIL" >&6; }
+else
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+fi
+
+
+
+fi
 
 # Checks for libraries.
 
@@ -23320,7 +23366,7 @@ done
 
 
 # Output
-ac_config_files="$ac_config_files Makefile gnulib_replacement_funcs/Makefile"
+ac_config_files="$ac_config_files Makefile gnulib_replacement_funcs/Makefile tools/wolfextractor/Makefile"
 
 cat >confcache <<\_ACEOF
 # This file is a shell script that caches the results of configure
@@ -24466,6 +24512,7 @@ do
     "libtool") CONFIG_COMMANDS="$CONFIG_COMMANDS libtool" ;;
     "Makefile") CONFIG_FILES="$CONFIG_FILES Makefile" ;;
     "gnulib_replacement_funcs/Makefile") CONFIG_FILES="$CONFIG_FILES gnulib_replacement_funcs/Makefile" ;;
+    "tools/wolfextractor/Makefile") CONFIG_FILES="$CONFIG_FILES tools/wolfextractor/Makefile" ;;
 
   *) as_fn_error $? "invalid argument: \`$ac_config_target'" "$LINENO" 5;;
   esac

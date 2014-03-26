@@ -27,8 +27,8 @@ ASAN_SYMBOLIZER_PATH = $(LLVM_SYMBOLIZER)
 if CLANG_RULES
 ## TODO: instead of hardcoding this, detect a valid version of clang:
 COMPILER = /opt/local/libexec/llvm-3.3/bin/clang
-## TODO: use all these flags normally, instead of just when building the
-## 'analyze' target:
+## TODO: make sure that all of these flags work and are used properly when
+## building normally, instead of just when building the 'analyze' target:
 DIAGFLAGS = -fcolor-diagnostics -fdiagnostics-print-source-range-info -fdiagnostics-show-note-include-stack -fdiagnostics-show-option
 WARNFLAGS = $(WARNFLAGS_COMMON) -Wunused-function -Wunused-label -Wunused-parameter -Wunused-variable -Wshorten-64-to-32
 # (cannot sanitize both thread and address at the same time)
@@ -98,7 +98,7 @@ LIBOBJDIR = @LIBOBJDIR@
 ## problem:
 LIBOBJDIRNOSLASH = @LIBOBJDIRNOSLASH@
 
-SUBDIRS = $(LIBOBJDIRNOSLASH) .
+SUBDIRS = $(LIBOBJDIRNOSLASH) . tools/wolfextractor
 
 bin_PROGRAMS = wolf3dredux
 
@@ -351,6 +351,7 @@ PROGRAM_OBJS =  $(ODIR)/client_input.o \
 		$(ODIR)/wolf_raycast.o \
 		$(ODIR)/wolf_renderer.o \
 		$(ODIR)/wolf_opengl.o
+## TODO: make old rules respect MS_COMPAT_CHECK as well
 
 if BUILD_X11_SOURCES
 PROGRAM_OBJS += $(ODIR)/X11Clipboard.o
@@ -372,7 +373,7 @@ all: config.h all-recursive $(EXE)
 # Leave out the ALLOCA obj, because its header requires special
 # modification that comes by actually using gnulib properly
 $(EXE): $(PROGRAM_OBJS) $(LIBOBJS)
-	${COMPILER} -o $(EXE) $(PROGRAM_OBJS) $(LIBOBJS) ${LDFLAGS} $(XLDFLAGS) $(VORBISFLAGS) -lm 
+	${COMPILER} -o $(EXE) $(PROGRAM_OBJS) $(LIBOBJS) $(AM_LDFLAGS) ${LDFLAGS} $(XLDFLAGS) $(VORBISFLAGS) -lm 
 
 
 #==========================================================================
@@ -823,6 +824,7 @@ endif
 if CLANG_RULES
 analyze: clean ../Wolfenstein3DFromSource.exp
 	$(SCAN_BUILD) -analyze-headers -stats --use-analyzer=$(COMPILER) $(SCAN_BUILD_CHECKERS) -v -v -v -plist-html -o scan_build_output $(MAKE) AM_CFLAGS="" CFLAGS="$(CLANG_CFLAGS)" AM_CPPFLAGS="-I." CPPFLAGS="$(AM_CLANG_CPPFLAGS)" AM_LDFLAGS="-L." LDFLAGS="$(AM_CLANG_LINKFLAGS)" $(LIBOBJDIR)libgnu.a wolf3dredux
+	test -e tools/wolfextractor/Makefile && $(MAKE) -C tools/wolfextractor analyze
 
 if MS_COMPAT_CHECK
 ## this target is not really as necessary any more now that mswin files

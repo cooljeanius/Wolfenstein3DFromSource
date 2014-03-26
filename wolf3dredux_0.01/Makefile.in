@@ -680,7 +680,7 @@ ASAN_SYMBOLIZER_PATH = $(LLVM_SYMBOLIZER)
 @WOLF_OLD_BUILD_TRUE@ODIR = Release
 @WOLF_OLD_BUILD_TRUE@EXEBASE = wolf3dredux
 @WOLF_OLD_BUILD_TRUE@EXE = $(ODIR)/$(EXEBASE)
-SUBDIRS = $(LIBOBJDIRNOSLASH) .
+SUBDIRS = $(LIBOBJDIRNOSLASH) . tools/wolfextractor
 wolf3dredux_SOURCES = client/client_input.c client/client_main.c \
 	client/client_screen.c client/console.c client/keys.c \
 	client/menu_conf.c common/arch.c common/cmd.c common/common.c \
@@ -2209,7 +2209,7 @@ XSyms.txt: wolf3dredux
 # Leave out the ALLOCA obj, because its header requires special
 # modification that comes by actually using gnulib properly
 @WOLF_OLD_BUILD_TRUE@$(EXE): $(PROGRAM_OBJS) $(LIBOBJS)
-@WOLF_OLD_BUILD_TRUE@	${COMPILER} -o $(EXE) $(PROGRAM_OBJS) $(LIBOBJS) ${LDFLAGS} $(XLDFLAGS) $(VORBISFLAGS) -lm 
+@WOLF_OLD_BUILD_TRUE@	${COMPILER} -o $(EXE) $(PROGRAM_OBJS) $(LIBOBJS) $(AM_LDFLAGS) ${LDFLAGS} $(XLDFLAGS) $(VORBISFLAGS) -lm 
 
 #==========================================================================
 #	Build
@@ -2633,6 +2633,7 @@ XSyms.txt: wolf3dredux
 
 @CLANG_RULES_TRUE@analyze: clean ../Wolfenstein3DFromSource.exp
 @CLANG_RULES_TRUE@	$(SCAN_BUILD) -analyze-headers -stats --use-analyzer=$(COMPILER) $(SCAN_BUILD_CHECKERS) -v -v -v -plist-html -o scan_build_output $(MAKE) AM_CFLAGS="" CFLAGS="$(CLANG_CFLAGS)" AM_CPPFLAGS="-I." CPPFLAGS="$(AM_CLANG_CPPFLAGS)" AM_LDFLAGS="-L." LDFLAGS="$(AM_CLANG_LINKFLAGS)" $(LIBOBJDIR)libgnu.a wolf3dredux
+@CLANG_RULES_TRUE@	test -e tools/wolfextractor/Makefile && $(MAKE) -C tools/wolfextractor analyze
 
 @CLANG_RULES_TRUE@@MS_COMPAT_CHECK_TRUE@ms-compat: clean
 @CLANG_RULES_TRUE@@MS_COMPAT_CHECK_TRUE@	 $(MAKE) AM_CFLAGS="" CFLAGS="$(CLANG_MS_COMPAT_CFLAGS)" AM_CPPFLAGS="-I." CPPFLAGS="$(AM_CLANG_MS_COMPAT_CPPFLAGS)" AM_LDFLAGS="-L." LDFLAGS=""

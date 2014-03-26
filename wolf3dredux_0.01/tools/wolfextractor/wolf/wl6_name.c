@@ -46,9 +46,9 @@
  Notes:
 -----------------------------------------------------------------------------
 */
-PUBLIC char *GetLumpFileName_WL1( W32 chunk )
+PUBLIC char *GetLumpFileName_WL1(W32 chunk)
 {
-    switch( chunk ) {
+    switch (chunk) {
 		case WL1_H_BJPIC: return "H_BJPIC";
         case WL1_H_CASTLEPIC: return "H_CASTLEPIC";
 		case WL1_H_KEYBOARDPIC: return "H_KEYBOARDPIC";
@@ -365,9 +365,9 @@ PUBLIC char *GetLumpFileName_WL6( W32 chunk )
  Notes:
 -----------------------------------------------------------------------------
 */
-PUBLIC char *GetLumpFileName_SDM( W32 chunk )
+PUBLIC char *GetLumpFileName_SDM(W32 chunk)
 {
-    switch( chunk ) {
+    switch (chunk) {
         case SDM_C_BACKDROPPIC: return "C_BACKDROPPIC";
 		case SDM_C_MOUSELBACKPIC: return "SC_MOUSELBACKPIC";
 		case SDM_C_CURSOR1PIC: return "SC_CURSOR0PIC";
@@ -519,9 +519,9 @@ PUBLIC char *GetLumpFileName_SDM( W32 chunk )
  Notes:
 -----------------------------------------------------------------------------
 */
-PUBLIC char *GetLumpFileName_SOD( W32 chunk )
+PUBLIC char *GetLumpFileName_SOD(W32 chunk)
 {
-    switch( chunk ) {
+    switch (chunk) {
         case SOD_C_BACKDROPPIC: return "C_BACKDROPPIC";
 		case SOD_C_MOUSELBACKPIC: return "SC_MOUSELBACKPIC";
 		case SOD_C_CURSOR1PIC: return "SC_CURSOR0PIC";
@@ -676,10 +676,10 @@ PUBLIC char *GetLumpFileName_SOD( W32 chunk )
 }
 
 
-
-PUBLIC char *GetMusicFileName_WL6( W32 chunk )
+/* */
+PUBLIC char *GetMusicFileName_WL6(W32 chunk)
 {
-    switch( chunk ) {
+    switch (chunk) {
 		case CORNER_MUS: return "CORNER";
 		case DUNGEON_MUS: return "DUNGEON";
 		case WARMARCH_MUS: return "WARMARCH";
@@ -714,9 +714,10 @@ PUBLIC char *GetMusicFileName_WL6( W32 chunk )
 
 }
 
-PUBLIC char *GetMusicFileName_SOD( W32 chunk )
+/* */
+PUBLIC char *GetMusicFileName_SOD(W32 chunk)
 {
-    switch( chunk ) {
+    switch (chunk) {
 		case SOD_XFUNKIE_MUS: return "XFUNKIE";
 		case SOD_DUNGEON_MUS: return "DUNGEON";
 		case SOD_XDEATH_MUS: return "XDEATH";

@@ -17,10 +17,13 @@
 #include "com_string.h"
 
 #ifdef main
-# warning "Do not try to link this file with the rest of the project."
+# if defined(__GNUC__) && !defined(__STRICT_ANSI__)
+#  warning "Do not try to link this file with the rest of the project."
+# endif /* __GNUC__ && !__STRICT_ANSI__ */
 #endif /* main */
 
-int main( int argc, char *argv[] ) {
+int main (int argc, char *argv[])
+{
 	char *string_to_print;
 
 	string_to_print = cs_CopyString(argv[0]);

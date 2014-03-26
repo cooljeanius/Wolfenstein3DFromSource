@@ -66,6 +66,7 @@ GL_Extensions gl_ext;
  *
  ****************************/
 
+/* */
 PRIVATE W8 ConfigARBMultiTexture(const char *glext)
 {
 	if (strstr(glext, "GL_ARB_multitexture") == NULL) {
@@ -217,7 +218,7 @@ PRIVATE W8 ConfigARBMultiTexture(const char *glext)
 	return 1;
 }
 
-
+/* */
 PRIVATE W8 ConfigARBTextureCompression(const char *glext)
 {
 	if (strstr(glext, "GL_ARB_texture_compression") == NULL) {
@@ -265,7 +266,7 @@ PRIVATE W8 ConfigARBTextureCompression(const char *glext)
 	return 1;
 }
 
-
+/* */
 PRIVATE W8 CheckARBTextureCubeMap(const char *glext)
 {
 	if (strstr(glext, "GL_ARB_texture_cube_map") == NULL) {
@@ -278,22 +279,27 @@ PRIVATE W8 CheckARBTextureCubeMap(const char *glext)
 	return 1;
 }
 
+/* */
 PRIVATE W8 ConfigARBVertexProgram(const char *glext)
 {
 	if (strstr(glext, "GL_ARB_vertex_program") == NULL) {
 		return 0;
 	}
 
-	if (!(pfglVertexAttrib1sARB = (void *)pfwglGetProcAddress("glVertexAttrib1sARB"))) {
+	if (!(pfglVertexAttrib1sARB =
+		  (void (*)(GLuint, GLshort))(void *)pfwglGetProcAddress("glVertexAttrib1sARB"))) {
 		return 0;
 	}
-	if (!(pfglVertexAttrib1fARB = (void *)pfwglGetProcAddress("glVertexAttrib1fARB"))) {
+	if (!(pfglVertexAttrib1fARB =
+		  (void (*)(GLuint, GLfloat))(void *)pfwglGetProcAddress("glVertexAttrib1fARB"))) {
 		return 0;
 	}
-	if (!(pfglVertexAttrib1dARB = (void *)pfwglGetProcAddress("glVertexAttrib1dARB"))) {
+	if (!(pfglVertexAttrib1dARB =
+		  (void (*)(GLuint, GLdouble))(void *)pfwglGetProcAddress("glVertexAttrib1dARB"))) {
 		return 0;
 	}
-	if (!(pfglVertexAttrib2sARB = (void *)pfwglGetProcAddress("glVertexAttrib2sARB"))) {
+	if (!(pfglVertexAttrib2sARB =
+		  (void (*)(GLuint, GLshort, GLshort))(void *)pfwglGetProcAddress("glVertexAttrib2sARB"))) {
 		return 0;
 	}
 	if (!(pfglVertexAttrib2fARB = (void *)pfwglGetProcAddress("glVertexAttrib2fARB"))) {
@@ -487,7 +493,7 @@ PRIVATE W8 ConfigARBVertexProgram(const char *glext)
  *
  ****************************/
 
-
+/* */
 PRIVATE W8 CheckEXTTextureCompressionS3TC(const char *glext)
 {
 	if (strstr(glext, "GL_EXT_texture_compression_s3tc") == NULL) {
@@ -500,6 +506,7 @@ PRIVATE W8 CheckEXTTextureCompressionS3TC(const char *glext)
 	return 1;
 }
 
+/* */
 PRIVATE W8 CheckEXTTextureEnvCombine(const char *glext)
 {
 	if (strstr(glext, "GL_EXT_texture_env_combine") == NULL) {
@@ -513,7 +520,7 @@ PRIVATE W8 CheckEXTTextureEnvCombine(const char *glext)
 }
 
 
-
+/* */
 PRIVATE W8 ConfigEXTSecondaryColor(const char *glext)
 {
 	if (strstr(glext, "GL_EXT_secondary_color") == NULL) {
@@ -579,14 +586,16 @@ PRIVATE W8 ConfigEXTSecondaryColor(const char *glext)
 	return 1;
 }
 
-PRIVATE W8 ConfigEXTBlendColor( const char *glext )
+/* */
+PRIVATE W8 ConfigEXTBlendColor(const char *glext)
 {
 	if (strstr(glext, "GL_EXT_blend_color") == NULL) {
 		Com_Printf("...GL_EXT_blend_color not found\n");
 		return 0;
 	}
 
-	if (!(pfglBlendColorEXT = (void *)pfwglGetProcAddress("glBlendColorEXT"))) {
+	if (!(pfglBlendColorEXT =
+		  (void (*)(GLclampf, GLclampf, GLclampf, GLclampf))(void *)pfwglGetProcAddress("glBlendColorEXT"))) {
 		return 0;
 	}
 
@@ -595,6 +604,7 @@ PRIVATE W8 ConfigEXTBlendColor( const char *glext )
 	return 1;
 }
 
+/* */
 PRIVATE W8 ConfigEXTVertexShader(const char *glext)
 {
 	GLint glnum;
@@ -762,7 +772,7 @@ PRIVATE W8 ConfigEXTVertexShader(const char *glext)
 	return 1;
 }
 
-
+/* */
 PRIVATE W8 ConfigEXTVertexWeighting( const char *glext )
 {
 	if (strstr(glext, "GL_EXT_vertex_weighting") == NULL) {
@@ -786,6 +796,7 @@ PRIVATE W8 ConfigEXTVertexWeighting( const char *glext )
 	return 1;
 }
 
+/* */
 PRIVATE W8 CheckEXTTextureFilterAnisotropic(const char *glext)
 {
 	if (strstr(glext, "GL_EXT_texture_filter_anisotropic") == NULL) {
@@ -807,6 +818,7 @@ PRIVATE W8 CheckEXTTextureFilterAnisotropic(const char *glext)
  *
  ****************************/
 
+/* */
 PRIVATE W8 ConfigNVVertexArrayRange(const char *glext)
 {
 	/* Test if VAR is present. */
@@ -879,6 +891,7 @@ PRIVATE W8 ConfigNVVertexArrayRange(const char *glext)
 	return 1;
 }
 
+/* */
 PRIVATE W8	CheckNVVertexArrayRange2(const char *glext)
 {
 	if (strstr(glext, "GL_NV_vertex_array_range2") == NULL) {
@@ -891,7 +904,8 @@ PRIVATE W8	CheckNVVertexArrayRange2(const char *glext)
 	return 1;
 }
 
-PRIVATE W8 CheckNVTextureEnvCombine4( const char *glext )
+/* */
+PRIVATE W8 CheckNVTextureEnvCombine4(const char *glext)
 {
 	if (strstr(glext, "GL_NV_texture_env_combine4") == NULL) {
 		Com_Printf("...GL_NV_texture_env_combine4 not found\n");
@@ -903,7 +917,8 @@ PRIVATE W8 CheckNVTextureEnvCombine4( const char *glext )
 	return 1;
 }
 
-PRIVATE W8 ConfigNVVertexProgram( const char *glext )
+/* */
+PRIVATE W8 ConfigNVVertexProgram(const char *glext)
 {
 	if (strstr(glext, "GL_NV_vertex_program") == NULL) {
 		return 0;
@@ -1106,7 +1121,7 @@ PRIVATE W8 ConfigNVVertexProgram( const char *glext )
 }
 
 
-
+/* */
 PRIVATE W8 CheckNVTextureShader(const char *glext)
 {
 	if (strstr(glext, "GL_NV_texture_shader") == NULL) {
@@ -1127,7 +1142,7 @@ PRIVATE W8 CheckNVTextureShader(const char *glext)
  *
  ****************************/
 
-
+/* */
 PRIVATE W8 ConfigATIVertexArrayObject(const char *glext)
 {
 	if (strstr(glext, "GL_ATI_vertex_array_object") == NULL) {
@@ -1179,7 +1194,7 @@ PRIVATE W8 ConfigATIVertexArrayObject(const char *glext)
 	return 1;
 }
 
-
+/* */
 PRIVATE W8 ConfigATIMapObjectBuffer(const char *glext)
 {
 	if (strstr(glext, "GL_ATI_map_object_buffer") == NULL) {
@@ -1253,6 +1268,7 @@ PRIVATE W8 ConfigATIFragmentShader(const char *glext)
 	return 1;
 }
 
+/* */
 PRIVATE W8 CheckATITextureEnvCombine3(const char *glext)
 {
 	if (strstr(glext, "GL_ATI_texture_env_combine3") == NULL) {
@@ -1264,7 +1280,7 @@ PRIVATE W8 CheckATITextureEnvCombine3(const char *glext)
 	return 1;
 }
 
-
+/* */
 PRIVATE W8 CheckATIXTextureEnvRoute(const char *glext)
 {
 	if (strstr(glext, "GL_ATIX_texture_env_route") == NULL) {
@@ -1276,7 +1292,7 @@ PRIVATE W8 CheckATIXTextureEnvRoute(const char *glext)
 	return 1;
 }
 
-
+/* */
 PRIVATE W8 ConfigATIEnvMapBumpMap(const char *glext)
 {
 	if (strstr(glext, "GL_ATI_envmap_bumpmap") == NULL) {
@@ -1369,7 +1385,7 @@ PRIVATE W8 ConfigARBFragmentProgram(const char *glext)
 	return 1;
 }
 
-
+/* */
 PRIVATE W8 ConfigARBVertexBufferObject(const char *glext)
 {
 	if (strstr(glext, "GL_ARB_vertex_buffer_object") == NULL) {
@@ -1417,7 +1433,7 @@ PRIVATE W8 ConfigARBVertexBufferObject(const char *glext)
 
 
 #ifdef _WIN32
-
+/* */
 PRIVATE W8 ConfigWGLARBPBuffer(const char *glext)
 {
 	if( strstr( glext, "WGL_ARB_pbuffer" ) == NULL ) {
@@ -1446,7 +1462,7 @@ PRIVATE W8 ConfigWGLARBPBuffer(const char *glext)
 	return 1;
 }
 
-
+/* */
 PRIVATE W8 ConfigWGLARBPixelFormat(const char *glext)
 {
 	if (strstr(glext, "WGL_ARB_pixel_format") == NULL) {
@@ -1469,6 +1485,7 @@ PRIVATE W8 ConfigWGLARBPixelFormat(const char *glext)
 	return 1;
 }
 
+/* */
 PRIVATE W8 ConfigWGLEXTSwapControl(const char *glext)
 {
 	if (strstr(glext, "WGL_EXT_swap_control") == NULL) {

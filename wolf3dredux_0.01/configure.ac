@@ -136,6 +136,11 @@ AC_MSG_CHECKING([for some libtool things...])
 AC_MSG_RESULT([... ])
 LT_INIT([win32-dll dlopen])
 LT_LANG([C])
+if test "x${ac_cv_prog_ac_ct_DSYMUTIL}" = "x"; then
+  test -z "${DSYMUTIL}"
+  AC_PATH_PROG([DSYMUTIL],[dsymutil],[:],[${PATH}:/Developer/usr/bin])
+  AC_SUBST([DSYMUTIL])
+fi
 
 # Checks for libraries.
 PKG_CHECK_MODULES([MESA],[
@@ -499,7 +504,9 @@ done
 AC_SUBST([JUST_LIBOBJS])
 
 # Output
-AC_CONFIG_FILES([Makefile gnulib_replacement_funcs/Makefile])
+AC_CONFIG_FILES([Makefile \
+gnulib_replacement_funcs/Makefile \
+tools/wolfextractor/Makefile])
 AC_OUTPUT
 
 echo ""
