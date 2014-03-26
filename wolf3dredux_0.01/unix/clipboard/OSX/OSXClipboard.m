@@ -7,12 +7,25 @@
  *
  *  Some of this code is adapted from Apple's ClipboardViewer sample code,
  *  which is copyright (C) 2012 Apple Inc.
+ *
+ *  License: not sure if GPL-2+, like the rest of the code, or APSL(-2+(?))
+ *  because of the Apple sample code included?
  */
 
 #if defined(__GNUC__) && !defined(__STRICT_ANSI__)
 # import "OSXClipboard.h"
+# import "PasteboardTypeTransformer.h"
+# import "LazyDataTextStorage.h"
+# import "HexString.h"
+# import "ASCIIString.h"
+# import "HexAndASCIIString.h"
 #else
 # include "OSXClipboard.h"
+# include "PasteboardTypeTransformer.h"
+# include "LazyDataTextStorage.h"
+# include "HexString.h"
+# include "ASCIIString.h"
+# include "HexAndASCIIString.h"
 #endif /* __GNUC__ && !__STRICT_ANSI__ */
 
 #include "../../../common/common_utils.h" /* for PUBLIC and PRIVATE */
@@ -67,8 +80,15 @@ PUBLIC void GlobalUnlockClipboardData(void *data)
 	return;
 }
 
-/* Called once the nib is done loading; we do various setup actions here so that
- * everything goes smoothly.
+/* Called when the interface has barely started loading, so we can register our
+ * custom NSValueTransformer here.
+ */
++ (void)initialize {
+    [PasteboardTypeTransformer class]; /* register transformer */
+}
+
+/* Called once the interface is done loading; we do various setup actions here
+ * so that everything goes smoothly.
  */
 - (void)applicationDidFinishLaunching:(NSNotification *)note {
     /* Set up our own data storage: */
@@ -76,9 +96,13 @@ PUBLIC void GlobalUnlockClipboardData(void *data)
                                          [NSFont userFixedPitchFontOfSize:(CGFloat)10.0],
 										 NSFontAttributeName,
                                          nil];
+    LazyDataTextStorage *lazyStorage = [[LazyDataTextStorage alloc] init];
+    [lazyStorage setAttributes:plainTextAttributes];
     [plainTextAttributes release];
 
-    /* Set up our 2 text containers: 1 for fixed width, and 1 normal: */
+    [lazyStorage release];
+
+    /* Set up a fixed-width text container: */
     fixedWidthContainer = [[NSTextContainer alloc] initWithContainerSize:NSMakeSize((CGFloat)1.0e7,
 																					(CGFloat)1.0e7)];
     [fixedWidthContainer setWidthTracksTextView:(BOOL)NO];
@@ -101,6 +125,7 @@ PUBLIC void GlobalUnlockClipboardData(void *data)
 
     [super dealloc];
 }
+
 
 @synthesize whichPboard;
 @synthesize types;

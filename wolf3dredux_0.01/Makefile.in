@@ -85,6 +85,21 @@ build_triplet = @build@
 host_triplet = @host@
 target_triplet = @target@
 bin_PROGRAMS = wolf3dredux$(EXEEXT)
+@BUILD_X11_SOURCES_TRUE@am__append_1 = unix/clipboard/X11/X11Clipboard.c
+@BUILD_OBJC_SOURCES_TRUE@am__append_2 = unix/clipboard/OSX/OSXClipboard.m \
+@BUILD_OBJC_SOURCES_TRUE@                       unix/clipboard/OSX/ASCIIString.m \
+@BUILD_OBJC_SOURCES_TRUE@                       unix/clipboard/OSX/HexAndASCIIString.m \
+@BUILD_OBJC_SOURCES_TRUE@                       unix/clipboard/OSX/HexString.m \
+@BUILD_OBJC_SOURCES_TRUE@                       unix/clipboard/OSX/LazyDataTextStorage.m \
+@BUILD_OBJC_SOURCES_TRUE@                       unix/clipboard/OSX/PasteboardTypeTransformer.m
+
+LTOBJCCOMPILE = $(LIBTOOL) $(AM_V_lt) $(AM_LIBTOOLFLAGS) \
+	$(LIBTOOLFLAGS) --mode=compile $(OBJC) $(DEFS) \
+	$(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) \
+	$(AM_OBJCFLAGS) $(OBJCFLAGS)
+OBJCLINK = $(LIBTOOL) $(AM_V_lt) $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) \
+	--mode=link $(OBJCLD) $(AM_OBJCFLAGS) $(OBJCFLAGS) \
+	$(AM_LDFLAGS) $(LDFLAGS) -o $@
 noinst_PROGRAMS = gamepal$(EXEEXT) signon$(EXEEXT)
 subdir = .
 DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/Makefile.am \
@@ -154,6 +169,67 @@ am_signon_OBJECTS = tools/signon/wolf_pal.$(OBJEXT) \
 	tools/signon/WriteTGA_minimal.$(OBJEXT)
 signon_OBJECTS = $(am_signon_OBJECTS)
 signon_LDADD = $(LDADD)
+am__wolf3dredux_SOURCES_DIST = client/client_input.c \
+	client/client_main.c client/client_screen.c client/console.c \
+	client/keys.c client/menu_conf.c common/arch.c common/cmd.c \
+	common/common.c common/cvar.c common/share.c common/ttree.c \
+	device/cpu/cpuid.c device/filesys/fileio.c \
+	device/filesys/files.c device/filesys/filestring.c \
+	device/filesys/zippak.c device/filesys/unix/unix_file.c \
+	device/filesys/unix/glob.c device/input/in_view.c \
+	device/input/unix/unix_keys.c device/input/unix/unix_mouse.c \
+	device/input/unix/unix_joystick.c device/system/system.c \
+	device/system/unix/unix_system.c \
+	device/timer/unix/unix_timer.c font/font_manager.c \
+	loaders/tga.c loaders/wav.c math/angle.c math/math.c \
+	math/matrix.c math/random_number.c math/vector.c \
+	memory/memory.c memory/zmem.c script/script.c sound/sound.c \
+	sound/sound_sfx_id.c sound/sound_stream.c \
+	sound/openal/openal_binding.c sound/openal/openal_main.c \
+	string/com_string.c unix/unix_main.c unix/unix_vid_sys.c \
+	video/texture_manager.c video/opengl/opengl_binding.c \
+	video/opengl/opengl_draw.c video/opengl/opengl_extension.c \
+	video/opengl/opengl_main.c video/opengl/opengl_texture.c \
+	video/opengl/unix/openglw_imp.c zlib/adler32.c zlib/crc32.c \
+	zlib/inffast.c zlib/inflate.c zlib/inftrees.c zlib/zutil.c \
+	game/wolf3d/wolf_main.c game/wolf3d/client/wolf_client_main.c \
+	game/wolf3d/client/wolf_sv_ccmds.c \
+	game/wolf3d/common/wolf_common.c \
+	game/wolf3d/entities/wolf_actor_ai.c \
+	game/wolf3d/entities/wolf_actors.c \
+	game/wolf3d/entities/wolf_ai_com.c \
+	game/wolf3d/entities/wolf_bj.c \
+	game/wolf3d/entities/wolf_player.c \
+	game/wolf3d/entities/wolf_powerups.c \
+	game/wolf3d/entities/wolf_sprites.c \
+	game/wolf3d/entities/wolf_weapon.c \
+	game/wolf3d/level/wolf_areas.c game/wolf3d/level/wolf_doors.c \
+	game/wolf3d/level/wolf_level.c \
+	game/wolf3d/level/wolf_pushwalls.c \
+	game/wolf3d/math/wolf_math.c game/wolf3d/menu/wolf_mcredits.c \
+	game/wolf3d/menu/wolf_menu.c \
+	game/wolf3d/menu/wolf_mintermission.c \
+	game/wolf3d/menu/wolf_mintro.c \
+	game/wolf3d/menu/wolf_mnewgame.c \
+	game/wolf3d/menu/wolf_moptions.c game/wolf3d/menu/wolf_mquit.c \
+	game/wolf3d/menu/wolf_msound.c game/wolf3d/menu/wolf_mvideo.c \
+	game/wolf3d/script/episode.c game/wolf3d/video/wolf_raycast.c \
+	game/wolf3d/video/wolf_renderer.c \
+	game/wolf3d/video/opengl/wolf_opengl.c \
+	unix/clipboard/X11/X11Clipboard.c \
+	unix/clipboard/OSX/OSXClipboard.m \
+	unix/clipboard/OSX/ASCIIString.m \
+	unix/clipboard/OSX/HexAndASCIIString.m \
+	unix/clipboard/OSX/HexString.m \
+	unix/clipboard/OSX/LazyDataTextStorage.m \
+	unix/clipboard/OSX/PasteboardTypeTransformer.m
+@BUILD_X11_SOURCES_TRUE@am__objects_1 = unix/clipboard/X11/X11Clipboard.$(OBJEXT)
+@BUILD_OBJC_SOURCES_TRUE@am__objects_2 = unix/clipboard/OSX/OSXClipboard.$(OBJEXT) \
+@BUILD_OBJC_SOURCES_TRUE@	unix/clipboard/OSX/ASCIIString.$(OBJEXT) \
+@BUILD_OBJC_SOURCES_TRUE@	unix/clipboard/OSX/HexAndASCIIString.$(OBJEXT) \
+@BUILD_OBJC_SOURCES_TRUE@	unix/clipboard/OSX/HexString.$(OBJEXT) \
+@BUILD_OBJC_SOURCES_TRUE@	unix/clipboard/OSX/LazyDataTextStorage.$(OBJEXT) \
+@BUILD_OBJC_SOURCES_TRUE@	unix/clipboard/OSX/PasteboardTypeTransformer.$(OBJEXT)
 am_wolf3dredux_OBJECTS = client/client_input.$(OBJEXT) \
 	client/client_main.$(OBJEXT) client/client_screen.$(OBJEXT) \
 	client/console.$(OBJEXT) client/keys.$(OBJEXT) \
@@ -221,7 +297,8 @@ am_wolf3dredux_OBJECTS = client/client_input.$(OBJEXT) \
 	game/wolf3d/script/episode.$(OBJEXT) \
 	game/wolf3d/video/wolf_raycast.$(OBJEXT) \
 	game/wolf3d/video/wolf_renderer.$(OBJEXT) \
-	game/wolf3d/video/opengl/wolf_opengl.$(OBJEXT)
+	game/wolf3d/video/opengl/wolf_opengl.$(OBJEXT) \
+	$(am__objects_1) $(am__objects_2)
 wolf3dredux_OBJECTS = $(am_wolf3dredux_OBJECTS)
 wolf3dredux_DEPENDENCIES = $(LIBOBJDIR)libgnu.a
 AM_V_P = $(am__v_P_@AM_V@)
@@ -258,10 +335,21 @@ AM_V_CCLD = $(am__v_CCLD_@AM_V@)
 am__v_CCLD_ = $(am__v_CCLD_@AM_DEFAULT_V@)
 am__v_CCLD_0 = @echo "  CCLD    " $@;
 am__v_CCLD_1 = 
+OBJCCOMPILE = $(OBJC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
+	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_OBJCFLAGS) $(OBJCFLAGS)
+AM_V_OBJC = $(am__v_OBJC_@AM_V@)
+am__v_OBJC_ = $(am__v_OBJC_@AM_DEFAULT_V@)
+am__v_OBJC_0 = @echo "  OBJC    " $@;
+am__v_OBJC_1 = 
+OBJCLD = $(OBJC)
+AM_V_OBJCLD = $(am__v_OBJCLD_@AM_V@)
+am__v_OBJCLD_ = $(am__v_OBJCLD_@AM_DEFAULT_V@)
+am__v_OBJCLD_0 = @echo "  OBJCLD  " $@;
+am__v_OBJCLD_1 = 
 SOURCES = $(libmscompat_a_SOURCES) $(gamepal_SOURCES) \
 	$(signon_SOURCES) $(wolf3dredux_SOURCES)
 DIST_SOURCES = $(am__libmscompat_a_SOURCES_DIST) $(gamepal_SOURCES) \
-	$(signon_SOURCES) $(wolf3dredux_SOURCES)
+	$(signon_SOURCES) $(am__wolf3dredux_SOURCES_DIST)
 RECURSIVE_TARGETS = all-recursive check-recursive cscopelist-recursive \
 	ctags-recursive dvi-recursive html-recursive info-recursive \
 	install-data-recursive install-dvi-recursive \
@@ -451,6 +539,11 @@ ac_ct_CC = @ac_ct_CC@
 ac_ct_CXX = @ac_ct_CXX@
 ac_ct_DUMPBIN = @ac_ct_DUMPBIN@
 ac_ct_OBJC = @ac_ct_OBJC@
+ac_cv_have_x = @ac_cv_have_x@
+ac_cv_header_objc_objc_h = @ac_cv_header_objc_objc_h@
+ac_cv_objc_compiler_gnu = @ac_cv_objc_compiler_gnu@
+ac_x_includes = @ac_x_includes@
+ac_x_libraries = @ac_x_libraries@
 am__include = @am__include@
 am__leading_dot = @am__leading_dot@
 am__quote = @am__quote@
@@ -468,6 +561,7 @@ datarootdir = @datarootdir@
 docdir = @docdir@
 dvidir = @dvidir@
 exec_prefix = @exec_prefix@
+have_x = @have_x@
 host = @host@
 host_alias = @host_alias@
 host_cpu = @host_cpu@
@@ -483,6 +577,7 @@ localedir = @localedir@
 localstatedir = @localstatedir@
 mandir = @mandir@
 mkdir_p = @mkdir_p@
+no_x = @no_x@
 oldincludedir = @oldincludedir@
 pdfdir = @pdfdir@
 prefix = @prefix@
@@ -500,7 +595,10 @@ target_vendor = @target_vendor@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
+with_x = @with_x@
 wolf_cv_clang = @wolf_cv_clang@
+x_includes = @x_includes@
+x_libraries = @x_libraries@
 ACLOCAL_AMFLAGS = -I m4 --install
 
 #
@@ -541,94 +639,67 @@ ASAN_SYMBOLIZER_PATH = $(LLVM_SYMBOLIZER)
 @WOLF_OLD_BUILD_TRUE@EXEBASE = wolf3dredux
 @WOLF_OLD_BUILD_TRUE@EXE = $(ODIR)/$(EXEBASE)
 SUBDIRS = $(LIBOBJDIR) .
-wolf3dredux_SOURCES = client/client_input.c \
-                      client/client_main.c \
-                      client/client_screen.c \
-                      client/console.c \
-                      client/keys.c \
-                      client/menu_conf.c \
-                      common/arch.c \
-                      common/cmd.c \
-                      common/common.c \
-                      common/cvar.c \
-                      common/share.c \
-                      common/ttree.c \
-                      device/cpu/cpuid.c \
-                      device/filesys/fileio.c \
-                      device/filesys/files.c \
-                      device/filesys/filestring.c \
-                      device/filesys/zippak.c \
-                      device/filesys/unix/unix_file.c \
-                      device/filesys/unix/glob.c \
-                      device/input/in_view.c \
-                      device/input/unix/unix_keys.c \
-                      device/input/unix/unix_mouse.c \
-                      device/input/unix/unix_joystick.c \
-                      device/system/system.c \
-                      device/system/unix/unix_system.c \
-                      device/timer/unix/unix_timer.c \
-                      font/font_manager.c \
-                      loaders/tga.c \
-                      loaders/wav.c \
-                      math/angle.c \
-                      math/math.c \
-                      math/matrix.c \
-                      math/random_number.c \
-                      math/vector.c \
-                      memory/memory.c \
-                      memory/zmem.c \
-                      script/script.c \
-                      sound/sound.c \
-                      sound/sound_sfx_id.c \
-                      sound/sound_stream.c \
-                      sound/openal/openal_binding.c \
-                      sound/openal/openal_main.c \
-                      string/com_string.c \
-                      unix/unix_main.c \
-                      unix/unix_vid_sys.c \
-                      video/texture_manager.c \
-                      video/opengl/opengl_binding.c \
-                      video/opengl/opengl_draw.c \
-                      video/opengl/opengl_extension.c \
-                      video/opengl/opengl_main.c \
-                      video/opengl/opengl_texture.c \
-                      video/opengl/unix/openglw_imp.c \
-                      zlib/adler32.c \
-                      zlib/crc32.c \
-                      zlib/inffast.c \
-                      zlib/inflate.c \
-                      zlib/inftrees.c \
-                      zlib/zutil.c \
-                      game/wolf3d/wolf_main.c \
-                      game/wolf3d/client/wolf_client_main.c \
-                      game/wolf3d/client/wolf_sv_ccmds.c \
-                      game/wolf3d/common/wolf_common.c \
-                      game/wolf3d/entities/wolf_actor_ai.c \
-                      game/wolf3d/entities/wolf_actors.c \
-                      game/wolf3d/entities/wolf_ai_com.c \
-                      game/wolf3d/entities/wolf_bj.c \
-                      game/wolf3d/entities/wolf_player.c \
-                      game/wolf3d/entities/wolf_powerups.c \
-                      game/wolf3d/entities/wolf_sprites.c \
-                      game/wolf3d/entities/wolf_weapon.c \
-                      game/wolf3d/level/wolf_areas.c \
-                      game/wolf3d/level/wolf_doors.c \
-                      game/wolf3d/level/wolf_level.c \
-                      game/wolf3d/level/wolf_pushwalls.c \
-                      game/wolf3d/math/wolf_math.c \
-                      game/wolf3d/menu/wolf_mcredits.c \
-                      game/wolf3d/menu/wolf_menu.c \
-                      game/wolf3d/menu/wolf_mintermission.c \
-                      game/wolf3d/menu/wolf_mintro.c \
-                      game/wolf3d/menu/wolf_mnewgame.c \
-                      game/wolf3d/menu/wolf_moptions.c \
-                      game/wolf3d/menu/wolf_mquit.c \
-                      game/wolf3d/menu/wolf_msound.c \
-                      game/wolf3d/menu/wolf_mvideo.c \
-                      game/wolf3d/script/episode.c \
-                      game/wolf3d/video/wolf_raycast.c \
-                      game/wolf3d/video/wolf_renderer.c \
-                      game/wolf3d/video/opengl/wolf_opengl.c
+wolf3dredux_SOURCES = client/client_input.c client/client_main.c \
+	client/client_screen.c client/console.c client/keys.c \
+	client/menu_conf.c common/arch.c common/cmd.c common/common.c \
+	common/cvar.c common/share.c common/ttree.c device/cpu/cpuid.c \
+	device/filesys/fileio.c device/filesys/files.c \
+	device/filesys/filestring.c device/filesys/zippak.c \
+	device/filesys/unix/unix_file.c device/filesys/unix/glob.c \
+	device/input/in_view.c device/input/unix/unix_keys.c \
+	device/input/unix/unix_mouse.c \
+	device/input/unix/unix_joystick.c device/system/system.c \
+	device/system/unix/unix_system.c \
+	device/timer/unix/unix_timer.c font/font_manager.c \
+	loaders/tga.c loaders/wav.c math/angle.c math/math.c \
+	math/matrix.c math/random_number.c math/vector.c \
+	memory/memory.c memory/zmem.c script/script.c sound/sound.c \
+	sound/sound_sfx_id.c sound/sound_stream.c \
+	sound/openal/openal_binding.c sound/openal/openal_main.c \
+	string/com_string.c unix/unix_main.c unix/unix_vid_sys.c \
+	video/texture_manager.c video/opengl/opengl_binding.c \
+	video/opengl/opengl_draw.c video/opengl/opengl_extension.c \
+	video/opengl/opengl_main.c video/opengl/opengl_texture.c \
+	video/opengl/unix/openglw_imp.c zlib/adler32.c zlib/crc32.c \
+	zlib/inffast.c zlib/inflate.c zlib/inftrees.c zlib/zutil.c \
+	game/wolf3d/wolf_main.c game/wolf3d/client/wolf_client_main.c \
+	game/wolf3d/client/wolf_sv_ccmds.c \
+	game/wolf3d/common/wolf_common.c \
+	game/wolf3d/entities/wolf_actor_ai.c \
+	game/wolf3d/entities/wolf_actors.c \
+	game/wolf3d/entities/wolf_ai_com.c \
+	game/wolf3d/entities/wolf_bj.c \
+	game/wolf3d/entities/wolf_player.c \
+	game/wolf3d/entities/wolf_powerups.c \
+	game/wolf3d/entities/wolf_sprites.c \
+	game/wolf3d/entities/wolf_weapon.c \
+	game/wolf3d/level/wolf_areas.c game/wolf3d/level/wolf_doors.c \
+	game/wolf3d/level/wolf_level.c \
+	game/wolf3d/level/wolf_pushwalls.c \
+	game/wolf3d/math/wolf_math.c game/wolf3d/menu/wolf_mcredits.c \
+	game/wolf3d/menu/wolf_menu.c \
+	game/wolf3d/menu/wolf_mintermission.c \
+	game/wolf3d/menu/wolf_mintro.c \
+	game/wolf3d/menu/wolf_mnewgame.c \
+	game/wolf3d/menu/wolf_moptions.c game/wolf3d/menu/wolf_mquit.c \
+	game/wolf3d/menu/wolf_msound.c game/wolf3d/menu/wolf_mvideo.c \
+	game/wolf3d/script/episode.c game/wolf3d/video/wolf_raycast.c \
+	game/wolf3d/video/wolf_renderer.c \
+	game/wolf3d/video/opengl/wolf_opengl.c $(am__append_1) \
+	$(am__append_2)
+# Building Objective C sources requires linking agains frameworks:
+@BUILD_OBJC_SOURCES_TRUE@AM_OBJCLDFLAGS = -framework Cocoa
+# override these two to avoid the "unable to infer tagged configuration"
+# libtool error that comes from mixing C and Objective C:
+@BUILD_OBJC_SOURCES_TRUE@LTOBJCCOMPILE = $(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) \
+@BUILD_OBJC_SOURCES_TRUE@	$(LIBTOOLFLAGS) --mode=compile $(OBJC) $(DEFS) \
+@BUILD_OBJC_SOURCES_TRUE@	$(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) \
+@BUILD_OBJC_SOURCES_TRUE@	$(AM_OBJCFLAGS) $(OBJCFLAGS)
+
+@BUILD_OBJC_SOURCES_TRUE@OBJCLINK = $(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) \
+@BUILD_OBJC_SOURCES_TRUE@	$(LIBTOOLFLAGS) --mode=link $(OBJCLD) $(AM_OBJCFLAGS)  \
+@BUILD_OBJC_SOURCES_TRUE@	$(OBJCFLAGS) $(AM_LDFLAGS) $(LDFLAGS) $(AM_OBJCLDFLAGS) \
+@BUILD_OBJC_SOURCES_TRUE@	$(OBJCLDFLAGS) -o $@
 
 wolf3dredux_LDADD = $(LIBOBJDIR)libgnu.a
 EXTRA_wolf3dredux_DEPENDENCIES = $(LIBOBJDIR)libgnu.a
@@ -743,7 +814,7 @@ all: config.h
 	$(MAKE) $(AM_MAKEFLAGS) all-recursive
 
 .SUFFIXES:
-.SUFFIXES: .c .lo .o .obj
+.SUFFIXES: .c .lo .m .o .obj
 am--refresh: Makefile
 	@:
 $(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ $(srcdir)/Makefile.am  $(am__configure_deps)
@@ -1359,10 +1430,43 @@ game/wolf3d/video/opengl/$(DEPDIR)/$(am__dirstamp):
 game/wolf3d/video/opengl/wolf_opengl.$(OBJEXT):  \
 	game/wolf3d/video/opengl/$(am__dirstamp) \
 	game/wolf3d/video/opengl/$(DEPDIR)/$(am__dirstamp)
+unix/clipboard/X11/$(am__dirstamp):
+	@$(MKDIR_P) unix/clipboard/X11
+	@: > unix/clipboard/X11/$(am__dirstamp)
+unix/clipboard/X11/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) unix/clipboard/X11/$(DEPDIR)
+	@: > unix/clipboard/X11/$(DEPDIR)/$(am__dirstamp)
+unix/clipboard/X11/X11Clipboard.$(OBJEXT):  \
+	unix/clipboard/X11/$(am__dirstamp) \
+	unix/clipboard/X11/$(DEPDIR)/$(am__dirstamp)
+unix/clipboard/OSX/$(am__dirstamp):
+	@$(MKDIR_P) unix/clipboard/OSX
+	@: > unix/clipboard/OSX/$(am__dirstamp)
+unix/clipboard/OSX/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) unix/clipboard/OSX/$(DEPDIR)
+	@: > unix/clipboard/OSX/$(DEPDIR)/$(am__dirstamp)
+unix/clipboard/OSX/OSXClipboard.$(OBJEXT):  \
+	unix/clipboard/OSX/$(am__dirstamp) \
+	unix/clipboard/OSX/$(DEPDIR)/$(am__dirstamp)
+unix/clipboard/OSX/ASCIIString.$(OBJEXT):  \
+	unix/clipboard/OSX/$(am__dirstamp) \
+	unix/clipboard/OSX/$(DEPDIR)/$(am__dirstamp)
+unix/clipboard/OSX/HexAndASCIIString.$(OBJEXT):  \
+	unix/clipboard/OSX/$(am__dirstamp) \
+	unix/clipboard/OSX/$(DEPDIR)/$(am__dirstamp)
+unix/clipboard/OSX/HexString.$(OBJEXT):  \
+	unix/clipboard/OSX/$(am__dirstamp) \
+	unix/clipboard/OSX/$(DEPDIR)/$(am__dirstamp)
+unix/clipboard/OSX/LazyDataTextStorage.$(OBJEXT):  \
+	unix/clipboard/OSX/$(am__dirstamp) \
+	unix/clipboard/OSX/$(DEPDIR)/$(am__dirstamp)
+unix/clipboard/OSX/PasteboardTypeTransformer.$(OBJEXT):  \
+	unix/clipboard/OSX/$(am__dirstamp) \
+	unix/clipboard/OSX/$(DEPDIR)/$(am__dirstamp)
 
 wolf3dredux$(EXEEXT): $(wolf3dredux_OBJECTS) $(wolf3dredux_DEPENDENCIES) $(EXTRA_wolf3dredux_DEPENDENCIES) 
 	@rm -f wolf3dredux$(EXEEXT)
-	$(AM_V_CCLD)$(LINK) $(wolf3dredux_OBJECTS) $(wolf3dredux_LDADD) $(LIBS)
+	$(AM_V_OBJCLD)$(OBJCLINK) $(wolf3dredux_OBJECTS) $(wolf3dredux_LDADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
@@ -1401,6 +1505,8 @@ mostlyclean-compile:
 	-rm -f tools/gamepal/*.$(OBJEXT)
 	-rm -f tools/signon/*.$(OBJEXT)
 	-rm -f unix/*.$(OBJEXT)
+	-rm -f unix/clipboard/OSX/*.$(OBJEXT)
+	-rm -f unix/clipboard/X11/*.$(OBJEXT)
 	-rm -f video/*.$(OBJEXT)
 	-rm -f video/opengl/*.$(OBJEXT)
 	-rm -f video/opengl/unix/*.$(OBJEXT)
@@ -1496,6 +1602,13 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@tools/signon/$(DEPDIR)/wolf_pal.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unix/$(DEPDIR)/unix_main.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unix/$(DEPDIR)/unix_vid_sys.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@unix/clipboard/OSX/$(DEPDIR)/ASCIIString.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@unix/clipboard/OSX/$(DEPDIR)/HexAndASCIIString.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@unix/clipboard/OSX/$(DEPDIR)/HexString.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@unix/clipboard/OSX/$(DEPDIR)/LazyDataTextStorage.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@unix/clipboard/OSX/$(DEPDIR)/OSXClipboard.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@unix/clipboard/OSX/$(DEPDIR)/PasteboardTypeTransformer.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@unix/clipboard/X11/$(DEPDIR)/X11Clipboard.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@video/$(DEPDIR)/texture_manager.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@video/opengl/$(DEPDIR)/opengl_binding.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@video/opengl/$(DEPDIR)/opengl_draw.Po@am__quote@
@@ -1536,6 +1649,30 @@ distclean-compile:
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='$<' object='$@' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LTCOMPILE) -c -o $@ $<
+
+.m.o:
+@am__fastdepOBJC_TRUE@	$(AM_V_OBJC)depbase=`echo $@ | sed 's|[^/]*$$|$(DEPDIR)/&|;s|\.o$$||'`;\
+@am__fastdepOBJC_TRUE@	$(OBJCCOMPILE) -MT $@ -MD -MP -MF $$depbase.Tpo -c -o $@ $< &&\
+@am__fastdepOBJC_TRUE@	$(am__mv) $$depbase.Tpo $$depbase.Po
+@AMDEP_TRUE@@am__fastdepOBJC_FALSE@	$(AM_V_OBJC)source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepOBJC_FALSE@	DEPDIR=$(DEPDIR) $(OBJCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepOBJC_FALSE@	$(AM_V_OBJC@am__nodep@)$(OBJCCOMPILE) -c -o $@ $<
+
+.m.obj:
+@am__fastdepOBJC_TRUE@	$(AM_V_OBJC)depbase=`echo $@ | sed 's|[^/]*$$|$(DEPDIR)/&|;s|\.obj$$||'`;\
+@am__fastdepOBJC_TRUE@	$(OBJCCOMPILE) -MT $@ -MD -MP -MF $$depbase.Tpo -c -o $@ `$(CYGPATH_W) '$<'` &&\
+@am__fastdepOBJC_TRUE@	$(am__mv) $$depbase.Tpo $$depbase.Po
+@AMDEP_TRUE@@am__fastdepOBJC_FALSE@	$(AM_V_OBJC)source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepOBJC_FALSE@	DEPDIR=$(DEPDIR) $(OBJCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepOBJC_FALSE@	$(AM_V_OBJC@am__nodep@)$(OBJCCOMPILE) -c -o $@ `$(CYGPATH_W) '$<'`
+
+.m.lo:
+@am__fastdepOBJC_TRUE@	$(AM_V_OBJC)depbase=`echo $@ | sed 's|[^/]*$$|$(DEPDIR)/&|;s|\.lo$$||'`;\
+@am__fastdepOBJC_TRUE@	$(LTOBJCCOMPILE) -MT $@ -MD -MP -MF $$depbase.Tpo -c -o $@ $< &&\
+@am__fastdepOBJC_TRUE@	$(am__mv) $$depbase.Tpo $$depbase.Plo
+@AMDEP_TRUE@@am__fastdepOBJC_FALSE@	$(AM_V_OBJC)source='$<' object='$@' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepOBJC_FALSE@	DEPDIR=$(DEPDIR) $(OBJCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepOBJC_FALSE@	$(AM_V_OBJC@am__nodep@)$(LTOBJCCOMPILE) -c -o $@ $<
 
 mostlyclean-libtool:
 	-rm -f *.lo
@@ -1944,6 +2081,10 @@ distclean-generic:
 	-rm -f tools/signon/$(am__dirstamp)
 	-rm -f unix/$(DEPDIR)/$(am__dirstamp)
 	-rm -f unix/$(am__dirstamp)
+	-rm -f unix/clipboard/OSX/$(DEPDIR)/$(am__dirstamp)
+	-rm -f unix/clipboard/OSX/$(am__dirstamp)
+	-rm -f unix/clipboard/X11/$(DEPDIR)/$(am__dirstamp)
+	-rm -f unix/clipboard/X11/$(am__dirstamp)
 	-rm -f video/$(DEPDIR)/$(am__dirstamp)
 	-rm -f video/$(am__dirstamp)
 	-rm -f video/opengl/$(DEPDIR)/$(am__dirstamp)
@@ -1969,7 +2110,7 @@ clean-am: clean-binPROGRAMS clean-generic clean-libtool clean-local \
 
 distclean: distclean-recursive
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
-	-rm -rf client/$(DEPDIR) common/$(DEPDIR) device/cpu/$(DEPDIR) device/filesys/$(DEPDIR) device/filesys/unix/$(DEPDIR) device/filesys/win32/$(DEPDIR) device/input/$(DEPDIR) device/input/unix/$(DEPDIR) device/input/win32/$(DEPDIR) device/system/$(DEPDIR) device/system/unix/$(DEPDIR) device/system/win32/$(DEPDIR) device/timer/unix/$(DEPDIR) device/timer/win32/$(DEPDIR) font/$(DEPDIR) game/wolf3d/$(DEPDIR) game/wolf3d/client/$(DEPDIR) game/wolf3d/common/$(DEPDIR) game/wolf3d/entities/$(DEPDIR) game/wolf3d/level/$(DEPDIR) game/wolf3d/math/$(DEPDIR) game/wolf3d/menu/$(DEPDIR) game/wolf3d/script/$(DEPDIR) game/wolf3d/video/$(DEPDIR) game/wolf3d/video/opengl/$(DEPDIR) loaders/$(DEPDIR) math/$(DEPDIR) memory/$(DEPDIR) script/$(DEPDIR) sound/$(DEPDIR) sound/openal/$(DEPDIR) string/$(DEPDIR) tools/gamepal/$(DEPDIR) tools/signon/$(DEPDIR) unix/$(DEPDIR) video/$(DEPDIR) video/opengl/$(DEPDIR) video/opengl/unix/$(DEPDIR) video/opengl/win32/$(DEPDIR) win32/$(DEPDIR) zlib/$(DEPDIR)
+	-rm -rf client/$(DEPDIR) common/$(DEPDIR) device/cpu/$(DEPDIR) device/filesys/$(DEPDIR) device/filesys/unix/$(DEPDIR) device/filesys/win32/$(DEPDIR) device/input/$(DEPDIR) device/input/unix/$(DEPDIR) device/input/win32/$(DEPDIR) device/system/$(DEPDIR) device/system/unix/$(DEPDIR) device/system/win32/$(DEPDIR) device/timer/unix/$(DEPDIR) device/timer/win32/$(DEPDIR) font/$(DEPDIR) game/wolf3d/$(DEPDIR) game/wolf3d/client/$(DEPDIR) game/wolf3d/common/$(DEPDIR) game/wolf3d/entities/$(DEPDIR) game/wolf3d/level/$(DEPDIR) game/wolf3d/math/$(DEPDIR) game/wolf3d/menu/$(DEPDIR) game/wolf3d/script/$(DEPDIR) game/wolf3d/video/$(DEPDIR) game/wolf3d/video/opengl/$(DEPDIR) loaders/$(DEPDIR) math/$(DEPDIR) memory/$(DEPDIR) script/$(DEPDIR) sound/$(DEPDIR) sound/openal/$(DEPDIR) string/$(DEPDIR) tools/gamepal/$(DEPDIR) tools/signon/$(DEPDIR) unix/$(DEPDIR) unix/clipboard/OSX/$(DEPDIR) unix/clipboard/X11/$(DEPDIR) video/$(DEPDIR) video/opengl/$(DEPDIR) video/opengl/unix/$(DEPDIR) video/opengl/win32/$(DEPDIR) win32/$(DEPDIR) zlib/$(DEPDIR)
 	-rm -f Makefile
 distclean-am: clean-am distclean-compile distclean-generic \
 	distclean-hdr distclean-libtool distclean-local distclean-tags
@@ -2017,7 +2158,7 @@ installcheck-am:
 maintainer-clean: maintainer-clean-recursive
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
 	-rm -rf $(top_srcdir)/autom4te.cache
-	-rm -rf client/$(DEPDIR) common/$(DEPDIR) device/cpu/$(DEPDIR) device/filesys/$(DEPDIR) device/filesys/unix/$(DEPDIR) device/filesys/win32/$(DEPDIR) device/input/$(DEPDIR) device/input/unix/$(DEPDIR) device/input/win32/$(DEPDIR) device/system/$(DEPDIR) device/system/unix/$(DEPDIR) device/system/win32/$(DEPDIR) device/timer/unix/$(DEPDIR) device/timer/win32/$(DEPDIR) font/$(DEPDIR) game/wolf3d/$(DEPDIR) game/wolf3d/client/$(DEPDIR) game/wolf3d/common/$(DEPDIR) game/wolf3d/entities/$(DEPDIR) game/wolf3d/level/$(DEPDIR) game/wolf3d/math/$(DEPDIR) game/wolf3d/menu/$(DEPDIR) game/wolf3d/script/$(DEPDIR) game/wolf3d/video/$(DEPDIR) game/wolf3d/video/opengl/$(DEPDIR) loaders/$(DEPDIR) math/$(DEPDIR) memory/$(DEPDIR) script/$(DEPDIR) sound/$(DEPDIR) sound/openal/$(DEPDIR) string/$(DEPDIR) tools/gamepal/$(DEPDIR) tools/signon/$(DEPDIR) unix/$(DEPDIR) video/$(DEPDIR) video/opengl/$(DEPDIR) video/opengl/unix/$(DEPDIR) video/opengl/win32/$(DEPDIR) win32/$(DEPDIR) zlib/$(DEPDIR)
+	-rm -rf client/$(DEPDIR) common/$(DEPDIR) device/cpu/$(DEPDIR) device/filesys/$(DEPDIR) device/filesys/unix/$(DEPDIR) device/filesys/win32/$(DEPDIR) device/input/$(DEPDIR) device/input/unix/$(DEPDIR) device/input/win32/$(DEPDIR) device/system/$(DEPDIR) device/system/unix/$(DEPDIR) device/system/win32/$(DEPDIR) device/timer/unix/$(DEPDIR) device/timer/win32/$(DEPDIR) font/$(DEPDIR) game/wolf3d/$(DEPDIR) game/wolf3d/client/$(DEPDIR) game/wolf3d/common/$(DEPDIR) game/wolf3d/entities/$(DEPDIR) game/wolf3d/level/$(DEPDIR) game/wolf3d/math/$(DEPDIR) game/wolf3d/menu/$(DEPDIR) game/wolf3d/script/$(DEPDIR) game/wolf3d/video/$(DEPDIR) game/wolf3d/video/opengl/$(DEPDIR) loaders/$(DEPDIR) math/$(DEPDIR) memory/$(DEPDIR) script/$(DEPDIR) sound/$(DEPDIR) sound/openal/$(DEPDIR) string/$(DEPDIR) tools/gamepal/$(DEPDIR) tools/signon/$(DEPDIR) unix/$(DEPDIR) unix/clipboard/OSX/$(DEPDIR) unix/clipboard/X11/$(DEPDIR) video/$(DEPDIR) video/opengl/$(DEPDIR) video/opengl/unix/$(DEPDIR) video/opengl/win32/$(DEPDIR) win32/$(DEPDIR) zlib/$(DEPDIR)
 	-rm -f Makefile
 maintainer-clean-am: distclean-am maintainer-clean-generic
 

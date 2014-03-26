@@ -1,8 +1,15 @@
 /*
- * Prefix header for all source files of the 'Clipboard Viewer' target in
- * the 'ClipboardViewer' project.
+ * Should be the prefix header for all source files of the OSX clipboard code
  */
 
-#import <AppKit/AppKit.h>
+#if defined(__GNUC__) && !defined(__STRICT_ANSI__)
+# import <AppKit/NSPasteboard.h>
+# import <AppKit/NSPasteboardItem.h>
+# import <Cocoa/Cocoa.h>
+#else
+# include <AppKit/NSPasteboard.h>
+# include <AppKit/NSPasteboardItem.h>
+# include <Cocoa/Cocoa.h>
+#endif /* __GNUC__ && !__STRICT_ANSI__ */
 
 /* EOF */

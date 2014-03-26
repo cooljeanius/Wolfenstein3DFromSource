@@ -119,11 +119,11 @@
  * sure that these are never called...
  */
 - (void)replaceCharactersInRange:(NSRange)range withString:(NSString *)str {
-    NSLog (@"Attempt to edit characters!");
+    NSLog(@"Attempt to edit characters!");
 }
 
 - (void)setAttributes:(NSDictionary *)attrs range:(NSRange)range {
-    NSLog (@"Attempt to edit attributes!");
+    NSLog(@"Attempt to edit attributes!");
 }
 
 /* Do nothing; because we are not editable, no need to try to fix (and, in fact,

@@ -14,8 +14,13 @@
 
 /* this conditional is only to prevent conflicting symbols when building from
  * Xcode: */
-#ifndef __APPLE__
+#ifdef __APPLE__
+# ifndef X_DISPLAY_MISSING
+#  define X_DISPLAY_MISSING 1
+# endif /* !X_DISPLAY_MISSING */
+#endif /* __APPLE__ */
 /* (TODO: allow building against X11 on Apple platforms) */
+#ifndef X_DISPLAY_MISSING
 _boolean clipboardIsOpen;
 
 PUBLIC _boolean OpenClipboard(char *ptr)
@@ -44,6 +49,6 @@ PUBLIC void GlobalUnlockClipboardData(void *data)
 {
 	return;
 }
-#endif /* !__APPLE__ */
+#endif /* !X_DISPLAY_MISSING */
 
 /* EOF */

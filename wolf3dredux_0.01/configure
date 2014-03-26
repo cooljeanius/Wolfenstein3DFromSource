@@ -643,6 +643,16 @@ X_EXTRA_LIBS
 X_LIBS
 X_PRE_LIBS
 X_CFLAGS
+BUILD_X11_SOURCES_FALSE
+BUILD_X11_SOURCES_TRUE
+ac_x_libraries
+ac_x_includes
+x_libraries
+x_includes
+no_x
+ac_cv_have_x
+have_x
+with_x
 XMKMF
 VORBISENC_LIBS
 VORBISFILE_LIBS
@@ -679,7 +689,11 @@ wolf_cv_clang
 LLVM_SYMBOLIZER
 SCAN_BUILD
 GLXINFO
+BUILD_OBJC_SOURCES_FALSE
+BUILD_OBJC_SOURCES_TRUE
+ac_cv_header_objc_objc_h
 OBJCPP
+ac_cv_objc_compiler_gnu
 am__fastdepOBJC_FALSE
 am__fastdepOBJC_TRUE
 OBJCDEPMODE
@@ -6708,6 +6722,7 @@ else
 fi
 
 
+
 if test "x${ac_cv_objc_compiler_gnu}" = "xyes"; then
   test -x `which cpp`
   ac_ext=m
@@ -6843,7 +6858,28 @@ ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
 ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
 ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
+  for ac_header in objc/objc.h
+do :
+  ac_fn_c_check_header_mongrel "$LINENO" "objc/objc.h" "ac_cv_header_objc_objc_h" "$ac_includes_default"
+if test "x$ac_cv_header_objc_objc_h" = xyes; then :
+  cat >>confdefs.h <<_ACEOF
+#define HAVE_OBJC_OBJC_H 1
+_ACEOF
+
 fi
+
+done
+
+
+fi
+ if test "x${ac_cv_objc_compiler_gnu}" = "xyes" -a "x${OBJCPP}" != "x" -a "x${ac_cv_header_objc_objc_h}" = "xyes"; then
+  BUILD_OBJC_SOURCES_TRUE=
+  BUILD_OBJC_SOURCES_FALSE='#'
+else
+  BUILD_OBJC_SOURCES_TRUE='#'
+  BUILD_OBJC_SOURCES_FALSE=
+fi
+
 
 
 # Extract the first word of "glxinfo", so it can be a program name with args.
@@ -17622,6 +17658,7 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 
 
+
 # Checks for libraries.
 
 
@@ -19325,6 +19362,22 @@ else
 $as_echo "libraries $x_libraries, headers $x_includes" >&6; }
 fi
 
+
+
+
+
+
+
+
+
+ if test "x${no_x}" != "xyes" -a "x${have_x}" = "xyes" -a "x${with_x}" != "xno"; then
+  BUILD_X11_SOURCES_TRUE=
+  BUILD_X11_SOURCES_FALSE='#'
+else
+  BUILD_X11_SOURCES_TRUE='#'
+  BUILD_X11_SOURCES_FALSE=
+fi
+
 if test "$no_x" = yes; then
   # Not all programs may use this symbol, but it does not hurt to define it.
 
@@ -20059,7 +20112,7 @@ for ac_header in alloc.h assert.h bits/libc-lock.h crtdefs.h ctype.h \
                   dmalloc.h endian.h errno.h excpt.h fcntl.h float.h \
                   io.h libintl.h libio/iolibio.h libio/libioP.h limits.h \
                   mach/mach.h mach/vm_param.h malloc.h malloc/malloc.h \
-                  math.h memcopy.h mmsystem.h objc/objc.h search.h \
+                  math.h memcopy.h mmsystem.h search.h \
                   setjmp.h signal.h stdarg.h stddef.h stdio.h \
                   sys/gmon.h sys/malloc.h sys/mount.h sys/param.h \
                   sys/socket.h sys/sysctl.h sys/syslimits.h sys/time.h \
@@ -23024,8 +23077,16 @@ if test -z "${am__fastdepOBJC_TRUE}" && test -z "${am__fastdepOBJC_FALSE}"; then
   as_fn_error $? "conditional \"am__fastdepOBJC\" was never defined.
 Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
+if test -z "${BUILD_OBJC_SOURCES_TRUE}" && test -z "${BUILD_OBJC_SOURCES_FALSE}"; then
+  as_fn_error $? "conditional \"BUILD_OBJC_SOURCES\" was never defined.
+Usually this means the macro was only invoked conditionally." "$LINENO" 5
+fi
 if test -z "${CLANG_RULES_TRUE}" && test -z "${CLANG_RULES_FALSE}"; then
   as_fn_error $? "conditional \"CLANG_RULES\" was never defined.
+Usually this means the macro was only invoked conditionally." "$LINENO" 5
+fi
+if test -z "${BUILD_X11_SOURCES_TRUE}" && test -z "${BUILD_X11_SOURCES_FALSE}"; then
+  as_fn_error $? "conditional \"BUILD_X11_SOURCES\" was never defined.
 Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
 

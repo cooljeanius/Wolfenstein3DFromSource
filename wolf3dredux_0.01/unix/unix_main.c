@@ -180,6 +180,8 @@ char *Sys_ConsoleInput(void)
 	int	dummy;
 	int	ch, numread, numevents;
 
+	recs = (void *)NULL; /* TODO: actually initialize properly */
+
 	dummy = 0;
 	ch = 0;
 	numread = 0;
@@ -279,10 +281,11 @@ void Sys_SendKeyEvents(void)
         Caller is responsible for freeing data.
 -----------------------------------------------------------------------------
 */
-#if defined(__APPLE__) && defined(__OBJC__)
-# include "clipboard/OSXClipboard.h"
+/* uncomment the '&& 0' to test the other half of the conditional: */
+#if defined(__APPLE__) && defined(__OBJC__) /* && 0 */
+# include "clipboard/OSX/OSXClipboard.h"
 #elif defined(__unix__) || defined(__linux__) || defined(__FreeBSD__)
-# include "clipboard/X11Clipboard.h"
+# include "clipboard/X11/X11Clipboard.h"
 #else /* just put the prototypes here: */
 extern _boolean OpenClipboard(char *);
 extern _boolean CloseClipboard(void);

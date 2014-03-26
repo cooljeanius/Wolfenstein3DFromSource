@@ -70,11 +70,15 @@ AC_PROG_CC_C99
 AC_PROG_CPP
 AC_PROG_CXX
 AC_PROG_OBJC
-dnl# only do test for OBJCPP if the OBJC test was successful:
+AC_SUBST([ac_cv_objc_compiler_gnu])
+dnl# only do test for Objective C things if the OBJC test was successful:
 if test "x${ac_cv_objc_compiler_gnu}" = "xyes"; then
   test -x `which cpp`
   AC_PROG_OBJCPP
+  AC_CHECK_HEADERS([objc/objc.h])
+  AC_SUBST([ac_cv_header_objc_objc_h])
 fi
+AM_CONDITIONAL([BUILD_OBJC_SOURCES],[test "x${ac_cv_objc_compiler_gnu}" = "xyes" -a "x${OBJCPP}" != "x" -a "x${ac_cv_header_objc_objc_h}" = "xyes"])
 AC_PROG_INSTALL
 AC_PROG_MKDIR_P
 AC_PATH_PROG([GLXINFO],[glxinfo],[:],[${PATH}:/opt/local/bin])
@@ -103,6 +107,7 @@ AM_CONDITIONAL([CLANG_RULES],[test "x${wolf_cv_clang}" = "xyes"])
 
 # libtool
 LT_INIT([win32-dll dlopen])
+LT_LANG([C])
 
 # Checks for libraries.
 PKG_CHECK_MODULES([MESA],[
@@ -145,6 +150,17 @@ AC_HEADER_STAT
 AC_HEADER_STDBOOL dnl# also "_CHECK"s it
 AC_HEADER_TIME
 AC_PATH_X
+AC_SUBST([with_x])
+AC_SUBST([have_x])
+AC_SUBST([ac_cv_have_x])
+AC_SUBST([no_x])
+AC_SUBST([x_includes])
+AC_SUBST([x_libraries])
+AC_SUBST([ac_x_includes])
+AC_SUBST([ac_x_libraries])
+AM_CONDITIONAL([BUILD_X11_SOURCES],[test "x${no_x}" != "xyes" -a "x${have_x}" = "xyes" -a "x${with_x}" != "xno"])
+dnl# TODO: use same condition for BUILD_X11_SOURCES to determine whether
+dnl# to do other X11-related tests in other sections...
 AC_PATH_XTRA
 m4_foreach_w([my_GL_header],[gl.h glu.h glext.h glx.h],[
   # The "<GL/>" directory is where they should be, so check that first:
@@ -169,7 +185,7 @@ AC_CHECK_HEADERS([alloc.h assert.h bits/libc-lock.h crtdefs.h ctype.h \
                   dmalloc.h endian.h errno.h excpt.h fcntl.h float.h \
                   io.h libintl.h libio/iolibio.h libio/libioP.h limits.h \
                   mach/mach.h mach/vm_param.h malloc.h malloc/malloc.h \
-                  math.h memcopy.h mmsystem.h objc/objc.h search.h \
+                  math.h memcopy.h mmsystem.h search.h \
                   setjmp.h signal.h stdarg.h stddef.h stdio.h \
                   sys/gmon.h sys/malloc.h sys/mount.h sys/param.h \
                   sys/socket.h sys/sysctl.h sys/syslimits.h sys/time.h \

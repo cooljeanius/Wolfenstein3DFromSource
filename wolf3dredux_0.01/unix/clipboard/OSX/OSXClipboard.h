@@ -7,6 +7,9 @@
  *
  *  Some of this code is adapted from Apple's ClipboardViewer sample code,
  *  which is copyright (C) 2012 Apple Inc.
+ *
+ *  License: not sure if GPL-2+, like the rest of the code, or APSL(-2+(?))
+ *  because of the Apple sample code included?
  */
 
 #ifndef __OSXCLIPBOARD_H__
@@ -34,6 +37,8 @@
 
 	BOOL clipboardIsOpen;
 }
+@property(readonly, retain) NSPasteboard *whichPboard;
+@property(readonly, retain) NSArray *types;
 
 /* prototypes: */
 extern BOOL OpenClipboard(char *ptr);

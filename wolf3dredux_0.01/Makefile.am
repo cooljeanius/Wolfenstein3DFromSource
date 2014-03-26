@@ -16,6 +16,7 @@ AM_WARNFLAGS = $(WARNFLAGS_COMMON) -Wsign-compare -Wunknown-pragmas
 CFLAGS_COMMON = -ffast-math -funroll-loops
 AM_CFLAGS = $(AM_WARNFLAGS) $(CFLAGS_COMMON)
 AM_CPPFLAGS = -I. -I/usr/X11R6/include
+AM_LDFLAGS = -L. -L$(LIBOBJDIR)
 
 GLXINFO = @GLXINFO@
 SCAN_BUILD = @SCAN_BUILD@
@@ -23,7 +24,10 @@ LLVM_SYMBOLIZER = @LLVM_SYMBOLIZER@
 ASAN_SYMBOLIZER_PATH = $(LLVM_SYMBOLIZER)
 
 if CLANG_RULES
+## TODO: instead of hardcoding this, detect a valid version of clang:
 COMPILER = /opt/local/libexec/llvm-3.3/bin/clang
+## TODO: use all these flags normally, instead of just when building the
+## 'analyze' target:
 DIAGFLAGS = -fcolor-diagnostics -fdiagnostics-print-source-range-info -fdiagnostics-show-note-include-stack -fdiagnostics-show-option
 WARNFLAGS = $(WARNFLAGS_COMMON) -Wunused-function -Wunused-label -Wunused-parameter -Wunused-variable -Wshorten-64-to-32
 # (cannot sanitize both thread and address at the same time)
@@ -153,6 +157,34 @@ wolf3dredux_SOURCES = client/client_input.c \
                       game/wolf3d/video/wolf_raycast.c \
                       game/wolf3d/video/wolf_renderer.c \
                       game/wolf3d/video/opengl/wolf_opengl.c
+## TODO: enumerate headers under "noinst_HEADERS"
+
+if BUILD_X11_SOURCES
+wolf3dredux_SOURCES += unix/clipboard/X11/X11Clipboard.c
+endif
+## (end BUILD_X11_SOURCES)
+
+if BUILD_OBJC_SOURCES
+wolf3dredux_SOURCES += unix/clipboard/OSX/OSXClipboard.m \
+                       unix/clipboard/OSX/ASCIIString.m \
+                       unix/clipboard/OSX/HexAndASCIIString.m \
+                       unix/clipboard/OSX/HexString.m \
+                       unix/clipboard/OSX/LazyDataTextStorage.m \
+                       unix/clipboard/OSX/PasteboardTypeTransformer.m
+# Building Objective C sources requires linking agains frameworks:
+AM_OBJCLDFLAGS = -framework Cocoa
+# override these two to avoid the "unable to infer tagged configuration"
+# libtool error that comes from mixing C and Objective C:
+LTOBJCCOMPILE = $(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) \
+	$(LIBTOOLFLAGS) --mode=compile $(OBJC) $(DEFS) \
+	$(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) \
+	$(AM_OBJCFLAGS) $(OBJCFLAGS)
+OBJCLINK = $(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) \
+	$(LIBTOOLFLAGS) --mode=link $(OBJCLD) $(AM_OBJCFLAGS)  \
+	$(OBJCFLAGS) $(AM_LDFLAGS) $(LDFLAGS) $(AM_OBJCLDFLAGS) \
+	$(OBJCLDFLAGS) -o $@
+endif
+## (end BUILD_OBJC_SOURCES)
 
 wolf3dredux_LDADD = $(LIBOBJDIR)libgnu.a
 EXTRA_wolf3dredux_DEPENDENCIES = $(LIBOBJDIR)libgnu.a
@@ -684,6 +716,9 @@ analyze: clean ../Wolfenstein3DFromSource.exp
 	$(SCAN_BUILD) -analyze-headers -stats --use-analyzer=$(COMPILER) $(SCAN_BUILD_CHECKERS) -v -v -v -plist-html -o scan_build_output $(MAKE) CFLAGS="$(CLANG_CFLAGS)" CPPFLAGS="$(AM_CLANG_CPPFLAGS)" LDFLAGS="$(AM_CLANG_LINKFLAGS)" $(LIBOBJDIR)libgnu.a wolf3dredux
 
 if MS_COMPAT_CHECK
+## TODO: either skip building libmscompat.a when building all, or apply
+## flags for building it when building all, too, or integrate it with the
+## normal build process
 noinst_LIBRARIES = libmscompat.a
 
 libmscompat_a_SOURCES = device/filesys/win32/win_file.c \
