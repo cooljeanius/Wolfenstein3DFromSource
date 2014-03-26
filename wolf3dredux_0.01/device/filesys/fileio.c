@@ -383,7 +383,7 @@ PUBLIC filehandle_t *FS_OpenFile(const char *filename, W32 FlagsAndAttributes)
 	memset(hFile, 0, sizeof(filehandle_t));
 
 	/* check for links first */
-	for ((link = fs_links); link; (link = link->next)) {
+	for ((link = (filelink_t *)fs_links); link; (link = link->next)) {
 		if (! strncmp(filename, link->from, (size_t)link->fromlength)) {
 			my_snprintf(netpath, sizeof(netpath), "%s%s", link->to,
 						(filename + link->fromlength));
@@ -435,7 +435,8 @@ PUBLIC filehandle_t *FS_OpenFile(const char *filename, W32 FlagsAndAttributes)
  * search through the path, one element at a time
  */
 	hashid = my_strhash(filename);
-	for ((search = fs_searchpaths); search; (search = search->next)) {
+	for ((search = (searchpath_t *)fs_searchpaths); search;
+		 (search = search->next)) {
 		/* is the element a pak file? */
 		if (search->pack) {
 			/* look through all the pak file elements */

@@ -53,8 +53,8 @@ int glMaxTexSize; /* maximum texture size */
 /*===================================================================*/
 
 
-extern void GL_SetDefaultState( void );
-extern void GL_UpdateSwapInterval( void );
+extern void GL_SetDefaultState(void);
+extern void GL_UpdateSwapInterval(void);
 
 extern	float	gldepthmin, gldepthmax;
 
@@ -78,7 +78,7 @@ extern	vec3_t	r_origin;
 #if 0
 extern	refdef_t	r_newrefdef;
 #endif /* 0 */
-extern	int		r_viewcluster, r_viewcluster2, r_oldviewcluster, r_oldviewcluster2;
+extern	int r_viewcluster, r_viewcluster2, r_oldviewcluster, r_oldviewcluster2;
 
 extern	cvar_t	*r_norefresh;
 extern	cvar_t	*r_lefthand;
@@ -136,17 +136,32 @@ extern	int		gl_tex_alpha_format;
 
 
 
-extern void R_Bind( int texnum );
-extern void R_MBind( GLenum target, int texnum );
-extern void R_TexEnv( GLenum value );
-extern void R_EnableMultitexture( _boolean enable );
-extern void R_SelectTexture( GLenum );
+extern void R_Bind(int texnum);
+extern void R_MBind(GLenum target, int texnum);
+extern void R_TexEnv(GLenum value);
+extern void R_EnableMultitexture(_boolean enable);
+extern void R_SelectTexture(GLenum);
 
 
 /*====================================================================*/
 
-
-int		registration_sequence;
+#ifndef registration_sequence
+# ifdef __private_extern__
+__private_extern__ int registration_sequence;
+# elif defined(__GNUC__) && !defined(__STRICT_ANSI__)
+static const int registration_sequence;
+# else
+int registration_sequence;
+# endif /* __private_extern__ || (__GNUC__ && !__STRICT_ANSI__) */
+#else /* do already have 'registration_sequence' defined: */
+# ifdef __private_extern__
+__private_extern__ int opengl_local_registration_sequence;
+# elif defined(__GNUC__) && !defined(__STRICT_ANSI__)
+static const int opengl_local_registration_sequence;
+# else
+int opengl_local_registration_sequence;
+# endif /* __private_extern__ || (__GNUC__ && !__STRICT_ANSI__) */
+#endif /* !registration_sequence */
 
 
 typedef struct

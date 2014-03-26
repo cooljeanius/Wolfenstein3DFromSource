@@ -125,11 +125,23 @@ extern cvar_t	*maxentities;
 
 extern int tics;
 
-#ifdef __private_extern__
+#ifndef floornumber
+# ifdef __private_extern__
 __private_extern__ W32 floornumber;
-#else
+# elif defined(__GNUC__) && !defined(__STRICT_ANSI__)
+static const W32 floornumber;
+# else
 W32 floornumber;
-#endif /* __private_extern__ */
+# endif /* __private_extern__ || (__GNUC__ && !__STRICT_ANSI__) */
+#else /* do already have 'floornumber' defined: */
+# ifdef __private_extern__
+__private_extern__ W32 wolf_local_floornumber;
+# elif defined(__GNUC__) && !defined(__STRICT_ANSI__)
+static const W32 wolf_local_floornumber;
+# else
+W32 wolf_local_floornumber;
+# endif /* __private_extern__ || (__GNUC__ && !__STRICT_ANSI__) */
+#endif /* !floornumber */
 
 
 extern void Game_Init(void);

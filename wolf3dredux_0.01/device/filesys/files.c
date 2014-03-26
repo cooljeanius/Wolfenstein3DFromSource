@@ -123,7 +123,7 @@ PRIVATE void FS_AddGameDirectory(const char *dir)
 	 */
 	search = Z_Malloc(sizeof(searchpath_t));
 	my_strlcpy(search->filename, dir, sizeof(search->filename));
-	search->next = fs_searchpaths;
+	search->next = (struct	searchpath_s *)fs_searchpaths;
 	fs_searchpaths = search;
 
 	/*
@@ -137,7 +137,7 @@ PRIVATE void FS_AddGameDirectory(const char *dir)
 		if (pak) {
 			search = Z_Malloc(sizeof(searchpath_t));
 			search->pack = pak;
-			search->next = fs_searchpaths;
+			search->next = (struct	searchpath_s *)fs_searchpaths;
 			fs_searchpaths = search;
 		} else {
 			Com_Printf("FS_AddGameDirectory(): No pak found here.\n");
@@ -152,7 +152,7 @@ PRIVATE void FS_AddGameDirectory(const char *dir)
 			}
 			search = Z_Malloc(sizeof(searchpath_t));
 			search->pack = pak;
-			search->next = fs_searchpaths;
+			search->next = (struct	searchpath_s *)fs_searchpaths;
 			fs_searchpaths = search;
 		}
 	} else {
@@ -173,7 +173,7 @@ PRIVATE void FS_AddGameDirectory(const char *dir)
 		if (pak) {
 			search = Z_Malloc(sizeof(searchpath_t));
 			search->pack = pak;
-			search->next = fs_searchpaths;
+			search->next = (struct	searchpath_s *)fs_searchpaths;
 			fs_searchpaths = search;
 		} else {
 			Com_Printf("FS_AddGameDirectory(): No pak (i.e. zip) found here.\n");
@@ -187,7 +187,7 @@ PRIVATE void FS_AddGameDirectory(const char *dir)
 			}
 			search = Z_Malloc(sizeof(searchpath_t));
 			search->pack = pak;
-			search->next = fs_searchpaths;
+			search->next = (struct	searchpath_s *)fs_searchpaths;
 			fs_searchpaths = search;
 		}
 	} else {
@@ -286,7 +286,7 @@ PUBLIC void FS_SetGamedir(char *dir)
 			Z_Free(fs_searchpaths->pack);
 		}
 		next = fs_searchpaths->next;
-		Z_Free(fs_searchpaths);
+		Z_Free((void *)fs_searchpaths);
 		fs_searchpaths = next;
 	}
 
@@ -331,13 +331,13 @@ PRIVATE void FS_Link_f(void)
 	filelink_t	*flink, **prev;
 
 	if (Cmd_Argc() != 3) {
-		Com_Printf( "Usage: link <from> <to>\n" );
+		Com_Printf("Usage: link <from> <to>\n");
 		return;
 	}
 
 	/* see if the link already exists */
-	prev = &fs_links;
-	for ((flink = fs_links); flink; (flink = flink->next)) {
+	prev = (filelink_t **)&fs_links;
+	for ((flink = (filelink_t *)fs_links); flink; (flink = flink->next)) {
 		if (! strcmp(flink->from, Cmd_Argv(1))) {
 			Z_Free(flink->to);
 			if (! strlen(Cmd_Argv(2))) {
@@ -355,7 +355,7 @@ PRIVATE void FS_Link_f(void)
 
 	/* create a new link */
 	flink = Z_Malloc(sizeof(*flink));
-	flink->next = fs_links;
+	flink->next = (filelink_t *)fs_links;
 	fs_links = flink;
 	flink->from = my_CopyString(Cmd_Argv(1));
 	flink->fromlength = (int)strlen(flink->from);
@@ -500,7 +500,7 @@ PRIVATE void FS_Path_f(void)
 	filelink_t		*l;
 
 	Com_Printf("Current search path:\n");
-	for ((s = fs_searchpaths); s; (s = s->next)) {
+	for ((s = (searchpath_t *)fs_searchpaths); s; (s = s->next)) {
 		if (s == fs_base_searchpaths) {
 			Com_Printf("----------\n");
 		}
@@ -512,7 +512,7 @@ PRIVATE void FS_Path_f(void)
 	}
 
 	Com_Printf ("\nLinks:\n");
-	for ((l = fs_links); l; (l = l->next)) {
+	for ((l = (filelink_t *)fs_links); l; (l = l->next)) {
 		Com_Printf ("%s : %s\n", l->from, l->to);
 	}
 }
@@ -541,7 +541,7 @@ PUBLIC char *FS_NextPath(char *prevpath)
 	}
 
 	prev = fs_gamedir;
-	for ((s = fs_searchpaths); s; (s = s->next)) {
+	for ((s = (searchpath_t *)fs_searchpaths); s; (s = s->next)) {
 		if (s->pack) {
 			continue;
 		}
@@ -612,7 +612,7 @@ PUBLIC void FS_InitFilesystem(void)
 	FS_AddGameDirectory(va("%s/"BASEDIRNAME, fs_basedir->string));
 
 	/* any set gamedirs will be freed up to here */
-	fs_base_searchpaths = fs_searchpaths;
+	fs_base_searchpaths = (searchpath_t *)fs_searchpaths;
 
 	/* check for game override */
 	fs_gamedirvar = Cvar_Get("game", "", (CVAR_LATCH | CVAR_SERVERINFO));

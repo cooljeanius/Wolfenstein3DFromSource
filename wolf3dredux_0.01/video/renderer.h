@@ -73,36 +73,52 @@ typedef enum
 } rserr_t;
 
 
-int             registration_sequence;
+#ifndef registration_sequence
+# ifdef __private_extern__
+__private_extern__ int registration_sequence;
+# elif defined(__GNUC__) && !defined(__STRICT_ANSI__)
+static const int registration_sequence;
+# else
+int registration_sequence;
+# endif /* __private_extern__ || (__GNUC__ && !__STRICT_ANSI__) */
+#else /* do already have 'registration_sequence' defined: */
+# ifdef __private_extern__
+__private_extern__ int renderer_registration_sequence;
+# elif defined(__GNUC__) && !defined(__STRICT_ANSI__)
+static const int renderer_registration_sequence;
+# else
+int renderer_registration_sequence;
+# endif /* __private_extern__ || (__GNUC__ && !__STRICT_ANSI__) */
+#endif /* !registration_sequence */
 
-extern int      R_Init( void *hinstance, void *hWnd );
-extern void     R_Shutdown( void );
+extern int R_Init(void *hinstance, void *hWnd);
+extern void R_Shutdown(void);
 
-extern void R_BeginRegistration( const char *model );
-extern void R_EndRegistration( void );
-extern void R_BeginFrame( void );
-extern void R_EndFrame( void );
+extern void R_BeginRegistration(const char *model);
+extern void R_EndRegistration(void);
+extern void R_BeginFrame(void);
+extern void R_EndFrame(void);
 
-extern void R_AppActivate( _boolean active );
-extern void R_SwapBuffers( int );
-extern void R_SetPalette( const unsigned char *palette);
-
-
-
-extern void R_DeleteTexture( unsigned int texnum );
-extern _boolean R_UploadTexture( texture_t *tex, PW8 data );
+extern void R_AppActivate(_boolean active);
+extern void R_SwapBuffers(int);
+extern void R_SetPalette(const unsigned char *palette);
 
 
-extern void R_SetGL2D( void );
+
+extern void R_DeleteTexture(unsigned int texnum);
+extern _boolean R_UploadTexture(texture_t *tex, PW8 data);
 
 
-extern void R_Draw_Pic( int x, int y, const char *name );
-extern void R_Draw_StretchPic( int x, int y, int w, int h, const char *name );
-extern void R_Draw_Character( int x, int y, int num, font_t *myfont );
-extern void R_Draw_Tile( int x, int y, int w, int h, const char *name );
-extern void R_Draw_Fill( int x, int y, int w, int h, colour3_t c );
-extern void R_Draw_Line( int nXStart, int nYStart, int nXEnd, int nYEnd, int width, colour3_t c );
+extern void R_SetGL2D(void);
 
+
+extern void R_Draw_Pic(int x, int y, const char *name);
+extern void R_Draw_StretchPic(int x, int y, int w, int h, const char *name);
+extern void R_Draw_Character(int x, int y, int num, font_t *myfont);
+extern void R_Draw_Tile(int x, int y, int w, int h, const char *name);
+extern void R_Draw_Fill(int x, int y, int w, int h, colour3_t c);
+extern void R_Draw_Line(int nXStart, int nYStart, int nXEnd, int nYEnd,
+						int width, colour3_t c);
 
 #endif /* __RENDERER_H__ */
 

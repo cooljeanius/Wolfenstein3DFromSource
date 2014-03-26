@@ -52,7 +52,7 @@ typedef struct filelink_s
 
 typedef struct searchpath_s
 {
-	char	filename[ MAX_OSPATH ];
+	char	filename[MAX_OSPATH];
 	pack_t	*pack;	/* only one of filename / pack will be used */
 
 	struct	searchpath_s *next;
@@ -60,10 +60,59 @@ typedef struct searchpath_s
 } searchpath_t;
 
 
-filelink_t		*fs_links;
+#ifndef fs_links
+# ifdef __private_extern__
+__private_extern__ filelink_t *fs_links;
+# elif defined(__GNUC__) && !defined(__STRICT_ANSI__)
+static const filelink_t *fs_links;
+# else
+filelink_t *fs_links;
+# endif /* __private_extern__ || (__GNUC__ && !__STRICT_ANSI__) */
+#else /* do already have 'fs_links' defined: */
+# ifdef __private_extern__
+__private_extern__ searchpath_t	*filelink_fs_links;
+# elif defined(__GNUC__) && !defined(__STRICT_ANSI__)
+static const searchpath_t *filelink_fs_links;
+# else
+searchpath_t *filelink_fs_links;
+# endif /* __private_extern__ || (__GNUC__ && !__STRICT_ANSI__) */
+#endif /* !fs_links */
 
-searchpath_t	*fs_searchpaths;
-searchpath_t	*fs_base_searchpaths;	/* without gamedirs */
+#ifndef fs_searchpaths
+# ifdef __private_extern__
+__private_extern__ searchpath_t *fs_searchpaths;
+# elif defined(__GNUC__) && !defined(__STRICT_ANSI__)
+static const searchpath_t *fs_searchpaths;
+# else
+searchpath_t *fs_searchpaths;
+# endif /* __private_extern__ || (__GNUC__ && !__STRICT_ANSI__) */
+#else /* do already have 'fs_searchpaths' defined: */
+# ifdef __private_extern__
+__private_extern__ searchpath_t	*filelink_fs_searchpaths;
+# elif defined(__GNUC__) && !defined(__STRICT_ANSI__)
+static const searchpath_t *filelink_fs_searchpaths;
+# else
+searchpath_t *filelink_fs_searchpaths;
+# endif /* __private_extern__ || (__GNUC__ && !__STRICT_ANSI__) */
+#endif /* !fs_searchpaths */
+/* the same thing, without gamedirs: */
+#ifndef fs_base_searchpaths
+# ifdef __private_extern__
+__private_extern__ searchpath_t *fs_base_searchpaths;
+# elif defined(__GNUC__) && !defined(__STRICT_ANSI__)
+static const searchpath_t *fs_base_searchpaths;
+# else
+searchpath_t *fs_base_searchpaths;
+# endif /* __private_extern__ || (__GNUC__ && !__STRICT_ANSI__) */
+#else /* do already have 'fs_base_searchpaths' defined: */
+# ifdef __private_extern__
+__private_extern__ searchpath_t	*filelink_fs_base_searchpaths;
+# elif defined(__GNUC__) && !defined(__STRICT_ANSI__)
+static const searchpath_t *filelink_fs_base_searchpaths;
+# else
+searchpath_t *filelink_fs_base_searchpaths;
+# endif /* __private_extern__ || (__GNUC__ && !__STRICT_ANSI__) */
+#endif /* !fs_base_searchpaths */
 
 /* prototypes */
 extern void FS_FreeFile(void *buffer);

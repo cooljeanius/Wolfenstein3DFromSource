@@ -603,12 +603,12 @@ _episode_shutdown
 _fire_hit
 _fire_lead
 _fixedtime
-_floornumber
+#_floornumber
 _fov
 _freelook
-_fs_base_searchpaths
-_fs_links
-_fs_searchpaths
+#_fs_base_searchpaths
+#_fs_links
+#_fs_searchpaths
 _g_version
 _gender
 _gender_auto
@@ -1577,7 +1577,7 @@ _rcon_address
 _rcon_client_password
 _readcolour
 _readhcolour
-_registration_sequence
+#_registration_sequence
 _rndindex
 _rndtable
 _s_device

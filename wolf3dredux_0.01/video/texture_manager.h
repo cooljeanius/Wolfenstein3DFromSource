@@ -128,7 +128,7 @@ typedef struct texture_s
 	unsigned int texnum;
 	W16 bytes;
 	texturetype_t type;
-	char	name[ MAX_GAMEPATH ]; /* game path, including extension */
+	char	name[MAX_GAMEPATH]; /* game path, including extension */
 
 } texture_t;
 
@@ -147,30 +147,35 @@ typedef enum
 extern W32 texture_registration_sequence;
 
 
-extern void TM_TextureList_f( void );
-extern texture_t *TM_LoadTexture( const char *name, W8 *data, int width, int height, texturetype_t type, W16 bytes );
-extern void TM_LoadTexture_DB( const char *name, texture_t	*tex, W8 *data, int width, int height, texturetype_t type, W16 bytes );
-extern void TM_FindTexture_DB( const char *name, texture_t *tex, texturetype_t type );
-extern _boolean pixel_region_has_alpha( int bytes );
+extern void TM_TextureList_f(void);
+extern texture_t *TM_LoadTexture(const char *name, W8 *data,
+								 int width, int height, texturetype_t type,
+								 W16 bytes);
+extern void TM_LoadTexture_DB(const char *name, texture_t *tex, W8 *data,
+							  int width, int height, texturetype_t type,
+							  W16 bytes);
+extern void TM_FindTexture_DB(const char *name, texture_t *tex,
+							  texturetype_t type);
+extern _boolean pixel_region_has_alpha(int bytes);
 
-extern void TM_Init( void );
-extern void TM_Shutdown( void );
+extern void TM_Init(void);
+extern void TM_Shutdown(void);
 
 
-extern _boolean TM_MipMap( PW8 in, W16 *width, W16 *height, W16 bytes );
+extern _boolean TM_MipMap(PW8 in, W16 *width, W16 *height, W16 bytes);
 
 
-extern texture_t *TM_FindTexture_Wall( W32 imageId );
-extern texture_t *TM_FindTexture_Sprite( W32 imageId );
-extern texture_t *TM_FindTexture( const char *name, texturetype_t type );
+extern texture_t *TM_FindTexture_Wall(W32 imageId);
+extern texture_t *TM_FindTexture_Sprite(W32 imageId);
+extern texture_t *TM_FindTexture(const char *name, texturetype_t type);
 
-extern void TM_GetTextureSize( SW32 *width, SW32 *height, const char *name );
+extern void TM_GetTextureSize(SW32 *width, SW32 *height, const char *name);
 
-extern void TM_ResampleTexture( PW8 in, int inwidth, int inheight, PW8 out,
-							    int outwidth, int outheight, W8 bytes,
-							    InterpolationType interpolation );
+extern void TM_ResampleTexture(PW8 in, int inwidth, int inheight, PW8 out,
+							   int outwidth, int outheight, W8 bytes,
+							   InterpolationType interpolation);
 
-extern void TM_FreeUnusedTextures( void );
+extern void TM_FreeUnusedTextures(void);
 
 
 #endif /* __TEXTURE_MANAGER_H__ */

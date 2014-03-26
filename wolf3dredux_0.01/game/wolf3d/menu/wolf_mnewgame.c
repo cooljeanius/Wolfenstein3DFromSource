@@ -314,7 +314,7 @@ PRIVATE void StartGame(void)
 				break;
 		}
 
-		mapfilename = episode_getCurrentMapFileName(&floornumber);
+		mapfilename = episode_getCurrentMapFileName((W32 *)&floornumber);
 
 		if (! mapfilename) {
 			Com_Printf("Unable to get current map file name\n");
@@ -349,9 +349,9 @@ PRIVATE void ToughPic(int i)
 	char string[32];
 
 	if (g_version->value == SPEAROFDESTINY) {
-		my_snprintf( string, sizeof(string), "pics/SC_SKILL%dPIC.tga", (i + 1));
+		my_snprintf(string, sizeof(string), "pics/SC_SKILL%dPIC.tga", (i + 1));
 	} else {
-		my_snprintf( string, sizeof(string), "pics/C_SKILL%dPIC.tga", (i + 1));
+		my_snprintf(string, sizeof(string), "pics/C_SKILL%dPIC.tga", (i + 1));
 	}
 
 

@@ -53,7 +53,7 @@
 
 PRIVATE char *nextlevelname; /* unused (?) */
 
-
+/* */
 PRIVATE void M_DrawInterBJ(int x, int y, int f)
 {
 	char	guypic[32];
@@ -84,6 +84,7 @@ extern W32 gameTimeCount;
 PRIVATE W32 leveltime;
 PRIVATE _boolean bgive_bonus = false;
 
+/* */
 PRIVATE void M_Secret_Draw(void)
 {
 	char string[32];
@@ -140,7 +141,7 @@ PRIVATE W16 ElevatorBackTo[] = { 1, 1, 7, 3, 5, 3 }; /* unused? */
 #define FROMSECRET1		3
 #define FROMSECRET2		11
 
-
+/* */
 PRIVATE char *M_Secret_Key(int key)
 {
 	char szTextMsg[128];
@@ -174,7 +175,7 @@ PRIVATE char *M_Secret_Key(int key)
 		my_snprintf(szTextMsg, sizeof(szTextMsg),
 					"loading ; map s%.2d.map\n", mapon);
 	} else {
-		mapfilename = episode_getNextMapName(&floornumber);
+		mapfilename = episode_getNextMapName((W32 *)&floornumber);
 
 		if (! mapfilename) {
 			Com_Printf("Unable to get next map file name\n");
@@ -195,6 +196,7 @@ PRIVATE char *M_Secret_Key(int key)
 	return NULL;
 }
 
+/* */
 PRIVATE void M_Intermission_Draw(void)
 {
 	char string[32];
@@ -288,11 +290,12 @@ PRIVATE void M_Intermission_Draw(void)
 	R_DrawHUD();
 }
 
+/* */
 PRIVATE char *M_Intermission_Key(int key)
 {
-	char szTextMsg[ 128 ];
+	char szTextMsg[128];
 
-	PL_NextLevel( &Player );
+	PL_NextLevel(&Player);
 
 	/* dummy condition to use parameter 'key': */
 	if (key == 0) {
@@ -301,11 +304,11 @@ PRIVATE char *M_Intermission_Key(int key)
 
 	M_ForceMenuOff();
 
-	if( g_version->value == SPEAROFDESTINY ) {
-		if( Player.playstate == ex_secretlevel ) {
+	if (g_version->value == SPEAROFDESTINY) {
+		if (Player.playstate == ex_secretlevel) {
 			int mapon = 0;
 
-			switch( levelstate.floornum ) {
+			switch (levelstate.floornum) {
 				case FROMSECRET1:
 					mapon = 18;
 					break;
@@ -315,47 +318,47 @@ PRIVATE char *M_Intermission_Key(int key)
 					break;
 			}
 
-			my_snprintf( szTextMsg, sizeof( szTextMsg ),
-				"loading ; map s%.2d.map\n", mapon );
+			my_snprintf(szTextMsg, sizeof(szTextMsg),
+						"loading ; map s%.2d.map\n", mapon);
 		} else {
-			my_snprintf( szTextMsg, sizeof( szTextMsg ),
-				"loading ; map s%.2d.map\n", levelstate.floornum + 1 );
+			my_snprintf(szTextMsg, sizeof(szTextMsg),
+						"loading ; map s%.2d.map\n", (levelstate.floornum + 1));
 		}
 	} else {
 		char *mapfilename;
 
-		if( Player.playstate == ex_secretlevel ) {
-			mapfilename = episode_getNextSecretMapName( &floornumber );
+		if (Player.playstate == ex_secretlevel) {
+			mapfilename = episode_getNextSecretMapName((W32 *)&floornumber);
 
-			if( ! mapfilename ) {
-				Com_Printf( "Unable to get next secret map file name\n" );
+			if (! mapfilename) {
+				Com_Printf("Unable to get next secret map file name\n");
 
 				ClientStatic.key_dest = key_console;
 
 				return NULL;
 			}
 
-			my_snprintf( szTextMsg, sizeof( szTextMsg ),
-				"loading ; map %s\n", mapfilename );
+			my_snprintf(szTextMsg, sizeof(szTextMsg),
+						"loading ; map %s\n", mapfilename);
 		} else {
-			mapfilename = episode_getNextMapName( &floornumber );
+			mapfilename = episode_getNextMapName((W32 *)&floornumber);
 
-			if( ! mapfilename ) {
-				Com_Printf( "Unable to get next map file name\n" );
+			if (! mapfilename) {
+				Com_Printf("Unable to get next map file name\n");
 
 				ClientStatic.key_dest = key_console;
 
 				return NULL;
 			}
 
-			my_snprintf( szTextMsg, sizeof( szTextMsg ),
-				"loading ; map %s\n", mapfilename );
+			my_snprintf(szTextMsg, sizeof(szTextMsg),
+						"loading ; map %s\n", mapfilename);
 		}
 	}
 
 	Player.playstate = ex_playing;
 
-	Cbuf_AddText( szTextMsg );
+	Cbuf_AddText(szTextMsg);
 
 	return NULL;
 }
@@ -367,6 +370,7 @@ PRIVATE char *M_Intermission_Key(int key)
 
 PRIVATE W8 nvictory = 1;
 
+/* */
 PRIVATE void M_Victory_Draw( void )
 {
 	char string[ 32 ];
@@ -383,12 +387,12 @@ PRIVATE void M_Victory_Draw( void )
 
 	sec = LevelRatios.time / 70;
 
-	if( sec > 99 * 60 ) /* 99 minutes max */
-	{
-	   sec = 99 * 60;
+	/* 99 minutes max: */
+	if (sec > (99 * 60)) {
+	   sec = (99 * 60);
 	}
 
-	min = sec / 60;
+	min = (sec / 60);
 	sec %= 60;
 
 	my_snprintf( string, sizeof( string ), "TOTAL TIME %.2d:%.2d", min, sec );
@@ -440,7 +444,7 @@ PRIVATE void M_Victory_Draw( void )
 	R_DrawHUD();
 }
 
-PRIVATE const char victorytextPageOnePartOne[ 6 ][ 1024 ] =
+PRIVATE const char victorytextPageOnePartOne[6][1024] =
 {
 	"CONGRATULATIONS!\n\nYou run out of the castle and hook up with the Underground. They inform you that the rumors were true: some hideous human experiments were seen around Castle Hollehammer.",
 	"CONGRATULATIONS!\n\nYou stand over Schabbs' fat, evil, swollen putrid body, glad your mission is finally over. All his journals and equipment will be destroyed. Humanity is safe from his hordes of",
@@ -450,7 +454,7 @@ PRIVATE const char victorytextPageOnePartOne[ 6 ][ 1024 ] =
 	"CONGRATULATIONS!\n\nThe General gasps his last breath, and the free world is safe from the terrifying Nazi chemical war. You return to Allied Headquarters, a Medal of Honor waiting for"
 };
 
-PRIVATE const char victorytextPageOnePartTwo[ 6 ][ 1024 ] =
+PRIVATE const char victorytextPageOnePartTwo[6][1024] =
 {
 	"So Operation Eisenfaust is real!\n\nYou must journey there and terminate the maniacal Dr. Schabbs before his undead army marches against humanity!",
 	"hideous mutants.\n\nYet the Nazi atrocities continue: thousands march into death camps even as the Nazi war machine falls to its knees. There is only one way to stop the madness. . . .",
@@ -460,7 +464,7 @@ PRIVATE const char victorytextPageOnePartTwo[ 6 ][ 1024 ] =
 	"you.\n\nAllied Command informs you of some nefarious activities around Castle Hollehammer. Something about some grey-skinned berserk soldiers . . . ."
 };
 
-PRIVATE const char victorytextPageTwo[ 6 ][ 1024 ] =
+PRIVATE const char victorytextPageTwo[6][1024] =
 {
 	"MORE WOLFENSTEIN\n\nAnd in episode three, Hitler hides in his titanic bunker as the Third Reich crumbles about him. It is your job to assassinate him, ending his mad reign.\n\nAnd if you like Wolfenstein, you'll love the prequel trilogy of Nocturnal Missions! Thirty more action-packed, super-challenging levels!",
 	"MISSION: TERMINATE HITLER\n\nIn episode three, Hitler hides in his titanic bunker as the Third Reich crumbles about him. It is your job to assassinate him, ending his mad reign. You find he has escaped to the Reichstag, and there you must confront him.\n\nAnd if you like Wolfenstein, you'll love the prequel trilogy of \"Nocturnal Missions!\" Thirty more action-packed, super-challenging levels!",
@@ -471,7 +475,7 @@ PRIVATE const char victorytextPageTwo[ 6 ][ 1024 ] =
 };
 
 
-
+/* */
 PRIVATE void M_Victory_Draw_PageOne(void)
 {
 	SW32 w, h;
@@ -507,6 +511,7 @@ PRIVATE void M_Victory_Draw_PageOne(void)
 					   victorytextPageOnePartTwo[(W32)episode->value], 0, 600);
 }
 
+/* */
 PRIVATE void M_Victory_Draw_PageTwo(void)
 {
 	SW32 w, h;
@@ -537,6 +542,7 @@ PRIVATE void M_Victory_Draw_PageTwo(void)
 
 PRIVATE W16 page = 0;
 
+/* */
 PRIVATE void M_Victory_Text_Draw(void)
 {
 	if (page == 0) {
@@ -546,7 +552,7 @@ PRIVATE void M_Victory_Text_Draw(void)
 	}
 }
 
-
+/* */
 PRIVATE char *M_Victory_Key(int key)
 {
 	if (nvictory) {
@@ -610,6 +616,7 @@ PRIVATE W32 victory_basetime;
 PRIVATE W32 collapse_basetime;
 PRIVATE W8 collapse_slide = 1;
 
+/* */
 PRIVATE void SOD_Victory_BJCOLLAPSE_Draw(void)
 {
 	W32 w, h;
@@ -636,7 +643,7 @@ PRIVATE void SOD_Victory_BJCOLLAPSE_Draw(void)
 #define STR_ENDGAME1 "We owe you a great debt, Mr. Blazkowicz.\nYou have served your country well."
 #define STR_ENDGAME2 "With the spear gone, the Allies will finally\nbe able to destroy Hitler..."
 
-
+/* */
 PRIVATE void SOD_EndScreen2_Draw(void)
 {
 	W32 w, h;
@@ -663,7 +670,7 @@ PRIVATE void SOD_EndScreen2_Draw(void)
 }
 
 
-
+/* */
 PRIVATE void SOD_EndScreen_Draw(void)
 {
 	W32 w, h;
@@ -721,7 +728,7 @@ PRIVATE void SOD_EndScreen_Draw(void)
 			   texname);
 }
 
-
+/* */
 PRIVATE void M_SODVictory_Draw(void)
 {
 	if (victory_slide > NUM_VICTORY_SLIDES) {
@@ -748,6 +755,7 @@ PRIVATE void M_SODVictory_Draw(void)
 	}
 }
 
+/* */
 PRIVATE const char *M_SODVictory_Key(int key)
 {
 	victory_basetime = (W32)ClientStatic.realtime;
@@ -776,7 +784,7 @@ PRIVATE const char *M_SODVictory_Key(int key)
  *	End of Spear Victory
  */
 
-
+/* */
 PUBLIC void M_Intermission_f(void)
 {
 	Sound_StopAllSounds();
