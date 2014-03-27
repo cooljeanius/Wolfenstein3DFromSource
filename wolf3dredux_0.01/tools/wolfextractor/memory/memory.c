@@ -111,7 +111,7 @@ PUBLIC void *wolfextractor_Memory_malloc(size_t size)
     void *ptr;
 
 	times_memory_malloc_was_called++; /* makes it '1' the first time through */
-#ifdef HAVE_SYSCTL
+#if defined(HAVE_SYSCTL) && defined(CTL_HW) && defined(HW_PHYSMEM)
 	/* taken from memory printing function in
 	 * "../../../device/system/unix/unix_system.c": */
 	int mib[2];
@@ -136,7 +136,7 @@ PUBLIC void *wolfextractor_Memory_malloc(size_t size)
 			   size, uvalue);
 		return NULL;
 	}
-#endif /* HAVE_SYSCTL */
+#endif /* HAVE_SYSCTL && CTL_HW && HW_PHYSMEM */
 #if PARANOID || __clang_analyzer__
 	printf("Attempting malloc of size:%ld\n", size);
 #endif /* PARANOID || __clang_analyzer__ */

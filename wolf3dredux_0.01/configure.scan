@@ -28,7 +28,7 @@ AC_CHECK_LIB([vorbisenc], [main])
 
 # Checks for header files.
 AC_PATH_X
-AC_CHECK_HEADERS([fcntl.h float.h inttypes.h libintl.h limits.h malloc.h memory.h stddef.h stdint.h stdlib.h string.h sys/param.h sys/time.h sys/timeb.h unistd.h wchar.h])
+AC_CHECK_HEADERS([fcntl.h float.h inttypes.h libintl.h limits.h locale.h malloc.h memory.h stddef.h stdint.h stdlib.h string.h sys/param.h sys/time.h sys/timeb.h unistd.h wchar.h])
 
 # Checks for typedefs, structures, and compiler characteristics.
 AC_CHECK_HEADER_STDBOOL
@@ -47,6 +47,7 @@ AC_CHECK_TYPES([ptrdiff_t])
 
 # Checks for library functions.
 AC_FUNC_ALLOCA
+AM_GNU_GETTEXT
 AC_FUNC_ERROR_AT_LINE
 AC_FUNC_LSTAT_FOLLOWS_SLASHED_SYMLINK
 AC_FUNC_MALLOC
@@ -57,6 +58,6 @@ AC_CHECK_FUNCS([floor getcwd gettimeofday memchr memmove memset mkdir pow rmdir 
 
 AC_CONFIG_FILES([Makefile
                  gnulib_replacement_funcs/Makefile
-                 tools/wolfextractor/makefile])
+                 tools/wolfextractor/Makefile])
 AC_CONFIG_SUBDIRS([zlib])
 AC_OUTPUT

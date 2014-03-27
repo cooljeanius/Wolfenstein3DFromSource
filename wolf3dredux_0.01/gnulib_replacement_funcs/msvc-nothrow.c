@@ -59,6 +59,9 @@ _gl_nothrow_get_osfhandle(int fd)
 
   return result;
 }
+#else
+/* avoid an empty source file: */
+typedef int dummy_msvc_nothrow_c_typedef_t;
 #endif /* HAVE_MSVC_INVALID_PARAMETER_HANDLER */
 
 /* EOF */

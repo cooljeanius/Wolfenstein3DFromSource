@@ -126,6 +126,9 @@ gl_msvc_inval_ensure_handler (void)
   }
 }
 
+#else
+/* avoid an empty source file: */
+typedef int dummy_msvc_inval_c_typedef_t;
 #endif /* HAVE_MSVC_INVALID_PARAMETER_HANDLER \
 && !(MSVC_INVALID_PARAMETER_HANDLING == SANE_LIBRARY_HANDLING) */
 

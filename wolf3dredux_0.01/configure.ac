@@ -58,18 +58,8 @@ AC_ARG_ENABLE([ms-compat],
               [CHECK_MS_COMPAT=${enableval}],
               [CHECK_MS_COMPAT=no])
 
-dnl# TODO: actually check whether we meet the requirements for the flag,
-dnl# instead of just accepting it.
-AC_MSG_CHECKING([whether to try to build sources for Microsoft Windows])
-if test "x${CHECK_MS_COMPAT}" = "xyes"; then
-  AC_MSG_RESULT([yes])
-  AC_LIBOBJ([msvc-inval])
-  AC_LIBOBJ([msvc-nothrow])
-else
-  AC_MSG_RESULT([no])
-fi
-
-AM_CONDITIONAL([MS_COMPAT_CHECK],[test "x${CHECK_MS_COMPAT}" = "xyes"])
+dnl# the actual checks associated with this flag have moved down below;
+dnl# this just stays up here to keep the flags together.
 
 # Checks for programs.
 AC_MSG_CHECKING([for some programs...])
@@ -79,6 +69,7 @@ AM_PROG_AS
 AC_PROG_CC_C99
 AC_PROG_CPP
 AC_PROG_CXX
+AC_PROG_GCC_TRADITIONAL
 AC_PROG_OBJC
 AC_SUBST([ac_cv_objc_compiler_gnu])
 dnl# only do test for Objective C things if the OBJC test was successful:
@@ -123,13 +114,53 @@ AC_CACHE_CHECK([whether the compiler is actually clang],[wolf_cv_clang],
 ])
 AC_SUBST([wolf_cv_clang])
 AM_CONDITIONAL([CLANG_RULES],[test "x${wolf_cv_clang}" = "xyes"])
-dnl# TODO: only do this check if the real MSVC is not being used:
-if test "x${wolf_cv_clang}" = "xno"; then
-  if test "x${CHECK_MS_COMPAT}" = "xyes"; then
-    AC_MSG_ERROR([currently only clang can successfully fake being MSVC])
-dnl# TODO: do something more helpful instead of just erroring out
+
+
+AC_MSG_CHECKING([whether to try to build sources for Microsoft Windows])
+if test "x${CHECK_MS_COMPAT}" = "xyes"; then
+  AC_MSG_RESULT([${CHECK_MS_COMPAT}])
+  export CAN_CHECK_MS_COMPAT=${CHECK_MS_COMPAT}
+  if test "x${wolf_cv_clang}" != "xyes"; then
+    export CAN_CHECK_MS_COMPAT=no
+    AC_MSG_NOTICE([only clang can successfully fake being MSVC so far])
+    AC_SUBST([CAN_CHECK_MS_COMPAT])
   fi
+  m4_foreach_w([my_MS_header],[math.h mmsystem.h windef.h windows.h],[
+    # First just check un-prefixed:
+    AC_CHECK_HEADERS([my_MS_header],[],[
+      # Now try with "wine":
+      AC_CHECK_HEADERS([wine/my_MS_header],[],[
+        # Now try with "wine/windows":
+        AC_CHECK_HEADERS([wine/windows/my_MS_header],[],[
+          # Now try with "wine/msvcrt":
+          AC_CHECK_HEADERS([wine/msvcrt/my_MS_header],[],[
+            # Now try with just "windows":
+            AC_CHECK_HEADERS([windows/my_MS_header],[],[
+              # Now try with just "msvcrt":
+              AC_CHECK_HEADERS([msvcrt/my_MS_header],[],[
+                # If we really still cannot find it, fail:
+                break && export CAN_CHECK_MS_COMPAT=no
+              ],[AC_INCLUDES_DEFAULT
+              ])
+            ],[AC_INCLUDES_DEFAULT
+            ])
+          ],[AC_INCLUDES_DEFAULT
+          ])
+        ],[AC_INCLUDES_DEFAULT
+        ])
+      ],[AC_INCLUDES_DEFAULT
+      ])
+    ],[AC_INCLUDES_DEFAULT
+    ])
+  ])
+  AC_LIBOBJ([msvc-inval])
+  AC_LIBOBJ([msvc-nothrow])
+else
+  export CAN_CHECK_MS_COMPAT=no
+  AC_MSG_RESULT([${CAN_CHECK_MS_COMPAT}])
 fi
+
+AM_CONDITIONAL([MS_COMPAT_CHECK],[test "x${CAN_CHECK_MS_COMPAT}" = "xyes"])
 
 # libtool
 AC_MSG_CHECKING([for some libtool things...])
@@ -387,16 +418,17 @@ dnl# having libtool check dlopen also has it check for dlfcn.h, so no
 dnl# need to check for it here as well...
 unset ac_cv_header_stddef_h
 unset ac_cv_header_sys_param_h
+unset ac_cv_header_math_h
 AC_CHECK_HEADERS([alloc.h assert.h bits/libc-lock.h crtdefs.h ctype.h \
                   dmalloc.h endian.h errno.h excpt.h fcntl.h float.h \
-                  io.h libintl.h libio/iolibio.h libio/libioP.h limits.h \
-                  mach/mach.h mach/vm_param.h malloc.h malloc/malloc.h \
-                  math.h memcopy.h mmsystem.h search.h \
+                  io.h libintl.h libio/iolibio.h libio/libioP.h \
+                  limits.h locale.h mach/mach.h mach/vm_param.h \
+                  malloc.h malloc/malloc.h math.h memcopy.h search.h \
                   setjmp.h signal.h stdarg.h stddef.h stdio.h \
                   sys/gmon.h sys/malloc.h sys/mount.h sys/param.h \
                   sys/socket.h sys/sysctl.h sys/syslimits.h sys/time.h \
                   sys/timeb.h sys/uio.h sys/utsname.h sys/vmmeter.h \
-                  unix.h wchar.h windef.h windows.h xlocale.h])
+                  unix.h wchar.h xlocale.h])
 
 # Checks for typedefs, structures, and compiler characteristics.
 AC_MSG_CHECKING([into the characteristics of your C compiler...])

@@ -161,6 +161,12 @@
 		A5458CEB18E20CC400FBCD8F /* HexString.m in Sources */ = {isa = PBXBuildFile; fileRef = A5458CE218E20CC400FBCD8F /* HexString.m */; };
 		A5458CEC18E20CC400FBCD8F /* LazyDataTextStorage.h in Headers */ = {isa = PBXBuildFile; fileRef = A5458CE318E20CC400FBCD8F /* LazyDataTextStorage.h */; };
 		A5458CED18E20CC400FBCD8F /* LazyDataTextStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = A5458CE418E20CC400FBCD8F /* LazyDataTextStorage.m */; };
+		A5458E9318E398CD00FBCD8F /* gettext.h in Headers */ = {isa = PBXBuildFile; fileRef = A5458E8D18E398CD00FBCD8F /* gettext.h */; };
+		A5458E9418E398CD00FBCD8F /* msvc-inval.c in Sources */ = {isa = PBXBuildFile; fileRef = A5458E8E18E398CD00FBCD8F /* msvc-inval.c */; };
+		A5458E9518E398CD00FBCD8F /* msvc-inval.h in Headers */ = {isa = PBXBuildFile; fileRef = A5458E8F18E398CD00FBCD8F /* msvc-inval.h */; };
+		A5458E9618E398CD00FBCD8F /* msvc-nothrow.c in Sources */ = {isa = PBXBuildFile; fileRef = A5458E9018E398CD00FBCD8F /* msvc-nothrow.c */; };
+		A5458E9718E398CD00FBCD8F /* msvc-nothrow.h in Headers */ = {isa = PBXBuildFile; fileRef = A5458E9118E398CD00FBCD8F /* msvc-nothrow.h */; };
+		A5458E9818E398CD00FBCD8F /* unlocked-io.h in Headers */ = {isa = PBXBuildFile; fileRef = A5458E9218E398CD00FBCD8F /* unlocked-io.h */; };
 		A5475D3618D37D4800FE1646 /* wolf_client.h in Headers */ = {isa = PBXBuildFile; fileRef = A5475D3518D37D4800FE1646 /* wolf_client.h */; };
 		A54761A018D4B24D00FE1646 /* libdmalloc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A547619F18D4B24D00FE1646 /* libdmalloc.a */; settings = {ATTRIBUTES = (Weak, ); }; };
 		A54766E118D7D34C00FE1646 /* vorbisenc_inter.h in Headers */ = {isa = PBXBuildFile; fileRef = A54766E018D7D34C00FE1646 /* vorbisenc_inter.h */; };
@@ -670,6 +676,12 @@
 		A5458CE218E20CC400FBCD8F /* HexString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HexString.m; path = OSX/HexString.m; sourceTree = "<group>"; };
 		A5458CE318E20CC400FBCD8F /* LazyDataTextStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LazyDataTextStorage.h; path = OSX/LazyDataTextStorage.h; sourceTree = "<group>"; };
 		A5458CE418E20CC400FBCD8F /* LazyDataTextStorage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LazyDataTextStorage.m; path = OSX/LazyDataTextStorage.m; sourceTree = "<group>"; };
+		A5458E8D18E398CD00FBCD8F /* gettext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = gettext.h; sourceTree = "<group>"; };
+		A5458E8E18E398CD00FBCD8F /* msvc-inval.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "msvc-inval.c"; sourceTree = "<group>"; };
+		A5458E8F18E398CD00FBCD8F /* msvc-inval.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "msvc-inval.h"; sourceTree = "<group>"; };
+		A5458E9018E398CD00FBCD8F /* msvc-nothrow.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "msvc-nothrow.c"; sourceTree = "<group>"; };
+		A5458E9118E398CD00FBCD8F /* msvc-nothrow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "msvc-nothrow.h"; sourceTree = "<group>"; };
+		A5458E9218E398CD00FBCD8F /* unlocked-io.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "unlocked-io.h"; sourceTree = "<group>"; };
 		A5475D3518D37D4800FE1646 /* wolf_client.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = wolf_client.h; sourceTree = "<group>"; };
 		A547619F18D4B24D00FE1646 /* libdmalloc.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libdmalloc.a; path = /opt/local/lib/libdmalloc.a; sourceTree = "<absolute>"; };
 		A54766E018D7D34C00FE1646 /* vorbisenc_inter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = vorbisenc_inter.h; sourceTree = "<group>"; };
@@ -1368,7 +1380,7 @@
 				7B0AFBAF1470CE6200165517 /* memory */,
 				7B0AFBB21470CE6200165517 /* pak.c */,
 				A545857518E0A8E900FBCD8F /* pak.h */,
-				7B0AFBB31470CE6200165517 /* Release */,
+				7B0AFBB31470CE6200165517 /* Releasedir */,
 				7B0AFBB41470CE6200165517 /* string */,
 				7B0AFBB71470CE6300165517 /* vorbisenc_inter.c */,
 				A54766E018D7D34C00FE1646 /* vorbisenc_inter.h */,
@@ -1475,12 +1487,12 @@
 			path = memory;
 			sourceTree = "<group>";
 		};
-		7B0AFBB31470CE6200165517 /* Release */ = {
+		7B0AFBB31470CE6200165517 /* Releasedir */ = {
 			isa = PBXGroup;
 			children = (
 				A5C60DC218BE7D9C00EA0942 /* .gitignore */,
 			);
-			path = Release;
+			path = Releasedir;
 			sourceTree = "<group>";
 		};
 		7B0AFBB41470CE6200165517 /* string */ = {
@@ -1709,11 +1721,16 @@
 				A571F0FA18C6E1F80037F031 /* error.c */,
 				A571F0F918C6E1F80037F031 /* error.h */,
 				A5476C3A18D9F35800FE1646 /* fileblocks.c */,
+				A5458E8D18E398CD00FBCD8F /* gettext.h */,
 				A5476C1418D9EB8400FE1646 /* lstat.c */,
 				A5476C1A18D9F17C00FE1646 /* malloc.c */,
 				A54581AE18DFA45700FBCD8F /* memcmp.c */,
 				A54581AF18DFA45700FBCD8F /* memcmp2.c */,
 				A54581B018DFA45700FBCD8F /* memcmp2.h */,
+				A5458E8E18E398CD00FBCD8F /* msvc-inval.c */,
+				A5458E8F18E398CD00FBCD8F /* msvc-inval.h */,
+				A5458E9018E398CD00FBCD8F /* msvc-nothrow.c */,
+				A5458E9118E398CD00FBCD8F /* msvc-nothrow.h */,
 				A5476C3218D9F20800FE1646 /* pathmax.h */,
 				A571F0FF18C6E9820037F031 /* progname.h */,
 				A571F10018C6E9820037F031 /* progname.c */,
@@ -1725,6 +1742,7 @@
 				A571EE6418C64A260037F031 /* strnlen.c */,
 				A571EE6518C64A260037F031 /* strnlen1.c */,
 				A571EE6618C64A260037F031 /* strnlen1.h */,
+				A5458E9218E398CD00FBCD8F /* unlocked-io.h */,
 				A5476C3418D9F21400FE1646 /* verify.h */,
 			);
 			path = gnulib_replacement_funcs;
@@ -1900,6 +1918,10 @@
 				A5458CE818E20CC400FBCD8F /* HexAndASCIIString.h in Headers */,
 				A5458CEA18E20CC400FBCD8F /* HexString.h in Headers */,
 				A5458CEC18E20CC400FBCD8F /* LazyDataTextStorage.h in Headers */,
+				A5458E9318E398CD00FBCD8F /* gettext.h in Headers */,
+				A5458E9518E398CD00FBCD8F /* msvc-inval.h in Headers */,
+				A5458E9718E398CD00FBCD8F /* msvc-nothrow.h in Headers */,
+				A5458E9818E398CD00FBCD8F /* unlocked-io.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2186,6 +2208,8 @@
 				A5458CE918E20CC400FBCD8F /* HexAndASCIIString.m in Sources */,
 				A5458CEB18E20CC400FBCD8F /* HexString.m in Sources */,
 				A5458CED18E20CC400FBCD8F /* LazyDataTextStorage.m in Sources */,
+				A5458E9418E398CD00FBCD8F /* msvc-inval.c in Sources */,
+				A5458E9618E398CD00FBCD8F /* msvc-nothrow.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
