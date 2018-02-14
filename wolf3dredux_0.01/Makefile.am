@@ -39,7 +39,7 @@ AM_CFLAGS += $(CLANG_CFLAGS)
 AM_CLANG_CPPFLAGS = -I/opt/local/include
 AM_CPPFLAGS += $(CLANG_CPPFLAGS)
 # need to link with sanitizer flags, too, to get necessary symbols:
-AM_CLANG_LINKFLAGS = -L/opt/local/lib $(SANFLAGS) -Wl,-multiply_defined,warning  -Wl,-warn_compact_unwind -Wl,-warn_stabs -Wl,-warn_commons -v # -exported_symbols_list ../Wolfenstein3DFromSource.exp
+AM_CLANG_LINKFLAGS = -L/opt/local/lib $(SANFLAGS) -v # -exported_symbols_list ../Wolfenstein3DFromSource.exp
 AM_LDFLAGS += $(AM_CLANG_LINKFLAGS)
 
 ## put this inside the clang rules conditional because I have only tested
