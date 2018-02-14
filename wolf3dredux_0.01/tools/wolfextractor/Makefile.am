@@ -15,7 +15,7 @@ COMPILER = /opt/local/libexec/llvm-3.3/bin/clang
 DIAGFLAGS = -fcolor-diagnostics -fdiagnostics-print-source-range-info -fdiagnostics-show-note-include-stack -fdiagnostics-show-option
 WARNFLAGS = -Wall -Wno-trigraphs -Wmissing-field-initializers -Wmissing-prototypes -Wreturn-type -Wmissing-braces -Wparentheses -Wswitch -Wunused-function -Wunused-label -Wunused-parameter -Wunused-variable -Wshorten-64-to-32 -Wimplicit
 # (cannot sanitize both thread and address at the same time)
-SANFLAGS = -fsanitize=bounds -fsanitize=undefined
+SANFLAGS = # -fsanitize=bounds -fsanitize=undefined
 OPTFLAGS = -g -gdwarf-2 -ggdb -O1 -msse3 -mssse3 -msse4.2 -msse4.2 
 AM_CFLAGS = $(OPTFLAGS) -std=gnu99 $(WARNFLAGS) -fasm-blocks -fexceptions -fno-common -fno-limit-debug-info -fno-omit-frame-pointer -fpascal-strings -funroll-loops -ffast-math -mfix-and-continue $(DIAGFLAGS) $(SANFLAGS)
 AM_CPPFLAGS = -I/opt/local/include
@@ -44,7 +44,7 @@ endif
 ## (end WOLF_OLD_BUILD)
 
 if CLANG_RULES
-SCAN_BUILD_CHECKERS = -enable-checker alpha.core.CastSize -enable-checker alpha.core.CastToStruct -enable-checker alpha.core.FixedAddr -enable-checker alpha.core.PointerArithm -enable-checker alpha.core.PointerSub -enable-checker alpha.core.SizeofPtr -enable-checker alpha.security.ArrayBound -enable-checker alpha.security.ArrayBoundV2 -enable-checker alpha.security.MallocOverflow -enable-checker alpha.security.ReturnPtrRange -enable-checker alpha.unix.MallocWithAnnotations -enable-checker alpha.unix.SimpleStream -enable-checker alpha.unix.Stream -enable-checker alpha.unix.cstring.BufferOverlap -enable-checker alpha.unix.cstring.NotNullTerminated -enable-checker alpha.unix.cstring.OutOfBounds -enable-checker security.insecureAPI.rand -enable-checker security.insecureAPI.strcpy -enable-checker security.insecureAPI.vfork -enable-checker llvm.Conventions -enable-checker debug.ConfigDumper -enable-checker alpha.deadcode.UnreachableCode -enable-checker security.FloatLoopCounter -enable-checker debug.Stats
+SCAN_BUILD_CHECKERS = -enable-checker alpha.core.CastSize -enable-checker alpha.core.CastToStruct -enable-checker alpha.core.FixedAddr -enable-checker alpha.core.PointerArithm -enable-checker alpha.core.PointerSub -enable-checker alpha.core.SizeofPtr -enable-checker alpha.security.ArrayBound -enable-checker alpha.security.ArrayBoundV2 -enable-checker alpha.security.MallocOverflow -enable-checker alpha.security.ReturnPtrRange -enable-checker alpha.unix.SimpleStream -enable-checker alpha.unix.Stream -enable-checker alpha.unix.cstring.BufferOverlap -enable-checker alpha.unix.cstring.NotNullTerminated -enable-checker alpha.unix.cstring.OutOfBounds -enable-checker security.insecureAPI.rand -enable-checker security.insecureAPI.strcpy -enable-checker security.insecureAPI.vfork -enable-checker llvm.Conventions -enable-checker alpha.deadcode.UnreachableCode -enable-checker security.FloatLoopCounter
 endif
 ## (end CLANG_RULES)
 
@@ -55,7 +55,7 @@ endif
 
 if CLANG_RULES
 analyze: clean Makefile
-	$(SCAN_BUILD) -analyze-headers -stats --use-analyzer=$(COMPILER) $(SCAN_BUILD_CHECKERS) -v -v -v -plist-html -o scan_build_output $(MAKE)
+	$(SCAN_BUILD) --use-analyzer=$(CLANG_ANALYZER) $(SCAN_BUILD_CHECKERS) -v -plist-html -o scan_build_output $(MAKE)
 endif
 ## (end WOLF_OLD_BUILD)
 

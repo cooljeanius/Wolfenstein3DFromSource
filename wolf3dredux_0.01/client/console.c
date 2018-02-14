@@ -241,7 +241,7 @@ PRIVATE void Con_Dump_f( void )
 	}
 
 	/* write the remaining lines */
-	buffer[ con.linewidth ] = '\0';
+	buffer[con.linewidth] = '\0';
 	for( ; length <= con.current ; ++length ) {
 		line = con.text + (length % con.totallines) * con.linewidth;
 		my_strlcpy( buffer, line, (size_t)con.linewidth );

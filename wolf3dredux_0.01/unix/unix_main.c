@@ -35,6 +35,7 @@
 #ifndef _UNIX_MAIN_C
 #define _UNIX_MAIN_C
 
+#include <assert.h>
 #include <unistd.h>
 #include <stdarg.h>
 #include <stdio.h>
@@ -415,7 +416,7 @@ int unix_main(int argc, char *argv[MAX_NUM_ARGVS])
     [pool release];
     return retval;
 #else /* not Objective C: */
-	return 0;
+	assert(0);
 #endif /* __APPLE__ && __OBJC__ && __GNUC__ */
 }
 

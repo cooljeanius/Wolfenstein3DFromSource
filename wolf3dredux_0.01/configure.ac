@@ -477,6 +477,14 @@ gl_WARN_ADD([-Wnull-dereference])
 gl_WARN_ADD([-Walloc-zero])
 gl_WARN_ADD([-Wmisleading-indentation])
 gl_WARN_ADD([-Wgcc-compat])
+gl_WARN_ADD([-Wpointer-arith])
+gl_WARN_ADD([-Wunreachable-code-loop-increment])
+gl_WARN_ADD([-Wunreachable-code-break])
+gl_WARN_ADD([-Wunreachable-code-return])
+gl_WARN_ADD([-Wreturn-local-addr])
+gl_COMPILER_OPTION_IF([-Warray-bounds=2],
+                      [WARN_CFLAGS="${WARN_CFLAGS} -Warray-bounds=2"],
+                      [gl_WARN_ADD([-Warray-bounds])])
 gl_WARN_ADD([-Wno-unused])
 gl_WARN_ADD([-Wno-trigraphs])
 gl_WARN_ADD([-Wsign-compare],[EXTRA_WARN_CFLAGS])
@@ -553,8 +561,8 @@ AC_FUNC_STAT
 AC_FUNC_STRERROR_R
 AC_FUNC_STRNLEN
 AC_FUNC_VPRINTF
-AC_CHECK_FUNCS([atoi atof dlsym dmalloc_malloc fabs fclose floor fopen \
-                ftell fscanf fread fwrite getcwd getenv gettimeofday \
+AC_CHECK_FUNCS([arc4random atoi atof dlsym dmalloc_malloc fabs fclose floor \
+                fopen ftell fscanf fread fwrite getcwd getenv gettimeofday \
                 glXChooseVisual glXCreateContext glXMakeCurrent \
                 longjmp malloc_good_size malloc_size malloc_create_zone \
                 malloc_destroy_zone malloc_default_zone \
@@ -562,7 +570,7 @@ AC_CHECK_FUNCS([atoi atof dlsym dmalloc_malloc fabs fclose floor fopen \
                 malloc_zone_calloc malloc_zone_valloc malloc_zone_realloc \
                 malloc_zone_memalign malloc_zone_free memchr memcmp \
                 memcpy memmove memset mkdir pow posix_memalign putc pread \
-                qsort read rmdir scanf setenv signal sqrt sqrtf stpcpy \
+                qsort rand read rmdir scanf setenv signal sqrt sqrtf stpcpy \
                 strcat strcpy strdup strerror strlen strncat strncpy \
                 strrchr strstr strtok sscanf sysconf sysctl sysctlbyname \
                 sysctlnametomib uname unlink])

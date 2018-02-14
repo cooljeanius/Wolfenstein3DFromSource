@@ -34,7 +34,7 @@ WARNFLAGS = $(WARNFLAGS_COMMON) -Wunused-label -Wshorten-64-to-32
 # (cannot sanitize both thread and address at the same time)
 SANFLAGS = # -fsanitize=bounds -fsanitize=undefined
 OPTFLAGS = -g -gdwarf-2 -ggdb -O1 -msse3 -mssse3 -msse4.1 -msse4.2 
-CLANG_CFLAGS = $(OPTFLAGS) -std=gnu99 $(WARNFLAGS) -fasm-blocks -fexceptions -fno-common -fno-limit-debug-info -fno-omit-frame-pointer -fpascal-strings $(CFLAGS_COMMON) -mfix-and-continue $(DIAGFLAGS) $(SANFLAGS)
+CLANG_CFLAGS = $(OPTFLAGS) -std=gnu99 $(WARNFLAGS) -fasm-blocks -fexceptions -fno-limit-debug-info -fno-omit-frame-pointer -fpascal-strings $(CFLAGS_COMMON) -mfix-and-continue $(DIAGFLAGS) $(SANFLAGS)
 AM_CFLAGS += $(CLANG_CFLAGS)
 AM_CLANG_CPPFLAGS = -I/opt/local/include
 AM_CPPFLAGS += $(CLANG_CPPFLAGS)
@@ -56,7 +56,7 @@ AM_LDFLAGS += $(AM_CLANG_MS_COMPAT_LINKFLAGS)
 endif
 ## (end MS_COMPAT_CHECK)
 
-SCAN_BUILD_CHECKERS = -enable-checker alpha.core.CastSize -enable-checker alpha.core.CastToStruct -enable-checker alpha.core.FixedAddr -enable-checker alpha.core.PointerArithm -enable-checker alpha.core.PointerSub -enable-checker alpha.core.SizeofPtr -enable-checker alpha.security.ArrayBound -enable-checker alpha.security.ArrayBoundV2 -enable-checker alpha.security.MallocOverflow -enable-checker alpha.security.ReturnPtrRange -enable-checker alpha.unix.MallocWithAnnotations -enable-checker alpha.unix.SimpleStream -enable-checker alpha.unix.Stream -enable-checker alpha.unix.cstring.BufferOverlap -enable-checker alpha.unix.cstring.NotNullTerminated -enable-checker alpha.unix.cstring.OutOfBounds -enable-checker security.insecureAPI.rand -enable-checker security.insecureAPI.strcpy -enable-checker security.insecureAPI.vfork -enable-checker llvm.Conventions -enable-checker debug.ConfigDumper -enable-checker alpha.deadcode.UnreachableCode -enable-checker security.FloatLoopCounter -enable-checker debug.Stats
+SCAN_BUILD_CHECKERS = -enable-checker alpha.core.CastSize -enable-checker alpha.core.CastToStruct -enable-checker alpha.core.FixedAddr -enable-checker alpha.core.PointerArithm -enable-checker alpha.core.PointerSub -enable-checker alpha.core.SizeofPtr -enable-checker alpha.security.ArrayBound -enable-checker alpha.security.ArrayBoundV2 -enable-checker alpha.security.MallocOverflow -enable-checker alpha.security.ReturnPtrRange -enable-checker alpha.unix.SimpleStream -enable-checker alpha.unix.Stream -enable-checker alpha.unix.cstring.BufferOverlap -enable-checker alpha.unix.cstring.NotNullTerminated -enable-checker alpha.unix.cstring.OutOfBounds -enable-checker security.insecureAPI.rand -enable-checker security.insecureAPI.strcpy -enable-checker security.insecureAPI.vfork -enable-checker llvm.Conventions -enable-checker alpha.deadcode.UnreachableCode -enable-checker security.FloatLoopCounter
 else
 ## not CLANG_RULES
 if MS_COMPAT_CHECK
@@ -819,12 +819,13 @@ endif
 #==========================================================================
 clean-local:
 	rm -f *.o $(ODIR)/*.o $(EXE)
+	rm -rf *.dSYM || rmdir *.dSYM
 endif
 ## (end WOLF_OLD_BUILD)
 
 if CLANG_RULES
 analyze: clean ../Wolfenstein3DFromSource.exp
-	$(SCAN_BUILD) -analyze-headers -stats --use-analyzer=$(COMPILER) $(SCAN_BUILD_CHECKERS) -v -v -v -plist-html -o scan_build_output $(MAKE) AM_CFLAGS="" CFLAGS="$(CLANG_CFLAGS)" AM_CPPFLAGS="-I." CPPFLAGS="$(AM_CLANG_CPPFLAGS)" AM_LDFLAGS="-L." LDFLAGS="$(AM_CLANG_LINKFLAGS)" $(LIBOBJDIR)libgnu.a wolf3dredux
+	$(SCAN_BUILD) --use-analyzer=$(CLANG_ANALYZER) $(SCAN_BUILD_CHECKERS) -v -plist-html -o scan_build_output $(MAKE) AM_CFLAGS="" CFLAGS="$(CLANG_CFLAGS)" AM_CPPFLAGS="-I." CPPFLAGS="$(AM_CLANG_CPPFLAGS)" AM_LDFLAGS="-L." LDFLAGS="$(AM_CLANG_LINKFLAGS)" $(LIBOBJDIR)libgnu.a wolf3dredux
 	test -e tools/wolfextractor/Makefile && $(MAKE) -C tools/wolfextractor analyze
 
 if MS_COMPAT_CHECK

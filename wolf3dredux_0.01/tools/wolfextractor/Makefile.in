@@ -406,7 +406,7 @@ x_libraries = @x_libraries@
 @CLANG_RULES_TRUE@DIAGFLAGS = -fcolor-diagnostics -fdiagnostics-print-source-range-info -fdiagnostics-show-note-include-stack -fdiagnostics-show-option
 @CLANG_RULES_TRUE@WARNFLAGS = -Wall -Wno-trigraphs -Wmissing-field-initializers -Wmissing-prototypes -Wreturn-type -Wmissing-braces -Wparentheses -Wswitch -Wunused-function -Wunused-label -Wunused-parameter -Wunused-variable -Wshorten-64-to-32 -Wimplicit
 # (cannot sanitize both thread and address at the same time)
-@CLANG_RULES_TRUE@SANFLAGS = -fsanitize=bounds -fsanitize=undefined
+@CLANG_RULES_TRUE@SANFLAGS = # -fsanitize=bounds -fsanitize=undefined
 @CLANG_RULES_TRUE@OPTFLAGS = -g -gdwarf-2 -ggdb -O1 -msse3 -mssse3 -msse4.2 -msse4.2 
 @CLANG_RULES_TRUE@AM_CFLAGS = $(OPTFLAGS) -std=gnu99 $(WARNFLAGS) -fasm-blocks -fexceptions -fno-common -fno-limit-debug-info -fno-omit-frame-pointer -fpascal-strings -funroll-loops -ffast-math -mfix-and-continue $(DIAGFLAGS) $(SANFLAGS)
 @CLANG_RULES_TRUE@AM_CPPFLAGS = -I/opt/local/include
@@ -419,7 +419,7 @@ x_libraries = @x_libraries@
 @WOLF_OLD_BUILD_TRUE@EXEBASE = wolfextractor
 @WOLF_OLD_BUILD_TRUE@EXE = $(EXODIR)/$(EXEBASE)
 @WOLF_OLD_BUILD_TRUE@DO_CC = $(COMPILER) $(CFLAGS) $(AM_CFLAGS) $(AM_CPPFLAGS) ${CPPFLAGS} -o $@ -c $<       
-@CLANG_RULES_TRUE@SCAN_BUILD_CHECKERS = -enable-checker alpha.core.CastSize -enable-checker alpha.core.CastToStruct -enable-checker alpha.core.FixedAddr -enable-checker alpha.core.PointerArithm -enable-checker alpha.core.PointerSub -enable-checker alpha.core.SizeofPtr -enable-checker alpha.security.ArrayBound -enable-checker alpha.security.ArrayBoundV2 -enable-checker alpha.security.MallocOverflow -enable-checker alpha.security.ReturnPtrRange -enable-checker alpha.unix.MallocWithAnnotations -enable-checker alpha.unix.SimpleStream -enable-checker alpha.unix.Stream -enable-checker alpha.unix.cstring.BufferOverlap -enable-checker alpha.unix.cstring.NotNullTerminated -enable-checker alpha.unix.cstring.OutOfBounds -enable-checker security.insecureAPI.rand -enable-checker security.insecureAPI.strcpy -enable-checker security.insecureAPI.vfork -enable-checker llvm.Conventions -enable-checker debug.ConfigDumper -enable-checker alpha.deadcode.UnreachableCode -enable-checker security.FloatLoopCounter -enable-checker debug.Stats
+@CLANG_RULES_TRUE@SCAN_BUILD_CHECKERS = -enable-checker alpha.core.CastSize -enable-checker alpha.core.CastToStruct -enable-checker alpha.core.FixedAddr -enable-checker alpha.core.PointerArithm -enable-checker alpha.core.PointerSub -enable-checker alpha.core.SizeofPtr -enable-checker alpha.security.ArrayBound -enable-checker alpha.security.ArrayBoundV2 -enable-checker alpha.security.MallocOverflow -enable-checker alpha.security.ReturnPtrRange -enable-checker alpha.unix.SimpleStream -enable-checker alpha.unix.Stream -enable-checker alpha.unix.cstring.BufferOverlap -enable-checker alpha.unix.cstring.NotNullTerminated -enable-checker alpha.unix.cstring.OutOfBounds -enable-checker security.insecureAPI.rand -enable-checker security.insecureAPI.strcpy -enable-checker security.insecureAPI.vfork -enable-checker llvm.Conventions -enable-checker alpha.deadcode.UnreachableCode -enable-checker security.FloatLoopCounter
 wolfextractor_SOURCES = adlib/adlib.c adlib/fmopl.c \
 	../../common/arch.c filesys/file.c string/com_string.c \
 	loaders/tga.c loaders/wav.c memory/memory.c mac/mac.c \
@@ -990,7 +990,7 @@ uninstall-am:
 @WOLF_OLD_BUILD_TRUE@all: ../../config.h $(EXE)
 
 @CLANG_RULES_TRUE@analyze: clean Makefile
-@CLANG_RULES_TRUE@	$(SCAN_BUILD) -analyze-headers -stats --use-analyzer=$(COMPILER) $(SCAN_BUILD_CHECKERS) -v -v -v -plist-html -o scan_build_output $(MAKE)
+@CLANG_RULES_TRUE@	$(SCAN_BUILD) --use-analyzer=$(CLANG_ANALYZER) $(SCAN_BUILD_CHECKERS) -v -plist-html -o scan_build_output $(MAKE)
 
 @WOLF_OLD_BUILD_TRUE@clean-local:
 @WOLF_OLD_BUILD_TRUE@	rm -f $(EXODIR)/*.o $(EXE)

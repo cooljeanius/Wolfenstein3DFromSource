@@ -486,20 +486,20 @@ PUBLIC void SZ_Write(sizebuf_t *buf, void *data, int length)
 */
 PUBLIC void SZ_Print(sizebuf_t *buf, W8 *data)
 {
-	int		len;
+	size_t len;
 
-	len = (int)(strlen((const char*)data) + 1);
+	len = (strlen((const char *)data) + 1UL);
 
 	if (buf->cursize) {
 		if (buf->data[(buf->cursize - 1)]) {
-			memcpy((PW8)SZ_GetSpace(buf, len), data, (size_t)len);
+			memcpy((PW8)SZ_GetSpace(buf, (int)len), data, len);
 			/* no trailing 0 */
 		} else {
-			memcpy(((PW8)SZ_GetSpace(buf, (len - 1)) - 1), data, (size_t)len);
+			memcpy(((PW8)SZ_GetSpace(buf, (int)(len - 1UL)) - 1), data, len);
 			/* write over trailing 0 */
 		}
 	} else {
-		memcpy((PW8)SZ_GetSpace(buf, len), data, (size_t)len);
+		memcpy((PW8)SZ_GetSpace(buf, (int)len), data, len);
 	}
 }
 

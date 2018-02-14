@@ -47,7 +47,7 @@
 #include "../renderer.h"
 
 
-extern int glMaxTexSize; /* maximum texture size */
+int glMaxTexSize; /* maximum texture size */
 
 
 /*===================================================================*/

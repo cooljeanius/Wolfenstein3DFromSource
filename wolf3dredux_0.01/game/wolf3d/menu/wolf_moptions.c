@@ -707,7 +707,8 @@ PRIVATE void Keys_MenuInit(void)
 	s_keys_move_down_action.generic.fontBaseColour = &textcolour;
 	s_keys_move_down_action.generic.ownerdraw = DrawKeyBindingFunc;
 	s_keys_move_down_action.generic.ownerdraw = DrawKeyBindingFunc;
-	s_keys_move_down_action.generic.localdata[0] = ++i;
+	if ((size_t)s_keys_move_down_action.generic.localdata[0] < sizeof(bindnames))
+		s_keys_move_down_action.generic.localdata[0] = ++i;
 	/* FIXME: array subscript here: */
 	s_keys_move_down_action.generic.name = bindnames[s_keys_move_down_action.generic.localdata[0]][1];
 

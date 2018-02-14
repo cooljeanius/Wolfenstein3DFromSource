@@ -33,7 +33,7 @@
 #define ENDOFSTREAM		'\0'
 
 
-extern enum
+/*extern*/ enum
 {
 	TT_INTEGER,
 	TT_FLOAT

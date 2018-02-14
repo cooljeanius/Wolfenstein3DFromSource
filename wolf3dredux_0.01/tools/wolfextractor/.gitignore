@@ -5,3 +5,4 @@ string/test_com_string
 *.o
 makefile
 wolfextractor
+scan_build_output/*

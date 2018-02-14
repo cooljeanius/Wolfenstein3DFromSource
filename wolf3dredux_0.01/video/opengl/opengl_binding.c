@@ -548,7 +548,7 @@ PUBLIC int OpenGL_Init(const char *dllname)
 	 * (if it exists) with the standard Unix one: */
 	char *appleloadpath, *applefallbackloadpath, *applecombinedloadpath, *allcombinedloadpath;
 	appleloadpath = getenv("DYLD_LIBRARY_PATH");
-	applefallbackloadpath = getenv("DYLD_DYLD_FALLBACK_LIBRARY_PATH");
+	applefallbackloadpath = getenv("DYLD_FALLBACK_LIBRARY_PATH");
 	/* TODO: make sure path separators (i.e. ":"s) are preserved */
 #  ifndef PATH_MAX
 #   warning "opengl_binding.c expects PATH_MAX to be defined when building for __APPLE__."

@@ -426,11 +426,7 @@ PUBLIC void LoadTGA(const char *filename, W8 **pic, W16 *width, W16 *height,
 
 				goto TGALOADFAILED;
 			}
-
 			goto TGALOADFAILED;
-
-			break;
-
 		case TGA_TYPE_COLOR:
 			if ((targa_header.bpp != 15)
 			    && (targa_header.bpp != 16)
@@ -440,7 +436,6 @@ PUBLIC void LoadTGA(const char *filename, W8 **pic, W16 *width, W16 *height,
 				goto TGALOADFAILED;
 			}
 			break;
-
 		case TGA_TYPE_GRAY:
 			if ((targa_header.bpp != 8) &&
 				((targa_header.alphaBits != 8) ||
@@ -448,13 +443,7 @@ PUBLIC void LoadTGA(const char *filename, W8 **pic, W16 *width, W16 *height,
 				Com_DPrintf("Unhandled sub-format in (%s)\n", filename);
 				goto TGALOADFAILED;
 			}
-
-
 			goto TGALOADFAILED;
-
-
-			break;
-
 		default:
 			Com_DPrintf("Unknown image type for (%s)\n", filename);
 			goto TGALOADFAILED;

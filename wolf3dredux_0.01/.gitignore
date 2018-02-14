@@ -34,3 +34,4 @@ wolf3dredux
 gamepal
 signon
 lib*.a
+scan_build_output/*

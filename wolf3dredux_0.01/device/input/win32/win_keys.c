@@ -46,9 +46,9 @@ HWND	cl_hwnd;	/* Main window handle for life of program */
 
 cvar_t *win_noalttab;
 
-extern cvar_t	*vid_xpos; /* X coordinate of window position */
-extern cvar_t	*vid_ypos; /* Y coordinate of window position */
-extern cvar_t	*r_fullscreen;
+cvar_t	*vid_xpos; /* X coordinate of window position */
+cvar_t	*vid_ypos; /* Y coordinate of window position */
+cvar_t	*r_fullscreen;
 
 #ifndef WM_MOUSEWHEEL
 # define WM_MOUSEWHEEL (WM_MOUSELAST + 1) /* message that will be supported by the OS */

@@ -123,7 +123,7 @@ PRIVATE _boolean checkstring(char *string)
 */
 PUBLIC pack_t *FS_LoadZipFile(const char *packfile)
 {
-	W32 ziphead;
+	W32 ziphead = 0;
 	char tempfilename[MAX_GAMEPATH];
 	localzipheader_t zlocalhead;
 	FILE	*packhandle;
@@ -267,7 +267,7 @@ PUBLIC pack_t *FS_LoadZipFile(const char *packfile)
 
 		tempfilename[zlocalhead.filename_length] = '\0'; /* NUL-terminate string */
 
-#if 0 || __clang_analyzer__
+#if 0
 		if (! checkstring(tempfilename)) {
 			Com_DPrintf("[FS_LoadZipFile]: Invalid file name\n");
 
@@ -285,7 +285,7 @@ PUBLIC pack_t *FS_LoadZipFile(const char *packfile)
 
 			continue;
 		}
-#endif /* 0 || __clang_analyzer__ */
+#endif /* 0 */
 
 		my_strlcpy(pknewnode->name, tempfilename, sizeof(pknewnode->name));
 

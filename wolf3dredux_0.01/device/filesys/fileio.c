@@ -24,7 +24,7 @@
  *
  */
 
-
+#include <assert.h>
 #include <string.h>
 
 #include "../../common/arch.h"
@@ -557,7 +557,7 @@ PUBLIC SW32 FS_ReadFile(void *buffer, W32 size, W32 count, filehandle_t *fhandle
 	}
 
 	/* should never get here */
-	return -1;
+	assert(-1);
 }
 
 /* EOF */

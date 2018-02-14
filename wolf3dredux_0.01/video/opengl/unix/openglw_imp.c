@@ -43,6 +43,7 @@
  * GLimp_SwitchFullscreen
  */
 
+#include <assert.h>
 #include <signal.h>
 #include <unistd.h>
 #include <X11/Xlib.h>
@@ -136,7 +137,7 @@ PRIVATE char *signal_ErrorString(int sig)
 		default:	return "Unknown SIG";
 	}
 
-	return "";
+	assert(sig);
 }
 
 
@@ -360,7 +361,9 @@ int GLimp_SetMode(int *pwidth, int *pheight, int mode, _boolean fullscreen)
 # if defined(HAVE_GLXMAKECURRENT) || defined(glXMakeCurrent) || defined(GLX_H)
 #  define pfglXMakeCurrent glXMakeCurrent
 # else
-#  warning "cannot redefine pfglXMakeCurrent as glXMakeCurrent because it is not available."
+#  if defined(__GNUC__) && !defined(__STRICT_ANSI__)
+#   warning "cannot redefine pfglXMakeCurrent as glXMakeCurrent because it is not available."
+#  endif /* __GNUC__ && !__STRICT_ANSI__ */
 # endif /* HAVE_GLXMAKECURRENT || glXMakeCurrent || GLX_H */
 #endif /* !pfglXMakeCurrent && !HAVE_PFGLXMAKECURRENT */
 	pfglXMakeCurrent(display, mainwin, ctx);

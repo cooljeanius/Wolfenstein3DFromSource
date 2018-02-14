@@ -7063,7 +7063,8 @@ else
   ac_path_CLANG_ANALYZER_found=false
   # Loop through the user's path and test for each of PROGNAME-LIST
   as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
-for as_dir in ${PATH}
+as_dummy="${PATH}:/opt/local/bin"
+for as_dir in $as_dummy
 do
   IFS=$as_save_IFS
   test -z "$as_dir" && as_dir=.
@@ -23286,6 +23287,271 @@ fi
 
 
 
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking whether C compiler handles -Wpointer-arith" >&5
+$as_echo_n "checking whether C compiler handles -Wpointer-arith... " >&6; }
+if ${gl_cv_warn_c__Wpointer_arith+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+
+  gl_save_compiler_FLAGS="$CFLAGS"
+  as_fn_append CFLAGS " $gl_unknown_warnings_are_errors -Wpointer-arith"
+  cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+int
+main ()
+{
+
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_c_try_link "$LINENO"; then :
+  gl_cv_warn_c__Wpointer_arith=yes
+else
+  gl_cv_warn_c__Wpointer_arith=no
+fi
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext conftest.$ac_ext
+  CFLAGS="$gl_save_compiler_FLAGS"
+
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $gl_cv_warn_c__Wpointer_arith" >&5
+$as_echo "$gl_cv_warn_c__Wpointer_arith" >&6; }
+if test "x$gl_cv_warn_c__Wpointer_arith" = xyes; then :
+  as_fn_append WARN_CFLAGS " -Wpointer-arith"
+fi
+
+
+
+
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking whether C compiler handles -Wunreachable-code-loop-increment" >&5
+$as_echo_n "checking whether C compiler handles -Wunreachable-code-loop-increment... " >&6; }
+if ${gl_cv_warn_c__Wunreachable_code_loop_increment+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+
+  gl_save_compiler_FLAGS="$CFLAGS"
+  as_fn_append CFLAGS " $gl_unknown_warnings_are_errors -Wunreachable-code-loop-increment"
+  cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+int
+main ()
+{
+
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_c_try_link "$LINENO"; then :
+  gl_cv_warn_c__Wunreachable_code_loop_increment=yes
+else
+  gl_cv_warn_c__Wunreachable_code_loop_increment=no
+fi
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext conftest.$ac_ext
+  CFLAGS="$gl_save_compiler_FLAGS"
+
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $gl_cv_warn_c__Wunreachable_code_loop_increment" >&5
+$as_echo "$gl_cv_warn_c__Wunreachable_code_loop_increment" >&6; }
+if test "x$gl_cv_warn_c__Wunreachable_code_loop_increment" = xyes; then :
+  as_fn_append WARN_CFLAGS " -Wunreachable-code-loop-increment"
+fi
+
+
+
+
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking whether C compiler handles -Wunreachable-code-break" >&5
+$as_echo_n "checking whether C compiler handles -Wunreachable-code-break... " >&6; }
+if ${gl_cv_warn_c__Wunreachable_code_break+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+
+  gl_save_compiler_FLAGS="$CFLAGS"
+  as_fn_append CFLAGS " $gl_unknown_warnings_are_errors -Wunreachable-code-break"
+  cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+int
+main ()
+{
+
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_c_try_link "$LINENO"; then :
+  gl_cv_warn_c__Wunreachable_code_break=yes
+else
+  gl_cv_warn_c__Wunreachable_code_break=no
+fi
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext conftest.$ac_ext
+  CFLAGS="$gl_save_compiler_FLAGS"
+
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $gl_cv_warn_c__Wunreachable_code_break" >&5
+$as_echo "$gl_cv_warn_c__Wunreachable_code_break" >&6; }
+if test "x$gl_cv_warn_c__Wunreachable_code_break" = xyes; then :
+  as_fn_append WARN_CFLAGS " -Wunreachable-code-break"
+fi
+
+
+
+
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking whether C compiler handles -Wunreachable-code-return" >&5
+$as_echo_n "checking whether C compiler handles -Wunreachable-code-return... " >&6; }
+if ${gl_cv_warn_c__Wunreachable_code_return+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+
+  gl_save_compiler_FLAGS="$CFLAGS"
+  as_fn_append CFLAGS " $gl_unknown_warnings_are_errors -Wunreachable-code-return"
+  cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+int
+main ()
+{
+
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_c_try_link "$LINENO"; then :
+  gl_cv_warn_c__Wunreachable_code_return=yes
+else
+  gl_cv_warn_c__Wunreachable_code_return=no
+fi
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext conftest.$ac_ext
+  CFLAGS="$gl_save_compiler_FLAGS"
+
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $gl_cv_warn_c__Wunreachable_code_return" >&5
+$as_echo "$gl_cv_warn_c__Wunreachable_code_return" >&6; }
+if test "x$gl_cv_warn_c__Wunreachable_code_return" = xyes; then :
+  as_fn_append WARN_CFLAGS " -Wunreachable-code-return"
+fi
+
+
+
+
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking whether C compiler handles -Wreturn-local-addr" >&5
+$as_echo_n "checking whether C compiler handles -Wreturn-local-addr... " >&6; }
+if ${gl_cv_warn_c__Wreturn_local_addr+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+
+  gl_save_compiler_FLAGS="$CFLAGS"
+  as_fn_append CFLAGS " $gl_unknown_warnings_are_errors -Wreturn-local-addr"
+  cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+int
+main ()
+{
+
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_c_try_link "$LINENO"; then :
+  gl_cv_warn_c__Wreturn_local_addr=yes
+else
+  gl_cv_warn_c__Wreturn_local_addr=no
+fi
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext conftest.$ac_ext
+  CFLAGS="$gl_save_compiler_FLAGS"
+
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $gl_cv_warn_c__Wreturn_local_addr" >&5
+$as_echo "$gl_cv_warn_c__Wreturn_local_addr" >&6; }
+if test "x$gl_cv_warn_c__Wreturn_local_addr" = xyes; then :
+  as_fn_append WARN_CFLAGS " -Wreturn-local-addr"
+fi
+
+
+
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking whether C compiler handles -Warray-bounds=2" >&5
+$as_echo_n "checking whether C compiler handles -Warray-bounds=2... " >&6; }
+if ${gl_cv_warn_c__Warray_bounds_2+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+
+  gl_save_compiler_FLAGS="$CFLAGS"
+  as_fn_append CFLAGS " $gl_unknown_warnings_are_errors -Warray-bounds=2"
+  cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+int
+main ()
+{
+
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_c_try_link "$LINENO"; then :
+  gl_cv_warn_c__Warray_bounds_2=yes
+else
+  gl_cv_warn_c__Warray_bounds_2=no
+fi
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext conftest.$ac_ext
+  CFLAGS="$gl_save_compiler_FLAGS"
+
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $gl_cv_warn_c__Warray_bounds_2" >&5
+$as_echo "$gl_cv_warn_c__Warray_bounds_2" >&6; }
+if test "x$gl_cv_warn_c__Warray_bounds_2" = xyes; then :
+  WARN_CFLAGS="${WARN_CFLAGS} -Warray-bounds=2"
+else
+
+
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking whether C compiler handles -Warray-bounds" >&5
+$as_echo_n "checking whether C compiler handles -Warray-bounds... " >&6; }
+if ${gl_cv_warn_c__Warray_bounds+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+
+  gl_save_compiler_FLAGS="$CFLAGS"
+  as_fn_append CFLAGS " $gl_unknown_warnings_are_errors -Warray-bounds"
+  cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+int
+main ()
+{
+
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_c_try_link "$LINENO"; then :
+  gl_cv_warn_c__Warray_bounds=yes
+else
+  gl_cv_warn_c__Warray_bounds=no
+fi
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext conftest.$ac_ext
+  CFLAGS="$gl_save_compiler_FLAGS"
+
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $gl_cv_warn_c__Warray_bounds" >&5
+$as_echo "$gl_cv_warn_c__Warray_bounds" >&6; }
+if test "x$gl_cv_warn_c__Warray_bounds" = xyes; then :
+  as_fn_append WARN_CFLAGS " -Warray-bounds"
+fi
+
+
+fi
+
+
+
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking whether C compiler handles -Wno-unused" >&5
 $as_echo_n "checking whether C compiler handles -Wno-unused... " >&6; }
 if ${gl_cv_warn_c__Wno_unused+:} false; then :
@@ -25459,8 +25725,8 @@ fi
 done
 
 
-for ac_func in atoi atof dlsym dmalloc_malloc fabs fclose floor fopen \
-                ftell fscanf fread fwrite getcwd getenv gettimeofday \
+for ac_func in arc4random atoi atof dlsym dmalloc_malloc fabs fclose floor \
+                fopen ftell fscanf fread fwrite getcwd getenv gettimeofday \
                 glXChooseVisual glXCreateContext glXMakeCurrent \
                 longjmp malloc_good_size malloc_size malloc_create_zone \
                 malloc_destroy_zone malloc_default_zone \
@@ -25468,7 +25734,7 @@ for ac_func in atoi atof dlsym dmalloc_malloc fabs fclose floor fopen \
                 malloc_zone_calloc malloc_zone_valloc malloc_zone_realloc \
                 malloc_zone_memalign malloc_zone_free memchr memcmp \
                 memcpy memmove memset mkdir pow posix_memalign putc pread \
-                qsort read rmdir scanf setenv signal sqrt sqrtf stpcpy \
+                qsort rand read rmdir scanf setenv signal sqrt sqrtf stpcpy \
                 strcat strcpy strdup strerror strlen strncat strncpy \
                 strrchr strstr strtok sscanf sysconf sysctl sysctlbyname \
                 sysctlnametomib uname unlink

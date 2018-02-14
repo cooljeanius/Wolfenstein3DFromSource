@@ -354,7 +354,8 @@ error_at_line(int status, int errnum, const char *file_name,
 
       if ((old_line_number == line_number)
           && ((file_name == old_file_name)
-              || (strcmp(old_file_name, file_name) == 0))) {
+              || ((file_name != NULL)
+				  && strcmp(old_file_name, file_name) == 0))) {
 			  /* Simply return and print nothing.  */
 			  return;
 		  }

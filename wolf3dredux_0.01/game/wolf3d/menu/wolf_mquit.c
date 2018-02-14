@@ -72,8 +72,7 @@ PRIVATE const char *M_Quit_Key(int key)
 		case 'y':
 			ClientStatic.key_dest = key_console;
 			Client_Quit_f();
-			break;
-
+			/* no need to break; prev. func is noreturn */
 		default:
 			break;
 	}

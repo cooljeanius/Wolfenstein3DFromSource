@@ -98,9 +98,9 @@ cvar_t  *gl_saturatelighting;
 cvar_t	*gl_swapinterval;
 cvar_t	*gl_texturemode;
 
-extern cvar_t	*r_fullscreen;
-extern cvar_t	*vid_gamma;
-extern cvar_t	*r_ref;
+cvar_t	*r_fullscreen;
+cvar_t	*vid_gamma;
+cvar_t	*r_ref;
 
 
 /*

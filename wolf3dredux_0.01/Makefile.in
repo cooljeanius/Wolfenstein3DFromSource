@@ -672,7 +672,7 @@ ASAN_SYMBOLIZER_PATH = $(LLVM_SYMBOLIZER)
 # (cannot sanitize both thread and address at the same time)
 @CLANG_RULES_TRUE@SANFLAGS = # -fsanitize=bounds -fsanitize=undefined
 @CLANG_RULES_TRUE@OPTFLAGS = -g -gdwarf-2 -ggdb -O1 -msse3 -mssse3 -msse4.1 -msse4.2 
-@CLANG_RULES_TRUE@CLANG_CFLAGS = $(OPTFLAGS) -std=gnu99 $(WARNFLAGS) -fasm-blocks -fexceptions -fno-common -fno-limit-debug-info -fno-omit-frame-pointer -fpascal-strings $(CFLAGS_COMMON) -mfix-and-continue $(DIAGFLAGS) $(SANFLAGS)
+@CLANG_RULES_TRUE@CLANG_CFLAGS = $(OPTFLAGS) -std=gnu99 $(WARNFLAGS) -fasm-blocks -fexceptions -fno-limit-debug-info -fno-omit-frame-pointer -fpascal-strings $(CFLAGS_COMMON) -mfix-and-continue $(DIAGFLAGS) $(SANFLAGS)
 @CLANG_RULES_TRUE@AM_CLANG_CPPFLAGS = -I/opt/local/include
 # need to link with sanitizer flags, too, to get necessary symbols:
 @CLANG_RULES_TRUE@AM_CLANG_LINKFLAGS = -L/opt/local/lib $(SANFLAGS) -Wl,-multiply_defined,warning  -Wl,-warn_compact_unwind -Wl,-warn_stabs -Wl,-warn_commons -v # -exported_symbols_list ../Wolfenstein3DFromSource.exp
@@ -682,7 +682,7 @@ ASAN_SYMBOLIZER_PATH = $(LLVM_SYMBOLIZER)
 @CLANG_RULES_TRUE@@MS_COMPAT_CHECK_TRUE@CLANG_MS_COMPAT_CFLAGS = -fasm-blocks -fborland-extensions -fexceptions -ffast-math -fms-compatibility -fms-extensions -fmsc-version=601 -fno-builtin -fno-common -fvisibility-ms-compat -funroll-loops -mfix-and-continue -mms-bitfields -msse3 -mssse3 -msse4.1 -msse4.2 -m32 -g -O0 -arch i386 -std=c99 $(CLANG_MS_COMPAT_WARNFLAGS) -x c
 @CLANG_RULES_TRUE@@MS_COMPAT_CHECK_TRUE@AM_CLANG_MS_COMPAT_CPPFLAGS = -D_MSC_VER=601 -D_WIN32 -I/opt/local/include/wine -I/opt/local/include/wine -I/opt/local/include/wine/msvcrt -I/opt/local/include/wine/windows $(AM_CLANG_CPPFLAGS)
 @CLANG_RULES_TRUE@@MS_COMPAT_CHECK_TRUE@AM_CLANG_MS_COMPAT_LINKFLAGS = -m32 -arch i386
-@CLANG_RULES_TRUE@SCAN_BUILD_CHECKERS = -enable-checker alpha.core.CastSize -enable-checker alpha.core.CastToStruct -enable-checker alpha.core.FixedAddr -enable-checker alpha.core.PointerArithm -enable-checker alpha.core.PointerSub -enable-checker alpha.core.SizeofPtr -enable-checker alpha.security.ArrayBound -enable-checker alpha.security.ArrayBoundV2 -enable-checker alpha.security.MallocOverflow -enable-checker alpha.security.ReturnPtrRange -enable-checker alpha.unix.MallocWithAnnotations -enable-checker alpha.unix.SimpleStream -enable-checker alpha.unix.Stream -enable-checker alpha.unix.cstring.BufferOverlap -enable-checker alpha.unix.cstring.NotNullTerminated -enable-checker alpha.unix.cstring.OutOfBounds -enable-checker security.insecureAPI.rand -enable-checker security.insecureAPI.strcpy -enable-checker security.insecureAPI.vfork -enable-checker llvm.Conventions -enable-checker debug.ConfigDumper -enable-checker alpha.deadcode.UnreachableCode -enable-checker security.FloatLoopCounter -enable-checker debug.Stats
+@CLANG_RULES_TRUE@SCAN_BUILD_CHECKERS = -enable-checker alpha.core.CastSize -enable-checker alpha.core.CastToStruct -enable-checker alpha.core.FixedAddr -enable-checker alpha.core.PointerArithm -enable-checker alpha.core.PointerSub -enable-checker alpha.core.SizeofPtr -enable-checker alpha.security.ArrayBound -enable-checker alpha.security.ArrayBoundV2 -enable-checker alpha.security.MallocOverflow -enable-checker alpha.security.ReturnPtrRange -enable-checker alpha.unix.SimpleStream -enable-checker alpha.unix.Stream -enable-checker alpha.unix.cstring.BufferOverlap -enable-checker alpha.unix.cstring.NotNullTerminated -enable-checker alpha.unix.cstring.OutOfBounds -enable-checker security.insecureAPI.rand -enable-checker security.insecureAPI.strcpy -enable-checker security.insecureAPI.vfork -enable-checker llvm.Conventions -enable-checker alpha.deadcode.UnreachableCode -enable-checker security.FloatLoopCounter
 # turn off warnings that actually are just coming from the Wine headers:
 @CLANG_RULES_FALSE@@MS_COMPAT_CHECK_TRUE@MS_COMPAT_WARNFLAGS = $(WARNFLAGS_COMMON) -Wno-unknown-pragmas -Wno-implicit-function-declaration -Wno-uninitialized
 @CLANG_RULES_FALSE@@MS_COMPAT_CHECK_TRUE@MS_COMPAT_CFLAGS = -fasm-blocks -fexceptions -ffast-math -fms-extensions -fno-builtin -fno-common -funroll-loops -mfix-and-continue -mms-bitfields -msse3 -mssse3 -msse4.1 -msse4.2 -m32 -g -O0 -arch i386 -std=c99 $(MS_COMPAT_WARNFLAGS) -x c
@@ -2649,9 +2649,10 @@ XSyms.txt: wolf3dredux
 #==========================================================================
 @WOLF_OLD_BUILD_TRUE@clean-local:
 @WOLF_OLD_BUILD_TRUE@	rm -f *.o $(ODIR)/*.o $(EXE)
+@WOLF_OLD_BUILD_TRUE@	rm -rf *.dSYM || rmdir *.dSYM
 
 @CLANG_RULES_TRUE@analyze: clean ../Wolfenstein3DFromSource.exp
-@CLANG_RULES_TRUE@	$(SCAN_BUILD) -analyze-headers -stats --use-analyzer=$(COMPILER) $(SCAN_BUILD_CHECKERS) -v -v -v -plist-html -o scan_build_output $(MAKE) AM_CFLAGS="" CFLAGS="$(CLANG_CFLAGS)" AM_CPPFLAGS="-I." CPPFLAGS="$(AM_CLANG_CPPFLAGS)" AM_LDFLAGS="-L." LDFLAGS="$(AM_CLANG_LINKFLAGS)" $(LIBOBJDIR)libgnu.a wolf3dredux
+@CLANG_RULES_TRUE@	$(SCAN_BUILD) --use-analyzer=$(CLANG_ANALYZER) $(SCAN_BUILD_CHECKERS) -v -plist-html -o scan_build_output $(MAKE) AM_CFLAGS="" CFLAGS="$(CLANG_CFLAGS)" AM_CPPFLAGS="-I." CPPFLAGS="$(AM_CLANG_CPPFLAGS)" AM_LDFLAGS="-L." LDFLAGS="$(AM_CLANG_LINKFLAGS)" $(LIBOBJDIR)libgnu.a wolf3dredux
 @CLANG_RULES_TRUE@	test -e tools/wolfextractor/Makefile && $(MAKE) -C tools/wolfextractor analyze
 
 @CLANG_RULES_TRUE@@MS_COMPAT_CHECK_TRUE@ms-compat: clean

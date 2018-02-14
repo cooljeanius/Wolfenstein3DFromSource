@@ -266,7 +266,7 @@ AC_CACHE_CHECK([for the clang static analyzer],[ac_cv_path_CLANG_ANALYZER],
       ac_cv_path_CLANG_ANALYZER=${ac_path_CLANG_ANALYZER}
       ac_path_CLANG_ANALYZER_found=:]],
     [AC_MSG_WARN([we will not be able to do static analysis with clang])],
-    [${PATH}])dnl# end program check
+    [${PATH}:/opt/local/bin])dnl# end program check
   ])dnl# end cache check
   ## (need this extra line here)
 AC_SUBST([CLANG_ANALYZER],[${ac_cv_path_CLANG_ANALYZER}])dnl
