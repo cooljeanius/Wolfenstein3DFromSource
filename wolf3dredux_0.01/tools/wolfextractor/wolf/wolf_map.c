@@ -361,10 +361,10 @@ PRIVATE W8 CAL_SetupMapFile(const char *extension)
 	length = FS_FileLength(handle);
 
 
-	fread(&RLEWtag, (size_t)2, (size_t)1, handle);
+	(void)fread(&RLEWtag, (size_t)2, (size_t)1, handle);
 
 	for ((TotalMaps = 0); ((long)TotalMaps < length); ++TotalMaps) {
-		fread(&headeroffsets[TotalMaps], (size_t)4, (size_t)1, handle);
+		(void)fread(&headeroffsets[TotalMaps], (size_t)4, (size_t)1, handle);
 		if (! headeroffsets[TotalMaps]) {
 			break;
 		}
@@ -491,15 +491,15 @@ PRIVATE W8 CA_CacheMap(W32 ChunkOffset, W32 Chunklength, const char *filename,
 	fseek(maphandle, (long)ChunkOffset, SEEK_SET);
 
 
-	fread(&offsetin, (size_t)sizeof(W32), (size_t)3, maphandle);
-	fread(&length, (size_t)sizeof(W16), (size_t)3, maphandle);
+	(void)fread(&offsetin, (size_t)sizeof(W32), (size_t)3, maphandle);
+	(void)fread(&length, (size_t)sizeof(W16), (size_t)3, maphandle);
 
-	fread(&w, (size_t)sizeof(W16), (size_t)1, maphandle);
-	fread(&h, (size_t)sizeof(W16), (size_t)1, maphandle);
+	(void)fread(&w, (size_t)sizeof(W16), (size_t)1, maphandle);
+	(void)fread(&h, (size_t)sizeof(W16), (size_t)1, maphandle);
 
 
-	fread(name, (size_t)sizeof(W8), (size_t)16, maphandle);
-	fread(sig, (size_t)sizeof(W8), (size_t)4, maphandle);
+	(void)fread(name, (size_t)sizeof(W8), (size_t)16, maphandle);
+	(void)fread(sig, (size_t)sizeof(W8), (size_t)4, maphandle);
 
 /*
  * Output header
@@ -568,7 +568,7 @@ PRIVATE W8 CA_CacheMap(W32 ChunkOffset, W32 Chunklength, const char *filename,
 	offset[0] = (W32)(ftell(fout));
 
 	fseek(maphandle, (long)(offsetin[0]), SEEK_SET);
-	fread(data, (size_t)1, (size_t)length[0], maphandle);
+	(void)fread(data, (size_t)1, (size_t)length[0], maphandle);
 
 	fwrite(data, (size_t)1, (size_t)length[0], fout);
 
@@ -582,7 +582,7 @@ PRIVATE W8 CA_CacheMap(W32 ChunkOffset, W32 Chunklength, const char *filename,
 	offset[1] = (W32)(ftell(fout));
 
 	fseek(maphandle, (long)(offsetin[1]), SEEK_SET);
-	fread(data, (size_t)1, (size_t)length[1], maphandle);
+	(void)fread(data, (size_t)1, (size_t)length[1], maphandle);
 
 	fwrite(data, (size_t)1, (size_t)length[1], fout);
 
@@ -596,7 +596,7 @@ PRIVATE W8 CA_CacheMap(W32 ChunkOffset, W32 Chunklength, const char *filename,
 	offset[2] = (W32)(ftell(fout));
 
 	fseek(maphandle, (long)(offsetin[2]), SEEK_SET);
-	fread(data, (size_t)1, (size_t)length[2], maphandle);
+	(void)fread(data, (size_t)1, (size_t)length[2], maphandle);
 
 	fwrite(data, (size_t)1, (size_t)length[2], fout);
 

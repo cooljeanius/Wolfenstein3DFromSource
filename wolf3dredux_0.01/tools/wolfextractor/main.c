@@ -44,8 +44,10 @@
 #include <limits.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 #include <sys/param.h>
 #include <unistd.h>
+#include <errno.h>
 
 
 #include "../../common/arch.h"
@@ -258,7 +260,11 @@ int wolfextractor_main(int argc, char *argv[])
 	printf("running executable path %s with %i argument(s)\n", argv[0], argc);
 	printf("Version %s built on %s at %s\n\n", APP_VERSION, __DATE__, __TIME__);
 
-	getcwd(currentdir, (size_t)MAXPATHLEN);
+	if (getcwd(currentdir, (size_t)MAXPATHLEN) == NULL) {
+		printf("getcwd() failed; errno: %d (%s)", errno, strerror(errno));
+		/* FIXME: print more specific stuff for each of the errno values */
+		return -1;
+	}
 
 	if (! FS_ChangeCurrentDirectory(BASEDIR)) {
 		printf("Unable to change into directory (%s)\n", BASEDIR);

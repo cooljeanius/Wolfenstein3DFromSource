@@ -44,6 +44,11 @@
  * includes... */
 #include <fcntl.h>
 
+#if defined(HAVE_ERRNO_H) || (defined(__GNUC__) && defined(__GNUC_VERSION__)) \
+    || (defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 199901L)) 
+# include <errno.h>
+#endif /* HAVE_ERRNO_H || GCC || c99 */
+
 #if defined(__APPLE__) && defined(__OBJC__) && defined(__GNUC__)
 # import <Cocoa/Cocoa.h>
 # include <string.h>
@@ -367,7 +372,18 @@ int unix_main(int argc, char *argv[MAX_NUM_ARGVS])
 
 	/* go back to real user for config loads */
 	saved_euid = geteuid();
-	seteuid(getuid());
+	if (seteuid(getuid()) < 0) {
+		fprintf(stderr, "seteuid() failed; errno: %d (%s)\n", errno,
+				strerror(errno));
+		if (errno == EINVAL) {
+			fprintf(stderr,
+					"[EINVAL] The value of the {group,user} ID argument is invalid and is not supported by the implementation.\n");
+		} else if (errno == EPERM) {
+			fprintf(stderr,
+					"[EPERM] The process does not have appropriate privileges and the ID argument does not match the real ID or the saved set-{group,user}-ID.\n");
+		}
+		return -1;
+	}
 
 	/* this is where most of the stuff actually gets init-ed: */
 	common_Init(argc, argv);

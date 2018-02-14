@@ -294,7 +294,7 @@ PRIVATE W8 CAL_SetupGrFile(const char *extension)
 		}
 	}
 
-	fread(grhuffman, sizeof(grhuffman), (size_t)1, handle);
+	(void)fread(grhuffman, sizeof(grhuffman), (size_t)1, handle);
 	fclose(handle);
 
 /*
@@ -316,8 +316,8 @@ PRIVATE W8 CAL_SetupGrFile(const char *extension)
 		return 0;
 	}
 
-	fread(grstarts, sizeof(long), (size_t)((NUMCHUNKS + 1) * FILEPOSSIZE),
-		  handle);
+	(void)fread(grstarts, sizeof(long), (size_t)((NUMCHUNKS + 1) * FILEPOSSIZE),
+				handle);
 
 	fclose(handle);
 
@@ -366,7 +366,7 @@ PRIVATE W8 CAL_SetupGrFile(const char *extension)
 		printf("CAL_SetupGrFile(): Reading 1 object '%lu' bytes long from '%s'...\n",
 			   chunkcomplen, grnameofhandle);
 	}
-	fread(compseg, (size_t)chunkcomplen, (size_t)1, grhandle);
+	(void)fread(compseg, (size_t)chunkcomplen, (size_t)1, grhandle);
 
 	CAL_HuffExpand(compseg, (PW8)pictable,
 				   (NUMPICS * sizeof(pictabletype)),
@@ -602,7 +602,7 @@ PRIVATE void CA_CacheGrChunk(W32 chunk, W16 version)
 			/* FIXME: filename is truncated? */
 		}
 		/* read the 'grhandle' file and store it to 'buffer': */
-		fread(buffer, (size_t)1, (size_t)compressed, grhandle);
+		(void)fread(buffer, (size_t)1, (size_t)compressed, grhandle);
 		/* TODO: make sure that we do not go past EOF! */
 		if (grnameofhandle == NULL) {
 			printf("CA_CacheGrChunk(): position in file 'grhandle' is '%li'\n",

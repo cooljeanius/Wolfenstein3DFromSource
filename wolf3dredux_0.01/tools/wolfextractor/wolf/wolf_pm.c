@@ -119,9 +119,9 @@ PRIVATE W8 PML_OpenPageFile(const char *extension)
 	}
 
 	/* Read in header variables */
-	fread(&PMNumBlocks, sizeof(PMNumBlocks), (size_t)1, PageFile);
-	fread(&PMSpriteStart, sizeof(PMSpriteStart), (size_t)1, PageFile);
-	fread(&PMSoundStart, sizeof(PMSoundStart), (size_t)1, PageFile);
+	(void)fread(&PMNumBlocks, sizeof(PMNumBlocks), (size_t)1, PageFile);
+	(void)fread(&PMSpriteStart, sizeof(PMSpriteStart), (size_t)1, PageFile);
+	(void)fread(&PMSoundStart, sizeof(PMSoundStart), (size_t)1, PageFile);
 
 
 	/* Allocate and clear the page list */

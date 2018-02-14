@@ -552,18 +552,17 @@ PUBLIC void Con_Print( char *txt )
 */
 PUBLIC void Con_CenteredPrint(const char *text)
 {
-	int		length;
+	size_t	length;
 	char	buffer[1024];
 
-	length = (int)strlen(text);
+	length = strlen(text);
 	length = ((con.linewidth - length) >> 1);
-	if (length < 0) {
-		length = 0;
+	if (length < 1UL) {
+		length = 1UL;
 	}
 
-	memset(buffer, ' ', (size_t)length);
-	my_strlcpy((buffer + length), text,
-			   (size_t)((int)sizeof(buffer) - (int)length));
+	memset(buffer, ' ', length);
+	my_strlcpy((buffer + length), text, (sizeof(buffer) - length));
 	my_strlcat(buffer, "\n", sizeof(buffer));
 	Con_Print(buffer);
 }

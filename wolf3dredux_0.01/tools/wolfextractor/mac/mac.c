@@ -914,12 +914,12 @@ PRIVATE _boolean parseMacBinaryHead(void)
 	fseek(fResHandle, (long)1, SEEK_SET);
 
 	/* get file name length (range is 1 to 31) */
-	fread(&temp32, (size_t)1, (size_t)1, fResHandle);
+	(void)fread(&temp32, (size_t)1, (size_t)1, fResHandle);
 	if ((temp32 < 1) || (temp32 > 31)) {
 		return false;
 	}
 
-	fread(name, (size_t)1, (size_t)temp32, fResHandle);
+	(void)fread(name, (size_t)1, (size_t)temp32, fResHandle);
 	name[(temp32 - 1)] = '\0';
 	if (strcmp(name, MACBINFILENAME) != 0) {
 		return false;
@@ -930,7 +930,7 @@ PRIVATE _boolean parseMacBinaryHead(void)
  */
 	fseek(fResHandle, (long)65, SEEK_SET);
 
-	fread(&name, (size_t)1, (size_t)8, fResHandle);
+	(void)fread(&name, (size_t)1, (size_t)8, fResHandle);
 	name[8] = '\0';
 	if (strcmp(name, FILETYPECREATOR) != 0) {
 		return false;
@@ -941,7 +941,7 @@ PRIVATE _boolean parseMacBinaryHead(void)
  */
 	fseek(fResHandle, (long)83, SEEK_SET);
 
-	fread(&temp32, (size_t)1, (size_t)4, fResHandle);
+	(void)fread(&temp32, (size_t)1, (size_t)4, fResHandle);
 
 	temp32 = BigLong(temp32);
 	if (temp32 != DATAFORKLENGTH) {
@@ -951,7 +951,7 @@ PRIVATE _boolean parseMacBinaryHead(void)
 /*
  *	Check Resource Fork length
  */
-	fread(&temp32, (size_t)1, (size_t)4, fResHandle);
+	(void)fread(&temp32, (size_t)1, (size_t)4, fResHandle);
 
 	temp32 = BigLong(temp32);
 	if (temp32 != RESFORKLENGTH) {
