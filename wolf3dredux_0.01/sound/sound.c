@@ -197,10 +197,9 @@ PRIVATE void Sound_StopChannel(channel_t *ch)
 {
 	ch->sfx = NULL;
 
-	/* FIXME: (probably bogus) link error with clang: */
-#ifndef __clang__
+	/* If there is a link error, it is not actually from here, but from a header
+	 * due to -fno-common: */
 	pfalSourceStop(ch->sourceName);
-#endif /* !__clang__ */
 	pfalSourcei(ch->sourceName, AL_BUFFER, 0);
 }
 
@@ -333,11 +332,9 @@ PUBLIC channel_t *Sound_PickChannel(W32 entNum, W32 entChannel)
 	ch->entChannel = (int)entChannel;
 	ch->startTime = ClientState.time;
 
-#ifndef __clang__
 	/* Make sure this channel is stopped */
 	pfalSourceStop(ch->sourceName);
 	pfalSourcei(ch->sourceName, AL_BUFFER, 0);
-#endif /* !__clang__ */
 
 	return ch;
 }

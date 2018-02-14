@@ -314,6 +314,7 @@ PUBLIC void Com_Error(int code, const char *fmt, ...)
 }
 
 
+extern void Game_Shutdown(void); /* moved up here for -Wnested-externs */
 
 /*
 -----------------------------------------------------------------------------
@@ -330,7 +331,6 @@ PUBLIC void Com_Error(int code, const char *fmt, ...)
 */
 PUBLIC void Com_Quit(void)
 {
-	extern void Game_Shutdown(void);
 #if 0
 	SV_Shutdown ("Server quit\n", false);
 #endif /* 0 */

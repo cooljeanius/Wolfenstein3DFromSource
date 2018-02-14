@@ -22600,6 +22600,312 @@ fi
 
 
 
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking whether C compiler handles -Wmissing-declarations" >&5
+$as_echo_n "checking whether C compiler handles -Wmissing-declarations... " >&6; }
+if ${gl_cv_warn_c__Wmissing_declarations+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+
+  gl_save_compiler_FLAGS="$CFLAGS"
+  as_fn_append CFLAGS " $gl_unknown_warnings_are_errors -Wmissing-declarations"
+  cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+int
+main ()
+{
+
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_c_try_link "$LINENO"; then :
+  gl_cv_warn_c__Wmissing_declarations=yes
+else
+  gl_cv_warn_c__Wmissing_declarations=no
+fi
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext conftest.$ac_ext
+  CFLAGS="$gl_save_compiler_FLAGS"
+
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $gl_cv_warn_c__Wmissing_declarations" >&5
+$as_echo "$gl_cv_warn_c__Wmissing_declarations" >&6; }
+if test "x$gl_cv_warn_c__Wmissing_declarations" = xyes; then :
+  as_fn_append WARN_CFLAGS " -Wmissing-declarations"
+fi
+
+
+if test "x${PRINT_LOTS_OF_DECLARATION_WARNINGS}" = "xyes"; then
+
+
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking whether C compiler handles -Wmissing-variable-declarations" >&5
+$as_echo_n "checking whether C compiler handles -Wmissing-variable-declarations... " >&6; }
+if ${gl_cv_warn_c__Wmissing_variable_declarations+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+
+  gl_save_compiler_FLAGS="$CFLAGS"
+  as_fn_append CFLAGS " $gl_unknown_warnings_are_errors -Wmissing-variable-declarations"
+  cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+int
+main ()
+{
+
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_c_try_link "$LINENO"; then :
+  gl_cv_warn_c__Wmissing_variable_declarations=yes
+else
+  gl_cv_warn_c__Wmissing_variable_declarations=no
+fi
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext conftest.$ac_ext
+  CFLAGS="$gl_save_compiler_FLAGS"
+
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $gl_cv_warn_c__Wmissing_variable_declarations" >&5
+$as_echo "$gl_cv_warn_c__Wmissing_variable_declarations" >&6; }
+if test "x$gl_cv_warn_c__Wmissing_variable_declarations" = xyes; then :
+  as_fn_append WARN_CFLAGS " -Wmissing-variable-declarations"
+fi
+
+
+
+
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking whether C compiler handles -Wredundant-decls" >&5
+$as_echo_n "checking whether C compiler handles -Wredundant-decls... " >&6; }
+if ${gl_cv_warn_c__Wredundant_decls+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+
+  gl_save_compiler_FLAGS="$CFLAGS"
+  as_fn_append CFLAGS " $gl_unknown_warnings_are_errors -Wredundant-decls"
+  cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+int
+main ()
+{
+
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_c_try_link "$LINENO"; then :
+  gl_cv_warn_c__Wredundant_decls=yes
+else
+  gl_cv_warn_c__Wredundant_decls=no
+fi
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext conftest.$ac_ext
+  CFLAGS="$gl_save_compiler_FLAGS"
+
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $gl_cv_warn_c__Wredundant_decls" >&5
+$as_echo "$gl_cv_warn_c__Wredundant_decls" >&6; }
+if test "x$gl_cv_warn_c__Wredundant_decls" = xyes; then :
+  as_fn_append WARN_CFLAGS " -Wredundant-decls"
+fi
+
+
+fi
+
+
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking whether C compiler handles -Wunneeded-internal-declaration" >&5
+$as_echo_n "checking whether C compiler handles -Wunneeded-internal-declaration... " >&6; }
+if ${gl_cv_warn_c__Wunneeded_internal_declaration+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+
+  gl_save_compiler_FLAGS="$CFLAGS"
+  as_fn_append CFLAGS " $gl_unknown_warnings_are_errors -Wunneeded-internal-declaration"
+  cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+int
+main ()
+{
+
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_c_try_link "$LINENO"; then :
+  gl_cv_warn_c__Wunneeded_internal_declaration=yes
+else
+  gl_cv_warn_c__Wunneeded_internal_declaration=no
+fi
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext conftest.$ac_ext
+  CFLAGS="$gl_save_compiler_FLAGS"
+
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $gl_cv_warn_c__Wunneeded_internal_declaration" >&5
+$as_echo "$gl_cv_warn_c__Wunneeded_internal_declaration" >&6; }
+if test "x$gl_cv_warn_c__Wunneeded_internal_declaration" = xyes; then :
+  as_fn_append WARN_CFLAGS " -Wunneeded-internal-declaration"
+fi
+
+
+
+
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking whether C compiler handles -Wgnu-redeclared-enum" >&5
+$as_echo_n "checking whether C compiler handles -Wgnu-redeclared-enum... " >&6; }
+if ${gl_cv_warn_c__Wgnu_redeclared_enum+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+
+  gl_save_compiler_FLAGS="$CFLAGS"
+  as_fn_append CFLAGS " $gl_unknown_warnings_are_errors -Wgnu-redeclared-enum"
+  cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+int
+main ()
+{
+
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_c_try_link "$LINENO"; then :
+  gl_cv_warn_c__Wgnu_redeclared_enum=yes
+else
+  gl_cv_warn_c__Wgnu_redeclared_enum=no
+fi
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext conftest.$ac_ext
+  CFLAGS="$gl_save_compiler_FLAGS"
+
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $gl_cv_warn_c__Wgnu_redeclared_enum" >&5
+$as_echo "$gl_cv_warn_c__Wgnu_redeclared_enum" >&6; }
+if test "x$gl_cv_warn_c__Wgnu_redeclared_enum" = xyes; then :
+  as_fn_append WARN_CFLAGS " -Wgnu-redeclared-enum"
+fi
+
+
+
+
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking whether C compiler handles -Wold-style-declaration" >&5
+$as_echo_n "checking whether C compiler handles -Wold-style-declaration... " >&6; }
+if ${gl_cv_warn_c__Wold_style_declaration+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+
+  gl_save_compiler_FLAGS="$CFLAGS"
+  as_fn_append CFLAGS " $gl_unknown_warnings_are_errors -Wold-style-declaration"
+  cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+int
+main ()
+{
+
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_c_try_link "$LINENO"; then :
+  gl_cv_warn_c__Wold_style_declaration=yes
+else
+  gl_cv_warn_c__Wold_style_declaration=no
+fi
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext conftest.$ac_ext
+  CFLAGS="$gl_save_compiler_FLAGS"
+
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $gl_cv_warn_c__Wold_style_declaration" >&5
+$as_echo "$gl_cv_warn_c__Wold_style_declaration" >&6; }
+if test "x$gl_cv_warn_c__Wold_style_declaration" = xyes; then :
+  as_fn_append WARN_CFLAGS " -Wold-style-declaration"
+fi
+
+
+
+
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking whether C compiler handles -Wnested-externs" >&5
+$as_echo_n "checking whether C compiler handles -Wnested-externs... " >&6; }
+if ${gl_cv_warn_c__Wnested_externs+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+
+  gl_save_compiler_FLAGS="$CFLAGS"
+  as_fn_append CFLAGS " $gl_unknown_warnings_are_errors -Wnested-externs"
+  cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+int
+main ()
+{
+
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_c_try_link "$LINENO"; then :
+  gl_cv_warn_c__Wnested_externs=yes
+else
+  gl_cv_warn_c__Wnested_externs=no
+fi
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext conftest.$ac_ext
+  CFLAGS="$gl_save_compiler_FLAGS"
+
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $gl_cv_warn_c__Wnested_externs" >&5
+$as_echo "$gl_cv_warn_c__Wnested_externs" >&6; }
+if test "x$gl_cv_warn_c__Wnested_externs" = xyes; then :
+  as_fn_append WARN_CFLAGS " -Wnested-externs"
+fi
+
+
+
+
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking whether C compiler handles -Wmissing-parameter-type" >&5
+$as_echo_n "checking whether C compiler handles -Wmissing-parameter-type... " >&6; }
+if ${gl_cv_warn_c__Wmissing_parameter_type+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+
+  gl_save_compiler_FLAGS="$CFLAGS"
+  as_fn_append CFLAGS " $gl_unknown_warnings_are_errors -Wmissing-parameter-type"
+  cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+int
+main ()
+{
+
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_c_try_link "$LINENO"; then :
+  gl_cv_warn_c__Wmissing_parameter_type=yes
+else
+  gl_cv_warn_c__Wmissing_parameter_type=no
+fi
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext conftest.$ac_ext
+  CFLAGS="$gl_save_compiler_FLAGS"
+
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $gl_cv_warn_c__Wmissing_parameter_type" >&5
+$as_echo "$gl_cv_warn_c__Wmissing_parameter_type" >&6; }
+if test "x$gl_cv_warn_c__Wmissing_parameter_type" = xyes; then :
+  as_fn_append WARN_CFLAGS " -Wmissing-parameter-type"
+fi
+
+
+
+
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking whether C compiler handles -Wimplicit" >&5
 $as_echo_n "checking whether C compiler handles -Wimplicit... " >&6; }
 if ${gl_cv_warn_c__Wimplicit+:} false; then :
@@ -22899,6 +23205,82 @@ fi
 $as_echo "$gl_cv_warn_c__Walloc_zero" >&6; }
 if test "x$gl_cv_warn_c__Walloc_zero" = xyes; then :
   as_fn_append WARN_CFLAGS " -Walloc-zero"
+fi
+
+
+
+
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking whether C compiler handles -Wmisleading-indentation" >&5
+$as_echo_n "checking whether C compiler handles -Wmisleading-indentation... " >&6; }
+if ${gl_cv_warn_c__Wmisleading_indentation+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+
+  gl_save_compiler_FLAGS="$CFLAGS"
+  as_fn_append CFLAGS " $gl_unknown_warnings_are_errors -Wmisleading-indentation"
+  cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+int
+main ()
+{
+
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_c_try_link "$LINENO"; then :
+  gl_cv_warn_c__Wmisleading_indentation=yes
+else
+  gl_cv_warn_c__Wmisleading_indentation=no
+fi
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext conftest.$ac_ext
+  CFLAGS="$gl_save_compiler_FLAGS"
+
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $gl_cv_warn_c__Wmisleading_indentation" >&5
+$as_echo "$gl_cv_warn_c__Wmisleading_indentation" >&6; }
+if test "x$gl_cv_warn_c__Wmisleading_indentation" = xyes; then :
+  as_fn_append WARN_CFLAGS " -Wmisleading-indentation"
+fi
+
+
+
+
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking whether C compiler handles -Wgcc-compat" >&5
+$as_echo_n "checking whether C compiler handles -Wgcc-compat... " >&6; }
+if ${gl_cv_warn_c__Wgcc_compat+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+
+  gl_save_compiler_FLAGS="$CFLAGS"
+  as_fn_append CFLAGS " $gl_unknown_warnings_are_errors -Wgcc-compat"
+  cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+int
+main ()
+{
+
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_c_try_link "$LINENO"; then :
+  gl_cv_warn_c__Wgcc_compat=yes
+else
+  gl_cv_warn_c__Wgcc_compat=no
+fi
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext conftest.$ac_ext
+  CFLAGS="$gl_save_compiler_FLAGS"
+
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $gl_cv_warn_c__Wgcc_compat" >&5
+$as_echo "$gl_cv_warn_c__Wgcc_compat" >&6; }
+if test "x$gl_cv_warn_c__Wgcc_compat" = xyes; then :
+  as_fn_append WARN_CFLAGS " -Wgcc-compat"
 fi
 
 

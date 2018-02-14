@@ -147,10 +147,10 @@ void Field_Draw( menufield_s *f )
 	/* TODO: put some actual code here? */
 }
 
+extern int keydown[]; /* moved out here for -Wnested-externs */
+
 _boolean Field_Key( menufield_s *f, int key )
 {
-	extern int keydown[];
-
 	switch( key ) {
 		case K_KP_SLASH:
 			key = '/';

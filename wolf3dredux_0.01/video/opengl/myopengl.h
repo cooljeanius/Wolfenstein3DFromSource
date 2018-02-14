@@ -1008,37 +1008,42 @@ extern void *(*pfwglFreeMemoryNV)(void *pointer);
 
 
 /*	GLX Functions */
-XVisualInfo * (*pfglXChooseVisual)(Display *dpy, int screen, int *attribList);
+extern XVisualInfo * (*pfglXChooseVisual)(Display *dpy, int screen,
+										  int *attribList);
 #ifndef HAVE_PFGLXCHOOSEVISUAL
 /* we just declared the prototype for it, so we should have it now: */
 # define HAVE_PFGLXCHOOSEVISUAL 1
 #endif /* !HAVE_PFGLXCHOOSEVISUAL */
-void (*pfglXCopyContext)(Display *dpy, GLXContext src, GLXContext dst,
-						 GLuint mask);
+extern void (*pfglXCopyContext)(Display *dpy, GLXContext src, GLXContext dst,
+								GLuint mask);
 extern GLXContext (*pfglXCreateContext)(Display *dpy, XVisualInfo *vis,
 								 GLXContext shareList, Bool direct);
 #ifndef HAVE_PFGLXCREATECONTEXT
 /* we just declared the prototype for it, so we should have it now: */
 # define HAVE_PFGLXCREATECONTEXT 1
 #endif /* !HAVE_PFGLXCREATECONTEXT */
-extern GLXPixmap (*pfglXCreateGLXPixmap)(Display *dpy, XVisualInfo *vis, Pixmap pixmap);
-void (*pfglXDestroyContext)(Display *dpy, GLXContext ctx);
-void (*pfglXDestroyGLXPixmap)(Display *dpy, GLXPixmap pix);
-int (*pfglXGetConfig)(Display *dpy, XVisualInfo *vis, int attrib, int *value);
+extern GLXPixmap (*pfglXCreateGLXPixmap)(Display *dpy, XVisualInfo *vis,
+										 Pixmap pixmap);
+extern void (*pfglXDestroyContext)(Display *dpy, GLXContext ctx);
+extern void (*pfglXDestroyGLXPixmap)(Display *dpy, GLXPixmap pix);
+extern int (*pfglXGetConfig)(Display *dpy, XVisualInfo *vis, int attrib,
+							 int *value);
 extern GLXContext (*pfglXGetCurrentContext)(void);
 extern GLXDrawable (*pfglXGetCurrentDrawable)(void);
-Bool (*pfglXIsDirect)(Display *dpy, GLXContext ctx);
-Bool (*pfglXMakeCurrent)(Display *dpy, GLXDrawable drawable, GLXContext ctx);
+extern Bool (*pfglXIsDirect)(Display *dpy, GLXContext ctx);
+extern Bool (*pfglXMakeCurrent)(Display *dpy, GLXDrawable drawable,
+								GLXContext ctx);
 #ifndef HAVE_PFGLXMAKECURRENT
 /* we just declared the prototype for it, so we should have it now: */
 # define HAVE_PFGLXMAKECURRENT 1
 #endif /* !HAVE_PFGLXMAKECURRENT */
-Bool (*pfglXQueryExtension)(Display *dpy, int *errorBase, int *eventBase);
-Bool (*pfglXQueryVersion)(Display *dpy, int *major, int *minor);
-void (*pfglXSwapBuffers)(Display *dpy, GLXDrawable drawable);
-void (*pfglXUseXFont)(Font font, int first, int count, int listBase);
-void (*pfglXWaitGL)(void);
-void (*pfglXWaitX)(void);
+extern Bool (*pfglXQueryExtension)(Display *dpy, int *errorBase,
+								   int *eventBase);
+extern Bool (*pfglXQueryVersion)(Display *dpy, int *major, int *minor);
+extern void (*pfglXSwapBuffers)(Display *dpy, GLXDrawable drawable);
+extern void (*pfglXUseXFont)(Font font, int first, int count, int listBase);
+extern void (*pfglXWaitGL)(void);
+extern void (*pfglXWaitX)(void);
 
 #endif /* (__unix__ || __APPLE__) && !_WIN32 */
 

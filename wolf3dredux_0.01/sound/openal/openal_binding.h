@@ -124,77 +124,85 @@ typedef ALCAPI ALvoid (ALCAPIENTRY * ALSOURCEQUEUEBUFFERS)(ALuint sourceName, AL
 typedef ALCAPI ALvoid (ALCAPIENTRY * ALSOURCEUNQUEUEBUFFERS)(ALuint sourceName, ALsizei n, ALuint* buffers);
 
 
+/* need to add "extern" for clang which defaults to -fno-common, but that leads
+ * to missing symbol link errors: */
+#ifndef OPENAL_EXTERN
+# if 0
+#  define OPENAL_EXTERN extern
+# else
+#  define OPENAL_EXTERN /* (nothing) */
+# endif /* 0 */
+#endif /* !OPENAL_EXTERN */
+OPENAL_EXTERN ALCCLOSEDEVICE			pfalcCloseDevice;
+OPENAL_EXTERN ALCCREATECONTEXT		pfalcCreateContext;
+OPENAL_EXTERN ALCDESTROYCONTEXT		pfalcDestroyContext;
+OPENAL_EXTERN ALCGETCONTEXTSDEVICE	pfalcGetContextsDevice;
+OPENAL_EXTERN ALCGETCURRENTCONTEXT	pfalcGetCurrentContext;
+OPENAL_EXTERN ALCGETENUMVALUE			pfalcGetEnumValue;
+OPENAL_EXTERN ALCGETERROR				pfalcGetError;
+OPENAL_EXTERN ALCGETINTEGERV			pfalcGetIntegerv;
+OPENAL_EXTERN ALCGETPROCADDRESS		pfalcGetProcAddress;
+OPENAL_EXTERN ALCGETSTRING			pfalcGetString;
+OPENAL_EXTERN ALCISEXTENSIONPRESENT	pfalcIsExtensionPresent;
+OPENAL_EXTERN ALCMAKECONTEXTCURRENT	pfalcMakeContextCurrent;
+OPENAL_EXTERN ALCOPENDEVICE			pfalcOpenDevice;
+OPENAL_EXTERN ALCPROCESSCONTEXT		pfalcProcessContext;
+OPENAL_EXTERN ALCSUSPENDCONTEXT		pfalcSuspendContext;
 
-extern ALCCLOSEDEVICE			pfalcCloseDevice;
-extern ALCCREATECONTEXT		pfalcCreateContext;
-extern ALCDESTROYCONTEXT		pfalcDestroyContext;
-extern ALCGETCONTEXTSDEVICE	pfalcGetContextsDevice;
-extern ALCGETCURRENTCONTEXT	pfalcGetCurrentContext;
-extern ALCGETENUMVALUE			pfalcGetEnumValue;
-extern ALCGETERROR				pfalcGetError;
-extern ALCGETINTEGERV			pfalcGetIntegerv;
-extern ALCGETPROCADDRESS		pfalcGetProcAddress;
-extern ALCGETSTRING			pfalcGetString;
-extern ALCISEXTENSIONPRESENT	pfalcIsExtensionPresent;
-extern ALCMAKECONTEXTCURRENT	pfalcMakeContextCurrent;
-extern ALCOPENDEVICE			pfalcOpenDevice;
-extern ALCPROCESSCONTEXT		pfalcProcessContext;
-extern ALCSUSPENDCONTEXT		pfalcSuspendContext;
-
-extern ALGENBUFFERS			pfalGenBuffers;
-extern ALDELETEBUFFERS			pfalDeleteBuffers;
-extern ALISBUFFER				pfalIsBuffer;
-extern ALBUFFERDATA			pfalBufferData;
-extern ALGETBUFFERF			pfalGetBufferf;
-extern ALGETBUFFERI			pfalGetBufferi;
-extern ALENABLE				pfalEnable;
-extern ALDISABLE				pfalDisable;
-extern ALDOPPLERFACTOR			pfalDopplerFactor;
-extern ALDOPPLERVELOCITY		pfalDopplerVelocity;
-extern ALDISTANCEMODEL			pfalDistanceModel;
-extern ALGETBOOLEAN			pfalGetBoolean;
-extern ALGETBOOLEANV			pfalGetBooleanv;
-extern ALGETDOUBLE				pfalGetDouble;
-extern ALGETDOUBLEV			pfalGetDoublev;
-extern ALGETFLOAT				pfalGetFloat;
-extern ALGETFLOATV				pfalGetFloatv;
-extern ALGETINTEGER			pfalGetInteger;
-extern ALGETINTEGERV			pfalGetIntegerv;
-extern ALGETENUMVALUE			pfalGetEnumValue;
-extern ALGETERROR				pfalGetError;
-extern ALGETPROCADDRESS		pfalGetProcAddress;
-extern ALGETSTRING				pfalGetString;
-extern ALISEXTENSIONPRESENT	pfalIsExtensionPresent;
-extern ALISENABLED				pfalIsEnabled;
-extern ALLISTENERF				pfalListenerf;
-extern ALLISTENER3F			pfalListener3f;
-extern ALLISTENERFV			pfalListenerfv;
-extern ALLISTENERI				pfalListeneri;
-extern ALGETLISTENERF			pfalGetListenerf;
-extern ALGETLISTENER3F			pfalGetListener3f;
-extern ALGETLISTENERFV			pfalGetListenerfv;
-extern ALGETLISTENERI			pfalGetListeneri;
-extern ALGENSOURCES			pfalGenSources;
-extern ALDELETESOURCES			pfalDeleteSources;
-extern ALISSOURCE				pfalIsSource;
-extern ALSOURCEF				pfalSourcef;
-extern ALSOURCEFV				pfalSourcefv;
-extern ALSOURCE3F				pfalSource3f;
-extern ALSOURCEI				pfalSourcei;
-extern ALGETSOURCEF			pfalGetSourcef;
-extern ALGETSOURCE3F			pfalGetSource3f;
-extern ALGETSOURCEFV			pfalGetSourcefv;
-extern ALGETSOURCEI			pfalGetSourcei;
-extern ALSOURCEPLAY			pfalSourcePlay;
-extern ALSOURCEPLAYV			pfalSourcePlayv;
-extern ALSOURCEPAUSE			pfalSourcePause;
-extern ALSOURCEPAUSEV			pfalSourcePausev;
-extern ALSOURCESTOP			pfalSourceStop;
-extern ALSOURCESTOPV			pfalSourceStopv;
-extern ALSOURCEREWIND			pfalSourceRewind;
-extern ALSOURCEREWINDV			pfalSourceRewindv;
-extern ALSOURCEQUEUEBUFFERS	pfalSourceQueueBuffers;
-extern ALSOURCEUNQUEUEBUFFERS	pfalSourceUnqueueBuffers;
+OPENAL_EXTERN ALGENBUFFERS			pfalGenBuffers;
+OPENAL_EXTERN ALDELETEBUFFERS			pfalDeleteBuffers;
+OPENAL_EXTERN ALISBUFFER				pfalIsBuffer;
+OPENAL_EXTERN ALBUFFERDATA			pfalBufferData;
+OPENAL_EXTERN ALGETBUFFERF			pfalGetBufferf;
+OPENAL_EXTERN ALGETBUFFERI			pfalGetBufferi;
+OPENAL_EXTERN ALENABLE				pfalEnable;
+OPENAL_EXTERN ALDISABLE				pfalDisable;
+OPENAL_EXTERN ALDOPPLERFACTOR			pfalDopplerFactor;
+OPENAL_EXTERN ALDOPPLERVELOCITY		pfalDopplerVelocity;
+OPENAL_EXTERN ALDISTANCEMODEL			pfalDistanceModel;
+OPENAL_EXTERN ALGETBOOLEAN			pfalGetBoolean;
+OPENAL_EXTERN ALGETBOOLEANV			pfalGetBooleanv;
+OPENAL_EXTERN ALGETDOUBLE				pfalGetDouble;
+OPENAL_EXTERN ALGETDOUBLEV			pfalGetDoublev;
+OPENAL_EXTERN ALGETFLOAT				pfalGetFloat;
+OPENAL_EXTERN ALGETFLOATV				pfalGetFloatv;
+OPENAL_EXTERN ALGETINTEGER			pfalGetInteger;
+OPENAL_EXTERN ALGETINTEGERV			pfalGetIntegerv;
+OPENAL_EXTERN ALGETENUMVALUE			pfalGetEnumValue;
+OPENAL_EXTERN ALGETERROR				pfalGetError;
+OPENAL_EXTERN ALGETPROCADDRESS		pfalGetProcAddress;
+OPENAL_EXTERN ALGETSTRING				pfalGetString;
+OPENAL_EXTERN ALISEXTENSIONPRESENT	pfalIsExtensionPresent;
+OPENAL_EXTERN ALISENABLED				pfalIsEnabled;
+OPENAL_EXTERN ALLISTENERF				pfalListenerf;
+OPENAL_EXTERN ALLISTENER3F			pfalListener3f;
+OPENAL_EXTERN ALLISTENERFV			pfalListenerfv;
+OPENAL_EXTERN ALLISTENERI				pfalListeneri;
+OPENAL_EXTERN ALGETLISTENERF			pfalGetListenerf;
+OPENAL_EXTERN ALGETLISTENER3F			pfalGetListener3f;
+OPENAL_EXTERN ALGETLISTENERFV			pfalGetListenerfv;
+OPENAL_EXTERN ALGETLISTENERI			pfalGetListeneri;
+OPENAL_EXTERN ALGENSOURCES			pfalGenSources;
+OPENAL_EXTERN ALDELETESOURCES			pfalDeleteSources;
+OPENAL_EXTERN ALISSOURCE				pfalIsSource;
+OPENAL_EXTERN ALSOURCEF				pfalSourcef;
+OPENAL_EXTERN ALSOURCEFV				pfalSourcefv;
+OPENAL_EXTERN ALSOURCE3F				pfalSource3f;
+OPENAL_EXTERN ALSOURCEI				pfalSourcei;
+OPENAL_EXTERN ALGETSOURCEF			pfalGetSourcef;
+OPENAL_EXTERN ALGETSOURCE3F			pfalGetSource3f;
+OPENAL_EXTERN ALGETSOURCEFV			pfalGetSourcefv;
+OPENAL_EXTERN ALGETSOURCEI			pfalGetSourcei;
+OPENAL_EXTERN ALSOURCEPLAY			pfalSourcePlay;
+OPENAL_EXTERN ALSOURCEPLAYV			pfalSourcePlayv;
+OPENAL_EXTERN ALSOURCEPAUSE			pfalSourcePause;
+OPENAL_EXTERN ALSOURCEPAUSEV			pfalSourcePausev;
+OPENAL_EXTERN ALSOURCESTOP			pfalSourceStop;
+OPENAL_EXTERN ALSOURCESTOPV			pfalSourceStopv;
+OPENAL_EXTERN ALSOURCEREWIND			pfalSourceRewind;
+OPENAL_EXTERN ALSOURCEREWINDV			pfalSourceRewindv;
+OPENAL_EXTERN ALSOURCEQUEUEBUFFERS	pfalSourceQueueBuffers;
+OPENAL_EXTERN ALSOURCEUNQUEUEBUFFERS	pfalSourceUnqueueBuffers;
 
 
 #endif /* __OPENAL_BINDING_H__ */

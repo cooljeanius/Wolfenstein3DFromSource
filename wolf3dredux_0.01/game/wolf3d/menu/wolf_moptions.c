@@ -178,13 +178,14 @@ PRIVATE void LookstrafeFunc(void *unused)
 	Cvar_SetValue("lookstrafe", ! lookstrafe->value);
 }
 
+extern void Key_ClearTyping(void); /* moved out here for -Wnested-externs */
+
 /* is the 'unused' parameter really necessary? */
 PRIVATE void ConsoleFunc(void *unused)
 {
 	/*
 	** the proper way to do this is probably to have ToggleConsole_f accept a parameter
 	*/
-	extern void Key_ClearTyping(void);
 
 #if 0
 	if (cl.attractloop) { /* 'cl' is undeclared */

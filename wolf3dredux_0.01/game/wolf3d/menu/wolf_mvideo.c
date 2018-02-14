@@ -167,6 +167,9 @@ PRIVATE void ApplyChanges(void *unused)
 	M_ForceMenuOff();
 }
 
+
+extern void M_PopMenu(void); /* moved up here for -Wnested-externs */
+
 /*
 -----------------------------------------------------------------------------
  Function: CancelChanges
@@ -181,10 +184,6 @@ PRIVATE void ApplyChanges(void *unused)
 /* is the 'unused' parameter really necessary? */
 PRIVATE void CancelChanges(void *unused)
 {
-	/* why is this prototype in the middle of this function? */
-	extern void M_PopMenu(void);
-	/* I mean, I get that it is right before the function is actually used,
-	 * but still... */
 	M_PopMenu();
 }
 

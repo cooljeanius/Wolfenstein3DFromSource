@@ -675,7 +675,7 @@ ASAN_SYMBOLIZER_PATH = $(LLVM_SYMBOLIZER)
 @CLANG_RULES_TRUE@CLANG_CFLAGS = $(OPTFLAGS) -std=gnu99 $(WARNFLAGS) -fasm-blocks -fexceptions -fno-common -fno-limit-debug-info -fno-omit-frame-pointer -fpascal-strings $(CFLAGS_COMMON) -mfix-and-continue $(DIAGFLAGS) $(SANFLAGS)
 @CLANG_RULES_TRUE@AM_CLANG_CPPFLAGS = -I/opt/local/include
 # need to link with sanitizer flags, too, to get necessary symbols:
-@CLANG_RULES_TRUE@AM_CLANG_LINKFLAGS = -L/opt/local/lib $(SANFLAGS) -Wl,-multiply_defined,warning  -Wl,-warn_compact_unwind -Wl,-warn_stabs -Wl,-warn_commons -v -exported_symbols_list ../Wolfenstein3DFromSource.exp
+@CLANG_RULES_TRUE@AM_CLANG_LINKFLAGS = -L/opt/local/lib $(SANFLAGS) -Wl,-multiply_defined,warning  -Wl,-warn_compact_unwind -Wl,-warn_stabs -Wl,-warn_commons -v # -exported_symbols_list ../Wolfenstein3DFromSource.exp
 
 # turn off warnings that actually are just coming from the Wine headers:
 @CLANG_RULES_TRUE@@MS_COMPAT_CHECK_TRUE@CLANG_MS_COMPAT_WARNFLAGS = $(WARNFLAGS_COMMON) -Wno-unknown-pragmas -Wno-ignored-attributes -Wno-implicit-function-declaration -Wno-int-conversion -Wno-uninitialized

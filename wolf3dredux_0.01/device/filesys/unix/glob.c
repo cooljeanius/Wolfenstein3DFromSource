@@ -48,7 +48,8 @@ static int glob_match_after_star(char *pattern, char *text)
 			return 1;
 		}
 
-		if ((*t++ == '\0')) {
+		/* Removed extra parentheses for -Wparentheses-equality: */
+		if (*t++ == '\0') {
 			return 0;
 		}
 	}

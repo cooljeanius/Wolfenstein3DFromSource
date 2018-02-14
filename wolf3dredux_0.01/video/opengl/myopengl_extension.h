@@ -152,40 +152,40 @@
  *	ARB_MultiTexture
  *	-----------------------
  */
-void (APIENTRYP pfglActiveTextureARB) (GLenum);
-void (APIENTRYP pfglClientActiveTextureARB) (GLenum);
-void (APIENTRYP pfglMultiTexCoord1dARB) (GLenum, GLdouble);
-void (APIENTRYP pfglMultiTexCoord1dvARB) (GLenum, const GLdouble *);
-void (APIENTRYP pfglMultiTexCoord1fARB) (GLenum, GLfloat);
-void (APIENTRYP pfglMultiTexCoord1fvARB) (GLenum, const GLfloat *);
-void (APIENTRYP pfglMultiTexCoord1iARB) (GLenum, GLint);
-void (APIENTRYP pfglMultiTexCoord1ivARB) (GLenum, const GLint *);
-void (APIENTRYP pfglMultiTexCoord1sARB) (GLenum, GLshort);
-void (APIENTRYP pfglMultiTexCoord1svARB) (GLenum, const GLshort *);
-void (APIENTRYP pfglMultiTexCoord2dARB) (GLenum, GLdouble, GLdouble);
-void (APIENTRYP pfglMultiTexCoord2dvARB) (GLenum, const GLdouble *);
-void (APIENTRYP pfglMultiTexCoord2fARB) (GLenum, GLfloat, GLfloat);
-void (APIENTRYP pfglMultiTexCoord2fvARB) (GLenum, const GLfloat *);
-void (APIENTRYP pfglMultiTexCoord2iARB) (GLenum, GLint, GLint);
-void (APIENTRYP pfglMultiTexCoord2ivARB) (GLenum, const GLint *);
-void (APIENTRYP pfglMultiTexCoord2sARB) (GLenum, GLshort, GLshort);
-void (APIENTRYP pfglMultiTexCoord2svARB) (GLenum, const GLshort *);
-void (APIENTRYP pfglMultiTexCoord3dARB) (GLenum, GLdouble, GLdouble, GLdouble);
-void (APIENTRYP pfglMultiTexCoord3dvARB) (GLenum, const GLdouble *);
-void (APIENTRYP pfglMultiTexCoord3fARB) (GLenum, GLfloat, GLfloat, GLfloat);
-void (APIENTRYP pfglMultiTexCoord3fvARB) (GLenum, const GLfloat *);
-void (APIENTRYP pfglMultiTexCoord3iARB) (GLenum, GLint, GLint, GLint);
-void (APIENTRYP pfglMultiTexCoord3ivARB) (GLenum, const GLint *);
-void (APIENTRYP pfglMultiTexCoord3sARB) (GLenum, GLshort, GLshort, GLshort);
-void (APIENTRYP pfglMultiTexCoord3svARB) (GLenum, const GLshort *);
-void (APIENTRYP pfglMultiTexCoord4dARB) (GLenum, GLdouble, GLdouble, GLdouble, GLdouble);
-void (APIENTRYP pfglMultiTexCoord4dvARB) (GLenum, const GLdouble *);
-void (APIENTRYP pfglMultiTexCoord4fARB) (GLenum, GLfloat, GLfloat, GLfloat, GLfloat);
-void (APIENTRYP pfglMultiTexCoord4fvARB) (GLenum, const GLfloat *);
-void (APIENTRYP pfglMultiTexCoord4iARB) (GLenum, GLint, GLint, GLint, GLint);
-void (APIENTRYP pfglMultiTexCoord4ivARB) (GLenum, const GLint *);
-void (APIENTRYP pfglMultiTexCoord4sARB) (GLenum, GLshort, GLshort, GLshort, GLshort);
-void (APIENTRYP pfglMultiTexCoord4svARB) (GLenum, const GLshort *);
+extern void (APIENTRYP pfglActiveTextureARB) (GLenum);
+extern void (APIENTRYP pfglClientActiveTextureARB) (GLenum);
+extern void (APIENTRYP pfglMultiTexCoord1dARB) (GLenum, GLdouble);
+extern void (APIENTRYP pfglMultiTexCoord1dvARB) (GLenum, const GLdouble *);
+extern void (APIENTRYP pfglMultiTexCoord1fARB) (GLenum, GLfloat);
+extern void (APIENTRYP pfglMultiTexCoord1fvARB) (GLenum, const GLfloat *);
+extern void (APIENTRYP pfglMultiTexCoord1iARB) (GLenum, GLint);
+extern void (APIENTRYP pfglMultiTexCoord1ivARB) (GLenum, const GLint *);
+extern void (APIENTRYP pfglMultiTexCoord1sARB) (GLenum, GLshort);
+extern void (APIENTRYP pfglMultiTexCoord1svARB) (GLenum, const GLshort *);
+extern void (APIENTRYP pfglMultiTexCoord2dARB) (GLenum, GLdouble, GLdouble);
+extern void (APIENTRYP pfglMultiTexCoord2dvARB) (GLenum, const GLdouble *);
+extern void (APIENTRYP pfglMultiTexCoord2fARB) (GLenum, GLfloat, GLfloat);
+extern void (APIENTRYP pfglMultiTexCoord2fvARB) (GLenum, const GLfloat *);
+extern void (APIENTRYP pfglMultiTexCoord2iARB) (GLenum, GLint, GLint);
+extern void (APIENTRYP pfglMultiTexCoord2ivARB) (GLenum, const GLint *);
+extern void (APIENTRYP pfglMultiTexCoord2sARB) (GLenum, GLshort, GLshort);
+extern void (APIENTRYP pfglMultiTexCoord2svARB) (GLenum, const GLshort *);
+extern void (APIENTRYP pfglMultiTexCoord3dARB) (GLenum, GLdouble, GLdouble, GLdouble);
+extern void (APIENTRYP pfglMultiTexCoord3dvARB) (GLenum, const GLdouble *);
+extern void (APIENTRYP pfglMultiTexCoord3fARB) (GLenum, GLfloat, GLfloat, GLfloat);
+extern void (APIENTRYP pfglMultiTexCoord3fvARB) (GLenum, const GLfloat *);
+extern void (APIENTRYP pfglMultiTexCoord3iARB) (GLenum, GLint, GLint, GLint);
+extern void (APIENTRYP pfglMultiTexCoord3ivARB) (GLenum, const GLint *);
+extern void (APIENTRYP pfglMultiTexCoord3sARB) (GLenum, GLshort, GLshort, GLshort);
+extern void (APIENTRYP pfglMultiTexCoord3svARB) (GLenum, const GLshort *);
+extern void (APIENTRYP pfglMultiTexCoord4dARB) (GLenum, GLdouble, GLdouble, GLdouble, GLdouble);
+extern void (APIENTRYP pfglMultiTexCoord4dvARB) (GLenum, const GLdouble *);
+extern void (APIENTRYP pfglMultiTexCoord4fARB) (GLenum, GLfloat, GLfloat, GLfloat, GLfloat);
+extern void (APIENTRYP pfglMultiTexCoord4fvARB) (GLenum, const GLfloat *);
+extern void (APIENTRYP pfglMultiTexCoord4iARB) (GLenum, GLint, GLint, GLint, GLint);
+extern void (APIENTRYP pfglMultiTexCoord4ivARB) (GLenum, const GLint *);
+extern void (APIENTRYP pfglMultiTexCoord4sARB) (GLenum, GLshort, GLshort, GLshort, GLshort);
+extern void (APIENTRYP pfglMultiTexCoord4svARB) (GLenum, const GLshort *);
 
 
 /*
@@ -193,10 +193,10 @@ void (APIENTRYP pfglMultiTexCoord4svARB) (GLenum, const GLshort *);
  *	ARB_TransposeMatrix
  *	-----------------------
  */
-void (APIENTRYP pfglLoadTransposeMatrixfARB) (const GLfloat *);
-void (APIENTRYP pfglLoadTransposeMatrixdARB) (const GLdouble *);
-void (APIENTRYP pfglMultTransposeMatrixfARB) (const GLfloat *);
-void (APIENTRYP pfglMultTransposeMatrixdARB) (const GLdouble *);
+extern void (APIENTRYP pfglLoadTransposeMatrixfARB) (const GLfloat *);
+extern void (APIENTRYP pfglLoadTransposeMatrixdARB) (const GLdouble *);
+extern void (APIENTRYP pfglMultTransposeMatrixfARB) (const GLfloat *);
+extern void (APIENTRYP pfglMultTransposeMatrixdARB) (const GLdouble *);
 
 
 /*
@@ -204,7 +204,7 @@ void (APIENTRYP pfglMultTransposeMatrixdARB) (const GLdouble *);
  *	ARB_MultiSample
  *	-----------------------
  */
-void (APIENTRYP pfglSampleCoverageARB) (GLclampf, GLboolean);
+extern void (APIENTRYP pfglSampleCoverageARB) (GLclampf, GLboolean);
 
 
 /*
@@ -212,13 +212,13 @@ void (APIENTRYP pfglSampleCoverageARB) (GLclampf, GLboolean);
  *	ARB_TextureCompression
  *	-----------------------
  */
-void (APIENTRYP pfglCompressedTexImage3DARB) (GLenum, GLint, GLenum, GLsizei, GLsizei, GLsizei, GLint, GLsizei, const GLvoid *);
-void (APIENTRYP pfglCompressedTexImage2DARB) (GLenum, GLint, GLenum, GLsizei, GLsizei, GLint, GLsizei, const GLvoid *);
-void (APIENTRYP pfglCompressedTexImage1DARB) (GLenum, GLint, GLenum, GLsizei, GLint, GLsizei, const GLvoid *);
-void (APIENTRYP pfglCompressedTexSubImage3DARB) (GLenum, GLint, GLint, GLint, GLint, GLsizei, GLsizei, GLsizei, GLenum, GLsizei, const GLvoid *);
-void (APIENTRYP pfglCompressedTexSubImage2DARB) (GLenum, GLint, GLint, GLint, GLsizei, GLsizei, GLenum, GLsizei, const GLvoid *);
-void (APIENTRYP pfglCompressedTexSubImage1DARB) (GLenum, GLint, GLint, GLsizei, GLenum, GLsizei, const GLvoid *);
-void (APIENTRYP pfglGetCompressedTexImageARB) (GLenum, GLint, GLvoid *);
+extern void (APIENTRYP pfglCompressedTexImage3DARB) (GLenum, GLint, GLenum, GLsizei, GLsizei, GLsizei, GLint, GLsizei, const GLvoid *);
+extern void (APIENTRYP pfglCompressedTexImage2DARB) (GLenum, GLint, GLenum, GLsizei, GLsizei, GLint, GLsizei, const GLvoid *);
+extern void (APIENTRYP pfglCompressedTexImage1DARB) (GLenum, GLint, GLenum, GLsizei, GLint, GLsizei, const GLvoid *);
+extern void (APIENTRYP pfglCompressedTexSubImage3DARB) (GLenum, GLint, GLint, GLint, GLint, GLsizei, GLsizei, GLsizei, GLenum, GLsizei, const GLvoid *);
+extern void (APIENTRYP pfglCompressedTexSubImage2DARB) (GLenum, GLint, GLint, GLint, GLsizei, GLsizei, GLenum, GLsizei, const GLvoid *);
+extern void (APIENTRYP pfglCompressedTexSubImage1DARB) (GLenum, GLint, GLint, GLsizei, GLenum, GLsizei, const GLvoid *);
+extern void (APIENTRYP pfglGetCompressedTexImageARB) (GLenum, GLint, GLvoid *);
 
 
 /*
@@ -226,8 +226,8 @@ void (APIENTRYP pfglGetCompressedTexImageARB) (GLenum, GLint, GLvoid *);
  *	ARB_PointParameters
  *	-----------------------
  */
-void (APIENTRYP pfglPointParameterfARB) (GLenum, GLfloat);
-void (APIENTRYP pfglPointParameterfvARB) (GLenum, const GLfloat *);
+extern void (APIENTRYP pfglPointParameterfARB) (GLenum, GLfloat);
+extern void (APIENTRYP pfglPointParameterfvARB) (GLenum, const GLfloat *);
 
 
 /*
@@ -235,16 +235,16 @@ void (APIENTRYP pfglPointParameterfvARB) (GLenum, const GLfloat *);
  *	ARB_VertexBlend
  *	-----------------------
  */
-void (APIENTRYP pfglWeightbvARB) (GLint, const GLbyte *);
-void (APIENTRYP pfglWeightsvARB) (GLint, const GLshort *);
-void (APIENTRYP pfglWeightivARB) (GLint, const GLint *);
-void (APIENTRYP pfglWeightfvARB) (GLint, const GLfloat *);
-void (APIENTRYP pfglWeightdvARB) (GLint, const GLdouble *);
-void (APIENTRYP pfglWeightubvARB) (GLint, const GLubyte *);
-void (APIENTRYP pfglWeightusvARB) (GLint, const GLushort *);
-void (APIENTRYP pfglWeightuivARB) (GLint, const GLuint *);
-void (APIENTRYP pfglWeightPointerARB) (GLint, GLenum, GLsizei, const GLvoid *);
-void (APIENTRYP pfglVertexBlendARB) (GLint);
+extern void (APIENTRYP pfglWeightbvARB) (GLint, const GLbyte *);
+extern void (APIENTRYP pfglWeightsvARB) (GLint, const GLshort *);
+extern void (APIENTRYP pfglWeightivARB) (GLint, const GLint *);
+extern void (APIENTRYP pfglWeightfvARB) (GLint, const GLfloat *);
+extern void (APIENTRYP pfglWeightdvARB) (GLint, const GLdouble *);
+extern void (APIENTRYP pfglWeightubvARB) (GLint, const GLubyte *);
+extern void (APIENTRYP pfglWeightusvARB) (GLint, const GLushort *);
+extern void (APIENTRYP pfglWeightuivARB) (GLint, const GLuint *);
+extern void (APIENTRYP pfglWeightPointerARB) (GLint, GLenum, GLsizei, const GLvoid *);
+extern void (APIENTRYP pfglVertexBlendARB) (GLint);
 
 
 /*
@@ -252,11 +252,11 @@ void (APIENTRYP pfglVertexBlendARB) (GLint);
  *	ARB_MatrixPalette
  *	-----------------------
  */
-void (APIENTRYP pfglCurrentPaletteMatrixARB) (GLint);
-void (APIENTRYP pfglMatrixIndexubvARB) (GLint, const GLubyte *);
-void (APIENTRYP pfglMatrixIndexusvARB) (GLint, const GLushort *);
-void (APIENTRYP pfglMatrixIndexuivARB) (GLint, const GLuint *);
-void (APIENTRYP pfglMatrixIndexPointerARB) (GLint, GLenum, GLsizei, const GLvoid *);
+extern void (APIENTRYP pfglCurrentPaletteMatrixARB) (GLint);
+extern void (APIENTRYP pfglMatrixIndexubvARB) (GLint, const GLubyte *);
+extern void (APIENTRYP pfglMatrixIndexusvARB) (GLint, const GLushort *);
+extern void (APIENTRYP pfglMatrixIndexuivARB) (GLint, const GLuint *);
+extern void (APIENTRYP pfglMatrixIndexPointerARB) (GLint, GLenum, GLsizei, const GLvoid *);
 
 
 /*
@@ -264,68 +264,68 @@ void (APIENTRYP pfglMatrixIndexPointerARB) (GLint, GLenum, GLsizei, const GLvoid
  *	ARB_VertexProgram
  *	------------------------------
  */
-void (APIENTRYP pfglVertexAttrib1dARB) (GLuint, GLdouble);
-void (APIENTRYP pfglVertexAttrib1dvARB) (GLuint, const GLdouble *);
-void (APIENTRYP pfglVertexAttrib1fARB) (GLuint, GLfloat);
-void (APIENTRYP pfglVertexAttrib1fvARB) (GLuint, const GLfloat *);
-void (APIENTRYP pfglVertexAttrib1sARB) (GLuint, GLshort);
-void (APIENTRYP pfglVertexAttrib1svARB) (GLuint, const GLshort *);
-void (APIENTRYP pfglVertexAttrib2dARB) (GLuint, GLdouble, GLdouble);
-void (APIENTRYP pfglVertexAttrib2dvARB) (GLuint, const GLdouble *);
-void (APIENTRYP pfglVertexAttrib2fARB) (GLuint, GLfloat, GLfloat);
-void (APIENTRYP pfglVertexAttrib2fvARB) (GLuint, const GLfloat *);
-void (APIENTRYP pfglVertexAttrib2sARB) (GLuint, GLshort, GLshort);
-void (APIENTRYP pfglVertexAttrib2svARB) (GLuint, const GLshort *);
-void (APIENTRYP pfglVertexAttrib3dARB) (GLuint, GLdouble, GLdouble, GLdouble);
-void (APIENTRYP pfglVertexAttrib3dvARB) (GLuint, const GLdouble *);
-void (APIENTRYP pfglVertexAttrib3fARB) (GLuint, GLfloat, GLfloat, GLfloat);
-void (APIENTRYP pfglVertexAttrib3fvARB) (GLuint, const GLfloat *);
-void (APIENTRYP pfglVertexAttrib3sARB) (GLuint, GLshort, GLshort, GLshort);
-void (APIENTRYP pfglVertexAttrib3svARB) (GLuint, const GLshort *);
-void (APIENTRYP pfglVertexAttrib4NbvARB) (GLuint, const GLbyte *);
-void (APIENTRYP pfglVertexAttrib4NivARB) (GLuint, const GLint *);
-void (APIENTRYP pfglVertexAttrib4NsvARB) (GLuint, const GLshort *);
-void (APIENTRYP pfglVertexAttrib4NubARB) (GLuint, GLubyte, GLubyte, GLubyte, GLubyte);
-void (APIENTRYP pfglVertexAttrib4NubvARB) (GLuint, const GLubyte *);
-void (APIENTRYP pfglVertexAttrib4NuivARB) (GLuint, const GLuint *);
-void (APIENTRYP pfglVertexAttrib4NusvARB) (GLuint, const GLushort *);
-void (APIENTRYP pfglVertexAttrib4bvARB) (GLuint, const GLbyte *);
-void (APIENTRYP pfglVertexAttrib4dARB) (GLuint, GLdouble, GLdouble, GLdouble, GLdouble);
-void (APIENTRYP pfglVertexAttrib4dvARB) (GLuint, const GLdouble *);
-void (APIENTRYP pfglVertexAttrib4fARB) (GLuint, GLfloat, GLfloat, GLfloat, GLfloat);
-void (APIENTRYP pfglVertexAttrib4fvARB) (GLuint, const GLfloat *);
-void (APIENTRYP pfglVertexAttrib4ivARB) (GLuint, const GLint *);
-void (APIENTRYP pfglVertexAttrib4sARB) (GLuint, GLshort, GLshort, GLshort, GLshort);
-void (APIENTRYP pfglVertexAttrib4svARB) (GLuint, const GLshort *);
-void (APIENTRYP pfglVertexAttrib4ubvARB) (GLuint, const GLubyte *);
-void (APIENTRYP pfglVertexAttrib4uivARB) (GLuint, const GLuint *);
-void (APIENTRYP pfglVertexAttrib4usvARB) (GLuint, const GLushort *);
-void (APIENTRYP pfglVertexAttribPointerARB) (GLuint, GLint, GLenum, GLboolean, GLsizei, const GLvoid *);
-void (APIENTRYP pfglEnableVertexAttribArrayARB) (GLuint);
-void (APIENTRYP pfglDisableVertexAttribArrayARB) (GLuint);
-void (APIENTRYP pfglProgramStringARB) (GLenum, GLenum, GLsizei, const GLvoid *);
-void (APIENTRYP pfglBindProgramARB) (GLenum, GLuint);
-void (APIENTRYP pfglDeleteProgramsARB) (GLsizei, const GLuint *);
-void (APIENTRYP pfglGenProgramsARB) (GLsizei, GLuint *);
-void (APIENTRYP pfglProgramEnvParameter4dARB) (GLenum, GLuint, GLdouble, GLdouble, GLdouble, GLdouble);
-void (APIENTRYP pfglProgramEnvParameter4dvARB) (GLenum, GLuint, const GLdouble *);
-void (APIENTRYP pfglProgramEnvParameter4fARB) (GLenum, GLuint, GLfloat, GLfloat, GLfloat, GLfloat);
-void (APIENTRYP pfglProgramEnvParameter4fvARB) (GLenum, GLuint, const GLfloat *);
-void (APIENTRYP pfglProgramLocalParameter4dARB) (GLenum, GLuint, GLdouble, GLdouble, GLdouble, GLdouble);
-void (APIENTRYP pfglProgramLocalParameter4dvARB) (GLenum, GLuint, const GLdouble *);
-void (APIENTRYP pfglProgramLocalParameter4fARB) (GLenum, GLuint, GLfloat, GLfloat, GLfloat, GLfloat);
-void (APIENTRYP pfglProgramLocalParameter4fvARB) (GLenum, GLuint, const GLfloat *);
-void (APIENTRYP pfglGetProgramEnvParameterdvARB) (GLenum, GLuint, GLdouble *);
-void (APIENTRYP pfglGetProgramEnvParameterfvARB) (GLenum, GLuint, GLfloat *);
-void (APIENTRYP pfglGetProgramLocalParameterdvARB) (GLenum, GLuint, GLdouble *);
-void (APIENTRYP pfglGetProgramLocalParameterfvARB) (GLenum, GLuint, GLfloat *);
-void (APIENTRYP pfglGetProgramivARB) (GLenum, GLenum, GLint *);
-void (APIENTRYP pfglGetProgramStringARB) (GLenum, GLenum, GLvoid *);
-void (APIENTRYP pfglGetVertexAttribdvARB) (GLuint, GLenum, GLdouble *);
-void (APIENTRYP pfglGetVertexAttribfvARB) (GLuint, GLenum, GLfloat *);
-void (APIENTRYP pfglGetVertexAttribivARB) (GLuint, GLenum, GLint *);
-void (APIENTRYP pfglGetVertexAttribPointervARB) (GLuint, GLenum, GLvoid* *);
-GLboolean (APIENTRYP pfglIsProgramARB) (GLuint);
+extern void (APIENTRYP pfglVertexAttrib1dARB) (GLuint, GLdouble);
+extern void (APIENTRYP pfglVertexAttrib1dvARB) (GLuint, const GLdouble *);
+extern void (APIENTRYP pfglVertexAttrib1fARB) (GLuint, GLfloat);
+extern void (APIENTRYP pfglVertexAttrib1fvARB) (GLuint, const GLfloat *);
+extern void (APIENTRYP pfglVertexAttrib1sARB) (GLuint, GLshort);
+extern void (APIENTRYP pfglVertexAttrib1svARB) (GLuint, const GLshort *);
+extern void (APIENTRYP pfglVertexAttrib2dARB) (GLuint, GLdouble, GLdouble);
+extern void (APIENTRYP pfglVertexAttrib2dvARB) (GLuint, const GLdouble *);
+extern void (APIENTRYP pfglVertexAttrib2fARB) (GLuint, GLfloat, GLfloat);
+extern void (APIENTRYP pfglVertexAttrib2fvARB) (GLuint, const GLfloat *);
+extern void (APIENTRYP pfglVertexAttrib2sARB) (GLuint, GLshort, GLshort);
+extern void (APIENTRYP pfglVertexAttrib2svARB) (GLuint, const GLshort *);
+extern void (APIENTRYP pfglVertexAttrib3dARB) (GLuint, GLdouble, GLdouble, GLdouble);
+extern void (APIENTRYP pfglVertexAttrib3dvARB) (GLuint, const GLdouble *);
+extern void (APIENTRYP pfglVertexAttrib3fARB) (GLuint, GLfloat, GLfloat, GLfloat);
+extern void (APIENTRYP pfglVertexAttrib3fvARB) (GLuint, const GLfloat *);
+extern void (APIENTRYP pfglVertexAttrib3sARB) (GLuint, GLshort, GLshort, GLshort);
+extern void (APIENTRYP pfglVertexAttrib3svARB) (GLuint, const GLshort *);
+extern void (APIENTRYP pfglVertexAttrib4NbvARB) (GLuint, const GLbyte *);
+extern void (APIENTRYP pfglVertexAttrib4NivARB) (GLuint, const GLint *);
+extern void (APIENTRYP pfglVertexAttrib4NsvARB) (GLuint, const GLshort *);
+extern void (APIENTRYP pfglVertexAttrib4NubARB) (GLuint, GLubyte, GLubyte, GLubyte, GLubyte);
+extern void (APIENTRYP pfglVertexAttrib4NubvARB) (GLuint, const GLubyte *);
+extern void (APIENTRYP pfglVertexAttrib4NuivARB) (GLuint, const GLuint *);
+extern void (APIENTRYP pfglVertexAttrib4NusvARB) (GLuint, const GLushort *);
+extern void (APIENTRYP pfglVertexAttrib4bvARB) (GLuint, const GLbyte *);
+extern void (APIENTRYP pfglVertexAttrib4dARB) (GLuint, GLdouble, GLdouble, GLdouble, GLdouble);
+extern void (APIENTRYP pfglVertexAttrib4dvARB) (GLuint, const GLdouble *);
+extern void (APIENTRYP pfglVertexAttrib4fARB) (GLuint, GLfloat, GLfloat, GLfloat, GLfloat);
+extern void (APIENTRYP pfglVertexAttrib4fvARB) (GLuint, const GLfloat *);
+extern void (APIENTRYP pfglVertexAttrib4ivARB) (GLuint, const GLint *);
+extern void (APIENTRYP pfglVertexAttrib4sARB) (GLuint, GLshort, GLshort, GLshort, GLshort);
+extern void (APIENTRYP pfglVertexAttrib4svARB) (GLuint, const GLshort *);
+extern void (APIENTRYP pfglVertexAttrib4ubvARB) (GLuint, const GLubyte *);
+extern void (APIENTRYP pfglVertexAttrib4uivARB) (GLuint, const GLuint *);
+extern void (APIENTRYP pfglVertexAttrib4usvARB) (GLuint, const GLushort *);
+extern void (APIENTRYP pfglVertexAttribPointerARB) (GLuint, GLint, GLenum, GLboolean, GLsizei, const GLvoid *);
+extern void (APIENTRYP pfglEnableVertexAttribArrayARB) (GLuint);
+extern void (APIENTRYP pfglDisableVertexAttribArrayARB) (GLuint);
+extern void (APIENTRYP pfglProgramStringARB) (GLenum, GLenum, GLsizei, const GLvoid *);
+extern void (APIENTRYP pfglBindProgramARB) (GLenum, GLuint);
+extern void (APIENTRYP pfglDeleteProgramsARB) (GLsizei, const GLuint *);
+extern void (APIENTRYP pfglGenProgramsARB) (GLsizei, GLuint *);
+extern void (APIENTRYP pfglProgramEnvParameter4dARB) (GLenum, GLuint, GLdouble, GLdouble, GLdouble, GLdouble);
+extern void (APIENTRYP pfglProgramEnvParameter4dvARB) (GLenum, GLuint, const GLdouble *);
+extern void (APIENTRYP pfglProgramEnvParameter4fARB) (GLenum, GLuint, GLfloat, GLfloat, GLfloat, GLfloat);
+extern void (APIENTRYP pfglProgramEnvParameter4fvARB) (GLenum, GLuint, const GLfloat *);
+extern void (APIENTRYP pfglProgramLocalParameter4dARB) (GLenum, GLuint, GLdouble, GLdouble, GLdouble, GLdouble);
+extern void (APIENTRYP pfglProgramLocalParameter4dvARB) (GLenum, GLuint, const GLdouble *);
+extern void (APIENTRYP pfglProgramLocalParameter4fARB) (GLenum, GLuint, GLfloat, GLfloat, GLfloat, GLfloat);
+extern void (APIENTRYP pfglProgramLocalParameter4fvARB) (GLenum, GLuint, const GLfloat *);
+extern void (APIENTRYP pfglGetProgramEnvParameterdvARB) (GLenum, GLuint, GLdouble *);
+extern void (APIENTRYP pfglGetProgramEnvParameterfvARB) (GLenum, GLuint, GLfloat *);
+extern void (APIENTRYP pfglGetProgramLocalParameterdvARB) (GLenum, GLuint, GLdouble *);
+extern void (APIENTRYP pfglGetProgramLocalParameterfvARB) (GLenum, GLuint, GLfloat *);
+extern void (APIENTRYP pfglGetProgramivARB) (GLenum, GLenum, GLint *);
+extern void (APIENTRYP pfglGetProgramStringARB) (GLenum, GLenum, GLvoid *);
+extern void (APIENTRYP pfglGetVertexAttribdvARB) (GLuint, GLenum, GLdouble *);
+extern void (APIENTRYP pfglGetVertexAttribfvARB) (GLuint, GLenum, GLfloat *);
+extern void (APIENTRYP pfglGetVertexAttribivARB) (GLuint, GLenum, GLint *);
+extern void (APIENTRYP pfglGetVertexAttribPointervARB) (GLuint, GLenum, GLvoid* *);
+extern GLboolean (APIENTRYP pfglIsProgramARB) (GLuint);
 
 
 /* All ARB_fragment_program entry points are shared with ARB_vertex_program. */
@@ -336,17 +336,17 @@ GLboolean (APIENTRYP pfglIsProgramARB) (GLuint);
  *	ARB_VertexBufferObject
  *	------------------------------
  */
-void (APIENTRYP pfglBindBufferARB) (GLenum, GLuint);
-void (APIENTRYP pfglDeleteBuffersARB) (GLsizei, const GLuint *);
-void (APIENTRYP pfglGenBuffersARB) (GLsizei, GLuint *);
-GLboolean (APIENTRYP pfglIsBufferARB) (GLuint);
-void (APIENTRYP pfglBufferDataARB) (GLenum, GLsizeiptrARB, const GLvoid *, GLenum);
-void (APIENTRYP pfglBufferSubDataARB) (GLenum, GLintptrARB, GLsizeiptrARB, const GLvoid *);
-void (APIENTRYP pfglGetBufferSubDataARB) (GLenum, GLintptrARB, GLsizeiptrARB, GLvoid *);
-GLvoid* (APIENTRYP pfglMapBufferARB) (GLenum, GLenum);
-GLboolean (APIENTRYP pfglUnmapBufferARB) (GLenum);
-void (APIENTRYP pfglGetBufferParameterivARB) (GLenum, GLenum, GLint *);
-void (APIENTRYP pfglGetBufferPointervARB) (GLenum, GLenum, GLvoid* *);
+extern void (APIENTRYP pfglBindBufferARB) (GLenum, GLuint);
+extern void (APIENTRYP pfglDeleteBuffersARB) (GLsizei, const GLuint *);
+extern void (APIENTRYP pfglGenBuffersARB) (GLsizei, GLuint *);
+extern GLboolean (APIENTRYP pfglIsBufferARB) (GLuint);
+extern void (APIENTRYP pfglBufferDataARB) (GLenum, GLsizeiptrARB, const GLvoid *, GLenum);
+extern void (APIENTRYP pfglBufferSubDataARB) (GLenum, GLintptrARB, GLsizeiptrARB, const GLvoid *);
+extern void (APIENTRYP pfglGetBufferSubDataARB) (GLenum, GLintptrARB, GLsizeiptrARB, GLvoid *);
+extern GLvoid* (APIENTRYP pfglMapBufferARB) (GLenum, GLenum);
+extern GLboolean (APIENTRYP pfglUnmapBufferARB) (GLenum);
+extern void (APIENTRYP pfglGetBufferParameterivARB) (GLenum, GLenum, GLint *);
+extern void (APIENTRYP pfglGetBufferPointervARB) (GLenum, GLenum, GLvoid* *);
 
 
 /*
@@ -354,14 +354,14 @@ void (APIENTRYP pfglGetBufferPointervARB) (GLenum, GLenum, GLvoid* *);
  *	ARB_OcclusionQuery
  *	------------------------------
  */
-void (APIENTRYP pfglGenQueriesARB) (GLsizei, GLuint *);
-void (APIENTRYP pfglDeleteQueriesARB) (GLsizei, const GLuint *);
-GLboolean (APIENTRYP pfglIsQueryARB) (GLuint);
-void (APIENTRYP pfglBeginQueryARB) (GLenum, GLuint);
-void (APIENTRYP pfglEndQueryARB) (GLenum);
-void (APIENTRYP pfglGetQueryivARB) (GLenum, GLenum, GLint *);
-void (APIENTRYP pfglGetQueryObjectivARB) (GLuint, GLenum, GLint *);
-void (APIENTRYP pfglGetQueryObjectuivARB) (GLuint, GLenum, GLuint *);
+extern void (APIENTRYP pfglGenQueriesARB) (GLsizei, GLuint *);
+extern void (APIENTRYP pfglDeleteQueriesARB) (GLsizei, const GLuint *);
+extern GLboolean (APIENTRYP pfglIsQueryARB) (GLuint);
+extern void (APIENTRYP pfglBeginQueryARB) (GLenum, GLuint);
+extern void (APIENTRYP pfglEndQueryARB) (GLenum);
+extern void (APIENTRYP pfglGetQueryivARB) (GLenum, GLenum, GLint *);
+extern void (APIENTRYP pfglGetQueryObjectivARB) (GLuint, GLenum, GLint *);
+extern void (APIENTRYP pfglGetQueryObjectuivARB) (GLuint, GLenum, GLuint *);
 
 
 /*
@@ -369,45 +369,45 @@ void (APIENTRYP pfglGetQueryObjectuivARB) (GLuint, GLenum, GLuint *);
  *	ARB_ShaderObjects
  *	------------------------------
  */
-void (APIENTRYP pfglDeleteObjectARB) (GLhandleARB);
-GLhandleARB (APIENTRYP pfglGetHandleARB) (GLenum);
-void (APIENTRYP pfglDetachObjectARB) (GLhandleARB, GLhandleARB);
-GLhandleARB (APIENTRYP pfglCreateShaderObjectARB) (GLenum);
-void (APIENTRYP pfglShaderSourceARB) (GLhandleARB, GLsizei, const GLcharARB* *, const GLint *);
-void (APIENTRYP pfglCompileShaderARB) (GLhandleARB);
-GLhandleARB (APIENTRYP pfglCreateProgramObjectARB) (void);
-void (APIENTRYP pfglAttachObjectARB) (GLhandleARB, GLhandleARB);
-void (APIENTRYP pfglLinkProgramARB) (GLhandleARB);
-void (APIENTRYP pfglUseProgramObjectARB) (GLhandleARB);
-void (APIENTRYP pfglValidateProgramARB) (GLhandleARB);
-void (APIENTRYP pfglUniform1fARB) (GLint, GLfloat);
-void (APIENTRYP pfglUniform2fARB) (GLint, GLfloat, GLfloat);
-void (APIENTRYP pfglUniform3fARB) (GLint, GLfloat, GLfloat, GLfloat);
-void (APIENTRYP pfglUniform4fARB) (GLint, GLfloat, GLfloat, GLfloat, GLfloat);
-void (APIENTRYP pfglUniform1iARB) (GLint, GLint);
-void (APIENTRYP pfglUniform2iARB) (GLint, GLint, GLint);
-void (APIENTRYP pfglUniform3iARB) (GLint, GLint, GLint, GLint);
-void (APIENTRYP pfglUniform4iARB) (GLint, GLint, GLint, GLint, GLint);
-void (APIENTRYP pfglUniform1fvARB) (GLint, GLsizei, const GLfloat *);
-void (APIENTRYP pfglUniform2fvARB) (GLint, GLsizei, const GLfloat *);
-void (APIENTRYP pfglUniform3fvARB) (GLint, GLsizei, const GLfloat *);
-void (APIENTRYP pfglUniform4fvARB) (GLint, GLsizei, const GLfloat *);
-void (APIENTRYP pfglUniform1ivARB) (GLint, GLsizei, const GLint *);
-void (APIENTRYP pfglUniform2ivARB) (GLint, GLsizei, const GLint *);
-void (APIENTRYP pfglUniform3ivARB) (GLint, GLsizei, const GLint *);
-void (APIENTRYP pfglUniform4ivARB) (GLint, GLsizei, const GLint *);
-void (APIENTRYP pfglUniformMatrix2fvARB) (GLint, GLsizei, GLboolean, const GLfloat *);
-void (APIENTRYP pfglUniformMatrix3fvARB) (GLint, GLsizei, GLboolean, const GLfloat *);
-void (APIENTRYP pfglUniformMatrix4fvARB) (GLint, GLsizei, GLboolean, const GLfloat *);
-void (APIENTRYP pfglGetObjectParameterfvARB) (GLhandleARB, GLenum, GLfloat *);
-void (APIENTRYP pfglGetObjectParameterivARB) (GLhandleARB, GLenum, GLint *);
-void (APIENTRYP pfglGetInfoLogARB) (GLhandleARB, GLsizei, GLsizei *, GLcharARB *);
-void (APIENTRYP pfglGetAttachedObjectsARB) (GLhandleARB, GLsizei, GLsizei *, GLhandleARB *);
-GLint (APIENTRYP pfglGetUniformLocationARB) (GLhandleARB, const GLcharARB *);
-void (APIENTRYP pfglGetActiveUniformARB) (GLhandleARB, GLuint, GLsizei, GLsizei *, GLint *, GLenum *, GLcharARB *);
-void (APIENTRYP pfglGetUniformfvARB) (GLhandleARB, GLint, GLfloat *);
-void (APIENTRYP pfglGetUniformivARB) (GLhandleARB, GLint, GLint *);
-void (APIENTRYP pfglGetShaderSourceARB) (GLhandleARB, GLsizei, GLsizei *, GLcharARB *);
+extern void (APIENTRYP pfglDeleteObjectARB) (GLhandleARB);
+extern GLhandleARB (APIENTRYP pfglGetHandleARB) (GLenum);
+extern void (APIENTRYP pfglDetachObjectARB) (GLhandleARB, GLhandleARB);
+extern GLhandleARB (APIENTRYP pfglCreateShaderObjectARB) (GLenum);
+extern void (APIENTRYP pfglShaderSourceARB) (GLhandleARB, GLsizei, const GLcharARB* *, const GLint *);
+extern void (APIENTRYP pfglCompileShaderARB) (GLhandleARB);
+extern GLhandleARB (APIENTRYP pfglCreateProgramObjectARB) (void);
+extern void (APIENTRYP pfglAttachObjectARB) (GLhandleARB, GLhandleARB);
+extern void (APIENTRYP pfglLinkProgramARB) (GLhandleARB);
+extern void (APIENTRYP pfglUseProgramObjectARB) (GLhandleARB);
+extern void (APIENTRYP pfglValidateProgramARB) (GLhandleARB);
+extern void (APIENTRYP pfglUniform1fARB) (GLint, GLfloat);
+extern void (APIENTRYP pfglUniform2fARB) (GLint, GLfloat, GLfloat);
+extern void (APIENTRYP pfglUniform3fARB) (GLint, GLfloat, GLfloat, GLfloat);
+extern void (APIENTRYP pfglUniform4fARB) (GLint, GLfloat, GLfloat, GLfloat, GLfloat);
+extern void (APIENTRYP pfglUniform1iARB) (GLint, GLint);
+extern void (APIENTRYP pfglUniform2iARB) (GLint, GLint, GLint);
+extern void (APIENTRYP pfglUniform3iARB) (GLint, GLint, GLint, GLint);
+extern void (APIENTRYP pfglUniform4iARB) (GLint, GLint, GLint, GLint, GLint);
+extern void (APIENTRYP pfglUniform1fvARB) (GLint, GLsizei, const GLfloat *);
+extern void (APIENTRYP pfglUniform2fvARB) (GLint, GLsizei, const GLfloat *);
+extern void (APIENTRYP pfglUniform3fvARB) (GLint, GLsizei, const GLfloat *);
+extern void (APIENTRYP pfglUniform4fvARB) (GLint, GLsizei, const GLfloat *);
+extern void (APIENTRYP pfglUniform1ivARB) (GLint, GLsizei, const GLint *);
+extern void (APIENTRYP pfglUniform2ivARB) (GLint, GLsizei, const GLint *);
+extern void (APIENTRYP pfglUniform3ivARB) (GLint, GLsizei, const GLint *);
+extern void (APIENTRYP pfglUniform4ivARB) (GLint, GLsizei, const GLint *);
+extern void (APIENTRYP pfglUniformMatrix2fvARB) (GLint, GLsizei, GLboolean, const GLfloat *);
+extern void (APIENTRYP pfglUniformMatrix3fvARB) (GLint, GLsizei, GLboolean, const GLfloat *);
+extern void (APIENTRYP pfglUniformMatrix4fvARB) (GLint, GLsizei, GLboolean, const GLfloat *);
+extern void (APIENTRYP pfglGetObjectParameterfvARB) (GLhandleARB, GLenum, GLfloat *);
+extern void (APIENTRYP pfglGetObjectParameterivARB) (GLhandleARB, GLenum, GLint *);
+extern void (APIENTRYP pfglGetInfoLogARB) (GLhandleARB, GLsizei, GLsizei *, GLcharARB *);
+extern void (APIENTRYP pfglGetAttachedObjectsARB) (GLhandleARB, GLsizei, GLsizei *, GLhandleARB *);
+extern GLint (APIENTRYP pfglGetUniformLocationARB) (GLhandleARB, const GLcharARB *);
+extern void (APIENTRYP pfglGetActiveUniformARB) (GLhandleARB, GLuint, GLsizei, GLsizei *, GLint *, GLenum *, GLcharARB *);
+extern void (APIENTRYP pfglGetUniformfvARB) (GLhandleARB, GLint, GLfloat *);
+extern void (APIENTRYP pfglGetUniformivARB) (GLhandleARB, GLint, GLint *);
+extern void (APIENTRYP pfglGetShaderSourceARB) (GLhandleARB, GLsizei, GLsizei *, GLcharARB *);
 
 
 /*
@@ -415,9 +415,9 @@ void (APIENTRYP pfglGetShaderSourceARB) (GLhandleARB, GLsizei, GLsizei *, GLchar
  *	ARB_VertexShader
  *	------------------------------
  */
-void (APIENTRYP pfglBindAttribLocationARB) (GLhandleARB, GLuint, const GLcharARB *);
-void (APIENTRYP pfglGetActiveAttribARB) (GLhandleARB, GLuint, GLsizei, GLsizei *, GLint *, GLenum *, GLcharARB *);
-GLint (APIENTRYP pfglGetAttribLocationARB) (GLhandleARB, const GLcharARB *);
+extern void (APIENTRYP pfglBindAttribLocationARB) (GLhandleARB, GLuint, const GLcharARB *);
+extern void (APIENTRYP pfglGetActiveAttribARB) (GLhandleARB, GLuint, GLsizei, GLsizei *, GLint *, GLenum *, GLcharARB *);
+extern GLint (APIENTRYP pfglGetAttribLocationARB) (GLhandleARB, const GLcharARB *);
 
 
 /*
@@ -425,7 +425,7 @@ GLint (APIENTRYP pfglGetAttribLocationARB) (GLhandleARB, const GLcharARB *);
  *	EXT_BlendColor
  *	-----------------------
  */
-void (APIENTRYP pfglBlendColorEXT) (GLclampf, GLclampf, GLclampf, GLclampf);
+extern void (APIENTRYP pfglBlendColorEXT) (GLclampf, GLclampf, GLclampf, GLclampf);
 
 
 /*
@@ -433,8 +433,8 @@ void (APIENTRYP pfglBlendColorEXT) (GLclampf, GLclampf, GLclampf, GLclampf);
  *	EXT_CompiledVertexArray
  *	-------------------------
  */
-void ( APIENTRYP pfglLockArraysEXT) ( GLint, GLsizei );
-void ( APIENTRYP pfglUnlockArraysEXT) ( void );
+extern void (APIENTRYP pfglLockArraysEXT) (GLint, GLsizei);
+extern void (APIENTRYP pfglUnlockArraysEXT) (void);
 
 
 /*
@@ -442,23 +442,23 @@ void ( APIENTRYP pfglUnlockArraysEXT) ( void );
  *	EXT_SecondaryColor
  *	-----------------------
  */
-void (APIENTRYP pfglSecondaryColor3bEXT) (GLbyte, GLbyte, GLbyte);
-void (APIENTRYP pfglSecondaryColor3bvEXT) (const GLbyte *);
-void (APIENTRYP pfglSecondaryColor3dEXT) (GLdouble, GLdouble, GLdouble);
-void (APIENTRYP pfglSecondaryColor3dvEXT) (const GLdouble *);
-void (APIENTRYP pfglSecondaryColor3fEXT) (GLfloat, GLfloat, GLfloat);
-void (APIENTRYP pfglSecondaryColor3fvEXT) (const GLfloat *);
-void (APIENTRYP pfglSecondaryColor3iEXT) (GLint, GLint, GLint);
-void (APIENTRYP pfglSecondaryColor3ivEXT) (const GLint *);
-void (APIENTRYP pfglSecondaryColor3sEXT) (GLshort, GLshort, GLshort);
-void (APIENTRYP pfglSecondaryColor3svEXT) (const GLshort *);
-void (APIENTRYP pfglSecondaryColor3ubEXT) (GLubyte, GLubyte, GLubyte);
-void (APIENTRYP pfglSecondaryColor3ubvEXT) (const GLubyte *);
-void (APIENTRYP pfglSecondaryColor3uiEXT) (GLuint, GLuint, GLuint);
-void (APIENTRYP pfglSecondaryColor3uivEXT) (const GLuint *);
-void (APIENTRYP pfglSecondaryColor3usEXT) (GLushort, GLushort, GLushort);
-void (APIENTRYP pfglSecondaryColor3usvEXT) (const GLushort *);
-void (APIENTRYP pfglSecondaryColorPointerEXT) (GLint, GLenum, GLsizei, const GLvoid *);
+extern void (APIENTRYP pfglSecondaryColor3bEXT) (GLbyte, GLbyte, GLbyte);
+extern void (APIENTRYP pfglSecondaryColor3bvEXT) (const GLbyte *);
+extern void (APIENTRYP pfglSecondaryColor3dEXT) (GLdouble, GLdouble, GLdouble);
+extern void (APIENTRYP pfglSecondaryColor3dvEXT) (const GLdouble *);
+extern void (APIENTRYP pfglSecondaryColor3fEXT) (GLfloat, GLfloat, GLfloat);
+extern void (APIENTRYP pfglSecondaryColor3fvEXT) (const GLfloat *);
+extern void (APIENTRYP pfglSecondaryColor3iEXT) (GLint, GLint, GLint);
+extern void (APIENTRYP pfglSecondaryColor3ivEXT) (const GLint *);
+extern void (APIENTRYP pfglSecondaryColor3sEXT) (GLshort, GLshort, GLshort);
+extern void (APIENTRYP pfglSecondaryColor3svEXT) (const GLshort *);
+extern void (APIENTRYP pfglSecondaryColor3ubEXT) (GLubyte, GLubyte, GLubyte);
+extern void (APIENTRYP pfglSecondaryColor3ubvEXT) (const GLubyte *);
+extern void (APIENTRYP pfglSecondaryColor3uiEXT) (GLuint, GLuint, GLuint);
+extern void (APIENTRYP pfglSecondaryColor3uivEXT) (const GLuint *);
+extern void (APIENTRYP pfglSecondaryColor3usEXT) (GLushort, GLushort, GLushort);
+extern void (APIENTRYP pfglSecondaryColor3usvEXT) (const GLushort *);
+extern void (APIENTRYP pfglSecondaryColorPointerEXT) (GLint, GLenum, GLsizei, const GLvoid *);
 
 
 /*
@@ -466,48 +466,48 @@ void (APIENTRYP pfglSecondaryColorPointerEXT) (GLint, GLenum, GLsizei, const GLv
  *	EXT_VertexShader
  *	-----------------------
  */
-void (APIENTRYP pfglBeginVertexShaderEXT) (void);
-void (APIENTRYP pfglEndVertexShaderEXT) (void);
-void (APIENTRYP pfglBindVertexShaderEXT) (GLuint);
-GLuint (APIENTRYP pfglGenVertexShadersEXT) (GLuint);
-void (APIENTRYP pfglDeleteVertexShaderEXT) (GLuint);
-void (APIENTRYP pfglShaderOp1EXT) (GLenum, GLuint, GLuint);
-void (APIENTRYP pfglShaderOp2EXT) (GLenum, GLuint, GLuint, GLuint);
-void (APIENTRYP pfglShaderOp3EXT) (GLenum, GLuint, GLuint, GLuint, GLuint);
-void (APIENTRYP pfglSwizzleEXT) (GLuint, GLuint, GLenum, GLenum, GLenum, GLenum);
-void (APIENTRYP pfglWriteMaskEXT) (GLuint, GLuint, GLenum, GLenum, GLenum, GLenum);
-void (APIENTRYP pfglInsertComponentEXT) (GLuint, GLuint, GLuint);
-void (APIENTRYP pfglExtractComponentEXT) (GLuint, GLuint, GLuint);
-GLuint (APIENTRYP pfglGenSymbolsEXT) (GLenum, GLenum, GLenum, GLuint);
-void (APIENTRYP pfglSetInvariantEXT) (GLuint, GLenum, const GLvoid *);
-void (APIENTRYP pfglSetLocalConstantEXT) (GLuint, GLenum, const GLvoid *);
-void (APIENTRYP pfglVariantbvEXT) (GLuint, const GLbyte *);
-void (APIENTRYP pfglVariantsvEXT) (GLuint, const GLshort *);
-void (APIENTRYP pfglVariantivEXT) (GLuint, const GLint *);
-void (APIENTRYP pfglVariantfvEXT) (GLuint, const GLfloat *);
-void (APIENTRYP pfglVariantdvEXT) (GLuint, const GLdouble *);
-void (APIENTRYP pfglVariantubvEXT) (GLuint, const GLubyte *);
-void (APIENTRYP pfglVariantusvEXT) (GLuint, const GLushort *);
-void (APIENTRYP pfglVariantuivEXT) (GLuint, const GLuint *);
-void (APIENTRYP pfglVariantPointerEXT) (GLuint, GLenum, GLuint, const GLvoid *);
-void (APIENTRYP pfglEnableVariantClientStateEXT) (GLuint);
-void (APIENTRYP pfglDisableVariantClientStateEXT) (GLuint);
-GLuint (APIENTRYP pfglBindLightParameterEXT) (GLenum, GLenum);
-GLuint (APIENTRYP pfglBindMaterialParameterEXT) (GLenum, GLenum);
-GLuint (APIENTRYP pfglBindTexGenParameterEXT) (GLenum, GLenum, GLenum);
-GLuint (APIENTRYP pfglBindTextureUnitParameterEXT) (GLenum, GLenum);
-GLuint (APIENTRYP pfglBindParameterEXT) (GLenum);
-GLboolean (APIENTRYP pfglIsVariantEnabledEXT) (GLuint, GLenum);
-void (APIENTRYP pfglGetVariantBooleanvEXT) (GLuint, GLenum, GLboolean *);
-void (APIENTRYP pfglGetVariantIntegervEXT) (GLuint, GLenum, GLint *);
-void (APIENTRYP pfglGetVariantFloatvEXT) (GLuint, GLenum, GLfloat *);
-void (APIENTRYP pfglGetVariantPointervEXT) (GLuint, GLenum, GLvoid* *);
-void (APIENTRYP pfglGetInvariantBooleanvEXT) (GLuint, GLenum, GLboolean *);
-void (APIENTRYP pfglGetInvariantIntegervEXT) (GLuint, GLenum, GLint *);
-void (APIENTRYP pfglGetInvariantFloatvEXT) (GLuint, GLenum, GLfloat *);
-void (APIENTRYP pfglGetLocalConstantBooleanvEXT) (GLuint, GLenum, GLboolean *);
-void (APIENTRYP pfglGetLocalConstantIntegervEXT) (GLuint, GLenum, GLint *);
-void (APIENTRYP pfglGetLocalConstantFloatvEXT) (GLuint, GLenum, GLfloat *);
+extern void (APIENTRYP pfglBeginVertexShaderEXT) (void);
+extern void (APIENTRYP pfglEndVertexShaderEXT) (void);
+extern void (APIENTRYP pfglBindVertexShaderEXT) (GLuint);
+extern GLuint (APIENTRYP pfglGenVertexShadersEXT) (GLuint);
+extern void (APIENTRYP pfglDeleteVertexShaderEXT) (GLuint);
+extern void (APIENTRYP pfglShaderOp1EXT) (GLenum, GLuint, GLuint);
+extern void (APIENTRYP pfglShaderOp2EXT) (GLenum, GLuint, GLuint, GLuint);
+extern void (APIENTRYP pfglShaderOp3EXT) (GLenum, GLuint, GLuint, GLuint, GLuint);
+extern void (APIENTRYP pfglSwizzleEXT) (GLuint, GLuint, GLenum, GLenum, GLenum, GLenum);
+extern void (APIENTRYP pfglWriteMaskEXT) (GLuint, GLuint, GLenum, GLenum, GLenum, GLenum);
+extern void (APIENTRYP pfglInsertComponentEXT) (GLuint, GLuint, GLuint);
+extern void (APIENTRYP pfglExtractComponentEXT) (GLuint, GLuint, GLuint);
+extern GLuint (APIENTRYP pfglGenSymbolsEXT) (GLenum, GLenum, GLenum, GLuint);
+extern void (APIENTRYP pfglSetInvariantEXT) (GLuint, GLenum, const GLvoid *);
+extern void (APIENTRYP pfglSetLocalConstantEXT) (GLuint, GLenum, const GLvoid *);
+extern void (APIENTRYP pfglVariantbvEXT) (GLuint, const GLbyte *);
+extern void (APIENTRYP pfglVariantsvEXT) (GLuint, const GLshort *);
+extern void (APIENTRYP pfglVariantivEXT) (GLuint, const GLint *);
+extern void (APIENTRYP pfglVariantfvEXT) (GLuint, const GLfloat *);
+extern void (APIENTRYP pfglVariantdvEXT) (GLuint, const GLdouble *);
+extern void (APIENTRYP pfglVariantubvEXT) (GLuint, const GLubyte *);
+extern void (APIENTRYP pfglVariantusvEXT) (GLuint, const GLushort *);
+extern void (APIENTRYP pfglVariantuivEXT) (GLuint, const GLuint *);
+extern void (APIENTRYP pfglVariantPointerEXT) (GLuint, GLenum, GLuint, const GLvoid *);
+extern void (APIENTRYP pfglEnableVariantClientStateEXT) (GLuint);
+extern void (APIENTRYP pfglDisableVariantClientStateEXT) (GLuint);
+extern GLuint (APIENTRYP pfglBindLightParameterEXT) (GLenum, GLenum);
+extern GLuint (APIENTRYP pfglBindMaterialParameterEXT) (GLenum, GLenum);
+extern GLuint (APIENTRYP pfglBindTexGenParameterEXT) (GLenum, GLenum, GLenum);
+extern GLuint (APIENTRYP pfglBindTextureUnitParameterEXT) (GLenum, GLenum);
+extern GLuint (APIENTRYP pfglBindParameterEXT) (GLenum);
+extern GLboolean (APIENTRYP pfglIsVariantEnabledEXT) (GLuint, GLenum);
+extern void (APIENTRYP pfglGetVariantBooleanvEXT) (GLuint, GLenum, GLboolean *);
+extern void (APIENTRYP pfglGetVariantIntegervEXT) (GLuint, GLenum, GLint *);
+extern void (APIENTRYP pfglGetVariantFloatvEXT) (GLuint, GLenum, GLfloat *);
+extern void (APIENTRYP pfglGetVariantPointervEXT) (GLuint, GLenum, GLvoid* *);
+extern void (APIENTRYP pfglGetInvariantBooleanvEXT) (GLuint, GLenum, GLboolean *);
+extern void (APIENTRYP pfglGetInvariantIntegervEXT) (GLuint, GLenum, GLint *);
+extern void (APIENTRYP pfglGetInvariantFloatvEXT) (GLuint, GLenum, GLfloat *);
+extern void (APIENTRYP pfglGetLocalConstantBooleanvEXT) (GLuint, GLenum, GLboolean *);
+extern void (APIENTRYP pfglGetLocalConstantIntegervEXT) (GLuint, GLenum, GLint *);
+extern void (APIENTRYP pfglGetLocalConstantFloatvEXT) (GLuint, GLenum, GLfloat *);
 
 
 /*
@@ -515,9 +515,9 @@ void (APIENTRYP pfglGetLocalConstantFloatvEXT) (GLuint, GLenum, GLfloat *);
  *	EXT_VertexWeighting
  *	-----------------------
  */
-void (APIENTRYP pfglVertexWeightfEXT) (GLfloat);
-void (APIENTRYP pfglVertexWeightfvEXT) (const GLfloat *);
-void (APIENTRYP pfglVertexWeightPointerEXT) (GLsizei, GLenum, GLsizei, const GLvoid *);
+extern void (APIENTRYP pfglVertexWeightfEXT) (GLfloat);
+extern void (APIENTRYP pfglVertexWeightfvEXT) (const GLfloat *);
+extern void (APIENTRYP pfglVertexWeightPointerEXT) (GLsizei, GLenum, GLsizei, const GLvoid *);
 
 
 
@@ -533,13 +533,13 @@ void (APIENTRYP pfglVertexWeightPointerEXT) (GLsizei, GLenum, GLsizei, const GLv
  *	NV_Fence
  *	-----------------------
  */
-void (APIENTRYP pfglDeleteFencesNV) (GLsizei, const GLuint *);
-void (APIENTRYP pfglGenFencesNV) (GLsizei, GLuint *);
-GLboolean (APIENTRYP pfglIsFenceNV) (GLuint);
-GLboolean (APIENTRYP pfglTestFenceNV) (GLuint);
-void (APIENTRYP pfglGetFenceivNV) (GLuint, GLenum, GLint *);
-void (APIENTRYP pfglFinishFenceNV) (GLuint);
-void (APIENTRYP pfglSetFenceNV) (GLuint, GLenum);
+extern void (APIENTRYP pfglDeleteFencesNV) (GLsizei, const GLuint *);
+extern void (APIENTRYP pfglGenFencesNV) (GLsizei, GLuint *);
+extern GLboolean (APIENTRYP pfglIsFenceNV) (GLuint);
+extern GLboolean (APIENTRYP pfglTestFenceNV) (GLuint);
+extern void (APIENTRYP pfglGetFenceivNV) (GLuint, GLenum, GLint *);
+extern void (APIENTRYP pfglFinishFenceNV) (GLuint);
+extern void (APIENTRYP pfglSetFenceNV) (GLuint, GLenum);
 
 
 /*
@@ -547,8 +547,8 @@ void (APIENTRYP pfglSetFenceNV) (GLuint, GLenum);
  *	NV_VertexArrayRange
  *	-----------------------
  */
-void (APIENTRYP pfglFlushVertexArrayRangeNV) (void);
-void (APIENTRYP pfglVertexArrayRangeNV) (GLsizei, const GLvoid *);
+extern void (APIENTRYP pfglFlushVertexArrayRangeNV) (void);
+extern void (APIENTRYP pfglVertexArrayRangeNV) (GLsizei, const GLvoid *);
 
 
 /*
@@ -556,70 +556,70 @@ void (APIENTRYP pfglVertexArrayRangeNV) (GLsizei, const GLvoid *);
  *	NV_VertexProgram
  *	-----------------------
  */
-GLboolean (APIENTRYP pfglAreProgramsResidentNV) (GLsizei, const GLuint *, GLboolean *);
-void (APIENTRYP pfglBindProgramNV) (GLenum, GLuint);
-void (APIENTRYP pfglDeleteProgramsNV) (GLsizei, const GLuint *);
-void (APIENTRYP pfglExecuteProgramNV) (GLenum, GLuint, const GLfloat *);
-void (APIENTRYP pfglGenProgramsNV) (GLsizei, GLuint *);
-void (APIENTRYP pfglGetProgramParameterdvNV) (GLenum, GLuint, GLenum, GLdouble *);
-void (APIENTRYP pfglGetProgramParameterfvNV) (GLenum, GLuint, GLenum, GLfloat *);
-void (APIENTRYP pfglGetProgramivNV) (GLuint, GLenum, GLint *);
-void (APIENTRYP pfglGetProgramStringNV) (GLuint, GLenum, GLubyte *);
-void (APIENTRYP pfglGetTrackMatrixivNV) (GLenum, GLuint, GLenum, GLint *);
-void (APIENTRYP pfglGetVertexAttribdvNV) (GLuint, GLenum, GLdouble *);
-void (APIENTRYP pfglGetVertexAttribfvNV) (GLuint, GLenum, GLfloat *);
-void (APIENTRYP pfglGetVertexAttribivNV) (GLuint, GLenum, GLint *);
-void (APIENTRYP pfglGetVertexAttribPointervNV) (GLuint, GLenum, GLvoid* *);
-GLboolean (APIENTRYP pfglIsProgramNV) (GLuint);
-void (APIENTRYP pfglLoadProgramNV) (GLenum, GLuint, GLsizei, const GLubyte *);
-void (APIENTRYP pfglProgramParameter4dNV) (GLenum, GLuint, GLdouble, GLdouble, GLdouble, GLdouble);
-void (APIENTRYP pfglProgramParameter4dvNV) (GLenum, GLuint, const GLdouble *);
-void (APIENTRYP pfglProgramParameter4fNV) (GLenum, GLuint, GLfloat, GLfloat, GLfloat, GLfloat);
-void (APIENTRYP pfglProgramParameter4fvNV) (GLenum, GLuint, const GLfloat *);
-void (APIENTRYP pfglProgramParameters4dvNV) (GLenum, GLuint, GLuint, const GLdouble *);
-void (APIENTRYP pfglProgramParameters4fvNV) (GLenum, GLuint, GLuint, const GLfloat *);
-void (APIENTRYP pfglRequestResidentProgramsNV) (GLsizei, const GLuint *);
-void (APIENTRYP pfglTrackMatrixNV) (GLenum, GLuint, GLenum, GLenum);
-void (APIENTRYP pfglVertexAttribPointerNV) (GLuint, GLint, GLenum, GLsizei, const GLvoid *);
-void (APIENTRYP pfglVertexAttrib1dNV) (GLuint, GLdouble);
-void (APIENTRYP pfglVertexAttrib1dvNV) (GLuint, const GLdouble *);
-void (APIENTRYP pfglVertexAttrib1fNV) (GLuint, GLfloat);
-void (APIENTRYP pfglVertexAttrib1fvNV) (GLuint, const GLfloat *);
-void (APIENTRYP pfglVertexAttrib1sNV) (GLuint, GLshort);
-void (APIENTRYP pfglVertexAttrib1svNV) (GLuint, const GLshort *);
-void (APIENTRYP pfglVertexAttrib2dNV) (GLuint, GLdouble, GLdouble);
-void (APIENTRYP pfglVertexAttrib2dvNV) (GLuint, const GLdouble *);
-void (APIENTRYP pfglVertexAttrib2fNV) (GLuint, GLfloat, GLfloat);
-void (APIENTRYP pfglVertexAttrib2fvNV) (GLuint, const GLfloat *);
-void (APIENTRYP pfglVertexAttrib2sNV) (GLuint, GLshort, GLshort);
-void (APIENTRYP pfglVertexAttrib2svNV) (GLuint, const GLshort *);
-void (APIENTRYP pfglVertexAttrib3dNV) (GLuint, GLdouble, GLdouble, GLdouble);
-void (APIENTRYP pfglVertexAttrib3dvNV) (GLuint, const GLdouble *);
-void (APIENTRYP pfglVertexAttrib3fNV) (GLuint, GLfloat, GLfloat, GLfloat);
-void (APIENTRYP pfglVertexAttrib3fvNV) (GLuint, const GLfloat *);
-void (APIENTRYP pfglVertexAttrib3sNV) (GLuint, GLshort, GLshort, GLshort);
-void (APIENTRYP pfglVertexAttrib3svNV) (GLuint, const GLshort *);
-void (APIENTRYP pfglVertexAttrib4dNV) (GLuint, GLdouble, GLdouble, GLdouble, GLdouble);
-void (APIENTRYP pfglVertexAttrib4dvNV) (GLuint, const GLdouble *);
-void (APIENTRYP pfglVertexAttrib4fNV) (GLuint, GLfloat, GLfloat, GLfloat, GLfloat);
-void (APIENTRYP pfglVertexAttrib4fvNV) (GLuint, const GLfloat *);
-void (APIENTRYP pfglVertexAttrib4sNV) (GLuint, GLshort, GLshort, GLshort, GLshort);
-void (APIENTRYP pfglVertexAttrib4svNV) (GLuint, const GLshort *);
-void (APIENTRYP pfglVertexAttrib4ubNV) (GLuint, GLubyte, GLubyte, GLubyte, GLubyte);
-void (APIENTRYP pfglVertexAttrib4ubvNV) (GLuint, const GLubyte *);
-void (APIENTRYP pfglVertexAttribs1dvNV) (GLuint, GLsizei, const GLdouble *);
-void (APIENTRYP pfglVertexAttribs1fvNV) (GLuint, GLsizei, const GLfloat *);
-void (APIENTRYP pfglVertexAttribs1svNV) (GLuint, GLsizei, const GLshort *);
-void (APIENTRYP pfglVertexAttribs2dvNV) (GLuint, GLsizei, const GLdouble *);
-void (APIENTRYP pfglVertexAttribs2fvNV) (GLuint, GLsizei, const GLfloat *);
-void (APIENTRYP pfglVertexAttribs2svNV) (GLuint, GLsizei, const GLshort *);
-void (APIENTRYP pfglVertexAttribs3dvNV) (GLuint, GLsizei, const GLdouble *);
-void (APIENTRYP pfglVertexAttribs3fvNV) (GLuint, GLsizei, const GLfloat *);
-void (APIENTRYP pfglVertexAttribs3svNV) (GLuint, GLsizei, const GLshort *);
-void (APIENTRYP pfglVertexAttribs4dvNV) (GLuint, GLsizei, const GLdouble *);
-void (APIENTRYP pfglVertexAttribs4fvNV) (GLuint, GLsizei, const GLfloat *);
-void (APIENTRYP pfglVertexAttribs4svNV) (GLuint, GLsizei, const GLshort *);
-void (APIENTRYP pfglVertexAttribs4ubvNV) (GLuint, GLsizei, const GLubyte *);
+extern GLboolean (APIENTRYP pfglAreProgramsResidentNV) (GLsizei, const GLuint *, GLboolean *);
+extern void (APIENTRYP pfglBindProgramNV) (GLenum, GLuint);
+extern void (APIENTRYP pfglDeleteProgramsNV) (GLsizei, const GLuint *);
+extern void (APIENTRYP pfglExecuteProgramNV) (GLenum, GLuint, const GLfloat *);
+extern void (APIENTRYP pfglGenProgramsNV) (GLsizei, GLuint *);
+extern void (APIENTRYP pfglGetProgramParameterdvNV) (GLenum, GLuint, GLenum, GLdouble *);
+extern void (APIENTRYP pfglGetProgramParameterfvNV) (GLenum, GLuint, GLenum, GLfloat *);
+extern void (APIENTRYP pfglGetProgramivNV) (GLuint, GLenum, GLint *);
+extern void (APIENTRYP pfglGetProgramStringNV) (GLuint, GLenum, GLubyte *);
+extern void (APIENTRYP pfglGetTrackMatrixivNV) (GLenum, GLuint, GLenum, GLint *);
+extern void (APIENTRYP pfglGetVertexAttribdvNV) (GLuint, GLenum, GLdouble *);
+extern void (APIENTRYP pfglGetVertexAttribfvNV) (GLuint, GLenum, GLfloat *);
+extern void (APIENTRYP pfglGetVertexAttribivNV) (GLuint, GLenum, GLint *);
+extern void (APIENTRYP pfglGetVertexAttribPointervNV) (GLuint, GLenum, GLvoid* *);
+extern GLboolean (APIENTRYP pfglIsProgramNV) (GLuint);
+extern void (APIENTRYP pfglLoadProgramNV) (GLenum, GLuint, GLsizei, const GLubyte *);
+extern void (APIENTRYP pfglProgramParameter4dNV) (GLenum, GLuint, GLdouble, GLdouble, GLdouble, GLdouble);
+extern void (APIENTRYP pfglProgramParameter4dvNV) (GLenum, GLuint, const GLdouble *);
+extern void (APIENTRYP pfglProgramParameter4fNV) (GLenum, GLuint, GLfloat, GLfloat, GLfloat, GLfloat);
+extern void (APIENTRYP pfglProgramParameter4fvNV) (GLenum, GLuint, const GLfloat *);
+extern void (APIENTRYP pfglProgramParameters4dvNV) (GLenum, GLuint, GLuint, const GLdouble *);
+extern void (APIENTRYP pfglProgramParameters4fvNV) (GLenum, GLuint, GLuint, const GLfloat *);
+extern void (APIENTRYP pfglRequestResidentProgramsNV) (GLsizei, const GLuint *);
+extern void (APIENTRYP pfglTrackMatrixNV) (GLenum, GLuint, GLenum, GLenum);
+extern void (APIENTRYP pfglVertexAttribPointerNV) (GLuint, GLint, GLenum, GLsizei, const GLvoid *);
+extern void (APIENTRYP pfglVertexAttrib1dNV) (GLuint, GLdouble);
+extern void (APIENTRYP pfglVertexAttrib1dvNV) (GLuint, const GLdouble *);
+extern void (APIENTRYP pfglVertexAttrib1fNV) (GLuint, GLfloat);
+extern void (APIENTRYP pfglVertexAttrib1fvNV) (GLuint, const GLfloat *);
+extern void (APIENTRYP pfglVertexAttrib1sNV) (GLuint, GLshort);
+extern void (APIENTRYP pfglVertexAttrib1svNV) (GLuint, const GLshort *);
+extern void (APIENTRYP pfglVertexAttrib2dNV) (GLuint, GLdouble, GLdouble);
+extern void (APIENTRYP pfglVertexAttrib2dvNV) (GLuint, const GLdouble *);
+extern void (APIENTRYP pfglVertexAttrib2fNV) (GLuint, GLfloat, GLfloat);
+extern void (APIENTRYP pfglVertexAttrib2fvNV) (GLuint, const GLfloat *);
+extern void (APIENTRYP pfglVertexAttrib2sNV) (GLuint, GLshort, GLshort);
+extern void (APIENTRYP pfglVertexAttrib2svNV) (GLuint, const GLshort *);
+extern void (APIENTRYP pfglVertexAttrib3dNV) (GLuint, GLdouble, GLdouble, GLdouble);
+extern void (APIENTRYP pfglVertexAttrib3dvNV) (GLuint, const GLdouble *);
+extern void (APIENTRYP pfglVertexAttrib3fNV) (GLuint, GLfloat, GLfloat, GLfloat);
+extern void (APIENTRYP pfglVertexAttrib3fvNV) (GLuint, const GLfloat *);
+extern void (APIENTRYP pfglVertexAttrib3sNV) (GLuint, GLshort, GLshort, GLshort);
+extern void (APIENTRYP pfglVertexAttrib3svNV) (GLuint, const GLshort *);
+extern void (APIENTRYP pfglVertexAttrib4dNV) (GLuint, GLdouble, GLdouble, GLdouble, GLdouble);
+extern void (APIENTRYP pfglVertexAttrib4dvNV) (GLuint, const GLdouble *);
+extern void (APIENTRYP pfglVertexAttrib4fNV) (GLuint, GLfloat, GLfloat, GLfloat, GLfloat);
+extern void (APIENTRYP pfglVertexAttrib4fvNV) (GLuint, const GLfloat *);
+extern void (APIENTRYP pfglVertexAttrib4sNV) (GLuint, GLshort, GLshort, GLshort, GLshort);
+extern void (APIENTRYP pfglVertexAttrib4svNV) (GLuint, const GLshort *);
+extern void (APIENTRYP pfglVertexAttrib4ubNV) (GLuint, GLubyte, GLubyte, GLubyte, GLubyte);
+extern void (APIENTRYP pfglVertexAttrib4ubvNV) (GLuint, const GLubyte *);
+extern void (APIENTRYP pfglVertexAttribs1dvNV) (GLuint, GLsizei, const GLdouble *);
+extern void (APIENTRYP pfglVertexAttribs1fvNV) (GLuint, GLsizei, const GLfloat *);
+extern void (APIENTRYP pfglVertexAttribs1svNV) (GLuint, GLsizei, const GLshort *);
+extern void (APIENTRYP pfglVertexAttribs2dvNV) (GLuint, GLsizei, const GLdouble *);
+extern void (APIENTRYP pfglVertexAttribs2fvNV) (GLuint, GLsizei, const GLfloat *);
+extern void (APIENTRYP pfglVertexAttribs2svNV) (GLuint, GLsizei, const GLshort *);
+extern void (APIENTRYP pfglVertexAttribs3dvNV) (GLuint, GLsizei, const GLdouble *);
+extern void (APIENTRYP pfglVertexAttribs3fvNV) (GLuint, GLsizei, const GLfloat *);
+extern void (APIENTRYP pfglVertexAttribs3svNV) (GLuint, GLsizei, const GLshort *);
+extern void (APIENTRYP pfglVertexAttribs4dvNV) (GLuint, GLsizei, const GLdouble *);
+extern void (APIENTRYP pfglVertexAttribs4fvNV) (GLuint, GLsizei, const GLfloat *);
+extern void (APIENTRYP pfglVertexAttribs4svNV) (GLuint, GLsizei, const GLshort *);
+extern void (APIENTRYP pfglVertexAttribs4ubvNV) (GLuint, GLsizei, const GLubyte *);
 
 
 /*********************************
@@ -633,56 +633,56 @@ void (APIENTRYP pfglVertexAttribs4ubvNV) (GLuint, GLsizei, const GLubyte *);
  *	ATI_EnvmapBumpmap
  *	------------------------------
  */
-void (APIENTRYP pfglTexBumpParameterivATI) (GLenum, const GLint *);
-void (APIENTRYP pfglTexBumpParameterfvATI) (GLenum, const GLfloat *);
-void (APIENTRYP pfglGetTexBumpParameterivATI) (GLenum, GLint *);
-void (APIENTRYP pfglGetTexBumpParameterfvATI) (GLenum, GLfloat *);
+extern void (APIENTRYP pfglTexBumpParameterivATI) (GLenum, const GLint *);
+extern void (APIENTRYP pfglTexBumpParameterfvATI) (GLenum, const GLfloat *);
+extern void (APIENTRYP pfglGetTexBumpParameterivATI) (GLenum, GLint *);
+extern void (APIENTRYP pfglGetTexBumpParameterfvATI) (GLenum, GLfloat *);
 
 /*
  *	------------------------------
  *	ATI_FragmentShader
  *	------------------------------
  */
-GLuint (APIENTRYP pfglGenFragmentShadersATI) (GLuint);
-void (APIENTRYP pfglBindFragmentShaderATI) (GLuint);
-void (APIENTRYP pfglDeleteFragmentShaderATI) (GLuint);
-void (APIENTRYP pfglBeginFragmentShaderATI) (void);
-void (APIENTRYP pfglEndFragmentShaderATI) (void);
-void (APIENTRYP pfglPassTexCoordATI) (GLuint, GLuint, GLenum);
-void (APIENTRYP pfglSampleMapATI) (GLuint, GLuint, GLenum);
-void (APIENTRYP pfglColorFragmentOp1ATI) (GLenum, GLuint, GLuint, GLuint, GLuint, GLuint, GLuint);
-void (APIENTRYP pfglColorFragmentOp2ATI) (GLenum, GLuint, GLuint, GLuint, GLuint, GLuint, GLuint, GLuint, GLuint, GLuint);
-void (APIENTRYP pfglColorFragmentOp3ATI) (GLenum, GLuint, GLuint, GLuint, GLuint, GLuint, GLuint, GLuint, GLuint, GLuint, GLuint, GLuint, GLuint);
-void (APIENTRYP pfglAlphaFragmentOp1ATI) (GLenum, GLuint, GLuint, GLuint, GLuint, GLuint);
-void (APIENTRYP pfglAlphaFragmentOp2ATI) (GLenum, GLuint, GLuint, GLuint, GLuint, GLuint, GLuint, GLuint, GLuint);
-void (APIENTRYP pfglAlphaFragmentOp3ATI) (GLenum, GLuint, GLuint, GLuint, GLuint, GLuint, GLuint, GLuint, GLuint, GLuint, GLuint, GLuint);
-void (APIENTRYP pfglSetFragmentShaderConstantATI) (GLuint, const GLfloat *);
+extern GLuint (APIENTRYP pfglGenFragmentShadersATI) (GLuint);
+extern void (APIENTRYP pfglBindFragmentShaderATI) (GLuint);
+extern void (APIENTRYP pfglDeleteFragmentShaderATI) (GLuint);
+extern void (APIENTRYP pfglBeginFragmentShaderATI) (void);
+extern void (APIENTRYP pfglEndFragmentShaderATI) (void);
+extern void (APIENTRYP pfglPassTexCoordATI) (GLuint, GLuint, GLenum);
+extern void (APIENTRYP pfglSampleMapATI) (GLuint, GLuint, GLenum);
+extern void (APIENTRYP pfglColorFragmentOp1ATI) (GLenum, GLuint, GLuint, GLuint, GLuint, GLuint, GLuint);
+extern void (APIENTRYP pfglColorFragmentOp2ATI) (GLenum, GLuint, GLuint, GLuint, GLuint, GLuint, GLuint, GLuint, GLuint, GLuint);
+extern void (APIENTRYP pfglColorFragmentOp3ATI) (GLenum, GLuint, GLuint, GLuint, GLuint, GLuint, GLuint, GLuint, GLuint, GLuint, GLuint, GLuint, GLuint);
+extern void (APIENTRYP pfglAlphaFragmentOp1ATI) (GLenum, GLuint, GLuint, GLuint, GLuint, GLuint);
+extern void (APIENTRYP pfglAlphaFragmentOp2ATI) (GLenum, GLuint, GLuint, GLuint, GLuint, GLuint, GLuint, GLuint, GLuint);
+extern void (APIENTRYP pfglAlphaFragmentOp3ATI) (GLenum, GLuint, GLuint, GLuint, GLuint, GLuint, GLuint, GLuint, GLuint, GLuint, GLuint, GLuint);
+extern void (APIENTRYP pfglSetFragmentShaderConstantATI) (GLuint, const GLfloat *);
 
 /*
  *	------------------------------
  *	ATI_VertexArrayObject
  *	------------------------------
  */
-GLuint (APIENTRYP pfglNewObjectBufferATI) (GLsizei, const GLvoid *, GLenum);
-GLboolean (APIENTRYP pfglIsObjectBufferATI) (GLuint);
-void (APIENTRYP pfglUpdateObjectBufferATI) (GLuint, GLuint, GLsizei, const GLvoid *, GLenum);
-void (APIENTRYP pfglGetObjectBufferfvATI) (GLuint, GLenum, GLfloat *);
-void (APIENTRYP pfglGetObjectBufferivATI) (GLuint, GLenum, GLint *);
-void (APIENTRYP pfglFreeObjectBufferATI) (GLuint);
-void (APIENTRYP pfglArrayObjectATI) (GLenum, GLint, GLenum, GLsizei, GLuint, GLuint);
-void (APIENTRYP pfglGetArrayObjectfvATI) (GLenum, GLenum, GLfloat *);
-void (APIENTRYP pfglGetArrayObjectivATI) (GLenum, GLenum, GLint *);
-void (APIENTRYP pfglVariantArrayObjectATI) (GLuint, GLenum, GLsizei, GLuint, GLuint);
-void (APIENTRYP pfglGetVariantArrayObjectfvATI) (GLuint, GLenum, GLfloat *);
-void (APIENTRYP pfglGetVariantArrayObjectivATI) (GLuint, GLenum, GLint *);
+extern GLuint (APIENTRYP pfglNewObjectBufferATI) (GLsizei, const GLvoid *, GLenum);
+extern GLboolean (APIENTRYP pfglIsObjectBufferATI) (GLuint);
+extern void (APIENTRYP pfglUpdateObjectBufferATI) (GLuint, GLuint, GLsizei, const GLvoid *, GLenum);
+extern void (APIENTRYP pfglGetObjectBufferfvATI) (GLuint, GLenum, GLfloat *);
+extern void (APIENTRYP pfglGetObjectBufferivATI) (GLuint, GLenum, GLint *);
+extern void (APIENTRYP pfglFreeObjectBufferATI) (GLuint);
+extern void (APIENTRYP pfglArrayObjectATI) (GLenum, GLint, GLenum, GLsizei, GLuint, GLuint);
+extern void (APIENTRYP pfglGetArrayObjectfvATI) (GLenum, GLenum, GLfloat *);
+extern void (APIENTRYP pfglGetArrayObjectivATI) (GLenum, GLenum, GLint *);
+extern void (APIENTRYP pfglVariantArrayObjectATI) (GLuint, GLenum, GLsizei, GLuint, GLuint);
+extern void (APIENTRYP pfglGetVariantArrayObjectfvATI) (GLuint, GLenum, GLfloat *);
+extern void (APIENTRYP pfglGetVariantArrayObjectivATI) (GLuint, GLenum, GLint *);
 
 /*
  *	------------------------------
  *	ATI_MapObjectBuffer
  *	------------------------------
  */
-GLvoid* (APIENTRYP pfglMapObjectBufferATI) (GLuint);
-void (APIENTRYP pfglUnmapObjectBufferATI) (GLuint);
+extern GLvoid* (APIENTRYP pfglMapObjectBufferATI) (GLuint);
+extern void (APIENTRYP pfglUnmapObjectBufferATI) (GLuint);
 
 #endif /* __MYOPENGL_EXTENSION_H__ */
 
