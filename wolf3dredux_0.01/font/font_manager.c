@@ -121,7 +121,7 @@ font_t *createFont(const char *filename)
 	FS_ReadFile(&size, (W32)1, (W32)4, fp);
 	/* LittleLong is a define from "../common/arch.h" that only does anything on
 	 * big-endian systems: */
-	if (size != (W32)LittleLong(size)) {
+	if (size != ((W32)LittleLong(size))) {
 		size = (W32)LittleLong(size);
 	}
 

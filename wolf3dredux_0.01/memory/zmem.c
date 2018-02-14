@@ -162,7 +162,7 @@ PUBLIC void *Z_TagMalloc(size_t size, int tag)
 		Com_Printf("Z_Malloc(): proceeding with allocation of '%i' bytes\n",
 				   size);
 #else
-		;
+		__asm__("");
 #endif /* DEBUG_MEMORY */
 	}
 
@@ -174,7 +174,8 @@ PUBLIC void *Z_TagMalloc(size_t size, int tag)
 	Com_Printf("Z_Malloc(): 'z_count' is now '%i' and 'z_bytes' is now '%i'\n",
 			   z_count, z_bytes);
 #else
-	;
+	(void)z_count;
+	(void)z_bytes;
 #endif /* DEBUG_MEMORY */
 	z->magic = (short)Z_MAGIC; /* null pointer dereference here? */
 	/* (Z_MAGIC is defined above) */

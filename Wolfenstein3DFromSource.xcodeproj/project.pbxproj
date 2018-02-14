@@ -720,6 +720,12 @@
 		A571F0FF18C6E9820037F031 /* progname.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = progname.h; sourceTree = "<group>"; };
 		A571F10018C6E9820037F031 /* progname.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = progname.c; sourceTree = "<group>"; };
 		A571F1B718C6FA080037F031 /* WolfExtractor */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = WolfExtractor; sourceTree = BUILT_PRODUCTS_DIR; };
+		A583A897203428F0003965EA /* ebg_my_preprocessor_defines_snowleopard_clang.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ebg_my_preprocessor_defines_snowleopard_clang.h; sourceTree = "<group>"; };
+		A583A898203428F0003965EA /* ebg_my_preprocessor_defines_snowleopard_i386.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ebg_my_preprocessor_defines_snowleopard_i386.h; sourceTree = "<group>"; };
+		A583A899203428F0003965EA /* ebg_my_preprocessor_defines_snowleopard_ppc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ebg_my_preprocessor_defines_snowleopard_ppc.h; sourceTree = "<group>"; };
+		A583A89A203428F0003965EA /* ebg_my_preprocessor_defines_snowleopard_ppc64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ebg_my_preprocessor_defines_snowleopard_ppc64.h; sourceTree = "<group>"; };
+		A583A89B203428F0003965EA /* MacPorts_clang_3.3_pretending_to_be_Microsoft.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MacPorts_clang_3.3_pretending_to_be_Microsoft.h; sourceTree = "<group>"; };
+		A5916A842034C24A0052CA2C /* MacPorts_clang_5.0_pretending_to_be_Microsoft.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MacPorts_clang_5.0_pretending_to_be_Microsoft.h; sourceTree = "<group>"; };
 		A5C60D6F18BE7B6400EA0942 /* tga_minimal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tga_minimal.h; sourceTree = "<group>"; };
 		A5C60D8618BE7BE500EA0942 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		A5C60D8B18BE7BFE00EA0942 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
@@ -878,6 +884,7 @@
 				7B0AFACA1470CE6200165517 /* client */,
 				7B0AFAD81470CE6200165517 /* common */,
 				7B0AFAE61470CE6200165517 /* device */,
+				A583A896203428F0003965EA /* extra_preprocessor_dumps */,
 				7B0AFB111470CE6200165517 /* font */,
 				7B0AFB141470CE6200165517 /* game */,
 				7B0AFB4D1470CE6200165517 /* gpl.txt */,
@@ -1745,6 +1752,19 @@
 				A5476C3418D9F21400FE1646 /* verify.h */,
 			);
 			path = gnulib_replacement_funcs;
+			sourceTree = "<group>";
+		};
+		A583A896203428F0003965EA /* extra_preprocessor_dumps */ = {
+			isa = PBXGroup;
+			children = (
+				A583A897203428F0003965EA /* ebg_my_preprocessor_defines_snowleopard_clang.h */,
+				A583A898203428F0003965EA /* ebg_my_preprocessor_defines_snowleopard_i386.h */,
+				A583A899203428F0003965EA /* ebg_my_preprocessor_defines_snowleopard_ppc.h */,
+				A583A89A203428F0003965EA /* ebg_my_preprocessor_defines_snowleopard_ppc64.h */,
+				A583A89B203428F0003965EA /* MacPorts_clang_3.3_pretending_to_be_Microsoft.h */,
+				A5916A842034C24A0052CA2C /* MacPorts_clang_5.0_pretending_to_be_Microsoft.h */,
+			);
+			path = extra_preprocessor_dumps;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

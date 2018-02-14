@@ -28,7 +28,15 @@
  *
  */
 
-
+#ifdef _SIZE_T
+# ifndef _SIZE_T_DEFINED
+#  define _SIZE_T_DEFINED 1
+# endif /* !_SIZE_T_DEFINED */
+#else /* !_SIZE_T: */
+# ifdef _SIZE_T_DEFINED
+#  define _SIZE_T 1
+# endif /* _SIZE_T_DEFINED */
+#endif /* _SIZE_T */
 #include <string.h>
 
 

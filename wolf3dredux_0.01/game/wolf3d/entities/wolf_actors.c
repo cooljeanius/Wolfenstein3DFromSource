@@ -149,7 +149,7 @@ PRIVATE void RemoveActor(entity_t *actor)
 	Sprite_RemoveSprite(actor->sprite);
 	memmove((void *)(actor),
 			(const void *)(actor + 1),
-			(size_t)((int)(&Guards[NumGuards]) - (int)(actor + 1)));
+			(size_t)((intptr_t)(&Guards[NumGuards]) - (intptr_t)(actor + 1)));
 	NumGuards--;
 }
 
