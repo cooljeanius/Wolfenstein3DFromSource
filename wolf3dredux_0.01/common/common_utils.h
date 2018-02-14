@@ -26,7 +26,18 @@
 #ifndef __COMMON_UTILS_H__
 #define __COMMON_UTILS_H__
 
+/* GCC 2.5 and later versions define a function attribute "noreturn",
+ * which is the preferred way to declare that a function never returns.
+ * However GCC 2.7 appears to be the first version in which this fully
+ * works everywhere we use it. */
 
+#ifndef ATTR_NORETURN
+# if defined(__GNUC__) && ((__GNUC__ > 2) || ((__GNUC__ == 2) && (__GNUC_MINOR__ >= 7)))
+#  define ATTR_NORETURN __attribute__((noreturn))
+# else
+#  define ATTR_NORETURN /* nothing */
+# endif /* __GNUC__ version check */
+#endif /* !ATTR_NORETURN */
 
 /*
  *	Make sure the following macros are defined.

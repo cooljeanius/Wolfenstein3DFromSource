@@ -43,7 +43,8 @@ extern void *Memory_calloc(size_t num, size_t size);
 extern void *Memory_realloc(void *memblock, size_t size);
 extern void Memory_free(void *memblock);
 
-extern void Memory_outofmem(const char *name, const char *file, W32 line);
+extern void Memory_outofmem(const char *name, const char *file, W32 line)
+	ATTR_NORETURN;
 
 /* These are the macros to actually use instead of the prototypes that they
  * are simple wrappers around: */

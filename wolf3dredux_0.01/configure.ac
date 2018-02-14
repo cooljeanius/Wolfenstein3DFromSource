@@ -1,5 +1,5 @@
-#                                               -*- Autoconf -*-
-# Process this file with autoconf to produce a configure script.
+dnl#                                               -*- Autoconf -*-
+dnl# Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.69])
 AC_INIT([wolf3dredux],[0.01],[johnnycanuck@users.sourceforge.net])
@@ -19,8 +19,8 @@ if test "x${LIBOBJDIR}" = "x"; then
   test -z "${LIBOBJDIR}" && export LIBOBJDIR="gnulib_replacement_funcs/"
 fi
 export LIBOBJDIRNOSLASH="gnulib_replacement_funcs"
-AC_SUBST([LIBOBJDIR])
-AC_SUBST([LIBOBJDIRNOSLASH])
+AC_SUBST([LIBOBJDIR])dnl
+AC_SUBST([LIBOBJDIRNOSLASH])dnl
 AC_CONFIG_MACRO_DIR([m4])
 AC_CANONICAL_TARGET
 AC_USE_SYSTEM_EXTENSIONS
@@ -37,7 +37,7 @@ AC_ARG_ENABLE([old-style-build],
                                [also run the pre-automake build rules when
                                 building])],
               [DO_WOLF_OLD_BUILD=${enableval}],
-              [DO_WOLF_OLD_BUILD=no])
+              [DO_WOLF_OLD_BUILD=no])dnl
 
 AC_MSG_CHECKING([whether to use pre-automake build rules])
 if test "x${DO_WOLF_OLD_BUILD}" = "xyes"; then
@@ -47,7 +47,7 @@ else
   AC_MSG_RESULT([no])
 fi
 
-AM_CONDITIONAL([WOLF_OLD_BUILD],[test "x${DO_WOLF_OLD_BUILD}" = "xyes"])
+AM_CONDITIONAL([WOLF_OLD_BUILD],[test "x${DO_WOLF_OLD_BUILD}" = "xyes"])dnl
 
 AC_ARG_ENABLE([ms-compat],
               [AS_HELP_STRING([--enable-ms-compat],
@@ -56,7 +56,7 @@ AC_ARG_ENABLE([ms-compat],
                                 (requires a new enough version of clang
                                 and an installation of Wine)])],
               [CHECK_MS_COMPAT=${enableval}],
-              [CHECK_MS_COMPAT=no])
+              [CHECK_MS_COMPAT=no])dnl
 
 dnl# the actual checks associated with this flag have moved down below;
 dnl# this just stays up here to keep the flags together.
@@ -92,14 +92,18 @@ AM_CONDITIONAL([BUILD_OBJC_SOURCES],[test "x${CAN_BUILD_OBJC}" = "xyes"])
 AC_PROG_INSTALL
 AC_PROG_MKDIR_P
 AC_PATH_PROG([GLXINFO],[glxinfo],[:],[${PATH}:/opt/local/bin])
-AC_SUBST([GLXINFO])
-AC_PATH_PROG([SCAN_BUILD],[scan-build scan-build-mp-3.3],[:],
+AC_SUBST([GLXINFO])dnl
+AC_PATH_PROG([SCAN_BUILD],[scan-build scan-build-mp-3.4 scan-build-mp-3.3],[:],
              [${PATH}:/opt/local/bin:/opt/local/libexec/llvm-3.3/bin:/opt/local/libexec/llvm-3.3/libexec/scan-buid])
-AC_SUBST([SCAN_BUILD])
+AC_SUBST([SCAN_BUILD])dnl
 AC_PATH_PROG([LLVM_SYMBOLIZER],
              [llvm-symbolizer llvm-symbolizer-mp-3.3],[:],
              [${PATH}:/opt/local/bin:/opt/local/libexec/llvm-3.3/bin])
-AC_SUBST([LLVM_SYMBOLIZER])
+AC_SUBST([LLVM_SYMBOLIZER])dnl
+
+m4_ifdef([AM_BINUTILS_CLANG_STATIC_ANALYSIS],[
+AM_BINUTILS_CLANG_STATIC_ANALYSIS
+])dnl
 
 # check for clang taken from the emacs configure script:
 AC_CACHE_CHECK([whether the compiler is actually clang],[wolf_cv_clang],
@@ -113,7 +117,7 @@ AC_CACHE_CHECK([whether the compiler is actually clang],[wolf_cv_clang],
      [wolf_cv_clang=no])
 ])
 AC_SUBST([wolf_cv_clang])
-AM_CONDITIONAL([CLANG_RULES],[test "x${wolf_cv_clang}" = "xyes"])
+AM_CONDITIONAL([CLANG_RULES],[test "x${wolf_cv_clang}" = "xyes"])dnl
 
 
 AC_MSG_CHECKING([whether to try to build sources for Microsoft Windows])
@@ -125,6 +129,12 @@ if test "x${CHECK_MS_COMPAT}" = "xyes"; then
     AC_MSG_NOTICE([only clang can successfully fake being MSVC so far])
     AC_SUBST([CAN_CHECK_MS_COMPAT])
   fi
+  AH_TEMPLATE([HAVE_MMSYSTEM_H],
+              [Define to 1 if you have the <mmsystem.h> header file.])
+  AH_TEMPLATE([HAVE_WINDEF_H],
+              [Define to 1 if you have the <windef.h> header file.])
+  AH_TEMPLATE([HAVE_WINDOWS_H],
+              [Define to 1 if you have the <windows.h> header file.])
   m4_foreach_w([my_MS_header],[math.h mmsystem.h windef.h windows.h],[
     # First just check un-prefixed:
     AC_CHECK_HEADERS([my_MS_header],[],[
@@ -160,7 +170,7 @@ else
   AC_MSG_RESULT([${CAN_CHECK_MS_COMPAT}])
 fi
 
-AM_CONDITIONAL([MS_COMPAT_CHECK],[test "x${CAN_CHECK_MS_COMPAT}" = "xyes"])
+AM_CONDITIONAL([MS_COMPAT_CHECK],[test "x${CAN_CHECK_MS_COMPAT}" = "xyes"])dnl
 
 # libtool
 AC_MSG_CHECKING([for some libtool things...])
@@ -191,14 +201,14 @@ AC_MSG_WARN([mesa not found; if your system uses an alternate OpenGL interface, 
 ])
 # X11 checks
 AC_PATH_X
-AC_SUBST([with_x])
-AC_SUBST([have_x])
-AC_SUBST([ac_cv_have_x])
-AC_SUBST([no_x])
-AC_SUBST([x_includes])
-AC_SUBST([x_libraries])
-AC_SUBST([ac_x_includes])
-AC_SUBST([ac_x_libraries])
+AC_SUBST([with_x])dnl
+AC_SUBST([have_x])dnl
+AC_SUBST([ac_cv_have_x])dnl
+AC_SUBST([no_x])dnl
+AC_SUBST([x_includes])dnl
+AC_SUBST([x_libraries])dnl
+AC_SUBST([ac_x_includes])dnl
+AC_SUBST([ac_x_libraries])dnl
 AC_MSG_CHECKING([if we can actually build against X11])
 if test "x${no_x}" != "xyes" -a "x${have_x}" = "xyes" -a "x${with_x}" != "xno"; then
   export CAN_BUILD_AGAINST_X11=yes
@@ -262,7 +272,7 @@ ${ac_xeleven_includes_default}
     ])
   ],[AC_INCLUDES_DEFAULT
 ${ac_xeleven_includes_default}
-  ])
+  ])dnl
   AC_CHECK_HEADERS([X11/extensions/xf86vmode.h],[],[
     AC_CHECK_HEADERS([X11/extensions/Xxf86vmode.h],[],[
       export CAN_BUILD_AGAINST_X11=no
@@ -272,7 +282,7 @@ ${ac_xeleven_includes_default}
     ])
   ],[AC_INCLUDES_DEFAULT
 ${ac_xeleven_includes_default}
-  ])
+  ])dnl
   AC_MSG_CHECKING([for X11 libraries that we would like to link with...])
   AC_MSG_RESULT([... ])
   AC_CHECK_LIB([X11],[XCloseDisplay],[],[
@@ -282,7 +292,7 @@ ${ac_xeleven_includes_default}
     else
       export CAUSE_OF_X11_FAILURE="${CAUSE_OF_X11_FAILURE}, and missing/bad libX11"
     fi
-  ])
+  ])dnl
   # wolf3dredux does not actually use any symbols from `-lXext', so just
   # check for `main', and skip the failure condition:
   AC_CHECK_LIB([Xext],[main],[],[:])
@@ -293,7 +303,7 @@ ${ac_xeleven_includes_default}
     else
       export CAUSE_OF_X11_FAILURE="${CAUSE_OF_X11_FAILURE}, and missing/bad libXxf86dga"
     fi
-  ])
+  ])dnl
   AC_CHECK_LIB([Xxf86vm],[XF86VidModeGetAllModeLines],[],[
     export CAN_BUILD_AGAINST_X11=no
     if test -z "${CAUSE_OF_X11_FAILURE}"; then
@@ -301,7 +311,7 @@ ${ac_xeleven_includes_default}
     else
       export CAUSE_OF_X11_FAILURE="${CAUSE_OF_X11_FAILURE}, and missing/bad libXxf86vm"
     fi
-  ])
+  ])dnl
   AC_MSG_CHECKING([for all of the X11 functions that we need...])
   AC_MSG_RESULT([... ])
   # these are all the functions in XSyms.txt:
@@ -327,7 +337,8 @@ else
   export CAN_BUILD_AGAINST_X11=no
   AC_MSG_RESULT([${CAN_BUILD_AGAINST_X11}])
 fi
-AM_CONDITIONAL([BUILD_X11_SOURCES],[test "x${CAN_BUILD_AGAINST_X11}" = "xyes"])
+AM_CONDITIONAL([BUILD_X11_SOURCES],
+               [test "x${CAN_BUILD_AGAINST_X11}" = "xyes"])dnl
 
 # simpler library checks:
 AC_MSG_CHECKING([for some other libraries...])
@@ -381,7 +392,7 @@ ${ac_gl_includes_default}
   ])
 ])
 # Keep autoheader happy by making sure the proper templates are added:
-if test "x" = "y"; then
+if test "x0" = "Y1"; then
   test -x `which autoheader`
   unset ac_cv_header_gl_h
   unset ac_cv_header_glu_h
@@ -404,7 +415,7 @@ if test "x" = "y"; then
                     GL/gl.h GL/glu.h GL/glext.h GL/glx.h \
                     OpenGL/gl.h OpenGL/glu.h OpenGL/glext.h OpenGL/glx.h])
   # Keep autoscan happy as well:
-  test -x `which autoscan`
+  test -x "`which autoscan`"
   AC_PROG_RANLIB
 fi
 dnl# okay, now that that is out of the way...
@@ -428,7 +439,7 @@ AC_CHECK_HEADERS([alloc.h assert.h bits/libc-lock.h crtdefs.h ctype.h \
                   sys/gmon.h sys/malloc.h sys/mount.h sys/param.h \
                   sys/socket.h sys/sysctl.h sys/syslimits.h sys/time.h \
                   sys/timeb.h sys/uio.h sys/utsname.h sys/vmmeter.h \
-                  unix.h wchar.h xlocale.h])
+                  unix.h wchar.h xlocale.h])dnl
 
 # Checks for typedefs, structures, and compiler characteristics.
 AC_MSG_CHECKING([into the characteristics of your C compiler...])
@@ -442,6 +453,22 @@ gl_EXTERN_INLINE
 AC_C_PROTOTYPES
 AC_C_RESTRICT
 AC_C_VOLATILE
+gl_UNKNOWN_WARNINGS_ARE_ERRORS
+gl_WARN_ADD([-Wall])
+gl_WARN_ADD([-Wmissing-field-initializers])
+gl_WARN_ADD([-Wmissing-prototypes])
+gl_WARN_ADD([-Wimplicit])
+gl_WARN_ADD([-Wreturn-type])
+gl_WARN_ADD([-Wmissing-braces])
+gl_WARN_ADD([-Wparentheses])
+gl_WARN_ADD([-Wswitch])
+gl_WARN_ADD([-Wmissing-noreturn])
+gl_WARN_ADD([-Wnull-dereference])
+gl_WARN_ADD([-Walloc-zero])
+gl_WARN_ADD([-Wno-unused])
+gl_WARN_ADD([-Wno-trigraphs])
+gl_WARN_ADD([-Wsign-compare],[EXTRA_WARN_CFLAGS])
+gl_WARN_ADD([-Wunknown-pragmas],[EXTRA_WARN_CFLAGS])
 AC_MSG_CHECKING([for some types...])
 AC_MSG_RESULT([... ])
 dnl# begin what used to be AC\_TYPE\_SIGNAL
@@ -492,7 +519,7 @@ AC_MSG_RESULT([... ])
 AC_CHECK_MEMBERS([struct stat.st_blksize])
 AC_STRUCT_ST_BLOCKS
 AC_STRUCT_TIMEZONE dnl# also checks struct tm
-AC_CHECK_MEMBERS([struct timeval.tv_sec])
+AC_CHECK_MEMBERS([struct timeval.tv_sec])dnl
 
 # Checks for library functions.
 AC_MSG_CHECKING([for some miscellaneous functions...])
@@ -528,12 +555,12 @@ AC_CHECK_FUNCS([atoi atof dlsym dmalloc_malloc fabs fclose floor fopen \
                 strrchr strstr strtok sscanf sysconf sysctl sysctlbyname \
                 sysctlnametomib uname unlink])
 AC_REPLACE_FUNCS([strnlen1])
-AC_LIBOBJ([progname])
+AC_LIBOBJ([progname])dnl
 
 for my_libobj in `eval echo ${LIBOBJS}`; do
   export JUST_LIBOBJS="${JUST_LIBOBJS} `echo ${my_libobj} | cut -d\/ -f2`"
 done
-AC_SUBST([JUST_LIBOBJS])
+AC_SUBST([JUST_LIBOBJS])dnl
 
 # Output
 AC_CONFIG_FILES([Makefile \

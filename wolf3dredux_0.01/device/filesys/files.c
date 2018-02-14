@@ -412,7 +412,7 @@ PRIVATE char **FS_ListFiles(char *findname, int *numfiles, unsigned musthave,
 	s = FS_FindFirst(findname, (W32)musthave, (W32)canthave);
 	nfiles = 0;
 	while (s) {
-		if (s[(strlen(s) - 1)] != '.') {
+		if ((list != NULL) && (s[(strlen(s) - 1)] != '.')) {
 			list[nfiles] = strdup(s); /* null pointer dereference? */
 
 			(void)my_strlwr(list[nfiles]);

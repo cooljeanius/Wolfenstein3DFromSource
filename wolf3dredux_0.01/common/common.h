@@ -54,6 +54,8 @@
 
 #include "../game/app_def.h"
 
+#include "common_utils.h"
+
 
 /*============================================================================*/
 
@@ -138,8 +140,8 @@ extern void Com_BeginRedirect( int target, char *buffer, int buffersize, void (*
 extern void Com_EndRedirect( void );
 extern void Com_Printf( const char *fmt, ... );
 extern void Com_DPrintf( const char *fmt, ... );
-extern void Com_Error( int code, const char *fmt, ... );
-extern void Com_Quit( void );
+extern void Com_Error(int code, const char *fmt, ...) ATTR_NORETURN;
+extern void Com_Quit(void) ATTR_NORETURN;
 extern int Com_ServerState( void );
 extern void Com_SetServerState( int state );
 
@@ -176,8 +178,8 @@ extern void common_Frame( int msec );
 extern char	*Sys_ConsoleInput( void );
 extern void	Sys_ConsoleOutput( const char *string ); /* not implemented yet? */
 extern void	Sys_SendKeyEvents( void );
-extern void	Sys_Error( const char *format, ... );
-extern void	Sys_Quit( void );
+extern void	Sys_Error(const char *format, ...) ATTR_NORETURN;
+extern void	Sys_Quit(void) ATTR_NORETURN;
 extern char	*Sys_GetClipboardData( void );
 extern void	Sys_CopyProtect( void );
 

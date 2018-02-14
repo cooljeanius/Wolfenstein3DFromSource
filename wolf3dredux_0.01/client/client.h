@@ -33,6 +33,9 @@
 
 #include "../common/cvar.h"
 #include "../common/common.h"
+#ifndef ATTR_NORETURN
+# include "../common/common_utils.h"
+#endif /* !ATTR_NORETURN */
 
 
 /* sound attenuation values */
@@ -318,7 +321,7 @@ extern client_static_t	ClientStatic;
 
 
 extern void Client_Init( void );
-extern void Client_Quit_f( void );
+extern void Client_Quit_f(void) ATTR_NORETURN;
 
 
 /******************

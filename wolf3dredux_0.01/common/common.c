@@ -662,7 +662,7 @@ PUBLIC void COM_AddParm(char *parm)
 
 -----------------------------------------------------------------------------
 */
-PRIVATE void Com_Error_f(void)
+PRIVATE ATTR_NORETURN void Com_Error_f(void)
 {
 	Com_Error(ERR_FATAL, "%s", Cmd_Argv(1));
 }

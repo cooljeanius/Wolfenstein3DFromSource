@@ -217,7 +217,6 @@
 		A547733418DBCE1100FE1646 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A547733318DBCE1100FE1646 /* SystemConfiguration.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		A54773FE18DBCE2C00FE1646 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 29B97324FDCFA39411CA2CEA /* AppKit.framework */; };
 		A547740118DBCE4000FE1646 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A547740018DBCE4000FE1646 /* AudioToolbox.framework */; };
-		A547741A18DBCEE600FE1646 /* dist.plist in Resources */ = {isa = PBXBuildFile; fileRef = A547741918DBCEE600FE1646 /* dist.plist */; };
 		A547741C18DBCF0000FE1646 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = A547741B18DBCF0000FE1646 /* Default.png */; };
 		A547741E18DBCF0700FE1646 /* wolf3d_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = A547741D18DBCF0700FE1646 /* wolf3d_icon.png */; };
 		A547742018DBCF0D00FE1646 /* wolf3dlite_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = A547741F18DBCF0D00FE1646 /* wolf3dlite_icon.png */; };
@@ -2048,7 +2047,6 @@
 				7B0AFC691470CE6300165517 /* VGAHEAD.WL6 in Resources */,
 				7B0AFC6A1470CE6300165517 /* VSWAP.WL6 in Resources */,
 				A547716618DB7FCC00FE1646 /* wondering.caf in Resources */,
-				A547741A18DBCEE600FE1646 /* dist.plist in Resources */,
 				A547741C18DBCF0000FE1646 /* Default.png in Resources */,
 				A547741E18DBCF0700FE1646 /* wolf3d_icon.png in Resources */,
 				A547742018DBCF0D00FE1646 /* wolf3dlite_icon.png in Resources */,

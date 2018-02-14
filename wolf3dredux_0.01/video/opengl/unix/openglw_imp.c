@@ -141,7 +141,7 @@ PRIVATE char *signal_ErrorString(int sig)
 
 
 
-PRIVATE void signal_handler(int sig)
+PRIVATE ATTR_NORETURN void signal_handler(int sig)
 {
 	printf("Received signal (%s), exiting...\n", signal_ErrorString(sig));
 	GLimp_Shutdown();

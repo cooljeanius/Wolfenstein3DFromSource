@@ -41,7 +41,7 @@ enum
 } NumberType;
 
 
-typedef char *(*PropertyParser) (W8 *in, W32 *linenumber);
+typedef W8 *(*PropertyParser) (W8 *in, W32 *linenumber);
 
 typedef struct Tag_Property_s
 {

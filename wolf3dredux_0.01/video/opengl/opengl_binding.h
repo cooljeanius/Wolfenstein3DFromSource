@@ -1,4 +1,3 @@
-
 /*
  *	Copyright (C) 2004 Michael Liebscher
  *

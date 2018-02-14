@@ -1038,7 +1038,7 @@ PRIVATE void x86_get_cpu_info(cpu_info_struct *s)
 {
 	W32 LargestStdFunction;
 	W32 LargestExtFunction;
-	W32 regs[4];
+	W32 regs[4] = { 0UL, 0UL, 0UL, 0UL };
 	char vendor_name[13];
 
 

@@ -10,9 +10,9 @@ ACLOCAL_AMFLAGS = -I m4 --install
 # Program: wolf3dredux
 #
 
-#TODO: have autoconf check that all flags are supported:
-WARNFLAGS_COMMON = -Wall -Wmissing-field-initializers -Wmissing-prototypes -Wimplicit -Wreturn-type -Wmissing-braces -Wparentheses -Wswitch -Wno-unused -Wno-trigraphs
-AM_WARNFLAGS = $(WARNFLAGS_COMMON) -Wsign-compare -Wunknown-pragmas
+#DONE: autoconf now checks that all warning flags are supported:
+WARNFLAGS_COMMON = @WARN_CFLAGS@
+AM_WARNFLAGS = $(WARNFLAGS_COMMON) @EXTRA_WARN_CFLAGS@
 CFLAGS_COMMON = -ffast-math -funroll-loops
 AM_CFLAGS = $(AM_WARNFLAGS) $(CFLAGS_COMMON)
 AM_CPPFLAGS = -I. -I/usr/X11R6/include
@@ -25,21 +25,21 @@ LLVM_SYMBOLIZER = @LLVM_SYMBOLIZER@
 ASAN_SYMBOLIZER_PATH = $(LLVM_SYMBOLIZER)
 
 if CLANG_RULES
-## TODO: instead of hardcoding this, detect a valid version of clang:
-COMPILER = /opt/local/libexec/llvm-3.3/bin/clang
+## DONE: the configure script should now detect a valid version of clang:
+COMPILER = @CLANG_ANALYZER@
 ## TODO: make sure that all of these flags work and are used properly when
 ## building normally, instead of just when building the 'analyze' target:
 DIAGFLAGS = -fcolor-diagnostics -fdiagnostics-print-source-range-info -fdiagnostics-show-note-include-stack -fdiagnostics-show-option
-WARNFLAGS = $(WARNFLAGS_COMMON) -Wunused-function -Wunused-label -Wunused-parameter -Wunused-variable -Wshorten-64-to-32
+WARNFLAGS = $(WARNFLAGS_COMMON) -Wunused-label -Wshorten-64-to-32
 # (cannot sanitize both thread and address at the same time)
-SANFLAGS = -fsanitize=bounds -fsanitize=undefined
+SANFLAGS = # -fsanitize=bounds -fsanitize=undefined
 OPTFLAGS = -g -gdwarf-2 -ggdb -O1 -msse3 -mssse3 -msse4.1 -msse4.2 
 CLANG_CFLAGS = $(OPTFLAGS) -std=gnu99 $(WARNFLAGS) -fasm-blocks -fexceptions -fno-common -fno-limit-debug-info -fno-omit-frame-pointer -fpascal-strings $(CFLAGS_COMMON) -mfix-and-continue $(DIAGFLAGS) $(SANFLAGS)
 AM_CFLAGS += $(CLANG_CFLAGS)
 AM_CLANG_CPPFLAGS = -I/opt/local/include
 AM_CPPFLAGS += $(CLANG_CPPFLAGS)
 # need to link with sanitizer flags, too, to get necessary symbols:
-AM_CLANG_LINKFLAGS = -L/opt/local/lib $(SANFLAGS) -v -exported_symbols_list ../Wolfenstein3DFromSource.exp
+AM_CLANG_LINKFLAGS = -L/opt/local/lib $(SANFLAGS) -Wl,-multiply_defined,warning  -Wl,-warn_compact_unwind -Wl,-warn_stabs -Wl,-warn_commons -v -exported_symbols_list ../Wolfenstein3DFromSource.exp
 AM_LDFLAGS += $(AM_CLANG_LINKFLAGS)
 
 ## put this inside the clang rules conditional because I have only tested
@@ -219,6 +219,7 @@ wolf3dredux_SOURCES += unix/clipboard/OSX/OSXClipboard.m \
                        unix/clipboard/OSX/HexString.m \
                        unix/clipboard/OSX/LazyDataTextStorage.m \
                        unix/clipboard/OSX/PasteboardTypeTransformer.m
+AM_OBJCFLAGS = -fobjc-exceptions
 # Building Objective C sources requires linking agains frameworks:
 AM_OBJCLDFLAGS = -framework Cocoa
 endif
@@ -260,7 +261,7 @@ XSyms.txt: wolf3dredux
 
 if WOLF_OLD_BUILD
 DO_CC = $(COMPILER) $(CFLAGS) $(AM_CFLAGS) $(AM_CPPFLAGS) ${CPPFLAGS} -o $@ -c $<
-XOBJCFLAGS = -x objective-c
+XOBJCFLAGS = -x objective-c -fobjc-exceptions
 DO_OBJCC = $(COMPILER) $(CFLAGS) $(AM_CFLAGS) $(OBJCFLAGS) $(XOBJCFLAGS) $(AM_OBJCFLAGS) $(OBJCPPFLAGS) $(AM_OBJCPPFLAGS) $(AM_CPPFLAGS) ${CPPFLAGS} -o $@ -c $<
 
 PROGRAM_OBJS =  $(ODIR)/client_input.o \
