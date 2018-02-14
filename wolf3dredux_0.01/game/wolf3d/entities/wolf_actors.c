@@ -40,6 +40,23 @@
 #include "../../../math/random_number.h"
 #include "../../../math/angle.h"
 
+#ifdef HAVE_SYS_TYPES_H
+# include <sys/types.h>
+#else
+# ifdef HAVE_MACH_TYPES_H
+#  include <mach/types.h>
+# endif /* HAVE_MACH_TYPES_H */
+#endif /* HAVE_SYS_TYPES_H */
+#ifdef HAVE_UNISTD_H
+# include <unistd.h>
+#endif /* HAVE_UNISTD_H */
+#if defined(HAVE_INTTYPES_H) && !defined(_INTPTR_T_DEFINED)
+# include <inttypes.h>
+#endif /* HAVE_INTTYPES_H */
+#if defined(HAVE_STDINT_H) && !defined(_INTPTR_T_DEFINED)
+# include <stdint.h>
+#endif /* HAVE_STDINT_H && !_INTPTR_T_DEFINED */
+
 entity_t Guards[ MAX_GUARDS + 1 ], *New;
 W16 NumGuards = 0;
 W8 add8dir[ 9 ]	= { 4, 5, 6, 7, 0, 1, 2, 3, 0 };

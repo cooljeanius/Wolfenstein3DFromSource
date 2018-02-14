@@ -16,7 +16,7 @@ AM_WARNFLAGS = $(WARNFLAGS_COMMON) @EXTRA_WARN_CFLAGS@
 CFLAGS_COMMON = -ffast-math -funroll-loops
 AM_CFLAGS = $(AM_WARNFLAGS) $(CFLAGS_COMMON)
 AM_CPPFLAGS = -I. -I/usr/X11R6/include
-AM_CXXFLAGS = -fno-rtti
+AM_CXXFLAGS = -fno-rtti $(WARN_CXXFLAGS)
 AM_LDFLAGS = -L. -L$(LIBOBJDIR)
 
 GLXINFO = @GLXINFO@
@@ -47,7 +47,8 @@ AM_LDFLAGS += $(AM_CLANG_LINKFLAGS)
 if MS_COMPAT_CHECK
 # turn off warnings that actually are just coming from the Wine headers:
 CLANG_MS_COMPAT_WARNFLAGS = $(WARNFLAGS_COMMON) -Wno-unknown-pragmas -Wno-ignored-attributes -Wno-implicit-function-declaration -Wno-int-conversion -Wno-uninitialized
-CLANG_MS_COMPAT_CFLAGS = -fasm-blocks -fborland-extensions -fexceptions -ffast-math -fms-compatibility -fms-extensions -fmsc-version=601 -fno-builtin -fno-common -fvisibility-ms-compat -funroll-loops -mfix-and-continue -mms-bitfields -msse3 -mssse3 -msse4.1 -msse4.2 -m32 -g -O0 -arch i386 -std=c99 $(CLANG_MS_COMPAT_WARNFLAGS) -x c
+_X_C_FLAG = -x c
+CLANG_MS_COMPAT_CFLAGS = -fasm-blocks -fborland-extensions -fexceptions -ffast-math -fms-compatibility -fms-extensions -fmsc-version=601 -fno-builtin -fno-common -fvisibility-ms-compat -funroll-loops -mfix-and-continue -mms-bitfields -msse3 -mssse3 -msse4.1 -msse4.2 -m32 -g -O0 -arch i386 -std=c99 $(CLANG_MS_COMPAT_WARNFLAGS)
 AM_CFLAGS += $(CLANG_MS_COMPAT_CFLAGS)
 AM_CLANG_MS_COMPAT_CPPFLAGS = -D_MSC_VER=601 -D_WIN32 -I/opt/local/include/wine -I/opt/local/include/wine -I/opt/local/include/wine/msvcrt -I/opt/local/include/wine/windows $(AM_CLANG_CPPFLAGS)
 AM_CPPFLAGS += $(AM_CLANG_MS_COMPAT_CPPFLAGS)
@@ -62,7 +63,7 @@ else
 if MS_COMPAT_CHECK
 # turn off warnings that actually are just coming from the Wine headers:
 MS_COMPAT_WARNFLAGS = $(WARNFLAGS_COMMON) -Wno-unknown-pragmas -Wno-implicit-function-declaration -Wno-uninitialized
-MS_COMPAT_CFLAGS = -fasm-blocks -fexceptions -ffast-math -fms-extensions -fno-builtin -fno-common -funroll-loops -mfix-and-continue -mms-bitfields -msse3 -mssse3 -msse4.1 -msse4.2 -m32 -g -O0 -arch i386 -std=c99 $(MS_COMPAT_WARNFLAGS) -x c
+MS_COMPAT_CFLAGS = -fasm-blocks -fexceptions -ffast-math -fms-extensions -fno-builtin -fno-common -funroll-loops -mfix-and-continue -mms-bitfields -msse3 -mssse3 -msse4.1 -msse4.2 -m32 -g -O0 -arch i386 -std=c99 $(MS_COMPAT_WARNFLAGS) 
 AM_CFLAGS += $(MS_COMPAT_CFLAGS)
 MS_COMPAT_CXXFLAGS = -fvisibility-ms-compat
 AM_CXXFLAGS += $(MS_COMPAT_CXXFLAGS)
@@ -219,7 +220,7 @@ wolf3dredux_SOURCES += unix/clipboard/OSX/OSXClipboard.m \
                        unix/clipboard/OSX/HexString.m \
                        unix/clipboard/OSX/LazyDataTextStorage.m \
                        unix/clipboard/OSX/PasteboardTypeTransformer.m
-AM_OBJCFLAGS = -fobjc-exceptions
+AM_OBJCFLAGS = -fobjc-exceptions -fno-strict-aliasing $(GNU_OBJC_WARN_CFLAGS)
 # Building Objective C sources requires linking agains frameworks:
 AM_OBJCLDFLAGS = -framework Cocoa
 endif

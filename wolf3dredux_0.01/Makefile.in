@@ -512,6 +512,7 @@ EXEEXT = @EXEEXT@
 EXTRA_WARN_CFLAGS = @EXTRA_WARN_CFLAGS@
 FGREP = @FGREP@
 GLXINFO = @GLXINFO@
+GNU_OBJC_WARN_CFLAGS = @GNU_OBJC_WARN_CFLAGS@
 GREP = @GREP@
 INSTALL = @INSTALL@
 INSTALL_DATA = @INSTALL_DATA@
@@ -661,7 +662,7 @@ AM_CFLAGS = $(AM_WARNFLAGS) $(CFLAGS_COMMON) $(am__append_1) \
 	$(am__append_4) $(am__append_7)
 AM_CPPFLAGS = -I. -I/usr/X11R6/include $(am__append_2) $(am__append_5) \
 	$(am__append_9)
-AM_CXXFLAGS = -fno-rtti $(am__append_8)
+AM_CXXFLAGS = -fno-rtti $(WARN_CXXFLAGS) $(am__append_8)
 AM_LDFLAGS = -L. -L$(LIBOBJDIR) $(am__append_3) $(am__append_6) \
 	$(am__append_10)
 ASAN_SYMBOLIZER_PATH = $(LLVM_SYMBOLIZER)
@@ -679,13 +680,14 @@ ASAN_SYMBOLIZER_PATH = $(LLVM_SYMBOLIZER)
 
 # turn off warnings that actually are just coming from the Wine headers:
 @CLANG_RULES_TRUE@@MS_COMPAT_CHECK_TRUE@CLANG_MS_COMPAT_WARNFLAGS = $(WARNFLAGS_COMMON) -Wno-unknown-pragmas -Wno-ignored-attributes -Wno-implicit-function-declaration -Wno-int-conversion -Wno-uninitialized
-@CLANG_RULES_TRUE@@MS_COMPAT_CHECK_TRUE@CLANG_MS_COMPAT_CFLAGS = -fasm-blocks -fborland-extensions -fexceptions -ffast-math -fms-compatibility -fms-extensions -fmsc-version=601 -fno-builtin -fno-common -fvisibility-ms-compat -funroll-loops -mfix-and-continue -mms-bitfields -msse3 -mssse3 -msse4.1 -msse4.2 -m32 -g -O0 -arch i386 -std=c99 $(CLANG_MS_COMPAT_WARNFLAGS) -x c
+@CLANG_RULES_TRUE@@MS_COMPAT_CHECK_TRUE@_X_C_FLAG = -x c
+@CLANG_RULES_TRUE@@MS_COMPAT_CHECK_TRUE@CLANG_MS_COMPAT_CFLAGS = -fasm-blocks -fborland-extensions -fexceptions -ffast-math -fms-compatibility -fms-extensions -fmsc-version=601 -fno-builtin -fno-common -fvisibility-ms-compat -funroll-loops -mfix-and-continue -mms-bitfields -msse3 -mssse3 -msse4.1 -msse4.2 -m32 -g -O0 -arch i386 -std=c99 $(CLANG_MS_COMPAT_WARNFLAGS)
 @CLANG_RULES_TRUE@@MS_COMPAT_CHECK_TRUE@AM_CLANG_MS_COMPAT_CPPFLAGS = -D_MSC_VER=601 -D_WIN32 -I/opt/local/include/wine -I/opt/local/include/wine -I/opt/local/include/wine/msvcrt -I/opt/local/include/wine/windows $(AM_CLANG_CPPFLAGS)
 @CLANG_RULES_TRUE@@MS_COMPAT_CHECK_TRUE@AM_CLANG_MS_COMPAT_LINKFLAGS = -m32 -arch i386
 @CLANG_RULES_TRUE@SCAN_BUILD_CHECKERS = -enable-checker alpha.core.CastSize -enable-checker alpha.core.CastToStruct -enable-checker alpha.core.FixedAddr -enable-checker alpha.core.PointerArithm -enable-checker alpha.core.PointerSub -enable-checker alpha.core.SizeofPtr -enable-checker alpha.security.ArrayBound -enable-checker alpha.security.ArrayBoundV2 -enable-checker alpha.security.MallocOverflow -enable-checker alpha.security.ReturnPtrRange -enable-checker alpha.unix.SimpleStream -enable-checker alpha.unix.Stream -enable-checker alpha.unix.cstring.BufferOverlap -enable-checker alpha.unix.cstring.NotNullTerminated -enable-checker alpha.unix.cstring.OutOfBounds -enable-checker security.insecureAPI.rand -enable-checker security.insecureAPI.strcpy -enable-checker security.insecureAPI.vfork -enable-checker llvm.Conventions -enable-checker alpha.deadcode.UnreachableCode -enable-checker security.FloatLoopCounter
 # turn off warnings that actually are just coming from the Wine headers:
 @CLANG_RULES_FALSE@@MS_COMPAT_CHECK_TRUE@MS_COMPAT_WARNFLAGS = $(WARNFLAGS_COMMON) -Wno-unknown-pragmas -Wno-implicit-function-declaration -Wno-uninitialized
-@CLANG_RULES_FALSE@@MS_COMPAT_CHECK_TRUE@MS_COMPAT_CFLAGS = -fasm-blocks -fexceptions -ffast-math -fms-extensions -fno-builtin -fno-common -funroll-loops -mfix-and-continue -mms-bitfields -msse3 -mssse3 -msse4.1 -msse4.2 -m32 -g -O0 -arch i386 -std=c99 $(MS_COMPAT_WARNFLAGS) -x c
+@CLANG_RULES_FALSE@@MS_COMPAT_CHECK_TRUE@MS_COMPAT_CFLAGS = -fasm-blocks -fexceptions -ffast-math -fms-extensions -fno-builtin -fno-common -funroll-loops -mfix-and-continue -mms-bitfields -msse3 -mssse3 -msse4.1 -msse4.2 -m32 -g -O0 -arch i386 -std=c99 $(MS_COMPAT_WARNFLAGS) 
 @CLANG_RULES_FALSE@@MS_COMPAT_CHECK_TRUE@MS_COMPAT_CXXFLAGS = -fvisibility-ms-compat
 @CLANG_RULES_FALSE@@MS_COMPAT_CHECK_TRUE@AM_MS_COMPAT_CPPFLAGS = -D_MSC_VER=601 -D_WIN32 -I/opt/local/include/wine -I/opt/local/include/wine -I/opt/local/include/wine/msvcrt -I/opt/local/include/wine/windows -I/opt/local/include
 @CLANG_RULES_FALSE@@MS_COMPAT_CHECK_TRUE@AM_MS_COMPAT_LINKFLAGS = -m32 -arch i386
@@ -740,7 +742,7 @@ wolf3dredux_SOURCES = client/client_input.c client/client_main.c \
 	game/wolf3d/video/wolf_renderer.c \
 	game/wolf3d/video/opengl/wolf_opengl.c $(am__append_12) \
 	$(am__append_13) $(am__append_14) $(am__append_15)
-@BUILD_OBJC_SOURCES_TRUE@@MS_COMPAT_CHECK_FALSE@AM_OBJCFLAGS = -fobjc-exceptions
+@BUILD_OBJC_SOURCES_TRUE@@MS_COMPAT_CHECK_FALSE@AM_OBJCFLAGS = -fobjc-exceptions -fno-strict-aliasing $(GNU_OBJC_WARN_CFLAGS)
 # Building Objective C sources requires linking agains frameworks:
 @BUILD_OBJC_SOURCES_TRUE@@MS_COMPAT_CHECK_FALSE@AM_OBJCLDFLAGS = -framework Cocoa
 

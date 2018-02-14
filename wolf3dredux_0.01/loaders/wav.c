@@ -31,13 +31,29 @@
 
 #include <string.h>
 
-
 #include "../common/common_utils.h"
 #include "../common/arch.h"
 #include "../common/common.h"
 #include "../string/com_string.h"
 
 #include "wav.h"
+
+#ifdef HAVE_SYS_TYPES_H
+# include <sys/types.h>
+#else
+# ifdef HAVE_MACH_TYPES_H
+#  include <mach/types.h>
+# endif /* HAVE_MACH_TYPES_H */
+#endif /* HAVE_SYS_TYPES_H */
+#ifdef HAVE_UNISTD_H
+# include <unistd.h>
+#endif /* HAVE_UNISTD_H */
+#if defined(HAVE_INTTYPES_H) && !defined(_INTPTR_T_DEFINED)
+# include <inttypes.h>
+#endif /* HAVE_INTTYPES_H && !_INTPTR_T_DEFINED */
+#if defined(HAVE_STDINT_H) && !defined(_INTPTR_T_DEFINED)
+# include <stdint.h>
+#endif /* HAVE_STDINT_H && !_INTPTR_T_DEFINED */
 
 
 PRIVATE W8 *iff_pdata;

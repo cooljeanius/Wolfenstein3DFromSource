@@ -453,6 +453,7 @@ gl_EXTERN_INLINE
 AC_C_PROTOTYPES
 AC_C_RESTRICT
 AC_C_VOLATILE
+AC_LANG([C])
 gl_UNKNOWN_WARNINGS_ARE_ERRORS
 gl_WARN_ADD([-Wall])
 gl_WARN_ADD([-Wmissing-field-initializers])
@@ -481,7 +482,9 @@ gl_WARN_ADD([-Wpointer-arith])
 gl_WARN_ADD([-Wunreachable-code-loop-increment])
 gl_WARN_ADD([-Wunreachable-code-break])
 gl_WARN_ADD([-Wunreachable-code-return])
-gl_WARN_ADD([-Wreturn-local-addr])
+gl_COMPILER_OPTION_IF([-Wreturn-local-addr],
+                      [WARN_CFLAGS="${WARN_CFLAGS} -Wreturn-local-addr"],
+                      [gl_WARN_ADD([-Wreturn-stack-address])])
 gl_COMPILER_OPTION_IF([-Warray-bounds=2],
                       [WARN_CFLAGS="${WARN_CFLAGS} -Warray-bounds=2"],
                       [gl_WARN_ADD([-Warray-bounds])])
@@ -489,6 +492,15 @@ gl_WARN_ADD([-Wno-unused])
 gl_WARN_ADD([-Wno-trigraphs])
 gl_WARN_ADD([-Wsign-compare],[EXTRA_WARN_CFLAGS])
 gl_WARN_ADD([-Wunknown-pragmas],[EXTRA_WARN_CFLAGS])
+AC_LANG_PUSH([Objective C])
+gl_WARN_ADD([-Wassign-intercept],[GNU_OBJC_WARN_CFLAGS])
+gl_WARN_ADD([-Wcast-align],[GNU_OBJC_WARN_CFLAGS])
+gl_WARN_ADD([-Wglobal-constructors],[GNU_OBJC_WARN_CFLAGS])
+gl_WARN_ADD([-Wproperty-assign-default],[GNU_OBJC_WARN_CFLAGS])
+gl_WARN_ADD([-Wprotocol],[GNU_OBJC_WARN_CFLAGS])
+gl_WARN_ADD([-Wundeclared-selector],[GNU_OBJC_WARN_CFLAGS])
+gl_WARN_ADD([-Wshadow-ivar],[GNU_OBJC_WARN_CFLAGS])
+AC_LANG_POP
 AC_MSG_CHECKING([for some types...])
 AC_MSG_RESULT([... ])
 dnl# begin what used to be AC\_TYPE\_SIGNAL
