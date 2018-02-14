@@ -1,7 +1,7 @@
 language: C
 
 install:
-  - "sudo apt-get install libvorbis-dbg libvorbis-dev libvorbis0a libvorbisenc2 libvorbisfile3 libxxf86dga-dev libxxf86dga1 libxxf86dga1-dbg x11proto-xf86dga-dev libegl1-mesa libegl1-mesa-dbg libegl1-mesa-dev libegl1-mesa-drivers libegl1-mesa-drivers-dbg libgbm-dev libgbm1 libgbm1-dbg libgl1-mesa-dev libgl1-mesa-dri libgl1-mesa-dri-dbg libgl1-mesa-dri-experimental libgl1-mesa-dri-experimental-dbg libgl1-mesa-glx libgl1-mesa-glx-dbg libglapi-mesa libglapi-mesa-dbg libgles1-mesa libgles1-mesa-dbg libgles1-mesa-dev libgles2-mesa libgles2-mesa-dbg libgles2-mesa-dev libopenvg1-mesa libopenvg1-mesa-dbg libopenvg1-mesa-dev libosmesa6 libosmesa6-dev libxatracker-dev libxatracker1 libxatracker1-dbg mesa-common-dev libxxf86vm-dev libxxf86vm1 libxxf86vm1-dbg libdmalloc-dev libdmalloc5"
+  - "sudo apt-get install libvorbis-dbg libvorbis-dev libvorbis0a libvorbisenc2 libvorbisfile3 libxxf86dga-dev libxxf86dga1 libxxf86dga1-dbg x11proto-xf86dga-dev libegl1-mesa libegl1-mesa-dbg libegl1-mesa-dev libegl1-mesa-drivers libegl1-mesa-drivers-dbg libgbm-dev libgbm1 libgbm1-dbg libgl1-mesa-dev libgl1-mesa-dri libgl1-mesa-dri-dbg libgl1-mesa-glx libgl1-mesa-glx-dbg libglapi-mesa libglapi-mesa-dbg libgles1-mesa libgles1-mesa-dbg libgles1-mesa-dev libgles2-mesa libgles2-mesa-dbg libgles2-mesa-dev libopenvg1-mesa libopenvg1-mesa-dbg libopenvg1-mesa-dev libosmesa6 libosmesa6-dev libxatracker-dev mesa-common-dev libxxf86vm-dev libxxf86vm1 libxxf86vm1-dbg libdmalloc-dev libdmalloc5"
 
 # try to build
 script: cd wolf3dredux_0.01 && ./configure --with-x --enable-silent-rules && make && make check
