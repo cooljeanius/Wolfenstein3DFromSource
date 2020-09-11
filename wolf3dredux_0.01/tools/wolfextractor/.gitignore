@@ -6,3 +6,4 @@ string/test_com_string
 makefile
 wolfextractor
 scan_build_output/*
+test_com_string

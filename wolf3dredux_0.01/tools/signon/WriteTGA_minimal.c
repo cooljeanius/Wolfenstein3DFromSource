@@ -29,7 +29,7 @@ unsigned char WriteTGA(const char *filename, unsigned short bpp,
 					   void *Data, unsigned char upsideDown, unsigned char rle)
 {
     unsigned short	i, x, y, BytesPerPixel;
-	unsigned char	*scanline;
+	unsigned char *scanline = NULL;
 	unsigned char header[18];
 	FILE *filestream;
 	unsigned char *ptr;
@@ -63,6 +63,7 @@ unsigned char WriteTGA(const char *filename, unsigned short bpp,
 	fwrite(header, sizeof(unsigned char), sizeof(header), filestream);
 
 	scanline = (unsigned char*)malloc((size_t)(width * BytesPerPixel));
+    memset(scanline, 0, sizeof(*scanline));
     if (scanline == NULL) {
 		fclose(filestream);
 
