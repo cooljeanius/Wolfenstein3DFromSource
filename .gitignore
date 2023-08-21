@@ -10,3 +10,4 @@ build/*
 *.log
 *.xcworkspace
 *.xcodeproj/xcuserdata/*
+.env.local
