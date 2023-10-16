@@ -14,8 +14,19 @@ jobs:
 #     # 'compiler' was not transformed because there is no suitable equivalent in GitHub Actions
     - run: sudo apt-get install libvorbis-dev libvorbis0a libvorbisenc2 libvorbisfile3 libxxf86dga-dev libxxf86dga1 libxxf86dga1-dbg x11proto-xf86dga-dev libgbm-dev libgbm1 libgl1-mesa-dev libgl1-mesa-dri libgl1-mesa-glx libglapi-mesa libgles2-mesa libgles2-mesa-dev libosmesa6 libosmesa6-dev libxatracker-dev mesa-common-dev libxxf86vm-dev libxxf86vm1 libxxf86vm1-dbg libdmalloc-dev libdmalloc5 mlocate findutils
     - run: cd wolf3dredux_0.01 && ./configure --with-x --enable-silent-rules && make && make check
-    - run: if test -x "$(which locate)" && locate --version >/dev/null 2>/dev/null; then ((echo "locating <GL/glu.h>..." && locate "GL/glu.h") || (test -r config.log && cat config.log)); elif test -x "$(which mlocate)"; then (echo "mlocate-ing <GL/glu.h>..." && mlocate "GL/glu.h"); elif test -x "$(which find)"; then (echo "finding <GL/glu.h>..." && find "GL/glu.h"); else ls -AR; fi; sleep 1
-      if: "${{ failure() }}"
+    - name: Debug failures
+      if: failure()
+      run: |
+        if test -x "$(which locate)" && locate --version >/dev/null 2>/dev/null; then \
+          echo "locating <GL/glu.h>..."; \
+          locate "GL/glu.h" || (echo "locating <GL/glu.h> failed!" && (test -r config.log && cat config.log)); \
+        elif test -x "$(which mlocate)"; then \
+          echo "mlocate-ing <GL/glu.h>..."; \
+          mlocate "GL/glu.h" || echo "mlocate-ing <GL/glu.h> failed!"; \
+        elif test -x "$(which find)"; then \
+          echo "finding <GL/glu.h>..."; \
+          find / -name "GL/glu.h" -print || echo "finding <GL/glu.h> failed!"; \
+        else ls -AR; fi; sleep 1
     strategy:
       matrix:
         compiler:
