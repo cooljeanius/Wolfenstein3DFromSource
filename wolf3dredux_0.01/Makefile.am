@@ -1,6 +1,6 @@
 # Since we used to leave AM_INIT_AUTOMAKE out of configure.ac, this used to
 # only exists to make sure that m4 macros are handled properly.
-# The old makefile is still handwritten (as makefile.orig).
+# The old makefile is still handwritten (as makefile_orig).
 
 ACLOCAL_AMFLAGS = -I m4 --install
 

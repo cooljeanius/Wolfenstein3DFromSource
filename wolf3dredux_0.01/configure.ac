@@ -210,6 +210,7 @@ AC_SUBST([x_libraries])dnl
 AC_SUBST([ac_x_includes])dnl
 AC_SUBST([ac_x_libraries])dnl
 AC_MSG_CHECKING([if we can actually build against X11])
+  ## this conditional is hairy:
 if test "x${no_x}" != "xyes" -a "x${have_x}" = "xyes" -a "x${with_x}" != "xno"; then
   export CAN_BUILD_AGAINST_X11=yes
   AC_SUBST([CAN_BUILD_AGAINST_X11])
@@ -273,6 +274,7 @@ ${ac_xeleven_includes_default}
   ],[AC_INCLUDES_DEFAULT
 ${ac_xeleven_includes_default}
   ])dnl
+  ## (need a line of whitespace)
   AC_CHECK_HEADERS([X11/extensions/xf86vmode.h],[],[
     AC_CHECK_HEADERS([X11/extensions/Xxf86vmode.h],[],[
       export CAN_BUILD_AGAINST_X11=no
@@ -283,6 +285,7 @@ ${ac_xeleven_includes_default}
   ],[AC_INCLUDES_DEFAULT
 ${ac_xeleven_includes_default}
   ])dnl
+  ## (need a line of whitespace)
   AC_MSG_CHECKING([for X11 libraries that we would like to link with...])
   AC_MSG_RESULT([... ])
   AC_CHECK_LIB([X11],[XCloseDisplay],[],[
@@ -417,6 +420,18 @@ if test "x0" = "Y1"; then
   # Keep autoscan happy as well:
   test -x "`which autoscan`"
   AC_PROG_RANLIB
+  if test "x${ac_cv_header_inttypes_h}" = "x"; then
+    test -z "${ac_cv_header_inttypes_h}" || unset ac_cv_header_inttypes_h
+    AC_CHECK_HEADERS([inttypes.h])
+  fi
+  if test "x${ac_cv_header_stdint_h}" = "x"; then
+    test -z "${ac_cv_header_stdint_h}" || unset ac_cv_header_stdint_h
+    AC_CHECK_HEADERS([stdint.h])
+  fi
+  if test "x${ac_cv_header_unistd_h}" = "x"; then
+    test -z "${ac_cv_header_unistd_h}" || unset ac_cv_header_unistd_h
+    AC_CHECK_HEADERS([unistd.h])
+  fi
 fi
 dnl# okay, now that that is out of the way...
 AC_MSG_CHECKING([for miscellaneous other headers...])

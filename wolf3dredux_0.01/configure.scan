@@ -1,7 +1,7 @@
 #                                               -*- Autoconf -*-
 # Process this file with autoconf to produce a configure script.
 
-AC_PREREQ([2.69])
+AC_PREREQ([2.71])
 AC_INIT([FULL-PACKAGE-NAME], [VERSION], [BUG-REPORT-ADDRESS])
 AC_CONFIG_SRCDIR([config.h.in])
 AC_CONFIG_HEADERS([config.h])
@@ -17,18 +17,18 @@ AC_PROG_MAKE_SET
 AC_PROG_RANLIB
 
 # Checks for libraries.
-# FIXME: Replace `main' with a function in `-lm':
+# FIXME: Replace 'main' with a function in '-lm':
 AC_CHECK_LIB([m], [main])
-# FIXME: Replace `main' with a function in `-logg':
+# FIXME: Replace 'main' with a function in '-logg':
 AC_CHECK_LIB([ogg], [main])
-# FIXME: Replace `main' with a function in `-lvorbis':
+# FIXME: Replace 'main' with a function in '-lvorbis':
 AC_CHECK_LIB([vorbis], [main])
-# FIXME: Replace `main' with a function in `-lvorbisenc':
+# FIXME: Replace 'main' with a function in '-lvorbisenc':
 AC_CHECK_LIB([vorbisenc], [main])
 
 # Checks for header files.
 AC_PATH_X
-AC_CHECK_HEADERS([fcntl.h float.h inttypes.h libintl.h limits.h locale.h malloc.h memory.h stddef.h stdint.h stdlib.h string.h sys/param.h sys/time.h sys/timeb.h unistd.h wchar.h])
+AC_CHECK_HEADERS([fcntl.h inttypes.h libintl.h malloc.h stdint.h sys/param.h sys/time.h sys/timeb.h unistd.h])
 
 # Checks for typedefs, structures, and compiler characteristics.
 AC_CHECK_HEADER_STDBOOL
