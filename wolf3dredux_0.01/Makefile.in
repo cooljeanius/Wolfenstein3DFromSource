@@ -2984,10 +2984,10 @@ XSyms.txt: wolf3dredux
 @CLANG_RULES_TRUE@@MS_COMPAT_CHECK_TRUE@ms-compat: clean
 @CLANG_RULES_TRUE@@MS_COMPAT_CHECK_TRUE@	 $(MAKE) AM_CFLAGS="" CFLAGS="$(CLANG_MS_COMPAT_CFLAGS)" AM_CPPFLAGS="-I." CPPFLAGS="$(AM_CLANG_MS_COMPAT_CPPFLAGS)" AM_LDFLAGS="-L." LDFLAGS=""
 @CLANG_RULES_TRUE@@MS_COMPAT_CHECK_FALSE@ms-compat:
-@CLANG_RULES_TRUE@@MS_COMPAT_CHECK_FALSE@	@echo "the ms-compat target is not supported with your current configuration."
+@CLANG_RULES_TRUE@@MS_COMPAT_CHECK_FALSE@	@echo "the ms-compat target is not supported with your current configuration." >&2; exit 1
 
 @CLANG_RULES_FALSE@analyze:
-@CLANG_RULES_FALSE@	@echo "you must configure with CC set to a compiler that is clang to be able to use this target."
+@CLANG_RULES_FALSE@	@echo "you must configure with CC set to a compiler that is clang to be able to use this target ($@)." >&2; exit 1
 
 distclean-local:
 	rm -rf autom4te.cache || rmdir autom4te.cache
