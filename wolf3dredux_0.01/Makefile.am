@@ -846,6 +846,8 @@ else
 ## (not CLANG_RULES)
 analyze:
 	@echo "you must configure with CC set to a compiler that is clang to be able to use this target ($@)." >&2; exit 1
+ms-compat:
+	@echo "the ms-compat target is not supported with your current configuration." >&2; exit 1
 endif
 ## (end CLANG_RULES)
 

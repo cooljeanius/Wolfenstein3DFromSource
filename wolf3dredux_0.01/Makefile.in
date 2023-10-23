@@ -2988,6 +2988,8 @@ XSyms.txt: wolf3dredux
 
 @CLANG_RULES_FALSE@analyze:
 @CLANG_RULES_FALSE@	@echo "you must configure with CC set to a compiler that is clang to be able to use this target ($@)." >&2; exit 1
+@CLANG_RULES_FALSE@ms-compat:
+@CLANG_RULES_FALSE@	@echo "the ms-compat target is not supported with your current configuration." >&2; exit 1
 
 distclean-local:
 	rm -rf autom4te.cache || rmdir autom4te.cache
