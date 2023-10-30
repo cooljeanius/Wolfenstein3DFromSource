@@ -12,12 +12,22 @@ jobs:
       uses: actions/checkout@v4.1.1
 #     # 'Transformers::TravisCI::Scripts::Dependencies' dependencies are currently unsupported
 #     # 'compiler' was not transformed because there is no suitable equivalent in GitHub Actions
-    - run: sudo apt-get install libvorbis-dev libvorbis0a libvorbisenc2 libvorbisfile3 libxxf86dga-dev libxxf86dga1 libxxf86dga1-dbg x11proto-xf86dga-dev libgbm-dev libgbm1 libgl1-mesa-dev libgl1-mesa-dri libgl1-mesa-glx libglapi-mesa libgles2-mesa libgles2-mesa-dev libosmesa6 libosmesa6-dev libxatracker-dev mesa-common-dev libxxf86vm-dev libxxf86vm1 libxxf86vm1-dbg libdmalloc-dev libdmalloc5 mlocate findutils libglu1-mesa libglu1-mesa-dev gdb nocache bmake gdb-doc gdbserver
-    - run: |
+    - name: Dependencies
+      run: |
+        sudo apt-get -qq update
+        sudo apt-get -q install libvorbis-dev libvorbis0a libvorbisenc2 libvorbisfile3 libxxf86dga-dev libxxf86dga1 libxxf86dga1-dbg x11proto-xf86dga-dev libgbm-dev libgbm1 libgl1-mesa-dev libgl1-mesa-dri libgl1-mesa-glx libglapi-mesa libgles2-mesa libgles2-mesa-dev libosmesa6 libosmesa6-dev libxatracker-dev mesa-common-dev libxxf86vm-dev libxxf86vm1 libxxf86vm1-dbg libdmalloc-dev libdmalloc5 mlocate findutils libglu1-mesa libglu1-mesa-dev gdb nocache bmake gdb-doc gdbserver ${{ matrix.compiler }}
+    - name: Build
+      run: |
         cd wolf3dredux_0.01
         ./configure --with-x --enable-silent-rules
-        make || make -f makefile_orig || bmake makefile.freebsd
-        make check || make XSyms.txt || make analyze || make ms-compat || make -C gnulib_replacement_funcs check
+        make
+        make -f makefile_orig
+        bmake makefile.freebsd
+        make check
+        make XSyms.txt
+        make analyze
+        make ms-compat
+        make -C gnulib_replacement_funcs check
     - name: Debug failures
       if: failure()
       run: |
