@@ -19,7 +19,7 @@ jobs:
     - name: Build
       run: |
         cd wolf3dredux_0.01
-        ./configure --with-x --enable-silent-rules CC="${{ matrix.compiler }}"
+        ./configure --with-x --enable-silent-rules
         make
         make -f makefile_orig || bmake makefile.freebsd
         make check
