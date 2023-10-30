@@ -23,7 +23,6 @@ jobs:
         make
         make -f makefile_orig || bmake makefile.freebsd
         make check
-        make XSyms.txt
         make analyze
         make ms-compat
         make -C gnulib_replacement_funcs check
@@ -40,9 +39,9 @@ jobs:
         elif test -x "$(which mlocate)"; then \
           echo "mlocate-ing <GL/glu.h>..."; \
           mlocate "GL/glu.h" || echo "mlocate-ing <GL/glu.h> failed!"; \
-        elif test -x "$(which find)" && test -r /; then \
+        elif test -x "$(which find)" && test -r / && test -d /usr/include; then \
           echo "finding <GL/glu.h>..."; \
-          find / -name "GL/glu.h" -print || echo "finding <GL/glu.h> failed!"; \
+          find / -name "GL/glu.h" -print 2>/dev/null || echo "finding <GL/glu.h> failed!"; \
         else ls -AR; fi; sleep 1
     strategy:
       fail-fast: false
