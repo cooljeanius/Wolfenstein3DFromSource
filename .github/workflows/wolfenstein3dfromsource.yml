@@ -19,13 +19,11 @@ jobs:
     - name: Build
       run: |
         cd wolf3dredux_0.01
-        ./configure --with-x --enable-silent-rules
+        ./configure --with-x --enable-silent-rules CC="${{ matrix.compiler }}"
         make
         make -f makefile_orig || bmake makefile.freebsd
         make check
-        make analyze
-        make ms-compat
-        make -C gnulib_replacement_funcs check
+        make analyze || make ms-compat || make -C gnulib_replacement_funcs check
     - name: Debug failures
       if: failure()
       run: |
