@@ -69,14 +69,16 @@ jobs:
         # queries: security-extended,security-and-quality
 
     - name: Dependencies
-      run: brew install gawk mesa mesa-glu mesalib-glw libxxf86dga libxxf86vm freeglut cglm ftgl gl2ps glbinding glbinding@2 glew glfw globjects glslang gtkglext libdrawtext libepoxy portablegl shivavg waffle
+      run: brew install gawk mesa mesa-glu mesalib-glw libxxf86dga libxxf86vm freeglut cglm ftgl gl2ps glbinding glew glfw globjects glslang gtkglext libdrawtext libepoxy portablegl shivavg waffle alure freealut openal-soft
 
     # Autobuild attempts to build any compiled languages (C/C++, C#, Go, Java, or Swift).
     - name: Autobuild
       uses: github/codeql-action/autobuild@v3
+      env:
+        CODEQL_EXTRACTOR_CPP_AUTOINSTALL_DEPENDENCIES: false
 
     - name: Manual build (xcodebuild)
-      run: xcodebuild || xcodebuild -target Wolfenstein3DFromSource
+      run: xcodebuild || xcodebuild -target Tools
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v3
