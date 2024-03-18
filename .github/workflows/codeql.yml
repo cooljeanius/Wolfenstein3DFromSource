@@ -69,7 +69,7 @@ jobs:
         # queries: security-extended,security-and-quality
 
     - name: Dependencies
-      run: brew install gawk mesa mesa-glu mesalib-glw libxxf86dga libxxf86vm freeglut cglm ftgl gl2ps glbinding glew glfw globjects glslang gtkglext libdrawtext libepoxy portablegl shivavg waffle alure freealut openal-soft libvorbis mp3splt vorbis-tools vorbisgain
+      run: brew install gawk mesa mesa-glu mesalib-glw libxxf86dga libxxf86vm freeglut cglm ftgl gl2ps glbinding glew glfw globjects glslang gtkglext libdrawtext libepoxy portablegl shivavg waffle alure freealut mp3splt vorbis-tools vorbisgain xorg-server
 
     # Autobuild attempts to build any compiled languages (C/C++, C#, Go, Java, or Swift).
     - name: Autobuild
@@ -78,7 +78,7 @@ jobs:
         CODEQL_EXTRACTOR_CPP_AUTOINSTALL_DEPENDENCIES: false
 
     - name: Manual build (xcodebuild)
-      run: xcodebuild || xcodebuild -target Tools || xcodebuild -target gamepal
+      run: xcodebuild || xcodebuild -target Tools || xcodebuild -target gamepal || xcodebuild -target signon
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v3
