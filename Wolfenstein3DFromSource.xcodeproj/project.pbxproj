@@ -707,6 +707,9 @@
 		A547741D18DBCF0700FE1646 /* wolf3d_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = wolf3d_icon.png; path = Resources/wolf3d_icon.png; sourceTree = "<group>"; };
 		A547741F18DBCF0D00FE1646 /* wolf3dlite_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = wolf3dlite_icon.png; path = Resources/wolf3dlite_icon.png; sourceTree = "<group>"; };
 		A547743918DBD0CE00FE1646 /* POSITYPE-idSettler10v2.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "POSITYPE-idSettler10v2.otf"; path = "wolf3dredux_0.01/font/POSITYPE-idSettler10v2.otf"; sourceTree = "<group>"; };
+		A555D49B2BA8DD6E00C673D4 /* codeql.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = codeql.yml; sourceTree = "<group>"; };
+		A555D49C2BA8DD6E00C673D4 /* wolfenstein3dfromsource.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = wolfenstein3dfromsource.yml; sourceTree = "<group>"; };
+		A555D49D2BA8DD6E00C673D4 /* dependabot.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = dependabot.yml; sourceTree = "<group>"; };
 		A571EC3D18C519C00037F031 /* test_com_string.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = test_com_string.c; sourceTree = "<group>"; };
 		A571EE6318C64A260037F031 /* README */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
 		A571EE6418C64A260037F031 /* strnlen.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = strnlen.c; sourceTree = "<group>"; };
@@ -829,6 +832,7 @@
 		29B97314FDCFA39411CA2CEA /* Wolfenstein3DFromSource */ = {
 			isa = PBXGroup;
 			children = (
+				A555D4992BA8DD6E00C673D4 /* .github */,
 				7B0AFAC91470CE6200165517 /* wolf3dredux_0.01 */,
 				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
@@ -1720,6 +1724,24 @@
 			path = GL;
 			sourceTree = "<group>";
 		};
+		A555D4992BA8DD6E00C673D4 /* .github */ = {
+			isa = PBXGroup;
+			children = (
+				A555D49A2BA8DD6E00C673D4 /* workflows */,
+				A555D49D2BA8DD6E00C673D4 /* dependabot.yml */,
+			);
+			path = .github;
+			sourceTree = "<group>";
+		};
+		A555D49A2BA8DD6E00C673D4 /* workflows */ = {
+			isa = PBXGroup;
+			children = (
+				A555D49B2BA8DD6E00C673D4 /* codeql.yml */,
+				A555D49C2BA8DD6E00C673D4 /* wolfenstein3dfromsource.yml */,
+			);
+			path = workflows;
+			sourceTree = "<group>";
+		};
 		A571EE6218C64A260037F031 /* gnulib_replacement_funcs */ = {
 			isa = PBXGroup;
 			children = (
@@ -2026,7 +2048,7 @@
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1170;
+				LastUpgradeCheck = 1320;
 			};
 			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "Wolfenstein3DFromSource" */;
 			compatibilityVersion = "Xcode 3.1";
@@ -2505,6 +2527,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = x86_64;
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CODE_SIGN_IDENTITY = "-";
 				COPY_PHASE_STRIP = NO;
@@ -2517,6 +2540,7 @@
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_MODEL_TUNING = G5;
+				GCC_NO_COMMON_BLOCKS = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Wolfenstein3DFromSource_Prefix.pch;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -2533,6 +2557,12 @@
 				PRESERVE_DEAD_CODE_INITS_AND_TERMS = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "edu.gwu.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = Wolfenstein3DFromSource;
+				WARNING_CFLAGS = (
+					"-Wimplicit",
+					"-Wall",
+					"-Wno-unused",
+					"-Wmissing-variable-declarations",
+				);
 			};
 			name = Debug;
 		};
@@ -2540,6 +2570,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = x86_64;
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CODE_SIGN_IDENTITY = "-";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -2550,12 +2581,17 @@
 					"\"$(SYSTEM_LIBRARY_DIR)/Frameworks/Carbon.framework/Versions/A/Frameworks\"",
 				);
 				GCC_MODEL_TUNING = G5;
+				GCC_NO_COMMON_BLOCKS = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Wolfenstein3DFromSource_Prefix.pch;
 				INFOPLIST_FILE = "Wolfenstein3DFromSource-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
 				PRODUCT_BUNDLE_IDENTIFIER = "edu.gwu.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = Wolfenstein3DFromSource;
+				WARNING_CFLAGS = (
+					"-Wno-unused",
+					"-Wmissing-variable-declarations",
+				);
 			};
 			name = Release;
 		};
@@ -2575,6 +2611,7 @@
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -2681,6 +2718,7 @@
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
