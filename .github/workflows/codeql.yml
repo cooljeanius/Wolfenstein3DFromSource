@@ -69,7 +69,7 @@ jobs:
         # queries: security-extended,security-and-quality
 
     - name: Dependencies
-      run: brew install gawk mesa mesa-glu mesalib-glw libxxf86dga libxxf86vm freeglut cglm ftgl gl2ps glbinding glew glfw globjects glslang gtkglext libdrawtext libepoxy portablegl shivavg waffle alure freealut mp3splt vorbis-tools vorbisgain xorg-server libx11
+      run: brew install gawk mesa mesa-glu mesalib-glw libxxf86dga libxxf86vm freeglut cglm ftgl gl2ps glbinding glew glfw globjects glslang gtkglext libdrawtext libepoxy portablegl shivavg waffle alure freealut mp3splt vorbis-tools vorbisgain xorg-server libxext lit llvm
 
     # Autobuild attempts to build any compiled languages (C/C++, C#, Go, Java, or Swift).
     - name: Autobuild
@@ -79,6 +79,23 @@ jobs:
 
     - name: Manual build (xcodebuild)
       run: xcodebuild || xcodebuild -target Tools || xcodebuild -target gamepal || xcodebuild -target signon || stat Wolfenstein3DFromSource.xcodeproj
+
+    - name: Extra coverage build (C)
+      run: |
+        cd wolf3dredux_0.01
+        # shellcheck disable=SC2001,SC2044,2086
+        for cfile in $(find . -name '*.c' -type f); do \
+          cobjfile="$(echo "${cfile}" | sed "s/\.c/.o/g")"; \
+          cfiledir="$(dirname "${cfile}")"; \
+          if test ! -e "${cobjfile}"; then \
+            echo "gcc -c -w -Wno-error -Wfatal-errors -I. -I\"${cfiledir}\" -iquote \"${cfiledir}\" -I\"${cfiledir}\"/.. -iquote \"${cfiledir}\"/.. ${cfile}"; \
+            gcc -c -w -Wno-error -Wfatal-errors -I. -I"${cfiledir}" -iquote "${cfiledir}" -I"${cfiledir}"/.. -iquote "${cfiledir}"/.. ${cfile} || stat -t "${cfile}" || echo "cfile is ${cfile}"; \
+          else \
+            echo "object file ${cobjfile} already exists for ${cfile}."; \
+            cp -v "${cobjfile}" "${cfiledir}" || cp -v "${cobjfile}" . || cp -v "${cobjfile}" .. || (if test -d /tmp && test -w /tmp; then cp -v "${cobjfile}" /tmp; fi) || stat -t "${cobjfile}"; \
+          fi; \
+        done
+        echo "done with the \"Extra coverage build (C)\" step"
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v3
