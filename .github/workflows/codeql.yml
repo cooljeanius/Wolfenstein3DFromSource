@@ -69,7 +69,7 @@ jobs:
         # queries: security-extended,security-and-quality
 
     - name: Dependencies
-      run: brew install gawk mesa mesa-glu mesalib-glw libxxf86dga libxxf86vm freeglut cglm ftgl gl2ps glbinding glew glfw globjects glslang gtkglext libdrawtext libepoxy portablegl shivavg waffle alure freealut mp3splt vorbis-tools vorbisgain xorg-server libxext lit llvm
+      run: brew install gawk mesa mesa-glu mesalib-glw libxxf86dga libxxf86vm freeglut cglm ftgl gl2ps glbinding glew glfw globjects glslang gtkglext libdrawtext libepoxy portablegl shivavg waffle alure freealut mp3splt vorbis-tools vorbisgain xorg-server xinit lit
 
     # Autobuild attempts to build any compiled languages (C/C++, C#, Go, Java, or Swift).
     - name: Autobuild
