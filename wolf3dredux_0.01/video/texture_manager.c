@@ -702,7 +702,7 @@ shrink_line( double               *dest,
 
 	/* Sanity check: srcp should point to the next-to-last position, and
 	 * slicepos should be zero.  */
-	if( ! (srcp - src == old_width * bytes && slicepos == 0) ) {
+	if( ! (srcp - src == (long)old_width * bytes && slicepos == 0) ) {
 		Com_Printf ("Assertion (srcp - src == old_width * bytes && slicepos == 0)"
 					" failed. Please report.");
 	}
