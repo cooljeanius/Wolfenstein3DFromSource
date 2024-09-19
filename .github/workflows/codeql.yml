@@ -1,3 +1,5 @@
+---
+# Wolfenstein3DFromSource
 # For most projects, this workflow file will not need changing; you simply need
 # to commit it to your repository.
 #
@@ -16,10 +18,12 @@ on:
     branches:
       - master
       - dependabot/*
+      - autofix/alert-*
   pull_request:
     branches:
       - master
       - dependabot/*
+      - autofix/alert-*
   schedule:
     - cron: '43 12 * * 0'
 
@@ -44,60 +48,81 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        language: [ 'c-cpp' ]
-        # CodeQL supports [ 'c-cpp', 'csharp', 'go', 'java-kotlin', 'javascript-typescript', 'python', 'ruby', 'swift' ]
-        # Use only 'java-kotlin' to analyze code written in Java, Kotlin or both
-        # Use only 'javascript-typescript' to analyze code written in JavaScript, TypeScript or both
+        language: ['c-cpp']
+        # CodeQL supports the following languages:
+        # 'c-cpp', 'csharp', 'go', 'java-kotlin', 'javascript-typescript',
+        # 'python', 'ruby', 'swift'
+        # Use 'java-kotlin' to analyze code written in Java, Kotlin, or both
+        # Use 'javascript-typescript' to analyze code written in JavaScript,
+        # TypeScript, or both
         # Learn more about CodeQL language support at:
         # https://aka.ms/codeql-docs/language-support
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-    # Initializes the CodeQL tools for scanning.
-    - name: Initialize CodeQL
-      uses: github/codeql-action/init@v3
-      with:
-        languages: ${{ matrix.language }}
-        # If you wish to specify custom queries, you can do so here or in a config file.
-        # By default, queries listed here will override any specified in a config file.
-        # Prefix the list here with "+" to use these queries and those in the config file.
+      # Initializes the CodeQL tools for scanning.
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: ${{ matrix.language }}
+          # If you wish to specify custom queries, you can do so here or in a
+          # config file.
+          # By default, queries listed here will override any specified in a
+          # config file.
+          # Prefix the list here with "+" to use these queries and those in the
+          # config file.
 
-        # For more details on CodeQL's query packs, refer to:
-        # https://docs.github.com/en/code-security/code-scanning/automatically-scanning-your-code-for-vulnerabilities-and-errors/configuring-code-scanning#using-queries-in-ql-packs
-        # queries: security-extended,security-and-quality
+          # For more details on CodeQL's query packs, refer to:
+          # https://docs.github.com/en/code-security/code-scanning/automatically-scanning-your-code-for-vulnerabilities-and-errors/configuring-code-scanning#using-queries-in-ql-packs
+          # queries: security-extended,security-and-quality
 
-    - name: Dependencies
-      run: brew install gawk mesa mesa-glu mesalib-glw libxxf86dga libxxf86vm freeglut cglm ftgl gl2ps glbinding glew glfw globjects glslang gtkglext libdrawtext libepoxy portablegl shivavg waffle alure freealut mp3splt vorbis-tools vorbisgain xorg-server xinit lit
+      - name: Dependencies
+        run: |
+          brew install gawk mesa mesa-glu mesalib-glw libxxf86dga libxxf86vm \
+            freeglut cglm ftgl gl2ps glbinding glew glfw globjects glslang \
+            gtkglext libdrawtext libepoxy portablegl shivavg waffle alure \
+            freealut mp3splt vorbis-tools vorbisgain xorg-server xinit lit
 
-    # Autobuild attempts to build any compiled languages (C/C++, C#, Go, Java, or Swift).
-    - name: Autobuild
-      uses: github/codeql-action/autobuild@v3
-      env:
-        CODEQL_EXTRACTOR_CPP_AUTOINSTALL_DEPENDENCIES: false
+      # Autobuild attempts to build any compiled languages
+      # (C/C++, C#, Go, Java, or Swift).
+      - name: Autobuild
+        uses: github/codeql-action/autobuild@v3
+        env:
+          CODEQL_EXTRACTOR_CPP_AUTOINSTALL_DEPENDENCIES: false
 
-    - name: Manual build (xcodebuild)
-      run: xcodebuild || xcodebuild -target Tools || xcodebuild -target gamepal || xcodebuild -target signon || stat Wolfenstein3DFromSource.xcodeproj
+      - name: Manual build (xcodebuild)
+        run: |
+          xcodebuild || xcodebuild -target Tools || \
+            xcodebuild -target gamepal || xcodebuild -target signon || \
+            stat Wolfenstein3DFromSource.xcodeproj
 
-    - name: Extra coverage build (C)
-      run: |
-        cd wolf3dredux_0.01
-        # shellcheck disable=SC2001,SC2044,2086
-        for cfile in $(find . -name '*.c' -type f); do \
-          cobjfile="$(echo "${cfile}" | sed "s/\.c/.o/g")"; \
-          cfiledir="$(dirname "${cfile}")"; \
-          if test ! -e "${cobjfile}"; then \
-            echo "gcc -c -w -Wno-error -Wfatal-errors -I. -I\"${cfiledir}\" -iquote \"${cfiledir}\" -I\"${cfiledir}\"/.. -iquote \"${cfiledir}\"/.. ${cfile}"; \
-            gcc -c -w -Wno-error -Wfatal-errors -I. -I"${cfiledir}" -iquote "${cfiledir}" -I"${cfiledir}"/.. -iquote "${cfiledir}"/.. ${cfile} || stat -t "${cfile}" || echo "cfile is ${cfile}"; \
-          else \
-            echo "object file ${cobjfile} already exists for ${cfile}."; \
-            cp -v "${cobjfile}" "${cfiledir}" || cp -v "${cobjfile}" . || cp -v "${cobjfile}" .. || (if test -d /tmp && test -w /tmp; then cp -v "${cobjfile}" /tmp; fi) || stat -t "${cobjfile}"; \
-          fi; \
-        done
-        echo "done with the \"Extra coverage build (C)\" step"
+      - name: Extra coverage build (C)
+        run: |
+          cd wolf3dredux_0.01
+          # shellcheck disable=SC2001,SC2044,2086
+          for cfile in $(find . -name '*.c' -type f); do \
+            cobjfile="$(echo "${cfile}" | sed "s/\.c/.o/g")"; \
+            cfiledir="$(dirname "${cfile}")"; \
+            if test ! -e "${cobjfile}"; then \
+              echo "gcc -c -w -Wno-error -Wfatal-errors -I. -I\"${cfiledir}\" -iquote \"${cfiledir}\" -I\"${cfiledir}\"/.. -iquote \"${cfiledir}\"/.. ${cfile}"; \
+              gcc -c -w -Wno-error -Wfatal-errors -I. -I"${cfiledir}" \
+                -iquote "${cfiledir}" -I"${cfiledir}"/.. \
+                -iquote "${cfiledir}"/.. ${cfile} || \
+                stat -t "${cfile}" || echo "cfile is ${cfile}"; \
+            else \
+              echo "object file ${cobjfile} already exists for ${cfile}."; \
+              cp -v "${cobjfile}" "${cfiledir}" || cp -v "${cobjfile}" . || \
+                cp -v "${cobjfile}" .. || \
+                (if test -d /tmp && test -w /tmp; then \
+                   cp -v "${cobjfile}" /tmp; fi) || \
+                stat -t "${cobjfile}"; \
+            fi; \
+          done
+          echo "done with the \"Extra coverage build (C)\" step"
 
-    - name: Perform CodeQL Analysis
-      uses: github/codeql-action/analyze@v3
-      with:
-        category: "/language:${{matrix.language}}"
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v3
+        with:
+          category: "/language:${{matrix.language}}"
