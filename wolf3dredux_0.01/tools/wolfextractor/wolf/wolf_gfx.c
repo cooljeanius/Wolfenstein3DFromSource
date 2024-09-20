@@ -880,7 +880,7 @@ PUBLIC void ReduxAlphaChannel_hq2x(W8 *data, W32 width, W32 height)
 */
 PRIVATE void SavePic(W32 chunknum, W16 version, W8 *buffer, W8 *buffer2)
 {
-    W16 i;
+    W32 i;
     W16 temp;
     char filename[32];
     char *fname;
