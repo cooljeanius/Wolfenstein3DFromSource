@@ -707,7 +707,7 @@ PRIVATE void T_Advance( entity_t *self, think_t think )
 		return;
 	}
 
-	move = self->speed * tics;
+	move = (long) self->speed * tics;
 	while( move > 0) {
 
 		/* waiting for a door to open */
