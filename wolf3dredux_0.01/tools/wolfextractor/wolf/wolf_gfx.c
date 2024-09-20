@@ -1019,7 +1019,7 @@ STATUSBARHACK:
         ptr = (buffer + ((sx * 2) + (sy * width) * 2));
 
 		if (pic == NULL) {
-			printf("SavePic(): 'pic' is null, cannot use it to set 'temp' (in loop iteration '%i').\n", i);
+			printf("SavePic(): 'pic' is null, cannot use it to set 'temp' (in loop iteration '%lu').\n", i);
 			return;
 		} else {
 			temp = ((*pic) * 3);
