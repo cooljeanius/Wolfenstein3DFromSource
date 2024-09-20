@@ -28,7 +28,8 @@ unsigned char WriteTGA(const char *filename, unsigned short bpp,
 					   unsigned short width, unsigned short height,
 					   void *Data, unsigned char upsideDown, unsigned char rle)
 {
-    unsigned short	i, x, y, BytesPerPixel;
+    unsigned short y, BytesPerPixel;
+    unsigned int i, x;
 	unsigned char *scanline = NULL;
 	unsigned char header[18];
 	FILE *filestream;
