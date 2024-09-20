@@ -667,7 +667,8 @@ PUBLIC W8 loaders_WriteTGA(const char *filename, W16 bpp, W16 width, W16 height,
 						   void *Data, W8 upsideDown, W8 rle)
 #endif /* !WriteTGA */
 {
-    W16	i, x, y, BytesPerPixel;
+    W16 y, BytesPerPixel;
+    int i, x;
 	W8	*scanline;
 	W8 header[18];
 	FILE *filestream;
