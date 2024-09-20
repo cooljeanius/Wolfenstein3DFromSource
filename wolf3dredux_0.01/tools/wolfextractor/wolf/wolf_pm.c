@@ -271,7 +271,8 @@ extern void ReduxAlphaChannel_hq2x(W8 *data, W32 width, W32 height);
 PRIVATE W8 PML_SaveGFXPage(W32 nPage, const char *filename, W8 *buffer,
 						   W8 *buffer2, _boolean iswall, W32 GunFlash)
 {
-	W16 x, y, i;
+	W16 x, i;
+	int y;
 	W8 *data;
 	W8 *ptr;
 	W16 temp;
@@ -373,7 +374,7 @@ PRIVATE W8 PML_SaveGFXPage(W32 nPage, const char *filename, W8 *buffer,
 				/* hardcoded number is because (linecmds[0] /2) apparently was
 				 * not actually the correct maximum for 'y'...
 				 * TODO: figure out why... */
-                for ((y = (W16)(linecmds[2] / 2)); (y < (linecmds[0] / 2)),
+                for ((y = (int)(linecmds[2] / 2)); (y < (linecmds[0] / 2)),
 					 (y < 65332), (i <= 7987); ++y, ++i) {
 				    temp = ((data[i]) * 3);
 
