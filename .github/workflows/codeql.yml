@@ -64,7 +64,7 @@ jobs:
 
       # Initializes the CodeQL tools for scanning.
       - name: Initialize CodeQL
-        uses: github/codeql-action/init@v3
+        uses: github/codeql-action/init@v4
         with:
           languages: ${{ matrix.language }}
           # If you wish to specify custom queries, you can do so here or in a
@@ -88,7 +88,7 @@ jobs:
       # Autobuild attempts to build any compiled languages
       # (C/C++, C#, Go, Java, or Swift).
       - name: Autobuild
-        uses: github/codeql-action/autobuild@v3
+        uses: github/codeql-action/autobuild@v4
         env:
           CODEQL_EXTRACTOR_CPP_AUTOINSTALL_DEPENDENCIES: false
 
@@ -123,6 +123,6 @@ jobs:
           echo "done with the \"Extra coverage build (C)\" step"
 
       - name: Perform CodeQL Analysis
-        uses: github/codeql-action/analyze@v3
+        uses: github/codeql-action/analyze@v4
         with:
           category: "/language:${{matrix.language}}"
